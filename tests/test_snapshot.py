@@ -196,8 +196,26 @@ for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
             report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
             self.assertEqual(report['scanMetrics']['candidateCount'],365)
             self.assertEqual(report['mode'],'snapshot')
-            self.assertEqual(report['hd2RuntimeVersion'],'0.8.0')
+            self.assertEqual(report['hd2RuntimeVersion'],'0.9.0')
             self.assertEqual(identities['JAR-5 Dominator']['status'],'EXACT')
+
+    def test_combined_player_catalog_command_is_snapshot_only_and_read_only(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+            folder=Path(folder);_,snapshot=materialized_mapper_regions(folder)
+            sys.path.insert(0,str(ROOT/'sdk'))
+            from tools.snapshot_scan import scan_player_weapons
+            output,mapping,summary=scan_player_weapons(snapshot,ROOT/'data/wiki_player_weapons.json',
+                folder/'PlayerWeaponRuntimeMap.json',summary_output=folder/'player_weapon_identity_summary.json')
+            report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
+            identity_summary=json.loads(summary.read_text())
+            self.assertEqual(report['wikiDataset']['weaponCount'],80)
+            self.assertEqual(report['wikiDataset']['slotCounts'],{'primary':55,'secondary':25})
+            self.assertEqual((report['writes'],report['protectionChanges'],report['fixtureFallback']),
+                (0,0,'disabled'))
+            self.assertEqual(len(report['catalogIdentities']),80)
+            self.assertEqual(identity_summary['catalogWeapons'],80)
+            self.assertEqual(identities['JAR-5 Dominator']['bestCandidate']['resourceHash'],
+                '0x80F1A156D9FA1E36')
 
     def test_capture_package_is_external_and_declarative(self):
         body=(ROOT/'snapshot_capture/addon.lua').read_bytes()

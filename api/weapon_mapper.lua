@@ -59,7 +59,7 @@ function M.start(runtime,emit,request)
         for index,candidate in ipairs(catalog.candidates)do
             reader.stage='api/weapon_mapper:candidate_checkpoint';reader.checkpoint()
             local output={resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
-                ownership=copy(candidate.ownership),resolvedFields={},matchFields={},attacks={},
+                ownership=copy(candidate.ownership),resolvedFields={},matchFields={attack_kind='Projectile'},attacks={},
                 diagnostics=copy(candidate.diagnostics),mode=runtime.mode or 'fixture'}
             local resolved=0
             local function attempt(label,action)

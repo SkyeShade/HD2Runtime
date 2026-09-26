@@ -1,6 +1,6 @@
 # Primary Weapon Runtime Mapper
 
-The mapper is a separate read-only diagnostic mod for HD2Runtime 0.8.0. Install
+The mapper is a separate read-only diagnostic mod for HD2Runtime 0.9.0. Install
 Bingus Shared Loader and HD2Runtime once, then install the mapper package for one
 diagnostic session. It never writes game memory and its archive contains no
 HD2Runtime implementation, native memory adapter, page-protection function, or
@@ -40,7 +40,8 @@ The first normalized attack is the identity fingerprint. Secondary explosions,
 statuses, sprays, beams, melee attacks, and underbarrel chains remain attached
 to the embedded wiki record but never replace the primary identity. Runtime
 secondary attacks are recorded only if a reviewed generic linkage resolves
-them; version 0.8.0 resolves the primary projectile chain.
+them; version 0.9.0 resolves the projectile chain and the offline player-catalog
+matcher considers every compatible attack branch.
 
 After completion, the mapper writes these files under
 `%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs`:

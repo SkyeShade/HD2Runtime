@@ -1,44 +1,22 @@
-"""Canonical normalized-wiki to compact matcher dataset transform."""
+"""Legacy 55-primary compact transform retained for generated package compatibility."""
 from __future__ import annotations
 
 from pathlib import Path
 import hashlib
 import json
-import re
 
+from .wiki_player import attack_record as player_attack_record
+from .wiki_player import pellet_count, scalar, weapon_stat
 
-def scalar(value):
-    return value.get('value') if isinstance(value, dict) else None
-
-
-def primary_weapon_stat(weapon, label, fallback):
-    for section in weapon.get('rawSections') or []:
-        if section.get('name') == 'Weapon':
-            for field in section.get('fields') or []:
-                if field.get('label') == label:
-                    match = re.search(r'-?\d+(?:\.\d+)?', str(field.get('value', '')))
-                    return float(match.group()) if match else fallback
-    return fallback
-
-
-def pellet_count(attack):
-    raw = (attack.get('extraFields') or {}).get('Projectile.Pellets')
-    match = re.search(r'\d+', str(raw)) if raw is not None else None
-    return int(match.group()) if match else None
+primary_weapon_stat=weapon_stat
+FIELDS=('name','kind','standard_damage','durable_damage','ap_direct','ap_slight','ap_large',
+    'ap_extreme','projectile_velocity','projectile_mass','drag','gravity','demolition','stagger',
+    'push_force','pellet_count')
 
 
 def attack_record(attack):
-    projectile=attack.get('projectile') or {};damage=attack.get('damage') or {}
-    penetration=attack.get('penetration') or {};effects=attack.get('specialEffects') or {}
-    return {'name':attack.get('name'),'kind':attack.get('kind'),
-        'standard_damage':scalar(damage.get('standard')),'durable_damage':scalar(damage.get('durable')),
-        'ap_direct':scalar(penetration.get('direct')),'ap_slight':scalar(penetration.get('slightAngle')),
-        'ap_large':scalar(penetration.get('largeAngle')),'ap_extreme':scalar(penetration.get('extremeAngle')),
-        'projectile_velocity':scalar(projectile.get('initialVelocityMetersPerSecond')),
-        'projectile_mass':scalar(projectile.get('massGrams')),'drag':scalar(projectile.get('dragFactor')),
-        'gravity':scalar(projectile.get('gravityFactor')),'demolition':scalar(effects.get('demolitionForce')),
-        'stagger':scalar(effects.get('staggerForce')),'push_force':scalar(effects.get('pushForce')),
-        'pellet_count':pellet_count(attack)}
+    record=player_attack_record(attack,1)
+    return {name:record[name] for name in FIELDS}
 
 
 def compact(source: Path, summary_path: Path | None = None):
@@ -48,8 +26,8 @@ def compact(source: Path, summary_path: Path | None = None):
         attacks=[attack_record(item) for item in weapon.get('attacks') or []]
         if not attacks:raise ValueError(f"{weapon.get('name')}: no attacks")
         stats=weapon.get('weaponStats') or {};primary=dict(attacks[0])
-        primary['fire_rate']=primary_weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
-        primary['capacity']=primary_weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
+        primary['fire_rate']=weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
+        primary['capacity']=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
         weapons.append({'name':weapon['name'],'category':weapon.get('primaryCategory'),
             'wiki_page':weapon.get('wikiPage'),'primary':primary,'attacks':attacks})
     names=[item['name'] for item in weapons]
@@ -62,3 +40,6 @@ def compact(source: Path, summary_path: Path | None = None):
         'summary_sha256':hashlib.sha256(summary_raw).hexdigest().upper() if summary_raw else'',
         'weapon_count':len(weapons),'multi_attack_weapon_count':summary.get('multiAttackWeaponCount'),
         'weapons':weapons}
+
+
+__all__=['attack_record','compact','pellet_count','primary_weapon_stat','scalar','weapon_stat']

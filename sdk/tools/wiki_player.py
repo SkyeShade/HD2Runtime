@@ -1,0 +1,83 @@
+"""Canonical player-weapon catalog to compact matcher dataset transform."""
+from __future__ import annotations
+
+from pathlib import Path
+import hashlib
+import json
+import re
+
+
+def scalar(value):
+    return value.get('value') if isinstance(value, dict) else None
+
+
+def weapon_stat(weapon, label, fallback):
+    for section in weapon.get('rawSections') or []:
+        if section.get('name') == 'Weapon':
+            for field in section.get('fields') or []:
+                if field.get('label') == label:
+                    match = re.search(r'-?\d+(?:\.\d+)?', str(field.get('value', '')))
+                    return float(match.group()) if match else fallback
+    return fallback
+
+
+def pellet_count(attack):
+    projectile=attack.get('projectile') or {}
+    direct=projectile.get('pelletCount')
+    if isinstance(direct,(int,float)):return int(direct)
+    raw = (attack.get('extraFields') or {}).get('Projectile.Pellets')
+    match = re.search(r'\d+', str(raw)) if raw is not None else None
+    return int(match.group()) if match else None
+
+
+def attack_record(attack,index):
+    projectile=attack.get('projectile') or {};damage=attack.get('damage') or {}
+    penetration=attack.get('penetration') or {};effects=attack.get('specialEffects') or {}
+    extra=attack.get('extraFields') or {}
+    explosion_branches=sorted({str(value) for key,value in extra.items()
+        if 'Explosion' in key and value not in (None,'')})
+    return {'index':index,'name':attack.get('name'),'kind':attack.get('kind'),
+        'standard_damage':scalar(damage.get('standard')),'durable_damage':scalar(damage.get('durable')),
+        'ap_direct':scalar(penetration.get('direct')),'ap_slight':scalar(penetration.get('slightAngle')),
+        'ap_large':scalar(penetration.get('largeAngle')),'ap_extreme':scalar(penetration.get('extremeAngle')),
+        'projectile_velocity':scalar(projectile.get('initialVelocityMetersPerSecond')),
+        'projectile_mass':scalar(projectile.get('massGrams')),'drag':scalar(projectile.get('dragFactor')),
+        'gravity':scalar(projectile.get('gravityFactor')),'demolition':scalar(effects.get('demolitionForce')),
+        'stagger':scalar(effects.get('staggerForce')),'push_force':scalar(effects.get('pushForce')),
+        'pellet_count':pellet_count(attack),'charge':attack.get('charge'),
+        'projectile_data':attack.get('projectile'),'area_of_effect':attack.get('areaOfEffect'),
+        'beam':attack.get('beam'),
+        'projectile_branch':bool(attack.get('projectile')),
+        'explosion_branches':explosion_branches,'extra_fields':extra}
+
+
+def compact(source: Path, summary_path: Path | None = None, slot: str | None = None):
+    source=Path(source);raw=source.read_bytes();root=json.loads(raw)
+    weapons=[]
+    for weapon in root['weapons']:
+        weapon_slot=(weapon.get('slot') or 'primary').lower()
+        if slot and weapon_slot != slot.lower():continue
+        attacks=[attack_record(item,index) for index,item in enumerate(weapon.get('attacks') or [],1)]
+        if not attacks:raise ValueError(f"{weapon.get('name')}: no attacks")
+        stats=weapon.get('weaponStats') or {}
+        fire_rate=weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
+        capacity=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
+        primary=dict(attacks[0]);primary['fire_rate']=fire_rate;primary['capacity']=capacity
+        weapons.append({'name':weapon['name'],'slot':weapon_slot,
+            'category':weapon.get('category') or weapon.get('primaryCategory'),
+            'primary_category':weapon.get('primaryCategory'),'weapon_type':weapon.get('weaponType'),
+            'traits':weapon.get('traits') or [],'wiki_page':weapon.get('wikiPage'),
+            'fire_rate':fire_rate,'capacity':capacity,'primary':primary,'attacks':attacks})
+    names=[item['name'] for item in weapons]
+    if len(set(names))!=len(names):raise ValueError('duplicate wiki weapon name')
+    summary_raw=Path(summary_path).read_bytes() if summary_path else b''
+    summary=json.loads(summary_raw) if summary_raw else {}
+    if summary and not slot and len(weapons)!=summary['totalWeapons']:
+        raise ValueError('wiki summary count differs')
+    counts={name:sum(1 for weapon in weapons if weapon['slot']==name) for name in ('primary','secondary')}
+    return {'schema_version':2,'source':root.get('source'),'imported_at':root.get('importedAt'),
+        'source_sha256':hashlib.sha256(raw).hexdigest().upper(),
+        'summary_sha256':hashlib.sha256(summary_raw).hexdigest().upper() if summary_raw else'',
+        'weapon_count':len(weapons),'slot_counts':counts,
+        'multi_attack_weapon_count':sum(1 for weapon in weapons if len(weapon['attacks'])>1),
+        'weapons':weapons}

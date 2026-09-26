@@ -15,18 +15,20 @@ memory or page protection. The SDK can run the existing Primary Weapon Runtime
 Mapper offline through `SnapshotMemoryReader`; live and snapshot modes share the
 same resolver and matcher code. See [the snapshot guide](docs/snapshots.md).
 
-Version 0.6.0 added the read-only Primary Weapon Runtime Mapper. Its external
-diagnostic package compares 365 structurally owned weapon-resource candidates
-from the pinned build against 55 normalized wiki primary weapons without
-bundling HD2Runtime or writing game memory. See
-[the mapper guide](docs/primary-weapon-runtime-mapper.md).
+Version 0.9.0 generalizes the read-only weapon mapper to the combined 55-primary
+and 25-secondary player catalog. It compares 365 structurally owned
+weapon-resource candidates, preserves all attack branches, and reports separate
+projectile and damage branch evidence without writing game memory. The original
+primary-only offline command remains available. See the
+[player mapper guide](docs/player-weapon-runtime-mapper.md) and the
+[live diagnostic guide](docs/primary-weapon-runtime-mapper.md).
 
 Version 0.5.0 separates the installed-once runtime from the developer SDK and
 independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.8.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.9.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

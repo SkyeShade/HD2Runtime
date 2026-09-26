@@ -75,6 +75,17 @@ Extract the SDK and run:
 py -B hd2.py snapshot scan-weapons <build>.hd2snap wiki_primary_weapons.json
 ```
 
+The generalized player-weapon catalog command is:
+
+```powershell
+py -B hd2.py snapshot scan-player-weapons <build>.hd2snap wiki_player_weapons.json
+```
+
+It preserves weapon slot/category metadata and matches each runtime chain
+against every structurally compatible attack branch. Projectile and DamageInfo
+branches are reported separately when the runtime chain combines them, as with
+the PLAS-101 Purifier.
+
 The command uses the owned HD2 `bin/lua51.dll` through `HD2_GAME_ROOT`, or an
 explicit `--lua-dll`. It executes the bundled copy of the production Lua scanner
 modules and writes `<build>.weapon-map.json` plus
