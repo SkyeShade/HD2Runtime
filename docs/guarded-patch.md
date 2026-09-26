@@ -1,0 +1,133 @@
+# First guarded patch: JAR-5 AP4
+
+Version 0.3.0 adds one reviewed write: JAR-5 Dominator logical armor penetration
+from 3 to 4. The source entrypoint is `proof/addon.lua`; its entire gameplay
+declaration is:
+
+```lua
+local hd2 = require('mods/skyeshade/hd2runtime')
+hd2.patch({
+    id = 'jar5-ap4',
+    target = hd2.weapon('JAR-5 Dominator'):projectile():damage(),
+    field = 'armor_penetration',
+    expect = 3,
+    value = 4,
+})
+```
+
+`patch` returns a scheduled handle. After three update seconds it performs fresh,
+bounded discovery and applies once. Inspect `handle.status` (`waiting`,
+`resolving`, `complete`, `rejected`, `cancelled`) and `handle.result.status`
+(`APPLIED`, `ALREADY_DESIRED`, `REJECTED`). `cancel()` stops pending discovery;
+it does not undo an applied patch. Discovery stops after 180 update seconds or
+10,000 steps. Unavailable targets reject this one-shot request; it never falls
+back to an old address or fixture. Invalid declarations raise before scheduling.
+
+`diagnostic = true` adds identity, schema type, record, discovery, write and
+protection counters. Normal success logging is:
+
+```text
+[HD2Runtime] patch jar5-ap4 target resolved
+[HD2Runtime] armor_penetration 3 -> 4
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] patch jar5-ap4 APPLIED
+```
+
+An already-desired record logs `ALREADY_DESIRED` and causes no writes or protection
+changes. A third-party or mixed lane value logs `REJECTED code=CONFLICT`.
+Runtime failure reports include the reason, rollback outcome and protection
+restoration result. A failed verification is never logged as `APPLIED`.
+
+## Reviewed mapping and evidence
+
+| Identity/field | Mapping |
+| --- | --- |
+| Resource | `0x80F1A156D9FA1E36` |
+| ProjectileWeaponComponentData | index 321, owned record 211; projectile type 177 |
+| ProjectileSettings | group 0, row 262, type 177; damage type 153 |
+| DamageSettings / DamageInfo | group 1, row 158, type 153; 76-byte record |
+| Logical `armor_penetration` | three contiguous UINT32 lanes at record offsets 12, 16, 20 |
+| Expected -> desired bytes | `3,3,3` -> `4,4,4`; exactly 12 bytes |
+| Fourth AP lane | offset 24, must remain 0 |
+| Standard/durable damage | offsets 4/8, must remain 275/90 |
+
+This follows `Jar-5_buff/src/gameplay/validate.lua` and `transaction.lua`, with the
+native wrapper pattern from `src/infra/windows_write.lua`. Their hashes are in
+`provenance.json`. The complete 272-byte projectile record and non-target bytes
+of the 76-byte damage record are compared with retained reviewed originals in
+`domains/patches.lua`. Regression tests cross-check those constants against the
+existing captured settings fixtures. Baseline constants authorize comparisons;
+they never substitute for runtime reads.
+
+The API currently accepts only this target, logical field, expected value 3 and
+desired value 4. Raw lane writes and all other weapon fields are rejected.
+`ensure` and `transaction` remain unavailable. No new resource mapping is added.
+Read APIs continue exposing the individual lane values; the write mapping is an
+explicit domain-level logical field, distinct from the scalar read width.
+
+The user reported read-only live validation passing all six resources at
+`9e7a9e6e2ab94195ef8c06d22ec4df8388069b08`. That establishes prior read validation,
+not live gameplay confirmation for this new package. Structural and schema
+evidence remain separate from gameplay and native-consumer evidence. This
+milestone does not claim a new native-consumer proof or exhaustive sharing audit
+outside the reviewed projectile consumer table.
+
+## Guard sequence
+
+1. Validate the declaration and copy identity/value scalars. The descriptor
+   cannot contain an address. Fresh application-time discovery uses the same
+   resource/component/settings resolver as public reads.
+2. Validate EXE/game.dll fingerprints, unique allocations, entity membership,
+   component indices, grouped settings schema, projectile/damage links, and the
+   single reviewed projectile consumer. Validate original or desired AP bytes,
+   full projectile bytes and every non-target damage-record byte.
+3. Finish paced snapshot verification and revalidate fingerprints. The commit
+   section has no coroutine yields, log callbacks or user callbacks. Reread all
+   captured ownership and data contexts before and after opening the target page.
+   The synchronous section is capped at 64 contexts / 1 MiB of snapshot data,
+   8 MiB total rereads and 8,192 read queries.
+4. Allow only private committed data pages with original protection READONLY or
+   READWRITE. Require an aligned 12-byte field wholly inside one 4 KiB page.
+   Open that page only when necessary, verify writable protection, and reread
+   the target immediately before the exact-width native write.
+5. Verify the transferred count, reread the target, compare every captured byte
+   with the expected result, restore original protection, verify it by query,
+   and verify the full contexts again. Checks include the complete generated
+   damage and projectile buffers and the captured entity ownership chain.
+6. On failure, roll back only the original value or the exact transferred prefix
+   reported by the attempted write. Unknown bytes, changed ownership, or changed
+   non-target context refuse rollback. Never overwrite an unexplained value.
+   Restore protection on every failure path; make two bounded attempts. A failed
+   rollback or restoration is terminal and explicitly reported.
+
+`writes` counts native write attempts, including rollback. `bytes_written` is the
+reported forward transfer count. `protection_changes` counts native protection
+attempts. No automatic retry follows a transaction failure. If the OS refuses
+restoration, the runtime reports `protection_restored=false`; it cannot promise
+that an unsuccessful OS operation restored a page.
+
+Sequential rereads reduce races but cannot lock a running game's memory or make
+a 12-byte write CPU-atomic. The transaction runs without cooperative yields and
+verifies the result; unknown interference fails closed. Failure can leave a
+partial patch when ownership/interference prevents safe rollback, which is
+reported rather than concealed.
+
+## Package and tests
+
+From a clean commit:
+
+```powershell
+py -3.14 -B scripts/build_gameplay_proof.py
+```
+
+The standalone ZIP includes the library, native writer, minimal proof entrypoint,
+manifest, archive sidecars, provenance, test log and commit-identified build
+report. It requires Bingus Shared Loader v15+ / API 1. Use one HD2Runtime package
+at a time; it replaces the read-only report package under the same mod GUID.
+Building does not deploy, launch HD2 or perform gameplay writes.
+
+The separate read-only report and live-validation builders still exclude every
+write module. `fixture_fallback=disabled` applies to both package types. Tests use
+injected memory and a separately allocated test-process page for native ABI
+verification; no tests write to HD2.

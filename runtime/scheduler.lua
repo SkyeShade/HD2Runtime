@@ -12,7 +12,7 @@ local function tick(dt)
             watch.cancel()
             require('hd2runtime/runtime/log').emit('[HD2Runtime] scheduler rejected: '..tostring(why))
         end
-        if watch.status=='cancelled' or watch.status=='rejected' then table.remove(watches,i)end
+        if watch.status=='cancelled' or watch.status=='rejected' or watch.status=='complete' then table.remove(watches,i)end
     end
     if #watches==0 and update==callback then update=original;callback=nil end
 end

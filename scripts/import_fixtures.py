@@ -32,6 +32,7 @@ def main():
         return raw
     for project, paths in {
         'Jar-5_buff': ['README.md', 'docs/research.md', 'research/jar5-evidence.json', 'src/gameplay/parse.lua', 'src/gameplay/capture.lua', 'src/gameplay/transaction.lua',
+            'src/gameplay/validate.lua', 'src/infra/windows_write.lua',
             'scripts/research/probe_components.py', 'scripts/research/inspect_typelib.py', 'scripts/research/grouped_dl.py', 'scripts/research/runtime_reference.py', 'scripts/hd2_archive.py'],
         'BastionReArmored': ['README.md', 'src/diagnostic/inspect.lua', 'src/armor_proof/validate.lua', 'src/lunchbox_proof/validate.lua', 'src/release/transaction.lua'],
         'StrongerOrbitalLaser': ['README.md', 'src/damage/validate.lua', 'src/damage/transaction.lua', 'research/gameplay-proof-400.md',

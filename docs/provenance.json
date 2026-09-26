@@ -26,6 +26,14 @@
       "sha256": "B4A34DB1AF8DC3326DF219CBAD4CD5D9EE59B80749ED4722F57FBEACA2A7C8B2"
     },
     {
+      "path": "Jar-5_buff/src/gameplay/validate.lua",
+      "sha256": "B49E0143BEA4ADBF16256EEDE7F3B8A8029A36742E460338401573E65B3CEDE3"
+    },
+    {
+      "path": "Jar-5_buff/src/infra/windows_write.lua",
+      "sha256": "DC862DC27ADFA9CE3CFD28080B013DBF3525D44DD8AF5DBF63D525234B321411"
+    },
+    {
       "path": "Jar-5_buff/scripts/research/probe_components.py",
       "sha256": "A7368333273FCD59BDD34106A5ED305CDF9477AEDCAAB2EAE52E1CA2066E318A"
     },

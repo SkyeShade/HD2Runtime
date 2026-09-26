@@ -11,11 +11,14 @@ from hd2_archive import ARCHIVE_NAME, make_archive, resource_hash, lua_resource
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def resources():
+def resources(writable=False):
     found = {}
     for folder in ['api', 'core', 'runtime', 'schemas', 'domains', 'examples']:
         for path in sorted((ROOT/folder).glob('*.lua')):
             if path.name == 'addon.lua':
+                continue
+            if not writable and path.as_posix().endswith(('api/patch.lua', 'core/guarded_write.lua',
+                    'domains/patches.lua', 'runtime/windows_write.lua')):
                 continue
             name = 'hd2runtime/' + path.relative_to(ROOT).with_suffix('').as_posix()
             found[name] = path.read_bytes()

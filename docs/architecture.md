@@ -3,10 +3,10 @@
 | Directory | Responsibility |
 | --- | --- |
 | `core/` | Bounds-checked scalar decoding, ownership/membership resolution, grouped settings and stratagem joins |
-| `runtime/` | Read-only Windows adapter, bounded/paced discovery, snapshot rereads, logging, shared update scheduling |
+| `runtime/` | Separate read-only/write Windows adapters, bounded discovery, snapshot rereads, logging, shared update scheduling |
 | `schemas/` | Pinned component layout and lookup profile; implementation offsets, never public process identities |
 | `domains/` | Human-readable field aliases, storage, vanilla baselines, evidence sources |
-| `api/` | `read`, `describe`, `format`, `observe`; explicit rejection of all write primitives |
+| `api/` | `read`, `describe`, `format`, `observe`, identity builders and guarded `patch`; ensure/transaction deferred |
 | `tests/` | Sparse sibling-derived regression bytes and mutation/failure tests |
 | `docs/` | Audit, provenance, evidence limits, guarded-writer contract |
 
@@ -32,42 +32,19 @@ allocation is rejected even if both copies contain identical bytes.
 
 ## First guarded patch
 
-The smallest next target is AMR `crosshair_type`, a four-byte enum with an isolated
-gameplay proof. Reuse its page/record comparison and protection-restoration
-pattern, the JAR-5 rollback rule that rejects unknown partial target bytes, and
-Bastion's multi-page/multi-field transaction bookkeeping. The current resolver,
-fingerprint checks, exact field widths, ownership snapshots, bounded memory
-capability and logging are reusable. They are not a complete writer.
+The first enabled target is JAR-5 logical `armor_penetration`: three contiguous
+UINT32 lanes, 3/3/3 to 4/4/4, preserving the fourth lane. See the complete
+[guarded-patch contract](guarded-patch.md), including exact mapping and failure
+semantics. `core/resolution.lua` is shared by read and patch operations;
+`core/guarded_write.lua` owns bounded, synchronous guard/write/rollback/restore.
+`domains/patches.lua` defines the reviewed logical field and baseline guards.
+No sibling runtime code is imported. Every patch discovers from identity when
+it runs. No public read result or declaration contains a cached process address.
 
-Do not merely wrap the old mod entrypoints. The generic writer must enforce this
-single shared sequence for every patch, transaction and ensure operation:
-
-1. Validate the current build, schema, resource ownership and applicable consumer
-   sharing constraints. Resolve a fresh internal target; validate the expected
-   original value and exact-width desired encoding.
-2. Reject overlapping fields, conflicting desired values, unsupported widths and
-   unreviewed semantic aliases before making pages writable. Capture rollback
-   data, complete records and available non-target bytes.
-3. Reread ownership and target/context bytes immediately before writing; there
-   must be no scheduler yield between the final guard and the write. This
-   narrows a race but cannot provide lock-free atomicity against game writers.
-4. Change only necessary target pages; retain original protection independently
-   for every page. Avoid code pages and preserve already-writable page state.
-5. Write exact widths; verify transferred byte counts and reread each result.
-   Verify all captured non-target bytes against the planned result.
-6. On partial failure, reverse only bytes demonstrably written by this
-   transaction. Recheck ownership and known intermediate states. An unexpected
-   third-party value must never be overwritten by rollback.
-7. Always attempt restoration and verification of original page protections,
-   including failure paths. A failed rollback or restoration is a terminal
-   failure with explicit logs, never reported as success.
-
-`transaction` is failure-atomic where verified rollback succeeds, not an atomic
-CPU transaction. Its result must separately report apply, rollback and page
-restoration outcomes. Fault injection must cover every write and restoration
-boundary, including short/partial writes, callback cancellation, ownership
-changes and third-party interference. The present fixture reader has **no**
-`write` or protection-changing capability.
+The native writer and patch implementation are excluded from read-only builds.
+Normal mods use the public builder and one patch declaration. The proof has no
+memory access, scans, offsets or Win32 code. The only enabled patch is JAR-5 AP4;
+ensure and multi-patch transactions are future milestones.
 
 ## First-class ensure contract (next milestone)
 
@@ -84,8 +61,8 @@ hd2.ensure {
 }
 ```
 
-`patch` will use this descriptor once. `transaction` will accept an ordered list
-of these declarative changes. `ensure` will own a persistent logical identity
+`patch` currently uses the identity-builder descriptor documented above.
+`transaction` will accept an ordered list of declarative changes. `ensure` will own a persistent logical identity
 and use the same guarded transaction engine on each check; it is not a loop over
 a cached address or an unconditional patch call.
 
@@ -117,7 +94,7 @@ it does not provide an exhaustive current-live consumer exclusivity certificate.
 
 ## Validation boundary
 
-Offline tests and package loading can validate the implementation against the
-fixtures. The next authorized live step is loading the read-only report on the
-pinned build and collecting its logs, with no gameplay writer present. This task
-does not deploy, launch HD2 or claim that live smoke test has occurred.
+The user confirmed read-only live validation passing all six resources at
+`9e7a9e6e2ab94195ef8c06d22ec4df8388069b08`. Guarded-write tests use retained fixtures,
+fault injection and test-owned native memory. The new gameplay proof is built
+without deployment or HD2 launch; it has no new live gameplay confirmation.

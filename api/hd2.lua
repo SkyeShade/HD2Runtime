@@ -23,5 +23,13 @@ local function disabled()
     require('hd2runtime/runtime/log').emit('[HD2Runtime] write request rejected: read-only milestone')
     return nil,{code='READ_ONLY_MILESTONE',message='No gameplay writer is included in milestone 1'}
 end
-M.patch=disabled;M.ensure=disabled;M.transaction=disabled
+M.weapon=require('hd2runtime/api/target').weapon
+function M.patch(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    local watch=require('hd2runtime/api/patch').start(adapter.create(),
+        require('hd2runtime/runtime/log').emit,request)
+    return require('hd2runtime/runtime/scheduler').attach(watch)
+end
+M.ensure=disabled;M.transaction=disabled
 return M

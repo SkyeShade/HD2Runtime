@@ -20,9 +20,10 @@ field to its source; `schemas/current.lua` records reviewed structural identitie
 Jump-pack `vertical_launch_velocity`, shield scalar aliases and health-zone
 aliases deliberately do not claim schema labels. They retain their gameplay
 evidence separately. The JAR-5 `armor_penetration` convenience read exposes the
-first of three AP lanes. A future patch must explicitly address all intended
-lanes and leave the fourth entry unchanged; a scalar read must not silently
-become a twelve-byte write.
+first of three AP lanes. The guarded-write milestone explicitly exposes a
+logical patch field mapping all three UINT32 lanes to one value and preserving
+the fourth entry. The [patch contract](guarded-patch.md) documents the 12-byte
+width; the scalar read still reports its individual four-byte width.
 
 The live-validation client also reads AP lanes 1–3 and the reviewed Jump Pack
 `movement_scalar_04` / `movement_scalar_24`. Those two scalar aliases remain

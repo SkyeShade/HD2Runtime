@@ -5,14 +5,22 @@ fields across the six requested resources, with ownership, baseline comparisons,
 and provenance. Build it from a clean source commit with
 `py -3.14 -B scripts/build_live_validation.py`. It does not deploy or launch HD2.
 
-Version 0.2.1 fixes the current Shield Relay StratagemInfo payload descriptor;
-the [root-cause note](docs/stratagem-parser-fix.md) records the exact layout and
-the retained bounds checks.
+Version 0.3.0 adds the first [guarded patch and gameplay proof](docs/guarded-patch.md):
+JAR-5 logical armor penetration from 3 to 4. Build it from a clean commit with
+`py -3.14 -B scripts/build_gameplay_proof.py`.
 
 Reusable runtime reads and observations for Helldivers 2 mods using Bingus Shared
-Loader v15+ / API 1. Milestone 1 is **read-only**. `patch`, `ensure`, and
-`transaction` return `READ_ONLY_MILESTONE`; this package contains no memory writer
-or page-protection-changing declaration.
+Loader v15+ / API 1. The gameplay proof enables `patch` for the reviewed JAR-5 AP
+field. `ensure` and `transaction` remain unavailable. Read-only package builds
+exclude the native writer and reject all write APIs.
+
+```lua
+hd2.patch({
+    id = 'jar5-ap4',
+    target = hd2.weapon('JAR-5 Dominator'):projectile():damage(),
+    field = 'armor_penetration', expect = 3, value = 4,
+})
+```
 
 ```lua
 local hd2 = require('mods/skyeshade/hd2runtime')
@@ -68,9 +76,10 @@ report require each other explicitly, so Bingus discovery order is irrelevant.
 
 Regression tests reproduce the requested values from sparse retained reference
 bytes and the saved live cooldown row. `build/known-values.txt` is **fixture output**,
-not a new live capture. HD2Runtime itself still requires an authorized in-game
-read-only smoke test. A matching installed build is not proof of current process
-ownership or gameplay behavior.
+not a new live capture. The user confirmed all six live-validation resources
+at commit `9e7a9e6e2ab94195ef8c06d22ec4df8388069b08`. The new guarded-write package
+has not been deployed or tested in HD2. A matching installed build is not proof
+of current process ownership or gameplay behavior.
 
 See [audit](docs/audit.md), [architecture and next milestone](docs/architecture.md),
 [evidence policy](docs/evidence.md), and [source hashes](docs/provenance.json).
