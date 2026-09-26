@@ -131,4 +131,6 @@ failure before writes, fields sharing a page, multiple pages, expected/desired
 mixtures, conflict, short writes, reverse rollback, rollback failure, page
 restoration, non-target mutation, packaged loading, 60-second reapplication,
 terminal ensure conflict and cancellation. No test deploys, launches HD2 or
-writes to its process. This milestone has no new live gameplay confirmation.
+writes to its process. The user subsequently confirmed the 0.4.0 proof successful
+in live gameplay at `b3ee7326ce53448590a830b924c99e2df6eec179`. The 0.5.0 SDK and
+separate runtime packaging have offline verification only.

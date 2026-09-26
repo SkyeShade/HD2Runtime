@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "name": "Jar5AP4",
+  "resource": "mods/hd2runtime_examples/jar5_ap4",
+  "guid": "3b88592a-50d4-588a-91d6-97d4b5d755b1",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.5.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

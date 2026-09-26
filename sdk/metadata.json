@@ -1,0 +1,2842 @@
+{
+  "schema_version": 1,
+  "runtime_version": "0.5.0",
+  "api_version": 1,
+  "evidence_categories": [
+    "structural_candidate",
+    "schema_labelled",
+    "current_live_ownership_proven",
+    "gameplay_proven",
+    "native_consumer_proven"
+  ],
+  "evidence_note": "Static evidence records prior confirmations, never current process ownership. Runtime reads set current_live_ownership_proven only after live resolution.",
+  "types": {
+    "weapon": {
+      "class": "HD2Weapon",
+      "name": "Weapon",
+      "methods": {
+        "projectile": "projectile"
+      }
+    },
+    "projectile": {
+      "class": "HD2Projectile",
+      "name": "Projectile",
+      "methods": {
+        "damage": "damage"
+      }
+    },
+    "damage": {
+      "class": "HD2DamageProfile",
+      "name": "DamageProfile",
+      "methods": {}
+    },
+    "vehicle": {
+      "class": "HD2Vehicle",
+      "name": "Vehicle",
+      "methods": {
+        "health": "health"
+      }
+    },
+    "health": {
+      "class": "HD2HealthComponent",
+      "name": "HealthComponent",
+      "methods": {}
+    },
+    "stratagem": {
+      "class": "HD2Stratagem",
+      "name": "Stratagem",
+      "methods": {
+        "shield": "shield",
+        "payload": "payload",
+        "damage": "damage",
+        "orbital": "orbital"
+      }
+    },
+    "shield": {
+      "class": "HD2Shield",
+      "name": "Shield",
+      "methods": {}
+    },
+    "payload": {
+      "class": "HD2Payload",
+      "name": "Payload",
+      "methods": {}
+    },
+    "equipment": {
+      "class": "HD2Equipment",
+      "name": "Equipment",
+      "methods": {
+        "recharge": "recharge",
+        "jumppack": "jumppack"
+      }
+    },
+    "recharge": {
+      "class": "HD2RechargeComponent",
+      "name": "RechargeComponent",
+      "methods": {}
+    },
+    "jumppack": {
+      "class": "HD2JumppackComponent",
+      "name": "JumppackComponent",
+      "methods": {}
+    },
+    "orbital": {
+      "class": "HD2OrbitalAbility",
+      "name": "OrbitalAbility",
+      "methods": {}
+    }
+  },
+  "builders": {
+    "weapon": "weapon",
+    "vehicle": "vehicle",
+    "stratagem": "stratagem",
+    "equipment": "equipment"
+  },
+  "resources": {
+    "amr": {
+      "label": "APW-1 Anti-Materiel Rifle",
+      "resource": "0x89C5493E08CA4207",
+      "kind": "weapon",
+      "domains": [
+        "weapon"
+      ],
+      "aliases": [
+        "APW-1 Anti-Materiel Rifle",
+        "amr",
+        "AMR"
+      ],
+      "fields": {
+        "crosshair_type": {
+          "component": "WeaponDataComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "ReticleAmr/research/gameplay-confirmation-0.1.0.json",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 3,
+          "offset": 400,
+          "storage": "u32",
+          "name": "crosshair_type",
+          "domain": "weapon",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": "crosshair_type"
+        }
+      }
+    },
+    "bastion": {
+      "label": "Bastion",
+      "resource": "0x16474112801385B6",
+      "kind": "vehicle",
+      "domains": [
+        "vehicle",
+        "health"
+      ],
+      "aliases": [
+        "Bastion",
+        "bastion"
+      ],
+      "fields": {
+        "default_armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 280,
+          "storage": "u32",
+          "name": "default_armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 8000,
+          "offset": 0,
+          "storage": "i32",
+          "name": "main_health",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.0.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 736,
+          "storage": "u32",
+          "name": "zones.0.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.1.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 1288,
+          "storage": "u32",
+          "name": "zones.1.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.10.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 6256,
+          "storage": "u32",
+          "name": "zones.10.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.11.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 6808,
+          "storage": "u32",
+          "name": "zones.11.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.12.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 7360,
+          "storage": "u32",
+          "name": "zones.12.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.13.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 7912,
+          "storage": "u32",
+          "name": "zones.13.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.14.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 8464,
+          "storage": "u32",
+          "name": "zones.14.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.15.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 9016,
+          "storage": "u32",
+          "name": "zones.15.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.16.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 9568,
+          "storage": "u32",
+          "name": "zones.16.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.17.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 10120,
+          "storage": "u32",
+          "name": "zones.17.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.18.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 10672,
+          "storage": "u32",
+          "name": "zones.18.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.19.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 11224,
+          "storage": "u32",
+          "name": "zones.19.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.2.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 1840,
+          "storage": "u32",
+          "name": "zones.2.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.20.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 11776,
+          "storage": "u32",
+          "name": "zones.20.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.21.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 12328,
+          "storage": "u32",
+          "name": "zones.21.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.22.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 12880,
+          "storage": "u32",
+          "name": "zones.22.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.23.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 13432,
+          "storage": "u32",
+          "name": "zones.23.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.24.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 13984,
+          "storage": "u32",
+          "name": "zones.24.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.25.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 14536,
+          "storage": "u32",
+          "name": "zones.25.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.26.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 15088,
+          "storage": "u32",
+          "name": "zones.26.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.27.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 15640,
+          "storage": "u32",
+          "name": "zones.27.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.28.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 16192,
+          "storage": "u32",
+          "name": "zones.28.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.29.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 16744,
+          "storage": "u32",
+          "name": "zones.29.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.3.affects_main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/lunchbox_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 1,
+          "offset": 2424,
+          "storage": "f32",
+          "name": "zones.3.affects_main_health",
+          "domain": "health",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": {
+            "known_values": [
+              0,
+              1
+            ],
+            "complete": false,
+            "note": "Known tested flags; no broader numeric range established."
+          },
+          "enum": null
+        },
+        "zones.3.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 2392,
+          "storage": "u32",
+          "name": "zones.3.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.30.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 17296,
+          "storage": "u32",
+          "name": "zones.30.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.31.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 17848,
+          "storage": "u32",
+          "name": "zones.31.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.32.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 18400,
+          "storage": "u32",
+          "name": "zones.32.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.33.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 18952,
+          "storage": "u32",
+          "name": "zones.33.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.34.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 19504,
+          "storage": "u32",
+          "name": "zones.34.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.35.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 20056,
+          "storage": "u32",
+          "name": "zones.35.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.36.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 20608,
+          "storage": "u32",
+          "name": "zones.36.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.37.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 21160,
+          "storage": "u32",
+          "name": "zones.37.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.4.affects_main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/lunchbox_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 1,
+          "offset": 2976,
+          "storage": "f32",
+          "name": "zones.4.affects_main_health",
+          "domain": "health",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": {
+            "known_values": [
+              0,
+              1
+            ],
+            "complete": false,
+            "note": "Known tested flags; no broader numeric range established."
+          },
+          "enum": null
+        },
+        "zones.4.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 2944,
+          "storage": "u32",
+          "name": "zones.4.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.5.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 4,
+          "offset": 3496,
+          "storage": "u32",
+          "name": "zones.5.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.6.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 4048,
+          "storage": "u32",
+          "name": "zones.6.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.7.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 4600,
+          "storage": "u32",
+          "name": "zones.7.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.8.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 5152,
+          "storage": "u32",
+          "name": "zones.8.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.9.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 2,
+          "offset": 5704,
+          "storage": "u32",
+          "name": "zones.9.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    },
+    "jar5": {
+      "label": "JAR-5 Dominator",
+      "resource": "0x80F1A156D9FA1E36",
+      "kind": "weapon",
+      "domains": [
+        "weapon",
+        "projectile",
+        "damage"
+      ],
+      "aliases": [
+        "JAR-5 Dominator",
+        "jar5"
+      ],
+      "fields": {
+        "armor_penetration": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08",
+            "runtime_gameplay_source": "User-confirmed HD2Runtime 0.4.0 live gameplay proof at b3ee7326ce53448590a830b924c99e2df6eec179"
+          },
+          "expected": 3,
+          "offset": 12,
+          "storage": "u32",
+          "name": "armor_penetration",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": true,
+          "semantic_range": null,
+          "enum": null
+        },
+        "armor_penetration_lanes.1": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 3,
+          "offset": 16,
+          "storage": "u32",
+          "name": "armor_penetration_lanes.1",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "armor_penetration_lanes.2": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 3,
+          "offset": 20,
+          "storage": "u32",
+          "name": "armor_penetration_lanes.2",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "armor_penetration_lanes.3": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0,
+          "offset": 24,
+          "storage": "u32",
+          "name": "armor_penetration_lanes.3",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "durable_damage": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 90,
+          "offset": 8,
+          "storage": "i32",
+          "name": "durable_damage",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "projectile_type": {
+          "component": "ProjectileWeaponComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 177,
+          "offset": 0,
+          "storage": "u32",
+          "name": "projectile_type",
+          "domain": "projectile",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": "projectile_type"
+        },
+        "standard_damage": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "Jar-5_buff/docs/research.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 275,
+          "offset": 4,
+          "storage": "i32",
+          "name": "standard_damage",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    },
+    "jump_pack": {
+      "label": "Jump Pack",
+      "resource": "0x59C5CA839449B379",
+      "kind": "equipment",
+      "domains": [
+        "equipment",
+        "recharge",
+        "jumppack"
+      ],
+      "aliases": [
+        "Jump Pack",
+        "jump_pack"
+      ],
+      "fields": {
+        "movement_scalar_04": {
+          "component": "JumppackComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "JumpPackImprovements/research/movement.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 20,
+          "offset": 4,
+          "storage": "f32",
+          "name": "movement_scalar_04",
+          "domain": "jumppack",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "movement_scalar_24": {
+          "component": "JumppackComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "JumpPackImprovements/research/movement.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 60,
+          "offset": 36,
+          "storage": "f32",
+          "name": "movement_scalar_24",
+          "domain": "jumppack",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "recharge": {
+          "component": "RechargeComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "JumpPackImprovements/research/current-build-port.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 15,
+          "offset": 0,
+          "storage": "f32",
+          "name": "recharge",
+          "domain": "recharge",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "vertical_launch_velocity": {
+          "component": "JumppackComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "JumpPackImprovements/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 40,
+          "offset": 0,
+          "storage": "f32",
+          "name": "vertical_launch_velocity",
+          "domain": "jumppack",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    },
+    "maelstrom": {
+      "label": "Maelstrom",
+      "resource": "0xB0C9FAF4AF8903F9",
+      "kind": "vehicle",
+      "domains": [
+        "vehicle",
+        "health"
+      ],
+      "aliases": [
+        "Maelstrom",
+        "maelstrom"
+      ],
+      "fields": {
+        "default_armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 280,
+          "storage": "u32",
+          "name": "default_armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 8000,
+          "offset": 0,
+          "storage": "i32",
+          "name": "main_health",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.0.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 736,
+          "storage": "u32",
+          "name": "zones.0.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.1.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 1288,
+          "storage": "u32",
+          "name": "zones.1.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.10.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 6256,
+          "storage": "u32",
+          "name": "zones.10.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.11.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 6808,
+          "storage": "u32",
+          "name": "zones.11.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.12.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 7360,
+          "storage": "u32",
+          "name": "zones.12.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.13.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 7912,
+          "storage": "u32",
+          "name": "zones.13.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.14.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 8464,
+          "storage": "u32",
+          "name": "zones.14.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.15.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 9016,
+          "storage": "u32",
+          "name": "zones.15.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.16.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 9568,
+          "storage": "u32",
+          "name": "zones.16.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.17.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 10120,
+          "storage": "u32",
+          "name": "zones.17.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.18.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 10672,
+          "storage": "u32",
+          "name": "zones.18.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.19.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 11224,
+          "storage": "u32",
+          "name": "zones.19.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.2.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 1840,
+          "storage": "u32",
+          "name": "zones.2.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.20.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 11776,
+          "storage": "u32",
+          "name": "zones.20.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.21.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 12328,
+          "storage": "u32",
+          "name": "zones.21.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.22.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 12880,
+          "storage": "u32",
+          "name": "zones.22.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.23.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 13432,
+          "storage": "u32",
+          "name": "zones.23.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.24.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 13984,
+          "storage": "u32",
+          "name": "zones.24.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.25.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 14536,
+          "storage": "u32",
+          "name": "zones.25.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.26.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 15088,
+          "storage": "u32",
+          "name": "zones.26.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.27.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 15640,
+          "storage": "u32",
+          "name": "zones.27.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.28.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 16192,
+          "storage": "u32",
+          "name": "zones.28.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.29.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 16744,
+          "storage": "u32",
+          "name": "zones.29.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.3.affects_main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/lunchbox_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 1,
+          "offset": 2424,
+          "storage": "f32",
+          "name": "zones.3.affects_main_health",
+          "domain": "health",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": {
+            "known_values": [
+              0,
+              1
+            ],
+            "complete": false,
+            "note": "Known tested flags; no broader numeric range established."
+          },
+          "enum": null
+        },
+        "zones.3.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 2392,
+          "storage": "u32",
+          "name": "zones.3.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.30.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 17296,
+          "storage": "u32",
+          "name": "zones.30.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.31.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 17848,
+          "storage": "u32",
+          "name": "zones.31.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.32.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 18400,
+          "storage": "u32",
+          "name": "zones.32.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.33.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 18952,
+          "storage": "u32",
+          "name": "zones.33.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.34.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 19504,
+          "storage": "u32",
+          "name": "zones.34.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.35.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 20056,
+          "storage": "u32",
+          "name": "zones.35.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.36.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 20608,
+          "storage": "u32",
+          "name": "zones.36.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.37.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 0,
+          "offset": 21160,
+          "storage": "u32",
+          "name": "zones.37.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.4.affects_main_health": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/lunchbox_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 1,
+          "offset": 2976,
+          "storage": "f32",
+          "name": "zones.4.affects_main_health",
+          "domain": "health",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": {
+            "known_values": [
+              0,
+              1
+            ],
+            "complete": false,
+            "note": "Known tested flags; no broader numeric range established."
+          },
+          "enum": null
+        },
+        "zones.4.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 2944,
+          "storage": "u32",
+          "name": "zones.4.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.5.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 4,
+          "offset": 3496,
+          "storage": "u32",
+          "name": "zones.5.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.6.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 4048,
+          "storage": "u32",
+          "name": "zones.6.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.7.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 4600,
+          "storage": "u32",
+          "name": "zones.7.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.8.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 5152,
+          "storage": "u32",
+          "name": "zones.8.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "zones.9.armor": {
+          "component": "HealthComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "BastionReArmored/src/armor_proof/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": false,
+            "prior_live_source": null
+          },
+          "expected": 2,
+          "offset": 5704,
+          "storage": "u32",
+          "name": "zones.9.armor",
+          "domain": "health",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    },
+    "orbital_laser": {
+      "label": "Orbital Laser",
+      "resource": "0xEC3575E7A93793BB",
+      "kind": "stratagem",
+      "domains": [
+        "stratagem",
+        "orbital",
+        "damage"
+      ],
+      "aliases": [
+        "Orbital Laser",
+        "orbital_laser"
+      ],
+      "fields": {
+        "damage_type": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "StrongerOrbitalLaser/src/damage/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 513,
+          "offset": 0,
+          "storage": "u32",
+          "name": "damage_type",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": "damage_type"
+        },
+        "durable_damage": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "StrongerOrbitalLaser/research/gameplay-proof-400.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 60,
+          "offset": 8,
+          "storage": "i32",
+          "name": "durable_damage",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "interval": {
+          "component": "OrbitalAbilityComponentData",
+          "evidence": {
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "StrongerOrbitalLaser/src/damage/validate.lua",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 0.1,
+          "offset": 480,
+          "storage": "f32",
+          "name": "interval",
+          "domain": "orbital",
+          "value_type": "number",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        },
+        "standard_damage": {
+          "component": "DamageSettings",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "StrongerOrbitalLaser/research/gameplay-proof-400.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08"
+          },
+          "expected": 60,
+          "offset": 4,
+          "storage": "i32",
+          "name": "standard_damage",
+          "domain": "damage",
+          "value_type": "integer",
+          "readable": true,
+          "writable": false,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    },
+    "shield_relay": {
+      "label": "Shield Relay",
+      "resource": "0xED13DDC480EC6910",
+      "kind": "stratagem",
+      "domains": [
+        "stratagem",
+        "shield",
+        "payload"
+      ],
+      "aliases": [
+        "Shield Relay",
+        "shield_relay"
+      ],
+      "fields": {
+        "cooldown": {
+          "component": "StratagemSettings",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": true,
+            "source": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08",
+            "runtime_gameplay_source": "User-confirmed HD2Runtime 0.4.0 live gameplay proof at b3ee7326ce53448590a830b924c99e2df6eec179"
+          },
+          "expected": 90,
+          "offset": 104,
+          "storage": "f32",
+          "name": "cooldown",
+          "domain": "stratagem",
+          "value_type": "number",
+          "readable": true,
+          "writable": true,
+          "semantic_range": null,
+          "enum": null
+        },
+        "durability": {
+          "component": "ShieldComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "ShieldRelayImprovements/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08",
+            "runtime_gameplay_source": "User-confirmed HD2Runtime 0.4.0 live gameplay proof at b3ee7326ce53448590a830b924c99e2df6eec179"
+          },
+          "expected": 4000,
+          "offset": 76,
+          "storage": "f32",
+          "name": "durability",
+          "domain": "shield",
+          "value_type": "number",
+          "readable": true,
+          "writable": true,
+          "semantic_range": null,
+          "enum": null
+        },
+        "lifetime": {
+          "component": "HellpodPayloadComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "ShieldRelayImprovements/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08",
+            "runtime_gameplay_source": "User-confirmed HD2Runtime 0.4.0 live gameplay proof at b3ee7326ce53448590a830b924c99e2df6eec179"
+          },
+          "expected": 40,
+          "offset": 4,
+          "storage": "f32",
+          "name": "lifetime",
+          "domain": "payload",
+          "value_type": "number",
+          "readable": true,
+          "writable": true,
+          "semantic_range": null,
+          "enum": null
+        },
+        "radius": {
+          "component": "ShieldComponentData",
+          "evidence": {
+            "gameplay_proven": true,
+            "native_consumer_proven": false,
+            "schema_labelled": false,
+            "source": "ShieldRelayImprovements/README.md",
+            "structural_candidate": true,
+            "current_live_ownership_proven": false,
+            "prior_live_confirmation": true,
+            "prior_live_source": "User-confirmed six-resource validation at 9e7a9e6e2ab94195ef8c06d22ec4df8388069b08",
+            "runtime_gameplay_source": "User-confirmed HD2Runtime 0.4.0 live gameplay proof at b3ee7326ce53448590a830b924c99e2df6eec179"
+          },
+          "expected": 15,
+          "offset": 0,
+          "storage": "f32",
+          "name": "radius",
+          "domain": "shield",
+          "value_type": "number",
+          "readable": true,
+          "writable": true,
+          "semantic_range": null,
+          "enum": null
+        }
+      }
+    }
+  },
+  "enums": {
+    "projectile_type": {
+      "complete": false,
+      "values": {
+        "jar5": 177
+      },
+      "source": "Jar-5_buff/docs/research.md"
+    },
+    "damage_type": {
+      "complete": false,
+      "values": {
+        "jar5": 153,
+        "orbital_laser": 513
+      },
+      "source": "Existing checked projectile/OrbitalAbility linkage"
+    },
+    "crosshair_type": {
+      "complete": false,
+      "values": {
+        "amr_original": 3
+      },
+      "source": "ReticleAmr/research/gameplay-confirmation-0.1.0.json"
+    }
+  },
+  "contracts": {
+    "patch": {
+      "resource": "jar5",
+      "field": "armor_penetration",
+      "expect": 3,
+      "value": 4,
+      "logical_mapping": {
+        "storage": "u32",
+        "offsets": [
+          12,
+          16,
+          20
+        ],
+        "preserved_offset": 24
+      }
+    },
+    "transaction": {
+      "resource": "shield_relay",
+      "fields": {
+        "radius": {
+          "expect": 15,
+          "value": 8
+        },
+        "durability": {
+          "expect": 4000,
+          "value": 40000
+        },
+        "lifetime": {
+          "expect": 40,
+          "value": 90
+        },
+        "cooldown": {
+          "expect": 90,
+          "value": 180
+        }
+      }
+    }
+  },
+  "api": {
+    "classes": {
+      "HD2ReadTarget": {
+        "resource": "HD2Resource",
+        "fields": "string[]"
+      },
+      "HD2ReadRequest": {
+        "targets": "HD2ReadTarget[]"
+      },
+      "HD2ReadJob": {
+        "status": "string",
+        "result?": "table",
+        "error?": "string",
+        "step": "fun(): boolean"
+      },
+      "HD2Watch": {
+        "status": "string",
+        "result?": "table",
+        "error?": "string",
+        "cancel": "fun()"
+      },
+      "HD2EnsureWatch": {
+        "status": "string",
+        "result?": "table",
+        "error?": "string",
+        "cancel": "fun()",
+        "runs": "integer",
+        "interval": "number",
+        "id": "string",
+        "kind": "string"
+      },
+      "HD2ObserveRequest": {
+        "targets": "HD2ReadTarget[]",
+        "interval?": "number",
+        "startup_delay?": "number",
+        "timeout?": "number",
+        "label?": "string",
+        "on_result?": "fun(result: table): string?",
+        "on_error?": "fun(reason: string, detail: table): string?"
+      },
+      "HD2PatchRequest": {
+        "id": "string",
+        "target": "HD2DamageProfile",
+        "field": "HD2PatchField",
+        "expect": "3",
+        "value": "4",
+        "diagnostic?": "boolean"
+      },
+      "HD2TransactionChange": {
+        "field": "HD2TransactionField",
+        "expect": "number",
+        "value": "number"
+      },
+      "HD2TransactionRequest": {
+        "id": "string",
+        "target": "HD2Stratagem",
+        "changes": "HD2TransactionChange[]",
+        "diagnostic?": "boolean"
+      },
+      "HD2EnsureRequest": {
+        "patch?": "HD2PatchRequest",
+        "transaction?": "HD2TransactionRequest",
+        "interval?": "number",
+        "startup_delay?": "number"
+      }
+    },
+    "functions": {
+      "describe": {
+        "params": [
+          [
+            "resource",
+            "HD2Resource"
+          ]
+        ],
+        "returns": "table",
+        "doc": "Describe schema and prior evidence without reading memory."
+      },
+      "read": {
+        "params": [
+          [
+            "request",
+            "HD2ReadRequest"
+          ]
+        ],
+        "returns": "HD2ReadJob",
+        "doc": "Create a bounded read job; advance with job.step()."
+      },
+      "observe": {
+        "params": [
+          [
+            "request",
+            "HD2ObserveRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Runtime-scheduled read observation; default 60 update seconds."
+      },
+      "format": {
+        "params": [
+          [
+            "result",
+            "table"
+          ]
+        ],
+        "returns": "string",
+        "doc": "Format a completed read result."
+      },
+      "patch": {
+        "params": [
+          [
+            "request",
+            "HD2PatchRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Freshly resolve and apply the reviewed JAR-5 logical AP field."
+      },
+      "transaction": {
+        "params": [
+          [
+            "request",
+            "HD2TransactionRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Validate every change before writing; guarded rollback on failure."
+      },
+      "ensure": {
+        "params": [
+          [
+            "request",
+            "HD2EnsureRequest"
+          ]
+        ],
+        "returns": "HD2EnsureWatch",
+        "doc": "Wrap exactly one patch or transaction. Default 60 update seconds, three-second startup, terminal conflict rejection."
+      }
+    },
+    "target_methods": {
+      "read_target": {
+        "returns": "HD2ReadTarget",
+        "doc": "Return a public read/observe target containing all mapped fields in this domain."
+      },
+      "describe": {
+        "returns": "table",
+        "doc": "Describe mapped domain fields without process access."
+      }
+    }
+  }
+}

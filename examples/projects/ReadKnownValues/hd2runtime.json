@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "name": "ReadKnownValues",
+  "resource": "mods/hd2runtime_examples/read_known_values",
+  "guid": "61c771df-2e44-5cbf-836d-4894cf58be33",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.5.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

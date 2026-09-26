@@ -20,7 +20,9 @@ function M.new(runtime,emit)
         local key=key_for(resource)
         local fields={}
         for name,f in pairs(catalog[key])do
-            fields[name]={component=f.component,storage=f.storage,width=4,expected=f.expected,evidence=copy(f.evidence)}
+            fields[name]={name=name,domain=f.domain,value_type=f.value_type,readable=f.readable,
+                writable=f.writable,semantic_range=copy(f.semantic_range),enum=f.enum,
+                component=f.component,storage=f.storage,width=4,expected=f.expected,evidence=copy(f.evidence)}
         end
         return {resource=profile.resources[key].resource,label=profile.resources[key].label,fields=fields}
     end
@@ -151,8 +153,11 @@ function M.new(runtime,emit)
         log('write request rejected: milestone 1 is read-only')
         return nil,{code='READ_ONLY_MILESTONE',message='patch, ensure and transaction require the guarded writer milestone'}
     end
-    self.weapon=require('hd2runtime/api/target').weapon
-    self.stratagem=require('hd2runtime/api/target').stratagem
+    for name,builder in pairs(require('hd2runtime/api/target').new(self.describe))do self[name]=builder end
+    local constants=copy(require('hd2runtime/domains/constants'))
+    self.fields=constants.fields;self.enums=constants.enums;self.resources=constants.resources
+    local metadata=require('hd2runtime/domains/metadata')
+    self.version=metadata.version;self.api_version=metadata.api_version
     function self.patch(request)
         if not runtime.write or not runtime.protect then return disabled()end
         return require('hd2runtime/api/patch').start(runtime,emit,request)

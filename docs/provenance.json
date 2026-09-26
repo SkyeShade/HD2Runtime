@@ -202,5 +202,5 @@
       "sha256": "D2B1631D75DA1A8F1152EB11370B4ABE702F067889C93AE60971FD2B74F6091D"
     }
   ],
-  "field_evidence": "domains/catalog.lua"
+  "field_evidence": "schemas/sdk.json"
 }

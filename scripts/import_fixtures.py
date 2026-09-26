@@ -25,7 +25,7 @@ def main():
     library = (folder / 'dl_library.dl_typelib').read_bytes()
     assert sha(entity) == '21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E'
     assert sha(library) == '4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4'
-    manifest = {'mode': 'read_only', 'sources': [], 'field_evidence': 'domains/catalog.lua'}
+    manifest = {'mode': 'read_only', 'sources': [], 'field_evidence': 'schemas/sdk.json'}
     def source(relative):
         raw = (SIBLINGS / relative).read_bytes()
         manifest['sources'].append({'path': relative, 'sha256': sha(raw)})

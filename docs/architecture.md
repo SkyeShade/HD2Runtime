@@ -1,5 +1,17 @@
 # Architecture and milestone boundary
 
+Version 0.5.0 adds the shared runtime and developer SDK boundary. Bingus discovers
+the runtime's single inert library addon; gameplay addons explicitly require its
+module. The runtime installs once. Independent gameplay archives contain only
+their own source and dependency checks. See the [SDK guide](../sdk/README.md).
+
+`schemas/sdk.json` is canonical for public field metadata, evidence, reviewed
+write declarations, types, builder chains and API signatures. The generator emits
+`domains/catalog.lua`, `domains/constants.lua`, `domains/metadata.lua`, SDK JSON,
+LuaLS/EmmyLua-style definitions and the API reference. The inspector reads that
+generated JSON. Allocation layouts and guard engines remain independently
+reviewed; generated metadata cannot grant additional write capability.
+
 | Directory | Responsibility |
 | --- | --- |
 | `core/` | Bounds-checked scalar decoding, ownership/membership resolution, grouped settings and stratagem joins |

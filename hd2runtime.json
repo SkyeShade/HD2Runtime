@@ -1,0 +1,10 @@
+{
+  "format": 1,
+  "name": "HD2Runtime",
+  "resource": "mods/skyeshade/hd2runtime",
+  "guid": "ae62bcc1-4f14-45ed-b28a-93d239412913",
+  "api": 1,
+  "requires": {
+    "bingus": { "min_release": 15, "api": 1 }
+  }
+}
