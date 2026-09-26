@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "name": "My HD2 Mod",
+  "resource": "mods/your_name/my_hd2_mod",
+  "guid": "auto",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.5.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  }
+}

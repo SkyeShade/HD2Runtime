@@ -10,13 +10,20 @@ import time
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def check(server):
-    workspace=ROOT/'build/luals-sdk-probe';workspace.mkdir(parents=True,exist_ok=True)
-    config={'runtime.version':'LuaJIT','workspace.library':[(ROOT/'sdk/stubs').as_posix()],
-            'workspace.checkThirdParty':False,'runtime.path':['?.lua','?/init.lua']}
-    (workspace/'.luarc.json').write_text(json.dumps(config))
-    process=subprocess.Popen([str(Path(server).resolve()),'--logpath='+str(workspace/'logs'),
-        '--metapath='+str(workspace/'meta')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,
+def check(server,workspace=None):
+    if workspace is None:
+        workspace=ROOT/'build/luals-sdk-probe';workspace.mkdir(parents=True,exist_ok=True)
+        config={'runtime.version':'LuaJIT','workspace.library':[(ROOT/'sdk/stubs').as_posix()],
+                'workspace.checkThirdParty':False,'runtime.path':['?.lua','?/init.lua']}
+        (workspace/'.luarc.json').write_text(json.dumps(config))
+        label='sdk'
+    else:
+        workspace=Path(workspace).resolve()
+        if not (workspace/'.luarc.json').is_file():raise RuntimeError('Workspace has no .luarc.json: '+str(workspace))
+        label='starter'
+    logs=ROOT/'build'/('luals-'+label+'-logs');meta=ROOT/'build'/('luals-'+label+'-meta')
+    process=subprocess.Popen([str(Path(server).resolve()),'--logpath='+str(logs),
+        '--metapath='+str(meta)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
     messages=queue.Queue();counter=0
     def consume():
@@ -91,9 +98,10 @@ def check(server):
         notify('textDocument/didChange',{'textDocument':{'uri':uri,'version':2},'contentChanges':[{'text':changed}]})
         methods=complete(len(probes)+1,'local next=weapon:')
         assert any('projectile' in label for label in methods),'Missing method completion: '+str(methods)
-        report={'server':initialized.get('serverInfo'),'hovers':hovers,'field_completions':fields,
+        report={'server':initialized.get('serverInfo'),'workspace':label,
+                'hovers':hovers,'field_completions':fields,
                 'method_completions':methods,'manual_rider_ui_test':False,'game_launched':False}
-        (ROOT/'build/luals-sdk-report.json').write_text(json.dumps(report,indent=2)+'\n')
+        (ROOT/'build'/('luals-'+label+'-report.json')).write_text(json.dumps(report,indent=2)+'\n')
         print('LuaLS typed hover and completion passed: '+', '.join(hovers))
         print('Damage field and weapon method completion passed')
         request('shutdown',None);notify('exit',None)
@@ -106,4 +114,6 @@ def check(server):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--server',required=True,type=Path)
-    check(parser.parse_args().server)
+    parser.add_argument('--workspace',type=Path)
+    args=parser.parse_args()
+    check(args.server,args.workspace)

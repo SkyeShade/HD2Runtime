@@ -4,6 +4,12 @@ Version 0.5.0 separates the installed-once runtime from the developer SDK and
 independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
+Version 0.5.1 adds the recommended beginner path: extract
+`HD2Runtime-ModTemplate-0.5.1.zip`, open that folder directly in Rider, rename
+the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
+The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
+so normal use needs no Python or HD2Runtime source copy.
+
 Install Bingus Shared Loader, the standalone HD2Runtime runtime ZIP, and the
 gameplay mods you want. Authors use the separate SDK for typed Lua completion,
 field constants, offline inspection, and project generation. No runtime source

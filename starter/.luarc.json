@@ -1,0 +1,11 @@
+{
+  "workspace.library": [
+    "./stubs"
+  ],
+  "runtime.version": "LuaJIT",
+  "runtime.path": [
+    "?.lua",
+    "?/init.lua"
+  ],
+  "workspace.checkThirdParty": false
+}

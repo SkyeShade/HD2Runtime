@@ -121,6 +121,7 @@ def outputs():
             'domains/metadata.lua':header+'return '+lua(metadata)+'\n',
             'sdk/metadata.json':json.dumps(schema,indent=2)+'\n',
             'sdk/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
+            'starter/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'sdk/docs/api.md':'\n'.join(doc),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 

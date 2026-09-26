@@ -8,6 +8,7 @@ import sys
 import tempfile
 import unittest
 import zipfile
+import os
 
 from support import ROOT, execute, lua, modules, run
 import generate_sdk
@@ -184,7 +185,7 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.5.0' and update==nil)
+assert(a==b and a.version=='0.5.1' and update==nil)
 return 'ok'
 ''').encode())
 
@@ -226,6 +227,72 @@ assert(assert(loadstring(bodies['mods/test_sdk/shield']))()==state)
 assert(#writes==4);state.cancel();update(0);assert(update==nil)
 return 'ok'
 ''')
+
+    def test_standalone_starter_inventory_and_bundled_stub(self):
+        version=(ROOT/'VERSION').read_text().strip()
+        path=build_release.build_starter(version)
+        with zipfile.ZipFile(path) as archive:
+            self.assertIsNone(archive.testzip())
+            self.assertEqual(set(archive.namelist()),{
+                'VERSION','README.md','hd2runtime.json','.luarc.json','.gitignore',
+                'build.cmd','build.ps1','src/addon.lua',
+                'stubs/mods/skyeshade/hd2runtime.lua'})
+            config=json.loads(archive.read('.luarc.json'))
+            self.assertEqual(config['workspace.library'],['./stubs'])
+            stub=archive.read('stubs/mods/skyeshade/hd2runtime.lua')
+            self.assertEqual(stub,(ROOT/'sdk/stubs/mods/skyeshade/hd2runtime.lua').read_bytes())
+            self.assertIn(b'HD2DamageProfile',stub)
+            self.assertIn(b'---@field armor_penetration "armor_penetration"',stub)
+            source=archive.read('src/addon.lua')
+            self.assertIn(b"require('mods/skyeshade/hd2runtime')",source)
+            self.assertNotIn(b'VirtualProtect',source)
+            self.assertNotIn(b'python',archive.read('build.cmd').lower())
+            self.assertNotIn(b'python.exe',archive.read('build.ps1').lower())
+            self.assertNotIn(b'py -',archive.read('build.ps1').lower())
+
+    def test_clean_starter_builds_with_powershell_and_cmd_without_python_on_path(self):
+        from hd2_archive import resource_hash
+        version=(ROOT/'VERSION').read_text().strip()
+        starter=build_release.build_starter(version)
+        windows=Path(os.environ.get('WINDIR',r'C:\Windows'))
+        clean_path=os.pathsep.join([str(windows/'System32'),
+            str(windows/'System32/WindowsPowerShell/v1.0'),str(windows/'System32/Wbem')])
+        environment={**os.environ,'PATH':clean_path,'PYTHONHOME':'','PYTHONPATH':''}
+        for command in ('powershell','cmd'):
+            with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+                project=Path(folder)/'Starter';project.mkdir()
+                with zipfile.ZipFile(starter) as archive:archive.extractall(project)
+                config=json.loads((project/'hd2runtime.json').read_text())
+                config['name']='Starter Test';config['resource']='mods/test_starter/clean_build'
+                (project/'hd2runtime.json').write_text(json.dumps(config,indent=2))
+                if command=='powershell':
+                    invocation=[str(windows/'System32/WindowsPowerShell/v1.0/powershell.exe'),
+                        '-NoLogo','-NoProfile','-ExecutionPolicy','Bypass','-File',str(project/'build.ps1')]
+                else:
+                    invocation=[str(windows/'System32/cmd.exe'),'/d','/c',str(project/'build.cmd')]
+                result=subprocess.run(invocation,cwd=project,env=environment,capture_output=True,text=True)
+                self.assertEqual(result.returncode,0,result.stdout+'\n'+result.stderr)
+                output=project/'build/Starter-Test-0.1.0.zip'
+                self.assertTrue(output.is_file())
+                with zipfile.ZipFile(output) as package:
+                    self.assertIsNone(package.testzip())
+                    self.assertEqual(set(package.namelist()),{'manifest.json','hd2runtime.json',
+                        'build-report.json','README.md','mod/9ba626afa44a3aa3.patch_0',
+                        'mod/9ba626afa44a3aa3.patch_0.stream',
+                        'mod/9ba626afa44a3aa3.patch_0.gpu_resources'})
+                    report=json.loads(package.read('build-report.json'))
+                    self.assertFalse(report['runtime_bundled']);self.assertFalse(report['sdk_stubs_bundled'])
+                    dependency=json.loads(package.read('hd2runtime.json'))
+                    self.assertEqual(dependency['requires']['bingus'],{'min_release':15,'api':1})
+                    self.assertEqual(dependency['requires']['hd2runtime']['module'],sdk.MODULE)
+                sources=archive_sources(output)
+                self.assertEqual(set(sources),{resource_hash('mods/test_starter/clean_build')})
+                body=next(iter(sources.values()))
+                self.assertIn(b"require('mods/skyeshade/hd2runtime')",body)
+                self.assertIn(b'hd2.fields.damage.armor_penetration',body)
+                for forbidden in (b'VirtualProtect',b'VirtualQuery',b'WriteProcessMemory',
+                                  b'package.preload',b'---@meta',b'hd2runtime/core/'):
+                    self.assertNotIn(forbidden,body)
 
 
 if __name__=='__main__':unittest.main()

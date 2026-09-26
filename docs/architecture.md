@@ -12,6 +12,11 @@ LuaLS/EmmyLua-style definitions and the API reference. The inspector reads that
 generated JSON. Allocation layouts and guard engines remain independently
 reviewed; generated metadata cannot grant additional write capability.
 
+Version 0.5.1 adds a beginner starter ZIP alongside the advanced SDK. It embeds
+only generated authoring annotations and a Windows PowerShell/.NET archive builder.
+Its build accepts one gameplay entrypoint and packages one resource under the
+project's own namespace; the HD2Runtime implementation remains an external module.
+
 | Directory | Responsibility |
 | --- | --- |
 | `core/` | Bounds-checked scalar decoding, ownership/membership resolution, grouped settings and stratagem joins |

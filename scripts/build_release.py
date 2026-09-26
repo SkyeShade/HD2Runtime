@@ -23,6 +23,18 @@ def runtime_resources():
     return resources
 
 
+def starter_files():
+    return {path.relative_to(ROOT/'starter').as_posix():path.read_bytes()
+            for path in sorted((ROOT/'starter').rglob('*')) if path.is_file()
+            and 'build' not in path.relative_to(ROOT/'starter').parts}
+
+
+def build_starter(version):
+    path=ROOT/'build'/('HD2Runtime-ModTemplate-'+version+'.zip')
+    hd2.zip_files(path,starter_files())
+    return path
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--luals',type=Path,help='Optional LuaLS executable for real type/completion checks')
@@ -41,7 +53,7 @@ def main():
             'new_live_gameplay_test':False,'fixture_fallback':'disabled'}
     if args.luals:
         from check_sdk_luals import check
-        report['luals']=check(args.luals)
+        report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}
     spec=json.loads((ROOT/'hd2runtime.json').read_text());sources=runtime_resources()
     archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})
     description='Shared HD2Runtime API 1. Requires Bingus Shared Loader v15+ / API 1. Install once; no gameplay changes until a dependent mod requests them.'
@@ -60,7 +72,8 @@ def main():
     sdk_files['build-report.json']=report_bytes
     hd2.zip_files(sdk_zip,sdk_files)
     example_files={}
-    artifacts=[runtime_zip,sdk_zip]
+    starter_zip=build_starter(version)
+    artifacts=[runtime_zip,sdk_zip,starter_zip]
     for project in sorted((ROOT/'examples/projects').iterdir()):
         if not project.is_dir():continue
         artifacts.append(hd2.build_project(project))
