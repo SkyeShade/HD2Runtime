@@ -91,6 +91,21 @@ local function create_runtime()
         return tonumber(info[0].page_size),
             tonumber(ffi.cast('uintptr_t',info[0].maximum_address))+1
     end
+    function runtime.monotonic_time() return tonumber(kernel.GetTickCount64())/1000 end
+    function runtime.ensure_directory(path)
+        assert(type(path)=='string'and#path>0,'directory path required')
+        local normalized=path:gsub('/','\\'):gsub('\\+$','')
+        local prefix=normalized:match('^%a:\\')and normalized:sub(1,3)or''
+        local cursor=prefix
+        for part in normalized:sub(#prefix+1):gmatch('[^\\]+')do
+            cursor=cursor==''and part or cursor..(cursor:sub(-1)=='\\'and''or'\\')..part
+            if kernel.CreateDirectoryA(cursor,nil)==0 then
+                local error_code=tonumber(kernel.GetLastError())
+                assert(error_code==183,'cannot create snapshot directory; error='..error_code)
+            end
+        end
+        return normalized
+    end
     return runtime
 end
 return create_runtime

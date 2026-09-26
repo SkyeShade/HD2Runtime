@@ -179,14 +179,23 @@ def main():
     p=sub.add_parser('new');p.add_argument('path',type=Path);p.add_argument('--name',required=True);p.add_argument('--template',choices=['jar5','shield','observer'],default='jar5');p.add_argument('--sdk',type=Path,default=SDK)
     p=sub.add_parser('configure');p.add_argument('project',type=Path);p.add_argument('--sdk',type=Path,default=SDK)
     p=sub.add_parser('build');p.add_argument('project',type=Path)
+    p=sub.add_parser('snapshot');snapshot_sub=p.add_subparsers(dest='snapshot_command',required=True)
+    scan=snapshot_sub.add_parser('scan-weapons')
+    scan.add_argument('snapshot',type=Path);scan.add_argument('wiki',type=Path)
+    scan.add_argument('--output',type=Path);scan.add_argument('--historical-analysis',action='store_true')
+    scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
     args=parser.parse_args()
     try:
         if args.command=='inspect':
             result=inspect(args.kind,args.name);print(json.dumps(result,indent=2) if args.json else format_inspection(result))
         elif args.command=='new':print(new_project(args.path,args.name,args.template,args.sdk))
         elif args.command=='configure':configure(args.project,args.sdk);print('IDE configuration updated')
-        else:print(build_project(args.project))
-    except (ValueError,KeyError,OSError) as error:parser.exit(2,str(error)+'\n')
+        elif args.command=='build':print(build_project(args.project))
+        else:
+            from tools.snapshot_scan import scan
+            output,mapping=scan(args.snapshot,args.wiki,args.output,args.historical_analysis,args.lua_dll)
+            print(output);print(mapping)
+    except (ValueError,KeyError,OSError,RuntimeError) as error:parser.exit(2,str(error)+'\n')
 
 
 if __name__=='__main__':main()

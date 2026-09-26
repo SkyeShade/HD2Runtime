@@ -69,6 +69,8 @@ def main():
     sdk_zip=ROOT/'build'/('HD2Runtime-'+version+'-sdk.zip')
     sdk_files={p.relative_to(ROOT/'sdk').as_posix():p.read_bytes() for p in (ROOT/'sdk').rglob('*')
                if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc'}
+    from tools.snapshot_scan import bundle_bytes
+    sdk_files['tools/snapshot_scan_modules.json']=bundle_bytes()
     sdk_files['build-report.json']=report_bytes
     hd2.zip_files(sdk_zip,sdk_files)
     example_files={}

@@ -39,8 +39,10 @@ function M.start(runtime,emit,request)
         reader=Reader.new(runtime);reader.stage='runtime/windows_readonly:fingerprint'
         local exe,dll=runtime.module(nil),runtime.module('game.dll')
         if not exe or not dll then error('TARGET_UNAVAILABLE: game modules not ready',0)end
-        assert(runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha,
-            'unsupported build fingerprint')
+        local exe_sha,dll_sha=runtime.module_hash(exe),runtime.module_hash(dll)
+        if not request.historical_analysis then
+            assert(exe_sha==profile.exe_sha and dll_sha==profile.dll_sha,'unsupported build fingerprint')
+        end
         local roots=discover.locate(runtime,reader,profile,{entity=true,projectile=true,damage=true})
         local catalog=entities.capture(reader,roots.entity,profile,
             {'ProjectileWeaponComponentData','WeaponDataComponentData'})
@@ -109,7 +111,9 @@ function M.start(runtime,emit,request)
                 index,#catalog.candidates,candidate.resourceHash,output.resolutionStatus))
         end
         reader.stage='runtime/reader:stable_reread';reader.verify()
-        return {runtimeCandidates=results,fingerprint={exe=profile.exe_sha,dll=profile.dll_sha},
+        return {runtimeCandidates=results,fingerprint={exe=exe_sha,dll=dll_sha},
+            requestedProfileFingerprint={exe=profile.exe_sha,dll=profile.dll_sha},
+            historicalAnalysis=request.historical_analysis==true,
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
             fixtureFallback='disabled',fieldsCurrentlyUsable={'projectile_type','damage_type',
                 'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',

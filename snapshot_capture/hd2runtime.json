@@ -1,0 +1,14 @@
+{
+  "format": 1,
+  "name": "HD2Runtime Snapshot Capture",
+  "resource": "mods/skyeshade/hd2runtime_snapshot_capture",
+  "guid": "bdaf3afd-ef14-5d86-ab6f-c83a843d2e23",
+  "requires": {
+    "bingus": { "min_release": 15, "api": 1 },
+    "hd2runtime": {
+      "min_version": "0.7.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  }
+}

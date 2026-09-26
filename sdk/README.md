@@ -1,12 +1,12 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.5.1.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.7.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.5.1-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.7.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -70,6 +70,25 @@ example, the shared damage domain has read-only Orbital Laser fields while only
 JAR-5 AP3→AP4 is currently enabled for `patch`. Unknown semantic ranges are null;
 partial enums do not claim completeness or introduce unproven names.
 
+## Scan a captured process offline
+
+The separate `HD2Runtime-SnapshotCapture-0.7.0.zip` package incrementally writes
+a build-bound, read-only process snapshot during one manually started HD2
+session. Do not install the SDK ZIP in the game. After capture, use the SDK to
+run the production Primary Weapon Runtime Mapper against the saved address
+space:
+
+```powershell
+python <SDK>/hd2.py snapshot scan-weapons <build>.hd2snap wiki_primary_weapons.json
+```
+
+The SDK locates HD2's owned `bin/lua51.dll` through `HD2_GAME_ROOT`; pass
+`--lua-dll <path>` when needed. The command rejects fingerprints that differ
+from the bundled current-build profile. `--historical-analysis` is an explicit
+schema research override and does not treat an old capture as current evidence.
+See the capture ZIP README for the HD2SNAP v1 format, default output path, and
+capture progress fields.
+
 ## Rider and Lua tooling
 
 The generated `.luarc.json` points `workspace.library` at the shared SDK `stubs`
@@ -105,7 +124,7 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 ## Dependencies and loading
 
 `hd2runtime.json` declares `requires.bingus` (release ≥15, API 1) and
-`requires.hd2runtime` (version ≥0.5.0, API 1, module
+`requires.hd2runtime` (version matching the SDK-generated project, API 1, module
 `mods/skyeshade/hd2runtime`). HD2Runtime's own declaration requires only Bingus.
 These are HD2Runtime SDK metadata, not new Bingus/Arsenal/HD2MM manifest fields.
 Manager descriptions also state the requirements; managers do not install them

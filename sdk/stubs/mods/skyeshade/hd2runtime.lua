@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 3d81d3766c1a46e076aadb688428e23d22edd23653513b5327c6ed62401f1313
+-- Schema SHA256 cca8c9c31f814c97d55476bd3fbbdf66e9ecb2390f14cdef1e1f60fe24e0fb60
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -46,6 +46,14 @@
 
 ---@class HD2PrimaryWeaponMapRequest
 ---@field startup_delay? number
+---@field on_result? fun(result: table)
+---@field on_error? fun(reason: string, detail: table)
+
+---@class HD2SnapshotCaptureRequest
+---@field output_directory? string
+---@field output_path? string
+---@field bytes_per_tick? integer
+---@field chunk_bytes? integer
 ---@field on_result? fun(result: table)
 ---@field on_error? fun(reason: string, detail: table)
 
@@ -398,6 +406,10 @@ function hd2.enumerate_primary_weapons(request) end
 ---@param request HD2PrimaryWeaponMapRequest
 ---@return HD2Watch
 function hd2.map_primary_weapons(request) end
+---Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file.
+---@param request HD2SnapshotCaptureRequest
+---@return HD2Watch
+function hd2.capture_snapshot(request) end
 ---Format a completed read result.
 ---@param result table
 ---@return string

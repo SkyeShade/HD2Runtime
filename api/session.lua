@@ -108,6 +108,9 @@ function M.new(runtime,emit)
         end
         return watch
     end
+    function self.capture_snapshot(request)
+        return require('hd2runtime/api/snapshot_capture').start(runtime,emit,request)
+    end
     function self.format(result)
         local lines={}
         for _,target in ipairs(result.targets)do

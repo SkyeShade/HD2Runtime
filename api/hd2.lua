@@ -4,7 +4,7 @@ local instance
 local M={}
 local function session()
     if not instance then
-        local runtime=require('hd2runtime/runtime/windows_readonly')()
+        local runtime=require('hd2runtime/runtime/live_process_reader')()
         instance=factory.new(runtime,require('hd2runtime/runtime/log').emit)
     end
     return instance
@@ -21,6 +21,9 @@ function M.observe(request)
 end
 function M.map_primary_weapons(request)
     return require('hd2runtime/runtime/scheduler').attach(session().map_primary_weapons(request))
+end
+function M.capture_snapshot(request)
+    return require('hd2runtime/runtime/scheduler').attach(session().capture_snapshot(request))
 end
 local function disabled()
     require('hd2runtime/runtime/log').emit('[HD2Runtime] write request rejected: read-only milestone')

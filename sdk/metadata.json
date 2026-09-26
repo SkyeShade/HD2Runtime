@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.6.0",
+  "runtime_version": "0.7.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2735,6 +2735,14 @@
         "on_result?": "fun(result: table)",
         "on_error?": "fun(reason: string, detail: table)"
       },
+      "HD2SnapshotCaptureRequest": {
+        "output_directory?": "string",
+        "output_path?": "string",
+        "bytes_per_tick?": "integer",
+        "chunk_bytes?": "integer",
+        "on_result?": "fun(result: table)",
+        "on_error?": "fun(reason: string, detail: table)"
+      },
       "HD2PatchRequest": {
         "id": "string",
         "target": "HD2DamageProfile",
@@ -2811,6 +2819,16 @@
         ],
         "returns": "HD2Watch",
         "doc": "Schedule one read-only primary weapon enumeration after a startup delay."
+      },
+      "capture_snapshot": {
+        "params": [
+          [
+            "request",
+            "HD2SnapshotCaptureRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file."
       },
       "format": {
         "params": [

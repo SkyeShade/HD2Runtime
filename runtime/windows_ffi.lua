@@ -13,6 +13,8 @@ ffi.cdef [[
     int ReadProcessMemory(void *process, const void *address, void *buffer,
                           size_t size, size_t *read);
     uint32_t GetLastError(void);
+    uint64_t GetTickCount64(void);
+    int CreateDirectoryA(const char *path, void *security);
     typedef struct HD2RuntimeMemoryRegion {
         void *base; void *allocation_base; uint32_t allocation_protection;
         uint16_t partition; uint16_t reserved; size_t size;
