@@ -4,6 +4,7 @@ local Reader=require('hd2runtime/runtime/reader')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
 local profile=require('hd2runtime/schemas/current')
+local mapper_schema=require('hd2runtime/schemas/weapon_mapper')
 local M={}
 
 local provenance={
@@ -19,7 +20,7 @@ local damage_fields={
     {'ap_direct',12,'u32'},{'ap_slight',16,'u32'},{'ap_large',20,'u32'},{'ap_extreme',24,'u32'},
     {'demolition',28,'u32'},{'stagger',32,'u32'},{'push_force',36,'u32'},
 }
-local unmapped={'fire_rate','capacity','projectile_velocity','projectile_mass','drag','gravity','pellet_count'}
+local unmapped=mapper_schema.unmapped
 
 local function copy(value)
     if type(value)~='table'then return value end
@@ -79,6 +80,8 @@ function M.start(runtime,emit,request)
                     local weapon=catalog.record(candidate,'ProjectileWeaponComponentData')
                     local projectile_type=b.u32(weapon.bytes,0)
                     field(output,'projectile_type',projectile_type,provenance.projectile_type)
+                    local fire=mapper_schema.fields.fire_rate
+                    field(output,'fire_rate',b.value(weapon.bytes,fire.offset,fire.storage),fire.evidence)
                     local projectile=assert(roots.projectile.records[projectile_type],
                         'linked ProjectileSettings record absent')
                     local damage_type=b.u32(projectile.bytes,60)
@@ -93,6 +96,11 @@ function M.start(runtime,emit,request)
                         resolvedFields={}}
                     output.attacks[1]=attack
                     field(output,'damage_type',damage_type,provenance.damage)
+                    for _,name in ipairs({'pellet_count','projectile_velocity','projectile_mass','drag','gravity'})do
+                        local spec=mapper_schema.fields[name]
+                        local value=b.value(projectile.bytes,spec.offset,spec.storage)
+                        field(output,name,value,spec.evidence);attack.resolvedFields[name]=value
+                    end
                     for _,spec in ipairs(damage_fields)do
                         local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
                         field(output,name,value,provenance.damage)
@@ -116,6 +124,7 @@ function M.start(runtime,emit,request)
             historicalAnalysis=request.historical_analysis==true,
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
             fixtureFallback='disabled',fieldsCurrentlyUsable={'projectile_type','damage_type',
+                'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity',
                 'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
                 'demolition','stagger','push_force','crosshair_type'},
             fieldsNotRuntimeMapped=unmapped,metrics={candidateCount=#results,candidateFailures=failed,

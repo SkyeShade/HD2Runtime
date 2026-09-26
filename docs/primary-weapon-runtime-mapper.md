@@ -1,6 +1,6 @@
 # Primary Weapon Runtime Mapper
 
-The mapper is a separate read-only diagnostic mod for HD2Runtime 0.6.0. Install
+The mapper is a separate read-only diagnostic mod for HD2Runtime 0.8.0. Install
 Bingus Shared Loader and HD2Runtime once, then install the mapper package for one
 diagnostic session. It never writes game memory and its archive contains no
 HD2Runtime implementation, native memory adapter, page-protection function, or
@@ -15,11 +15,11 @@ and does not end the scan. A stable reread closes the scan.
 
 Current runtime fingerprints are standard damage, durable damage, all four AP
 lanes, demolition, stagger force, push force, projectile type, linked damage
-type/group/row, and crosshair type where `WeaponDataComponentData` is present.
-The current reviewed schemas do not label fire rate, capacity, projectile
-velocity, mass, drag, gravity, or pellet count in live memory. Those fields stay
-in the wiki dataset and are reported as not runtime-mapped; the mapper does not
-guess offsets.
+type/group/row, crosshair type where `WeaponDataComponentData` is present, fire
+rate, pellet count, projectile velocity, mass, drag, and gravity. The latter six
+fields are structural/correlation-proven from the build-bound snapshot and are
+explicitly pending gameplay confirmation. Capacity remains unmapped; the mapper
+does not guess an offset for it.
 
 Matching compares only fields present on both sides. Exact integer fields use
 exact equality. Wiki-rounded velocity uses a 2 m/s tolerance, fire rate uses a
@@ -40,7 +40,7 @@ The first normalized attack is the identity fingerprint. Secondary explosions,
 statuses, sprays, beams, melee attacks, and underbarrel chains remain attached
 to the embedded wiki record but never replace the primary identity. Runtime
 secondary attacks are recorded only if a reviewed generic linkage resolves
-them; version 0.6.0 resolves the primary projectile chain.
+them; version 0.8.0 resolves the primary projectile chain.
 
 After completion, the mapper writes these files under
 `%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs`:

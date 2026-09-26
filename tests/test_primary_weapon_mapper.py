@@ -118,6 +118,17 @@ assert(jar.resolvedFields.ap_direct.value==3 and jar.resolvedFields.ap_slight.va
  and jar.resolvedFields.ap_large.value==3 and jar.resolvedFields.ap_extreme.value==0)
 assert(jar.resolvedFields.demolition.value==10 and jar.resolvedFields.stagger.value==35
  and jar.resolvedFields.push_force.value==15)
+assert(jar.resolvedFields.fire_rate.value==250)
+assert(jar.resolvedFields.projectile_velocity.value==180
+ and jar.resolvedFields.projectile_mass.value==100)
+assert(jar.resolvedFields.drag.value==0
+ and math.abs(jar.resolvedFields.gravity.value-0.3)<0.000001
+ and jar.resolvedFields.pellet_count.value==1)
+for _,name in ipairs({'fire_rate','projectile_velocity','projectile_mass','drag','gravity','pellet_count'})do
+ local evidence=jar.resolvedFields[name].provenance
+ assert(evidence.correlation_proven and evidence.pending_gameplay_confirmation
+  and not evidence.gameplay_proven and not evidence.schema_labelled)
+end
 return tostring(job.result.metrics.candidateCount)
 """).decode()
         self.assertEqual(int(result), 365)
