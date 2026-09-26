@@ -82,6 +82,14 @@
       "sha256": "111F540EDB161FB5D6349A982674D70D47581F3769E764BC488EFFA8B5FCC3E8"
     },
     {
+      "path": "StrongerOrbitalLaser/research/laser-evidence.json",
+      "sha256": "6BF14D00A87B3F353AF3F4C59F8A5224F4573C07D04A69191601D1B9D9C09D58"
+    },
+    {
+      "path": "StrongerOrbitalLaser/scripts/research/laser_capture.lua",
+      "sha256": "F8E28C232F1E102CB7E922257C68E789F7A4A909EDE84160539FC1022BB123E5"
+    },
+    {
       "path": "ShieldRelayImprovements/README.md",
       "sha256": "9E2BF728748FDA6C2ECCFAE92CA27B6D3A453F117C8B8B2BF604AF6FFB5B9E4D"
     },
@@ -104,6 +112,10 @@
     {
       "path": "JumpPackImprovements/research/current-build-port.md",
       "sha256": "60EEBF5106E67495F5EF565D7432DBA5B3E3CDA1E02BF5A66A9846B99FBBA2B5"
+    },
+    {
+      "path": "JumpPackImprovements/research/movement.md",
+      "sha256": "377D8C7905A574CB41F9A30A2532E52C1A8BA857981F622C9BD449425D5D068E"
     },
     {
       "path": "JumpPackImprovements/src/jump_pack_improvements.lua",
@@ -168,10 +180,6 @@
     {
       "path": "ShieldRelayImprovements/local_research/logs/cooldown-0.1.5-live.log",
       "sha256": "D2B1631D75DA1A8F1152EB11370B4ABE702F067889C93AE60971FD2B74F6091D"
-    },
-    {
-      "path": "JumpPackImprovements/research/movement.md",
-      "sha256": "377D8C7905A574CB41F9A30A2532E52C1A8BA857981F622C9BD449425D5D068E"
     }
   ],
   "field_evidence": "domains/catalog.lua"

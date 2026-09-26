@@ -7,7 +7,8 @@ local function identity_text(i)
     local parts={'component='..safe(i.component),'type='..safe(i.component_type),
         'record_type='..safe(i.record_type or 'typed_settings_record'),
         'record_index='..safe(i.record_index),'unique_owner='..bool(i.unique_owner)}
-    for _,key in ipairs({'component_index','group','record_kind','index_row','entity_row','owner_count','package','payload'})do
+    for _,key in ipairs({'component_index','record_type_id','group','record_kind','index_row','entity_row',
+        'owner_count','package','payload','payload_count','payload_pointer','row_pointer'})do
         if i[key]~=nil then parts[#parts+1]=key..'='..safe(i[key])end
     end
     return table.concat(parts,' ')

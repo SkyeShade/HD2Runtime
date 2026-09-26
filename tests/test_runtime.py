@@ -79,7 +79,7 @@ replace(0x100000+c.offset+28+alias*16,u64(123)..u32(354)..u32(0))
         self.rejected("replace(0x10000000+p.stratagem.table_rva+22*8,u64(0))", 'runtime table mismatch')
 
     def test_stratagem_payload(self):
-        self.rejected("replace(0x6000000+cooldown_offset+152,u64(0x6000000))", 'payload list bounds')
+        self.rejected("replace(0x6000000+cooldown_offset+152,u64(0x6000000))", 'payload list pointer outside/ambiguous')
 
     def test_unstable_snapshot(self):
         self.rejected("""

@@ -5,6 +5,10 @@ fields across the six requested resources, with ownership, baseline comparisons,
 and provenance. Build it from a clean source commit with
 `py -3.14 -B scripts/build_live_validation.py`. It does not deploy or launch HD2.
 
+Version 0.2.1 fixes the current Shield Relay StratagemInfo payload descriptor;
+the [root-cause note](docs/stratagem-parser-fix.md) records the exact layout and
+the retained bounds checks.
+
 Reusable runtime reads and observations for Helldivers 2 mods using Bingus Shared
 Loader v15+ / API 1. Milestone 1 is **read-only**. `patch`, `ensure`, and
 `transaction` return `READ_ONLY_MILESTONE`; this package contains no memory writer

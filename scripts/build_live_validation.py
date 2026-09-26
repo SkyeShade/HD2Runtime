@@ -79,7 +79,7 @@ def main():
         'fixture_only_runtime_adapters':[],
         'limited_fixture_coverage':{'core/stratagem.lua':'saved live relay row; synthetic surrounding groups/table'},
         'tests':'passed; see live-validation-tests.txt','deployed':False,'game_launched':False,
-        'writes':0,'protection_changes':0}
+        'writes':0,'protection_changes':0,'fixture_fallback':'disabled'}
     files={'manifest.json':(json.dumps(manifest,indent=2)+'\n').encode(),
         'validation/'+ARCHIVE_NAME:archive,
         'validation/'+ARCHIVE_NAME+'.stream':b'',

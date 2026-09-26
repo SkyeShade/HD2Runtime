@@ -28,7 +28,7 @@ def fixture():
     at, kind = 4, 0
     target_offset = None
     for group, count in enumerate(counts):
-        size = 16 + count*400 + (8 if group == 3 else 0)
+        size = 16 + count*400 + (16 if group == 3 else 0)
         if group == 10:
             size = len(buffer)-at-24
         struct.pack_into('<4s5I',buffer,at,b'LDLD',1,0x30EB6399,size,1,0)
@@ -42,8 +42,8 @@ def fixture():
                 raw = bytes.fromhex(data['cooldown_record'])
                 buffer[ro:ro+400] = raw
                 payload_at = root+16+count*400
-                struct.pack_into('<QQ',buffer,ro+152,base+payload_at,1)
-                struct.pack_into('<Q',buffer,payload_at,0xED13DDC480EC6910)
+                struct.pack_into('<QII',buffer,ro+152,base+payload_at,2,0)
+                struct.pack_into('<QQ',buffer,payload_at,0xED13DDC480EC6910,0x73F8498BFFDCF415)
                 target_offset = ro
             else:
                 struct.pack_into('<I',buffer,ro,k)

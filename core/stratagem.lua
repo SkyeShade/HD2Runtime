@@ -1,6 +1,93 @@
 -- Checked module-relative root and runtime table, extracted from the relay probe.
 local b=require('hd2runtime/core/bytes')
 local M={}
+local function array_offset(pointer,root,base,finish,size,label)
+    assert(type(size)=='number' and size>=0 and size%1==0,'invalid '..label..' size')
+    local absolute_start,absolute_finish=base+root+16,base+finish
+    local absolute=pointer>=absolute_start and pointer<=absolute_finish
+        and size<=absolute_finish-pointer
+    local relative_finish=finish-root
+    local relative=pointer>=16 and pointer<=relative_finish
+        and size<=relative_finish-pointer
+    assert(absolute~=relative,label..' pointer outside/ambiguous in owning group')
+    return absolute and pointer-base or root+pointer,
+        absolute and 'relocated_absolute' or 'serialized_group_relative'
+end
+local function target_from_profile(s)
+    return {resource=s.resource,package=s.package,id=s.id,current_type=s.record_type,
+        group=s.group,row=s.row,payload_count=s.payload_count}
+end
+function M.parse(bytes,base,pointers,s,target)
+    target=target or target_from_profile(s)
+    assert(type(bytes)=='string' and #bytes==s.size and type(pointers)=='string'
+        and #pointers==s.entries*8,'stratagem captured sizes')
+    assert(s.version==1 and s.info_type==0x7BD60854 and s.stride==400
+        and s.entries>=1 and s.entries<=2048 and s.payload_max>=1 and s.payload_max<=64,
+        'unsupported StratagemSettings/StratagemInfo schema')
+    assert(b.u32(bytes,0)==s.groups and s.groups>=1 and s.groups<=32,'stratagem group count')
+    local at,seen,total,selected=4,{},0,nil
+    for group=0,s.groups-1 do
+        assert(at+40<=#bytes,'truncated stratagem group')
+        assert(bytes:sub(at+1,at+4)=='LDLD' and b.u32(bytes,at+4)==s.version
+            and b.u32(bytes,at+8)==s.type and b.u32(bytes,at+16)==1
+            and b.u32(bytes,at+20)==0,'stratagem framing')
+        local root=at+24
+        local finish=root+b.u32(bytes,at+12)
+        assert(finish<=#bytes and finish>=root+16,'stratagem group bounds')
+        local count=b.u32(bytes,root+8)
+        assert(count>0 and count<=s.entries and b.u32(bytes,root+12)==0,
+            'stratagem row count/reserved')
+        local start,row_representation=array_offset(b.pointer(bytes,root),root,base,finish,
+            count*s.stride,'stratagem rows')
+        for row=0,count-1 do
+            local ro=start+row*s.stride
+            local kind=b.u32(bytes,ro)
+            assert(kind<s.entries and not seen[kind],'stratagem type duplicated/out of range')
+            seen[kind]=true;total=total+1
+            assert(b.pointer(pointers,kind*8)==base+ro,'stratagem runtime table mismatch')
+            local package=b.resource(bytes,ro+168)
+            local id=b.u32(bytes,ro+4)
+            local possible=package==target.package or id==target.id
+                or (target.current_type~=nil and kind==target.current_type)
+            if possible then
+                assert(package==target.package and id==target.id
+                    and (target.current_type==nil or kind==target.current_type),
+                    'stratagem identity mismatch')
+                local payload_count=b.u32(bytes,ro+160)
+                assert(payload_count>=1 and payload_count<=s.payload_max
+                    and b.u32(bytes,ro+164)==0,'payload count/reserved')
+                if target.payload_count then
+                    assert(payload_count==target.payload_count,'payload count changed')
+                end
+                local payload_at,payload_representation=array_offset(b.pointer(bytes,ro+152),root,
+                    base,finish,payload_count*8,'payload list')
+                local payloads,matches={},0
+                for index=0,payload_count-1 do
+                    local value=b.resource(bytes,payload_at+index*8)
+                    payloads[#payloads+1]=value
+                    if value==target.resource then matches=matches+1 end
+                end
+                assert(matches==1,'target payload absent/ambiguous')
+                if target.group~=nil then assert(group==target.group,'stratagem group changed')end
+                if target.row~=nil then assert(row==target.row,'stratagem row changed')end
+                assert(not selected,'stratagem owner ambiguous')
+                local identity={component='StratagemSettings',component_type=string.format('0x%08X',s.type),
+                    record_type='StratagemInfo',record_type_id=string.format('0x%08X',s.info_type),
+                    record_index=row,record_kind=kind,group=group,package=package,payload=target.resource,
+                    payload_count=payload_count,payloads=payloads,payload_pointer=payload_representation,
+                    row_pointer=row_representation,unique_owner=true,owner_count=1}
+                selected={bytes=bytes:sub(ro+1,ro+s.stride),index=kind,group=group,row=row,
+                    identity=identity,chain={identity},offset=ro,total_records=total}
+            end
+        end
+        at=finish
+    end
+    assert(at==#bytes,'stratagem group framing does not span buffer')
+    assert(total==s.total_records,'stratagem total record count changed')
+    assert(selected,'stratagem owner absent')
+    selected.total_records=total
+    return selected
+end
 function M.capture(runtime,reader,profile)
     reader.stage='core/stratagem:module_root'
     local s=profile.stratagem
@@ -22,44 +109,6 @@ function M.capture(runtime,reader,profile)
     local bytes=reader.read(owner,0,s.size,true)
     local pointers=reader.read(image,s.table_rva,s.entries*8,true)
     reader.stage='core/stratagem:grouped_records'
-    assert(b.u32(bytes,0)==s.groups,'stratagem group count')
-    local at,seen,total,selected=4,{},0,nil
-    for group=0,s.groups-1 do
-        assert(bytes:sub(at+1,at+4)=='LDLD' and b.u32(bytes,at+4)==1
-            and b.u32(bytes,at+8)==s.type and b.u32(bytes,at+16)==1
-            and b.u32(bytes,at+20)==0,'stratagem framing')
-        local root=at+24
-        local ending=root+b.u32(bytes,at+12)
-        assert(ending<=#bytes and ending>=root+16,'stratagem group bounds')
-        local count=b.pointer(bytes,root+8)
-        assert(count>0 and count<=s.entries,'stratagem row count')
-        local start=b.pointer(bytes,root)-base
-        assert(start>=root+16 and start+count*s.stride<=ending,'stratagem rows outside group')
-        for row=0,count-1 do
-            local ro=start+row*s.stride
-            local kind=b.u32(bytes,ro)
-            assert(kind<s.entries and not seen[kind],'stratagem type duplicated/out of range')
-            seen[kind]=true;total=total+1
-            assert(b.pointer(pointers,kind*8)==base+ro,'stratagem runtime table mismatch')
-            local package=b.resource(bytes,ro+168)
-            if package==s.package or kind==s.record_type or b.u32(bytes,ro+4)==s.id then
-                assert(package==s.package and kind==s.record_type and b.u32(bytes,ro+4)==s.id,
-                    'stratagem identity mismatch')
-                local pn=b.pointer(bytes,ro+160)
-                local po=b.pointer(bytes,ro+152)-base
-                assert(pn==1 and po>=root+16 and po+8<=ending,'payload list bounds/count')
-                assert(b.resource(bytes,po)==s.resource,'stratagem payload owner mismatch')
-                assert(not selected and group==s.group and row==s.row,'stratagem owner absent/ambiguous')
-                local identity={component='StratagemSettings',component_type=string.format('0x%08X',s.type),
-                    record_type='StratagemInfo',record_index=row,record_kind=kind,group=group,
-                    package=package,payload=s.resource,unique_owner=true,owner_count=1}
-                selected={bytes=bytes:sub(ro+1,ro+s.stride),index=kind,group=group,row=row,
-                    identity=identity,chain={identity}}
-            end
-        end
-        at=ending
-    end
-    assert(at==#bytes and total==s.total_records and selected,'stratagem structure changed')
-    return selected
+    return M.parse(bytes,base,pointers,s)
 end
 return M

@@ -34,7 +34,8 @@ def main():
         'Jar-5_buff': ['README.md', 'docs/research.md', 'research/jar5-evidence.json', 'src/gameplay/parse.lua', 'src/gameplay/capture.lua', 'src/gameplay/transaction.lua',
             'scripts/research/probe_components.py', 'scripts/research/inspect_typelib.py', 'scripts/research/grouped_dl.py', 'scripts/research/runtime_reference.py', 'scripts/hd2_archive.py'],
         'BastionReArmored': ['README.md', 'src/diagnostic/inspect.lua', 'src/armor_proof/validate.lua', 'src/lunchbox_proof/validate.lua', 'src/release/transaction.lua'],
-        'StrongerOrbitalLaser': ['README.md', 'src/damage/validate.lua', 'src/damage/transaction.lua', 'research/gameplay-proof-400.md'],
+        'StrongerOrbitalLaser': ['README.md', 'src/damage/validate.lua', 'src/damage/transaction.lua', 'research/gameplay-proof-400.md',
+            'research/laser-evidence.json', 'scripts/research/laser_capture.lua'],
         'ShieldRelayImprovements': ['README.md', 'scripts/shield_reference.py', 'scripts/research/stratagem_probe.lua', 'research/cooldown-live-confirmation.json'],
         'JumpPackImprovements': ['README.md', 'research/current-build-port.md', 'research/movement.md', 'src/jump_pack_improvements.lua',
             'local_research/dependencies/BingusSharedLoader/docs/AUTHORING.md'],
@@ -112,6 +113,7 @@ def main():
         buffers[key] = raw.hex()
     profile['stratagem'] = {'buffer_rva': 0x348E8F8, 'table_rva': 0x37CB600, 'entries': 150,
         'size': 80280, 'groups': 11, 'stride': 400, 'type': 0x30EB6399,
+        'version': 1, 'info_type': 0x7BD60854, 'payload_max': 16, 'payload_count': 2,
         'record_type': 22, 'id': 0x880384FF, 'package': '0xFE0DB34AC2B9AC61',
         'resource': resources['shield_relay'][1], 'group': 3, 'row': 1, 'total_records': 149}
     receipt = json.loads(source('ShieldRelayImprovements/research/cooldown-live-confirmation.json'))
@@ -122,12 +124,29 @@ def main():
     assert len(captures) == 2 and captures[0] == captures[1]
     cooldown = bytes.fromhex(captures[0].decode())
     assert sha(cooldown) == receipt['record_sha256']
+    payload_lines = re.findall(rb'^\[ShieldRelayImprovements\] payload=([^\r\n]+)\r?$', log, re.MULTILINE)
+    assert len(payload_lines) == 1
+    relay_payloads = payload_lines[0].decode().split(',')
+    assert len(relay_payloads) == 2 and relay_payloads[0] == receipt['payload']
+    laser_evidence=json.loads((SIBLINGS/'StrongerOrbitalLaser/research/laser-evidence.json').read_text())
+    orbital=laser_evidence['stratagem']
+    stratagem_records={
+        'shield_relay': {'source':'saved current live record and payload log',
+            'record_hex':cooldown.hex(),'type':receipt['current_type'],'id':int(receipt['id'],16),
+            'package':receipt['package'],'payloads':relay_payloads,
+            'group':receipt['group_index'],'row':receipt['row_index'],
+            'pointer_representation':'relocated_absolute','payload_count_storage':'UINT32'},
+        'orbital_laser': {'source':'pinned decoded reference identity; structural record fixture',
+            'type':105,'id':orbital['id'],'package':orbital['package'],'payloads':orbital['payload'],
+            'group':orbital['group_index'],'row':orbital['index'],
+            'pointer_representation':'serialized_group_relative','payload_count_storage':'UINT32'}}
     fixture = {'entity': [{'offset': k, 'hex': v.hex()} for k, v in sorted(spans.items())],
                'buffers': buffers, 'cooldown_record': cooldown.hex(),
                'notice': 'Sparse reference bytes plus saved live cooldown row. Synthetic allocation addresses; not a new live capture.'}
     (ROOT/'schemas/current.lua').write_text('return '+lua(profile)+'\n', encoding='ascii')
     (ROOT/'tests/fixtures').mkdir(parents=True, exist_ok=True)
     (ROOT/'tests/fixtures/reference.json').write_text(json.dumps(fixture, separators=(',', ':'))+'\n')
+    (ROOT/'tests/fixtures/stratagem_records.json').write_text(json.dumps(stratagem_records,indent=2)+'\n')
     (ROOT/'docs/provenance.json').write_text(json.dumps(manifest, indent=2)+'\n')
     print('Generated pinned schema profile and sparse fixtures for', len(resources), 'resources')
 

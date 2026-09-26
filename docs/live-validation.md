@@ -97,6 +97,13 @@ by a successful memory read. Source file hashes are included in `provenance.json
 | `core/settings.lua` | Live generated projectile/damage allocations with typed records | Regressed on retained complete settings buffers, including relocated pointers |
 | `core/stratagem.lua` | Checked game.dll-relative root, PE bounds, current runtime table, package/payload join | Only the relay record is a saved live capture; surrounding grouped tables in tests are synthetic. Full live integration remains unconfirmed |
 
+The Shield Relay live follow-up identified and corrected the payload descriptor:
+the list count is a 32-bit value at record `+160`, followed by a zero reserved
+word, and the current relay list has two entries. See
+[`stratagem-parser-fix.md`](stratagem-parser-fix.md). The parser now supports only
+bounded relocated-absolute and serialized-group-relative pointers and logs which
+representation it observed.
+
 **No runtime adapter is implemented only as a fixture lookup.** No fixture file
 is shipped, and no runtime fallback exists. The fixture backend in `tests/memory.lua`
 is intentionally test-only. The stratagem adapter has the most limited captured
