@@ -91,7 +91,7 @@ function rt.monotonic_time()return rt.total_bytes/1048576 end
 function rt.ensure_directory(path)return path end
 local logs={{}}
 local w=require('hd2runtime/api/snapshot_capture').start(rt,function(x)logs[#logs+1]=x end,
- {{output_path={lua(str(path))},bytes_per_tick=65536,chunk_bytes=65536}})
+ {{output_path={lua(str(path))},capture_delay_seconds=0,bytes_per_tick=65536,chunk_bytes=65536}})
 local ticks=0
 while w.status=='running'do rt.tick_bytes=0;w.tick();ticks=ticks+1;assert(rt.tick_bytes<=65536)end
 assert(w.status=='complete',w.error);assert(ticks>=3 and rt.total_bytes==3*65536)
@@ -102,8 +102,44 @@ assert(s.metadata.executable_base==0x10000 and s.metadata.game_dll_base==0x20000
 assert(s.metadata.diagnostics.mem_image_bytes==0x20000 and s.metadata.diagnostics.mem_private_bytes==0x10000)
 assert(s.metadata.diagnostics.skipped_noaccess_bytes==0x10000)
 assert(s.read(0x30000,4)==string.rep(string.char(3),4))
+assert(logs[1]:find('scheduled delay_seconds=0.000',1,true))
+assert(table.concat(logs,'\\n'):find('capture_start=',1,true))
 assert(table.concat(logs,'\\n'):find('MiB_per_second=',1,true))
 s.close();return'ok'
+""")
+
+    def test_default_delay_defers_enumeration_and_file_creation(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+            path=Path(folder)/'delayed.hd2snap'
+            run(f"""
+local p=require('hd2runtime/schemas/current')
+local rows={{{{base=0x10000,size=0x10000,allocation_base=0x10000,state=0x1000,type=0x1000000,protect=2}},
+ {{base=0x20000,size=0x10000,allocation_base=0x20000,state=0x1000,type=0x1000000,protect=2}}}}
+local rt={{mode='live',queries=0,module_calls=0}}
+function rt.module(name)rt.module_calls=rt.module_calls+1;return name and 0x20000 or 0x10000 end
+function rt.address(value)return value end
+function rt.module_hash(value)return value==0x10000 and p.exe_sha or p.dll_sha end
+function rt.system_info()return 4096,0x30000 end
+function rt.query(at)rt.queries=rt.queries+1;for _,r in ipairs(rows)do if at>=r.base and at<r.base+r.size then return r end end end
+function rt.read(at,n)return string.rep('x',n)end
+function rt.monotonic_time()return 0 end
+function rt.ensure_directory(value)return value end
+local logs={{}}
+local w=require('hd2runtime/api/snapshot_capture').start(rt,function(x)logs[#logs+1]=x end,
+ {{output_path={lua(str(path))},bytes_per_tick=65536,chunk_bytes=65536}})
+assert(w.status=='waiting'and w.scheduled_delay_seconds==60,'initial wait')
+assert(rt.queries==0 and rt.module_calls==0 and io.open({lua(str(path))},'rb')==nil,'early work')
+w.tick(30);w.tick(29.999)
+assert(w.status=='waiting'and rt.queries==0 and rt.module_calls==0,'work before deadline')
+assert(io.open({lua(str(path)+'.partial')},'rb')==nil,'partial before deadline')
+w.tick(0.002)
+assert(w.status=='running'and rt.queries>0 and rt.module_calls>0,'capture did not start')
+local partial=io.open({lua(str(path)+'.partial')},'rb');assert(partial,'partial absent after start');partial:close()
+local joined=table.concat(logs,'\\n')
+assert(joined:find('scheduled delay_seconds=60.000',1,true))
+assert(joined:find('capture_start=',1,true))
+assert(joined:find('actual_delay_seconds=60.001',1,true),'actual delay log absent')
+w.cancel();return'ok'
 """)
 
 
@@ -160,7 +196,7 @@ for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
             report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
             self.assertEqual(report['scanMetrics']['candidateCount'],365)
             self.assertEqual(report['mode'],'snapshot')
-            self.assertEqual(report['hd2RuntimeVersion'],'0.7.0')
+            self.assertEqual(report['hd2RuntimeVersion'],'0.7.1')
             self.assertEqual(identities['JAR-5 Dominator']['status'],'EXACT')
 
     def test_capture_package_is_external_and_declarative(self):

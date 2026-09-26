@@ -1,6 +1,6 @@
 # HD2Runtime process snapshots
 
-HD2Runtime 0.7.0 provides two implementations of the scanner address-space
+HD2Runtime 0.7.1 provides two implementations of the scanner address-space
 contract: `LiveProcessReader` and `SnapshotMemoryReader`. Both expose exact
 reads, region queries, allocation bases, module bases, and module fingerprints.
 The entity, component, projectile settings, damage settings, and weapon matcher
@@ -8,11 +8,17 @@ code is shared unchanged between modes.
 
 ## Capture package
 
-Install HD2Runtime 0.7.0 once, then load
-`HD2Runtime-SnapshotCapture-0.7.0.zip` for the session to capture. The package
+Install HD2Runtime 0.7.1 once, then load
+`HD2Runtime-SnapshotCapture-0.7.1.zip` for the session to capture. The package
 contains only an entrypoint calling `hd2.capture_snapshot`; the native reader
 remains in the external runtime. Capture never writes process memory and never
 changes page protection.
+
+Capture is scheduled 60 seconds after the package loads by default. During this
+delay it performs no region enumeration and creates no output file. The log
+records the configured delay and the UTC capture start time. Developers can set
+`capture_delay_seconds=0` in a direct `hd2.capture_snapshot` request when an
+immediate test capture is required.
 
 Capture enumerates the current process address space once with `VirtualQuery`.
 It records every returned region and captures each region once when it is:

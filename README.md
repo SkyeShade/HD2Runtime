@@ -1,6 +1,10 @@
 # HD2Runtime
 
-Version 0.7.0 adds build-bound, read-only HD2 process snapshots. The incremental
+Version 0.7.1 schedules snapshot capture 60 seconds after load by default, before
+any region enumeration or file creation. `capture_delay_seconds=0` provides an
+explicit immediate-start override for development and tests.
+
+Version 0.7.0 added build-bound, read-only HD2 process snapshots. The incremental
 capture package records committed readable regions without changing process
 memory or page protection. The SDK can run the existing Primary Weapon Runtime
 Mapper offline through `SnapshotMemoryReader`; live and snapshot modes share the
@@ -17,7 +21,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.7.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.7.1.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

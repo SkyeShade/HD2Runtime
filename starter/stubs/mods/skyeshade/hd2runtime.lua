@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 cca8c9c31f814c97d55476bd3fbbdf66e9ecb2390f14cdef1e1f60fe24e0fb60
+-- Schema SHA256 d4fc92d3196f640b7169f8a3192e63d7b61a423b7c4b42b2aaeba5bc81573002
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -50,6 +50,7 @@
 ---@field on_error? fun(reason: string, detail: table)
 
 ---@class HD2SnapshotCaptureRequest
+---@field capture_delay_seconds? number
 ---@field output_directory? string
 ---@field output_path? string
 ---@field bytes_per_tick? integer

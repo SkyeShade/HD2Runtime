@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.7.0",
+  "runtime_version": "0.7.1",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2736,6 +2736,7 @@
         "on_error?": "fun(reason: string, detail: table)"
       },
       "HD2SnapshotCaptureRequest": {
+        "capture_delay_seconds?": "number",
         "output_directory?": "string",
         "output_path?": "string",
         "bytes_per_tick?": "integer",

@@ -35,11 +35,18 @@ end
 function M.start(runtime,emit,request)
     request=request or{};emit=emit or print
     assert(runtime.mode=='live','snapshot capture requires LiveProcessReader')
+    local delay=request.capture_delay_seconds
+    if delay==nil then delay=60 end
+    assert(type(delay)=='number'and delay>=0 and delay<math.huge,'invalid snapshot capture delay')
     local per_tick=request.bytes_per_tick or 8*1024*1024
     local chunk=request.chunk_bytes or 1024*1024
     assert(safe(per_tick)and per_tick>=65536 and per_tick<=64*1024*1024,'snapshot bytes_per_tick bounds')
     assert(safe(chunk)and chunk>=4096 and chunk<=per_tick and chunk<=4*1024*1024,'snapshot chunk bounds')
-    local watch={status='running',writes=0,protection_changes=0};local file,partial_path
+    local watch={status=delay>0 and'waiting'or'running',writes=0,protection_changes=0,
+        scheduled_delay_seconds=delay}
+    local file,partial_path
+    local delay_elapsed=0
+    emit(string.format('[HD2Runtime] SNAPSHOT scheduled delay_seconds=%.3f',delay))
     local worker=coroutine.create(function()
         local started=now(runtime)
         local exe,dll=runtime.module(nil),runtime.module('game.dll')
@@ -138,10 +145,26 @@ function M.start(runtime,emit,request)
         return {path=final_path,metadata=meta,metrics=metrics,writes=0,protection_changes=0}
     end)
     function watch.cancel()
-        if watch.status=='running'then watch.status='cancelled';if file then file:close();file=nil end end
+        if watch.status=='waiting'or watch.status=='running'then
+            watch.status='cancelled';if file then file:close();file=nil end
+        end
     end
-    function watch.tick()
+    function watch.tick(dt)
+        if watch.status=='waiting'then
+            dt=dt or 0
+            assert(type(dt)=='number'and dt>=0 and dt<math.huge,'invalid snapshot elapsed time')
+            delay_elapsed=delay_elapsed+dt
+            if delay_elapsed<delay then return end
+            watch.status='running';watch.capture_started_at=utc()
+            emit(string.format('[HD2Runtime] SNAPSHOT capture_start=%s scheduled_delay_seconds=%.3f actual_delay_seconds=%.3f',
+                watch.capture_started_at,delay,delay_elapsed))
+        end
         if watch.status~='running'then return end
+        if not watch.capture_started_at then
+            watch.capture_started_at=utc()
+            emit(string.format('[HD2Runtime] SNAPSHOT capture_start=%s scheduled_delay_seconds=%.3f actual_delay_seconds=%.3f',
+                watch.capture_started_at,delay,delay_elapsed))
+        end
         local ok,result=coroutine.resume(worker)
         if not ok then
             if file then file:close();file=nil end
