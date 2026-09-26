@@ -80,6 +80,34 @@ function M.new(runtime,emit)
         end
         return job
     end
+    function self.enumerate_primary_weapons(request)
+        return require('hd2runtime/api/weapon_mapper').start(runtime,emit,request)
+    end
+    function self.map_primary_weapons(request)
+        request=request or {}
+        local delay=request.startup_delay or 3
+        assert(type(delay)=='number'and delay>=0 and delay<math.huge,'invalid mapper startup delay')
+        local elapsed,job=0,nil
+        local watch={status='waiting'}
+        function watch.cancel()watch.status='cancelled';job=nil end
+        function watch.tick(dt)
+            if watch.status=='cancelled'or watch.status=='complete'or watch.status=='rejected'then return end
+            elapsed=elapsed+dt;if elapsed<delay then return end
+            if not job then job=self.enumerate_primary_weapons(request);watch.status='running'end
+            if not job.step()then return end
+            if job.status=='rejected'then
+                watch.status='rejected';watch.error=job.error
+                if request.on_error then pcall(request.on_error,job.error,{code=job.code,adapter=job.adapter})end
+                return
+            end
+            watch.status='complete';watch.result=job.result
+            if request.on_result then
+                local ok,why=pcall(request.on_result,job.result)
+                if not ok then watch.status='rejected';watch.error=tostring(why);log('mapper callback failed: '..watch.error)end
+            end
+        end
+        return watch
+    end
     function self.format(result)
         local lines={}
         for _,target in ipairs(result.targets)do

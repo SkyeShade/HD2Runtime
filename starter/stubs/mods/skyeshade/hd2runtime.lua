@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 8f259710d63a3333800e3ea9ec129772e20c4814fd582a0557e1ba9f2cc971d5
+-- Schema SHA256 3d81d3766c1a46e076aadb688428e23d22edd23653513b5327c6ed62401f1313
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -43,6 +43,11 @@
 ---@field label? string
 ---@field on_result? fun(result: table): string?
 ---@field on_error? fun(reason: string, detail: table): string?
+
+---@class HD2PrimaryWeaponMapRequest
+---@field startup_delay? number
+---@field on_result? fun(result: table)
+---@field on_error? fun(reason: string, detail: table)
 
 ---@class HD2PatchRequest
 ---@field id string
@@ -385,6 +390,14 @@ function hd2.read(request) end
 ---@param request HD2ObserveRequest
 ---@return HD2Watch
 function hd2.observe(request) end
+---Enumerate structurally owned weapon resources through one bounded shared discovery pass.
+---@param request HD2PrimaryWeaponMapRequest
+---@return HD2ReadJob
+function hd2.enumerate_primary_weapons(request) end
+---Schedule one read-only primary weapon enumeration after a startup delay.
+---@param request HD2PrimaryWeaponMapRequest
+---@return HD2Watch
+function hd2.map_primary_weapons(request) end
 ---Format a completed read result.
 ---@param result table
 ---@return string

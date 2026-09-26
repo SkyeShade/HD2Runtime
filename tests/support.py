@@ -11,7 +11,7 @@ from lua_offline import execute
 
 def modules():
     output = []
-    for folder in ['api', 'core', 'runtime', 'schemas', 'domains', 'examples', 'validation']:
+    for folder in ['api', 'core', 'runtime', 'schemas', 'domains', 'examples', 'validation', 'primary_mapper']:
         for path in sorted((ROOT/folder).glob('*.lua')):
             name = 'hd2runtime/' + path.relative_to(ROOT).with_suffix('').as_posix()
             output.append('package.preload['+lua(name)+']=function(...)\n'+path.read_text()+'\nend\n')

@@ -11,6 +11,8 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.describe(...)`: Describe schema and prior evidence without reading memory.
 - `hd2.read(...)`: Create a bounded read job; advance with job.step().
 - `hd2.observe(...)`: Runtime-scheduled read observation; default 60 update seconds.
+- `hd2.enumerate_primary_weapons(...)`: Enumerate structurally owned weapon resources through one bounded shared discovery pass.
+- `hd2.map_primary_weapons(...)`: Schedule one read-only primary weapon enumeration after a startup delay.
 - `hd2.format(...)`: Format a completed read result.
 - `hd2.patch(...)`: Freshly resolve and apply the reviewed JAR-5 logical AP field.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.

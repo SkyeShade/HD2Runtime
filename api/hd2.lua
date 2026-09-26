@@ -9,7 +9,7 @@ local function session()
     end
     return instance
 end
-for _,name in ipairs({'read'})do
+for _,name in ipairs({'read','enumerate_primary_weapons'})do
     local method=name
     M[method]=function(...)return session()[method](...)end
 end
@@ -18,6 +18,9 @@ M.describe=metadata.describe
 M.format=metadata.format
 function M.observe(request)
     return require('hd2runtime/runtime/scheduler').attach(session().observe(request))
+end
+function M.map_primary_weapons(request)
+    return require('hd2runtime/runtime/scheduler').attach(session().map_primary_weapons(request))
 end
 local function disabled()
     require('hd2runtime/runtime/log').emit('[HD2Runtime] write request rejected: read-only milestone')

@@ -1,5 +1,11 @@
 # HD2Runtime
 
+Version 0.6.0 adds the read-only Primary Weapon Runtime Mapper. Its external
+diagnostic package compares 365 structurally owned weapon-resource candidates
+from the pinned build against 55 normalized wiki primary weapons without
+bundling HD2Runtime or writing game memory. See
+[the mapper guide](docs/primary-weapon-runtime-mapper.md).
+
 Version 0.5.0 separates the installed-once runtime from the developer SDK and
 independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.

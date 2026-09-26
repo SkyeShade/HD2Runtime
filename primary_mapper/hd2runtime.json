@@ -1,0 +1,17 @@
+{
+  "format": 1,
+  "name": "HD2Runtime Primary Weapon Runtime Mapper",
+  "resource": "mods/skyeshade/hd2runtime_primary_weapon_mapper",
+  "guid": "13b95ac0-0898-52b9-9f0f-7f574b1cd9f2",
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.6.0",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  }
+}

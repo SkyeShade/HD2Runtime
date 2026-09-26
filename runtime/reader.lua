@@ -20,6 +20,11 @@ function M.new(runtime)
         return r
     end
     function self.query(at)pace(0);return query(at)end
+    -- Start a bounded unit of work on a fresh update tick. This lets callers
+    -- isolate candidate failures with pcall without ever yielding through it.
+    function self.checkpoint()
+        coroutine.yield();operations,tick_bytes=0,0
+    end
     function self.read(owner,offset,length,capture)
         assert(safe(offset) and safe(length) and offset+length<=owner.size,'read outside owner')
         local start,remaining,parts=offset,length,{}

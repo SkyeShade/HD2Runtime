@@ -75,6 +75,16 @@ def main():
              'record_offset': records['offset64'], 'stride': record_layout['size64'], 'type': dl_hash(name)}
         profile['components'][name] = c
         span(offset-4, entity[offset-4:offset+28+c['record_offset']])
+    weapon_resources = set()
+    for name in ('ProjectileWeaponComponentData', 'WeaponDataComponentData'):
+        c = profile['components'][name]
+        body_at = c['offset'] + 28
+        for row in range(c['indices']):
+            resource = struct.unpack_from('<Q', entity, body_at + row*16)[0]
+            if resource:
+                weapon_resources.add(resource)
+    profile['weapon_mapper'] = {'expected_candidates': len(weapon_resources),
+        'component_indices': ['ProjectileWeaponComponentData', 'WeaponDataComponentData']}
     resources = {
         'jar5': ('JAR-5 Dominator', '0x80F1A156D9FA1E36', ['ProjectileWeaponComponentData']),
         'bastion': ('Bastion', '0x16474112801385B6', ['HealthComponentData']),
