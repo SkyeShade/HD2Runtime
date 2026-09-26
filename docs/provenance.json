@@ -1,0 +1,178 @@
+{
+  "mode": "read_only",
+  "sources": [
+    {
+      "path": "Jar-5_buff/README.md",
+      "sha256": "2416E5B8235C27273774950A63E0924FA9BEF6F467F45B723F9C8C3FB7259174"
+    },
+    {
+      "path": "Jar-5_buff/docs/research.md",
+      "sha256": "9E3F0AD9564A2028243E8D78A295161426186BF14FB808FE88A39F4A5FFCA5FE"
+    },
+    {
+      "path": "Jar-5_buff/research/jar5-evidence.json",
+      "sha256": "BC515131BDD8847B8F83E26E12FED7C4FFFE6C2394A23E08F0186A9223749D5B"
+    },
+    {
+      "path": "Jar-5_buff/src/gameplay/parse.lua",
+      "sha256": "3C96489947F8BDB7DB3E0D480C63AFC2706A1E5EE97DADD719D714F5B69079FA"
+    },
+    {
+      "path": "Jar-5_buff/src/gameplay/capture.lua",
+      "sha256": "316A6BA6D38BBEF59CB8364FA5B83820B750FDF0954BF133F2598CDAD21D981B"
+    },
+    {
+      "path": "Jar-5_buff/src/gameplay/transaction.lua",
+      "sha256": "B4A34DB1AF8DC3326DF219CBAD4CD5D9EE59B80749ED4722F57FBEACA2A7C8B2"
+    },
+    {
+      "path": "Jar-5_buff/scripts/research/probe_components.py",
+      "sha256": "A7368333273FCD59BDD34106A5ED305CDF9477AEDCAAB2EAE52E1CA2066E318A"
+    },
+    {
+      "path": "Jar-5_buff/scripts/research/inspect_typelib.py",
+      "sha256": "75E34C8ED5927B597C8DB0F5D88AC449619D73D2BDA09CF99C1186BFB536A8B0"
+    },
+    {
+      "path": "Jar-5_buff/scripts/research/grouped_dl.py",
+      "sha256": "D9BDFFE486B6A2BA31547CF6A4A030AFA461C5E0737FD69409A78FE7EA8FE45B"
+    },
+    {
+      "path": "Jar-5_buff/scripts/research/runtime_reference.py",
+      "sha256": "85FF0A3092F3C45FECED06CA8F4F5CC48D280C535A343FB0CAE2CA4F0521AD59"
+    },
+    {
+      "path": "Jar-5_buff/scripts/hd2_archive.py",
+      "sha256": "49050160F17D25F4838652071811D65311F8F3E84EB47F795BF3A573F43BA66D"
+    },
+    {
+      "path": "BastionReArmored/README.md",
+      "sha256": "A4EEC05C42A39C44C09DCA721320C8406C0B46A252992C667411A6D16D816820"
+    },
+    {
+      "path": "BastionReArmored/src/diagnostic/inspect.lua",
+      "sha256": "E70DF54754B633C662483D804DB81D9C0605E6A0327D870DE20BEACFE4B22D83"
+    },
+    {
+      "path": "BastionReArmored/src/armor_proof/validate.lua",
+      "sha256": "1EE709FC5B901E82F6A45CEE0CCF9E505F8A2DF38F3AFF2F3248148F279FF5C7"
+    },
+    {
+      "path": "BastionReArmored/src/lunchbox_proof/validate.lua",
+      "sha256": "D5824580BA3769291532239C18D9D85F15F9FB2FEF1902710EC79BDB2A8A08DF"
+    },
+    {
+      "path": "BastionReArmored/src/release/transaction.lua",
+      "sha256": "EAF3C1E6F2218868B17FFE7459F5F27DDA3EFB59EA805B74CC2F1E0DA9865D49"
+    },
+    {
+      "path": "StrongerOrbitalLaser/README.md",
+      "sha256": "E3C9FA156A7A0DA08F60D818728A3C6D8741E15CD2F171B517769CA369BBB030"
+    },
+    {
+      "path": "StrongerOrbitalLaser/src/damage/validate.lua",
+      "sha256": "8C0981A739A7F566BA1F3AB22E929EC62AC88CC41333D4A94680926735C1821B"
+    },
+    {
+      "path": "StrongerOrbitalLaser/src/damage/transaction.lua",
+      "sha256": "2D2F284124952F4149325D4D834FBEBA8592A4D99B77E18199107DFAFDA8EA5C"
+    },
+    {
+      "path": "StrongerOrbitalLaser/research/gameplay-proof-400.md",
+      "sha256": "111F540EDB161FB5D6349A982674D70D47581F3769E764BC488EFFA8B5FCC3E8"
+    },
+    {
+      "path": "ShieldRelayImprovements/README.md",
+      "sha256": "9E2BF728748FDA6C2ECCFAE92CA27B6D3A453F117C8B8B2BF604AF6FFB5B9E4D"
+    },
+    {
+      "path": "ShieldRelayImprovements/scripts/shield_reference.py",
+      "sha256": "3074A63A9F42F9E64BADD11E940FC0D9694B2A1A3F00F7D26AB702E9505B0C88"
+    },
+    {
+      "path": "ShieldRelayImprovements/scripts/research/stratagem_probe.lua",
+      "sha256": "1C27B46A7A606471B94EAA01576F1A51FCF75FC355AD939F08AA2F0C79F38F8C"
+    },
+    {
+      "path": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
+      "sha256": "551003AE5E2A7FD3CADF9F05A994383308B723736BC34CA66ACE23AA7AF2C6DD"
+    },
+    {
+      "path": "JumpPackImprovements/README.md",
+      "sha256": "3EA0D5364999F8D76D62B8881C0F25DE8E49295F43F6750860A26381C554CED8"
+    },
+    {
+      "path": "JumpPackImprovements/research/current-build-port.md",
+      "sha256": "60EEBF5106E67495F5EF565D7432DBA5B3E3CDA1E02BF5A66A9846B99FBBA2B5"
+    },
+    {
+      "path": "JumpPackImprovements/src/jump_pack_improvements.lua",
+      "sha256": "3142036FF9C4A2F1F101E3F0E8F38C47C95238E3EF32BE0BF0519CD4833A2350"
+    },
+    {
+      "path": "JumpPackImprovements/local_research/dependencies/BingusSharedLoader/docs/AUTHORING.md",
+      "sha256": "32F932E7D117186F644093EB13393C0C7ACD2E3ABF0269CD609F0C865AC74F5E"
+    },
+    {
+      "path": "ReticleAmr/README.md",
+      "sha256": "6C2909103EFB693572963AE6FADAD9D6C0EC0D6096AF5F6514893033EBE994BF"
+    },
+    {
+      "path": "ReticleAmr/src/diagnostic/inspect.lua",
+      "sha256": "8F0172EB111E6E299BCBFE1ADD98EC9D15978C82A6D220B322F13CBABD525667"
+    },
+    {
+      "path": "ReticleAmr/src/diagnostic/windows_readonly.lua",
+      "sha256": "0C533C78461C751A5BE3C3E422B6E7BD569B6C1CFDC0C40DD6674D063F882A5A"
+    },
+    {
+      "path": "ReticleAmr/src/infra/windows_ffi.lua",
+      "sha256": "E3E3E3AD1625A4FB80388014EE07EF5CAFB6F9E90296041734132AE8B830DF0C"
+    },
+    {
+      "path": "ReticleAmr/research/gameplay-confirmation-0.1.0.json",
+      "sha256": "9B6FF8206ADFF84338D2E040EFF1BD647A4269A0C5F85BEF5F8468C0CF1CD3CA"
+    },
+    {
+      "path": "ReticleAmr/src/gameplay/patch.lua",
+      "sha256": "3267CC5ADF06B2217219C8BB64FE6C7AA38CFA490BA3238E338A03AE16958195"
+    },
+    {
+      "path": "ReticleAmr/scripts/lua_offline.py",
+      "sha256": "82218F244CE05114E237A72A3A526F78F904693E3E28FCF6FF452208403ACC1A"
+    },
+    {
+      "path": "ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/generated_entities.dl_bin",
+      "sha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E"
+    },
+    {
+      "path": "ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/dl_library.dl_typelib",
+      "sha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4"
+    },
+    {
+      "path": "Jar-5_buff/src/current_build.json",
+      "sha256": "80989DD8676BCECF1B384CDD81C5B18505EDCCFFB52C66AC4DA786DB18ED0F65"
+    },
+    {
+      "path": "Jar-5_buff/local_research/dependencies/filediver-reference/datalibrary/generated_projectile_settings.dl_bin",
+      "sha256": "50AF7CCCF03697A0EF96B7F9DDEB19279ADC3B887BD95E0F972996844B7221EA"
+    },
+    {
+      "path": "Jar-5_buff/local_research/dependencies/filediver-reference/datalibrary/generated_damage_settings.dl_bin",
+      "sha256": "55E2BC4AC209D45363670A5952C3FE5DE045854AA062634A5A2444CB11510C35"
+    },
+    {
+      "path": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
+      "sha256": "551003AE5E2A7FD3CADF9F05A994383308B723736BC34CA66ACE23AA7AF2C6DD"
+    },
+    {
+      "path": "ShieldRelayImprovements/local_research/logs/cooldown-0.1.5-live.log",
+      "sha256": "D2B1631D75DA1A8F1152EB11370B4ABE702F067889C93AE60971FD2B74F6091D"
+    },
+    {
+      "path": "JumpPackImprovements/research/movement.md",
+      "sha256": "377D8C7905A574CB41F9A30A2532E52C1A8BA857981F622C9BD449425D5D068E"
+    }
+  ],
+  "field_evidence": "domains/catalog.lua"
+}

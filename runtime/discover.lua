@@ -1,0 +1,42 @@
+local b=require('hd2runtime/core/bytes')
+local settings=require('hd2runtime/core/settings')
+local M={}
+function M.locate(runtime,reader,profile,needed)
+    reader.stage='runtime/discover:allocation_map'
+    local page,finish=runtime.system_info()
+    assert(page==4096 and finish>65536 and finish<=9007199254740991,'unsupported address space')
+    local matches={entity={},projectile={},damage={}}
+    local cursor=65536
+    while cursor<finish do
+        local r=reader.query(cursor);cursor=r.base+r.size
+        if r.base==r.allocation_base and r.state==0x1000 and r.type==0x20000
+            and (r.protect==2 or r.protect==4) then
+            if r.size==profile.entity_region_size then
+                local h=reader.read(r,0,28)
+                if h==b.unhex(profile.map_header) then matches.entity[#matches.entity+1]=r end
+            end
+            for _,key in ipairs({'projectile','damage'})do
+                local d=profile.settings[key]
+                if needed[key] and r.size>=d.size and r.size<=d.size+65536 then
+                    local h=reader.read(r,0,28)
+                    if b.u32(h,0)==#d.groups and h:sub(5,28)==b.unhex(d.groups[1].header) then
+                        local bytes=reader.read(r,0,d.size,true)
+                        reader.stage='core/settings:'..key
+                        local records=settings.parse(bytes,r.base,d)
+                        reader.stage='runtime/discover:allocation_map'
+                        matches[key][#matches[key]+1]={owner=r,records=records}
+                    end
+                end
+            end
+        end
+    end
+    local result={}
+    for key in pairs(needed)do
+        reader.stage='runtime/discover:'..key
+        if #matches[key]==0 then error('TARGET_UNAVAILABLE: '..key..' allocation absent',0)end
+        assert(#matches[key]==1,'expected unique '..key..' allocation; found '..#matches[key])
+        result[key]=matches[key][1]
+    end
+    return result
+end
+return M

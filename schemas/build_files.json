@@ -1,0 +1,25 @@
+{
+  "files": {
+    "bin/helldivers2.exe": {
+      "sha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+    },
+    "data/game/game.dll": {
+      "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E"
+    },
+    "data/game/generated_entities.dl_bin": {
+      "sha256": "7DF1A07E90C61E0B8398ECBC5C088074655900943BF1CD7E09F69BCCEDEC4A2A"
+    },
+    "data/game/generated_projectile_settings.dl_bin": {
+      "sha256": "81DA54AE265E9E1FC24D97653462145FC2AE1C02BC6660799A3E348D821680CC"
+    },
+    "data/game/generated_damage_settings.dl_bin": {
+      "sha256": "B126B9D713B5858F07A000BBBF1FBCC0FBE3922CEC9B332F2CE100F2CCA238B6"
+    },
+    "data/game/dl_library.dl_typelib": {
+      "sha256": "F446AA15C11871BADA4839F4C8EA890CEA3B46405D09954468319EF61B092C5D"
+    },
+    "data/game/generated_stratagem_settings.dl_bin": {
+      "sha256": "542B8C3944FDDC1E34AE95E3E01810B6DC1DFEBEC0F067F8764909F711AA320A"
+    }
+  }
+}
