@@ -110,6 +110,18 @@
       "sha256": "1C27B46A7A606471B94EAA01576F1A51FCF75FC355AD939F08AA2F0C79F38F8C"
     },
     {
+      "path": "ShieldRelayImprovements/scripts/research/guarded_memory.lua",
+      "sha256": "CEF6B145C4AAD792740C4DEAEAA2A206BD30658C8AE134BDE43FD8A5FC6E6BA4"
+    },
+    {
+      "path": "ShieldRelayImprovements/scripts/research/stratagem_patch.lua",
+      "sha256": "9946C9DD7C33DBEA4DDB4FBAFF2EC6675E18D440D469EF7179C5BAECBBDFC921"
+    },
+    {
+      "path": "ShieldRelayImprovements/scripts/research/windows_memory.lua",
+      "sha256": "0869301958DDF7F383FFF8DC9B305886772CDD1A0C5798C9D116F7997EE00E7D"
+    },
+    {
       "path": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
       "sha256": "551003AE5E2A7FD3CADF9F05A994383308B723736BC34CA66ACE23AA7AF2C6DD"
     },

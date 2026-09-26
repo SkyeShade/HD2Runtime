@@ -52,7 +52,8 @@ function M.new(reader,owner,profile)
         local identity={component=component_name,component_type=string.format('0x%08X',c.type),
             component_index=c.index,record_index=selected,index_row=target.row,entity_row=found,
             record_type=component_name:gsub('Data$',''),unique_owner=true,owner_count=aliases}
-        local record={bytes=reader.read(owner,offset,c.stride,true),index=selected,component=component_name,
+        local record={bytes=reader.read(owner,offset,c.stride,true),owner=owner,offset=offset,
+            index=selected,component=component_name,
             identity=identity,chain={identity}}
         cache[key]=record;return record
     end

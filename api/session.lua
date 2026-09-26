@@ -152,11 +152,19 @@ function M.new(runtime,emit)
         return nil,{code='READ_ONLY_MILESTONE',message='patch, ensure and transaction require the guarded writer milestone'}
     end
     self.weapon=require('hd2runtime/api/target').weapon
+    self.stratagem=require('hd2runtime/api/target').stratagem
     function self.patch(request)
         if not runtime.write or not runtime.protect then return disabled()end
         return require('hd2runtime/api/patch').start(runtime,emit,request)
     end
-    self.ensure=disabled;self.transaction=disabled
+    function self.transaction(request)
+        if not runtime.write or not runtime.protect then return disabled()end
+        return require('hd2runtime/api/transaction').start(runtime,emit,request)
+    end
+    function self.ensure(request)
+        if not runtime.write or not runtime.protect then return disabled()end
+        return require('hd2runtime/api/ensure').start(runtime,emit,request)
+    end
     return self
 end
 return M

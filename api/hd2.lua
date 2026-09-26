@@ -24,6 +24,7 @@ local function disabled()
     return nil,{code='READ_ONLY_MILESTONE',message='No gameplay writer is included in milestone 1'}
 end
 M.weapon=require('hd2runtime/api/target').weapon
+M.stratagem=require('hd2runtime/api/target').stratagem
 function M.patch(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
@@ -31,5 +32,18 @@ function M.patch(request)
         require('hd2runtime/runtime/log').emit,request)
     return require('hd2runtime/runtime/scheduler').attach(watch)
 end
-M.ensure=disabled;M.transaction=disabled
+function M.transaction(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    return require('hd2runtime/runtime/scheduler').attach(
+        require('hd2runtime/api/transaction').start(adapter.create(),
+            require('hd2runtime/runtime/log').emit,request))
+end
+function M.ensure(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    return require('hd2runtime/runtime/scheduler').attach(
+        require('hd2runtime/api/ensure').start(adapter.create(),
+            require('hd2runtime/runtime/log').emit,request))
+end
 return M

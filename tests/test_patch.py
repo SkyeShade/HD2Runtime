@@ -171,14 +171,15 @@ other.tick(60);assert(runtime.reads==n and other.status=='cancelled')
 ''')
 
     def test_proof_uses_only_declarative_public_api(self):
-        body=(ROOT/'proof/addon.lua').read_text()
+        body=(ROOT/'proof/jar5.lua').read_text()
         for forbidden in ('Virtual','ffi','runtime.read','scan','offset','lanes'):
             self.assertNotIn(forbidden,body)
 
     def test_write_modules_excluded_from_read_only_artifacts(self):
         import build_live_validation
         for sources in (build.resources(),build_live_validation.resources()):
-            for name in ('runtime/windows_write','core/guarded_write','domains/patches','api/patch'):
+            for name in ('runtime/windows_write','core/guarded_write','core/guarded_transaction',
+                         'domains/patches','domains/transactions','api/patch','api/transaction','api/ensure'):
                 self.assertNotIn('hd2runtime/'+name,sources)
 
     def test_proof_runs_from_packaged_sources_and_detaches(self):
@@ -217,6 +218,9 @@ local ok,why=pcall(function()
     assert(r.read(address,12)==data)
     assert(r.protect(address,4096,2)==4 and r.query(address).protect==2)
     assert(r.protect(address,4096,4)==2 and r.query(address).protect==4)
+    local four=string.char(0,0,0,65)
+    assert(r.write(address,four) and r.read(address,4)==four)
+    assert(not pcall(r.write,address,string.rep('x',8)))
     assert(not pcall(r.write,address,string.rep('x',16)))
     assert(not pcall(r.protect,address,8192,4))
 end)
@@ -348,6 +352,20 @@ runtime.protect=function(at,n,value)
 end
 local w=patch();assert(w.status=='rejected' and #writes==0)
 assert(page_protection==4 and #protections==1 and w.result.protection_restored)
+''')
+
+    def test_ensure_wraps_patch_and_fails_closed_on_conflict(self):
+        check('''
+local e=hd2.ensure{patch=request(),interval=1,startup_delay=0}
+for _=1,3000 do e.tick(0);if e.runs==1 then break end end
+assert(e.runs==1 and runtime.read(target_address,12)==desired)
+replace(target_address,old);e.tick(1)
+for _=1,3000 do e.tick(0);if e.runs==2 then break end end
+assert(e.runs==2 and runtime.read(target_address,12)==desired)
+replace(target_address,string.rep(u32(5),3));e.tick(1)
+for _=1,3000 do e.tick(0);if e.status=='rejected' then break end end
+assert(e.status=='rejected' and e.result.code=='CONFLICT')
+assert(runtime.read(target_address,12)==string.rep(u32(5),3))
 ''')
 
 

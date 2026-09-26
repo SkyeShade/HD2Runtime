@@ -5,20 +5,37 @@ fields across the six requested resources, with ownership, baseline comparisons,
 and provenance. Build it from a clean source commit with
 `py -3.14 -B scripts/build_live_validation.py`. It does not deploy or launch HD2.
 
-Version 0.3.0 adds the first [guarded patch and gameplay proof](docs/guarded-patch.md):
-JAR-5 logical armor penetration from 3 to 4. Build it from a clean commit with
-`py -3.14 -B scripts/build_gameplay_proof.py`.
+Version 0.4.0 adds guarded [transactions and ensure](docs/transaction-ensure.md).
+The first proof applies the four reviewed Shield Relay fields as one transaction
+and revalidates them every 60 update seconds. Build it from a clean commit with
+`py -3.14 -B scripts/build_transaction_proof.py`.
 
 Reusable runtime reads and observations for Helldivers 2 mods using Bingus Shared
 Loader v15+ / API 1. The gameplay proof enables `patch` for the reviewed JAR-5 AP
-field. `ensure` and `transaction` remain unavailable. Read-only package builds
-exclude the native writer and reject all write APIs.
+field. The Shield Relay proof enables `transaction` and `ensure` for its four
+reviewed fields. Read-only package builds exclude the native writer and reject
+all write APIs.
 
 ```lua
 hd2.patch({
     id = 'jar5-ap4',
     target = hd2.weapon('JAR-5 Dominator'):projectile():damage(),
     field = 'armor_penetration', expect = 3, value = 4,
+})
+```
+
+```lua
+hd2.ensure({
+    transaction = {
+        id = 'shield-relay-proof',
+        target = hd2.stratagem('Shield Relay'),
+        changes = {
+            { field='radius', expect=15, value=8 },
+            { field='durability', expect=4000, value=40000 },
+            { field='lifetime', expect=40, value=90 },
+            { field='cooldown', expect=90, value=180 },
+        },
+    },
 })
 ```
 

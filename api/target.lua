@@ -13,4 +13,8 @@ function M.weapon(name)
     assert(name=='JAR-5 Dominator' or name=='jar5','weapon alias is not reviewed')
     return target('weapon')
 end
+function M.stratagem(name)
+    assert(name=='Shield Relay' or name=='shield_relay','stratagem alias is not reviewed')
+    return {resource='shield_relay',path='stratagem'}
+end
 return M

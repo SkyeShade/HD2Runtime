@@ -1,7 +1,7 @@
 # First guarded patch: JAR-5 AP4
 
 Version 0.3.0 adds one reviewed write: JAR-5 Dominator logical armor penetration
-from 3 to 4. The source entrypoint is `proof/addon.lua`; its entire gameplay
+from 3 to 4. The retained source entrypoint is `proof/jar5.lua`; its entire gameplay
 declaration is:
 
 ```lua
@@ -62,7 +62,8 @@ they never substitute for runtime reads.
 
 The API currently accepts only this target, logical field, expected value 3 and
 desired value 4. Raw lane writes and all other weapon fields are rejected.
-`ensure` and `transaction` remain unavailable. No new resource mapping is added.
+Version 0.4.0 also allows this descriptor to be wrapped by `ensure`; Shield Relay
+provides the first multi-field `transaction`. No new resource mapping is added.
 Read APIs continue exposing the individual lane values; the write mapping is an
 explicit domain-level logical field, distinct from the scalar read width.
 
@@ -85,8 +86,8 @@ outside the reviewed projectile consumer table.
 3. Finish paced snapshot verification and revalidate fingerprints. The commit
    section has no coroutine yields, log callbacks or user callbacks. Reread all
    captured ownership and data contexts before and after opening the target page.
-   The synchronous section is capped at 64 contexts / 1 MiB of snapshot data,
-   8 MiB total rereads and 8,192 read queries.
+   The shared transaction engine caps the synchronous section at 128 contexts /
+   2 MiB of snapshot data, 16 MiB total rereads and 16,384 read queries.
 4. Allow only private committed data pages with original protection READONLY or
    READWRITE. Require an aligned 12-byte field wholly inside one 4 KiB page.
    Open that page only when necessary, verify writable protection, and reread

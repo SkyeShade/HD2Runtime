@@ -49,7 +49,8 @@ return 'ok'
 package.preload['ffi']=function()error('unexpected native access')end
 local api=require('hd2runtime/api/hd2')
 assert(api.describe('amr').fields.crosshair_type.expected==3)
-local _,err=api.ensure{};assert(err.code=='READ_ONLY_MILESTONE')
+assert(api.weapon('JAR-5 Dominator'):projectile():damage().resource=='jar5')
+assert(api.stratagem('Shield Relay').resource=='shield_relay')
 return 'ok'
 """).encode())
 

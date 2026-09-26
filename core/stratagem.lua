@@ -105,10 +105,12 @@ function M.capture(runtime,reader,profile)
     local region=reader.query(base)
     assert(region.base==base and region.allocation_base==base and region.size>=s.size
         and region.size<=s.size+65536,'stratagem allocation extent')
-    local owner={base=base,size=s.size}
+    local owner=region
     local bytes=reader.read(owner,0,s.size,true)
     local pointers=reader.read(image,s.table_rva,s.entries*8,true)
     reader.stage='core/stratagem:grouped_records'
-    return M.parse(bytes,base,pointers,s)
+    local result=M.parse(bytes,base,pointers,s)
+    result.owner=owner
+    return result
 end
 return M
