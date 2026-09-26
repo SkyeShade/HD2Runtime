@@ -196,7 +196,7 @@ for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
             report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
             self.assertEqual(report['scanMetrics']['candidateCount'],365)
             self.assertEqual(report['mode'],'snapshot')
-            self.assertEqual(report['hd2RuntimeVersion'],'0.7.1')
+            self.assertEqual(report['hd2RuntimeVersion'],'0.8.0')
             self.assertEqual(identities['JAR-5 Dominator']['status'],'EXACT')
 
     def test_capture_package_is_external_and_declarative(self):
