@@ -184,6 +184,11 @@ def main():
     scan.add_argument('snapshot',type=Path);scan.add_argument('wiki',type=Path)
     scan.add_argument('--output',type=Path);scan.add_argument('--historical-analysis',action='store_true')
     scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
+    player_scan=snapshot_sub.add_parser('scan-player-weapons')
+    player_scan.add_argument('snapshot',type=Path);player_scan.add_argument('wiki',type=Path)
+    player_scan.add_argument('--output',type=Path);player_scan.add_argument('--summary-output',type=Path)
+    player_scan.add_argument('--historical-analysis',action='store_true')
+    player_scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
     args=parser.parse_args()
     try:
         if args.command=='inspect':
@@ -191,10 +196,15 @@ def main():
         elif args.command=='new':print(new_project(args.path,args.name,args.template,args.sdk))
         elif args.command=='configure':configure(args.project,args.sdk);print('IDE configuration updated')
         elif args.command=='build':print(build_project(args.project))
-        else:
+        elif args.snapshot_command=='scan-weapons':
             from tools.snapshot_scan import scan
             output,mapping=scan(args.snapshot,args.wiki,args.output,args.historical_analysis,args.lua_dll)
             print(output);print(mapping)
+        else:
+            from tools.snapshot_scan import scan_player_weapons
+            output,mapping,summary=scan_player_weapons(args.snapshot,args.wiki,args.output,
+                args.historical_analysis,args.lua_dll,args.summary_output)
+            print(output);print(mapping);print(summary)
     except (ValueError,KeyError,OSError,RuntimeError) as error:parser.exit(2,str(error)+'\n')
 
 

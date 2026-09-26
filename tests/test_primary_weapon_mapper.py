@@ -67,7 +67,7 @@ local top=r.rankedWikiMatches[1];assert(#top.mismatched==0 and top.compared==4)
 return 'ok'
 """)
 
-    def test_multi_attack_and_underbarrel_do_not_replace_primary(self):
+    def test_multi_attack_and_underbarrel_branch_is_considered(self):
         lua_test("""
 local primary={name='Rifle P',kind='Projectile',standard_damage=95,durable_damage=24,ap_direct=2,ap_slight=2,ap_large=2}
 local underbarrel={name='Grenade P',kind='Projectile',standard_damage=250,durable_damage=250,ap_direct=3}
@@ -75,8 +75,10 @@ local other={name='Other P',kind='Projectile',standard_damage=250,durable_damage
 local d={weapons={weapon('One-Two',primary,{primary,underbarrel}),weapon('Other',other)}}
 local r=matcher.rank({standard_damage=95,durable_damage=24,ap_direct=2,ap_slight=2,ap_large=2},d)
 assert(r.rankedWikiMatches[1].name=='One-Two')
-local r2=matcher.rank({standard_damage=250,durable_damage=250,ap_direct=3},d)
-assert(r2.rankedWikiMatches[1].name=='Other')
+local r2=matcher.rank({attack_kind='Projectile',standard_damage=250,durable_damage=250,ap_direct=3},d)
+assert(r2.rankedWikiMatches[1].name=='One-Two')
+assert(r2.rankedWikiMatches[1].matchedDamageBranch=='Grenade P')
+assert(r2.status=='AMBIGUOUS'and #r2.credibleWikiIdentities==2)
 return 'ok'
 """)
 
