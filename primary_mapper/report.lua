@@ -16,6 +16,7 @@ local function public_match(match)
         compatibleWeaponSlot=match.compatibleWeaponSlot,
         matchedAttackBranch=match.matchedAttackBranch,matchedDamageBranch=match.matchedDamageBranch,
         matchedProjectileBranch=match.matchedProjectileBranch,branchMode=match.branchMode,
+        runtimeAttackIndex=match.runtimeAttackIndex,runtimeAttackRole=match.runtimeAttackRole,
         incompatibility=match.incompatibility,credible=match.credible==true}
 end
 local function candidate_match(candidate,match)
@@ -24,6 +25,7 @@ local function candidate_match(candidate,match)
         matchedAttackBranch=match.matchedAttackBranch,
         matchedDamageBranch=match.matchedDamageBranch,
         matchedProjectileBranch=match.matchedProjectileBranch,branchMode=match.branchMode,
+        runtimeAttackIndex=match.runtimeAttackIndex,runtimeAttackRole=match.runtimeAttackRole,
         matched=copy_array(match.matched),mismatched=copy_array(match.mismatched),
         unresolvedFields=copy_array(match.unresolvedFields),
         projectileType=candidate.resolvedFields.projectile_type and candidate.resolvedFields.projectile_type.value,
@@ -134,6 +136,8 @@ function M.compose(raw,dataset,metadata)
     for _,weapon in ipairs(dataset.weapons)do by_weapon[weapon.name]={};partial_by_weapon[weapon.name]={}end
     local status_counts={EXACT=0,STRONG=0,AMBIGUOUS=0,UNMATCHED=0}
     for _,candidate in ipairs(raw.runtimeCandidates)do
+        candidate.matchFields.runtime_attacks=candidate.attacks
+        candidate.matchFields.weapon_data_only=#candidate.attacks==0 and candidate.weaponData~=nil
         local ranked=matcher.rank(candidate.matchFields,dataset,8)
         candidate.status=ranked.status;candidate.scoreMargin=ranked.scoreMargin
         candidate.credibleWikiIdentities=copy_array(ranked.credibleWikiIdentities)

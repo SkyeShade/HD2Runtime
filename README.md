@@ -1,5 +1,11 @@
 # HD2Runtime
 
+Version 0.11.0 adds Arc, Beam, Spray, Melee, and WeaponRounds feed adapters to
+the build-bound offline player-weapon mapper. It resolves 75 of 80 catalog
+identities, 68 uniquely, while retaining shared projectile/settings records as
+supporting evidence under distinct weapon resources and WeaponData records. See
+[the family expansion report](research/weapon-family-expansion-F5FEE03DCFDB.json).
+
 Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
 resolution. Slot tags separate all 54 unique training anchors. Capacity matches
 all 35 anchors whose effective magazine is directly represented; default
@@ -34,7 +40,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.10.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.11.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

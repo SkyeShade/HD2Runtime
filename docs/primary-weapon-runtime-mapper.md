@@ -1,25 +1,27 @@
 # Primary Weapon Runtime Mapper
 
-The mapper is a separate read-only diagnostic mod for HD2Runtime 0.9.0. Install
+The mapper is a separate read-only diagnostic mod for HD2Runtime 0.11.0. Install
 Bingus Shared Loader and HD2Runtime once, then install the mapper package for one
 diagnostic session. It never writes game memory and its archive contains no
 HD2Runtime implementation, native memory adapter, page-protection function, or
 fixture fallback.
 
 The shared runtime performs one fingerprinted allocation discovery pass. It
-parses the reviewed entity map and the `ProjectileWeaponComponentData` and
-`WeaponDataComponentData` indices once, then reuses the parsed projectile and
-damage settings tables for every candidate. One candidate is processed per
+parses the reviewed entity map and weapon-family component indices once, then
+reuses the parsed projectile, Arc, Beam, and damage settings tables for every
+candidate. One candidate is processed per
 update tick. A candidate failure is captured in that candidate's diagnostics
 and does not end the scan. A stable reread closes the scan.
 
 Current runtime fingerprints are standard damage, durable damage, all four AP
 lanes, demolition, stagger force, push force, projectile type, linked damage
 type/group/row, crosshair type where `WeaponDataComponentData` is present, fire
-rate, pellet count, projectile velocity, mass, drag, and gravity. The latter six
-fields are structural/correlation-proven from the build-bound snapshot and are
-explicitly pending gameplay confirmation. Capacity remains unmapped; the mapper
-does not guess an offset for it.
+rate, pellet count, projectile velocity, mass, drag, and gravity. It also
+reports schema-labelled Arc, Beam, Spray, Melee, WeaponRounds feed, and
+WeaponData identity fields. Correlated fields remain explicitly pending
+gameplay confirmation. Capacity resolves from reviewed magazine/feed
+components and remains unresolved when a default magazine customization
+controls the effective value.
 
 Matching compares only fields present on both sides. Exact integer fields use
 exact equality. Wiki-rounded velocity uses a 2 m/s tolerance, fire rate uses a

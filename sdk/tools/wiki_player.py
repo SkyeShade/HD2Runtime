@@ -30,6 +30,12 @@ def pellet_count(attack):
     return int(match.group()) if match else None
 
 
+def spread_values(weapon):
+    value=(weapon.get('weaponStats') or {}).get('spread')
+    numbers=re.findall(r'-?\d+(?:\.\d+)?',str(value or''))
+    return (float(numbers[0]),float(numbers[1])) if len(numbers)>=2 else (None,None)
+
+
 def attack_record(attack,index):
     projectile=attack.get('projectile') or {};damage=attack.get('damage') or {}
     penetration=attack.get('penetration') or {};effects=attack.get('specialEffects') or {}
@@ -62,12 +68,16 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
         stats=weapon.get('weaponStats') or {}
         fire_rate=weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
         capacity=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
+        spread_horizontal,spread_vertical=spread_values(weapon)
+        sway=scalar(stats.get('sway'));ergonomics=scalar(stats.get('ergonomics'))
         primary=dict(attacks[0]);primary['fire_rate']=fire_rate;primary['capacity']=capacity
         weapons.append({'name':weapon['name'],'slot':weapon_slot,
             'category':weapon.get('category') or weapon.get('primaryCategory'),
             'primary_category':weapon.get('primaryCategory'),'weapon_type':weapon.get('weaponType'),
             'traits':weapon.get('traits') or [],'wiki_page':weapon.get('wikiPage'),
-            'fire_rate':fire_rate,'capacity':capacity,'primary':primary,'attacks':attacks})
+            'fire_rate':fire_rate,'capacity':capacity,'spread_horizontal':spread_horizontal,
+            'spread_vertical':spread_vertical,'sway':sway,'ergonomics':ergonomics,
+            'primary':primary,'attacks':attacks})
     names=[item['name'] for item in weapons]
     if len(set(names))!=len(names):raise ValueError('duplicate wiki weapon name')
     summary_raw=Path(summary_path).read_bytes() if summary_path else b''

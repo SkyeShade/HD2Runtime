@@ -182,7 +182,10 @@ for hash,x in pairs(ai)do
  local y=assert(bi[hash]);assert(x.entityRow==y.entityRow and x.resolutionStatus==y.resolutionStatus)
  for name,field in pairs(x.resolvedFields)do assert(y.resolvedFields[name]and y.resolvedFields[name].value==field.value,name)end
  for name in pairs(y.resolvedFields)do assert(x.resolvedFields[name],name)end
- for i,attack in ipairs(x.attacks)do local other=y.attacks[i];assert(other and other.projectileType==attack.projectileType);assert(other.damageInfo.row==attack.damageInfo.row and other.damageInfo.recordType==attack.damageInfo.recordType)end
+ for i,attack in ipairs(x.attacks)do
+  local other=y.attacks[i];assert(other and other.kind==attack.kind and other.role==attack.role and other.projectileType==attack.projectileType)
+  if attack.damageInfo then assert(other.damageInfo and other.damageInfo.row==attack.damageInfo.row and other.damageInfo.recordType==attack.damageInfo.recordType)else assert(other.damageInfo==nil)end
+ end
 end
 for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
 """)
@@ -196,7 +199,7 @@ for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
             report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
             self.assertEqual(report['scanMetrics']['candidateCount'],365)
             self.assertEqual(report['mode'],'snapshot')
-            self.assertEqual(report['hd2RuntimeVersion'],'0.10.0')
+            self.assertEqual(report['hd2RuntimeVersion'],'0.11.0')
             self.assertEqual(identities['JAR-5 Dominator']['status'],'EXACT')
 
     def test_combined_player_catalog_command_is_snapshot_only_and_read_only(self):

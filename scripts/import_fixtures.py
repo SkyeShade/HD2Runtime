@@ -122,9 +122,18 @@ def main():
             r['components'][name] = {'row': rows[0], 'record': record}
         profile['resources'][key] = r
     buffers = {}
-    for key, name, typename, stride in [('projectile', 'generated_projectile_settings.dl_bin', 'ProjectileSettings', 272),
-                                       ('damage', 'generated_damage_settings.dl_bin', 'DamageSettings', 76)]:
-        raw = source('Jar-5_buff/local_research/dependencies/filediver-reference/datalibrary/' + name)
+    setting_sources = [
+        ('projectile', 'generated_projectile_settings.dl_bin', 'ProjectileSettings', 272,
+         'Jar-5_buff/local_research/dependencies/filediver-reference/datalibrary/'),
+        ('damage', 'generated_damage_settings.dl_bin', 'DamageSettings', 76,
+         'Jar-5_buff/local_research/dependencies/filediver-reference/datalibrary/'),
+        ('arc', 'generated_arc_settings.dl_bin', 'ArcSettings', 104,
+         'ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/'),
+        ('beam', 'generated_beam_settings.dl_bin', 'BeamSettings', 112,
+         'ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/'),
+    ]
+    for key, name, typename, stride, source_folder in setting_sources:
+        raw = source(source_folder + name)
         desc = {'size': len(raw), 'stride': stride, 'groups': []}
         for g in groups(raw):
             item = {'offset': g['root']-24, 'header': raw[g['root']-24:g['root']].hex()}

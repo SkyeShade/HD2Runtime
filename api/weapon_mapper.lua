@@ -36,6 +36,61 @@ local function field(output,name,value,evidence)
     output.resolvedFields[name]={value=value,provenance=p}
     output.matchFields[name]=value
 end
+local function damage_attack(output,roots,damage_consumers,kind,settings_name,settings_record,damage_type,attack)
+    local damage=assert(roots.damage.records[damage_type],'linked DamageInfo record absent')
+    attack=attack or{role='primary',kind=kind,resolvedFields={}}
+    attack.damageInfo={group=damage.group,row=damage.row,
+        recordType=damage_type,settingsType=damage.settings_type,
+        projectileConsumerCount=#(damage_consumers[damage_type]or{})}
+    if settings_name and settings_record then
+        attack[settings_name]={group=settings_record.group,row=settings_record.row,
+            recordType=b.u32(settings_record.bytes,0),settingsType=settings_record.settings_type}
+    end
+    if not output.attacks[1]or output.attacks[#output.attacks]~=attack then
+        output.attacks[#output.attacks+1]=attack
+    end
+    field(output,'damage_type',damage_type,provenance.damage)
+    for _,spec in ipairs(damage_fields)do
+        local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
+        field(output,name,value,provenance.damage);attack.resolvedFields[name]=value
+    end
+    return attack
+end
+local function projectile_attack(output,roots,damage_consumers,projectile_type,role,promote)
+    if projectile_type==0 then return nil end
+    for _,existing in ipairs(output.attacks)do
+        if existing.kind=='Projectile'and existing.projectileType==projectile_type then
+            existing.sources=existing.sources or{}
+            existing.sources[#existing.sources+1]=role
+            return existing
+        end
+    end
+    local projectile=assert(roots.projectile.records[projectile_type],
+        'linked ProjectileSettings record absent')
+    local attack={role=role,kind='Projectile',projectileType=projectile_type,
+        projectileSettings={group=projectile.group,row=projectile.row,
+            recordType=projectile_type,settingsType=projectile.settings_type},
+        resolvedFields={},sources={role}}
+    output.attacks[#output.attacks+1]=attack
+    for _,name in ipairs({'pellet_count','projectile_velocity','projectile_mass','drag','gravity'})do
+        local spec=mapper_schema.fields[name]
+        local value=b.value(projectile.bytes,spec.offset,spec.storage)
+        attack.resolvedFields[name]=value
+        if promote then field(output,name,value,spec.evidence)end
+    end
+    local damage_type=b.u32(projectile.bytes,60)
+    local damage=assert(roots.damage.records[damage_type],'linked DamageInfo record absent')
+    attack.damageInfo={group=damage.group,row=damage.row,recordType=damage_type,
+        settingsType=damage.settings_type,projectileConsumerCount=#(damage_consumers[damage_type]or{})}
+    attack.resolvedFields.damage_type=damage_type
+    for _,spec in ipairs(damage_fields)do
+        local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
+        attack.resolvedFields[name]=value
+        if promote then field(output,name,value,provenance.damage)end
+    end
+    if promote then field(output,'damage_type',damage_type,provenance.damage)end
+    return attack
+end
 
 function M.start(runtime,emit,request)
     request=request or {};emit=emit or print
@@ -49,7 +104,8 @@ function M.start(runtime,emit,request)
         if not request.historical_analysis then
             assert(exe_sha==profile.exe_sha and dll_sha==profile.dll_sha,'unsupported build fingerprint')
         end
-        local roots=discover.locate(runtime,reader,profile,{entity=true,projectile=true,damage=true})
+        local roots=discover.locate(runtime,reader,profile,
+            {entity=true,projectile=true,damage=true,arc='optional',beam='optional'})
         local catalog=entities.capture(reader,roots.entity,profile,component_names)
         local weapon_candidates={}
         for _,candidate in ipairs(catalog.candidates)do
@@ -86,7 +142,15 @@ function M.start(runtime,emit,request)
             if weapon_data then
                 attempt('WeaponDataComponentData',function()
                     local record=catalog.record(candidate,'WeaponDataComponentData')
+                    output.weaponData={recordIndex=weapon_data.recordIndex,
+                        ownerCount=weapon_data.ownerCount,uniqueOwner=weapon_data.uniqueOwner,
+                        componentType=weapon_data.componentType}
                     field(output,'crosshair_type',b.u32(record.bytes,400),provenance.crosshair_type)
+                    for _,name in ipairs({'spread_horizontal','spread_vertical','sway','ergonomics',
+                        'primary_fire_mode'})do
+                        local spec=mapper_schema.fields[name]
+                        field(output,name,b.value(record.bytes,spec.offset,spec.storage),spec.evidence)
+                    end
                 end)
             end
             local loadout=candidate.ownership.LoadoutPackageComponentData
@@ -125,30 +189,84 @@ function M.start(runtime,emit,request)
                     field(output,'projectile_type',projectile_type,provenance.projectile_type)
                     local fire=mapper_schema.fields.fire_rate
                     field(output,'fire_rate',b.value(weapon.bytes,fire.offset,fire.storage),fire.evidence)
-                    local projectile=assert(roots.projectile.records[projectile_type],
-                        'linked ProjectileSettings record absent')
-                    local damage_type=b.u32(projectile.bytes,60)
-                    local damage=assert(roots.damage.records[damage_type],
-                        'linked DamageInfo record absent')
-                    local attack={role='primary',projectileType=projectile_type,
-                        projectileSettings={group=projectile.group,row=projectile.row,
-                            recordType=projectile_type,settingsType=projectile.settings_type},
-                        damageInfo={group=damage.group,row=damage.row,recordType=damage_type,
-                            settingsType=damage.settings_type,
-                            projectileConsumerCount=#(damage_consumers[damage_type] or {})},
-                        resolvedFields={}}
-                    output.attacks[1]=attack
-                    field(output,'damage_type',damage_type,provenance.damage)
-                    for _,name in ipairs({'pellet_count','projectile_velocity','projectile_mass','drag','gravity'})do
-                        local spec=mapper_schema.fields[name]
-                        local value=b.value(projectile.bytes,spec.offset,spec.storage)
-                        field(output,name,value,spec.evidence);attack.resolvedFields[name]=value
+                    projectile_attack(output,roots,damage_consumers,projectile_type,'primary',true)
+                end)
+            end
+            local rounds_owner=candidate.ownership.WeaponRoundsComponentData
+            if rounds_owner then
+                local rounds
+                attempt('WeaponRoundsComponentData feed',function()
+                    rounds=catalog.record(candidate,'WeaponRoundsComponentData')
+                    local primary=b.u32(rounds.bytes,mapper_schema.fields.rounds_primary_projectile_type.offset)
+                    local alternate=b.u32(rounds.bytes,mapper_schema.fields.rounds_alternate_projectile_type.offset)
+                    field(output,'rounds_primary_projectile_type',primary,
+                        mapper_schema.fields.rounds_primary_projectile_type.evidence)
+                    field(output,'rounds_alternate_projectile_type',alternate,
+                        mapper_schema.fields.rounds_alternate_projectile_type.evidence)
+                end)
+                if rounds then
+                    local primary=b.u32(rounds.bytes,mapper_schema.fields.rounds_primary_projectile_type.offset)
+                    local alternate=b.u32(rounds.bytes,mapper_schema.fields.rounds_alternate_projectile_type.offset)
+                    if primary~=0 then attempt('WeaponRounds primary projectile',function()
+                        projectile_attack(output,roots,damage_consumers,primary,'feed_primary',false)
+                    end)end
+                    if alternate~=0 and alternate~=primary then
+                        attempt('WeaponRounds alternate projectile',function()
+                            projectile_attack(output,roots,damage_consumers,alternate,'feed_alternate',false)
+                        end)
                     end
-                    for _,spec in ipairs(damage_fields)do
-                        local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
-                        field(output,name,value,provenance.damage)
-                        attack.resolvedFields[name]=value
-                    end
+                end
+            end
+            local arc_owner=candidate.ownership.ArcWeaponComponentData
+            if arc_owner then
+                attempt('ArcWeaponComponentData',function()
+                    local component=catalog.record(candidate,'ArcWeaponComponentData')
+                    local arc_type=b.u32(component.bytes,0)
+                    output.matchFields.attack_kind='Arc'
+                    field(output,'arc_type',arc_type,mapper_schema.fields.arc_type.evidence)
+                    field(output,'fire_rate',b.value(component.bytes,4,'f32'),mapper_schema.fields.arc_fire_rate.evidence)
+                    local arc=assert(roots.arc and roots.arc.records[arc_type],
+                        'linked ArcSettings record absent')
+                    local attack=damage_attack(output,roots,damage_consumers,'Arc','arcSettings',arc,b.u32(arc.bytes,36))
+                    attack.arcType=arc_type
+                    field(output,'arc_velocity',b.value(arc.bytes,4,'f32'),mapper_schema.fields.arc_velocity.evidence)
+                    field(output,'arc_range',b.value(arc.bytes,8,'f32'),mapper_schema.fields.arc_range.evidence)
+                end)
+            end
+            local beam_owner=candidate.ownership.BeamWeaponComponentData
+            if beam_owner then
+                attempt('BeamWeaponComponentData',function()
+                    local component=catalog.record(candidate,'BeamWeaponComponentData')
+                    local beam_type=b.u32(component.bytes,0)
+                    output.matchFields.attack_kind='Beam'
+                    field(output,'beam_type',beam_type,mapper_schema.fields.beam_type.evidence)
+                    local beam=assert(roots.beam and roots.beam.records[beam_type],
+                        'linked BeamSettings record absent')
+                    local attack=damage_attack(output,roots,damage_consumers,'Beam','beamSettings',beam,b.u32(beam.bytes,12))
+                    attack.beamType=beam_type
+                    field(output,'beam_range',b.value(beam.bytes,8,'f32'),mapper_schema.fields.beam_range.evidence)
+                end)
+            end
+            local spray_owner=candidate.ownership.SprayWeaponComponentData
+            if spray_owner then
+                attempt('SprayWeaponComponentData',function()
+                    local component=catalog.record(candidate,'SprayWeaponComponentData')
+                    local damage_type=b.u32(component.bytes,mapper_schema.fields.spray_damage_type.offset)
+                    output.matchFields.attack_kind='Spray'
+                    field(output,'spray_damage_type',damage_type,
+                        mapper_schema.fields.spray_damage_type.evidence)
+                    damage_attack(output,roots,damage_consumers,'Spray',nil,nil,damage_type)
+                end)
+            end
+            local melee_owner=candidate.ownership.MeleeWeaponComponentData
+            if melee_owner then
+                attempt('MeleeWeaponComponentData',function()
+                    local component=catalog.record(candidate,'MeleeWeaponComponentData')
+                    local damage_type=b.u32(component.bytes,mapper_schema.fields.melee_damage_type.offset)
+                    output.matchFields.attack_kind='Melee'
+                    field(output,'melee_damage_type',damage_type,
+                        mapper_schema.fields.melee_damage_type.evidence)
+                    damage_attack(output,roots,damage_consumers,'Melee',nil,nil,damage_type)
                 end)
             end
             output.mode=nil
@@ -161,6 +279,31 @@ function M.start(runtime,emit,request)
             pcall(emit,string.format('[HD2Runtime] PRIMARY_WEAPON_SCAN candidate=%d/%d resource=%s status=%s',
                 index,#weapon_candidates,candidate.resourceHash,output.resolutionStatus))
         end
+        local shared_projectiles={}
+        for _,output in ipairs(results)do
+            if output.matchFields.weapon_slot then
+                for _,attack in ipairs(output.attacks)do
+                    local settings_record=attack.projectileSettings
+                    if settings_record then
+                        local key=table.concat({settings_record.settingsType,settings_record.group,
+                            settings_record.row,settings_record.recordType},':')
+                        local group=shared_projectiles[key]or{key=key,consumers={}}
+                        group.consumers[#group.consumers+1]=output
+                        shared_projectiles[key]=group
+                    end
+                end
+            end
+        end
+        for _,group in pairs(shared_projectiles)do
+            if #group.consumers>1 then
+                for _,output in ipairs(group.consumers)do
+                    output.matchFields.use_weapon_data=true
+                    output.sharedProjectileSettings=output.sharedProjectileSettings or{}
+                    output.sharedProjectileSettings[#output.sharedProjectileSettings+1]=
+                        {identity=group.key,classifiedPlayerResourceCount=#group.consumers}
+                end
+            end
+        end
         reader.stage='runtime/reader:stable_reread';reader.verify()
         return {runtimeCandidates=results,fingerprint={exe=exe_sha,dll=dll_sha},
             requestedProfileFingerprint={exe=profile.exe_sha,dll=profile.dll_sha},
@@ -169,6 +312,11 @@ function M.start(runtime,emit,request)
             fixtureFallback='disabled',fieldsCurrentlyUsable={'weapon_slot','capacity','base_capacity',
                 'projectile_type','damage_type',
                 'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity',
+                'arc_type','arc_velocity','arc_range','beam_type','beam_range',
+                'spray_damage_type','melee_damage_type','rounds_primary_projectile_type',
+                'rounds_alternate_projectile_type',
+                'spread_horizontal','spread_vertical','sway','ergonomics',
+                'primary_fire_mode',
                 'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
                 'demolition','stagger','push_force','crosshair_type'},
             fieldsNotRuntimeMapped=unmapped,metrics={candidateCount=#results,candidateFailures=failed,
