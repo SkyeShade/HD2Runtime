@@ -47,15 +47,23 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
             identity=(backing['kind'],backing.get('component'),backing.get('settings'),
                 backing.get('recordIndex'),backing.get('group'),backing.get('row'),
                 backing['offset'],backing['width'])
-            change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
-                'value':field['currentDefault']}
+            if field['type']=='projectile_reference':
+                role=field['referenceRole']
+                handle={'resource':'player_weapon','path':'projectile_reference',
+                    'weapon':weapon['name'],'attack':role}
+                change={'field':'attack.projectile','expect':handle,'value':handle}
+                target={'resource':'player_weapon','path':'attack','weapon':weapon['name'],'attack':role}
+            else:
+                change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
+                    'value':field['currentDefault']}
+                target={'resource':'player_weapon','path':'weapon','weapon':weapon['name']}
             placed=False
             for batch in batches:
-                if len(batch['changes'])<32 and identity not in batch['identities']:
+                if batch['target']==target and len(batch['changes'])<32 and identity not in batch['identities']:
                     batch['changes'].append(change);batch['identities'].add(identity);placed=True;break
-            if not placed:batches.append({'changes':[change],'identities':{identity}})
+            if not placed:batches.append({'target':target,'changes':[change],'identities':{identity}})
         audit.append({'name':weapon['name'],'blocked':weapon['ordinaryWritesBlocked'],
-            'batches':[batch['changes'] for batch in batches]})
+            'batches':[{'target':batch['target'],'changes':batch['changes']} for batch in batches]})
     sources=module_sources()
     preload='\n'.join('package.preload['+lua(name)+']=function(...) return assert(loadstring('
         +lua(body)+','+lua(name)+'))(...) end' for name,body in sources.items())
@@ -80,11 +88,12 @@ for _,weapon in ipairs(audit)do
         assert(not ok,'duplicate identity unexpectedly writable')
     else
         result.weapons=result.weapons+1
-        for _,changes in ipairs(weapon.batches)do
+        for _,batch in ipairs(weapon.batches)do
+            local changes=batch.changes
             if #changes>0 then
                 local worker=coroutine.create(function()
                     local spec=domain.validate_transaction({id='snapshot-write-audit',allow_shared=true,
-                        target={resource='player_weapon',path='weapon',weapon=weapon.name},changes=changes})
+                        target=batch.target,changes=changes})
                     local reader=Reader.new(source)
                     local resolved=domain.capture(source,reader,spec)
                     local plan=domain.prepare(resolved,reader,spec)

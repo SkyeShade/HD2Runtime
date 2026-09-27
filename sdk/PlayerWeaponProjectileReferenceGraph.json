@@ -1,0 +1,2904 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "hd2RuntimeVersion": "0.15.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "feature": "projectile_reference_graph",
+  "summary": {
+    "weapons": 80,
+    "weaponsWithProjectileAttack": 66,
+    "projectileAttacks": 67,
+    "writableTargetAttacks": 45,
+    "compatibleSourceAttacks": 45
+  },
+  "guardPolicy": {
+    "operationKind": "typed_reference_replacement",
+    "allowed": "conventional_plain -> conventional_plain",
+    "sourceSettingsMutated": false,
+    "expectedReferenceRequired": true,
+    "sourceIdentityMustResolveUniquely": true,
+    "sharedTargetPolicy": "fail_closed; no shared target selector is promoted in this pass"
+  },
+  "compatibleSources": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "role": "primary",
+      "projectileType": 288
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "role": "primary",
+      "projectileType": 276
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "role": "primary",
+      "projectileType": 276
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "role": "primary",
+      "projectileType": 310
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "role": "primary",
+      "projectileType": 7
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "role": "primary",
+      "projectileType": 139
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "role": "primary",
+      "projectileType": 44
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "role": "primary",
+      "projectileType": 334
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "role": "primary",
+      "projectileType": 135
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "role": "feed_primary",
+      "projectileType": 317
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "role": "primary",
+      "projectileType": 177
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "role": "primary",
+      "projectileType": 236
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "role": "primary",
+      "projectileType": 149
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "role": "primary",
+      "projectileType": 149
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "role": "primary",
+      "projectileType": 144
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "role": "primary",
+      "projectileType": 308
+    },
+    {
+      "weapon": "M7S SMG",
+      "role": "primary",
+      "projectileType": 340
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "role": "primary",
+      "projectileType": 62
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "role": "primary",
+      "projectileType": 119
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "role": "primary",
+      "projectileType": 215
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "role": "primary",
+      "projectileType": 318
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "role": "primary",
+      "projectileType": 15
+    },
+    {
+      "weapon": "P-4 Senator",
+      "role": "feed_primary",
+      "projectileType": 309
+    },
+    {
+      "weapon": "P-69 Veto",
+      "role": "primary",
+      "projectileType": 237
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "role": "primary",
+      "projectileType": 326
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "role": "primary",
+      "projectileType": 327
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "role": "feed_primary",
+      "projectileType": 282
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "role": "primary",
+      "projectileType": 299
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "role": "primary",
+      "projectileType": 305
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "role": "primary",
+      "projectileType": 241
+    },
+    {
+      "weapon": "R-72 Censor",
+      "role": "primary",
+      "projectileType": 325
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "role": "primary",
+      "projectileType": 86
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "role": "feed_primary",
+      "projectileType": 183
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "role": "feed_primary",
+      "projectileType": 260
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "role": "primary",
+      "projectileType": 179
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "role": "primary",
+      "projectileType": 174
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "role": "feed_primary",
+      "projectileType": 260
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "role": "feed_primary",
+      "projectileType": 240
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "role": "primary",
+      "projectileType": 262
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "role": "primary",
+      "projectileType": 76
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "role": "primary",
+      "projectileType": 123
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "role": "primary",
+      "projectileType": 38
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "role": "primary",
+      "projectileType": 215
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "role": "primary",
+      "projectileType": 276
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "role": "primary",
+      "projectileType": 94
+    }
+  ],
+  "weapons": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "resources": [
+        "0xA8A91EB54892B6B2"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 288,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 288,
+            "row": 234,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 202,
+            "indexRow": 400,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-2 Coyote",
+      "resources": [
+        "0x84354339522C932D"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 138,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 138,
+            "row": 216,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 198,
+            "indexRow": 394,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "resources": [
+        "0x968211C0033DCE64"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 192,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "resources": [
+        "0xA7EE1EBF58FCDF1F"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 200,
+            "indexRow": 521,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "resources": [
+        "0xCF5F176E0E322BE1"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 310,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 310,
+            "row": 203,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 194,
+            "indexRow": 469,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "resources": [
+        "0x43CB1033961A2276"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 7,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 7,
+            "row": 200,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 193,
+            "indexRow": 384,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "resources": [
+        "0xBC29613666DF696B"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 98,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 98,
+            "row": 212,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 197,
+            "indexRow": 333,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "resources": [
+        "0x708EA298C82093D0"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 139,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 139,
+            "row": 209,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 203,
+            "indexRow": 346,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "resources": [
+        "0xCE063AA33D95A812"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 44,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 44,
+            "row": 236,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 201,
+            "indexRow": 356,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "resources": [
+        "0xA955C4EA6F6D4203"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 334,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 334,
+            "row": 233,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 195,
+            "indexRow": 167,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "ARC-12 Blitzer",
+      "resources": [
+        "0x076DD5D4F4360204"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "arc"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "resources": [
+        "0x5FECAB819F96A3E8"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 135,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 135,
+            "row": 235,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 207,
+            "indexRow": 228,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "resources": [
+        "0xF49227A0630A3F7F"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 249,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 249,
+            "row": 254,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 210,
+            "indexRow": 363,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "CQC-19 Stun Lance",
+      "resources": [
+        "0xE3B6AEDD07FCB464"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-2 Saber",
+      "resources": [
+        "0xFCD8A6E67EAC635A"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-30 Stun Baton",
+      "resources": [
+        "0x52CDBFBACA3CB397"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-42 Machete",
+      "resources": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-5 Combat Hatchet",
+      "resources": [
+        "0x75816077C139C850"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-73 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "melee"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "resources": [
+        "0x72170A55A1F37FF1"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 317,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 317,
+            "row": 299,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 8,
+            "indexRow": 39,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "FLAM-66 Torcher",
+      "resources": [
+        "0x4FB0F8C02F55C82B"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "spray_flame"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "resources": [
+        "0x006E44327BB953FE"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 297,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 297,
+            "row": 82,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 1,
+            "indexRow": 8,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "resources": [
+        "0x9EB160830321BFD6"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 103,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 103,
+            "row": 146,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 235,
+            "indexRow": 478,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 263,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 263,
+            "row": 85,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 13,
+            "indexRow": 1,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": false,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "ambiguous weapon identity"
+        }
+      ]
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "resources": [
+        "0x80F1A156D9FA1E36"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 177,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 177,
+            "row": 262,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 211,
+            "indexRow": 460,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "resources": [
+        "0xC85F576D5E086147"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 236,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 236,
+            "row": 327,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 215,
+            "indexRow": 49,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-13 Trident",
+      "resources": [
+        "0x3C86E871923F3970"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "beam"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "resources": [
+        "0x8645F167B3C813A2"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 213,
+            "indexRow": 508,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "resources": [
+        "0x295BEB26DC4F8FF1"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 214,
+            "indexRow": 186,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-5 Scythe",
+      "resources": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "beam"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "resources": [
+        "0x416D053372C4E433"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 144,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 144,
+            "row": 332,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 230,
+            "indexRow": 369,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-7 Dagger",
+      "resources": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "beam"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "resources": [
+        "0x4D58C77087B774C5"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 308,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 308,
+            "row": 184,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 236,
+            "indexRow": 82,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "M7S SMG",
+      "resources": [
+        "0xBE70EE0D8D44028E"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 340,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 340,
+            "row": 162,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 133,
+            "indexRow": 340,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "resources": [
+        "0x90DDC374F4E3D756"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 62,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 62,
+            "row": 298,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 9,
+            "indexRow": 18,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "resources": [
+        "0x4DBD74F49C8FFC13"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 119,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 119,
+            "row": 237,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 199,
+            "indexRow": 443,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "resources": [
+        "0x9571CA51F0DAF35B"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 130,
+            "indexRow": 498,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "resources": [
+        "0xD6B1FB05B9109353"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 318,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 318,
+            "row": 198,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 10,
+            "indexRow": 24,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "resources": [
+        "0x1A437158E1B8D2A1"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 15,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 15,
+            "row": 182,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 233,
+            "indexRow": 540,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P-19 Redeemer",
+      "resources": [
+        "0x3575AABC5F1F9326"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "P-2 Peacemaker",
+      "resources": [
+        "0x05E4E5C2DB6E44A2"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "resources": [
+        "0x14D5D4506056C7A4"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 152,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 152,
+            "row": 187,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 139,
+            "indexRow": 366,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "resources": [
+        "0xE91F569C2AD8AF01"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 270,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 270,
+            "row": 324,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 232,
+            "indexRow": 529,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "P-35 Re-Educator",
+      "resources": [
+        "0x0B882808C6F498E8"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 343,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 343,
+            "row": 323,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 229,
+            "indexRow": 212,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "P-4 Senator",
+      "resources": [
+        "0x8D3D52A3B2F19402"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 309,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 309,
+            "row": 192,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 21,
+            "indexRow": 36,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P-69 Veto",
+      "resources": [
+        "0xC780BCD79547DA0F"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 237,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 237,
+            "row": 183,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 20,
+            "indexRow": 25,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P-72 Crisper",
+      "resources": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "spray_flame"
+      ],
+      "attacks": []
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "resources": [
+        "0xCF8934FF6567A42D"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 326,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 326,
+            "row": 185,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 138,
+            "indexRow": 67,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "resources": [
+        "0xDBB6C961C59FADC1"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 202,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 202,
+            "row": 260,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 237,
+            "indexRow": 489,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "resources": [
+        "0xEEA5E3CEF1E12C14"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 142,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 142,
+            "row": 310,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 225,
+            "indexRow": 116,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "resources": [
+        "0xFB3A19078694708A"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 296,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 296,
+            "row": 315,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 226,
+            "indexRow": 242,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "resources": [
+        "0xAA69A60D74A3EC54"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 171,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 171,
+            "row": 309,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 238,
+            "indexRow": 342,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "resources": [
+        "0x30061F91AF477F5E"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 155,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 155,
+            "row": 311,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 136,
+            "indexRow": 290,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "resources": [
+        "0x0F83639AB8C86165"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 327,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 327,
+            "row": 239,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 208,
+            "indexRow": 65,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "resources": [
+        "0x7B75E5132FFD4CA6"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 282,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 282,
+            "row": 238,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 16,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "resources": [
+        "0xB6AFF2195568767F"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 40,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 40,
+            "row": 265,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 212,
+            "indexRow": 151,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "R-4 Hyena",
+      "resources": [
+        "0xE5796355A8FD67E0"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 207,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 207,
+            "row": 248,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 218,
+            "indexRow": 86,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "resources": [
+        "0xE6D932BE83729076"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 299,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 299,
+            "row": 240,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 17,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "resources": [
+        "0x03E67A19B07C6523"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 305,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 305,
+            "row": 242,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 221,
+            "indexRow": 507,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "resources": [
+        "0x4C786785C79D44E7"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 241,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 241,
+            "row": 243,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 222,
+            "indexRow": 259,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R-72 Censor",
+      "resources": [
+        "0xF0338468DCDB6A6C"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 325,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 325,
+            "row": 228,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 219,
+            "indexRow": 539,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "resources": [
+        "0x1ABBFF60D26BA391"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 86,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 86,
+            "row": 261,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 220,
+            "indexRow": 209,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "resources": [
+        "0x4E310B1FE4C52B52"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 183,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 183,
+            "row": 285,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        },
+        {
+          "role": "feed_alternate",
+          "projectileType": 191,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 191,
+            "row": 294,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 68,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "resources": [
+        "0x2B28E17FFED05F7C"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 18,
+            "indexRow": 27,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "resources": [
+        "0x46183B50961D1328"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 179,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 179,
+            "row": 272,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 204,
+            "indexRow": 407,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "resources": [
+        "0xC12A34F375BD5A87"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 314,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 314,
+            "row": 275,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 206,
+            "indexRow": 47,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "resources": [
+        "0x5EBAEA70C0D060B9"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 174,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 174,
+            "row": 271,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 205,
+            "indexRow": 329,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-451 Cookout",
+      "resources": [
+        "0xD323DE60855898AC"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 347,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 347,
+            "row": 283,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 6,
+            "indexRow": 26,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "resources": [
+        "0x41EAC4A03987FAA0"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 2,
+            "indexRow": 32,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "resources": [
+        "0x05D8D8C073B9D502"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 57,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 57,
+            "row": 316,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 126,
+            "indexRow": 6,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "resources": [
+        "0x4F749E2EE26F532D"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 240,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 240,
+            "row": 295,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 4,
+            "indexRow": 20,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "resources": [
+        "0xDCD1C835407EF7BA"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile",
+        "rounds_feed"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 262,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 262,
+            "row": 349,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 7,
+            "indexRow": 41,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "resources": [
+        "0x186EA95DE7306B1A"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 76,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 76,
+            "row": 167,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 135,
+            "indexRow": 302,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "resources": [
+        "0x94BD931B5FB4EE95"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 123,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 123,
+            "row": 189,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 134,
+            "indexRow": 505,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "resolution": "DUPLICATE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 3,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 3,
+            "row": 173,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 223,
+            "indexRow": 278,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": false,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "ambiguous weapon identity"
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "resources": [
+        "0x0807AEA5217E4767"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 157,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 157,
+            "row": 181,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 224,
+            "indexRow": 499,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved"
+        }
+      ]
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "resources": [
+        "0x8A307BD1811A5FE9"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 38,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 38,
+            "row": 190,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 131,
+            "indexRow": 335,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "resources": [
+        "0x4BA41B6F9F405CC2"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 132,
+            "indexRow": 454,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "resources": [
+        "0xCDF28BE026BB7D84"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 196,
+            "indexRow": 272,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "resources": [
+        "0xF992CE97577C8A7F"
+      ],
+      "resolution": "UNIQUE",
+      "implementationFamilies": [
+        "conventional_projectile"
+      ],
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 94,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 94,
+            "row": 197,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 137,
+            "indexRow": 187,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null
+        }
+      ]
+    }
+  ]
+}

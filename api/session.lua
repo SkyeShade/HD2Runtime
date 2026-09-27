@@ -196,6 +196,11 @@ function M.new(runtime,emit)
             else self.fields[domain][key]=value end
         end
     end
+    local composition=require('hd2runtime/domains/player_weapon_composition')
+    for domain,values in pairs(composition.fields)do
+        self.fields[domain]=self.fields[domain]or{}
+        for key,value in pairs(values)do self.fields[domain][key]=value end
+    end
     local metadata=require('hd2runtime/domains/metadata')
     self.version=metadata.version;self.api_version=metadata.api_version
     function self.patch(request)

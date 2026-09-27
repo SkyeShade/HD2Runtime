@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.14.1",
+  "hd2RuntimeVersion": "0.15.0",
   "buildFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -10,12 +10,12 @@
     "weapons": 80,
     "uniqueWeapons": 73,
     "duplicateWeapons": 7,
-    "semanticFieldDefinitions": 60,
-    "writableSemanticFieldDefinitions": 47,
-    "readOnlySemanticFieldDefinitions": 13,
+    "semanticFieldDefinitions": 62,
+    "writableSemanticFieldDefinitions": 48,
+    "readOnlySemanticFieldDefinitions": 14,
     "derivedSemanticFieldDefinitions": 6,
-    "fieldInstances": 3027,
-    "writableFieldInstances": 1907,
+    "fieldInstances": 3094,
+    "writableFieldInstances": 1952,
     "weaponsWithWritableFields": 73,
     "weaponsWithProjectileDamageWrites": 71,
     "weaponsRestrictedToWeaponLevelWrites": 2,
@@ -65,6 +65,39 @@
       "weaponsWithWritableAmmoFields": 45,
       "nativeMagazineOptionsCataloged": 52,
       "sharedDefaultOptionGroups": 1
+    },
+    "composition": {
+      "magazine": {
+        "weapons": 80,
+        "nativeOptionIdentities": 52,
+        "weaponsWithNativeDefaultOption": 19,
+        "defaultRelationshipsProven": 19,
+        "perOptionAmmoOwnersProven": 0,
+        "writableOptionFields": 0,
+        "simpleMagazineWeapons": 33,
+        "roundsFeedWeapons": 15
+      },
+      "projectile": {
+        "weapons": 80,
+        "weaponsWithProjectileAttack": 66,
+        "projectileAttacks": 67,
+        "writableTargetAttacks": 45,
+        "compatibleSourceAttacks": 45
+      },
+      "fire_mode": {
+        "weapons": 80,
+        "nativePrimaryValueReadable": 80,
+        "allowedModeListsProven": 0,
+        "writableWeapons": 0
+      },
+      "terminal": {
+        "weapons": 80,
+        "projectileAttacks": 67,
+        "readableActions": 134,
+        "writableActions": 0,
+        "impactExplosionLinks": 13,
+        "expiryExplosionLinks": 5
+      }
     }
   },
   "fieldDefinitions": [
@@ -408,13 +441,23 @@
       "reason": "Derived as floor(rounds_from_supply / 2); edit rounds_from_supply."
     },
     {
+      "id": "attack.projectile",
+      "display_name": "Attack projectile reference",
+      "type": "projectile_reference",
+      "unit": null,
+      "derived": false,
+      "writable": true,
+      "semantic_target": "attack_projectile_reference",
+      "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted."
+    },
+    {
       "id": "projectile.type",
       "display_name": "Projectile settings type",
       "type": "integer",
       "unit": null,
       "derived": false,
       "writable": false,
-      "reason": "Reference replacement/projectile swapping is not implemented."
+      "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement."
     },
     {
       "id": "projectile.velocity",
@@ -707,6 +750,15 @@
       "settings": "beam",
       "offset": 8,
       "storage": "f32"
+    },
+    {
+      "id": "terminal.explosion",
+      "display_name": "Terminal explosion reference",
+      "type": "explosion_reference",
+      "unit": null,
+      "derived": false,
+      "writable": false,
+      "reason": "Impact and expiry references are structurally readable; guarded replacement awaits native consumer confirmation."
     }
   ],
   "semanticAliases": [
@@ -736,10 +788,10 @@
     }
   ],
   "backingCollisionAudit": {
-    "fieldInstancesAudited": 3027,
-    "exactBackingCollisionGroups": 62,
+    "fieldInstancesAudited": 3094,
+    "exactBackingCollisionGroups": 129,
     "aliasPairInstances": 62,
-    "distinctSemanticPairInstances": 64,
+    "distinctSemanticPairInstances": 131,
     "unclassifiedCollisionPairs": 0,
     "distinctSemanticExample": {
       "fields": [
@@ -1710,6 +1762,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-11 Arbitrator",
+            "attack": "primary",
+            "projectileType": 288
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 202,
+            "indexRow": 400,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 288,
+            "row": 234,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -1749,7 +1857,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -3383,6 +3491,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-2 Coyote",
+            "attack": "primary",
+            "projectileType": 138
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 198,
+            "indexRow": 394,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 138,
+            "row": 216,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -3422,7 +3586,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -5091,6 +5255,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-23 Liberator",
+            "attack": "primary",
+            "projectileType": 276
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 192,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -5130,7 +5350,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -6754,6 +6974,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-23A Liberator Carbine",
+            "attack": "primary",
+            "projectileType": 276
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 200,
+            "indexRow": 521,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -6793,7 +7069,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -8417,6 +8693,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-23C Liberator Concussive",
+            "attack": "primary",
+            "projectileType": 310
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 194,
+            "indexRow": 469,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 310,
+            "row": 203,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -8456,7 +8788,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -10035,6 +10367,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-23P Liberator Penetrator",
+            "attack": "primary",
+            "projectileType": 7
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 193,
+            "indexRow": 384,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 7,
+            "row": 200,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -10074,7 +10462,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -11653,6 +12041,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-32 Pacifier",
+            "attack": "primary",
+            "projectileType": 98
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 197,
+            "indexRow": 333,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 98,
+            "row": 212,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -11692,7 +12136,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -13361,6 +13805,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-59 Suppressor",
+            "attack": "primary",
+            "projectileType": 139
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 203,
+            "indexRow": 346,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 139,
+            "row": 209,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -13400,7 +13900,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -15034,6 +15534,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR-61 Tenderizer",
+            "attack": "primary",
+            "projectileType": 44
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 201,
+            "indexRow": 356,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 44,
+            "row": 236,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -15073,7 +15629,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -16707,6 +17263,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "AR/GL-21 One-Two",
+            "attack": "primary",
+            "projectileType": 334
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 195,
+            "indexRow": 167,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 334,
+            "row": 233,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -16746,7 +17358,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -19942,6 +20554,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "BR-14 Adjudicator",
+            "attack": "primary",
+            "projectileType": 135
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 207,
+            "indexRow": 228,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 135,
+            "row": 235,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -19981,7 +20649,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -21615,6 +22283,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "CB-9 Exploding Crossbow",
+            "attack": "primary",
+            "projectileType": 249
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 210,
+            "indexRow": 363,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 249,
+            "row": 254,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -21654,7 +22378,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -30066,6 +30790,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "DBS-2 Double Freedom",
+            "attack": "feed_primary",
+            "projectileType": 317
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 8,
+            "indexRow": 39,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 317,
+            "row": 299,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -30105,7 +30885,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -33515,6 +34295,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "GL-15 Evictor",
+            "attack": "primary",
+            "projectileType": 297
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 1,
+            "indexRow": 8,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 297,
+            "row": 82,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -33554,7 +34390,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -35188,6 +36024,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "GP-20 Ultimatum",
+            "attack": "primary",
+            "projectileType": 103
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 235,
+            "indexRow": 478,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 103,
+            "row": 146,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -35227,7 +36119,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -37002,6 +37894,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "GP-31 Grenade Pistol",
+            "attack": "primary",
+            "projectileType": 263
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 13,
+            "indexRow": 1,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 263,
+            "row": 85,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -37041,7 +37989,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -38675,6 +39623,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "JAR-5 Dominator",
+            "attack": "primary",
+            "projectileType": 177
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 211,
+            "indexRow": 460,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 177,
+            "row": 262,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -38714,7 +39718,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -40058,6 +41062,62 @@
           "acceptedForWrites": true
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-12 Sai",
+            "attack": "primary",
+            "projectileType": 236
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 215,
+            "indexRow": 49,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 236,
+            "row": 327,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -40097,7 +41157,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -42606,6 +43666,62 @@
           "acceptedForWrites": true
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-16 Sickle",
+            "attack": "primary",
+            "projectileType": 149
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 213,
+            "indexRow": 508,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -42645,7 +43761,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -44019,6 +45135,62 @@
           "acceptedForWrites": true
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-17 Double-Edge Sickle",
+            "attack": "primary",
+            "projectileType": 149
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 214,
+            "indexRow": 186,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -44058,7 +45230,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -46688,6 +47860,62 @@
           "acceptedForWrites": true
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "LAS-58 Talon",
+            "attack": "primary",
+            "projectileType": 144
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 230,
+            "indexRow": 369,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 144,
+            "row": 332,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -46727,7 +47955,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -49606,6 +50834,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "M6C/SOCOM Pistol",
+            "attack": "primary",
+            "projectileType": 308
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 236,
+            "indexRow": 82,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 308,
+            "row": 184,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -49645,7 +50929,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -51279,6 +52563,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "M7S SMG",
+            "attack": "primary",
+            "projectileType": 340
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 133,
+            "indexRow": 340,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 340,
+            "row": 162,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -51318,7 +52658,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -53092,6 +54432,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "M90A Shotgun",
+            "attack": "primary",
+            "projectileType": 62
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 9,
+            "indexRow": 18,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 62,
+            "row": 298,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -53131,7 +54527,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -54765,6 +56161,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "MA5C Assault Rifle",
+            "attack": "primary",
+            "projectileType": 119
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 199,
+            "indexRow": 443,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 119,
+            "row": 237,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -54804,7 +56256,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -56383,6 +57835,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "MP-98 Knight",
+            "attack": "primary",
+            "projectileType": 215
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 130,
+            "indexRow": 498,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -56422,7 +57930,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -58226,6 +59734,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-11 Stim Pistol",
+            "attack": "primary",
+            "projectileType": 318
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 10,
+            "indexRow": 24,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 318,
+            "row": 198,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -58265,7 +59829,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -59450,6 +61014,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-113 Verdict",
+            "attack": "primary",
+            "projectileType": 15
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 233,
+            "indexRow": 540,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 15,
+            "row": 182,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -59489,7 +61109,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -62935,6 +64555,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-33 Missile Pistol",
+            "attack": "primary",
+            "projectileType": 152
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 139,
+            "indexRow": 366,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 152,
+            "row": 187,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -62974,7 +64650,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -64608,6 +66284,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-34 Breacher",
+            "attack": "primary",
+            "projectileType": 270
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 232,
+            "indexRow": 529,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 270,
+            "row": 324,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -64647,7 +66379,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -66281,6 +68013,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-35 Re-Educator",
+            "attack": "primary",
+            "projectileType": 343
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 229,
+            "indexRow": 212,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 343,
+            "row": 323,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -66320,7 +68108,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -68274,6 +70062,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-4 Senator",
+            "attack": "feed_primary",
+            "projectileType": 309
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 21,
+            "indexRow": 36,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 309,
+            "row": 192,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -68313,7 +70157,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -70087,6 +71931,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-69 Veto",
+            "attack": "primary",
+            "projectileType": 237
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 20,
+            "indexRow": 25,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 237,
+            "row": 183,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -70126,7 +72026,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -73397,6 +75297,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P-92 Warrant",
+            "attack": "primary",
+            "projectileType": 326
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 138,
+            "indexRow": 67,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 326,
+            "row": 185,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -73436,7 +75392,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -75070,6 +77026,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "P/40-K Bolt Pistol",
+            "attack": "primary",
+            "projectileType": 202
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 237,
+            "indexRow": 489,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 202,
+            "row": 260,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -75109,7 +77121,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -76743,6 +78755,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "PLAS-1 Scorcher",
+            "attack": "primary",
+            "projectileType": 142
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 225,
+            "indexRow": 116,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 142,
+            "row": 310,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -76782,7 +78850,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -78434,6 +80502,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "PLAS-101 Purifier",
+            "attack": "primary",
+            "projectileType": 296
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 226,
+            "indexRow": 242,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 296,
+            "row": 315,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -78473,7 +80597,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -80052,6 +82176,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "PLAS-15 Loyalist",
+            "attack": "primary",
+            "projectileType": 171
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 238,
+            "indexRow": 342,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 171,
+            "row": 309,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -80091,7 +82271,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -81743,6 +83923,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "PLAS-39 Accelerator Rifle",
+            "attack": "primary",
+            "projectileType": 155
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 136,
+            "indexRow": 290,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 155,
+            "row": 311,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -81782,7 +84018,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -83416,6 +85652,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-2 Amendment",
+            "attack": "primary",
+            "projectileType": 327
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 208,
+            "indexRow": 65,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 327,
+            "row": 239,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -83455,7 +85747,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -85229,6 +87521,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-2124 Constitution",
+            "attack": "feed_primary",
+            "projectileType": 282
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 16,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 282,
+            "row": 238,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -85268,7 +87616,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -86902,6 +89250,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-36 Eruptor",
+            "attack": "primary",
+            "projectileType": 40
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 212,
+            "indexRow": 151,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 40,
+            "row": 265,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -86941,7 +89345,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -88520,6 +90924,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-4 Hyena",
+            "attack": "primary",
+            "projectileType": 207
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 218,
+            "indexRow": 86,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 207,
+            "row": 248,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -88559,7 +91019,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -90423,6 +92883,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-6 Deadeye",
+            "attack": "primary",
+            "projectileType": 299
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 17,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 299,
+            "row": 240,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -90462,7 +92978,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -92096,6 +94612,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-63 Diligence",
+            "attack": "primary",
+            "projectileType": 305
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 221,
+            "indexRow": 507,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 305,
+            "row": 242,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -92135,7 +94707,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -93769,6 +96341,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-63CS Diligence Counter Sniper",
+            "attack": "primary",
+            "projectileType": 241
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 222,
+            "indexRow": 259,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 241,
+            "row": 243,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -93808,7 +96436,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -95387,6 +98015,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R-72 Censor",
+            "attack": "primary",
+            "projectileType": 325
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 219,
+            "indexRow": 539,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 325,
+            "row": 228,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -95426,7 +98110,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -97060,6 +99744,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "R/40-K Hot-Shot Marksman Rifle",
+            "attack": "primary",
+            "projectileType": 86
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 220,
+            "indexRow": 209,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 86,
+            "row": 261,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -97099,7 +99839,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -98873,6 +101613,118 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-20 Halt",
+            "attack": "feed_primary",
+            "projectileType": 183
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 183,
+            "row": 285,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_alternate.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-20 Halt",
+            "attack": "feed_alternate",
+            "projectileType": 191
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 68,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "feed_alternate",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 191,
+            "row": 294,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.primary.type",
           "type": "integer",
@@ -98912,7 +101764,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -99175,7 +102027,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -101488,6 +104340,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-22 Bushwhacker",
+            "attack": "feed_primary",
+            "projectileType": 260
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 18,
+            "indexRow": 27,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -101527,7 +104435,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -103136,6 +106044,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-225 Breaker",
+            "attack": "primary",
+            "projectileType": 179
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 204,
+            "indexRow": 407,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 179,
+            "row": 272,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -103175,7 +106139,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -104754,6 +107718,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-225IE Breaker Incendiary",
+            "attack": "primary",
+            "projectileType": 314
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 206,
+            "indexRow": 47,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 314,
+            "row": 275,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -104793,7 +107813,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -106462,6 +109482,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-225SP Breaker Spray&Pray",
+            "attack": "primary",
+            "projectileType": 174
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 205,
+            "indexRow": 329,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 174,
+            "row": 271,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -106501,7 +109577,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -108275,6 +111351,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-451 Cookout",
+            "attack": "feed_primary",
+            "projectileType": 347
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 6,
+            "indexRow": 26,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 347,
+            "row": 283,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -108314,7 +111446,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -110178,6 +113310,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-8 Punisher",
+            "attack": "feed_primary",
+            "projectileType": 260
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 2,
+            "indexRow": 32,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -110217,7 +113405,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -111881,6 +115069,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-8P Punisher Plasma",
+            "attack": "primary",
+            "projectileType": 57
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 126,
+            "indexRow": 6,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "explosive",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 57,
+            "row": 316,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -111920,7 +115164,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -113694,6 +116938,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.feed_primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-8S Slugger",
+            "attack": "feed_primary",
+            "projectileType": 240
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 4,
+            "indexRow": 20,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "feed_primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 240,
+            "row": 295,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -113733,7 +117033,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -115507,6 +118807,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SG-97 Sweeper",
+            "attack": "primary",
+            "projectileType": 262
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 7,
+            "indexRow": 41,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 262,
+            "row": 349,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -115546,7 +118902,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -117125,6 +120481,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SMG-203 Gallant",
+            "attack": "primary",
+            "projectileType": 76
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 135,
+            "indexRow": 302,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 76,
+            "row": 167,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -117164,7 +120576,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -118798,6 +122210,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SMG-32 Reprimand",
+            "attack": "primary",
+            "projectileType": 123
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 134,
+            "indexRow": 505,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 123,
+            "row": 189,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -118837,7 +122305,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -120417,6 +123885,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SMG-37 Defender",
+            "attack": "primary",
+            "projectileType": 3
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 223,
+            "indexRow": 278,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 3,
+            "row": 173,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -120456,7 +123980,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -122035,6 +125559,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SMG-72 Pummeler",
+            "attack": "primary",
+            "projectileType": 157
+          },
+          "editable": false,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 224,
+            "indexRow": 499,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "acceptedForWrites": false,
+          "referenceKind": "projectile",
+          "compatibilityClass": "status_bearing",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 157,
+            "row": 181,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -122074,7 +125654,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -123743,6 +127323,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "SMG/FLAM-34 Stoker",
+            "attack": "primary",
+            "projectileType": 38
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 131,
+            "indexRow": 335,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 38,
+            "row": 190,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -123782,7 +127418,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -125416,6 +129052,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "StA-11 SMG",
+            "attack": "primary",
+            "projectileType": 215
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 132,
+            "indexRow": 454,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -125455,7 +129147,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -127119,6 +130811,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "StA-52 Assault Rifle",
+            "attack": "primary",
+            "projectileType": 276
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 196,
+            "indexRow": 272,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -127158,7 +130906,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {
@@ -128837,6 +132585,62 @@
           "acceptedForWrites": false
         },
         {
+          "displayName": "Attack projectile reference",
+          "semanticFieldId": "attack.primary.projectile",
+          "type": "projectile_reference",
+          "unit": null,
+          "currentDefault": {
+            "weapon": "VG-70 Variable",
+            "attack": "primary",
+            "projectileType": 94
+          },
+          "editable": true,
+          "derivedReadOnly": false,
+          "semanticTarget": "attack_projectile_reference",
+          "canonical": true,
+          "preferred": true,
+          "deprecated": false,
+          "aliasOf": null,
+          "provenance": {
+            "structural_candidate": true,
+            "schema_labelled": true,
+            "correlation_proven": true,
+            "current_live_ownership_proven": false,
+            "gameplay_proven": false,
+            "native_consumer_proven": false,
+            "pending_gameplay_confirmation": true,
+            "source": "schemas/player_weapon_fields.json + F5FEE03DCFDB snapshot"
+          },
+          "min": null,
+          "max": null,
+          "enumValues": null,
+          "backing": {
+            "kind": "component",
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "storage": "u32",
+            "width": 4,
+            "recordIndex": 137,
+            "indexRow": 187,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writeScope": "weapon_local",
+          "sharedWithWeapons": [],
+          "affectsMultipleWeapons": false,
+          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
+          "acceptedForWrites": true,
+          "referenceKind": "projectile",
+          "compatibilityClass": "conventional_plain",
+          "referenceRole": "primary",
+          "referenceSettings": {
+            "group": 0,
+            "recordType": 94,
+            "row": 197,
+            "settingsType": "0xBD4042C2"
+          }
+        },
+        {
           "displayName": "Projectile settings type",
           "semanticFieldId": "projectile.type",
           "type": "integer",
@@ -128876,7 +132680,7 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Reference replacement/projectile swapping is not implemented.",
+          "reason": "Readable native record identity; use attack.projectile for guarded compatible reference replacement.",
           "acceptedForWrites": false
         },
         {

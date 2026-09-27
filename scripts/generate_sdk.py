@@ -25,6 +25,7 @@ def outputs():
     schema=json.loads(raw)
     player_schema=json.loads((ROOT/'schemas/player_weapon_fields.json').read_text())
     player_capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
+    composition=json.loads((ROOT/'schemas/player_weapon_composition_catalog.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
     types=schema['types']; resources=schema['resources']
@@ -43,7 +44,8 @@ def outputs():
             fields[f['domain']][constant]=name
             catalog[key][name]=f
     player_field_ids=sorted({field['semanticFieldId']
-        for weapon in player_capabilities['weapons'] for field in weapon['fields']})
+        for weapon in player_capabilities['weapons'] for field in weapon['fields']}|
+        {field['id'] for field in player_capabilities['fieldDefinitions']})
     for field_id in player_field_ids:
         domain,name=field_id.split('.',1)
         constant=ident(name)
@@ -78,6 +80,37 @@ def outputs():
         for method,spec in schema['api']['target_methods'].items():
             stub+=['---'+spec['doc'],'---@return '+spec['returns'],
                    'function '+t['class']+':'+method+'() end']
+    attack_roles=sorted({attack['role'] for weapon in composition['weapons'].values()
+        for attack in weapon['attacks']})
+    alias('HD2AttackRole',attack_roles+['primary','alternate'])
+    stub+=['','---@class HD2PlayerAttack','---@field resource "player_weapon"',
+        '---@field path "attack"','---@field weapon HD2WeaponName','---@field attack HD2AttackRole',
+        'local HD2PlayerAttack = {}','---@return HD2ProjectileReference',
+        'function HD2PlayerAttack:projectile() end','---@return table',
+        'function HD2PlayerAttack:describe() end','',
+        '---@class HD2ProjectileReference','---@field resource "player_weapon"',
+        '---@field path "projectile_reference"','---@field weapon HD2WeaponName',
+        '---@field attack HD2AttackRole','local HD2ProjectileReference = {}',
+        '---@param phase "impact"|"expiry"','---@return HD2TerminalAction',
+        'function HD2ProjectileReference:terminal_action(phase) end','---@return table',
+        'function HD2ProjectileReference:describe() end','',
+        '---@class HD2TerminalAction','---@field resource "player_weapon"',
+        '---@field path "terminal_action"','---@field weapon HD2WeaponName',
+        '---@field attack HD2AttackRole','---@field phase "impact"|"expiry"',
+        'local HD2TerminalAction = {}','---@return table',
+        'function HD2TerminalAction:describe() end','',
+        '---@class HD2MagazineOption','---@field resource "player_weapon"',
+        '---@field path "magazine_option"','---@field weapon HD2WeaponName',
+        '---@field option string','local HD2MagazineOption = {}','---@return table',
+        'function HD2MagazineOption:describe() end','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack','',
+        '---@param role HD2AttackRole','---@return HD2PlayerAttack',
+        'function HD2Weapon:attack(role) end','---@return HD2PlayerAttack[]',
+        'function HD2Weapon:attacks() end','---@return table',
+        'function HD2Weapon:fire_modes() end','---@return HD2MagazineOption[]',
+        'function HD2Weapon:magazine_options() end','---@return HD2MagazineOption?',
+        'function HD2Weapon:default_magazine() end','---@param identity string',
+        '---@return HD2MagazineOption','function HD2Weapon:magazine(identity) end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():
@@ -139,6 +172,7 @@ def outputs():
             'sdk/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'starter/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'sdk/docs/api.md':'\n'.join(doc),
+            'sdk/docs/player-weapon-composition.md':(ROOT/'docs/player-weapon-composition.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

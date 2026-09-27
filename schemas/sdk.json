@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.14.1",
+  "runtime_version": "0.15.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2746,22 +2746,24 @@
       },
       "HD2PatchRequest": {
         "id": "string",
-        "target": "HD2DamageProfile",
-        "field": "HD2PatchField",
-        "expect": "3",
-        "value": "4",
-        "diagnostic?": "boolean"
+        "target": "HD2AuthoringTarget",
+        "field": "string",
+        "expect": "number|boolean|HD2ProjectileReference",
+        "value": "number|boolean|HD2ProjectileReference",
+        "diagnostic?": "boolean",
+        "allow_shared?": "boolean"
       },
       "HD2TransactionChange": {
-        "field": "HD2TransactionField",
-        "expect": "number",
-        "value": "number"
+        "field": "string",
+        "expect": "number|boolean|HD2ProjectileReference",
+        "value": "number|boolean|HD2ProjectileReference"
       },
       "HD2TransactionRequest": {
         "id": "string",
-        "target": "HD2Stratagem",
+        "target": "HD2AuthoringTarget",
         "changes": "HD2TransactionChange[]",
-        "diagnostic?": "boolean"
+        "diagnostic?": "boolean",
+        "allow_shared?": "boolean"
       },
       "HD2EnsureRequest": {
         "patch?": "HD2PatchRequest",
@@ -2849,7 +2851,7 @@
           ]
         ],
         "returns": "HD2Watch",
-        "doc": "Freshly resolve and apply the reviewed JAR-5 logical AP field."
+        "doc": "Freshly resolve and apply one reviewed scalar or typed-reference change."
       },
       "transaction": {
         "params": [

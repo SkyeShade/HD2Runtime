@@ -110,7 +110,7 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(aliases[('weapon.feed_capacity_2','rounds.feed_capacity_2')]['instanceCount'],15)
         audit=CAPABILITIES['backingCollisionAudit']
         self.assertEqual(audit['fieldInstancesAudited'],CAPABILITIES['summary']['fieldInstances'])
-        self.assertEqual(audit['exactBackingCollisionGroups'],62)
+        self.assertEqual(audit['exactBackingCollisionGroups'],129)
         self.assertEqual(audit['aliasPairInstances'],62)
         self.assertEqual(audit['unclassifiedCollisionPairs'],0)
         jar=next(w for w in CAPABILITIES['weapons'] if w['name']=='JAR-5 Dominator')
@@ -207,7 +207,7 @@ local writes=require('hd2runtime/domains/player_weapon_writes')
 for name,weapon in pairs(db.weapons)do
     local changes={}
     for _,field in ipairs(weapon.fields)do
-        if field.editable then
+        if field.editable and field.type~='projectile_reference' then
             changes[#changes+1]={field=field.semanticFieldId,
                 expect=field.currentDefault,value=field.currentDefault}
         end

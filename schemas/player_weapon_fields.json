@@ -39,7 +39,8 @@
     {"id":"rounds.rounds_from_supply","display_name":"Rounds from supply","type":"integer","unit":"rounds","derived":false,"writable":true,"component":"WeaponRoundsComponentData","offset":84,"storage":"u32"},
     {"id":"rounds.starting_rounds","display_name":"Starting rounds","type":"integer","unit":"rounds","derived":false,"writable":true,"component":"WeaponRoundsComponentData","offset":88,"storage":"u32"},
     {"id":"rounds.rounds_from_ammo_box","display_name":"Rounds from ammo box","type":"integer","unit":"rounds","derived":true,"writable":false,"reason":"Derived as floor(rounds_from_supply / 2); edit rounds_from_supply."},
-    {"id":"projectile.type","display_name":"Projectile settings type","type":"integer","unit":null,"derived":false,"writable":false,"reason":"Reference replacement/projectile swapping is not implemented."},
+    {"id":"attack.projectile","display_name":"Attack projectile reference","type":"projectile_reference","unit":null,"derived":false,"writable":true,"semantic_target":"attack_projectile_reference","reason":"Guarded typed reference replacement; only reviewed compatible projectile classes are accepted."},
+    {"id":"projectile.type","display_name":"Projectile settings type","type":"integer","unit":null,"derived":false,"writable":false,"reason":"Readable native record identity; use attack.projectile for guarded compatible reference replacement."},
     {"id":"projectile.velocity","display_name":"Projectile velocity","type":"number","unit":"meters_per_second","derived":false,"writable":true,"settings":"projectile","offset":32,"storage":"f32"},
     {"id":"projectile.mass","display_name":"Projectile mass","type":"number","unit":"grams","derived":false,"writable":true,"settings":"projectile","offset":36,"storage":"f32"},
     {"id":"projectile.drag","display_name":"Projectile drag","type":"number","unit":"factor","derived":false,"writable":true,"settings":"projectile","offset":40,"storage":"f32"},
@@ -66,6 +67,7 @@
     {"id":"arc.chain_count","display_name":"Arc maximum chain length","type":"integer","unit":"targets","derived":false,"writable":true,"settings":"arc","offset":28,"storage":"u32"},
     {"id":"arc.max_split","display_name":"Arc maximum split","type":"integer","unit":"targets","derived":false,"writable":true,"settings":"arc","offset":32,"storage":"u32"},
     {"id":"beam.radius","display_name":"Beam radius","type":"number","unit":"meters","derived":false,"writable":true,"settings":"beam","offset":4,"storage":"f32"},
-    {"id":"beam.length","display_name":"Beam length","type":"number","unit":"meters","derived":false,"writable":true,"settings":"beam","offset":8,"storage":"f32"}
+    {"id":"beam.length","display_name":"Beam length","type":"number","unit":"meters","derived":false,"writable":true,"settings":"beam","offset":8,"storage":"f32"},
+    {"id":"terminal.explosion","display_name":"Terminal explosion reference","type":"explosion_reference","unit":null,"derived":false,"writable":false,"reason":"Impact and expiry references are structurally readable; guarded replacement awaits native consumer confirmation."}
   ]
 }

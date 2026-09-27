@@ -1,0 +1,3236 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "hd2RuntimeVersion": "0.15.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "feature": "projectile_terminal_action_graph",
+  "summary": {
+    "weapons": 80,
+    "projectileAttacks": 67,
+    "readableActions": 134,
+    "writableActions": 0,
+    "impactExplosionLinks": 13,
+    "expiryExplosionLinks": 5
+  },
+  "layout": {
+    "record": "ProjectileSettings",
+    "recordSize": 272,
+    "impact": {
+      "offset": 144,
+      "schemaLabel": "ProjectileInfo.ExplosionType"
+    },
+    "expiry": {
+      "offset": 156,
+      "schemaLabel": "lifetime-end explosion candidate"
+    }
+  },
+  "neighborReferenceEvidence": [
+    {
+      "offset": 128,
+      "nonzeroRecords": 21,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 132,
+      "nonzeroRecords": 21,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 136,
+      "nonzeroRecords": 67,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 140,
+      "nonzeroRecords": 67,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 144,
+      "nonzeroRecords": 13,
+      "linkedExplosionRecords": 13
+    },
+    {
+      "offset": 148,
+      "nonzeroRecords": 1,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 152,
+      "nonzeroRecords": 1,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 156,
+      "nonzeroRecords": 5,
+      "linkedExplosionRecords": 5
+    },
+    {
+      "offset": 160,
+      "nonzeroRecords": 9,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 164,
+      "nonzeroRecords": 67,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 168,
+      "nonzeroRecords": 65,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 172,
+      "nonzeroRecords": 65,
+      "linkedExplosionRecords": 0
+    },
+    {
+      "offset": 176,
+      "nonzeroRecords": 51,
+      "linkedExplosionRecords": 0
+    }
+  ],
+  "findings": {
+    "impact": "Schema-labelled ExplosionType and structurally linked ExplosionSettings records.",
+    "expiry": "Current records link ExplosionSettings where nonzero, but the native consumer label remains incomplete.",
+    "otherActions": "Neighboring nonzero scalars are not promoted without typed ownership or consumer evidence."
+  },
+  "weapons": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "resources": [
+        "0xA8A91EB54892B6B2"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 288,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 288,
+            "row": 234,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-2 Coyote",
+      "resources": [
+        "0x84354339522C932D"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 138,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 138,
+            "row": 216,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "resources": [
+        "0x968211C0033DCE64"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "resources": [
+        "0xA7EE1EBF58FCDF1F"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "resources": [
+        "0xCF5F176E0E322BE1"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 310,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 310,
+            "row": 203,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "resources": [
+        "0x43CB1033961A2276"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 7,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 7,
+            "row": 200,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "resources": [
+        "0xBC29613666DF696B"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 98,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 98,
+            "row": 212,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "resources": [
+        "0x708EA298C82093D0"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 139,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 139,
+            "row": 209,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "resources": [
+        "0xCE063AA33D95A812"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 44,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 44,
+            "row": 236,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "resources": [
+        "0xA955C4EA6F6D4203"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 334,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 334,
+            "row": 233,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "ARC-12 Blitzer",
+      "resources": [
+        "0x076DD5D4F4360204"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "resources": [
+        "0x5FECAB819F96A3E8"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 135,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 135,
+            "row": 235,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "resources": [
+        "0xF49227A0630A3F7F"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 249,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 249,
+            "row": 254,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 59,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "CQC-19 Stun Lance",
+      "resources": [
+        "0xE3B6AEDD07FCB464"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-2 Saber",
+      "resources": [
+        "0xFCD8A6E67EAC635A"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-30 Stun Baton",
+      "resources": [
+        "0x52CDBFBACA3CB397"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-42 Machete",
+      "resources": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-5 Combat Hatchet",
+      "resources": [
+        "0x75816077C139C850"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "CQC-73 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": []
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "resources": [
+        "0x72170A55A1F37FF1"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 317,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 317,
+            "row": 299,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "FLAM-66 Torcher",
+      "resources": [
+        "0x4FB0F8C02F55C82B"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "resources": [
+        "0x006E44327BB953FE"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 297,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 297,
+            "row": 82,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 268,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 268,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "resources": [
+        "0x9EB160830321BFD6"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 103,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 103,
+            "row": 146,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 341,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 263,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 263,
+            "row": 85,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 327,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 327,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "resources": [
+        "0x80F1A156D9FA1E36"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 177,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 177,
+            "row": 262,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "resources": [
+        "0xC85F576D5E086147"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 236,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 236,
+            "row": 327,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-13 Trident",
+      "resources": [
+        "0x3C86E871923F3970"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "resources": [
+        "0x8645F167B3C813A2"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "resources": [
+        "0x295BEB26DC4F8FF1"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-5 Scythe",
+      "resources": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": []
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "resources": [
+        "0x416D053372C4E433"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 144,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 144,
+            "row": 332,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-7 Dagger",
+      "resources": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": []
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "resources": [
+        "0x4D58C77087B774C5"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 308,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 308,
+            "row": 184,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "M7S SMG",
+      "resources": [
+        "0xBE70EE0D8D44028E"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 340,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 340,
+            "row": 162,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "resources": [
+        "0x90DDC374F4E3D756"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 62,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 62,
+            "row": 298,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "resources": [
+        "0x4DBD74F49C8FFC13"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 119,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 119,
+            "row": 237,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "resources": [
+        "0x9571CA51F0DAF35B"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "resources": [
+        "0xD6B1FB05B9109353"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 318,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 318,
+            "row": 198,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "resources": [
+        "0x1A437158E1B8D2A1"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 15,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 15,
+            "row": 182,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-19 Redeemer",
+      "resources": [
+        "0x3575AABC5F1F9326"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "P-2 Peacemaker",
+      "resources": [
+        "0x05E4E5C2DB6E44A2"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": []
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "resources": [
+        "0x14D5D4506056C7A4"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 152,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 152,
+            "row": 187,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 154,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 154,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "resources": [
+        "0xE91F569C2AD8AF01"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 270,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 270,
+            "row": 324,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 167,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 167,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-35 Re-Educator",
+      "resources": [
+        "0x0B882808C6F498E8"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 343,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 343,
+            "row": 323,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-4 Senator",
+      "resources": [
+        "0x8D3D52A3B2F19402"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 309,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 309,
+            "row": 192,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-69 Veto",
+      "resources": [
+        "0xC780BCD79547DA0F"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 237,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 237,
+            "row": 183,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-72 Crisper",
+      "resources": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": []
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "resources": [
+        "0xCF8934FF6567A42D"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 326,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 326,
+            "row": 185,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "resources": [
+        "0xDBB6C961C59FADC1"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 202,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 202,
+            "row": 260,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 388,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "resources": [
+        "0xEEA5E3CEF1E12C14"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 142,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 142,
+            "row": 310,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 155,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "resources": [
+        "0xFB3A19078694708A"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 296,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 296,
+            "row": 315,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 191,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "resources": [
+        "0xAA69A60D74A3EC54"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 171,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 171,
+            "row": 309,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 355,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "resources": [
+        "0x30061F91AF477F5E"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 155,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 155,
+            "row": 311,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 413,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "resources": [
+        "0x0F83639AB8C86165"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 327,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 327,
+            "row": 239,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "resources": [
+        "0x7B75E5132FFD4CA6"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 282,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 282,
+            "row": 238,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "resources": [
+        "0xB6AFF2195568767F"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 40,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 40,
+            "row": 265,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 158,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 158,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-4 Hyena",
+      "resources": [
+        "0xE5796355A8FD67E0"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 207,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 207,
+            "row": 248,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "resources": [
+        "0xE6D932BE83729076"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 299,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 299,
+            "row": 240,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "resources": [
+        "0x03E67A19B07C6523"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 305,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 305,
+            "row": 242,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "resources": [
+        "0x4C786785C79D44E7"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 241,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 241,
+            "row": 243,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-72 Censor",
+      "resources": [
+        "0xF0338468DCDB6A6C"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 325,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 325,
+            "row": 228,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "resources": [
+        "0x1ABBFF60D26BA391"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 86,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 86,
+            "row": 261,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "resources": [
+        "0x4E310B1FE4C52B52"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 183,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 183,
+            "row": 285,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        },
+        {
+          "role": "feed_alternate",
+          "projectileType": 191,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 191,
+            "row": 294,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "resources": [
+        "0x2B28E17FFED05F7C"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "resources": [
+        "0x46183B50961D1328"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 179,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 179,
+            "row": 272,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "resources": [
+        "0xC12A34F375BD5A87"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 314,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 314,
+            "row": 275,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "resources": [
+        "0x5EBAEA70C0D060B9"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 174,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 174,
+            "row": 271,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-451 Cookout",
+      "resources": [
+        "0xD323DE60855898AC"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 347,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 347,
+            "row": 283,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "resources": [
+        "0x41EAC4A03987FAA0"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "resources": [
+        "0x05D8D8C073B9D502"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 57,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 57,
+            "row": 316,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 290,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "resources": [
+        "0x4F749E2EE26F532D"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 240,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 240,
+            "row": 295,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "resources": [
+        "0xDCD1C835407EF7BA"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 262,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 262,
+            "row": 349,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "resources": [
+        "0x186EA95DE7306B1A"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 76,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 76,
+            "row": 167,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "resources": [
+        "0x94BD931B5FB4EE95"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 123,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 123,
+            "row": 189,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "resolution": "DUPLICATE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 3,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 3,
+            "row": 173,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "resources": [
+        "0x0807AEA5217E4767"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 157,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 157,
+            "row": 181,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "resources": [
+        "0x8A307BD1811A5FE9"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 38,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 38,
+            "row": 190,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "resources": [
+        "0x4BA41B6F9F405CC2"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "resources": [
+        "0xCDF28BE026BB7D84"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "resources": [
+        "0xF992CE97577C8A7F"
+      ],
+      "resolution": "UNIQUE",
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 94,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 94,
+            "row": 197,
+            "settingsType": "0xBD4042C2"
+          },
+          "actions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
