@@ -27,7 +27,7 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['orbitalRootsResolved'], 12)
         self.assertEqual(summary['eagleRootsResolved'], 8)
         self.assertEqual(summary['supportRootsResolved'], 33)
-        self.assertEqual(summary['cooldownWritable'], 53)
+        self.assertEqual(summary['cooldownWritable'], 71)
         self.assertEqual(summary['maxUsesWritable'], 0)
         self.assertEqual(summary['eagleUsesPerRearmWritable'], 8)
         self.assertEqual(summary['eagleRearmTimeWritable'], 8)
@@ -106,6 +106,57 @@ plans.validate{id='eagle_plan',operations={
   field=hd2.fields.eagle.rearm_time,expect=150,value=30},
  {id='payload',target=eagle:attack('delivery_1_projectile_impact'),allow_shared=true,
   field=hd2.fields.explosion.outer_radius,expect=10,value=20}}}
+return 'ok'
+''')
+
+    def test_deployed_entity_graph_and_family_coverage(self):
+        summary = self.catalog['summary']
+        self.assertEqual(summary['sentryRootsResolved'], 10)
+        self.assertEqual(summary['emplacementRootsResolved'], 4)
+        self.assertEqual(summary['mineRootsResolved'], 4)
+        self.assertEqual(summary['deployedEntitiesResolved'], 18)
+        self.assertGreaterEqual(summary['healthWritable'], 18)
+        self.assertGreaterEqual(summary['armorWritable'], 18)
+        self.assertGreaterEqual(summary['projectileBranches'], 1)
+        self.assertGreaterEqual(summary['explosionBranches'], 1)
+        self.assertGreaterEqual(summary['beamBranches'], 1)
+        self.assertGreaterEqual(summary['statusBranches'], 1)
+        self.assertEqual(self.catalog['contract'], 'hd2runtime.stratagem.guarded_authoring.v2')
+        self.assertEqual(self.catalog['schemaVersion'], 2)
+        self.assertTrue(self.catalog['backingObjects'])
+        self.assertTrue(self.catalog['operationGroups'])
+
+        run('''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local plans=require('hd2runtime/domains/composition_plans')
+local strat=hd2.stratagem('E/AT-12 Anti-Tank Emplacement')
+local entity=strat:deployed_entity()
+assert(entity:describe().kind=='Emplacement')
+assert(#entity:weapons()==1)
+patches.validate{id='entity_hp',target=entity,field=hd2.fields.entity.health,expect=300,value=600}
+patches.validate{id='entity_armor',target=entity,field=hd2.fields.entity.armor,expect=2,value=3}
+local weapon=entity:weapon('primary')
+patches.validate{id='weapon_ammo',target=weapon,field=hd2.fields.weapon.capacity,expect=30,value=40}
+local projectile=weapon:attack('primary'):projectile()
+patches.validate{id='projectile_mass',target=projectile,field=hd2.fields.projectile.mass,expect=6500,value=7000,allow_shared=true}
+local explosion=weapon:attack('primary_impact'):explosion()
+patches.validate{id='explosion_radius',target=explosion,field=hd2.fields.explosion.outer_radius,expect=6,value=7,allow_shared=true}
+local impact_damage=weapon:attack('primary_impact_damage'):damage()
+patches.validate{id='explosion_damage',target=impact_damage,
+ field=hd2.fields.explosion.damage_standard_damage,expect=150,value=200,allow_shared=true}
+plans.validate{id='emplacement_plan',operations={
+ {id='entity',target=entity,field=hd2.fields.entity.health,expect=300,value=600},
+ {id='weapon',target=weapon,field=hd2.fields.weapon.capacity,expect=30,value=40},
+ {id='projectile',target=projectile,field=hd2.fields.projectile.mass,expect=6500,value=7000,allow_shared=true},
+ {id='explosion',target=explosion,field=hd2.fields.explosion.outer_radius,expect=6,value=7,allow_shared=true}}}
+local laser=hd2.stratagem('A/LAS-98 Laser Sentry')
+local beam=laser:deployed_entity():weapon('primary'):attack('primary'):beam()
+patches.validate{id='beam_length',target=beam,field=hd2.fields.beam.length,expect=200,value=220,allow_shared=true}
+local mine=hd2.stratagem('MD-6 Anti-Personnel Minefield')
+assert(mine:describe().mineScopeDeferred==true)
+assert(#mine:deployed_entity():weapons()==0)
+patches.validate{id='mine_hp',target=mine:deployed_entity(),field=hd2.fields.entity.health,expect=250,value=500}
 return 'ok'
 ''')
 

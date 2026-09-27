@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "fields": [
+    {"id":"entity.health","display_name":"Main health","type":"integer","unit":"health","writable":true,"storage":"i32","component":"HealthComponentData","offset":0},
+    {"id":"entity.armor","display_name":"Main armor","type":"integer","unit":"armor_class","writable":true,"storage":"u32","component":"HealthComponentData","offset":280},
     {"id":"stratagem.cooldown","display_name":"Cooldown","type":"number","unit":"seconds","writable":true,"storage":"f32"},
     {"id":"stratagem.max_uses","display_name":"Maximum mission uses","type":"integer","unit":"uses","writable":false,"reason":"The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven."},
     {"id":"eagle.uses_per_rearm","display_name":"Uses before rearm","type":"integer","unit":"uses","writable":true,"storage":"u32"},

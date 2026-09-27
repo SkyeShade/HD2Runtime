@@ -272,6 +272,10 @@ function M.new(describe)
     local function stratagem_attack(name,role)
         local entry=assert(stratagem_authoring.stratagems[name])
         local attack=assert(entry.attacks[role],'unknown reviewed stratagem attack: '..tostring(role))
+        local deployed=false
+        for _,field in ipairs(entry.fields)do
+            if field.target.attack==role and field.target.entity then deployed=true;break end
+        end
         local methods={}
         function methods.describe()
             local result=copy(attack);result.fieldInstances={}
@@ -291,7 +295,75 @@ function M.new(describe)
         function methods.status(self)
             assert(attack.kind=='StatusEffectSettings','attack is not a status settings object');return self
         end
-        return setmetatable({resource='stratagem',stratagem=name,path='attack',attack=role},
+        function methods.arc(self)
+            assert(attack.kind=='ArcSettings','attack is not an arc settings object');return self
+        end
+        function methods.beam(self)
+            assert(attack.kind=='BeamSettings','attack is not a beam settings object');return self
+        end
+        local identity={resource='stratagem',stratagem=name,path='attack',attack=role}
+        if deployed then identity.entity='main';identity.weapon='primary'end
+        return setmetatable(identity,{__index=methods})
+    end
+    local function stratagem_entity(name)
+        local entry=assert(stratagem_authoring.stratagems[name])
+        assert(entry.deployedEntity,'stratagem has no deployed entity definition')
+        local methods={}
+        function methods.describe()
+            local result=copy(entry.deployedEntity);result.name=entry.name;result.fields={};result.weapons={}
+            for _,field in ipairs(entry.fields)do
+                if field.target.path=='deployed_entity' or field.target.path=='weapon'
+                    or field.target.path=='attack' then result.fields[#result.fields+1]=public_field(field)end
+            end
+            for role,attack in pairs(entry.attacks)do
+                local weapon=attack.weapon or 'primary'
+                result.weapons[weapon]=result.weapons[weapon] or {identity=weapon,attacks={}}
+                result.weapons[weapon].attacks[#result.weapons[weapon].attacks+1]=role
+            end
+            return result
+        end
+        function methods.health(self)return self end
+        function methods.weapon(_,identity)
+            identity=identity or 'primary'
+            local target={resource='stratagem',stratagem=name,path='weapon',entity='main',weapon=identity}
+            local weapon_methods={}
+            function weapon_methods.describe()
+                local result={name=name,identity=identity,fields={},attacks={}}
+                for _,field in ipairs(entry.fields)do
+                    if field.target.path=='weapon' and field.target.weapon==identity
+                        or field.target.path=='attack' and field.target.weapon==identity then
+                        result.fields[#result.fields+1]=public_field(field)
+                    end
+                end
+                for role,attack in pairs(entry.attacks)do
+                    if (attack.weapon or 'primary')==identity then result.attacks[#result.attacks+1]=role end
+                end
+                table.sort(result.attacks);return result
+            end
+            function weapon_methods.attack(_,role)return stratagem_attack(name,role)end
+            function weapon_methods.attacks()
+                local result={}
+                for role,attack in pairs(entry.attacks)do
+                    if (attack.weapon or 'primary')==identity then result[#result+1]=stratagem_attack(name,role)end
+                end
+                table.sort(result,function(a,b)return a.attack<b.attack end);return result
+            end
+            return setmetatable(target,{__index=weapon_methods})
+        end
+        function methods.weapons()
+            local result={};local seen={}
+            for _,field in ipairs(entry.fields)do
+                local identity=field.target.weapon
+                if identity and not seen[identity]then seen[identity]=true;result[#result+1]=methods.weapon(nil,identity)end
+            end
+            for _,attack in pairs(entry.attacks)do
+                local identity=attack.weapon or 'primary'
+                if not seen[identity]then seen[identity]=true;result[#result+1]=methods.weapon(nil,identity)end
+            end
+            table.sort(result,function(a,b)return a.weapon<b.weapon end);return result
+        end
+        function methods.attack(_,role)return stratagem_attack(name,role)end
+        return setmetatable({resource='stratagem',stratagem=name,path='deployed_entity',entity='main'},
             {__index=methods})
     end
     function builders.stratagem(name)
@@ -306,7 +378,8 @@ function M.new(describe)
         end
         function methods.describe()
             local result={name=entry.name,family=entry.family,rootResolution=entry.rootResolution,
-                fields={},attackRoles={}}
+                fields={},attackRoles={},deployedEntity=entry.deployedEntity,
+                mineScopeDeferred=entry.family=='mine'}
             for _,field in ipairs(entry.fields)do if field.target.path=='stratagem'then
                 result.fields[#result.fields+1]=public_field(field)end end
             for role in pairs(entry.attacks)do result.attackRoles[#result.attackRoles+1]=role end
@@ -318,6 +391,7 @@ function M.new(describe)
             return result
         end
         function methods.attack(_,role)return stratagem_attack(name,role)end
+        function methods.deployed_entity()return stratagem_entity(name)end
         function methods.eagle_rearm()
             assert(entry.family=='eagle','stratagem has no Eagle rearm definition')
             local rearm_methods={}

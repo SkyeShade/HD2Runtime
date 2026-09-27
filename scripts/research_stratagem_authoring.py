@@ -119,13 +119,13 @@ local reader=require('hd2runtime/runtime/reader').new(source)
 local worker=coroutine.create(function()
  local records=require('hd2runtime/core/stratagem').capture_all(source,reader,profile)
  local roots=require('hd2runtime/runtime/discover').locate(source,reader,profile,{projectile=true,
-  damage=true,explosion=true,status='optional'})
+  damage=true,explosion=true,arc=true,beam=true,status='optional'})
  local function hex(bytes)
   local out={};for index=1,#bytes do out[index]=string.format('%02x',bytes:byte(index))end
   return table.concat(out)
  end
  local settings={}
- for _,kind in ipairs({'projectile','damage','explosion','status'})do
+ for _,kind in ipairs({'projectile','damage','explosion','arc','beam','status'})do
   settings[kind]={}
   if roots[kind]then for record_type,record in pairs(roots[kind].records)do
    settings[kind][tostring(record_type)]={group=record.group,row=record.row,
