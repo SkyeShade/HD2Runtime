@@ -1,0 +1,551 @@
+{
+  "schemaVersion": 1,
+  "mode": "snapshot",
+  "snapshotBuild": "F5FEE03DCFDB",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "scope": "targeted native-family continuation from the fixed 365 weapon candidate scan",
+  "readOnly": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled"
+  },
+  "settingsTables": {
+    "explosion": 422,
+    "status": 71
+  },
+  "arcThrower": {
+    "identityResolution": "UNIQUE",
+    "resourceHashes": [
+      "0x96DE9CD50F7306E6"
+    ],
+    "attackGraph": [
+      {
+        "catalogIndex": 1,
+        "name": "ARC-3 ARC THROWER A",
+        "kind": "Arc",
+        "parentAttack": null,
+        "childAttacks": [
+          "Stun Small"
+        ],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "primary",
+          "runtimeAttackKind": "Arc",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force",
+            "arc_range",
+            "arc_velocity",
+            "arc_spread",
+            "arc_chain_spread",
+            "arc_chain_count",
+            "arc_max_split"
+          ],
+          "mismatchedFields": [],
+          "compared": 15
+        },
+        "unresolvedReason": null
+      },
+      {
+        "catalogIndex": 2,
+        "name": "Stun Small",
+        "kind": "Status",
+        "parentAttack": "ARC-3 ARC THROWER A",
+        "childAttacks": [],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "primary_status_37",
+          "runtimeAttackKind": "Status",
+          "runtimeParentRole": "primary",
+          "matchedFields": [
+            "status_strength",
+            "status_duration"
+          ],
+          "mismatchedFields": [],
+          "compared": 2
+        },
+        "unresolvedReason": null
+      }
+    ],
+    "chargeCadence": [
+      {
+        "resourceHash": "0x96DE9CD50F7306E6",
+        "value": {
+          "fireRateRepresentation": "charge_controlled",
+          "levels": [
+            1,
+            1.100000023841858,
+            1.2000000476837158
+          ],
+          "maximumSeconds": 1.399999976158142,
+          "minimumSeconds": 0.699999988079071,
+          "ownerCount": 1,
+          "recordIndex": 6,
+          "uniqueOwner": true
+        }
+      }
+    ],
+    "fireRateDiagnostics": [
+      {
+        "resourceHash": "0x96DE9CD50F7306E6",
+        "runtimeOptions": null,
+        "catalogValue": 60,
+        "matcherDisagreements": [],
+        "diagnosticOnly": true
+      }
+    ]
+  },
+  "entrenchmentTool": {
+    "identityResolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x7E1F76163C667E4B",
+      "0xE85E623F93F96FB3"
+    ],
+    "identityResolutionBasis": "native_melee_exact_fingerprint",
+    "attackGraph": [
+      {
+        "catalogIndex": 1,
+        "name": "CQC-72 ENTRENCHMENT TOOL_dm",
+        "kind": "Melee",
+        "parentAttack": null,
+        "childAttacks": [],
+        "charge": null,
+        "state": "IDENTITY_AMBIGUOUS",
+        "runtimeMatch": {
+          "runtimeAttackRole": "primary",
+          "runtimeAttackKind": "Melee",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force"
+          ],
+          "mismatchedFields": [],
+          "compared": 9
+        },
+        "unresolvedReason": null
+      }
+    ]
+  },
+  "soloSilo": {
+    "identityResolution": "UNIQUE",
+    "resourceHashes": [
+      "0xDE18775FA447A9BF"
+    ],
+    "attackOwnerResourceHash": "0xDDDB2910FF2B24E9",
+    "ownershipChain": [
+      {
+        "kind": "stratagem_payload",
+        "recordKind": 89,
+        "id": 1337271929,
+        "package": "0x2947AFE42093062F",
+        "resourceHash": "0xDE18775FA447A9BF"
+      },
+      {
+        "kind": "spawned_silo",
+        "resourceHash": "0xDE18775FA447A9BF",
+        "component": "HellpodRackComponentData"
+      },
+      {
+        "kind": "placed_or_attack_entity",
+        "resourceHash": "0xDDDB2910FF2B24E9"
+      }
+    ],
+    "attackGraph": [
+      {
+        "catalogIndex": 1,
+        "name": "SWP SOLO SILO E",
+        "kind": "Explosion",
+        "parentAttack": null,
+        "childAttacks": [],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "detonation",
+          "runtimeAttackKind": "Explosion",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force",
+            "explosion_inner_radius",
+            "explosion_outer_radius",
+            "explosion_shockwave_radius"
+          ],
+          "mismatchedFields": [],
+          "compared": 12
+        },
+        "unresolvedReason": null
+      },
+      {
+        "catalogIndex": 2,
+        "name": "SWP SOLO SILO EImpact",
+        "kind": "Explosion",
+        "parentAttack": null,
+        "childAttacks": [],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "impact",
+          "runtimeAttackKind": "Explosion",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force",
+            "explosion_inner_radius",
+            "explosion_outer_radius",
+            "explosion_shockwave_radius"
+          ],
+          "mismatchedFields": [],
+          "compared": 12
+        },
+        "unresolvedReason": null
+      }
+    ]
+  },
+  "c4Pack": {
+    "identityResolution": "UNIQUE",
+    "resourceHashes": [
+      "0x9B75217D8312DD67"
+    ],
+    "attackOwnerResourceHash": "0x9B75217D8312DD67",
+    "ownershipChain": [
+      {
+        "kind": "placed_or_attack_entity",
+        "resourceHash": "0x9B75217D8312DD67"
+      }
+    ],
+    "attackGraph": [
+      {
+        "catalogIndex": 1,
+        "name": "B/MD C4 PACK E",
+        "kind": "Explosion",
+        "parentAttack": null,
+        "childAttacks": [],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "detonation",
+          "runtimeAttackKind": "Explosion",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force",
+            "explosion_inner_radius",
+            "explosion_outer_radius",
+            "explosion_shockwave_radius"
+          ],
+          "mismatchedFields": [],
+          "compared": 12
+        },
+        "unresolvedReason": null
+      }
+    ]
+  },
+  "gl28": {
+    "identityResolution": "UNIQUE",
+    "resourceHashes": [
+      "0x88C2D09AD85A7C9F"
+    ],
+    "identityResolutionBasis": "linked_projectile_explosion_graph_with_rate_diagnostic",
+    "attackGraph": [
+      {
+        "catalogIndex": 1,
+        "name": "GL-28 P",
+        "kind": "Projectile",
+        "parentAttack": null,
+        "childAttacks": [
+          "GL-28 P IE"
+        ],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "primary",
+          "runtimeAttackKind": "Projectile",
+          "runtimeParentRole": null,
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "ap_slight",
+            "ap_large",
+            "ap_extreme",
+            "demolition",
+            "stagger",
+            "push_force",
+            "projectile_velocity",
+            "projectile_mass",
+            "drag",
+            "gravity"
+          ],
+          "mismatchedFields": [],
+          "compared": 13
+        },
+        "unresolvedReason": null
+      },
+      {
+        "catalogIndex": 2,
+        "name": "GL-28 P IE",
+        "kind": "Explosion",
+        "parentAttack": "GL-28 P",
+        "childAttacks": [],
+        "charge": null,
+        "state": "RESOLVED",
+        "runtimeMatch": {
+          "runtimeAttackRole": "primary_impact",
+          "runtimeAttackKind": "Explosion",
+          "runtimeParentRole": "primary",
+          "matchedFields": [
+            "standard_damage",
+            "durable_damage",
+            "ap_direct",
+            "demolition",
+            "stagger",
+            "push_force",
+            "explosion_inner_radius",
+            "explosion_outer_radius",
+            "explosion_shockwave_radius"
+          ],
+          "mismatchedFields": [],
+          "compared": 9
+        },
+        "unresolvedReason": null
+      }
+    ],
+    "fireRateDiagnostics": [
+      {
+        "resourceHash": "0x88C2D09AD85A7C9F",
+        "runtimeOptions": {
+          "default": 240,
+          "high": 320,
+          "low": 160,
+          "representation": "schema_vec3_selector"
+        },
+        "catalogValue": 320,
+        "matcherDisagreements": [
+          "fire rate runtime=240 wiki=320"
+        ],
+        "diagnosticOnly": true
+      }
+    ]
+  },
+  "branchCounts": {
+    "catalog": {
+      "Projectile": 32,
+      "Explosion": 34,
+      "Beam": 2,
+      "Arc": 2,
+      "Spray": 3,
+      "Melee": 4,
+      "Status": 17,
+      "Unknown": 1
+    },
+    "resolved": {
+      "Projectile": 17,
+      "Explosion": 18,
+      "Beam": 1,
+      "Arc": 1,
+      "Spray": 2,
+      "Melee": 2,
+      "Status": 8,
+      "Unknown": 0
+    }
+  },
+  "duplicateGroups": [
+    {
+      "name": "B/FLAM-80 Cremator",
+      "resources": [
+        "0x0736BEE2D6328726",
+        "0x78A8185F63A70795"
+      ]
+    },
+    {
+      "name": "CQC-20 Breaching Hammer",
+      "resources": [
+        "0x5F3EC9BDA2BD8553",
+        "0x792D5D2A340FD6E6"
+      ]
+    },
+    {
+      "name": "CQC-72 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ]
+    },
+    {
+      "name": "EAT-17 Expendable Anti-Tank",
+      "resources": [
+        "0x5C54E81A4AAA31FC",
+        "0x80932FA0ED6901D3"
+      ]
+    },
+    {
+      "name": "LAS-98 Laser Cannon",
+      "resources": [
+        "0x1980D92B619FF5FE",
+        "0x56070F36CFFFA8A8",
+        "0xD54B9505C0F72873"
+      ]
+    },
+    {
+      "name": "M-105 Stalwart",
+      "resources": [
+        "0xA6A735ACCB4A327F",
+        "0xB43235DBD493750C",
+        "0xB9606C5AAB32C3C2",
+        "0xD53EE03481AE73FD"
+      ]
+    },
+    {
+      "name": "MG-206 Heavy Machine Gun",
+      "resources": [
+        "0x085C1EDB038EC24E",
+        "0x2152D5147B0AC418",
+        "0xCD00BDC1149C2928"
+      ]
+    },
+    {
+      "name": "MG-43 Machine Gun",
+      "resources": [
+        "0x11C27D3BABB38956",
+        "0x587878FB76F4B9B1"
+      ]
+    }
+  ],
+  "backpackOwnership": {
+    "catalogued": 9,
+    "weaponLinkedAmmoOwned": 3,
+    "backpackEntityLinksProven": 0,
+    "linkedAmmoOwners": [
+      {
+        "ammoClass": 1,
+        "ammoVariant": 6,
+        "entityRow": 2429,
+        "linkedAmmoType": 1099511627776,
+        "nativeValues": [
+          0,
+          0,
+          3778614046,
+          0
+        ],
+        "recordIndex": 5,
+        "resourceHash": "0x43A58CB89CFA197C"
+      },
+      {
+        "ammoClass": 1,
+        "ammoVariant": 6,
+        "entityRow": 1941,
+        "linkedAmmoType": 4398046511104,
+        "nativeValues": [
+          955461271,
+          0,
+          3778614046,
+          0
+        ],
+        "recordIndex": 4,
+        "resourceHash": "0x78A8185F63A70795"
+      },
+      {
+        "ammoClass": 1,
+        "ammoVariant": 6,
+        "entityRow": 3231,
+        "linkedAmmoType": 8796093022208,
+        "nativeValues": [
+          0,
+          0,
+          3778614046,
+          955461271
+        ],
+        "recordIndex": 3,
+        "resourceHash": "0x88C2D09AD85A7C9F"
+      },
+      {
+        "ammoClass": 2,
+        "ammoVariant": 6,
+        "entityRow": 3880,
+        "linkedAmmoType": 0,
+        "nativeValues": [
+          0,
+          0,
+          3778614046,
+          0
+        ],
+        "recordIndex": 1,
+        "resourceHash": "0x9BFC8FCD68B09F28"
+      },
+      {
+        "ammoClass": 0,
+        "ammoVariant": 6,
+        "entityRow": 1922,
+        "linkedAmmoType": 0,
+        "nativeValues": [
+          0,
+          2539754645,
+          3778614046,
+          0
+        ],
+        "recordIndex": 0,
+        "resourceHash": "0x9E83637BB077E782"
+      },
+      {
+        "ammoClass": 2,
+        "ammoVariant": 6,
+        "entityRow": 2530,
+        "linkedAmmoType": 0,
+        "nativeValues": [
+          0,
+          0,
+          3778614046,
+          0
+        ],
+        "recordIndex": 2,
+        "resourceHash": "0xFFB4A0F6A52719E1"
+      }
+    ]
+  },
+  "diagnostics": [
+    "0x5DE8FD02A05B4B0A ExplosiveComponentData: [string \"hd2runtime/api/weapon_mapper\"]:67: linked DamageInfo record absent",
+    "0xC39E7FD97E974E5E ExplosiveComponentData: [string \"hd2runtime/api/weapon_mapper\"]:67: linked DamageInfo record absent",
+    "0xDAB81B0D80B511C7 ExplosiveComponentData: [string \"hd2runtime/api/weapon_mapper\"]:67: linked DamageInfo record absent"
+  ]
+}

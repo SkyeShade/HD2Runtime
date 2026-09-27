@@ -40,6 +40,13 @@ def pellet_count(attack):
     return int(match.group()) if match else None
 
 
+def extra_number(extra, key):
+    value=extra.get(key)
+    if isinstance(value,(int,float)):return value
+    match=re.search(r'-?\d+(?:\.\d+)?',str(value or''))
+    return float(match.group()) if match else None
+
+
 def spread_values(weapon):
     value=weapon_stats(weapon).get('spread')
     numbers=re.findall(r'-?\d+(?:\.\d+)?',str(value or''))
@@ -52,6 +59,7 @@ def attack_record(attack,index):
     extra=attack.get('extraFields') or attack.get('normalizedExtraFields') or {}
     explosion_branches=sorted({str(value) for key,value in extra.items()
         if 'Explosion' in key and value not in (None,'')})
+    area=attack.get('areaOfEffect') or {}
     return {'index':index,'name':attack.get('name'),'kind':attack.get('kind'),
         'standard_damage':scalar(damage.get('standard')),'durable_damage':scalar(damage.get('durable')),
         'ap_direct':scalar(penetration.get('direct')),'ap_slight':scalar(penetration.get('slightAngle')),
@@ -61,6 +69,17 @@ def attack_record(attack,index):
         'gravity':scalar(projectile.get('gravityFactor')),'demolition':scalar(effects.get('demolitionForce')),
         'stagger':scalar(effects.get('staggerForce')),'push_force':scalar(effects.get('pushForce')),
         'pellet_count':pellet_count(attack),'charge':attack.get('charge'),
+        'explosion_inner_radius':scalar(area.get('innerRadiusMeters')),
+        'explosion_outer_radius':scalar(area.get('outerRadiusMeters')),
+        'explosion_shockwave_radius':scalar(area.get('shockwaveRadiusMeters')),
+        'arc_range':extra_number(extra,'Arc.Arc Range'),
+        'arc_velocity':extra_number(extra,'Arc.Arc Velocity'),
+        'arc_spread':extra_number(extra,'Arc.Arc Spread'),
+        'arc_chain_spread':extra_number(extra,'Arc.Chain Spread'),
+        'arc_chain_count':extra_number(extra,'Arc.Chain Count'),
+        'arc_max_split':extra_number(extra,'Arc.Max Split'),
+        'status_strength':extra_number(extra,'Special Effects.Status Strength'),
+        'status_duration':extra_number(extra,'Status.Status Duration'),
         'parent_attack':attack.get('parentAttack'),'child_attacks':attack.get('childAttacks') or [],
         'projectile_data':attack.get('projectile'),'area_of_effect':attack.get('areaOfEffect'),
         'beam':attack.get('beam'),
@@ -76,6 +95,12 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
         if slot and weapon_slot != slot.lower():continue
         attacks=[attack_record(item,index) for index,item in enumerate(weapon.get('attacks') or [],1)]
         if not attacks:raise ValueError(f"{weapon.get('name')}: no attacks")
+        by_name={attack['name']:attack for attack in attacks}
+        for attack in attacks:
+            if attack['kind']=='Status' and attack.get('parent_attack') in by_name:
+                parent=by_name[attack['parent_attack']]
+                if attack.get('status_strength') is None:
+                    attack['status_strength']=parent.get('status_strength')
         normalized_fields=normalized(weapon);stats=weapon_stats(weapon)
         fire_rate=weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
         capacity=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))

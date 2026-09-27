@@ -202,6 +202,10 @@
       "sha256": "FDE93701608D12CB1AA4985F11EB9F2BAB8BB6DC4E8F556B7F7B18B171C7017B"
     },
     {
+      "path": "ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/generated_explosion_settings.dl_bin",
+      "sha256": "1F7C53253250E89CD17A1381BD5A2FEB48AEB336E4A3C97E74311C6FB67D7AF6"
+    },
+    {
       "path": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
       "sha256": "551003AE5E2A7FD3CADF9F05A994383308B723736BC34CA66ACE23AA7AF2C6DD"
     },

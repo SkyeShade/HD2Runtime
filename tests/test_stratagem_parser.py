@@ -67,6 +67,17 @@ local parser=require('hd2runtime/core/stratagem')
 
 
 class StratagemParserTests(unittest.TestCase):
+    def test_parse_all_preserves_payload_ownership(self):
+        self.assertEqual(run_lua("""
+local records=parser.parse_all(source,base,pointers,spec)
+assert(#records==2 and records[1].record_kind==22 and records[2].record_kind==105)
+assert(records[1].payloads[1]=='0xED13DDC480EC6910')
+assert(records[2].payloads[1]=='0xEC3575E7A93793BB')
+assert(records[1].payload_pointer=='relocated_absolute')
+assert(records[2].payload_pointer=='serialized_group_relative')
+return'ok'
+"""),b'ok')
+
     def test_relocated_two_payload_shield_and_relative_orbital(self):
         self.assertEqual(run_lua("""
 local shield=parser.parse(source,base,pointers,spec,targets.shield_relay)

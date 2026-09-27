@@ -12,6 +12,7 @@ ROOT=SDK.parent
 MODULE_PATHS={
     'hd2runtime/core/binary':'core/binary.lua','hd2runtime/core/bytes':'core/bytes.lua',
     'hd2runtime/core/weapon_metadata':'core/weapon_metadata.lua',
+    'hd2runtime/core/stratagem':'core/stratagem.lua',
     'hd2runtime/core/entity_catalog':'core/entity_catalog.lua','hd2runtime/core/settings':'core/settings.lua',
     'hd2runtime/core/snapshot_format':'core/snapshot_format.lua','hd2runtime/runtime/reader':'runtime/reader.lua',
     'hd2runtime/runtime/discover':'runtime/discover.lua','hd2runtime/runtime/snapshot_memory_reader':'runtime/snapshot_memory_reader.lua',
@@ -58,7 +59,7 @@ def _scan(snapshot: Path,wiki: Path,output: Path|None=None,historical=False,lua_
     program=preload+'''\nlocal profile=require('hd2runtime/schemas/current')
 local source=require('hd2runtime/runtime/snapshot_memory_reader').open('''+lua(str(snapshot))+''',{
  expected_exe_sha=profile.exe_sha,expected_dll_sha=profile.dll_sha,historical_analysis='''+lua(historical)+'''})
-local job=require('hd2runtime/api/weapon_mapper').start(source,function()end,{historical_analysis='''+lua(historical)+'''})
+local job=require('hd2runtime/api/weapon_mapper').start(source,function()end,{historical_analysis='''+lua(historical)+''',support_graph='''+lua(expected_count==35)+'''})
 for _=1,200000 do if job.step()then break end end
 assert(job.status=='complete',job.error or 'snapshot scan did not complete')
 local full,mapping,summary=require('hd2runtime/primary_mapper/report').compose(job.result,'''+lua(dataset)+''',

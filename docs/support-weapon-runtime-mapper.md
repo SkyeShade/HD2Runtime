@@ -16,16 +16,28 @@ The command writes `SupportWeaponRuntimeMap.json`,
 [`research/support-weapon-runtime-F5FEE03DCFDB.json`](../research/support-weapon-runtime-F5FEE03DCFDB.json).
 
 The report preserves every imported attack and its parent/child relationships. Runtime branches
-are linked only when the owned component family and compared scalar fingerprint agree. Missing
-branches remain explicit. The current profile has no reviewed `ExplosionSettings`, status-settings,
-backblast-root, backpack-storage, or charge/alternate-fire selection adapter. Those links are
-reported as unresolved rather than inferred from coincidental record values.
+are linked only through schema-labelled native references and matching typed records. The mapper
+now follows `ProjectileInfo -> ExplosionSettings -> DamageInfo`,
+`DamageInfo -> StatusEffectSettings`, `ExplosiveComponentData -> ExplosionSettings`, and
+`HellpodRackComponentData -> spawned attack entity`. Missing branches remain explicit.
 
-Current snapshot results are 30 resolved identities out of 35, including 24 unique roots and six
-duplicate-resource groups. The remaining five are ARC-3 Arc Thrower, B/MD C4 Pack, CQC-72
-Entrenchment Tool, GL-28 Belt-Fed Grenade Launcher, and MS-11 Solo Silo. ARC-3 and GL-28 have one
-strong partial root each, but their imported fire rates disagree with the direct runtime value;
-the matcher leaves them ambiguous.
+Current snapshot results are 35 resolved identities out of 35: 27 unique roots and eight
+duplicate-resource groups. Eighteen explosion branches and eight status branches are structurally
+linked. C4 resolves to its placed explosive entity. Solo Silo preserves a separate stratagem
+payload/silo root and missile-damage owner. CQC-72 remains a two-resource duplicate because both
+MeleeWeapon, WeaponData, customization, and damage records are byte-identical.
+
+ARC-3's `ArcWeaponComponentData` rate is the native `-1` charge-controlled sentinel. Its owned
+`WeaponChargeComponentData` supplies 0.7/1.4 second charge timing and 1.0/1.1/1.2 charge levels;
+the catalog's 60 RPM remains a diagnostic display value. GL-28's schema-labelled rate selector is
+`160/240/320`; 240 is the default element and the catalog value is the high element. Its identity
+is supported by the linked projectile and explosion graph rather than by suppressing this
+diagnostic disagreement.
+
+Three of the nine catalogued backpack-dependent weapons own a `WeaponLinkedAmmoComponentData`
+record in the mapped root set. The link from those weapon-side records to a particular backpack
+entity/package is still unresolved, so backpack ammo is not writable and no ownership is claimed.
+Standalone backblast ownership and charge native-consumer semantics also remain open.
 
 The future semantic direction is `hd2.support_weapon(name)` with branch-aware access. It is not a
 public runtime API yet. Snapshot evidence does not prove enough live ownership for guarded support

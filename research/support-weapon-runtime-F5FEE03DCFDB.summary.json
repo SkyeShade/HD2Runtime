@@ -1,15 +1,15 @@
 {
   "catalogWeapons": 35,
-  "resolvedIdentities": 30,
-  "uniqueIdentities": 24,
-  "duplicateIdentityGroups": 6,
-  "ambiguousIdentities": 3,
-  "unresolvedIdentities": 2,
+  "resolvedIdentities": 35,
+  "uniqueIdentities": 27,
+  "duplicateIdentityGroups": 8,
+  "ambiguousIdentities": 0,
+  "unresolvedIdentities": 0,
   "identityStatusCounts": {
-    "EXACT": 21,
-    "STRONG": 3,
-    "AMBIGUOUS": 9,
-    "UNMATCHED": 2
+    "EXACT": 26,
+    "STRONG": 1,
+    "AMBIGUOUS": 8,
+    "UNMATCHED": 0
   },
   "sourceGroupCounts": {
     "Civilian": 2,
@@ -28,24 +28,20 @@
     "Unknown": 1
   },
   "resolvedBranchCounts": {
-    "Projectile": 16,
-    "Explosion": 0,
+    "Projectile": 17,
+    "Explosion": 18,
     "Beam": 1,
-    "Arc": 0,
+    "Arc": 1,
     "Spray": 2,
-    "Melee": 3,
-    "Status": 0,
+    "Melee": 2,
+    "Status": 8,
     "Unknown": 0
   },
-  "sharedSettingsGroups": 1,
+  "sharedSettingsGroups": 5,
   "backpackDependentWeapons": 9,
-  "readOnlySemanticResolutionReady": 24,
+  "backpackWeaponsWithWeaponLinkedAmmoOwnership": 3,
+  "backpackEntityLinksProven": 0,
+  "readOnlySemanticResolutionReady": 27,
   "guardedAuthoringReady": false,
-  "unresolvedWeapons": [
-    "ARC-3 Arc Thrower",
-    "B/MD C4 Pack",
-    "CQC-72 Entrenchment Tool",
-    "GL-28 Belt-Fed Grenade Launcher",
-    "MS-11 Solo Silo"
-  ]
+  "unresolvedWeapons": []
 }

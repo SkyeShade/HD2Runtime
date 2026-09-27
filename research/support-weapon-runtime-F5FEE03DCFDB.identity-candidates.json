@@ -24,12 +24,12 @@
     "canonicalResourceHash": "0x89C5493E08CA4207"
   },
   "ARC-3 Arc Thrower": {
-    "status": "AMBIGUOUS",
-    "resolution": "AMBIGUOUS",
+    "status": "EXACT",
+    "resolution": "UNIQUE",
     "resourceHashes": [
       "0x96DE9CD50F7306E6"
     ],
-    "canonicalResourceHash": null
+    "canonicalResourceHash": "0x96DE9CD50F7306E6"
   },
   "B/FLAM-80 Cremator": {
     "status": "AMBIGUOUS",
@@ -41,10 +41,12 @@
     "canonicalResourceHash": null
   },
   "B/MD C4 Pack": {
-    "status": "UNMATCHED",
-    "resolution": "UNRESOLVED",
-    "resourceHashes": [],
-    "canonicalResourceHash": null
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x9B75217D8312DD67"
+    ],
+    "canonicalResourceHash": "0x9B75217D8312DD67"
   },
   "CQC-1 One True Flag": {
     "status": "EXACT",
@@ -55,18 +57,20 @@
     "canonicalResourceHash": "0xB0F1B354BA1D38D8"
   },
   "CQC-20 Breaching Hammer": {
-    "status": "EXACT",
-    "resolution": "UNIQUE",
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
     "resourceHashes": [
-      "0x5F3EC9BDA2BD8553"
+      "0x5F3EC9BDA2BD8553",
+      "0x792D5D2A340FD6E6"
     ],
-    "canonicalResourceHash": "0x5F3EC9BDA2BD8553"
+    "canonicalResourceHash": null
   },
   "CQC-72 Entrenchment Tool": {
     "status": "AMBIGUOUS",
-    "resolution": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
     "resourceHashes": [
-      "0x2670E0047B2EB409"
+      "0x7E1F76163C667E4B",
+      "0xE85E623F93F96FB3"
     ],
     "canonicalResourceHash": null
   },
@@ -104,7 +108,7 @@
     "canonicalResourceHash": "0xB2B5E0D185605F9E"
   },
   "FAF-14 Spear": {
-    "status": "STRONG",
+    "status": "EXACT",
     "resolution": "UNIQUE",
     "resourceHashes": [
       "0x25AA2FD4643CF4EE"
@@ -128,12 +132,12 @@
     "canonicalResourceHash": "0x02EECD0B1FA49630"
   },
   "GL-28 Belt-Fed Grenade Launcher": {
-    "status": "AMBIGUOUS",
-    "resolution": "AMBIGUOUS",
+    "status": "STRONG",
+    "resolution": "UNIQUE",
     "resourceHashes": [
       "0x88C2D09AD85A7C9F"
     ],
-    "canonicalResourceHash": null
+    "canonicalResourceHash": "0x88C2D09AD85A7C9F"
   },
   "GL-52 De-Escalator": {
     "status": "EXACT",
@@ -216,7 +220,7 @@
     "canonicalResourceHash": "0xB16C9D490AA59B77"
   },
   "MLS-4X Commando": {
-    "status": "STRONG",
+    "status": "EXACT",
     "resolution": "UNIQUE",
     "resourceHashes": [
       "0x5990123D142B16CB"
@@ -224,10 +228,12 @@
     "canonicalResourceHash": "0x5990123D142B16CB"
   },
   "MS-11 Solo Silo": {
-    "status": "UNMATCHED",
-    "resolution": "UNRESOLVED",
-    "resourceHashes": [],
-    "canonicalResourceHash": null
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xDE18775FA447A9BF"
+    ],
+    "canonicalResourceHash": "0xDE18775FA447A9BF"
   },
   "PLAS-45 Epoch": {
     "status": "EXACT",
@@ -270,7 +276,7 @@
     "canonicalResourceHash": "0x52071F49263415E4"
   },
   "StA-X3 W.A.S.P. Launcher": {
-    "status": "STRONG",
+    "status": "EXACT",
     "resolution": "UNIQUE",
     "resourceHashes": [
       "0xCC786F6491FE7E65"
