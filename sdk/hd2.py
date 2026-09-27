@@ -30,6 +30,15 @@ def inspect(kind,name):
     else:
         matches=[(k,r) for k,r in schema['resources'].items() if r['kind']==kind and name in r['aliases']]
         selected=None
+    if not matches and kind=='weapon' and (SDK/'PlayerWeaponAuthoringCapabilities.json').is_file():
+        capabilities=json.loads((SDK/'PlayerWeaponAuthoringCapabilities.json').read_text())
+        weapon=next((entry for entry in capabilities['weapons'] if entry['name']==name),None)
+        if weapon:
+            return {'mode':'offline_authoring_capabilities','current_process_read':False,
+                'schema_version':capabilities['schemaVersion'],'runtime_version':capabilities['hd2RuntimeVersion'],
+                'evidence_note':capabilities['fieldDefinitions'][0].get('reason') or
+                    'Snapshot-derived reviewed authoring metadata; current ownership is resolved in-game.',
+                'resources':[],'authoringWeapon':weapon}
     if not matches:raise ValueError('Unknown mapped '+kind+': '+name)
     return {'mode':'offline_schema','current_process_read':False,'schema_version':schema['schema_version'],
             'runtime_version':schema['runtime_version'],'evidence_note':schema['evidence_note'],
@@ -40,6 +49,17 @@ def inspect(kind,name):
 
 def format_inspection(result):
     schema=database();lines=['HD2Runtime '+result['runtime_version']+' | offline schema (no live process read)']
+    if result.get('authoringWeapon'):
+        weapon=result['authoringWeapon']
+        lines+=['',weapon['name']+'  '+', '.join(weapon['resources']),
+            '  family: '+', '.join(weapon['implementationFamilies'])]
+        for field in weapon['fields']:
+            access='editable' if field['editable'] else 'read-only'
+            lines+=['  '+field['semanticFieldId']+'  '+field['type']+'  '+access
+                +'  default='+str(field['currentDefault'])+'  scope='+field['writeScope']]
+            if field.get('reason'):lines+=['    '+field['reason']]
+        lines+=['',result['evidence_note']]
+        return '\n'.join(lines)
     for r in result['resources']:
         lines+=['',r['label']+'  '+r['resource']]
         for domain,t in schema['types'].items():

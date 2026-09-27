@@ -1,12 +1,12 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.11.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.13.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.11.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.13.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -65,10 +65,17 @@ python <SDK>/hd2.py inspect stratagem "Shield Relay" --json
 On Windows, add the SDK directory to PATH to use `hd2 inspect ...` through
 `hd2.cmd`. The CLI uses `metadata.json` only. Values are schema baselines, never
 claimed current memory values. The complete field/evidence and partial enum
-catalog is in [api.md](docs/api.md). Read/write access is per resource. For
-example, the shared damage domain has read-only Orbital Laser fields while only
-JAR-5 AP3→AP4 is currently enabled for `patch`. Unknown semantic ranges are null;
+catalog is in [api.md](docs/api.md). Read/write access is per resource. The
+original fixed-resource catalog retains its narrow contracts, including JAR-5
+AP3→AP4 and read-only Orbital Laser fields. Unknown semantic ranges are null;
 partial enums do not claim completeness or introduce unproven names.
+
+The 80-weapon authoring surface is described separately in
+`PlayerWeaponAuthoringCapabilities.json`. It is intended for SDK tools and GUI
+control generation, and includes editability, current reviewed defaults, native
+backing storage, implementation family, provenance, derived markers, and shared
+write scope. It contains no runtime addresses. `hd2 inspect weapon <name>` uses
+this catalog for player weapons outside the original small live-read catalog.
 
 ## Scan a captured process offline
 
@@ -156,8 +163,9 @@ proof bundle that ships the same runtime resource identity.
 
 ## Runtime guarantees and evidence
 
-The 0.4.0 proof was confirmed successful in live gameplay by the user. SDK work
-does not change the guarded `patch`, `transaction`, or `ensure` engines. Ensure
+The 0.4.0 proof was confirmed successful in live gameplay by the user. Version
+0.13.0 routes additional reviewed descriptors through the same guarded
+`patch`, `transaction`, and `ensure` engine. Ensure
 retains the three-update-second startup and default 60-update-second recheck,
 fresh resolution, expected/desired classification and terminal conflict behavior.
 Transactions retain exact-width writes, stable rereads, page restoration and
@@ -168,12 +176,12 @@ proven and native-consumer proven remain independent evidence categories. Saved
 live confirmation is historical evidence; it never sets current ownership true.
 No new native-consumer evidence or gameplay systems are introduced here.
 
-For SDK maintainers, `schemas/sdk.json` in the source project is canonical.
-`python scripts/generate_sdk.py` generates runtime field descriptors, constants,
-domain metadata, SDK metadata, stubs and this SDK's API reference. Use `--check`
-in CI. Physical allocation/layout profiles remain in `schemas/current.lua`;
-write guards remain hand-reviewed and tests compare their allowlists with the
-schema's declared write contracts. Refreshing metadata never grants a new write.
+For SDK maintainers, `schemas/sdk.json` and `schemas/player_weapon_fields.json`
+are canonical. `python scripts/generate_weapon_authoring.py` generates the
+runtime and GUI weapon capability views; `python scripts/generate_sdk.py`
+generates constants, metadata, stubs, and the API reference. Physical layout
+profiles remain in `schemas/current.lua`. Refreshing metadata never grants a new
+write: the runtime resolver and write descriptors remain reviewed and tested.
 
 `python scripts/build_release.py` verifies generated files, a clean commit,
 installed file fingerprints, and the full offline regression suite before

@@ -123,6 +123,9 @@ return 'ok'
         self.assertTrue(fields['armor_penetration']['writable'])
         self.assertFalse(fields['durable_damage']['writable'])
         with self.assertRaises(ValueError):sdk.inspect('weapon','Unknown')
+        authoring=sdk.inspect('weapon','AR-23C Liberator Concussive')
+        self.assertEqual(authoring['authoringWeapon']['name'],'AR-23C Liberator Concussive')
+        self.assertIn('weapon.fire_rate',sdk.format_inspection(authoring))
         run=subprocess.run([sys.executable,'-B',str(ROOT/'sdk/hd2.py'),'inspect','type','DamageProfile','--json'],capture_output=True,text=True,check=True)
         self.assertEqual(len(json.loads(run.stdout)['resources']),2)
 
@@ -185,7 +188,7 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.12.0' and update==nil)
+assert(a==b and a.version=='0.13.0' and update==nil)
 return 'ok'
 ''').encode())
 

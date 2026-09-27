@@ -8,6 +8,7 @@ import sys
 
 import build
 import generate_sdk
+import generate_weapon_authoring
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 
@@ -39,6 +40,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--luals',type=Path,help='Optional LuaLS executable for real type/completion checks')
     args=parser.parse_args()
+    generate_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'

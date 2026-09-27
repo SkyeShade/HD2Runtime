@@ -18,6 +18,10 @@ local function target_ok(t)
     return true
 end
 function M.validate(request)
+    if type(request)=='table'and type(request.target)=='table'
+        and request.target.resource=='player_weapon'then
+        return require('hd2runtime/domains/player_weapon_writes').validate_transaction(request)
+    end
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
@@ -43,6 +47,7 @@ function M.validate(request)
     return result
 end
 function M.requests(spec)
+    if spec.kind=='player_weapon'then return nil end
     local fields={}
     for _,change in ipairs(spec.changes)do fields[#fields+1]=change.field end
     return {{key=spec.resource,fields=fields}}

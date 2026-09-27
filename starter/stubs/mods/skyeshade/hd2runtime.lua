@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 4a1f19e3c6bcbf9b5bce596e5a030d8fe6352fa45d2b37f15947d889a6eb9d85
+-- Schema SHA256 3c6fe80ba6cdd741206520603d4fa6b38c45133acdfb6cfc94ba73b4468cd344
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -244,9 +244,47 @@ function HD2OrbitalAbility:describe() end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
+---@field base_capacity "weapon.base_capacity"
+---@field capacity "weapon.capacity"
+---@field player_crosshair_type "weapon.crosshair_type"
+---@field ergonomics "weapon.ergonomics"
+---@field feed_capacity_1 "weapon.feed_capacity_1"
+---@field feed_capacity_2 "weapon.feed_capacity_2"
+---@field fire_rate "weapon.fire_rate"
+---@field horizontal_recoil "weapon.horizontal_recoil"
+---@field horizontal_spread "weapon.horizontal_spread"
+---@field primary_fire_mode "weapon.primary_fire_mode"
+---@field recoil "weapon.recoil"
+---@field recoil_climb_horizontal "weapon.recoil_climb_horizontal"
+---@field recoil_climb_vertical "weapon.recoil_climb_vertical"
+---@field recoil_drift_horizontal "weapon.recoil_drift_horizontal"
+---@field recoil_drift_vertical "weapon.recoil_drift_vertical"
+---@field slot "weapon.slot"
+---@field suppressed "weapon.suppressed"
+---@field sway "weapon.sway"
+---@field vertical_recoil "weapon.vertical_recoil"
+---@field vertical_spread "weapon.vertical_spread"
 
 ---@class HD2Fields_projectile
 ---@field projectile_type "projectile_type" JAR-5 Dominator: read-only, integer
+---@field alternate_drag "projectile.alternate.drag"
+---@field alternate_gravity "projectile.alternate.gravity"
+---@field alternate_mass "projectile.alternate.mass"
+---@field alternate_pellet_count "projectile.alternate.pellet_count"
+---@field alternate_type "projectile.alternate.type"
+---@field alternate_velocity "projectile.alternate.velocity"
+---@field drag "projectile.drag"
+---@field gravity "projectile.gravity"
+---@field mass "projectile.mass"
+---@field pellet_count "projectile.pellet_count"
+---@field primary_drag "projectile.primary.drag"
+---@field primary_gravity "projectile.primary.gravity"
+---@field primary_mass "projectile.primary.mass"
+---@field primary_pellet_count "projectile.primary.pellet_count"
+---@field primary_type "projectile.primary.type"
+---@field primary_velocity "projectile.primary.velocity"
+---@field type "projectile.type"
+---@field velocity "projectile.velocity"
 
 ---@class HD2Fields_damage
 ---@field armor_penetration "armor_penetration" JAR-5 Dominator: reviewed writable, integer
@@ -256,6 +294,44 @@ function HD2OrbitalAbility:describe() end
 ---@field durable_damage "durable_damage" JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
 ---@field standard_damage "standard_damage" JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
 ---@field damage_type "damage_type" Orbital Laser: read-only, integer
+---@field alternate_ap_direct "damage.alternate.ap_direct"
+---@field alternate_ap_extreme "damage.alternate.ap_extreme"
+---@field alternate_ap_large "damage.alternate.ap_large"
+---@field alternate_ap_slight "damage.alternate.ap_slight"
+---@field alternate_demolition "damage.alternate.demolition"
+---@field alternate_durable_damage "damage.alternate.durable_damage"
+---@field alternate_push_force "damage.alternate.push_force"
+---@field alternate_stagger "damage.alternate.stagger"
+---@field alternate_standard_damage "damage.alternate.standard_damage"
+---@field alternate_status_1_strength "damage.alternate.status_1_strength"
+---@field alternate_status_1_type "damage.alternate.status_1_type"
+---@field alternate_type "damage.alternate.type"
+---@field ap_direct "damage.ap_direct"
+---@field ap_extreme "damage.ap_extreme"
+---@field ap_large "damage.ap_large"
+---@field ap_slight "damage.ap_slight"
+---@field demolition "damage.demolition"
+---@field player_durable_damage "damage.durable_damage"
+---@field primary_ap_direct "damage.primary.ap_direct"
+---@field primary_ap_extreme "damage.primary.ap_extreme"
+---@field primary_ap_large "damage.primary.ap_large"
+---@field primary_ap_slight "damage.primary.ap_slight"
+---@field primary_demolition "damage.primary.demolition"
+---@field primary_durable_damage "damage.primary.durable_damage"
+---@field primary_push_force "damage.primary.push_force"
+---@field primary_stagger "damage.primary.stagger"
+---@field primary_standard_damage "damage.primary.standard_damage"
+---@field primary_type "damage.primary.type"
+---@field push_force "damage.push_force"
+---@field stagger "damage.stagger"
+---@field player_standard_damage "damage.standard_damage"
+---@field status_1_strength "damage.status_1_strength"
+---@field status_1_type "damage.status_1_type"
+---@field status_2_strength "damage.status_2_strength"
+---@field status_2_type "damage.status_2_type"
+---@field status_3_strength "damage.status_3_strength"
+---@field status_3_type "damage.status_3_type"
+---@field type "damage.type"
 
 ---@class HD2Fields_vehicle
 
@@ -326,6 +402,20 @@ function HD2OrbitalAbility:describe() end
 ---@class HD2Fields_orbital
 ---@field interval "interval" Orbital Laser: read-only, number
 
+---@class HD2Fields_arc
+---@field chain_count "arc.chain_count"
+---@field distance_at_max_spread "arc.distance_at_max_spread"
+---@field distance_at_max_spread_first_shot "arc.distance_at_max_spread_first_shot"
+---@field max_angle_spread "arc.max_angle_spread"
+---@field max_angle_spread_first_shot "arc.max_angle_spread_first_shot"
+---@field max_split "arc.max_split"
+---@field range "arc.range"
+---@field velocity "arc.velocity"
+
+---@class HD2Fields_beam
+---@field length "beam.length"
+---@field radius "beam.radius"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -339,6 +429,8 @@ function HD2OrbitalAbility:describe() end
 ---@field recharge HD2Fields_recharge
 ---@field jumppack HD2Fields_jumppack
 ---@field orbital HD2Fields_orbital
+---@field arc HD2Fields_arc
+---@field beam HD2Fields_beam
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177
@@ -371,7 +463,7 @@ function HD2OrbitalAbility:describe() end
 ---@field version string
 ---@field api_version integer
 local hd2 = {}
----@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"JAR-5 Dominator"|"amr"|"jar5"
+---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName
 ---@return HD2Weapon
 function hd2.weapon(name) end

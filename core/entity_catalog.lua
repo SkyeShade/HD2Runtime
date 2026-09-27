@@ -90,7 +90,8 @@ function M.capture(reader,owner,profile,names)
         local c=component.schema
         reader.stage='core/entity_catalog:'..name..':record'
         local offset=c.offset+28+c.record_offset+identity.recordIndex*c.stride
-        local record={bytes=reader.read(owner,offset,c.stride,true),identity=identity}
+        local record={bytes=reader.read(owner,offset,c.stride,true),identity=identity,
+            owner=owner,offset=offset,index=identity.recordIndex,component=name,chain={identity}}
         component.records[identity.recordIndex]=record
         return record
     end

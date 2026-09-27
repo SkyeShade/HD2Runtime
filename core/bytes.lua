@@ -39,6 +39,36 @@ function M.value(s,o,kind)
     if exp==0 then return sign*frac*2^-149 end
     return sign*(1+frac/8388608)*2^(exp-127)
 end
+function M.encode(value,kind)
+    if kind=='u8' then
+        assert(type(value)=='number'and value>=0 and value<=255 and value%1==0,'invalid u8 value')
+        return string.char(value)
+    end
+    if kind=='u32'or kind=='i32' then
+        assert(type(value)=='number'and value%1==0,'invalid integer value')
+        if kind=='u32'then assert(value>=0 and value<=4294967295,'u32 range')
+        else assert(value>=-2147483648 and value<=2147483647,'i32 range');if value<0 then value=value+4294967296 end end
+        return string.char(value%256,math.floor(value/256)%256,
+            math.floor(value/65536)%256,math.floor(value/16777216)%256)
+    end
+    assert(kind=='f32'and type(value)=='number'and value==value
+        and value>-math.huge and value<math.huge,'invalid f32 value')
+    if value==0 then return string.rep('\0',4)end
+    local sign=0;if value<0 then sign=2147483648;value=-value end
+    local exponent=math.floor(math.log(value)/math.log(2))
+    local fraction
+    if exponent<-126 then
+        fraction=math.floor(value/2^-149+0.5);exponent=0
+    else
+        fraction=math.floor((value/2^exponent-1)*8388608+0.5)
+        if fraction==8388608 then fraction=0;exponent=exponent+1 end
+        exponent=exponent+127
+    end
+    assert(exponent>=0 and exponent<255,'f32 range')
+    local bits=sign+exponent*8388608+fraction
+    return string.char(bits%256,math.floor(bits/256)%256,
+        math.floor(bits/65536)%256,math.floor(bits/16777216)%256)
+end
 -- Accept only a relative offset or a relocated pointer to the SAME bounded body.
 function M.relative(value,base,start,length,minimum)
     local rel=value>=minimum and value<=length and start<=length-value

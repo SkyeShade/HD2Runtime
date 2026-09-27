@@ -187,6 +187,15 @@ function M.new(runtime,emit)
     for name,builder in pairs(require('hd2runtime/api/target').new(self.describe))do self[name]=builder end
     local constants=copy(require('hd2runtime/domains/constants'))
     self.fields=constants.fields;self.enums=constants.enums;self.resources=constants.resources
+    local authoring=require('hd2runtime/domains/player_weapon_authoring')
+    for domain,values in pairs(authoring.fields)do
+        self.fields[domain]=self.fields[domain]or{}
+        for key,value in pairs(values)do
+            if self.fields[domain][key]and self.fields[domain][key]~=value then
+                self.fields[domain]['player_'..key]=value
+            else self.fields[domain][key]=value end
+        end
+    end
     local metadata=require('hd2runtime/domains/metadata')
     self.version=metadata.version;self.api_version=metadata.api_version
     function self.patch(request)
