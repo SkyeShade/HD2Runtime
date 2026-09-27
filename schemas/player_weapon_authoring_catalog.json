@@ -1487,6 +1487,12 @@
             "ap_extreme": 0,
             "ap_large": 3,
             "ap_slight": 3,
+            "arc_chain_count": 1,
+            "arc_chain_spread": 10,
+            "arc_max_split": 0,
+            "arc_range": 25,
+            "arc_spread": 10,
+            "arc_velocity": 300,
             "demolition": 10,
             "durable_damage": 35,
             "push_force": 25,
@@ -3624,6 +3630,15 @@
           "ownerCount": 1,
           "recordIndex": 297,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 54,
+          "ownerCount": 1,
+          "recordIndex": 23,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -3639,6 +3654,13 @@
         "ergonomics": 65,
         "fire_rate": 800,
         "gravity": 0,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 5.400000095367432,
+        "heat_per_second": 0,
+        "heat_per_shot": 2,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 5,
+        "heatsink_starting": 4,
         "horizontal_recoil": 5,
         "is_suppressed": false,
         "pellet_count": 1,
@@ -3747,6 +3769,15 @@
           "ownerCount": 1,
           "recordIndex": 296,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 51,
+          "ownerCount": 1,
+          "recordIndex": 22,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -3762,6 +3793,13 @@
         "demolition": 10,
         "durable_damage": 6,
         "ergonomics": 65,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 15,
+        "heat_per_second": 0,
+        "heat_per_shot": 10,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 3,
+        "heatsink_starting": 2,
         "horizontal_recoil": 1.5,
         "is_suppressed": false,
         "primary_fire_mode": 1,
@@ -3857,6 +3895,15 @@
           "ownerCount": 1,
           "recordIndex": 294,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 45,
+          "ownerCount": 1,
+          "recordIndex": 20,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -3872,6 +3919,13 @@
         "ergonomics": 65,
         "fire_rate": 750,
         "gravity": 0,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 8,
+        "heat_per_second": 0,
+        "heat_per_shot": 1.149999976158142,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 3,
+        "heatsink_starting": 2,
         "horizontal_recoil": 1.5,
         "is_suppressed": false,
         "pellet_count": 1,
@@ -3980,6 +4034,15 @@
           "ownerCount": 1,
           "recordIndex": 295,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 53,
+          "ownerCount": 1,
+          "recordIndex": 21,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -3995,6 +4058,13 @@
         "ergonomics": 65,
         "fire_rate": 700,
         "gravity": 0,
+        "heat_capacity": 200,
+        "heat_cool_per_second": 8,
+        "heat_per_second": 0,
+        "heat_per_shot": 1.149999976158142,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 3,
+        "heatsink_starting": 2,
         "horizontal_recoil": 1.5,
         "is_suppressed": false,
         "pellet_count": 1,
@@ -4103,6 +4173,15 @@
           "ownerCount": 1,
           "recordIndex": 292,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 42,
+          "ownerCount": 1,
+          "recordIndex": 18,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -4118,6 +4197,13 @@
         "demolition": 10,
         "durable_damage": 70,
         "ergonomics": 65,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 8.5,
+        "heat_per_second": 12.5,
+        "heat_per_shot": 2,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 4,
+        "heatsink_starting": 3,
         "horizontal_recoil": 0,
         "is_suppressed": false,
         "primary_fire_mode": 1,
@@ -4218,6 +4304,15 @@
           "ownerCount": 1,
           "recordIndex": 293,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 4,
+          "ownerCount": 1,
+          "recordIndex": 19,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -4233,6 +4328,13 @@
         "demolition": 10,
         "durable_damage": 70,
         "ergonomics": 65,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 15,
+        "heat_per_second": 30,
+        "heat_per_shot": 2,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 6,
+        "heatsink_starting": 4,
         "horizontal_recoil": 0,
         "is_suppressed": false,
         "primary_fire_mode": 1,
@@ -4333,6 +4435,15 @@
           "ownerCount": 1,
           "recordIndex": 313,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 31,
+          "ownerCount": 1,
+          "recordIndex": 25,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -4348,6 +4459,13 @@
         "ergonomics": 95,
         "fire_rate": 750,
         "gravity": 0,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 10,
+        "heat_per_second": 0,
+        "heat_per_shot": 15,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 3,
+        "heatsink_starting": 2,
         "horizontal_recoil": 2,
         "is_suppressed": false,
         "pellet_count": 1,
@@ -4438,6 +4556,15 @@
           "ownerCount": 1,
           "recordIndex": 99,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 16,
+          "ownerCount": 1,
+          "recordIndex": 7,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -4453,6 +4580,13 @@
         "demolition": 10,
         "durable_damage": 50,
         "ergonomics": 65,
+        "heat_capacity": 2000,
+        "heat_cool_per_second": 10,
+        "heat_per_second": 1,
+        "heat_per_shot": 2,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 12,
+        "heatsink_starting": 6,
         "horizontal_recoil": 2.5,
         "is_suppressed": false,
         "primary_fire_mode": 1,
@@ -4552,6 +4686,15 @@
           "ownerCount": 1,
           "recordIndex": 317,
           "uniqueOwner": true
+        },
+        "WeaponHeatComponentData": {
+          "component": "WeaponHeatComponentData",
+          "componentIndex": 266,
+          "componentType": "0x4C981CD9",
+          "indexRow": 52,
+          "ownerCount": 1,
+          "recordIndex": 26,
+          "uniqueOwner": true
         }
       },
       "resolvedFields": {
@@ -4567,6 +4710,13 @@
         "demolition": 10,
         "durable_damage": 50,
         "ergonomics": 95,
+        "heat_capacity": 100,
+        "heat_cool_per_second": 10,
+        "heat_per_second": 15,
+        "heat_per_shot": 2,
+        "heatsink_from_supply": 6,
+        "heatsink_spare": 3,
+        "heatsink_starting": 3,
         "horizontal_recoil": 0,
         "is_suppressed": false,
         "primary_fire_mode": 1,
@@ -7134,6 +7284,15 @@
           "recordIndex": 226,
           "uniqueOwner": true
         },
+        "WeaponChargeComponentData": {
+          "component": "WeaponChargeComponentData",
+          "componentIndex": 204,
+          "componentType": "0xEAC335A1",
+          "indexRow": 19,
+          "ownerCount": 1,
+          "recordIndex": 4,
+          "uniqueOwner": true
+        },
         "WeaponCustomizationComponentData": {
           "component": "WeaponCustomizationComponentData",
           "componentIndex": 271,
@@ -7272,6 +7431,15 @@
           "recordIndex": 238,
           "uniqueOwner": true
         },
+        "WeaponChargeComponentData": {
+          "component": "WeaponChargeComponentData",
+          "componentIndex": 204,
+          "componentType": "0xEAC335A1",
+          "indexRow": 8,
+          "ownerCount": 1,
+          "recordIndex": 5,
+          "uniqueOwner": true
+        },
         "WeaponCustomizationComponentData": {
           "component": "WeaponCustomizationComponentData",
           "componentIndex": 271,
@@ -7406,6 +7574,15 @@
           "indexRow": 290,
           "ownerCount": 1,
           "recordIndex": 136,
+          "uniqueOwner": true
+        },
+        "WeaponChargeComponentData": {
+          "component": "WeaponChargeComponentData",
+          "componentIndex": 204,
+          "componentType": "0xEAC335A1",
+          "indexRow": 2,
+          "ownerCount": 1,
+          "recordIndex": 2,
           "uniqueOwner": true
         },
         "WeaponCustomizationComponentData": {

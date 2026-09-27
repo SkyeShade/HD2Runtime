@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 c3e00ba4464102818fa634a6d2c5a46b6842dc0bccf29b4ac527e4f240f17f24
+-- Schema SHA256 632c0a77536b85848c211ea46aeff828518450707e4ce4ba2350a6f42b68c4cd
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -584,6 +584,22 @@ function HD2SupportWeapon:attack(identity) end
 ---@field shrapnel_count "explosion.shrapnel_count"
 ---@field shrapnel_projectile "explosion.shrapnel_projectile"
 
+---@class HD2Fields_heat
+---@field capacity "heat.capacity"
+---@field cool_per_second "heat.cool_per_second"
+---@field cool_per_second_cold "heat.cool_per_second_cold"
+---@field cool_per_second_hot "heat.cool_per_second_hot"
+---@field heat_per_second "heat.heat_per_second"
+---@field heat_per_shot "heat.heat_per_shot"
+---@field overheat_cooldown "heat.overheat_cooldown"
+---@field warmup "heat.warmup"
+
+---@class HD2Fields_heatsink
+---@field from_ammo_box "heatsink.from_ammo_box"
+---@field from_supply "heatsink.from_supply"
+---@field spare "heatsink.spare"
+---@field starting "heatsink.starting"
+
 ---@class HD2Fields_magazine
 ---@field capacity "magazine.capacity"
 ---@field magazines_from_ammo_box "magazine.magazines_from_ammo_box"
@@ -626,6 +642,8 @@ function HD2SupportWeapon:attack(identity) end
 ---@field attack HD2Fields_attack
 ---@field beam HD2Fields_beam
 ---@field explosion HD2Fields_explosion
+---@field heat HD2Fields_heat
+---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine
 ---@field rounds HD2Fields_rounds
 ---@field terminal HD2Fields_terminal

@@ -1,8 +1,8 @@
 {
   "format": 1,
-  "name": "My HD2 Mod",
-  "resource": "mods/your_name/my_hd2_mod",
-  "guid": "auto",
+  "name": "SickleHeat",
+  "resource": "mods/hd2runtime_examples/sickle_heat",
+  "guid": "a1e7348d-8f94-52be-86bc-991ed8a43d4d",
   "requires": {
     "bingus": {
       "min_release": 15,
@@ -13,5 +13,7 @@
       "api": 1,
       "module": "mods/skyeshade/hd2runtime"
     }
-  }
+  },
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
 }

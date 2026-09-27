@@ -1,6 +1,15 @@
 # HD2Runtime
 
-Version 0.17.0 adds guarded Full Auto/Semi Auto selection for 21 weapons whose native
+Version 0.18.0 adds guarded heat and heatsink authoring for five uniquely owned
+player weapons through the native `WeaponHeatComponentData` record. Seven energy
+weapons are mapped; Scythe and Dagger remain fail-closed because their runtime
+identities are duplicated. The same pass audited all 191 captured customization
+records and retained attachment selection/effect editing as read-only because no
+alternate allowed-option collection or option-owned effect record is present.
+JAR-5 Full Auto also remains blocked: its native vector `[2,3,0]` does not prove
+that its consumer accepts mode 1.
+
+Version 0.17.0 added guarded Full Auto/Semi Auto selection for 21 weapons whose native
 mode vectors contain both values, typed terminal explosion removal, explicit shared projectile
 object semantics, projectile-residency safety metadata, and a stable read-only 35-support-weapon
 SDK contract. It preserves backwards compatibility for existing mods. The complete 80-weapon
@@ -59,7 +68,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.17.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.18.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

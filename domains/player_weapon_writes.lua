@@ -7,7 +7,8 @@ local database=require('hd2runtime/domains/player_weapon_authoring')
 local M={}
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
-    'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData'}
+    'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
+    'WeaponHeatComponentData'}
 
 local function equal(a,c,kind)
     if kind=='f32'then return type(a)=='number'and type(c)=='number'

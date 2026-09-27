@@ -12,6 +12,7 @@ PROJECTILES = json.loads((ROOT / 'sdk/PlayerWeaponProjectileReferenceGraph.json'
 FIRE_MODES = json.loads((ROOT / 'sdk/PlayerWeaponFireModeGraph.json').read_text())
 TERMINALS = json.loads((ROOT / 'sdk/PlayerWeaponTerminalActionGraph.json').read_text())
 EXPLOSIONS = json.loads((ROOT / 'sdk/ExplosionAuthoringCapabilities.json').read_text())
+HEAT = json.loads((ROOT / 'sdk/PlayerWeaponHeatCapabilities.json').read_text())
 
 
 class WeaponCompositionTests(unittest.TestCase):
@@ -19,7 +20,7 @@ class WeaponCompositionTests(unittest.TestCase):
         self.assertFalse(generate_weapon_composition.generate(check=True))
 
     def test_reports_cover_all_80_and_research_is_read_only(self):
-        for report in (MAGAZINES, PROJECTILES, FIRE_MODES, TERMINALS, EXPLOSIONS):
+        for report in (MAGAZINES, PROJECTILES, FIRE_MODES, TERMINALS, EXPLOSIONS, HEAT):
             self.assertEqual(report['catalogWeapons'], 80)
             self.assertEqual(report['safety'], {'writes': 0, 'protectionChanges': 0,
                 'fixtureFallback': 'disabled', 'snapshotOnly': True})
@@ -30,6 +31,11 @@ class WeaponCompositionTests(unittest.TestCase):
         self.assertEqual(MAGAZINES['summary']['attachmentOptionsMapped'], 419)
         self.assertEqual(MAGAZINES['summary']['magazineOptionsWithNativeIdentity'], 13)
         self.assertEqual(MAGAZINES['summary']['perOptionAmmoOwnersProven'], 0)
+        self.assertEqual(MAGAZINES['summary']['customizationRecordsScanned'], 191)
+        self.assertEqual(MAGAZINES['summary']['nativeOptionIdsObservedInCorpus'], 20)
+        self.assertEqual(MAGAZINES['summary']['nativeAddPathsObservedInCorpus'], 6)
+        self.assertEqual(MAGAZINES['summary']['writableAttachmentSelections'], 0)
+        self.assertEqual(MAGAZINES['summary']['alternateAllowedRelationshipsProven'], 0)
         self.assertEqual(PROJECTILES['summary']['projectileAttacks'], 67)
         self.assertEqual(PROJECTILES['summary']['writableTargetAttacks'], 57)
         self.assertEqual(PROJECTILES['summary']['writableExplosiveSelectors'], 12)
@@ -42,6 +48,10 @@ class WeaponCompositionTests(unittest.TestCase):
         self.assertEqual(EXPLOSIONS['summary']['explosionSettingsResolved'],13)
         self.assertEqual(EXPLOSIONS['summary']['explosionScalarFieldsWritable'],144)
         self.assertEqual(EXPLOSIONS['summary']['shrapnelGraphsResolved'],1)
+        self.assertEqual(HEAT['summary']['weaponsWithHeatMechanism'], 7)
+        self.assertEqual(HEAT['summary']['weaponsWithHeatsinkMechanism'], 7)
+        self.assertEqual(HEAT['summary']['writableFieldInstances'], 30)
+        self.assertEqual(HEAT['summary']['weaponsWithWritableHeatFields'], 5)
 
     def test_magazine_default_is_proven_but_option_values_fail_closed(self):
         weapons={item['weapon']:item for item in MAGAZINES['weapons']}
@@ -53,6 +63,19 @@ class WeaponCompositionTests(unittest.TestCase):
         self.assertEqual(weapons['JAR-5 Dominator']['observedCustomizationOptions'],[])
         self.assertTrue(weapons['JAR-5 Dominator']['simpleMagazineApi'])
         self.assertEqual(weapons['SG-20 Halt']['backingDomain'],'WeaponRoundsComponentData')
+
+    def test_jar_full_auto_remains_blocked_without_allowed_consumer_state(self):
+        jar=next(item for item in FIRE_MODES['weapons']
+            if item['weapon']=='JAR-5 Dominator')
+        self.assertEqual(jar['nativeModeVector'],[2,3,0])
+        self.assertEqual(jar['allowedModes'],[2])
+        self.assertEqual(jar['defaultModeSemantics'],'semi_auto')
+        self.assertFalse(jar['writable'])
+        self.assertIn('both native 1 and 2',jar['reason'])
+        meanings=FIRE_MODES['findings']['nativeValues']
+        self.assertIn('Full Auto',meanings['1'])
+        self.assertIn('Semi Auto',meanings['2'])
+        self.assertIn('not sufficiently uniform',meanings['3'])
 
     def test_terminal_offsets_link_only_typed_explosion_records(self):
         self.assertEqual(TERMINALS['summary']['impactExplosionLinks'],13)
