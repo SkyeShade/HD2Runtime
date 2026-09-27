@@ -6,7 +6,7 @@ The 0.22 pass uses the non offensive importer graph from commit `0b0c9fca9866be5
 
 - Sentries resolved: 10/10.
 - Conventional emplacements resolved: 4/4.
-- Mines/deployables resolved: 4/4 at stratagem and deployed entity level; mine trigger and distribution authoring is deferred.
+- Mines/deployables resolved: 4/4 at stratagem and deployment-entity level. Individual mine entities, triggers, distribution, and attack objects remain unresolved.
 - Cooldown writable: 71 catalog instances, including all 18 defensive roots.
 
 ## Entities
@@ -14,27 +14,28 @@ The 0.22 pass uses the non offensive importer graph from commit `0b0c9fca9866be5
 - Deployed entities resolved: 18.
 - Health writable: 18.
 - Armor writable: 18.
-- Shared entity definitions: canonical backing object metadata is published per field instance; no multi weapon entity was found in this graph slice.
+- Every promoted health/armor baseline exactly matches the importer value and every reviewed `HealthComponentData` record has one owner in the retained component index.
+- No shared entity definition or multi-weapon entity was found in this graph slice.
 
 ## Weapons and attacks
 
 - Mounted weapon branches: 12.
-- Ammo writable instances: 44; fire rate writable instances: 11.
-- Projectile branches: 42; DamageInfo branches: 83; explosion branches: 39.
-- Beam branches: 2; arc branches: 1; status branches: 21.
+- Ammo writable instances: 44 across 11 mounted weapons; fire rate writable instances: 9. Arc velocity and beam radius are not labeled as fire rate.
+- Defensive branches: 9 ProjectileSettings, 19 DamageInfo, and 7 ExplosionSettings.
+- Defensive unusual branches: 1 BeamSettings, 1 ArcSettings, and 8 StatusEffectSettings. The full stratagem catalog totals remain 42 projectile, 83 DamageInfo, 39 explosion, 2 beam, 1 arc, and 21 status branches.
 - Heat writable instances: 4. Spray settings were retained as a blocked family where no safe writable settings owner was proven.
 
 The principal regression anchor is E/AT-12 Anti-Tank Emplacement. Its catalog records health 300, armor 2, primary cannon capacity 30, projectile mass 6500, velocity 625, drag 0.75, gravity 1, and linked impact explosion radii 3/6/7. All are exposed through the existing semantic primitives and guarded by exact baselines.
 
 ## Metadata and proof packages
 
-The public catalog contains 1,384 canonical field instances, 228 backing objects, and 228 operation groups. Each instance retains its deployed entity, weapon, and attack path, exact baseline, writable state, shared acknowledgement scope, operation group, plan group, units, and provenance without publishing native record identities.
+The public catalog contains 1,382 canonical field instances, 226 physical backing objects, and 327 target-specific operation groups. An exact instance audit proves that every internal promoted descriptor has one published canonical instance. Each instance retains its deployed entity, weapon, and attack path, exact baseline, writable state, reviewed shared acknowledgement scope, operation group, plan group, units, and provenance without publishing native record identities.
 
-Generated proof packages are under [`proof/`](../proof/): `anti_tank_emplacement.lua`, `conventional_sentry.lua`, `explosive_sentry.lua`, `unusual_sentry.lua`, and the deferred `mine.lua` record. They are not loaded by the runtime launcher.
+The release builder generates the public-API-only example packages `AntiTankEmplacementProof`, `ConventionalSentryProof`, `ExplosiveSentryProof`, and `UnusualSentryProof`. No `MineProof` is generated because individual mine attack ownership is not proven. They are built as release artifacts and are never loaded or deployed by the builder.
 
 ## Blockers
 
-Target range, traverse, tracking speed, firing arc, and deployed lifetime remain blocked because ownership is not unambiguous in the retained evidence. Mine trigger/distribution internals remain deferred. Max uses remains read only pending mutation proof. The unusual family has beam, arc, and status metadata where settings ownership is established; spray has no promoted settings write in this pass.
+Target range, traverse, tracking speed, firing arc, projectile lifetime, penetration slowdown, and deployed lifetime remain blocked because ownership is not unambiguous in the retained evidence. Mine instances and trigger/distribution internals remain deferred. The Grenadier Battlement's imported mounted weapon has no proven native component-to-attack chain. Max uses remains read only pending mutation proof. The unusual family has beam, arc, and status metadata where settings ownership is established; spray has no promoted settings write in this pass.
 
 ## Validation
 

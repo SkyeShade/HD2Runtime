@@ -21,6 +21,16 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertFalse(stale)
         self.assertEqual(summary, self.catalog['summary'])
 
+    def test_clean_checkout_uses_retained_defensive_research(self):
+        original = generator.DEFENSIVE_INPUT
+        try:
+            generator.DEFENSIVE_INPUT = ROOT / 'build/defensive-research-intentionally-absent.json'
+            stale, summary = generator.generate(check=True)
+            self.assertFalse(stale)
+            self.assertEqual(summary, self.catalog['summary'])
+        finally:
+            generator.DEFENSIVE_INPUT = original
+
     def test_root_and_instance_coverage(self):
         summary = self.catalog['summary']
         self.assertEqual(summary['offensiveRootsResolved'], 20)
@@ -36,6 +46,24 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertEqual(len({x['instanceKey'] for x in instances}), len(instances))
         self.assertEqual(len({x['backingObjectId'] for x in instances}),
             summary['backingObjectCount'])
+        audit = self.catalog['instanceAudit']
+        self.assertTrue(audit['exactMatch'])
+        self.assertEqual(audit['internalPromotedInstances'], len(instances))
+        self.assertEqual(audit['publishedCanonicalInstances'], len(instances))
+        self.assertFalse(audit['missingInstances'])
+        self.assertFalse(audit['unexpectedInstances'])
+        self.assertEqual(audit['duplicateInstanceKeys'], 0)
+
+    def test_backing_objects_and_operation_groups_are_distinct_models(self):
+        summary = self.catalog['summary']
+        self.assertEqual(len(self.catalog['backingObjects']), summary['canonicalBackingObjects'])
+        self.assertEqual(len(self.catalog['operationGroups']), summary['canonicalOperationGroups'])
+        self.assertGreater(summary['canonicalOperationGroups'], summary['canonicalBackingObjects'])
+        objects = {item['backingObjectId'] for item in self.catalog['backingObjects']}
+        for group in self.catalog['operationGroups']:
+            self.assertIn(group['backingObjectId'], objects)
+            self.assertIn(group['recommendedApi'], ('hd2.patch', 'hd2.transaction'))
+            self.assertTrue(group['fieldInstances'])
 
     def test_public_contract_has_no_native_layout_identity(self):
         text = json.dumps(self.catalog).lower()
@@ -48,6 +76,48 @@ class StratagemAuthoringTests(unittest.TestCase):
             self.assertIn('operationGroup', field)
             self.assertIn('planGroup', field)
             self.assertIn('sharedConsumers', field)
+
+    def test_every_canonical_instance_is_gui_complete(self):
+        groups = {item['operationGroup']: item for item in self.catalog['operationGroups']}
+        objects = {item['backingObjectId']: item for item in self.catalog['backingObjects']}
+        for field in self.catalog['fieldInstances']:
+            self.assertTrue(field['instanceKey'])
+            self.assertTrue(field['semanticFieldId'])
+            self.assertTrue(field['apiFieldConstant'].startswith('hd2.fields.'))
+            self.assertIn('unit', field)
+            self.assertIn('currentDefault', field)
+            self.assertTrue(field['provenance'])
+            self.assertIn(field['operationGroup'], groups)
+            self.assertIn(field['backingObjectId'], objects)
+            self.assertEqual(groups[field['operationGroup']]['backingObjectId'],
+                field['backingObjectId'])
+            self.assertEqual(groups[field['operationGroup']]['target'], field['target'])
+            self.assertEqual(objects[field['backingObjectId']]['sharedScopeKey'],
+                field['sharedScopeKey'])
+            if not field['editable']:
+                self.assertTrue(field['reason'])
+            if field['allowSharedRequired']:
+                self.assertTrue(field['shared'])
+                self.assertTrue(field['sharedConsumers'])
+
+    def test_all_promoted_entity_health_and_armor_have_exact_ownership_proof(self):
+        internal = json.loads((ROOT / 'schemas/stratagem_authoring_catalog.json').read_text())
+        defensive = [entry for entry in internal['stratagems'].values()
+            if entry['family'] in ('sentry', 'emplacement', 'mine')]
+        self.assertEqual(len(defensive), 18)
+        for entry in defensive:
+            proof = entry['deployedEntity']['healthArmorProof']
+            self.assertTrue(proof['exactCorrelation'])
+            self.assertEqual(proof['nativeHealth'], proof['importedHealth'])
+            self.assertEqual(proof['nativeArmor'], proof['importedArmor'])
+            fields = {field['semanticFieldId']: field for field in entry['fields']
+                if field['target']['path'] == 'deployed_entity'}
+            self.assertEqual(set(fields), {'entity.health', 'entity.armor'})
+            self.assertEqual(fields['entity.health']['currentDefault'], proof['nativeHealth'])
+            self.assertEqual(fields['entity.armor']['currentDefault'], proof['nativeArmor'])
+            for field in fields.values():
+                self.assertEqual(field['backing']['ownerCount'], 1)
+                self.assertTrue(field['backing']['uniqueOwner'])
 
     def test_eagle_scope_is_exact_and_shared(self):
         rows = [x for x in self.catalog['fieldInstances']
@@ -114,6 +184,9 @@ return 'ok'
         self.assertEqual(summary['sentryRootsResolved'], 10)
         self.assertEqual(summary['emplacementRootsResolved'], 4)
         self.assertEqual(summary['mineRootsResolved'], 4)
+        self.assertEqual(summary['mineDeploymentEntitiesResolved'], 4)
+        self.assertEqual(summary['mineInstancesResolved'], 0)
+        self.assertEqual(summary['mineAttackBranchesWritable'], 0)
         self.assertEqual(summary['deployedEntitiesResolved'], 18)
         self.assertGreaterEqual(summary['healthWritable'], 18)
         self.assertGreaterEqual(summary['armorWritable'], 18)
@@ -125,6 +198,18 @@ return 'ok'
         self.assertEqual(self.catalog['schemaVersion'], 2)
         self.assertTrue(self.catalog['backingObjects'])
         self.assertTrue(self.catalog['operationGroups'])
+
+        fields = self.catalog['fieldInstances']
+        self.assertFalse(any(field['semanticFieldId'] == 'weapon.fire_rate' and
+            field['target']['stratagem'] in ('A/ARC-3 Tesla Tower', 'A/LAS-98 Laser Sentry')
+            for field in fields))
+        internal = json.loads((ROOT / 'schemas/stratagem_authoring_catalog.json').read_text())
+        tesla = internal['stratagems']['A/ARC-3 Tesla Tower']['fields']
+        strength = next(field for field in tesla if field['semanticFieldId'] == 'status.strength')
+        duration = next(field for field in tesla if field['semanticFieldId'] == 'status.duration')
+        self.assertEqual(strength['backing']['kind'], 'DamageInfo')
+        self.assertEqual(duration['backing']['kind'], 'StatusEffectSettings')
+        self.assertNotEqual(strength['backingObjectId'], duration['backingObjectId'])
 
         run('''
 local hd2=require('hd2runtime/api/hd2')
@@ -153,6 +238,15 @@ plans.validate{id='emplacement_plan',operations={
 local laser=hd2.stratagem('A/LAS-98 Laser Sentry')
 local beam=laser:deployed_entity():weapon('primary'):attack('primary'):beam()
 patches.validate{id='beam_length',target=beam,field=hd2.fields.beam.length,expect=200,value=220,allow_shared=true}
+local tesla=hd2.stratagem('A/ARC-3 Tesla Tower'):deployed_entity():weapon('primary')
+local status=tesla:attack('primary_damage_status_1'):status()
+assert(not pcall(function()transactions.validate{id='invalid_status_transaction',target=status,
+ allow_shared=true,changes={
+  {field=hd2.fields.status.strength,expect=8,value=10},
+  {field=hd2.fields.status.duration,expect=1.5,value=2}}}end))
+plans.validate{id='status_plan',operations={
+ {id='strength',target=status,allow_shared=true,field=hd2.fields.status.strength,expect=8,value=10},
+ {id='duration',target=status,allow_shared=true,field=hd2.fields.status.duration,expect=1.5,value=2}}}
 local mine=hd2.stratagem('MD-6 Anti-Personnel Minefield')
 assert(mine:describe().mineScopeDeferred==true)
 assert(#mine:deployed_entity():weapons()==0)

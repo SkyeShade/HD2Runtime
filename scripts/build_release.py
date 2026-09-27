@@ -78,7 +78,9 @@ def main():
     report['stratagem_snapshot_validation']=json.loads(
         (ROOT/'validation/stratagem-authoring-snapshot.json').read_text())
     report['stratagem_proof_packages']=['OrbitalLaserProof','OrbitalPrecisionProof',
-        'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof']
+        'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof',
+        'AntiTankEmplacementProof','ConventionalSentryProof','ExplosiveSentryProof',
+        'UnusualSentryProof']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}
