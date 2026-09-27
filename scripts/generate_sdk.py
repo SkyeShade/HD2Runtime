@@ -27,6 +27,7 @@ def outputs():
     player_capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
     composition=json.loads((ROOT/'schemas/player_weapon_composition_catalog.json').read_text())
     support=json.loads((ROOT/'sdk/SupportWeaponCapabilities.json').read_text())
+    support_authoring=json.loads((ROOT/'sdk/SupportWeaponAuthoringCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
@@ -58,8 +59,9 @@ def outputs():
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
               'player_weapon_authoring':player_capabilities['summary'],
-              'support_weapon_contract':support['contract'],
-              'support_weapon_summary':support['summary'],
+              'support_weapon_contract':support_authoring['contract'],
+              'support_weapon_summary':support_authoring['summary'],
+              'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
     constants={'fields':fields,'enums':{k:v['values'] for k,v in schema['enums'].items()},
@@ -124,7 +126,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end','---@return HD2PlayerAttack[]',
         'function HD2Weapon:attacks() end','---@return table',
@@ -139,17 +141,36 @@ def outputs():
     alias('HD2SupportWeaponName',list(support['weapons']))
     support_attack_names=[attack['name'] for weapon in support['weapons'].values()
         for attack in weapon['attackGraph']]
+    support_attack_names += [branch['runtimeRole'] for weapon in support_authoring['weapons']
+        for branch in weapon['attackBranches'] if branch.get('runtimeRole')]
     alias('HD2SupportAttackName',support_attack_names)
     stub+=['','---@class HD2SupportAttack','---@field resource "support_weapon"',
-        '---@field path "attack"','---@field weapon HD2SupportWeaponName',
-        '---@field attack_index integer','local HD2SupportAttack = {}','---@return table',
-        'function HD2SupportAttack:describe() end','',
+        '---@field path "attack"|"attack_read_only"','---@field weapon HD2SupportWeaponName',
+        '---@field attack string?','---@field attack_index integer?','local HD2SupportAttack = {}',
+        '---@return table','function HD2SupportAttack:describe() end',
+        '---@return HD2SupportProjectile','function HD2SupportAttack:projectile() end',
+        '---@return HD2SupportExplosion','function HD2SupportAttack:explosion() end',
+        '---@return HD2SupportAttack','function HD2SupportAttack:damage() end','',
+        '---@class HD2SupportProjectile','---@field resource "support_weapon"',
+        '---@field path "projectile_reference"','---@field weapon HD2SupportWeaponName',
+        '---@field attack string','local HD2SupportProjectile = {}','---@return table',
+        'function HD2SupportProjectile:describe() end','---@return HD2SupportProjectile',
+        'function HD2SupportProjectile:damage() end','',
+        '---@class HD2SupportExplosion','---@field resource "support_weapon"',
+        '---@field path "explosion"','---@field weapon HD2SupportWeaponName',
+        '---@field attack string','local HD2SupportExplosion = {}','---@return table',
+        'function HD2SupportExplosion:describe() end','---@return HD2SupportExplosion',
+        'function HD2SupportExplosion:damage() end','',
         '---@class HD2SupportWeapon','---@field resource "support_weapon"',
         '---@field path "weapon"','---@field weapon HD2SupportWeaponName',
         'local HD2SupportWeapon = {}','---@return table',
         'function HD2SupportWeapon:describe() end','---@return HD2SupportAttack[]',
         'function HD2SupportWeapon:attacks() end','---@param identity integer|HD2SupportAttackName',
-        '---@return HD2SupportAttack','function HD2SupportWeapon:attack(identity) end']
+        '---@return HD2SupportAttack','function HD2SupportWeapon:attack(identity) end',
+        '---@param identity integer|HD2SupportAttackName','---@return HD2SupportProjectile',
+        'function HD2SupportWeapon:projectile(identity) end',
+        '---@param identity integer|HD2SupportAttackName','---@return HD2SupportExplosion',
+        'function HD2SupportWeapon:explosion(identity) end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():

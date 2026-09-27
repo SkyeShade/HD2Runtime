@@ -40,7 +40,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if not worker then worker=coroutine.create(function()
             local reader=Reader.new(runtime)
             local resolved,plan
-            if spec.kind=='player_weapon'then
+            if spec.kind=='player_weapon'or spec.kind=='support_weapon'then
                 local weapons=require('hd2runtime/domains/player_weapon_writes')
                 resolved=weapons.capture(runtime,reader,spec);plan=weapons.prepare(resolved,reader,spec)
             else

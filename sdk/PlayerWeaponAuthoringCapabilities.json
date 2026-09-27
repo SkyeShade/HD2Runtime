@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.19.0",
+  "hd2RuntimeVersion": "0.20.0",
   "buildFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -10,8 +10,8 @@
     "weapons": 80,
     "uniqueWeapons": 73,
     "duplicateWeapons": 7,
-    "semanticFieldDefinitions": 89,
-    "writableSemanticFieldDefinitions": 69,
+    "semanticFieldDefinitions": 96,
+    "writableSemanticFieldDefinitions": 76,
     "readOnlySemanticFieldDefinitions": 20,
     "derivedSemanticFieldDefinitions": 9,
     "fieldInstances": 3574,
@@ -929,6 +929,81 @@
       "writable": true,
       "settings": "beam",
       "offset": 8,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.level_1",
+      "display_name": "Charge level 1",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 0,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.level_2",
+      "display_name": "Charge level 2",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 24,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.level_3",
+      "display_name": "Charge level 3",
+      "type": "number",
+      "unit": "multiplier",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 48,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.minimum_seconds",
+      "display_name": "Minimum charge time",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 72,
+      "storage": "f32"
+    },
+    {
+      "id": "charge.maximum_seconds",
+      "display_name": "Maximum charge time",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponChargeComponentData",
+      "offset": 76,
+      "storage": "f32"
+    },
+    {
+      "id": "status.strength",
+      "display_name": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "derived": false,
+      "writable": true,
+      "settings": "damage"
+    },
+    {
+      "id": "status.duration",
+      "display_name": "Status duration",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "settings": "status",
+      "offset": 40,
       "storage": "f32"
     },
     {

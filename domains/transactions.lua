@@ -19,7 +19,7 @@ local function target_ok(t)
 end
 function M.validate(request)
     if type(request)=='table'and type(request.target)=='table'
-        and request.target.resource=='player_weapon'then
+        and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
         return require('hd2runtime/domains/player_weapon_writes').validate_transaction(request)
     end
     assert(type(request)=='table','transaction requires a descriptor')

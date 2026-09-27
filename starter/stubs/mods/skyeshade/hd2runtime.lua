@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 d48c1515eb241c255319ee6015f9ebdd2015dbc3e4150acc1f1ecaa27974be43
+-- Schema SHA256 f22c8c3b52f463843ed3eaad53e4bd0b1b4884057ec6d67487b213d03e5c5f8f
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -348,7 +348,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -372,16 +372,45 @@ function HD2Weapon:attachment_options(category) end
 ---@return HD2AttachmentOption
 function HD2Weapon:attachment(category, identity) end
 ---@alias HD2SupportWeaponName "40-K Meltagun"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"
----@alias HD2SupportAttackName "40-K MELTAGUN B"|"AC-8 P"|"AC-8 P IE"|"AC-8 P1"|"AC-8 P1 IE"|"AC-8 P2"|"APW-1 P"|"AR-23 P"|"ARC-3 ARC THROWER A"|"B/FLAM-80 CREMATOR S"|"B/MD C4 PACK E"|"BurningHeavy"|"CQC-1 ONE TRUE FLAG_dm"|"CQC-20 BREACHING HAMMER IE"|"CQC-20 BREACHING HAMMER_dm"|"CQC-72 ENTRENCHMENT TOOL_dm"|"CQC-9 DEFOLIATION TOOL_dm"|"EAT-17 BACKBLAST E"|"EAT-17 P"|"EAT-17 P IE"|"EAT-411 P"|"EAT-411 P IE"|"EAT-700 P"|"EAT-700 P IE"|"EAT-700 P1"|"EAT-700 P1 IE"|"FAF-14 P"|"FAF-14 P IE"|"FLAM-40 FLAMETHROWER S"|"Fire"|"Fire Panic"|"FlamerSlowed"|"GL-21 P"|"GL-21 P IE"|"GL-28 P"|"GL-28 P IE"|"GL-52 P"|"GL-52 P IE"|"GL-52 P IE A"|"GR-8 BACKBLAST E"|"GR-8 P"|"GR-8 P IE"|"GR-8 P1"|"GR-8 P1 IE"|"Gas"|"Gas Confusion"|"Gas Confusion Var2"|"Gas Var2"|"LAS-98 LASER CANNON B"|"LAS-99 P"|"LAS-99 P IE"|"M-1000 P"|"MG-206 P"|"MG-43 P"|"MGX-42 P"|"MLS-4X BACKBLAST E"|"MLS-4X P"|"MLS-4X P IE"|"P3"|"P3 IE"|"PLAS-45 EPOCH Overcharge E"|"PLAS-45 P"|"PLAS-45 P IE"|"RL-77 P"|"RL-77 P IE"|"RL-77 P1"|"RL-77 P1 IE"|"RL-77 P2"|"RL-77 P2 IE"|"RL-77 P3"|"RS-422 P"|"RS-422 RAILGUN Overcharge E"|"Railgun Max Charge"|"S-11 P"|"S-11 P E"|"SG-88 P"|"SWP SOLO SILO E"|"SWP SOLO SILO EImpact"|"StA-X3 P"|"StA-X3 P IE"|"StA-X3 P1"|"StA-X3 P1 IE"|"Stun Small"|"TX-41 STERILIZER S"
+---@alias HD2SupportAttackName "40-K MELTAGUN B"|"AC-8 P"|"AC-8 P IE"|"AC-8 P1"|"AC-8 P1 IE"|"AC-8 P2"|"APW-1 P"|"AR-23 P"|"ARC-3 ARC THROWER A"|"B/FLAM-80 CREMATOR S"|"B/MD C4 PACK E"|"BurningHeavy"|"CQC-1 ONE TRUE FLAG_dm"|"CQC-20 BREACHING HAMMER IE"|"CQC-20 BREACHING HAMMER_dm"|"CQC-72 ENTRENCHMENT TOOL_dm"|"CQC-9 DEFOLIATION TOOL_dm"|"EAT-17 BACKBLAST E"|"EAT-17 P"|"EAT-17 P IE"|"EAT-411 P"|"EAT-411 P IE"|"EAT-700 P"|"EAT-700 P IE"|"EAT-700 P1"|"EAT-700 P1 IE"|"FAF-14 P"|"FAF-14 P IE"|"FLAM-40 FLAMETHROWER S"|"Fire"|"Fire Panic"|"FlamerSlowed"|"GL-21 P"|"GL-21 P IE"|"GL-28 P"|"GL-28 P IE"|"GL-52 P"|"GL-52 P IE"|"GL-52 P IE A"|"GR-8 BACKBLAST E"|"GR-8 P"|"GR-8 P IE"|"GR-8 P1"|"GR-8 P1 IE"|"Gas"|"Gas Confusion"|"Gas Confusion Var2"|"Gas Var2"|"LAS-98 LASER CANNON B"|"LAS-99 P"|"LAS-99 P IE"|"M-1000 P"|"MG-206 P"|"MG-43 P"|"MGX-42 P"|"MLS-4X BACKBLAST E"|"MLS-4X P"|"MLS-4X P IE"|"P3"|"P3 IE"|"PLAS-45 EPOCH Overcharge E"|"PLAS-45 P"|"PLAS-45 P IE"|"RL-77 P"|"RL-77 P IE"|"RL-77 P1"|"RL-77 P1 IE"|"RL-77 P2"|"RL-77 P2 IE"|"RL-77 P3"|"RS-422 P"|"RS-422 RAILGUN Overcharge E"|"Railgun Max Charge"|"S-11 P"|"S-11 P E"|"SG-88 P"|"SWP SOLO SILO E"|"SWP SOLO SILO EImpact"|"StA-X3 P"|"StA-X3 P IE"|"StA-X3 P1"|"StA-X3 P1 IE"|"Stun Small"|"TX-41 STERILIZER S"|"detonation"|"feed_primary"|"impact"|"primary"|"primary_expiry"|"primary_impact"|"primary_impact_status_32"|"primary_impact_status_5"|"primary_status_37"|"primary_status_42"|"primary_status_43"|"primary_status_44"|"primary_status_45"|"primary_status_5"|"primary_status_6"|"primary_status_67"
 
 ---@class HD2SupportAttack
 ---@field resource "support_weapon"
----@field path "attack"
+---@field path "attack"|"attack_read_only"
 ---@field weapon HD2SupportWeaponName
----@field attack_index integer
+---@field attack string?
+---@field attack_index integer?
 local HD2SupportAttack = {}
 ---@return table
 function HD2SupportAttack:describe() end
+---@return HD2SupportProjectile
+function HD2SupportAttack:projectile() end
+---@return HD2SupportExplosion
+function HD2SupportAttack:explosion() end
+---@return HD2SupportAttack
+function HD2SupportAttack:damage() end
+
+---@class HD2SupportProjectile
+---@field resource "support_weapon"
+---@field path "projectile_reference"
+---@field weapon HD2SupportWeaponName
+---@field attack string
+local HD2SupportProjectile = {}
+---@return table
+function HD2SupportProjectile:describe() end
+---@return HD2SupportProjectile
+function HD2SupportProjectile:damage() end
+
+---@class HD2SupportExplosion
+---@field resource "support_weapon"
+---@field path "explosion"
+---@field weapon HD2SupportWeaponName
+---@field attack string
+local HD2SupportExplosion = {}
+---@return table
+function HD2SupportExplosion:describe() end
+---@return HD2SupportExplosion
+function HD2SupportExplosion:damage() end
 
 ---@class HD2SupportWeapon
 ---@field resource "support_weapon"
@@ -395,6 +424,12 @@ function HD2SupportWeapon:attacks() end
 ---@param identity integer|HD2SupportAttackName
 ---@return HD2SupportAttack
 function HD2SupportWeapon:attack(identity) end
+---@param identity integer|HD2SupportAttackName
+---@return HD2SupportProjectile
+function HD2SupportWeapon:projectile(identity) end
+---@param identity integer|HD2SupportAttackName
+---@return HD2SupportExplosion
+function HD2SupportWeapon:explosion(identity) end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
@@ -579,6 +614,13 @@ function HD2SupportWeapon:attack(identity) end
 ---@field length "beam.length"
 ---@field radius "beam.radius"
 
+---@class HD2Fields_charge
+---@field level_1 "charge.level_1"
+---@field level_2 "charge.level_2"
+---@field level_3 "charge.level_3"
+---@field maximum_seconds "charge.maximum_seconds"
+---@field minimum_seconds "charge.minimum_seconds"
+
 ---@class HD2Fields_explosion
 ---@field damage_ap_direct "explosion.damage.ap_direct"
 ---@field damage_ap_extreme "explosion.damage.ap_extreme"
@@ -641,6 +683,10 @@ function HD2SupportWeapon:attack(identity) end
 ---@field spare_rounds "rounds.spare_rounds"
 ---@field starting_rounds "rounds.starting_rounds"
 
+---@class HD2Fields_status
+---@field duration "status.duration"
+---@field strength "status.strength"
+
 ---@class HD2Fields_terminal
 ---@field explosion "terminal.explosion"
 ---@field feed_alternate_expiry_explosion "terminal.feed_alternate.expiry.explosion"
@@ -666,11 +712,13 @@ function HD2SupportWeapon:attack(identity) end
 ---@field arc HD2Fields_arc
 ---@field attack HD2Fields_attack
 ---@field beam HD2Fields_beam
+---@field charge HD2Fields_charge
 ---@field explosion HD2Fields_explosion
 ---@field heat HD2Fields_heat
 ---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine
 ---@field rounds HD2Fields_rounds
+---@field status HD2Fields_status
 ---@field terminal HD2Fields_terminal
 
 ---@class HD2Enum_projectile_type

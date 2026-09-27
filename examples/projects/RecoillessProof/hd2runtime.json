@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "name": "RecoillessProof",
+  "resource": "mods/hd2runtime_examples/recoilless_proof",
+  "guid": "b38356fe-5462-5981-a14b-570e21cb58ce",
+  "requires": {"bingus": {"min_release": 15, "api": 1},
+    "hd2runtime": {"min_version": "0.20.0", "api": 1,
+      "module": "mods/skyeshade/hd2runtime"}},
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

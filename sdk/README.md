@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.19.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.20.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation.
@@ -21,7 +21,7 @@ selection or option effect; see `docs/attachment-preset-research.md` for the
 targeted lifecycle comparison workflow.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.19.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.20.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -125,7 +125,8 @@ python <SDK>/hd2.py snapshot scan-support-weapons <build>.hd2snap wiki_support_w
 ```
 
 This emits `SupportWeaponRuntimeMap.json`, its identity-candidate map, a compact identity summary,
-and a log. The support command remains read-only and does not expose support-weapon writes.
+and a log. Snapshot research remains read-only. The installed 0.20 runtime separately consumes
+the reviewed `SupportWeaponAuthoringCapabilities.json` contract for guarded writes.
 
 The SDK locates HD2's owned `bin/lua51.dll` through `HD2_GAME_ROOT`; pass
 `--lua-dll <path>` when needed. The command rejects fingerprints that differ
