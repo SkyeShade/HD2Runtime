@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import re
 import struct
 import sys
 from collections import Counter, defaultdict
@@ -22,6 +24,7 @@ AUTHORING = ROOT / 'schemas/player_weapon_authoring_catalog.json'
 AMMO = ROOT / 'schemas/player_weapon_ammo_catalog.json'
 ATTACHMENTS_SOURCE = ROOT.parent / 'HD2WikiImporter/output/wiki_primary_weapon_attachments.json'
 ATTACHMENTS_CATALOG = ROOT / 'schemas/player_weapon_attachment_catalog.json'
+PLAYER_CATALOG = ROOT / 'data/wiki_player_weapons.json'
 RAW = ROOT / 'build/weapon-composition-raw.json'
 OUTPUTS = {
     'magazine': ROOT / 'sdk/AttachmentOptionCapabilities.json',
@@ -29,8 +32,10 @@ OUTPUTS = {
     'fire_mode': ROOT / 'sdk/PlayerWeaponFireModeGraph.json',
     'terminal': ROOT / 'sdk/PlayerWeaponTerminalActionGraph.json',
     'explosion': ROOT / 'sdk/ExplosionAuthoringCapabilities.json',
+    'heat': ROOT / 'sdk/PlayerWeaponHeatCapabilities.json',
 }
 COMPOSITION_CATALOG = ROOT / 'schemas/player_weapon_composition_catalog.json'
+HEAT_RESEARCH = ROOT / 'research/player-weapon-heat-F5FEE03DCFDB.json'
 
 
 def lua(value):
@@ -83,7 +88,8 @@ local reader=Reader.new(source)
 local roots=discover.locate(source,reader,profile,{entity=true,projectile=true,damage=true,
  explosion=true,status='optional'})
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
- 'WeaponMagazineComponentData','WeaponRoundsComponentData','WeaponCustomizationComponentData'}
+ 'WeaponMagazineComponentData','WeaponRoundsComponentData','WeaponCustomizationComponentData',
+ 'WeaponHeatComponentData'}
 local catalog=entities.capture(reader,roots.entity,profile,component_names)
 local requested=''' + lua(requested) + r'''
 local by_resource={}
@@ -94,7 +100,19 @@ local function hex(bytes)
 end
 local result={mode='snapshot',fingerprints={exe=source.module_hash(source.module(nil)),
  dll=source.module_hash(source.module('game.dll'))},weapons={},writes=0,protectionChanges=0,
- fixtureFallback='disabled'}
+ fixtureFallback='disabled',customizationCorpus={}}
+local customization_records={}
+for _,candidate in ipairs(catalog.candidates)do
+ local identity=candidate.ownership.WeaponCustomizationComponentData
+ if identity and candidate.entityRow and#candidate.diagnostics==0
+    and not customization_records[identity.recordIndex]then
+  local record=catalog.record(candidate,'WeaponCustomizationComponentData')
+  local item={resourceHash=candidate.resourceHash,identity=identity,bytes=hex(record.bytes)}
+  customization_records[identity.recordIndex]=item
+  result.customizationCorpus[#result.customizationCorpus+1]=item
+ end
+end
+table.sort(result.customizationCorpus,function(a,c)return a.identity.recordIndex<c.identity.recordIndex end)
 local projectile_consumers={}
 local function add_projectile_consumer(projectile_type,candidate,component,offset)
  if projectile_type==0 then return end
@@ -244,6 +262,19 @@ def _attachment_effects(option):
     return result
 
 
+def _wiki_heat_values(weapon):
+    fields = next((section['fields'] for section in weapon.get('rawSections', [])
+        if section['name'] == 'Heat Data'), [])
+    result = {}
+    for item in fields:
+        numbers = [float(value) for value in re.findall(r'-?\d+(?:\.\d+)?', item['value'])]
+        result[item['label']] = numbers
+    stats = weapon.get('weaponStats') or {}
+    for key in ('spareMagazines', 'startingMagazines', 'magsFromSupply', 'magsFromAmmoBox'):
+        result[key] = (stats.get(key) or {}).get('value')
+    return result
+
+
 def _default_attachment(default, options):
     if not default:
         return None
@@ -269,12 +300,25 @@ def analyze(raw):
     authoring = json.loads(AUTHORING.read_text())
     ammo = json.loads(AMMO.read_text())
     attachment_source = json.loads(ATTACHMENTS_SOURCE.read_text())
+    player_source = json.loads(PLAYER_CATALOG.read_text())
     ammo_by_name = {item['name']: item for item in ammo['weapons']}
     author_by_name = {item['name']: item for item in authoring['weapons']}
     candidate_by_name = {item['name']: authoring['candidates'][item['resources'][0]]
         for item in authoring['weapons']}
     raw_by_name = {item['name']: item for item in raw['weapons']}
     option_catalog = ammo['nativeMagazineOptions']
+    customization_corpus = [bytes.fromhex(item['bytes'])
+        for item in raw.get('customizationCorpus', [])]
+    corpus_evidence = []
+    for option in option_catalog:
+        option_needle = struct.pack('<I', int(option['optionId'], 16))
+        path_needle = struct.pack('<Q', int(option['addPath'], 16))
+        corpus_evidence.append({'optionId': option['optionId'], 'name': option['name'],
+            'addPath': option['addPath'],
+            'recordsWithOptionId': sum(option_needle in body for body in customization_corpus),
+            'optionIdOccurrences': sum(len(_find_all(body, option_needle)) for body in customization_corpus),
+            'recordsWithAddPath': sum(path_needle in body for body in customization_corpus),
+            'addPathOccurrences': sum(len(_find_all(body, path_needle)) for body in customization_corpus)})
     safety = {'writes': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled',
         'snapshotOnly': True}
     common = {'schemaVersion': 1, 'sourceSnapshot': SNAPSHOT.name,
@@ -282,6 +326,7 @@ def analyze(raw):
         'gameFingerprints': raw['fingerprints'], 'catalogWeapons': 80, 'safety': safety}
 
     imported_attachments = {item['name']: item for item in attachment_source['weapons']}
+    imported_weapons = {item['name']: item for item in player_source['weapons']}
     magazine_weapons = []
     option_occurrences = Counter()
     for name in sorted(author_by_name):
@@ -365,10 +410,16 @@ def analyze(raw):
             'weaponsWithWritablePerOptionFields': 0,
             'opticsMapped': 195, 'underbarrelMapped': 117, 'muzzleMapped': 71,
             'nativeOptionIdentities': len(option_catalog),
+            'customizationRecordsScanned': len(customization_corpus),
+            'nativeOptionIdsObservedInCorpus': sum(item['optionIdOccurrences'] > 0
+                for item in corpus_evidence),
+            'nativeAddPathsObservedInCorpus': sum(item['addPathOccurrences'] > 0
+                for item in corpus_evidence),
             'weaponsWithNativeDefaultOption': sum(w['defaultOption'] is not None for w in magazine_weapons),
             'defaultRelationshipsProven': sum(w['defaultOption'] is not None and
                 w['defaultOption']['optionIdentityProven'] for w in magazine_weapons),
             'perOptionAmmoOwnersProven': 0, 'writableOptionFields': 0,
+            'writableAttachmentSelections': 0, 'alternateAllowedRelationshipsProven': 0,
             'completeCustomizationRecordsCompared': sum(
                 'WeaponCustomizationComponentData' in raw_by_name[name]['components']
                 for name in raw_by_name),
@@ -378,11 +429,111 @@ def analyze(raw):
             'path': 'DefaultCustomizations[] entry where slot == Magazine', 'slotTag': 5,
             'listOffset': 0, 'entryStride': 8, 'slotOffset': 0, 'optionIdOffset': 4,
             'terminatorSlot': 0},
-            'allowedOptions': 'The importer supplies catalog relationships; no reviewed native per-weapon allowed-option list was found in the captured component record.',
+            'allowedOptions': 'The importer supplies catalog relationships; across the complete native customization table, reviewed weapon records contain their selected default identity but no alternate per-weapon allowed-option list.',
             'overrideOwnership': 'No option-owned attachment effect/ammo override record is linked by the captured component graph.',
             'effectTupleSearch': 'All normalized tuples were compared with the complete captured customization components; scalar correlation without a native option-to-owner reference was rejected.',
             'writePolicy': 'Correlation never promotes a write without native option identity, effect owner, and scope.'},
-        'nativeMagazineOptions': option_catalog, 'weapons': magazine_weapons}
+        'nativeMagazineOptions': option_catalog,
+        'nativeOptionCorpusEvidence': corpus_evidence, 'weapons': magazine_weapons}
+
+    heat_weapons = []
+    heat_shared = defaultdict(list)
+    for name in sorted(author_by_name):
+        identity = author_by_name[name]
+        raw_component = raw_by_name[name]['components'].get('WeaponHeatComponentData')
+        if not raw_component:
+            heat_weapons.append({'weapon': name, 'resources': identity['resources'],
+                'heatMechanismPresent': False, 'heatsinkMechanismPresent': False,
+                'fields': [], 'reason': 'WeaponHeatComponentData is absent from the weapon root.'})
+            continue
+        body = bytes.fromhex(raw_component['bytes'])
+        owner = raw_component['identity']
+        heat_shared[owner['recordIndex']].append(name)
+        wiki_heat = _wiki_heat_values(imported_weapons[name])
+        cooling = wiki_heat.get('Cool Per Sec') or []
+        expected = {
+            'heat.capacity': (wiki_heat.get('Overheats at') or [None])[0],
+            'heat.heat_per_shot': (wiki_heat.get('Heat Per Shot') or [None])[0],
+            'heat.heat_per_second': (wiki_heat.get('Heat Per Second') or [None])[0],
+            'heat.cool_per_second': cooling[1] if len(cooling) >= 2 else None,
+            'heatsink.starting': wiki_heat.get('startingMagazines'),
+            'heatsink.from_supply': wiki_heat.get('magsFromSupply'),
+            'heatsink.spare': wiki_heat.get('spareMagazines'),
+        }
+        direct = {
+            'heat.capacity': (96, 'f32', _f32(body, 96)),
+            'heat.heat_per_shot': (116, 'f32', _f32(body, 116)),
+            'heat.heat_per_second': (120, 'f32', _f32(body, 120)),
+            'heat.cool_per_second': (128, 'f32', _f32(body, 128)),
+            'heatsink.starting': (84, 'u32', _u32(body, 84)),
+            'heatsink.from_supply': (88, 'u32', _u32(body, 88)),
+            'heatsink.spare': (92, 'u32', _u32(body, 92)),
+        }
+        unique = identity['resolution'] == 'UNIQUE' and owner['uniqueOwner']
+        fields = []
+        for field_id, (offset, storage, value) in direct.items():
+            wiki_value = expected[field_id]
+            matches = wiki_value is not None and math.isclose(value, wiki_value,
+                rel_tol=1e-6, abs_tol=1e-5)
+            fields.append({'id': field_id, 'value': value, 'wikiValue': wiki_value,
+                'correlationMatches': matches, 'offset': offset, 'storage': storage,
+                'owner': {'component': 'WeaponHeatComponentData',
+                    'recordIndex': owner['recordIndex'], 'indexRow': owner['indexRow'],
+                    'ownerCount': owner['ownerCount'], 'uniqueOwner': owner['uniqueOwner']},
+                'writable': bool(unique and matches), 'writeScope': 'weapon_local',
+                'reason': (None if unique and matches else
+                    'Native value disagrees with the imported wiki value; semantic write remains fail-closed.'
+                    if wiki_value is not None else
+                    'The imported catalog has no matching semantic field for this native scalar.'
+                    if unique else 'Ambiguous or shared WeaponHeat component ownership.')})
+        fields.extend([
+            {'id': 'heat.cool_per_second_cold', 'value': _f32(body, 128) * _f32(body, 136),
+                'wikiValue': cooling[0] if len(cooling) >= 1 else None, 'derived': True,
+                'writable': False, 'reason': 'Derived from cool_per_second and the native 1.5 cold multiplier.'},
+            {'id': 'heat.cool_per_second_hot', 'value': _f32(body, 128) * _f32(body, 132),
+                'wikiValue': cooling[2] if len(cooling) >= 3 else None, 'derived': True,
+                'writable': False, 'reason': 'Derived from cool_per_second and the native 0.75 hot multiplier.'},
+            {'id': 'heatsink.from_ammo_box', 'value': math.floor(_u32(body, 88) / 2),
+                'wikiValue': wiki_heat.get('magsFromAmmoBox'), 'derived': True,
+                'writable': False, 'reason': 'Derived from heatsink.from_supply.'},
+            {'id': 'heat.warmup', 'value': None,
+                'wikiValue': (wiki_heat.get('Warmup') or [None])[0], 'derived': False,
+                'writable': False, 'reason': 'No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families.'},
+            {'id': 'heat.overheat_cooldown', 'value': None,
+                'wikiValue': 'reload_needed' if 'Cooldown After Overheat' in wiki_heat else None,
+                'derived': False, 'writable': False,
+                'reason': 'The qualitative reload-needed behavior has no proven scalar owner.'},
+        ])
+        heat_weapons.append({'weapon': name, 'resources': identity['resources'],
+            'heatMechanismPresent': True, 'heatsinkMechanismPresent': True,
+            'componentIdentity': owner, 'wikiHeatData': wiki_heat, 'fields': fields,
+            'reason': None})
+    heat_groups = [{'recordIndex': record, 'weapons': sorted(consumers)}
+        for record, consumers in sorted(heat_shared.items()) if len(consumers) > 1]
+    heat = {**common, 'feature': 'player_weapon_heat_capabilities',
+        'summary': {'weapons': 80,
+            'weaponsWithHeatMechanism': sum(w['heatMechanismPresent'] for w in heat_weapons),
+            'weaponsWithHeatsinkMechanism': sum(w['heatsinkMechanismPresent'] for w in heat_weapons),
+            'directSemanticFieldsResolved': sum(1 for w in heat_weapons for f in w['fields']
+                if not f.get('derived') and f.get('value') is not None),
+            'writableFieldInstances': sum(f['writable'] for w in heat_weapons for f in w['fields']),
+            'weaponsWithWritableHeatFields': sum(any(f['writable'] for f in w['fields']) for w in heat_weapons),
+            'sharedComponentGroups': len(heat_groups),
+            'heatsinkOptionIdentities': sum('heatsink' in option['name'].lower()
+                for option in option_catalog),
+            'writableHeatsinkOptionOverrides': 0},
+        'layout': {'component': 'WeaponHeatComponentData', 'componentType': '0x4C981CD9',
+            'recordSize': 592, 'capacityOffset': 96, 'heatPerShotOffset': 116,
+            'heatPerSecondOffset': 120, 'coolPerSecondOffset': 128,
+            'hotCoolingMultiplierOffset': 132, 'coldCoolingMultiplierOffset': 136,
+            'startingHeatsinksOffset': 84, 'heatsinksFromSupplyOffset': 88,
+            'spareHeatsinksOffset': 92},
+        'findings': {'cooling': 'The native base at +128 exactly matches the middle wiki cooling rate for 7/7 weapons; +132=0.75 and +136=1.5 derive the hot/cold rates within wiki rounding.',
+            'heatGeneration': 'Per-shot +116 matches 5/5 labelled projectile/shot weapons. Per-second +120 matches Scythe; Dagger uses a different native scale and remains read-only for generation.',
+            'inventory': 'Starting +84 and spare +92 match 6/7; supply +88 matches 7/7. Dagger disagreements remain explicit and fail closed.',
+            'capacity': 'Capacity +96 matches 6/7. Dagger stores 2000 while the catalog reports 100, so Dagger capacity remains read-only.',
+            'attachmentOverrides': 'Nine native heatsink option identities are known, but no option-owned effect record or allowed-option graph is linked in this snapshot.'},
+        'sharedGroups': heat_groups, 'weapons': heat_weapons}
 
     projectile_weapons = []
     writable_attacks = 0
@@ -672,7 +823,7 @@ def analyze(raw):
         'explosions': [explosion_types[key] for key in sorted(explosion_types)],
         'weapons': explosion_weapons}
     return {'magazine': magazine, 'projectile': projectile, 'fire_mode': fire_mode,
-        'terminal': terminal, 'explosion': explosion}
+        'terminal': terminal, 'explosion': explosion, 'heat': heat}
 
 
 def write(reports):
@@ -684,6 +835,7 @@ def write(reports):
         json.dumps(reports['magazine'], indent=2) + '\n')
     (ROOT / 'sdk/PlayerWeaponProjectileReferenceGraph.json').write_text(
         json.dumps(reports['projectile'], indent=2) + '\n')
+    HEAT_RESEARCH.write_text(json.dumps(reports['heat'], indent=2) + '\n')
     ATTACHMENTS_CATALOG.write_text(json.dumps({'schemaVersion': 1,
         'importer': reports['magazine']['importer'], 'summary': reports['magazine']['summary'],
         'weapons': reports['magazine']['weapons']}, indent=2) + '\n')
@@ -694,6 +846,7 @@ def write(reports):
     explosions = defaultdict(dict)
     for item in reports['explosion']['weapons']:
         explosions[item['weapon']][item['role']] = item['explosions']
+    heat = {item['weapon']: item for item in reports['heat']['weapons']}
     catalog = {'schemaVersion': 1, 'sourceSnapshot': SNAPSHOT.name,
         'hd2RuntimeVersion': reports['projectile']['hd2RuntimeVersion'],
         'gameFingerprints': reports['projectile']['gameFingerprints'],
@@ -713,6 +866,7 @@ def write(reports):
                 'writable': fire_modes[name]['writable'],
                 'writeKind': fire_modes[name]['writeKind'],
                 'reason': fire_modes[name]['reason']},
+            'heat': heat[name],
             'attacks': [{**attack,
                 'aliases': (['primary'] if index == 0 else ['alternate']),
                 'terminalActions': terminal_by_role.get(attack['role'], []),

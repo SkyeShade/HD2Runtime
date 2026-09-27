@@ -36,7 +36,8 @@ local unmapped=mapper_schema.unmapped
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'LoadoutPackageComponentData','WeaponMagazineComponentData','WeaponRoundsComponentData',
     'WeaponCustomizationComponentData','ArcWeaponComponentData','MeleeWeaponComponentData',
-    'BeamWeaponComponentData','SprayWeaponComponentData','WeaponChargeComponentData',
+    'BeamWeaponComponentData','SprayWeaponComponentData','WeaponHeatComponentData',
+    'WeaponChargeComponentData',
     'ExplosiveComponentData','HellpodRackComponentData','WeaponLinkedAmmoComponentData',
     'BackpackComponentData','WeaponLinkerComponentData'}
 
@@ -225,6 +226,17 @@ function M.start(runtime,emit,request)
                     local suppressed=mapper_schema.fields.is_suppressed
                     field(output,'is_suppressed',b.value(record.bytes,suppressed.offset,suppressed.storage)~=0,
                         suppressed.evidence)
+                end)
+            end
+            if candidate.ownership.WeaponHeatComponentData then
+                attempt('WeaponHeatComponentData',function()
+                    local record=catalog.record(candidate,'WeaponHeatComponentData')
+                    for _,name in ipairs({'heat_capacity','heat_per_shot','heat_per_second',
+                        'heat_cool_per_second','heatsink_starting','heatsink_from_supply',
+                        'heatsink_spare'})do
+                        local spec=mapper_schema.fields[name]
+                        field(output,name,b.value(record.bytes,spec.offset,spec.storage),spec.evidence)
+                    end
                 end)
             end
             local loadout=candidate.ownership.LoadoutPackageComponentData

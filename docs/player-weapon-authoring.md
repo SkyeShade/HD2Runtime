@@ -1,6 +1,6 @@
 # Player weapon authoring
 
-HD2Runtime 0.17.0 exposes reviewed semantic writes for the complete 80-weapon player catalog and
+HD2Runtime 0.18.0 exposes reviewed semantic writes for the complete 80-weapon player catalog and
 preserves the earlier ammo semantic aliases.
 The generated [capability catalog](../sdk/PlayerWeaponAuthoringCapabilities.json) and [ammo capability catalog](../sdk/PlayerWeaponAmmoCapabilities.json) are the canonical GUI inputs. They record current defaults, backing component or settings record, scalar storage, provenance, editability, derived fields, and shared write scope without publishing runtime addresses.
 
@@ -105,7 +105,23 @@ capability catalog includes a complete identical-backing audit; `weapon.base_cap
 as a separate read-only native view because its underlying-base semantics differ from effective
 magazine capacity even where both currently read the same bytes.
 
-The current build's customization catalog provides 52 magazine, heatsink, and canister option identities with names and AddPaths. Nineteen player weapons select a default magazine option. Their effective values are visible in the ammo capability catalog, but their override records and per-weapon allowed-option graph are not sufficiently owned for guarded writes. `magazine.*` remains read-only for those weapons. Selecting a different preset, or editing `magazine.option[n]`, therefore fails closed in this release.
+The current build's customization catalog provides 52 magazine, heatsink, and canister option identities with names and AddPaths. Twenty player weapons select a default option. The research pass inspected all 191 occupied `WeaponCustomizationComponentData` records: only 20 catalog option IDs and six catalog AddPaths occur, and no alternate allowed-option collection or option-owned effect record is present. Effective values remain visible in the capability catalogs, but attachment selection and option-effect editing fail closed.
+
+Seven player weapons own `WeaponHeatComponentData`. The five uniquely resolved weapons expose direct guarded fields through `hd2.fields.heat.*` and `hd2.fields.heatsink.*`:
+
+```lua
+hd2.transaction({
+    id='sickle-heat-tuning',
+    target=hd2.weapon('LAS-16 Sickle'),
+    changes={
+        {field=hd2.fields.heat.capacity, expect=100, value=140},
+        {field=hd2.fields.heat.cool_per_second, expect=8, value=12},
+        {field=hd2.fields.heatsink.spare, expect=3, value=5},
+    },
+})
+```
+
+`heat.cool_per_second_cold`, `heat.cool_per_second_hot`, and `heatsink.from_ammo_box` are derived read-only conveniences. Warmup and overheat cooldown remain unresolved. Scythe and Dagger retain duplicate-resource blocking, and Dagger also has unresolved native/wiki scaling disagreements.
 
 `WeaponMagazineComponentData` stores capacity at offset 136, starting magazines at 140, supply refill at 144, and maximum spare magazines at 148. `WeaponRoundsComponentData` stores two feed capacities at 72/76, spare rounds at 80, supply refill at 84, and starting rounds at 88. These offsets are internal metadata; mod declarations use semantic field constants.
 

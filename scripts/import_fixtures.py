@@ -67,6 +67,7 @@ def main():
                        'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                        'ArcWeaponComponentData', 'MeleeWeaponComponentData',
                        'BeamWeaponComponentData', 'SprayWeaponComponentData',
+                       'WeaponHeatComponentData',
                        'WeaponChargeComponentData', 'ExplosiveComponentData',
                        'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
                        'BackpackComponentData', 'WeaponLinkerComponentData']
@@ -74,6 +75,7 @@ def main():
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',
                         'BeamWeaponComponentData', 'SprayWeaponComponentData',
+                        'WeaponHeatComponentData',
                         'WeaponChargeComponentData', 'ExplosiveComponentData',
                         'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
                         'BackpackComponentData', 'WeaponLinkerComponentData'}

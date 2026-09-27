@@ -1,0 +1,2253 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "hd2RuntimeVersion": "0.18.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "feature": "player_weapon_heat_capabilities",
+  "summary": {
+    "weapons": 80,
+    "weaponsWithHeatMechanism": 7,
+    "weaponsWithHeatsinkMechanism": 7,
+    "directSemanticFieldsResolved": 49,
+    "writableFieldInstances": 30,
+    "weaponsWithWritableHeatFields": 5,
+    "sharedComponentGroups": 0,
+    "heatsinkOptionIdentities": 9,
+    "writableHeatsinkOptionOverrides": 0
+  },
+  "layout": {
+    "component": "WeaponHeatComponentData",
+    "componentType": "0x4C981CD9",
+    "recordSize": 592,
+    "capacityOffset": 96,
+    "heatPerShotOffset": 116,
+    "heatPerSecondOffset": 120,
+    "coolPerSecondOffset": 128,
+    "hotCoolingMultiplierOffset": 132,
+    "coldCoolingMultiplierOffset": 136,
+    "startingHeatsinksOffset": 84,
+    "heatsinksFromSupplyOffset": 88,
+    "spareHeatsinksOffset": 92
+  },
+  "findings": {
+    "cooling": "The native base at +128 exactly matches the middle wiki cooling rate for 7/7 weapons; +132=0.75 and +136=1.5 derive the hot/cold rates within wiki rounding.",
+    "heatGeneration": "Per-shot +116 matches 5/5 labelled projectile/shot weapons. Per-second +120 matches Scythe; Dagger uses a different native scale and remains read-only for generation.",
+    "inventory": "Starting +84 and spare +92 match 6/7; supply +88 matches 7/7. Dagger disagreements remain explicit and fail closed.",
+    "capacity": "Capacity +96 matches 6/7. Dagger stores 2000 while the catalog reports 100, so Dagger capacity remains read-only.",
+    "attachmentOverrides": "Nine native heatsink option identities are known, but no option-owned effect record or allowed-option graph is linked in this snapshot."
+  },
+  "sharedGroups": [],
+  "weapons": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "resources": [
+        "0xA8A91EB54892B6B2"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-2 Coyote",
+      "resources": [
+        "0x84354339522C932D"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "resources": [
+        "0x968211C0033DCE64"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "resources": [
+        "0xA7EE1EBF58FCDF1F"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "resources": [
+        "0xCF5F176E0E322BE1"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "resources": [
+        "0x43CB1033961A2276"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "resources": [
+        "0xBC29613666DF696B"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "resources": [
+        "0x708EA298C82093D0"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "resources": [
+        "0xCE063AA33D95A812"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "resources": [
+        "0xA955C4EA6F6D4203"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "ARC-12 Blitzer",
+      "resources": [
+        "0x076DD5D4F4360204"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "resources": [
+        "0x5FECAB819F96A3E8"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "resources": [
+        "0xF49227A0630A3F7F"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-19 Stun Lance",
+      "resources": [
+        "0xE3B6AEDD07FCB464"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-2 Saber",
+      "resources": [
+        "0xFCD8A6E67EAC635A"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-30 Stun Baton",
+      "resources": [
+        "0x52CDBFBACA3CB397"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-42 Machete",
+      "resources": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-5 Combat Hatchet",
+      "resources": [
+        "0x75816077C139C850"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "CQC-73 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "resources": [
+        "0x72170A55A1F37FF1"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "FLAM-66 Torcher",
+      "resources": [
+        "0x4FB0F8C02F55C82B"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "resources": [
+        "0x006E44327BB953FE"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "resources": [
+        "0x9EB160830321BFD6"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "resources": [
+        "0x80F1A156D9FA1E36"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "resources": [
+        "0xC85F576D5E086147"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 54,
+        "ownerCount": 1,
+        "recordIndex": 23,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.0
+        ],
+        "Heat Per Shot": [
+          2.0
+        ],
+        "Cool Per Sec": [
+          8.1,
+          5.4,
+          4.1
+        ],
+        "Cooldown After Overheat": [],
+        "spareMagazines": 5,
+        "startingMagazines": 4,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 100.0,
+          "wikiValue": 100.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 2.0,
+          "wikiValue": 2.0,
+          "correlationMatches": true,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 0.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "The imported catalog has no matching semantic field for this native scalar."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 5.400000095367432,
+          "wikiValue": 5.4,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 4,
+          "wikiValue": 4,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 5,
+          "wikiValue": 5,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 23,
+            "indexRow": 54,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 8.100000143051147,
+          "wikiValue": 8.1,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 4.050000071525574,
+          "wikiValue": 4.1,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.0,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-13 Trident",
+      "resources": [
+        "0x3C86E871923F3970"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 51,
+        "ownerCount": 1,
+        "recordIndex": 22,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.0
+        ],
+        "Heat Per Shot": [
+          10.0
+        ],
+        "Cool Per Sec": [
+          22.5,
+          15.0,
+          11.2
+        ],
+        "Cooldown After Overheat": [],
+        "Beam Fire Rate": [
+          300.0
+        ],
+        "Barrels": [
+          3.0
+        ],
+        "Beams": [
+          6.0
+        ],
+        "spareMagazines": 3,
+        "startingMagazines": 2,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 100.0,
+          "wikiValue": 100.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 10.0,
+          "wikiValue": 10.0,
+          "correlationMatches": true,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 0.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "The imported catalog has no matching semantic field for this native scalar."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 15.0,
+          "wikiValue": 15.0,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 2,
+          "wikiValue": 2,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 3,
+          "wikiValue": 3,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 22,
+            "indexRow": 51,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 22.5,
+          "wikiValue": 22.5,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 11.25,
+          "wikiValue": 11.2,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.0,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "resources": [
+        "0x8645F167B3C813A2"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 45,
+        "ownerCount": 1,
+        "recordIndex": 20,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.5
+        ],
+        "Heat Per Shot": [
+          1.14999998
+        ],
+        "Cool Per Sec": [
+          12.0,
+          8.0,
+          6.0
+        ],
+        "Cooldown After Overheat": [],
+        "spareMagazines": 3,
+        "startingMagazines": 2,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 100.0,
+          "wikiValue": 100.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 1.149999976158142,
+          "wikiValue": 1.14999998,
+          "correlationMatches": true,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 0.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "The imported catalog has no matching semantic field for this native scalar."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 8.0,
+          "wikiValue": 8.0,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 2,
+          "wikiValue": 2,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 3,
+          "wikiValue": 3,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 20,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 12.0,
+          "wikiValue": 12.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 6.0,
+          "wikiValue": 6.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.5,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "resources": [
+        "0x295BEB26DC4F8FF1"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 53,
+        "ownerCount": 1,
+        "recordIndex": 21,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          200.0
+        ],
+        "Warmup": [
+          0.5
+        ],
+        "Heat Per Shot": [
+          1.14999998
+        ],
+        "Cool Per Sec": [
+          12.0,
+          8.0,
+          6.0
+        ],
+        "Cooldown After Overheat": [],
+        "spareMagazines": 3,
+        "startingMagazines": 2,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 200.0,
+          "wikiValue": 200.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 1.149999976158142,
+          "wikiValue": 1.14999998,
+          "correlationMatches": true,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 0.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "The imported catalog has no matching semantic field for this native scalar."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 8.0,
+          "wikiValue": 8.0,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 2,
+          "wikiValue": 2,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 3,
+          "wikiValue": 3,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 21,
+            "indexRow": 53,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 12.0,
+          "wikiValue": 12.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 6.0,
+          "wikiValue": 6.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.5,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-5 Scythe",
+      "resources": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 42,
+        "ownerCount": 1,
+        "recordIndex": 18,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.2
+        ],
+        "Heat Per Second": [
+          12.5
+        ],
+        "Cool Per Sec": [
+          12.8,
+          8.5,
+          6.4
+        ],
+        "Cooldown After Overheat": [],
+        "Beam Fire Rate": [
+          60.0
+        ],
+        "spareMagazines": 4,
+        "startingMagazines": 3,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 100.0,
+          "wikiValue": 100.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 2.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Ambiguous or shared WeaponHeat component ownership."
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 12.5,
+          "wikiValue": 12.5,
+          "correlationMatches": true,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 8.5,
+          "wikiValue": 8.5,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 3,
+          "wikiValue": 3,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 4,
+          "wikiValue": 4,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 18,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 12.75,
+          "wikiValue": 12.8,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 6.375,
+          "wikiValue": 6.4,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.2,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "resources": [
+        "0x416D053372C4E433"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 31,
+        "ownerCount": 1,
+        "recordIndex": 25,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.0
+        ],
+        "Heat Per Shot": [
+          15.0
+        ],
+        "Cool Per Sec": [
+          15.0,
+          10.0,
+          7.5
+        ],
+        "Cooldown After Overheat": [],
+        "spareMagazines": 3,
+        "startingMagazines": 2,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 100.0,
+          "wikiValue": 100.0,
+          "correlationMatches": true,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 15.0,
+          "wikiValue": 15.0,
+          "correlationMatches": true,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 0.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "The imported catalog has no matching semantic field for this native scalar."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 10.0,
+          "wikiValue": 10.0,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 2,
+          "wikiValue": 2,
+          "correlationMatches": true,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 3,
+          "wikiValue": 3,
+          "correlationMatches": true,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 25,
+            "indexRow": 31,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": true,
+          "writeScope": "weapon_local",
+          "reason": null
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 15.0,
+          "wikiValue": 15.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 7.5,
+          "wikiValue": 7.5,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.0,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "LAS-7 Dagger",
+      "resources": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ],
+      "heatMechanismPresent": true,
+      "heatsinkMechanismPresent": true,
+      "componentIdentity": {
+        "component": "WeaponHeatComponentData",
+        "componentIndex": 266,
+        "componentType": "0x4C981CD9",
+        "indexRow": 16,
+        "ownerCount": 1,
+        "recordIndex": 7,
+        "uniqueOwner": true
+      },
+      "wikiHeatData": {
+        "Overheats at": [
+          100.0
+        ],
+        "Warmup": [
+          0.2
+        ],
+        "Heat Per Second": [
+          15.0
+        ],
+        "Cool Per Sec": [
+          15.0,
+          10.0,
+          7.5
+        ],
+        "Cooldown After Overheat": [],
+        "Beam Fire Rate": [
+          60.0
+        ],
+        "spareMagazines": 3,
+        "startingMagazines": 3,
+        "magsFromSupply": 6,
+        "magsFromAmmoBox": 3
+      },
+      "fields": [
+        {
+          "id": "heat.capacity",
+          "value": 2000.0,
+          "wikiValue": 100.0,
+          "correlationMatches": false,
+          "offset": 96,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.heat_per_shot",
+          "value": 2.0,
+          "wikiValue": null,
+          "correlationMatches": false,
+          "offset": 116,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Ambiguous or shared WeaponHeat component ownership."
+        },
+        {
+          "id": "heat.heat_per_second",
+          "value": 1.0,
+          "wikiValue": 15.0,
+          "correlationMatches": false,
+          "offset": 120,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.cool_per_second",
+          "value": 10.0,
+          "wikiValue": 10.0,
+          "correlationMatches": true,
+          "offset": 128,
+          "storage": "f32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.starting",
+          "value": 6,
+          "wikiValue": 3,
+          "correlationMatches": false,
+          "offset": 84,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.from_supply",
+          "value": 6,
+          "wikiValue": 6,
+          "correlationMatches": true,
+          "offset": 88,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heatsink.spare",
+          "value": 12,
+          "wikiValue": 3,
+          "correlationMatches": false,
+          "offset": 92,
+          "storage": "u32",
+          "owner": {
+            "component": "WeaponHeatComponentData",
+            "recordIndex": 7,
+            "indexRow": 16,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "writable": false,
+          "writeScope": "weapon_local",
+          "reason": "Native value disagrees with the imported wiki value; semantic write remains fail-closed."
+        },
+        {
+          "id": "heat.cool_per_second_cold",
+          "value": 15.0,
+          "wikiValue": 15.0,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 1.5 cold multiplier."
+        },
+        {
+          "id": "heat.cool_per_second_hot",
+          "value": 7.5,
+          "wikiValue": 7.5,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from cool_per_second and the native 0.75 hot multiplier."
+        },
+        {
+          "id": "heatsink.from_ammo_box",
+          "value": 3,
+          "wikiValue": 3,
+          "derived": true,
+          "writable": false,
+          "reason": "Derived from heatsink.from_supply."
+        },
+        {
+          "id": "heat.warmup",
+          "value": null,
+          "wikiValue": 0.2,
+          "derived": false,
+          "writable": false,
+          "reason": "No owned WeaponHeat scalar reproduced warmup across beam and projectile heat families."
+        },
+        {
+          "id": "heat.overheat_cooldown",
+          "value": null,
+          "wikiValue": "reload_needed",
+          "derived": false,
+          "writable": false,
+          "reason": "The qualitative reload-needed behavior has no proven scalar owner."
+        }
+      ],
+      "reason": null
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "resources": [
+        "0x4D58C77087B774C5"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "M7S SMG",
+      "resources": [
+        "0xBE70EE0D8D44028E"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "resources": [
+        "0x90DDC374F4E3D756"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "resources": [
+        "0x4DBD74F49C8FFC13"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "resources": [
+        "0x9571CA51F0DAF35B"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "resources": [
+        "0xD6B1FB05B9109353"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "resources": [
+        "0x1A437158E1B8D2A1"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-19 Redeemer",
+      "resources": [
+        "0x3575AABC5F1F9326"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-2 Peacemaker",
+      "resources": [
+        "0x05E4E5C2DB6E44A2"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "resources": [
+        "0x14D5D4506056C7A4"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "resources": [
+        "0xE91F569C2AD8AF01"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-35 Re-Educator",
+      "resources": [
+        "0x0B882808C6F498E8"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-4 Senator",
+      "resources": [
+        "0x8D3D52A3B2F19402"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-69 Veto",
+      "resources": [
+        "0xC780BCD79547DA0F"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-72 Crisper",
+      "resources": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "resources": [
+        "0xCF8934FF6567A42D"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "resources": [
+        "0xDBB6C961C59FADC1"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "resources": [
+        "0xEEA5E3CEF1E12C14"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "resources": [
+        "0xFB3A19078694708A"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "resources": [
+        "0xAA69A60D74A3EC54"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "resources": [
+        "0x30061F91AF477F5E"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "resources": [
+        "0x0F83639AB8C86165"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "resources": [
+        "0x7B75E5132FFD4CA6"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "resources": [
+        "0xB6AFF2195568767F"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-4 Hyena",
+      "resources": [
+        "0xE5796355A8FD67E0"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "resources": [
+        "0xE6D932BE83729076"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "resources": [
+        "0x03E67A19B07C6523"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "resources": [
+        "0x4C786785C79D44E7"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R-72 Censor",
+      "resources": [
+        "0xF0338468DCDB6A6C"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "resources": [
+        "0x1ABBFF60D26BA391"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "resources": [
+        "0x4E310B1FE4C52B52"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "resources": [
+        "0x2B28E17FFED05F7C"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "resources": [
+        "0x46183B50961D1328"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "resources": [
+        "0xC12A34F375BD5A87"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "resources": [
+        "0x5EBAEA70C0D060B9"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-451 Cookout",
+      "resources": [
+        "0xD323DE60855898AC"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "resources": [
+        "0x41EAC4A03987FAA0"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "resources": [
+        "0x05D8D8C073B9D502"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "resources": [
+        "0x4F749E2EE26F532D"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "resources": [
+        "0xDCD1C835407EF7BA"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "resources": [
+        "0x186EA95DE7306B1A"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "resources": [
+        "0x94BD931B5FB4EE95"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "resources": [
+        "0x0807AEA5217E4767"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "resources": [
+        "0x8A307BD1811A5FE9"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "resources": [
+        "0x4BA41B6F9F405CC2"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "resources": [
+        "0xCDF28BE026BB7D84"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "resources": [
+        "0xF992CE97577C8A7F"
+      ],
+      "heatMechanismPresent": false,
+      "heatsinkMechanismPresent": false,
+      "fields": [],
+      "reason": "WeaponHeatComponentData is absent from the weapon root."
+    }
+  ]
+}

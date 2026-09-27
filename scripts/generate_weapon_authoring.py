@@ -304,6 +304,18 @@ def build(catalog_path=CATALOG):
             fields.append(make_field('magazine.magazines_from_ammo_box',ammo_box,editable=False,
                 reason=definitions['magazine.magazines_from_ammo_box']['reason'],derived=True))
 
+        heat = composition.get('heat') or {}
+        if heat.get('heatMechanismPresent'):
+            for item in heat['fields']:
+                field_id = item['id']
+                backend = None
+                if item.get('offset') is not None and 'WeaponHeatComponentData' in ownership:
+                    backend = component_backend(candidate,'WeaponHeatComponentData',
+                        item['offset'],item['storage'])
+                fields.append(make_field(field_id,item.get('value'),backend,
+                    editable=unique and item['writable'],reason=blocked or item.get('reason'),
+                    derived=item.get('derived',False)))
+
         attacks=candidate.get('attacks') or []
         for attack in composition['attacks']:
             backing=attack.get('targetBacking')

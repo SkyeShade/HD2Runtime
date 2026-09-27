@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.17.0",
+  "hd2RuntimeVersion": "0.18.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -32,10 +32,15 @@
     "underbarrelMapped": 117,
     "muzzleMapped": 71,
     "nativeOptionIdentities": 52,
+    "customizationRecordsScanned": 191,
+    "nativeOptionIdsObservedInCorpus": 20,
+    "nativeAddPathsObservedInCorpus": 6,
     "weaponsWithNativeDefaultOption": 20,
     "defaultRelationshipsProven": 20,
     "perOptionAmmoOwnersProven": 0,
     "writableOptionFields": 0,
+    "writableAttachmentSelections": 0,
+    "alternateAllowedRelationshipsProven": 0,
     "completeCustomizationRecordsCompared": 79,
     "simpleMagazineWeapons": 33,
     "roundsFeedWeapons": 15
@@ -51,7 +56,7 @@
       "optionIdOffset": 4,
       "terminatorSlot": 0
     },
-    "allowedOptions": "The importer supplies catalog relationships; no reviewed native per-weapon allowed-option list was found in the captured component record.",
+    "allowedOptions": "The importer supplies catalog relationships; across the complete native customization table, reviewed weapon records contain their selected default identity but no alternate per-weapon allowed-option list.",
     "overrideOwnership": "No option-owned attachment effect/ammo override record is linked by the captured component graph.",
     "effectTupleSearch": "All normalized tuples were compared with the complete captured customization components; scalar correlation without a native option-to-owner reference was rejected.",
     "writePolicy": "Correlation never promotes a write without native option identity, effect owner, and scope."
@@ -524,6 +529,476 @@
       "spareMagazinesResolved": false,
       "applicableWeaponsResolved": false,
       "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    }
+  ],
+  "nativeOptionCorpusEvidence": [
+    {
+      "optionId": "0x14679F6E",
+      "name": "Jet Assisted Rifle 15mm. Drum Standard ",
+      "addPath": "0xD246831EFD370FA8",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x45A1B03E",
+      "name": "Karbin Rifle Standard",
+      "addPath": "0x16AB263BC03B4F96",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x643262CC",
+      "name": "Laser Heatsink (Blaster). Improved Cooldown",
+      "addPath": "0xA313B38037CEE20B",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x87B6BE3A",
+      "name": "Laser Heatsink (Blaster). Improved Heatcapacity",
+      "addPath": "0x08755D8F453EA7BA",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x39BBF52C",
+      "name": "Laser Heatsink (Blaster). Standard",
+      "addPath": "0x764EA2289AC0CB49",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x3D0687C6",
+      "name": "Laser Heatsink (Charge). Extended Heatsink",
+      "addPath": "0x7DCA2947CCDA8F56",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x53120A73",
+      "name": "Laser Heatsink (Charge). Rapid Heatsink",
+      "addPath": "0xB4E981030087D094",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x5672E4B7",
+      "name": "Laser Heatsink (Charge). Standard Heatsink",
+      "addPath": "0xB889C472C393E06B",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x87770B73",
+      "name": "Laser Heatsink. Medium Improved Cooldown",
+      "addPath": "0x86BCCD5B35E0EEA5",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xF9D96D40",
+      "name": "Laser Heatsink. Medium Improved Heatcapacity",
+      "addPath": "0x55E9F7BC3BFA32FA",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xF3D0DF39",
+      "name": "Laser Heatsink. Medium Standard",
+      "addPath": "0xB61B1340B74AAA5C",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x116E8A0F",
+      "name": "Pistol 12x20mm. Standard",
+      "addPath": "0x4F839E923046E631",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xB269A0B3",
+      "name": "Pistol 9x20mm. Extended ",
+      "addPath": "0xC891ACF9E8DBDA97",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x70C52CEC",
+      "name": "Plasma Medium. Canister Extended",
+      "addPath": "0x80F0A339E905D2D3",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 1,
+      "addPathOccurrences": 1
+    },
+    {
+      "optionId": "0x83DB4D5A",
+      "name": "Plasma Medium. Canister Standard",
+      "addPath": "0x193BECDF64AA66A9",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 1,
+      "addPathOccurrences": 1
+    },
+    {
+      "optionId": "0x8189A695",
+      "name": "Plasma Pistol. Canister Extended",
+      "addPath": "0x990B06BF5C26BD01",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x6AF10FB5",
+      "name": "Plasma Pistol. Canister Pistol",
+      "addPath": "0xACA180FC6F846411",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 1,
+      "addPathOccurrences": 1
+    },
+    {
+      "optionId": "0xBCFF63A2",
+      "name": "RIFLE 9x70mm. Extended ",
+      "addPath": "0xC138B650D94AD5E3",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x1E6C8A0A",
+      "name": "RIFLE 9x70mm. Standard ",
+      "addPath": "0xE8E18735416D8A2F",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x4F3F221D",
+      "name": "RIFLE Drake. Short ",
+      "addPath": "0x61D9B85315F9B5BB",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xB7FA90FD",
+      "name": "RIFLE Drake. Standard ",
+      "addPath": "0x3359229E4E0F766D",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x536662C0",
+      "name": "RIFLE Justice. Extended ",
+      "addPath": "0x37C2891774B38C87",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x33EAAA65",
+      "name": "RIFLE Justice. Short ",
+      "addPath": "0x986E6696B34B8902",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x9FE412AD",
+      "name": "RIFLE Justice. Standard ",
+      "addPath": "0x462FC89D4903B33D",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 1,
+      "addPathOccurrences": 1
+    },
+    {
+      "optionId": "0xDF4F1322",
+      "name": "Rifle 5,5x50mm. Drum ",
+      "addPath": "0xE8DE5E95B9635C21",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xB71E1C41",
+      "name": "Rifle 5,5x50mm. Drum Carbine",
+      "addPath": "0xB3FEF7AD6BC385B2",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x73CA1B5E",
+      "name": "Rifle 5,5x50mm. Extended",
+      "addPath": "0x7BE1E04A7738E673",
+      "recordsWithOptionId": 3,
+      "optionIdOccurrences": 3,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x71FBEF8C",
+      "name": "Rifle 5,5x50mm. Extended Fastreload",
+      "addPath": "0x2D761A80BCBFE792",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xDF7E8E38",
+      "name": "Rifle 5,5x50mm. Standard",
+      "addPath": "0xA4FA3EF43A8CECAF",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 2,
+      "addPathOccurrences": 2
+    },
+    {
+      "optionId": "0x5FBC2C8A",
+      "name": "Rifle 5,5x50mm. Standard Fastreload",
+      "addPath": "0x344CBD588A1F8058",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xDED45539",
+      "name": "Rifle 8x40mm Rifle Standard",
+      "addPath": "0x963ACA558CD906BC",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 1,
+      "addPathOccurrences": 1
+    },
+    {
+      "optionId": "0x2B798DFB",
+      "name": "SHOTGUN 12g. Drum ",
+      "addPath": "0x3DDB9D36DA22555D",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x562192C1",
+      "name": "SHOTGUN 12g. Drum Light",
+      "addPath": "0x040CE909939A3BAA",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xCA77DC98",
+      "name": "SHOTGUN 12g. Magazine Extended",
+      "addPath": "0x68B8D040421E8A49",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xD510632D",
+      "name": "SHOTGUN 12g. Magazine Extended Light",
+      "addPath": "0x676C58913606A8E7",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xE4ABBAF6",
+      "name": "SMG 12x25mm. Drum ",
+      "addPath": "0x7706F9EA88A12C33",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x6F65C295",
+      "name": "SMG 12x25mm. Drum Pummeler",
+      "addPath": "0x2FD25216D6ACABEE",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x01B37BEC",
+      "name": "SMG 12x25mm. Extended",
+      "addPath": "0x51DF2B8840B0DC66",
+      "recordsWithOptionId": 2,
+      "optionIdOccurrences": 2,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xDC2ADA1D",
+      "name": "SMG 12x25mm. Extended Pummeler",
+      "addPath": "0xCC944F51090C682B",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x08AF081B",
+      "name": "SMG 12x25mm. Standard ",
+      "addPath": "0x538191ECBD222856",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xC47F4FBE",
+      "name": "SMG 12x25mm. Standard Pummeler",
+      "addPath": "0x3C13706AAEBD5F53",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x4F5D28F6",
+      "name": "SMG 9x20mm. Top Mounted Extended",
+      "addPath": "0x21F0B1A5E00AF770",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x7C51A74A",
+      "name": "SMG 9x20mm. Top Mounted Extended Solvent",
+      "addPath": "0x6ABDDD8224A3328F",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x47E45B79",
+      "name": "SMG 9x20mm. Top Mounted Standard ",
+      "addPath": "0x3A58B9DCB84F665D",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xCD85679E",
+      "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+      "addPath": "0x8F141212B0F6F515",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x6C1F86EA",
+      "name": "SMG Flamer Drum Magazine ",
+      "addPath": "0x7E3F787B75FA8C62",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xEB75D04E",
+      "name": "SMG Flamer Extended Magazine ",
+      "addPath": "0x1B1FCC0E025C1F7D",
+      "recordsWithOptionId": 1,
+      "optionIdOccurrences": 1,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x692EABF3",
+      "name": "SMG Flamer Standard Magazine ",
+      "addPath": "0x9237CCEC8FE86D22",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xAE7BADEF",
+      "name": "Shotgun 12g. Magazine Standard ",
+      "addPath": "0x9992E382B80955CC",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x8D7DFD68",
+      "name": "Shotgun 12g. Magazine Standard Light",
+      "addPath": "0xA3AF33F240E2F4E9",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0x6AF47A1D",
+      "name": "Whisper Rifle 5,5x50mm. Drum ",
+      "addPath": "0x493B364B37B48AE4",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
+    },
+    {
+      "optionId": "0xA8F88FA1",
+      "name": "Whisper Rifle 5,5x50mm. Standard",
+      "addPath": "0xFD5B6104526745D2",
+      "recordsWithOptionId": 0,
+      "optionIdOccurrences": 0,
+      "recordsWithAddPath": 0,
+      "addPathOccurrences": 0
     }
   ],
   "weapons": [

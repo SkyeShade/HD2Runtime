@@ -1,6 +1,6 @@
 # Player weapon composition research and authoring
 
-## Fire modes in 0.17
+## Fire modes
 
 `WeaponDataComponentData` contains a three-member native mode vector at offsets 144, 148, and 152.
 For conventional projectile consumers, values 1 and 2 correlate structurally and across the catalog
@@ -88,6 +88,11 @@ local default = weapon:default_magazine()
 local options = weapon:magazine_options()
 ```
 
+The bounded audit inspected all 191 occupied customization records, not only the
+80 reviewed player roots. It found 20 catalog option IDs and six catalog AddPaths,
+but no alternate allowed-option collection and no option-owned effect/ammo record.
+This rules out guarded selection and effect editing for the current snapshot.
+
 Use `weapon:attachment_options(category)` and `weapon:attachment(category, name)`
 for the imported read-only catalog. The captured graph still does not link a native
 allowed-options collection or an option-owned effect override record. Per-option
@@ -96,13 +101,17 @@ read-only. The existing simple `hd2.fields.magazine.*` API remains writable
 for the 33 directly owned single-magazine weapons, while the 15 rounds-fed weapons
 continue to use `hd2.fields.rounds.*`.
 
-## Fire modes
+## Heat and heatsinks
 
-`WeaponDataComponentData + 144` supplies one schema-labelled native value for all
-80 weapons. The snapshot contains values `1`, `2`, `3`, and `5`, but it does not
-prove their semantic names, an allowed-mode list, a default selector separate from
-the current selection, or native compatibility rules. `weapon:fire_modes()` exposes
-that evidence read-only. JAR-5 Full Auto remains blocked.
+Component type `0x4C981CD9` is schema-labelled `WeaponHeatComponentData`. Seven
+player weapons own records. Capacity (`+96`), shot heat (`+116`), continuous heat
+(`+120`), base cooling (`+128`), starting heatsinks (`+84`), supply heatsinks
+(`+88`), and spare heatsinks (`+92`) correlate across the complete energy cohort.
+The neighboring `0.75` and `1.5` multipliers derive the cold and hot cooling rates.
+Five uniquely resolved weapons expose 30 direct guarded field instances. LAS-5
+Scythe and LAS-7 Dagger remain blocked by duplicate identities; Dagger also has
+unresolved scale/count disagreements. The nine named heatsink attachment identities
+do not expose option-owned override records in this snapshot.
 
 The GL-28 `160 / 240 / 320` rate selector is a separate support-weapon rate vector;
 it is not treated as semi/full/burst selection.
@@ -144,6 +153,7 @@ The generated capability artifacts are:
 - `sdk/AttachmentOptionCapabilities.json`
 - `sdk/ProjectileCompositionCapabilities.json`
 - `sdk/ExplosionAuthoringCapabilities.json`
+- `sdk/PlayerWeaponHeatCapabilities.json`
 
 They contain no process addresses and are suitable for SDK inspection and future
 GUI consumption without adding GUI-specific tables.
