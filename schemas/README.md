@@ -8,6 +8,8 @@ There are no current-process absolute addresses in the profile.
 
 Supported families are EntitySettingsHashmap, WeaponDataComponentData,
 ProjectileWeaponComponentData, ProjectileSettings/DamageSettings/DamageInfo,
+ArcWeaponComponentData/ArcSettings, BeamWeaponComponentData/BeamSettings,
+SprayWeaponComponentData, MeleeWeaponComponentData, WeaponRoundsComponentData,
 OrbitalAbilityComponentData, HealthComponentData including 38 zones,
 ShieldComponentData, HellpodPayloadComponentData, StratagemInfo,
 RechargeComponentData and JumppackComponentData. Support is intentionally limited

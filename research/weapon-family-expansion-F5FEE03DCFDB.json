@@ -1,0 +1,1461 @@
+{
+  "schema_version": 1,
+  "mode": "offline_snapshot_family_expansion",
+  "snapshot": {
+    "executable_sha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+    "game_dll_sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E"
+  },
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "mode": "snapshot"
+  },
+  "baseline": {
+    "totalIdentitiesResolved": 57,
+    "totalUniqueResolved": 55,
+    "primariesResolvedUnique": 44,
+    "secondariesResolvedUnique": 11,
+    "statusCounts": {
+      "AMBIGUOUS": 22,
+      "EXACT": 57,
+      "STRONG": 2,
+      "UNMATCHED": 284
+    }
+  },
+  "final": {
+    "totalIdentitiesResolved": 75,
+    "totalUniqueResolved": 68,
+    "primariesResolvedUnique": 49,
+    "secondariesResolvedUnique": 19,
+    "statusCounts": {
+      "AMBIGUOUS": 28,
+      "EXACT": 78,
+      "STRONG": 4,
+      "UNMATCHED": 255
+    }
+  },
+  "resolutionGains": {
+    "ArcWeaponComponentData": [
+      "ARC-12 Blitzer"
+    ],
+    "BeamWeaponComponentData": [
+      "LAS-13 Trident",
+      "LAS-5 Scythe",
+      "LAS-7 Dagger"
+    ],
+    "SprayWeaponComponentData": [
+      "FLAM-66 Torcher",
+      "P-72 Crisper"
+    ],
+    "MeleeWeaponComponentData": [
+      "CQC-19 Stun Lance",
+      "CQC-2 Saber",
+      "CQC-30 Stun Baton",
+      "CQC-42 Machete",
+      "CQC-5 Combat Hatchet",
+      "CQC-73 Entrenchment Tool"
+    ],
+    "WeaponRoundsComponentData": [
+      "DBS-2 Double Freedom",
+      "P-11 Stim Pistol",
+      "P-4 Senator",
+      "R-2124 Constitution",
+      "SG-22 Bushwhacker"
+    ],
+    "WeaponDataComponentData": [
+      "P-19 Redeemer"
+    ]
+  },
+  "newlyResolvedIdentities": [
+    "ARC-12 Blitzer",
+    "CQC-19 Stun Lance",
+    "CQC-2 Saber",
+    "CQC-30 Stun Baton",
+    "CQC-42 Machete",
+    "CQC-5 Combat Hatchet",
+    "CQC-73 Entrenchment Tool",
+    "DBS-2 Double Freedom",
+    "FLAM-66 Torcher",
+    "LAS-13 Trident",
+    "LAS-5 Scythe",
+    "LAS-7 Dagger",
+    "P-11 Stim Pistol",
+    "P-19 Redeemer",
+    "P-4 Senator",
+    "P-72 Crisper",
+    "R-2124 Constitution",
+    "SG-22 Bushwhacker"
+  ],
+  "regressionAnchors": {
+    "JAR-5 Dominator": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0x80F1A156D9FA1E36"
+    },
+    "PLAS-101 Purifier": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0xFB3A19078694708A"
+    },
+    "PLAS-15 Loyalist": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0xAA69A60D74A3EC54"
+    },
+    "PLAS-1 Scorcher": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0xEEA5E3CEF1E12C14"
+    },
+    "PLAS-39 Accelerator Rifle": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0x30061F91AF477F5E"
+    },
+    "AR-23 Liberator": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0x968211C0033DCE64"
+    },
+    "AR-23A Liberator Carbine": {
+      "resolution": "UNIQUE",
+      "status": "EXACT",
+      "resourceHash": "0xA7EE1EBF58FCDF1F"
+    }
+  },
+  "remainingUnresolvedWeapons": [
+    "P-2 Peacemaker",
+    "SG-20 Halt",
+    "SG-451 Cookout",
+    "SG-8 Punisher",
+    "SG-8S Slugger"
+  ],
+  "duplicateIdentityGroups": [
+    {
+      "name": "CQC-42 Machete",
+      "resources": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "CQC-73 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "LAS-5 Scythe",
+      "resources": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ],
+      "slot": "primary"
+    },
+    {
+      "name": "LAS-7 Dagger",
+      "resources": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "P-72 Crisper",
+      "resources": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "slot": "primary"
+    }
+  ],
+  "sharedProjectileGroups": [
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:165:215",
+      "resourceCount": 2,
+      "catalogIdentities": [
+        "MP-98 Knight",
+        "StA-11 SMG"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x4BA41B6F9F405CC2",
+          "entityRow": 3266,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "StA-11 SMG"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 181,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 132,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 40,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 181,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 1050,
+            "capacity": 48,
+            "crosshair_type": 4,
+            "ergonomics": 80,
+            "sway": 0.699999988079071,
+            "spread_horizontal": 5,
+            "spread_vertical": 5,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x9571CA51F0DAF35B",
+          "entityRow": 859,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "MP-98 Knight"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 179,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 130,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 38,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 179,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 1380,
+            "crosshair_type": 4,
+            "ergonomics": 90,
+            "sway": 1,
+            "spread_horizontal": 5,
+            "spread_vertical": 5,
+            "primary_fire_mode": 1
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 2,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:198:318",
+      "resourceCount": 2,
+      "catalogIdentities": [
+        "P-11 Stim Pistol"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x03271411D3D0BAB9",
+          "entityRow": 2745,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "P-11 Stim Pistol"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 242,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 180,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 70,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 242,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 11,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 70,
+            "capacity": 6,
+            "crosshair_type": 8,
+            "ergonomics": 100,
+            "sway": 1,
+            "spread_horizontal": 0,
+            "spread_vertical": 0,
+            "primary_fire_mode": 2
+          }
+        },
+        {
+          "resourceHash": "0xD6B1FB05B9109353",
+          "entityRow": 851,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "P-11 Stim Pistol"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 191,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 141,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 50,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 191,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 10,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 70,
+            "capacity": 6,
+            "crosshair_type": 8,
+            "ergonomics": 100,
+            "sway": 1,
+            "spread_horizontal": 5,
+            "spread_vertical": 5,
+            "primary_fire_mode": 2
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 2,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:199:276",
+      "resourceCount": 7,
+      "catalogIdentities": [
+        "AR-23 Liberator",
+        "AR-23A Liberator Carbine",
+        "StA-52 Assault Rifle"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x968211C0033DCE64",
+          "entityRow": 3686,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "AR-23 Liberator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 270,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 192,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 96,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 270,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 640,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 2,
+            "spread_vertical": 2,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xA6A735ACCB4A327F",
+          "entityRow": 640,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23 Liberator",
+            "AR-23A Liberator Carbine",
+            "StA-52 Assault Rifle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 299,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 217,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 125,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 299,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 850,
+            "capacity": 250,
+            "crosshair_type": 0,
+            "ergonomics": 40,
+            "sway": 1,
+            "spread_horizontal": 6,
+            "spread_vertical": 6,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xA7EE1EBF58FCDF1F",
+          "entityRow": 3871,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "AR-23A Liberator Carbine"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 278,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 200,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 104,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 278,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 920,
+            "crosshair_type": 4,
+            "ergonomics": 70,
+            "sway": 1,
+            "spread_horizontal": 3,
+            "spread_vertical": 3,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xB43235DBD493750C",
+          "entityRow": 1300,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23 Liberator",
+            "AR-23A Liberator Carbine",
+            "StA-52 Assault Rifle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 362,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 268,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 188,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 362,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 850,
+            "crosshair_type": 0,
+            "ergonomics": 40,
+            "sway": 1,
+            "spread_horizontal": 6,
+            "spread_vertical": 6,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xB9606C5AAB32C3C2",
+          "entityRow": 962,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23 Liberator",
+            "AR-23A Liberator Carbine",
+            "StA-52 Assault Rifle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 363,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 269,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 189,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 363,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 850,
+            "crosshair_type": 0,
+            "ergonomics": 40,
+            "sway": 1,
+            "spread_horizontal": 6,
+            "spread_vertical": 6,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xCDF28BE026BB7D84",
+          "entityRow": 3471,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "StA-52 Assault Rifle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 274,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 196,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 100,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 274,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 790,
+            "capacity": 56,
+            "crosshair_type": 4,
+            "ergonomics": 55,
+            "sway": 1,
+            "spread_horizontal": 2,
+            "spread_vertical": 2,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xD53EE03481AE73FD",
+          "entityRow": 1041,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23 Liberator",
+            "AR-23A Liberator Carbine",
+            "StA-52 Assault Rifle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 364,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 270,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 190,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 364,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 850,
+            "crosshair_type": 0,
+            "ergonomics": 40,
+            "sway": 1,
+            "spread_horizontal": 6,
+            "spread_vertical": 6,
+            "primary_fire_mode": 1
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 7,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:200:7",
+      "resourceCount": 5,
+      "catalogIdentities": [
+        "AR-23P Liberator Penetrator"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x3357EEBB0184FDEE",
+          "entityRow": 3566,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23P Liberator Penetrator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 113,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 83,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 16,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 113,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 640,
+            "capacity": 30,
+            "crosshair_type": 0,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 250,
+            "spread_vertical": 250,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x43CB1033961A2276",
+          "entityRow": 631,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "AR-23P Liberator Penetrator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 271,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 193,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 97,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 271,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 640,
+            "crosshair_type": 4,
+            "ergonomics": 59,
+            "sway": 1,
+            "spread_horizontal": 1,
+            "spread_vertical": 1,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x4DF41F84668D07FB",
+          "entityRow": 2043,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23P Liberator Penetrator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 361,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 267,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 187,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 361,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 640,
+            "capacity": 120,
+            "crosshair_type": 0,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 10,
+            "spread_vertical": 10,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x73681FFD58FA1A90",
+          "entityRow": 2705,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23P Liberator Penetrator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 355,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 262,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 181,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 355,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 640,
+            "capacity": 140,
+            "crosshair_type": 0,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 10,
+            "spread_vertical": 10,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xA32621E3BDE13379",
+          "entityRow": 890,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23P Liberator Penetrator"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 254,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 188,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 80,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 254,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 660,
+            "capacity": 45,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 16,
+            "spread_vertical": 16,
+            "primary_fire_mode": 1
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 5,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:203:310",
+      "resourceCount": 3,
+      "catalogIdentities": [
+        "AR-23C Liberator Concussive"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x263817187B7CE092",
+          "entityRow": 151,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23C Liberator Concussive"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 255,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 189,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 81,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 255,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 660,
+            "capacity": 45,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 16,
+            "spread_vertical": 16,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x3D4970D1C4E640EE",
+          "entityRow": 238,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "AR-23C Liberator Concussive"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 256,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 190,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 82,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 256,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 660,
+            "capacity": 50,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 16,
+            "spread_vertical": 16,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xCF5F176E0E322BE1",
+          "entityRow": 3042,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "AR-23C Liberator Concussive"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 272,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 194,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 98,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 272,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 400,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 4,
+            "spread_vertical": 4,
+            "primary_fire_mode": 1
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 3,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:281:260",
+      "resourceCount": 3,
+      "catalogIdentities": [
+        "SG-22 Bushwhacker",
+        "SG-8 Punisher"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x2B28E17FFED05F7C",
+          "entityRow": 3966,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "SG-22 Bushwhacker"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 310,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 227,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 136,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 310,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 18,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 650,
+            "capacity": 3,
+            "crosshair_type": 0,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 200,
+            "spread_vertical": 150,
+            "primary_fire_mode": 2
+          }
+        },
+        {
+          "resourceHash": "0x41EAC4A03987FAA0",
+          "entityRow": 2720,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "SG-8 Punisher"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 170,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 121,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 29,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 170,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 2,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 80,
+            "capacity": 8,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 150,
+            "spread_vertical": 120,
+            "primary_fire_mode": 2
+          }
+        },
+        {
+          "resourceHash": "0xBCC2177439D231BE",
+          "entityRow": 446,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "SG-8 Punisher"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 171,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 122,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 30,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 171,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 3,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 80,
+            "capacity": 8,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 150,
+            "spread_vertical": 150,
+            "primary_fire_mode": 3
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 3,
+      "ambiguousAtWeaponLevel": true
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:310:142",
+      "resourceCount": 3,
+      "catalogIdentities": [
+        "PLAS-1 Scorcher"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x8633FF89EF4F6788",
+          "entityRow": 1930,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "PLAS-1 Scorcher"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 209,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 151,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 62,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 209,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 160,
+            "capacity": 24,
+            "crosshair_type": 0,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 2,
+            "spread_vertical": 2,
+            "primary_fire_mode": 3
+          }
+        },
+        {
+          "resourceHash": "0xA1379C8C41A10E22",
+          "entityRow": 3618,
+          "status": "AMBIGUOUS",
+          "catalogIdentities": [
+            "PLAS-1 Scorcher"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 257,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 191,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 83,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 257,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 150,
+            "capacity": 50,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 16,
+            "spread_vertical": 16,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0xEEA5E3CEF1E12C14",
+          "entityRow": 3092,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "PLAS-1 Scorcher"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 308,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 225,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 134,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 308,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 350,
+            "capacity": 20,
+            "crosshair_type": 4,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 10,
+            "spread_vertical": 10,
+            "primary_fire_mode": 2
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 3,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:326:149",
+      "resourceCount": 2,
+      "catalogIdentities": [
+        "LAS-16 Sickle",
+        "LAS-17 Double-Edge Sickle"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x295BEB26DC4F8FF1",
+          "entityRow": 4083,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "LAS-17 Double-Edge Sickle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 295,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 214,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 121,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 295,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 700,
+            "crosshair_type": 9,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 20,
+            "spread_vertical": 20,
+            "primary_fire_mode": 1
+          }
+        },
+        {
+          "resourceHash": "0x8645F167B3C813A2",
+          "entityRow": 931,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "LAS-16 Sickle"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 294,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 213,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 120,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 294,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 750,
+            "crosshair_type": 10,
+            "ergonomics": 65,
+            "sway": 1,
+            "spread_horizontal": 20,
+            "spread_vertical": 20,
+            "primary_fire_mode": 1
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 2,
+      "ambiguousAtWeaponLevel": false
+    },
+    {
+      "projectileSettingsIdentity": "0xBD4042C2:0:85:263",
+      "resourceCount": 2,
+      "catalogIdentities": [
+        "GP-31 Grenade Pistol"
+      ],
+      "resources": [
+        {
+          "resourceHash": "0x02CD7321CD8445F5",
+          "entityRow": 1527,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "GP-31 Grenade Pistol"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 250,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 186,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 76,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 250,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 13,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 900,
+            "capacity": 1,
+            "crosshair_type": 0,
+            "ergonomics": 95,
+            "sway": 1,
+            "spread_horizontal": 30,
+            "spread_vertical": 30,
+            "primary_fire_mode": 2
+          }
+        },
+        {
+          "resourceHash": "0x52E4334E6A128CAF",
+          "entityRow": 3247,
+          "status": "EXACT",
+          "catalogIdentities": [
+            "GP-31 Grenade Pistol"
+          ],
+          "weaponData": {
+            "componentType": "0x88E4DBB1",
+            "ownerCount": 1,
+            "recordIndex": 315,
+            "uniqueOwner": true
+          },
+          "componentRecordIdentities": {
+            "ProjectileWeaponComponentData": {
+              "recordIndex": 231,
+              "uniqueOwner": true
+            },
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 141,
+              "uniqueOwner": true
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 315,
+              "uniqueOwner": true
+            },
+            "WeaponRoundsComponentData": {
+              "recordIndex": 19,
+              "uniqueOwner": true
+            }
+          },
+          "weaponLevelFields": {
+            "fire_rate": 900,
+            "capacity": 1,
+            "crosshair_type": 0,
+            "ergonomics": 95,
+            "sway": 1,
+            "spread_horizontal": 30,
+            "spread_vertical": 30,
+            "primary_fire_mode": 2
+          }
+        }
+      ],
+      "distinctWeaponDataRecords": 2,
+      "ambiguousAtWeaponLevel": true
+    }
+  ],
+  "components": {
+    "ArcWeaponComponentData": {
+      "typeOffset": 0,
+      "fireRateOffset": 4,
+      "settings": "ArcSettings",
+      "damageInfoTypeOffset": 36
+    },
+    "BeamWeaponComponentData": {
+      "typeOffset": 0,
+      "settings": "BeamSettings",
+      "damageInfoTypeOffset": 12
+    },
+    "SprayWeaponComponentData": {
+      "damageInfoTypeOffset": 200
+    },
+    "MeleeWeaponComponentData": {
+      "damageInfoTypeOffset": 12
+    },
+    "WeaponRoundsComponentData": {
+      "primaryProjectileTypeOffset": 64,
+      "alternateProjectileTypeOffset": 68
+    },
+    "WeaponDataComponentData": {
+      "spreadOffsets": [
+        84,
+        88
+      ],
+      "swayOffset": 104,
+      "primaryFireModeOffset": 144,
+      "ergonomicsOffset": 356,
+      "identityRoot": "record ownership plus weapon-level fields"
+    }
+  },
+  "provenance": "schema-labelled structural evidence pending gameplay/native-consumer confirmation"
+}

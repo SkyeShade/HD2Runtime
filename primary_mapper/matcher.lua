@@ -11,6 +11,10 @@ local rules={
     projectile_velocity={weight=12,tolerance=2,high=true,label='velocity',group='projectile'},
     fire_rate={weight=8,tolerance=1,high=true,label='fire rate',group='weapon'},
     capacity={weight=8,exact=true,high=true,label='capacity',group='weapon'},
+    ergonomics={weight=8,tolerance=0.01,high=true,label='ergonomics',group='weapon'},
+    sway={weight=4,tolerance=0.01,label='sway',group='weapon'},
+    spread_horizontal={weight=5,tolerance=0.01,high=true,label='horizontal spread',group='weapon'},
+    spread_vertical={weight=5,tolerance=0.01,high=true,label='vertical spread',group='weapon'},
     projectile_mass={weight=5,tolerance=0.1,label='projectile mass',group='projectile'},
     drag={weight=4,tolerance=0.01,label='drag',group='projectile'},
     gravity={weight=4,tolerance=0.01,label='gravity',group='projectile'},
@@ -20,7 +24,8 @@ local rules={
     pellet_count={weight=10,exact=true,high=true,label='pellet count',group='projectile'},
 }
 local order={'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
-    'projectile_velocity','fire_rate','capacity','projectile_mass','drag','gravity',
+    'projectile_velocity','fire_rate','capacity','ergonomics','sway','spread_horizontal',
+    'spread_vertical','projectile_mass','drag','gravity',
     'demolition','stagger','push_force','pellet_count'}
 local structural={'projectile_type','damage_type','crosshair_type'}
 
@@ -112,6 +117,11 @@ local function score_weapon(runtime,weapon)
         score=-100000,matched={},mismatched={},unresolvedFields={},compared=0,
         highValueMatches=0,highValueMismatches=0,structurallyCompatible=#attacks>0,
         compatibleAttackKind=runtime_kind,compatibleWeaponSlot=runtime_slot}
+    if runtime.weapon_only_unclassified then
+        result.structurallyCompatible=false
+        result.incompatibility='weapon-level-only candidate has no classified player equipment slot'
+        return result
+    end
     if runtime_slot~=nil and weapon.slot~=nil and runtime_slot~=weapon.slot then
         result.structurallyCompatible=false
         result.incompatibility='runtime weapon slot '..tostring(runtime_slot)
@@ -123,7 +133,9 @@ local function score_weapon(runtime,weapon)
         return result
     end
     result.score=0
-    local weapon_fields={fire_rate=weapon.fire_rate,capacity=weapon.capacity}
+    local weapon_fields={fire_rate=weapon.fire_rate,capacity=weapon.capacity,
+        ergonomics=weapon.ergonomics,sway=weapon.sway,spread_horizontal=weapon.spread_horizontal,
+        spread_vertical=weapon.spread_vertical}
     if weapon_fields.fire_rate==nil and weapon.primary then weapon_fields.fire_rate=weapon.primary.fire_rate end
     if weapon_fields.capacity==nil and weapon.primary then weapon_fields.capacity=weapon.primary.capacity end
     append(result,score_fields(runtime,weapon_fields,'weapon'))
@@ -146,6 +158,28 @@ local function before(a,b)
     if a.compared~=b.compared then return a.compared>b.compared end
     return a.name<b.name
 end
+local function runtime_variants(runtime)
+    if type(runtime.runtime_attacks)~='table'or#runtime.runtime_attacks==0 then
+        runtime.weapon_only_unclassified=runtime.weapon_data_only==true and runtime.weapon_slot==nil
+        return {runtime}
+    end
+    local result={}
+    for index,attack in ipairs(runtime.runtime_attacks)do
+        local item={attack_kind=attack.kind,weapon_slot=runtime.weapon_slot,
+            fire_rate=runtime.fire_rate,capacity=runtime.capacity,crosshair_type=runtime.crosshair_type,
+            projectile_type=attack.projectileType,
+            damage_type=attack.damageInfo and attack.damageInfo.recordType or nil,
+            runtimeAttackIndex=index,runtimeAttackRole=attack.role}
+        if runtime.use_weapon_data then
+            item.ergonomics=runtime.ergonomics;item.sway=runtime.sway
+            item.spread_horizontal=runtime.spread_horizontal
+            item.spread_vertical=runtime.spread_vertical
+        end
+        for key,value in pairs(attack.resolvedFields or{})do item[key]=value end
+        result[#result+1]=item
+    end
+    return result
+end
 local function plausible(value)
     return value.structurallyCompatible and value.score>=15 and value.highValueMatches>=1
 end
@@ -153,8 +187,17 @@ end
 function M.rank(runtime,dataset,limit)
     assert(type(runtime)=='table'and type(dataset)=='table'and type(dataset.weapons)=='table',
         'matcher requires runtime fields and wiki dataset')
-    local ranked={}
-    for _,weapon in ipairs(dataset.weapons)do ranked[#ranked+1]=score_weapon(runtime,weapon)end
+    local ranked={};local variants=runtime_variants(runtime)
+    for _,weapon in ipairs(dataset.weapons)do
+        local best
+        for _,variant in ipairs(variants)do
+            local scored=score_weapon(variant,weapon)
+            scored.runtimeAttackIndex=variant.runtimeAttackIndex
+            scored.runtimeAttackRole=variant.runtimeAttackRole
+            if not best or before(scored,best)then best=scored end
+        end
+        ranked[#ranked+1]=best
+    end
     table.sort(ranked,before)
     local top=ranked[1];local credible={}
     if top and plausible(top)then

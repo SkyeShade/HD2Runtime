@@ -194,6 +194,14 @@
       "sha256": "55E2BC4AC209D45363670A5952C3FE5DE045854AA062634A5A2444CB11510C35"
     },
     {
+      "path": "ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/generated_arc_settings.dl_bin",
+      "sha256": "08E1461A8D8EE1C46FBCE72FFAA629B489AE512B8B8253AE187D9DBF78A0F159"
+    },
+    {
+      "path": "ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/generated_beam_settings.dl_bin",
+      "sha256": "FDE93701608D12CB1AA4985F11EB9F2BAB8BB6DC4E8F556B7F7B18B171C7017B"
+    },
+    {
       "path": "ShieldRelayImprovements/research/cooldown-live-confirmation.json",
       "sha256": "551003AE5E2A7FD3CADF9F05A994383308B723736BC34CA66ACE23AA7AF2C6DD"
     },

@@ -5,18 +5,19 @@ function M.locate(runtime,reader,profile,needed)
     reader.stage='runtime/discover:allocation_map'
     local page,finish=runtime.system_info()
     assert(page==4096 and finish>65536 and finish<=9007199254740991,'unsupported address space')
-    local matches={entity={},projectile={},damage={}}
+    local matches={entity={}}
+    for key in pairs(profile.settings)do matches[key]={}end
     local cursor=65536
     while cursor<finish do
         local r=reader.query(cursor);cursor=r.base+r.size
-        if r.base==r.allocation_base and r.state==0x1000 and r.type==0x20000
+        if (r.capture_status==nil or r.capture_status==1)
+            and r.base==r.allocation_base and r.state==0x1000 and r.type==0x20000
             and (r.protect==2 or r.protect==4) then
             if r.size==profile.entity_region_size then
                 local h=reader.read(r,0,28)
                 if h==b.unhex(profile.map_header) then matches.entity[#matches.entity+1]=r end
             end
-            for _,key in ipairs({'projectile','damage'})do
-                local d=profile.settings[key]
+            for key,d in pairs(profile.settings)do
                 if needed[key] and r.size>=d.size and r.size<=d.size+65536 then
                     local h=reader.read(r,0,28)
                     if b.u32(h,0)==#d.groups and h:sub(5,28)==b.unhex(d.groups[1].header) then
@@ -31,11 +32,14 @@ function M.locate(runtime,reader,profile,needed)
         end
     end
     local result={}
-    for key in pairs(needed)do
+    for key,requirement in pairs(needed)do
         reader.stage='runtime/discover:'..key
-        if #matches[key]==0 then error('TARGET_UNAVAILABLE: '..key..' allocation absent',0)end
-        assert(#matches[key]==1,'expected unique '..key..' allocation; found '..#matches[key])
-        result[key]=matches[key][1]
+        if #matches[key]==0 then
+            if requirement~='optional'then error('TARGET_UNAVAILABLE: '..key..' allocation absent',0)end
+        else
+            assert(#matches[key]==1,'expected unique '..key..' allocation; found '..#matches[key])
+            result[key]=matches[key][1]
+        end
     end
     return result
 end
