@@ -15,6 +15,7 @@ SCHEMA=ROOT/'schemas/player_weapon_fields.json'
 VERSION_FILE=ROOT/'VERSION'
 CATALOG=ROOT/'schemas/player_weapon_authoring_catalog.json'
 AMMO_CATALOG=ROOT/'schemas/player_weapon_ammo_catalog.json'
+COMPOSITION_CATALOG=ROOT/'schemas/player_weapon_composition_catalog.json'
 JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
 AMMO_JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAmmoCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/player_weapon_authoring.lua'
@@ -55,6 +56,7 @@ def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIE
 def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
     ammo_source=json.loads(AMMO_CATALOG.read_text())
+    composition_source=json.loads(COMPOSITION_CATALOG.read_text())
     ammo_by_name={item['name']:item for item in ammo_source['weapons']}
     assert len(ammo_by_name)==80 and set(ammo_by_name)=={item['name'] for item in source['weapons']}, \
         'ammo capability catalog must cover the same 80 player weapons'
@@ -102,6 +104,7 @@ def build(catalog_path=CATALOG):
 
     def definition(field_id):
         base=field_id
+        if base.startswith('attack.') and base.endswith('.projectile'):base='attack.projectile'
         for branch in ('.primary.','.alternate.'):
             if branch in base:base=base.replace(branch,'.')
         base=re.sub(r'\.status_\d+_type$','.status_type',base)
@@ -289,6 +292,21 @@ def build(catalog_path=CATALOG):
                 reason=definitions['magazine.magazines_from_ammo_box']['reason'],derived=True))
 
         attacks=candidate.get('attacks') or []
+        composition=composition_source['weapons'][name]
+        for attack in composition['attacks']:
+            backing=attack.get('targetBacking')
+            if not backing:continue
+            field_id='attack.'+attack['role']+'.projectile'
+            backend=component_backend(candidate,backing['component'],backing['offset'],'u32')
+            current={'weapon':name,'attack':attack['role'],'projectileType':attack['projectileType']}
+            reason=attack.get('reason')
+            field=make_field(field_id,current,backend,
+                editable=unique and attack['writableReferenceSwap'],reason=blocked or reason)
+            field['referenceKind']='projectile'
+            field['compatibilityClass']=attack['compatibilityClass']
+            field['referenceRole']=attack['role']
+            field['referenceSettings']=attack['projectileSettings']
+            fields.append(field)
         projectiles=[attack for attack in attacks if attack.get('kind')=='Projectile']
         for position,attack in enumerate(projectiles):
             role='primary' if position==0 else 'alternate'
@@ -420,6 +438,7 @@ def build(catalog_path=CATALOG):
         'semanticAliasRules':len(semantic_aliases),'semanticAliasInstances':alias_pair_instances,
         'familyCoverage':family_coverage}
     summary['ammo']=ammo_source['summary']
+    summary['composition']=composition_source['summary']
     return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':VERSION_FILE.read_text().strip(),
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             'F5FEE03DCFDB-20260926T222226Z.hd2snap','summary':summary,
@@ -438,6 +457,8 @@ def outputs(catalog_path=CATALOG):
             field_id=field['semanticFieldId'];domain=field_id.split('.')[0]
             key=field_id[len(domain)+1:].replace('.','_')
             constants.setdefault(domain,{})[key]=field_id
+    constants.setdefault('attack',{})['projectile']='attack.projectile'
+    constants.setdefault('terminal',{})['explosion']='terminal.explosion'
     runtime={'version':value['hd2RuntimeVersion'],'weapons':{w['name']:w for w in value['weapons']},
         'summary':value['summary'],'fields':constants,'semanticAliases':value['semanticAliases'],
         'backingCollisionAudit':value['backingCollisionAudit']}

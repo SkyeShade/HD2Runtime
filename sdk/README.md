@@ -1,12 +1,17 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.14.1.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.15.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation.
 
+The SDK also includes four generated `PlayerWeapon*Graph.json` composition
+catalogs. They describe magazine options, projectile references, fire modes, and
+terminal actions without runtime addresses; see the source release's
+`docs/player-weapon-composition.md` for the guarded reference API.
+
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.14.1-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.15.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 

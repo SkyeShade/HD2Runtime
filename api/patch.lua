@@ -11,6 +11,12 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     local watch={status='waiting'}
     local elapsed,steps,worker=0,0,nil
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
+    local function value_text(value)
+        if type(value)=='table'and value.weapon and value.attack then
+            return value.weapon..':'..value.attack
+        end
+        return tostring(value)
+    end
     local function reject(reason)
         watch.status='rejected';watch.error=tostring(reason)
         watch.result=watch.result or {status='REJECTED',writes=0,protection_changes=0,
@@ -48,8 +54,8 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                     ..' width='..#(change.desired or change.new)..' queries='..reader.queries
                     ..' bytes_read='..reader.bytes..' fixture_fallback=disabled mode='..tostring(runtime.mode))
                 for _,i in ipairs(change.chain or{})do
-                    log('patch '..spec.id..' component='..i.component..' type='..i.component_type
-                        ..' record_index='..i.record_index..' unique_owner='..tostring(i.unique_owner)
+                    log('patch '..spec.id..' component='..tostring(i.component)..' type='..tostring(i.component_type)
+                        ..' record_index='..tostring(i.record_index)..' unique_owner='..tostring(i.unique_owner)
                         ..' scope='..tostring(i.scope or 'resource_component_membership'))
                 end
             end
@@ -71,7 +77,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 ..' guard_queries='..result.guard_queries..' guard_bytes='..result.guard_bytes
                 ..' fixture_fallback=disabled')
         end
-        if result.status=='APPLIED' then log(spec.field..' '..spec.expect..' -> '..spec.value)end
+        if result.status=='APPLIED' then
+            log(spec.field..' '..value_text(spec.expect)..' -> '..value_text(spec.value))
+        end
         log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))
         log('protection_restored='..tostring(result.protection_restored))
         if result.status=='REJECTED' then

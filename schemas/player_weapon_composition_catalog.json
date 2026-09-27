@@ -1,0 +1,6102 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "hd2RuntimeVersion": "0.15.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "summary": {
+    "magazine": {
+      "weapons": 80,
+      "nativeOptionIdentities": 52,
+      "weaponsWithNativeDefaultOption": 19,
+      "defaultRelationshipsProven": 19,
+      "perOptionAmmoOwnersProven": 0,
+      "writableOptionFields": 0,
+      "simpleMagazineWeapons": 33,
+      "roundsFeedWeapons": 15
+    },
+    "projectile": {
+      "weapons": 80,
+      "weaponsWithProjectileAttack": 66,
+      "projectileAttacks": 67,
+      "writableTargetAttacks": 45,
+      "compatibleSourceAttacks": 45
+    },
+    "fire_mode": {
+      "weapons": 80,
+      "nativePrimaryValueReadable": 80,
+      "allowedModeListsProven": 0,
+      "writableWeapons": 0
+    },
+    "terminal": {
+      "weapons": 80,
+      "projectileAttacks": 67,
+      "readableActions": 134,
+      "writableActions": 0,
+      "impactExplosionLinks": 13,
+      "expiryExplosionLinks": 5
+    }
+  },
+  "weapons": {
+    "AR-11 Arbitrator": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 280,
+          "indexRow": 106
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 288,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 288,
+            "row": 234,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 202,
+            "indexRow": 400,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-2 Coyote": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0xDED45539",
+            "name": "Rifle 8x40mm Rifle Standard",
+            "addPath": "0x963ACA558CD906BC",
+            "optionIdOffsets": [],
+            "addPathOffsets": [
+              128
+            ]
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 276,
+          "indexRow": 137
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 138,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 138,
+            "row": 216,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 198,
+            "indexRow": 394,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-23 Liberator": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [
+            "AR-23P Liberator Penetrator",
+            "AR-59 Suppressor"
+          ],
+          "shared": true,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x73CA1B5E",
+            "name": "Rifle 5,5x50mm. Extended",
+            "addPath": "0x7BE1E04A7738E673",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 270,
+          "indexRow": 564
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 192,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-23A Liberator Carbine": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x71FBEF8C",
+          "name": "Rifle 5,5x50mm. Extended Fastreload",
+          "addPath": "0x2D761A80BCBFE792",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x71FBEF8C",
+            "name": "Rifle 5,5x50mm. Extended Fastreload",
+            "addPath": "0x2D761A80BCBFE792",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 278,
+          "indexRow": 365
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 200,
+            "indexRow": 521,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-23C Liberator Concussive": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xDF4F1322",
+          "name": "Rifle 5,5x50mm. Drum ",
+          "addPath": "0xE8DE5E95B9635C21",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 60,
+            "startingMagazines": 4,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 6
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xDF4F1322",
+            "name": "Rifle 5,5x50mm. Drum ",
+            "addPath": "0xE8DE5E95B9635C21",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 272,
+          "indexRow": 207
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 310,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 310,
+            "row": 203,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 194,
+            "indexRow": 469,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-23P Liberator Penetrator": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [
+            "AR-23 Liberator",
+            "AR-59 Suppressor"
+          ],
+          "shared": true,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x73CA1B5E",
+            "name": "Rifle 5,5x50mm. Extended",
+            "addPath": "0x7BE1E04A7738E673",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 271,
+          "indexRow": 710
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 7,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 7,
+            "row": 200,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 193,
+            "indexRow": 384,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-32 Pacifier": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x45A1B03E",
+          "name": "Karbin Rifle Standard",
+          "addPath": "0x16AB263BC03B4F96",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 40,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x45A1B03E",
+            "name": "Karbin Rifle Standard",
+            "addPath": "0x16AB263BC03B4F96",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 275,
+          "indexRow": 427
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 98,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 98,
+            "row": 212,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 197,
+            "indexRow": 333,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-59 Suppressor": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [
+            "AR-23 Liberator",
+            "AR-23P Liberator Penetrator"
+          ],
+          "shared": true,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 8
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x73CA1B5E",
+            "name": "Rifle 5,5x50mm. Extended",
+            "addPath": "0x7BE1E04A7738E673",
+            "optionIdOffsets": [
+              12
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 281,
+          "indexRow": 120
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 139,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 139,
+            "row": 209,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 203,
+            "indexRow": 346,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR-61 Tenderizer": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 279,
+          "indexRow": 164
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 44,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 44,
+            "row": 236,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 201,
+            "indexRow": 356,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "AR/GL-21 One-Two": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 273,
+          "indexRow": 5
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 334,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 334,
+            "row": 233,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 195,
+            "indexRow": 167,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "ARC-12 Blitzer": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 269,
+          "indexRow": 411
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "BR-14 Adjudicator": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 285,
+          "indexRow": 461
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 135,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 135,
+            "row": 235,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 207,
+            "indexRow": 228,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "CB-9 Exploding Crossbow": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 288,
+          "indexRow": 223
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 249,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 249,
+            "row": 254,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 210,
+            "indexRow": 363,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 59,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "CQC-19 Stun Lance": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 164,
+          "indexRow": 438
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "CQC-2 Saber": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 262,
+          "indexRow": 376
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "CQC-30 Stun Baton": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 264,
+          "indexRow": 471
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "CQC-42 Machete": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 267,
+          "indexRow": 283
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "CQC-5 Combat Hatchet": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 266,
+          "indexRow": 246
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "CQC-73 Entrenchment Tool": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 166,
+          "indexRow": 595
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "DBS-2 Double Freedom": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 177,
+          "indexRow": 10
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 317,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 317,
+            "row": 299,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 8,
+            "indexRow": 39,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "FLAM-66 Torcher": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 289,
+          "indexRow": 26
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "GL-15 Evictor": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 169,
+          "indexRow": 558
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 297,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 297,
+            "row": 82,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 1,
+            "indexRow": 8,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 268,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 268,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "GP-20 Ultimatum": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 320,
+          "indexRow": 128
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 103,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 103,
+            "row": 146,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 235,
+            "indexRow": 478,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 341,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "GP-31 Grenade Pistol": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 250,
+          "indexRow": 202
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 263,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 263,
+            "row": 85,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 13,
+            "indexRow": 1,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": false,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "ambiguous weapon identity",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 327,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 327,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "JAR-5 Dominator": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 290,
+          "indexRow": 362
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 177,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 177,
+            "row": 262,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 211,
+            "indexRow": 460,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "LAS-12 Sai": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0x39BBF52C",
+            "name": "Laser Heatsink (Blaster). Standard",
+            "addPath": "0x764EA2289AC0CB49",
+            "optionIdOffsets": [
+              20
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 297,
+          "indexRow": 131
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 236,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 236,
+            "row": 327,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 215,
+            "indexRow": 49,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "LAS-13 Trident": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 296,
+          "indexRow": 604
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "LAS-16 Sickle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 294,
+          "indexRow": 682
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 213,
+            "indexRow": 508,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "LAS-17 Double-Edge Sickle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 295,
+          "indexRow": 333
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 149,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 149,
+            "row": 326,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 214,
+            "indexRow": 186,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "LAS-5 Scythe": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0xF3D0DF39",
+            "name": "Laser Heatsink. Medium Standard",
+            "addPath": "0xB61B1340B74AAA5C",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 292,
+          "indexRow": 410
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "LAS-58 Talon": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 313,
+          "indexRow": 500
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 144,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 144,
+            "row": 332,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 230,
+            "indexRow": 369,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "LAS-7 Dagger": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 99,
+          "indexRow": 622
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "M6C/SOCOM Pistol": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 321,
+          "indexRow": 389
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 308,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 308,
+            "row": 184,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 236,
+            "indexRow": 82,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "M7S SMG": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 182,
+          "indexRow": 27
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 340,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 340,
+            "row": 162,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 133,
+            "indexRow": 340,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "M90A Shotgun": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 178,
+          "indexRow": 59
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 62,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 62,
+            "row": 298,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 9,
+            "indexRow": 18,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "MA5C Assault Rifle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 277,
+          "indexRow": 351
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 119,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 119,
+            "row": 237,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 199,
+            "indexRow": 443,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "MP-98 Knight": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x47E45B79",
+          "name": "SMG 9x20mm. Top Mounted Standard ",
+          "addPath": "0x3A58B9DCB84F665D",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 50,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 7,
+            "spareMagazines": 7
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x47E45B79",
+            "name": "SMG 9x20mm. Top Mounted Standard ",
+            "addPath": "0x3A58B9DCB84F665D",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 179,
+          "indexRow": 467
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 130,
+            "indexRow": 498,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-11 Stim Pistol": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 191,
+          "indexRow": 674
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 318,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 318,
+            "row": 198,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 10,
+            "indexRow": 24,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-113 Verdict": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 318,
+          "indexRow": 340
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 15,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 15,
+            "row": 182,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 233,
+            "indexRow": 540,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-19 Redeemer": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xB269A0B3",
+          "name": "Pistol 9x20mm. Extended ",
+          "addPath": "0xC891ACF9E8DBDA97",
+          "backingBaseValues": {
+            "capacity": 31,
+            "startingMagazines": 4,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 6
+          },
+          "values": {
+            "capacity": 31,
+            "startingMagazines": 4,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 6
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xB269A0B3",
+            "name": "Pistol 9x20mm. Extended ",
+            "addPath": "0xC891ACF9E8DBDA97",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 311,
+          "indexRow": 224
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "P-2 Peacemaker": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x116E8A0F",
+          "name": "Pistol 12x20mm. Standard",
+          "addPath": "0x4F839E923046E631",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 15,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 16
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x116E8A0F",
+            "name": "Pistol 12x20mm. Standard",
+            "addPath": "0x4F839E923046E631",
+            "optionIdOffsets": [
+              20
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 190,
+          "indexRow": 150
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "P-33 Missile Pistol": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 3,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 189,
+          "indexRow": 662
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 152,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 152,
+            "row": 187,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 139,
+            "indexRow": 366,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 154,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 154,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-34 Breacher": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 3,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 316,
+          "indexRow": 196
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 270,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 270,
+            "row": 324,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 232,
+            "indexRow": 529,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 167,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 167,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-35 Re-Educator": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 312,
+          "indexRow": 396
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 343,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 343,
+            "row": 323,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 229,
+            "indexRow": 212,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-4 Senator": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 324,
+          "indexRow": 256
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 309,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 309,
+            "row": 192,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 21,
+            "indexRow": 36,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-69 Veto": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 319,
+          "indexRow": 453
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 237,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 237,
+            "row": 183,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 20,
+            "indexRow": 25,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P-72 Crisper": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 314,
+          "indexRow": 499
+        },
+        "writable": false
+      },
+      "attacks": []
+    },
+    "P-92 Warrant": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 3,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 188,
+          "indexRow": 469
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 326,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 326,
+            "row": 185,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 138,
+            "indexRow": 67,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "P/40-K Bolt Pistol": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 322,
+          "indexRow": 391
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 202,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 202,
+            "row": 260,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 237,
+            "indexRow": 489,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 388,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "PLAS-1 Scorcher": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0x70C52CEC",
+            "name": "Plasma Medium. Canister Extended",
+            "addPath": "0x80F0A339E905D2D3",
+            "optionIdOffsets": [],
+            "addPathOffsets": [
+              128
+            ]
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 308,
+          "indexRow": 407
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 142,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 142,
+            "row": 310,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 225,
+            "indexRow": 116,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 155,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "PLAS-101 Purifier": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0x83DB4D5A",
+            "name": "Plasma Medium. Canister Standard",
+            "addPath": "0x193BECDF64AA66A9",
+            "optionIdOffsets": [],
+            "addPathOffsets": [
+              128
+            ]
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 309,
+          "indexRow": 169
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 296,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 296,
+            "row": 315,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 226,
+            "indexRow": 242,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 191,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "PLAS-15 Loyalist": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x6AF10FB5",
+          "name": "Plasma Pistol. Canister Pistol",
+          "addPath": "0xACA180FC6F846411",
+          "backingBaseValues": {
+            "capacity": 8,
+            "startingMagazines": 3,
+            "magazinesFromSupply": 5,
+            "spareMagazines": 5
+          },
+          "values": {
+            "capacity": 8,
+            "startingMagazines": 3,
+            "magazinesFromSupply": 5,
+            "spareMagazines": 5
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x6AF10FB5",
+            "name": "Plasma Pistol. Canister Pistol",
+            "addPath": "0xACA180FC6F846411",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 5,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 323,
+          "indexRow": 378
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 171,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 171,
+            "row": 309,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 238,
+            "indexRow": 342,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 355,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "PLAS-39 Accelerator Rifle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 185,
+          "indexRow": 162
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 155,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 155,
+            "row": 311,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 136,
+            "indexRow": 290,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 413,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-2 Amendment": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 286,
+          "indexRow": 141
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 327,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 327,
+            "row": 239,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 208,
+            "indexRow": 65,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-2124 Constitution": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 287,
+          "indexRow": 270
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 282,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 282,
+            "row": 238,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 16,
+            "indexRow": 42,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-36 Eruptor": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 291,
+          "indexRow": 553
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 40,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 40,
+            "row": 265,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 212,
+            "indexRow": 151,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 158,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 158,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-4 Hyena": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xB7FA90FD",
+          "name": "RIFLE Drake. Standard ",
+          "addPath": "0x3359229E4E0F766D",
+          "backingBaseValues": {
+            "capacity": 15,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "values": {
+            "capacity": 15,
+            "startingMagazines": 4,
+            "magazinesFromSupply": 5,
+            "spareMagazines": 5
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 24
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xB7FA90FD",
+            "name": "RIFLE Drake. Standard ",
+            "addPath": "0x3359229E4E0F766D",
+            "optionIdOffsets": [
+              28
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 300,
+          "indexRow": 142
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 207,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 207,
+            "row": 248,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 218,
+            "indexRow": 86,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-6 Deadeye": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 298,
+          "indexRow": 145
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 299,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 299,
+            "row": 240,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 17,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-63 Diligence": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 303,
+          "indexRow": 691
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 305,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 305,
+            "row": 242,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 221,
+            "indexRow": 507,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-63CS Diligence Counter Sniper": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 304,
+          "indexRow": 408
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 241,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 241,
+            "row": 243,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 222,
+            "indexRow": 259,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R-72 Censor": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x9FE412AD",
+          "name": "RIFLE Justice. Standard ",
+          "addPath": "0x462FC89D4903B33D",
+          "backingBaseValues": {
+            "capacity": 20,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "values": {
+            "capacity": 20,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 8
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x9FE412AD",
+            "name": "RIFLE Justice. Standard ",
+            "addPath": "0x462FC89D4903B33D",
+            "optionIdOffsets": [
+              12
+            ],
+            "addPathOffsets": [
+              128
+            ]
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 301,
+          "indexRow": 390
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 325,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 325,
+            "row": 228,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 219,
+            "indexRow": 539,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "R/40-K Hot-Shot Marksman Rifle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 302,
+          "indexRow": 90
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 86,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 86,
+            "row": 261,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 220,
+            "indexRow": 209,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-20 Halt": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 173,
+          "indexRow": 64
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 183,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 183,
+            "row": 285,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        },
+        {
+          "role": "feed_alternate",
+          "projectileType": 191,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 191,
+            "row": 294,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 68,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 5,
+            "indexRow": 45,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "alternate"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-22 Bushwhacker": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 310,
+          "indexRow": 436
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 18,
+            "indexRow": 27,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-225 Breaker": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xCA77DC98",
+          "name": "SHOTGUN 12g. Magazine Extended",
+          "addPath": "0x68B8D040421E8A49",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 16,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 7,
+            "spareMagazines": 7
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xCA77DC98",
+            "name": "SHOTGUN 12g. Magazine Extended",
+            "addPath": "0x68B8D040421E8A49",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 282,
+          "indexRow": 147
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 179,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 179,
+            "row": 272,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 204,
+            "indexRow": 407,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-225IE Breaker Incendiary": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x2B798DFB",
+          "name": "SHOTGUN 12g. Drum ",
+          "addPath": "0x3DDB9D36DA22555D",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 26,
+            "startingMagazines": 3,
+            "magazinesFromSupply": 4,
+            "spareMagazines": 4
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x2B798DFB",
+            "name": "SHOTGUN 12g. Drum ",
+            "addPath": "0x3DDB9D36DA22555D",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 3,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 284,
+          "indexRow": 331
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 314,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 314,
+            "row": 275,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 206,
+            "indexRow": 47,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-225SP Breaker Spray&Pray": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x562192C1",
+          "name": "SHOTGUN 12g. Drum Light",
+          "addPath": "0x040CE909939A3BAA",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 26,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 8,
+            "spareMagazines": 8
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x562192C1",
+            "name": "SHOTGUN 12g. Drum Light",
+            "addPath": "0x040CE909939A3BAA",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 283,
+          "indexRow": 157
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 174,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 174,
+            "row": 271,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 205,
+            "indexRow": 329,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-451 Cookout": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 174,
+          "indexRow": 324
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 347,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 347,
+            "row": 283,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 6,
+            "indexRow": 26,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-8 Punisher": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 170,
+          "indexRow": 723
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 260,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 260,
+            "row": 281,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 2,
+            "indexRow": 32,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-8P Punisher Plasma": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": [
+          {
+            "optionId": "0x6AF10FB5",
+            "name": "Plasma Pistol. Canister Pistol",
+            "addPath": "0xACA180FC6F846411",
+            "optionIdOffsets": [],
+            "addPathOffsets": [
+              128
+            ]
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 175,
+          "indexRow": 704
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 57,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 57,
+            "row": 316,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "explosive",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 126,
+            "indexRow": 6,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 290,
+              "actionKind": "explosion",
+              "linkedExplosionRecord": true,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-8S Slugger": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 2,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 172,
+          "indexRow": 459
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "feed_primary",
+          "projectileType": 240,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 240,
+            "row": 295,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 4,
+            "indexRow": 20,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SG-97 Sweeper": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 176,
+          "indexRow": 570
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 262,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 262,
+            "row": 349,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "WeaponRoundsComponentData",
+            "offset": 64,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 7,
+            "indexRow": 41,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SMG-203 Gallant": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xCD85679E",
+          "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+          "addPath": "0x8F141212B0F6F515",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 50,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 7,
+            "spareMagazines": 7
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xCD85679E",
+            "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+            "addPath": "0x8F141212B0F6F515",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 184,
+          "indexRow": 398
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 76,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 76,
+            "row": 167,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 135,
+            "indexRow": 302,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SMG-32 Reprimand": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 183,
+          "indexRow": 34
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 123,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 123,
+            "row": 189,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 134,
+            "indexRow": 505,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SMG-37 Defender": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0x01B37BEC",
+          "name": "SMG 12x25mm. Extended",
+          "addPath": "0x51DF2B8840B0DC66",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 7,
+            "spareMagazines": 7
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0x01B37BEC",
+            "name": "SMG 12x25mm. Extended",
+            "addPath": "0x51DF2B8840B0DC66",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 305,
+          "indexRow": 660
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 3,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 3,
+            "row": 173,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 223,
+            "indexRow": 278,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": false,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "ambiguous weapon identity",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SMG-72 Pummeler": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xDC2ADA1D",
+          "name": "SMG 12x25mm. Extended Pummeler",
+          "addPath": "0xCC944F51090C682B",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 6,
+            "magazinesFromSupply": 6,
+            "spareMagazines": 12
+          },
+          "values": {
+            "capacity": 45,
+            "startingMagazines": 5,
+            "magazinesFromSupply": 7,
+            "spareMagazines": 7
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xDC2ADA1D",
+            "name": "SMG 12x25mm. Extended Pummeler",
+            "addPath": "0xCC944F51090C682B",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 306,
+          "indexRow": 287
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 157,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 157,
+            "row": 181,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "status_bearing",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 224,
+            "indexRow": 499,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": false,
+          "reason": "only conventional_plain to conventional_plain swaps are approved",
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "SMG/FLAM-34 Stoker": {
+      "magazine": {
+        "simpleApi": false,
+        "defaultOption": {
+          "optionId": "0xEB75D04E",
+          "name": "SMG Flamer Extended Magazine ",
+          "addPath": "0x1B1FCC0E025C1F7D",
+          "backingBaseValues": {
+            "capacity": 30,
+            "startingMagazines": 3,
+            "magazinesFromSupply": 5,
+            "spareMagazines": 5
+          },
+          "values": {
+            "capacity": 50,
+            "startingMagazines": 3,
+            "magazinesFromSupply": 5,
+            "spareMagazines": 5
+          },
+          "writable": false,
+          "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+          "sharedWithWeapons": [],
+          "shared": false,
+          "default": true,
+          "allowed": true,
+          "optionIdentityProven": true,
+          "allowedRelationshipProven": true,
+          "ammoValueOwnerProven": false,
+          "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+          "defaultEntryOffset": 0
+        },
+        "observedOptions": [
+          {
+            "optionId": "0xEB75D04E",
+            "name": "SMG Flamer Extended Magazine ",
+            "addPath": "0x1B1FCC0E025C1F7D",
+            "optionIdOffsets": [
+              4
+            ],
+            "addPathOffsets": []
+          }
+        ]
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 180,
+          "indexRow": 31
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 38,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 38,
+            "row": 190,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 131,
+            "indexRow": 335,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "StA-11 SMG": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 181,
+          "indexRow": 406
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 215,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 215,
+            "row": 165,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 132,
+            "indexRow": 454,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "StA-52 Assault Rifle": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 274,
+          "indexRow": 422
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 276,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 276,
+            "row": 199,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 196,
+            "indexRow": 272,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    },
+    "VG-70 Variable": {
+      "magazine": {
+        "simpleApi": true,
+        "defaultOption": null,
+        "observedOptions": []
+      },
+      "fireMode": {
+        "nativeValue": 1,
+        "backing": {
+          "component": "WeaponDataComponentData",
+          "offset": 144,
+          "width": 4,
+          "storage": "u32",
+          "recordIndex": 186,
+          "indexRow": 173
+        },
+        "writable": false
+      },
+      "attacks": [
+        {
+          "role": "primary",
+          "projectileType": 94,
+          "projectileSettings": {
+            "group": 0,
+            "recordType": 94,
+            "row": 197,
+            "settingsType": "0xBD4042C2"
+          },
+          "compatibilityClass": "conventional_plain",
+          "targetBacking": {
+            "component": "ProjectileWeaponComponentData",
+            "offset": 0,
+            "width": 4,
+            "storage": "u32",
+            "recordIndex": 137,
+            "indexRow": 187,
+            "ownerCount": 1,
+            "uniqueOwner": true
+          },
+          "sourceIdentityResolvable": true,
+          "targetOwnershipProven": true,
+          "writableReferenceSwap": true,
+          "reason": null,
+          "aliases": [
+            "primary"
+          ],
+          "terminalActions": [
+            {
+              "phase": "impact",
+              "offset": 144,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            },
+            {
+              "phase": "expiry",
+              "offset": 156,
+              "width": 4,
+              "storage": "u32",
+              "referenceType": 0,
+              "actionKind": "none",
+              "linkedExplosionRecord": false,
+              "readable": true,
+              "writable": false,
+              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -15,14 +15,25 @@ local function equal(a,c,kind)
     return a==c
 end
 local function target_name(target)
-    assert(type(target)=='table'and target.resource=='player_weapon'and target.path=='weapon'
+    assert(type(target)=='table'and target.resource=='player_weapon'
         and type(target.weapon)=='string','unsupported player weapon target')
-    for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
-        'unsupported player weapon target identity')end
-    return target.weapon
+    if target.path=='weapon'then
+        for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
+            'unsupported player weapon target identity')end
+        return target.weapon,nil
+    end
+    assert(target.path=='attack'and type(target.attack)=='string','unsupported player weapon target')
+    for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
+        'unsupported player weapon attack identity')end
+    return target.weapon,target.attack
 end
-local function field_for(weapon,id)
-    for _,field in ipairs(weapon.fields)do if field.semanticFieldId==id then return field end end
+local function field_for(weapon,id,role)
+    local resolved=id
+    if id=='attack.projectile'then
+        assert(type(role)=='string','attack.projectile requires weapon:attack(role) target')
+        resolved='attack.'..role..'.projectile'
+    end
+    for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
     error('field is not exposed for '..weapon.name..': '..tostring(id),0)
 end
 local function identical_backing(a,c)
@@ -40,13 +51,29 @@ local function scalar(field,value,label)
     if field.type=='integer'then assert(value%1==0,label..' must be integer')end
     return value
 end
-local function validate_change(weapon,item,allow_shared)
+local function reference_selector(value,label)
+    assert(type(value)=='table',label..' must be a projectile reference handle')
+    for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
+        label..' contains unsupported projectile reference identity')end
+    assert(value.resource=='player_weapon'and value.path=='projectile_reference'
+        and type(value.weapon)=='string'and type(value.attack)=='string',
+        label..' must come from weapon:attack(role):projectile()')
+    return {weapon=value.weapon,attack=value.attack}
+end
+local function validate_change(weapon,item,allow_shared,role)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
-    local requested=field_for(weapon,item.field);local field=requested
+    if role then
+        assert(item.field=='attack.projectile'or item.field=='attack.'..role..'.projectile',
+            'attack targets only accept the typed attack.projectile reference field')
+    else
+        assert(item.field~='attack.projectile'and not item.field:match('^attack%..+%.projectile$'),
+            'attack.projectile requires weapon:attack(role) target')
+    end
+    local requested=field_for(weapon,item.field,role);local field=requested
     if requested.aliasOf then
-        field=field_for(weapon,requested.aliasOf)
+        field=field_for(weapon,requested.aliasOf,role)
         assert(requested.deprecated and not requested.canonical and not requested.preferred
             and requested.acceptedForWrites and field.canonical and field.preferred,
             'field is read-only: '..item.field..' ('..tostring(requested.reason)..')')
@@ -56,6 +83,26 @@ local function validate_change(weapon,item,allow_shared)
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
+    if field.type=='projectile_reference'then
+        assert(field.referenceKind=='projectile'and field.referenceRole==role,
+            'projectile reference role changed')
+        local expected=reference_selector(item.expect,'expect')
+        local desired=reference_selector(item.value,'value')
+        assert(expected.weapon==weapon.name and expected.attack==role,
+            'expect must be the target attack current projectile handle')
+        local source_weapon=assert(database.weapons[desired.weapon],
+            'unknown projectile source weapon: '..desired.weapon)
+        assert(not source_weapon.ordinaryWritesBlocked,
+            'projectile source identity is ambiguous: '..desired.weapon)
+        local source=field_for(source_weapon,'attack.'..desired.attack..'.projectile',desired.attack)
+        assert(source.referenceKind=='projectile'and source.compatibilityClass==field.compatibilityClass,
+            'incompatible projectile reference class')
+        assert(source.compatibilityClass=='conventional_plain',
+            'only conventional_plain projectile swaps are supported')
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,
+            expected_selector=expected,desired_selector=desired,source_descriptor=source}
+    end
     local expected=scalar(field,item.expect,'expect');local desired=scalar(field,item.value,'value')
     local storage=field.backing.storage
     local canonical=field.type=='boolean'and(field.currentDefault and 1 or 0)or field.currentDefault
@@ -72,11 +119,12 @@ function M.validate_patch(request)
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
-    id(request.id);local name=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
+    id(request.id);local name,role=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
-        request.allow_shared==true)
+        request.allow_shared==true,role)
     return {kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],
+        attack=role,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
         field=request.field,expect=request.expect,value=request.value,changes={change}}
 end
@@ -84,23 +132,33 @@ function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true,allow_shared=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
-    id(request.id);local name=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
+    id(request.id);local name,role=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     assert(type(request.changes)=='table'and#request.changes>=1 and#request.changes<=32,
         'transaction requires one to 32 changes')
-    local result={kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],
+    local result={kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],attack=role,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,changes={}}
     local seen,canonical_seen={},{ }
     for _,item in ipairs(request.changes)do
         assert(not seen[item.field],'duplicate transaction field: '..tostring(item.field));seen[item.field]=true
-        local change=validate_change(weapon,item,result.allow_shared)
+        local change=validate_change(weapon,item,result.allow_shared,role)
         local prior=canonical_seen[change.canonical_field]
         if prior then
-            if prior.desired~=change.desired then
+            local same_desired=prior.desired==change.desired
+            local same_expected=prior.expected==change.expected
+            if prior.desired_selector or change.desired_selector then
+                same_desired=prior.desired_selector and change.desired_selector
+                    and prior.desired_selector.weapon==change.desired_selector.weapon
+                    and prior.desired_selector.attack==change.desired_selector.attack
+                same_expected=prior.expected_selector and change.expected_selector
+                    and prior.expected_selector.weapon==change.expected_selector.weapon
+                    and prior.expected_selector.attack==change.expected_selector.attack
+            end
+            if not same_desired then
                 error('SEMANTIC_CONFLICT: '..prior.field..' and '..change.field
                     ..' alias '..change.canonical_field..' with different desired values',0)
             end
-            assert(prior.expected==change.expected,
+            assert(same_expected,
                 'semantic alias expected values differ: '..prior.field..' and '..change.field)
             prior.semantic_aliases[#prior.semantic_aliases+1]=change.field
         else
@@ -130,21 +188,34 @@ function M.capture(runtime,reader,spec)
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing
         if backing.kind=='settings'then needed[backing.settings]=true end
+        if change.descriptor.type=='projectile_reference'then needed.projectile=true end
         if backing.settings=='damage'then
             needed.projectile=true;needed.arc='optional';needed.beam='optional'
         end
     end
     local roots=discover.locate(runtime,reader,profile,needed)
     local catalog=entities.capture(reader,roots.entity,profile,component_names)
-    return {roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource)}
+    local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
+        reference_sources={}}
+    for _,change in ipairs(spec.changes)do
+        if change.desired_selector then
+            local source=assert(database.weapons[change.desired_selector.weapon],
+                'projectile source metadata missing')
+            resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
+        end
+    end
+    return resolved
 end
 
-local function component_record(resolved,backing)
-    local record=resolved.catalog.record(resolved.candidate,backing.component)
+local function component_record_for(resolved,candidate,backing)
+    local record=resolved.catalog.record(candidate,backing.component)
     local identity=record.identity
     assert(identity.recordIndex==backing.recordIndex and identity.indexRow==backing.indexRow
         and identity.ownerCount==backing.ownerCount,'component ownership identity changed')
     return record
+end
+local function component_record(resolved,backing)
+    return component_record_for(resolved,resolved.candidate,backing)
 end
 local function linked(resolved,kind,branch)
     local ownership=resolved.candidate.ownership
@@ -201,6 +272,32 @@ function M.prepare(resolved,reader,spec)
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
         local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
+        local source_identity
+        if change.descriptor.type=='projectile_reference'then
+            local reviewed=change.descriptor.currentDefault.projectileType
+            local expected=b.encode(reviewed,'u32')
+            local source_candidate=assert(resolved.reference_sources[change.canonical_field],
+                'projectile source was not freshly resolved')
+            local source_record=component_record_for(resolved,source_candidate,
+                change.source_descriptor.backing)
+            local source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
+            assert(source_type==change.source_descriptor.currentDefault.projectileType,
+                'CONFLICT: source projectile reference changed')
+            local settings=assert(resolved.roots.projectile.records[source_type],
+                'source ProjectileSettings record absent')
+            local reviewed_settings=change.source_descriptor.referenceSettings
+            assert(settings.group==reviewed_settings.group and settings.row==reviewed_settings.row
+                and settings.kind==reviewed_settings.recordType
+                and settings.settings_type==reviewed_settings.settingsType,
+                'source ProjectileSettings identity changed')
+            change.expected=expected;change.desired=b.encode(source_type,'u32')
+            source_identity={component=change.source_descriptor.backing.component,
+                record_index=change.source_descriptor.backing.recordIndex,
+                index_row=change.source_descriptor.backing.indexRow,
+                projectile_type=source_type,settings_group=settings.group,
+                settings_row=settings.row,settings_type=settings.settings_type,
+                scope='projectile_reference_source'}
+        end
         assert(current==change.expected or current==change.desired,
             'CONFLICT: '..change.field..' is neither expected nor desired')
         local identity
@@ -237,6 +334,7 @@ function M.prepare(resolved,reader,spec)
             expected=change.expected,desired=change.desired,before=current,
             already_desired=current==change.desired,identity=identity,chain={identity},
             expect=change.expect,value=change.value}
+            if source_identity then item.chain[#item.chain+1]=source_identity end
             plan.changes[#plan.changes+1]=item;physical[key]=item
         end
     end

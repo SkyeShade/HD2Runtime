@@ -11,6 +11,12 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     local watch={status='waiting'}
     local elapsed,steps,worker=0,0,nil
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
+    local function value_text(value)
+        if type(value)=='table'and value.weapon and value.attack then
+            return value.weapon..':'..value.attack
+        end
+        return tostring(value)
+    end
     local function reject(reason)
         watch.status='rejected';watch.error=tostring(reason)
         watch.result=watch.result or {status='REJECTED',writes=0,protection_changes=0,
@@ -77,8 +83,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if result.status=='APPLIED' or result.status=='ALREADY_DESIRED' then
             for index,change in ipairs(spec.changes)do
                 local state=result.fields[index].state
-                if state=='APPLIED' then log(change.field..' '..change.expect..' -> '..change.value)
-                else log(change.field..' already '..change.value)end
+                if state=='APPLIED' then
+                    log(change.field..' '..value_text(change.expect)..' -> '..value_text(change.value))
+                else log(change.field..' already '..value_text(change.value))end
             end
         end
         log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))

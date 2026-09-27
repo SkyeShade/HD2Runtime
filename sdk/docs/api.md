@@ -15,7 +15,7 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.map_primary_weapons(...)`: Schedule one read-only primary weapon enumeration after a startup delay.
 - `hd2.capture_snapshot(...)`: Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file.
 - `hd2.format(...)`: Format a completed read result.
-- `hd2.patch(...)`: Freshly resolve and apply the reviewed JAR-5 logical AP field.
+- `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.
 - `hd2.ensure(...)`: Wrap exactly one patch or transaction. Default 60 update seconds, three-second startup, terminal conflict rejection.
 

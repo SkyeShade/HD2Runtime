@@ -1,87 +1,42 @@
 {
   "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "hd2RuntimeVersion": "0.15.0",
-  "buildFingerprints": {
+  "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
   },
-  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "feature": "magazine_option_graph",
   "summary": {
     "weapons": 80,
-    "effectiveCapacityResolved": 66,
-    "effectiveCapacityNativeResolved": 47,
-    "customizationCorrelated": 19,
-    "notApplicable": 13,
-    "roundsFeedWeapons": 15,
-    "directMagazineWeapons": 33,
-    "defaultMagazineOptions": 19,
-    "weaponsWithWritableAmmoFields": 45,
-    "nativeMagazineOptionsCataloged": 52,
-    "sharedDefaultOptionGroups": 1
+    "nativeOptionIdentities": 52,
+    "weaponsWithNativeDefaultOption": 19,
+    "defaultRelationshipsProven": 19,
+    "perOptionAmmoOwnersProven": 0,
+    "writableOptionFields": 0,
+    "simpleMagazineWeapons": 33,
+    "roundsFeedWeapons": 15
   },
-  "fieldLayout": {
-    "WeaponMagazineComponentData": {
-      "capacity": {
-        "offset": 136,
-        "storage": "u32"
-      },
-      "startingMagazines": {
-        "offset": 140,
-        "storage": "u32"
-      },
-      "magazinesFromSupply": {
-        "offset": 144,
-        "storage": "u32"
-      },
-      "spareMagazines": {
-        "offset": 148,
-        "storage": "u32"
-      },
-      "magazinesFromAmmoBox": {
-        "derived": "max(1,floor(magazinesFromSupply/2))"
-      }
+  "findings": {
+    "defaultSlot": {
+      "component": "WeaponCustomizationComponentData",
+      "path": "DefaultCustomizations[] entry where slot == Magazine",
+      "slotTag": 5,
+      "listOffset": 0,
+      "entryStride": 8,
+      "slotOffset": 0,
+      "optionIdOffset": 4,
+      "terminatorSlot": 0
     },
-    "WeaponRoundsComponentData": {
-      "feedCapacity1": {
-        "offset": 72,
-        "storage": "f32"
-      },
-      "feedCapacity2": {
-        "offset": 76,
-        "storage": "f32"
-      },
-      "spareRounds": {
-        "offset": 80,
-        "storage": "u32"
-      },
-      "roundsFromSupply": {
-        "offset": 84,
-        "storage": "u32"
-      },
-      "startingRounds": {
-        "offset": 88,
-        "storage": "u32"
-      },
-      "roundsFromAmmoBox": {
-        "derived": "floor(roundsFromSupply/2)"
-      }
-    }
-  },
-  "ownershipFindings": {
-    "detachableMagazine": "Capacity, starting magazines, supply refill, and maximum spares are direct WeaponMagazineComponentData fields.",
-    "defaultCustomization": "When slot 5 selects a nonzero option ID, the effective tuple belongs to the customization-owned magazine preset; the base WeaponMagazine tuple is not effective.",
-    "roundsFeed": "Feed capacities, spare rounds, supply refill, and starting rounds are direct WeaponRoundsComponentData fields and retain rounds semantics.",
-    "ammoBoxRefill": "Ammo-box refill is derived from the direct supply refill; no independent scalar survived correlation.",
-    "alternateOptions": "The catalog proves option IDs, names, and AddPaths, but the captured graph does not prove per-weapon allowed-option ownership or a unique writable override record."
-  },
-  "evidenceCounts": {
-    "directMagazineTupleMatches": 31,
-    "directMagazineCatalogDiscrepancies": 2,
-    "directMagazineStartingSupplySpareMatches": 33,
-    "roundsFeedUnambiguousMatches": 14,
-    "roundsFeedAmbiguousIdentities": 1,
-    "defaultCustomizationIdentities": 19,
-    "nativeMagazineOptionsCataloged": 52
+    "allowedOptions": "No reviewed per-weapon allowed-option list was found in the captured component record.",
+    "overrideOwnership": "No option-owned ammo override record is linked by the captured component graph."
   },
   "nativeMagazineOptions": [
     {
@@ -553,37 +508,25 @@
       "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
     }
   ],
-  "discrepancies": [
-    {
-      "weapon": "AR-11 Arbitrator",
-      "field": "capacity",
-      "runtime": 45,
-      "catalog": 4
-    },
-    {
-      "weapon": "AR/GL-21 One-Two",
-      "field": "capacity",
-      "runtime": 40,
-      "catalog": 1
-    }
-  ],
   "weapons": [
     {
-      "name": "AR-11 Arbitrator",
-      "slot": "primary",
+      "weapon": "AR-11 Arbitrator",
       "resources": [
         "0xA8A91EB54892B6B2"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 45,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -615,28 +558,37 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "AR-2 Coyote",
-      "slot": "primary",
+      "weapon": "AR-2 Coyote",
       "resources": [
         "0x84354339522C932D"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xDED45539",
+          "name": "Rifle 8x40mm Rifle Standard",
+          "addPath": "0x963ACA558CD906BC",
+          "optionIdOffsets": [],
+          "addPathOffsets": [
+            128
+          ]
+        }
+      ],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 45,
         "source": "WeaponMagazineComponentData.Capacity"
       },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
-      },
       "fields": {
         "capacity": {
           "value": 45,
@@ -667,64 +619,17 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "AR-23 Liberator",
-      "slot": "primary",
+      "weapon": "AR-23 Liberator",
       "resources": [
         "0x968211C0033DCE64"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
-      "effectiveCapacity": {
-        "status": "CORRELATED_CUSTOMIZATION",
-        "value": 45,
-        "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
-      },
-      "fields": {
-        "capacity": {
-          "value": 45,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "startingMagazines": {
-          "value": 6,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "magazinesFromSupply": {
-          "value": 8,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "spareMagazines": {
-          "value": 8,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "magazinesFromAmmoBox": {
-          "value": 4,
-          "derived": true,
-          "writable": false
-        }
-      },
-      "shared": true,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
+      "simpleMagazineApi": false,
+      "defaultOption": {
         "optionId": "0x73CA1B5E",
         "name": "Rifle 5,5x50mm. Extended",
         "addPath": "0x7BE1E04A7738E673",
@@ -741,31 +646,40 @@
           "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [
           "AR-23P Liberator Penetrator",
           "AR-59 Suppressor"
         ],
-        "shared": true
-      }
-    },
-    {
-      "name": "AR-23A Liberator Carbine",
-      "slot": "primary",
-      "resources": [
-        "0xA7EE1EBF58FCDF1F"
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 45,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -797,11 +711,17 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
+      }
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "resources": [
+        "0xA7EE1EBF58FCDF1F"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
         "optionId": "0x71FBEF8C",
         "name": "Rifle 5,5x50mm. Extended Fastreload",
         "addPath": "0x2D761A80BCBFE792",
@@ -818,28 +738,126 @@
           "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [],
-        "shared": false
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x71FBEF8C",
+          "name": "Rifle 5,5x50mm. Extended Fastreload",
+          "addPath": "0x2D761A80BCBFE792",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
+      "effectiveCapacity": {
+        "status": "CORRELATED_CUSTOMIZATION",
+        "value": 45,
+        "source": "default customization option + imported catalog"
+      },
+      "fields": {
+        "capacity": {
+          "value": 45,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "startingMagazines": {
+          "value": 6,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "magazinesFromSupply": {
+          "value": 8,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "spareMagazines": {
+          "value": 8,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "magazinesFromAmmoBox": {
+          "value": 4,
+          "derived": true,
+          "writable": false
+        }
       }
     },
     {
-      "name": "AR-23C Liberator Concussive",
-      "slot": "primary",
+      "weapon": "AR-23C Liberator Concussive",
       "resources": [
         "0xCF5F176E0E322BE1"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xDF4F1322",
+        "name": "Rifle 5,5x50mm. Drum ",
+        "addPath": "0xE8DE5E95B9635C21",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 60,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xDF4F1322",
+          "name": "Rifle 5,5x50mm. Drum ",
+          "addPath": "0xE8DE5E95B9635C21",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 60,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -871,14 +889,20 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xDF4F1322",
-        "name": "Rifle 5,5x50mm. Drum ",
-        "addPath": "0xE8DE5E95B9635C21",
+      }
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "resources": [
+        "0x43CB1033961A2276"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x73CA1B5E",
+        "name": "Rifle 5,5x50mm. Extended",
+        "addPath": "0x7BE1E04A7738E673",
         "backingBaseValues": {
           "capacity": 30,
           "startingMagazines": 6,
@@ -886,34 +910,46 @@
           "spareMagazines": 12
         },
         "values": {
-          "capacity": 60,
-          "startingMagazines": 4,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 6
+          "capacity": 45,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
-      }
-    },
-    {
-      "name": "AR-23P Liberator Penetrator",
-      "slot": "primary",
-      "resources": [
-        "0x43CB1033961A2276"
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [
+          "AR-23 Liberator",
+          "AR-59 Suppressor"
+        ],
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 45,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -945,14 +981,20 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": true,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x73CA1B5E",
-        "name": "Rifle 5,5x50mm. Extended",
-        "addPath": "0x7BE1E04A7738E673",
+      }
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "resources": [
+        "0xBC29613666DF696B"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x45A1B03E",
+        "name": "Karbin Rifle Standard",
+        "addPath": "0x16AB263BC03B4F96",
         "backingBaseValues": {
           "capacity": 30,
           "startingMagazines": 6,
@@ -960,37 +1002,43 @@
           "spareMagazines": 12
         },
         "values": {
-          "capacity": 45,
+          "capacity": 40,
           "startingMagazines": 6,
           "magazinesFromSupply": 8,
           "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [
-          "AR-23 Liberator",
-          "AR-59 Suppressor"
-        ],
-        "shared": true
-      }
-    },
-    {
-      "name": "AR-32 Pacifier",
-      "slot": "primary",
-      "resources": [
-        "0xBC29613666DF696B"
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x45A1B03E",
+          "name": "Karbin Rifle Standard",
+          "addPath": "0x16AB263BC03B4F96",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 40,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -1022,14 +1070,20 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x45A1B03E",
-        "name": "Karbin Rifle Standard",
-        "addPath": "0x16AB263BC03B4F96",
+      }
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "resources": [
+        "0x708EA298C82093D0"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x73CA1B5E",
+        "name": "Rifle 5,5x50mm. Extended",
+        "addPath": "0x7BE1E04A7738E673",
         "backingBaseValues": {
           "capacity": 30,
           "startingMagazines": 6,
@@ -1037,34 +1091,46 @@
           "spareMagazines": 12
         },
         "values": {
-          "capacity": 40,
+          "capacity": 45,
           "startingMagazines": 6,
           "magazinesFromSupply": 8,
           "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
-      }
-    },
-    {
-      "name": "AR-59 Suppressor",
-      "slot": "primary",
-      "resources": [
-        "0x708EA298C82093D0"
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [
+          "AR-23 Liberator",
+          "AR-23P Liberator Penetrator"
+        ],
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 8
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x73CA1B5E",
+          "name": "Rifle 5,5x50mm. Extended",
+          "addPath": "0x7BE1E04A7738E673",
+          "optionIdOffsets": [
+            12
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 45,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -1096,51 +1162,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": true,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x73CA1B5E",
-        "name": "Rifle 5,5x50mm. Extended",
-        "addPath": "0x7BE1E04A7738E673",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 12
-        },
-        "values": {
-          "capacity": 45,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [
-          "AR-23 Liberator",
-          "AR-23P Liberator Penetrator"
-        ],
-        "shared": true
       }
     },
     {
-      "name": "AR-61 Tenderizer",
-      "slot": "primary",
+      "weapon": "AR-61 Tenderizer",
       "resources": [
         "0xCE063AA33D95A812"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 35,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1172,27 +1213,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "AR/GL-21 One-Two",
-      "slot": "primary",
+      "weapon": "AR/GL-21 One-Two",
       "resources": [
         "0xA955C4EA6F6D4203"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 40,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1224,47 +1264,45 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "ARC-12 Blitzer",
-      "slot": "primary",
+      "weapon": "ARC-12 Blitzer",
       "resources": [
         "0x076DD5D4F4360204"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "BR-14 Adjudicator",
-      "slot": "primary",
+      "weapon": "BR-14 Adjudicator",
       "resources": [
         "0x5FECAB819F96A3E8"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 30,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1296,27 +1334,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "CB-9 Exploding Crossbow",
-      "slot": "primary",
+      "weapon": "CB-9 Exploding Crossbow",
       "resources": [
         "0xF49227A0630A3F7F"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 5,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1348,88 +1385,84 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "CQC-19 Stun Lance",
-      "slot": "secondary",
+      "weapon": "CQC-19 Stun Lance",
       "resources": [
         "0xE3B6AEDD07FCB464"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "CQC-2 Saber",
-      "slot": "secondary",
+      "weapon": "CQC-2 Saber",
       "resources": [
         "0xFCD8A6E67EAC635A"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "CQC-30 Stun Baton",
-      "slot": "secondary",
+      "weapon": "CQC-30 Stun Baton",
       "resources": [
         "0x52CDBFBACA3CB397"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "CQC-42 Machete",
-      "slot": "secondary",
+      "weapon": "CQC-42 Machete",
       "resources": [
         "0x792D5D2A340FD6E6",
         "0x5F3EC9BDA2BD8553"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 1,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1461,68 +1494,65 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      }
     },
     {
-      "name": "CQC-5 Combat Hatchet",
-      "slot": "secondary",
+      "weapon": "CQC-5 Combat Hatchet",
       "resources": [
         "0x75816077C139C850"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "CQC-73 Entrenchment Tool",
-      "slot": "secondary",
+      "weapon": "CQC-73 Entrenchment Tool",
       "resources": [
         "0x7E1F76163C667E4B",
         "0xE85E623F93F96FB3"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "DBS-2 Double Freedom",
-      "slot": "primary",
+      "weapon": "DBS-2 Double Freedom",
       "resources": [
         "0x72170A55A1F37FF1"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 2,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -1565,27 +1595,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "FLAM-66 Torcher",
-      "slot": "primary",
+      "weapon": "FLAM-66 Torcher",
       "resources": [
         "0x4FB0F8C02F55C82B"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 100,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1617,27 +1646,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "GL-15 Evictor",
-      "slot": "primary",
+      "weapon": "GL-15 Evictor",
       "resources": [
         "0x006E44327BB953FE"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 4,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -1680,27 +1708,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "GP-20 Ultimatum",
-      "slot": "secondary",
+      "weapon": "GP-20 Ultimatum",
       "resources": [
         "0x9EB160830321BFD6"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 1,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1732,28 +1759,27 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "GP-31 Grenade Pistol",
-      "slot": "secondary",
+      "weapon": "GP-31 Grenade Pistol",
       "resources": [
         "0x02CD7321CD8445F5",
         "0x52E4334E6A128CAF"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "AMBIGUOUS_RUNTIME_IDENTITY",
         "value": null,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -1796,51 +1822,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [
-        "duplicate runtime resources have different rounds-feed values"
-      ],
-      "resourceValues": [
-        {
-          "resource": "0x02CD7321CD8445F5",
-          "values": {
-            "feedCapacity1": 1.0,
-            "feedCapacity2": 0.0,
-            "spareRounds": 5,
-            "roundsFromSupply": 5,
-            "startingRounds": 3
-          }
-        },
-        {
-          "resource": "0x52E4334E6A128CAF",
-          "values": {
-            "feedCapacity1": 1.0,
-            "feedCapacity2": 0.0,
-            "spareRounds": 6,
-            "roundsFromSupply": 4,
-            "startingRounds": 4
-          }
-        }
-      ]
+      }
     },
     {
-      "name": "JAR-5 Dominator",
-      "slot": "primary",
+      "weapon": "JAR-5 Dominator",
       "resources": [
         "0x80F1A156D9FA1E36"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 15,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -1872,169 +1873,181 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "LAS-12 Sai",
-      "slot": "primary",
+      "weapon": "LAS-12 Sai",
       "resources": [
         "0xC85F576D5E086147"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x39BBF52C",
+          "name": "Laser Heatsink (Blaster). Standard",
+          "addPath": "0x764EA2289AC0CB49",
+          "optionIdOffsets": [
+            20
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-13 Trident",
-      "slot": "primary",
+      "weapon": "LAS-13 Trident",
       "resources": [
         "0x3C86E871923F3970"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-16 Sickle",
-      "slot": "primary",
+      "weapon": "LAS-16 Sickle",
       "resources": [
         "0x8645F167B3C813A2"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-17 Double-Edge Sickle",
-      "slot": "primary",
+      "weapon": "LAS-17 Double-Edge Sickle",
       "resources": [
         "0x295BEB26DC4F8FF1"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-5 Scythe",
-      "slot": "primary",
+      "weapon": "LAS-5 Scythe",
       "resources": [
         "0x27EE1ED8F6FB6356",
         "0x7E3145A5BAA4B948"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xF3D0DF39",
+          "name": "Laser Heatsink. Medium Standard",
+          "addPath": "0xB61B1340B74AAA5C",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-58 Talon",
-      "slot": "secondary",
+      "weapon": "LAS-58 Talon",
       "resources": [
         "0x416D053372C4E433"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "LAS-7 Dagger",
-      "slot": "secondary",
+      "weapon": "LAS-7 Dagger",
       "resources": [
         "0x2B3C367B280F4094",
         "0x7B06196E90154C88"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "none",
-      "effectiveCapacity": {
-        "status": "NOT_APPLICABLE"
-      },
-      "alternateMagazineOptions": {
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
         "status": "NONE_PROVEN",
         "options": []
       },
-      "fields": {},
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      "effectiveCapacity": {
+        "status": "NOT_APPLICABLE"
+      },
+      "fields": {}
     },
     {
-      "name": "M6C/SOCOM Pistol",
-      "slot": "secondary",
+      "weapon": "M6C/SOCOM Pistol",
       "resources": [
         "0x4D58C77087B774C5"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 12,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2066,27 +2079,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "M7S SMG",
-      "slot": "primary",
+      "weapon": "M7S SMG",
       "resources": [
         "0xBE70EE0D8D44028E"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 48,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2118,27 +2130,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "M90A Shotgun",
-      "slot": "primary",
+      "weapon": "M90A Shotgun",
       "resources": [
         "0x90DDC374F4E3D756"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 6,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -2181,27 +2192,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "MA5C Assault Rifle",
-      "slot": "primary",
+      "weapon": "MA5C Assault Rifle",
       "resources": [
         "0x4DBD74F49C8FFC13"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 32,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2233,28 +2243,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "MP-98 Knight",
-      "slot": "primary",
+      "weapon": "MP-98 Knight",
       "resources": [
         "0x9571CA51F0DAF35B"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x47E45B79",
+        "name": "SMG 9x20mm. Top Mounted Standard ",
+        "addPath": "0x3A58B9DCB84F665D",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x47E45B79",
+          "name": "SMG 9x20mm. Top Mounted Standard ",
+          "addPath": "0x3A58B9DCB84F665D",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 50,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -2286,48 +2332,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x47E45B79",
-        "name": "SMG 9x20mm. Top Mounted Standard ",
-        "addPath": "0x3A58B9DCB84F665D",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 12
-        },
-        "values": {
-          "capacity": 50,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 7,
-          "spareMagazines": 7
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "P-11 Stim Pistol",
-      "slot": "secondary",
+      "weapon": "P-11 Stim Pistol",
       "resources": [
         "0xD6B1FB05B9109353"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 6,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -2370,27 +2394,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-113 Verdict",
-      "slot": "secondary",
+      "weapon": "P-113 Verdict",
       "resources": [
         "0x1A437158E1B8D2A1"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 10,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2422,28 +2445,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-19 Redeemer",
-      "slot": "secondary",
+      "weapon": "P-19 Redeemer",
       "resources": [
         "0x3575AABC5F1F9326"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xB269A0B3",
+        "name": "Pistol 9x20mm. Extended ",
+        "addPath": "0xC891ACF9E8DBDA97",
+        "backingBaseValues": {
+          "capacity": 31,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "values": {
+          "capacity": 31,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xB269A0B3",
+          "name": "Pistol 9x20mm. Extended ",
+          "addPath": "0xC891ACF9E8DBDA97",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 31,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -2475,49 +2534,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xB269A0B3",
-        "name": "Pistol 9x20mm. Extended ",
-        "addPath": "0xC891ACF9E8DBDA97",
-        "backingBaseValues": {
-          "capacity": 31,
-          "startingMagazines": 4,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 6
-        },
-        "values": {
-          "capacity": 31,
-          "startingMagazines": 4,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 6
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "P-2 Peacemaker",
-      "slot": "secondary",
+      "weapon": "P-2 Peacemaker",
       "resources": [
         "0x05E4E5C2DB6E44A2"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x116E8A0F",
+        "name": "Pistol 12x20mm. Standard",
+        "addPath": "0x4F839E923046E631",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 15,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 16
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x116E8A0F",
+          "name": "Pistol 12x20mm. Standard",
+          "addPath": "0x4F839E923046E631",
+          "optionIdOffsets": [
+            20
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 15,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -2549,48 +2623,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x116E8A0F",
-        "name": "Pistol 12x20mm. Standard",
-        "addPath": "0x4F839E923046E631",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 12
-        },
-        "values": {
-          "capacity": 15,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "P-33 Missile Pistol",
-      "slot": "secondary",
+      "weapon": "P-33 Missile Pistol",
       "resources": [
         "0x14D5D4506056C7A4"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 1,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2622,27 +2674,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-34 Breacher",
-      "slot": "secondary",
+      "weapon": "P-34 Breacher",
       "resources": [
         "0xE91F569C2AD8AF01"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 1,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2674,27 +2725,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-35 Re-Educator",
-      "slot": "secondary",
+      "weapon": "P-35 Re-Educator",
       "resources": [
         "0x0B882808C6F498E8"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 6,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2726,27 +2776,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-4 Senator",
-      "slot": "secondary",
+      "weapon": "P-4 Senator",
       "resources": [
         "0x8D3D52A3B2F19402"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 6,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -2789,27 +2838,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-69 Veto",
-      "slot": "secondary",
+      "weapon": "P-69 Veto",
       "resources": [
         "0xC780BCD79547DA0F"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 12,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -2852,28 +2900,27 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-72 Crisper",
-      "slot": "secondary",
+      "weapon": "P-72 Crisper",
       "resources": [
         "0x3F92BA65EF65CCA9",
         "0x992B6F65A5BAB53D"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 50,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2905,27 +2952,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P-92 Warrant",
-      "slot": "secondary",
+      "weapon": "P-92 Warrant",
       "resources": [
         "0xCF8934FF6567A42D"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 13,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -2957,27 +3003,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "P/40-K Bolt Pistol",
-      "slot": "secondary",
+      "weapon": "P/40-K Bolt Pistol",
       "resources": [
         "0xDBB6C961C59FADC1"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 6,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3009,27 +3054,36 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "PLAS-1 Scorcher",
-      "slot": "primary",
+      "weapon": "PLAS-1 Scorcher",
       "resources": [
         "0xEEA5E3CEF1E12C14"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x70C52CEC",
+          "name": "Plasma Medium. Canister Extended",
+          "addPath": "0x80F0A339E905D2D3",
+          "optionIdOffsets": [],
+          "addPathOffsets": [
+            128
+          ]
+        }
+      ],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 20,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3061,27 +3115,36 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "PLAS-101 Purifier",
-      "slot": "primary",
+      "weapon": "PLAS-101 Purifier",
       "resources": [
         "0xFB3A19078694708A"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x83DB4D5A",
+          "name": "Plasma Medium. Canister Standard",
+          "addPath": "0x193BECDF64AA66A9",
+          "optionIdOffsets": [],
+          "addPathOffsets": [
+            128
+          ]
+        }
+      ],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 15,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3113,28 +3176,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "PLAS-15 Loyalist",
-      "slot": "secondary",
+      "weapon": "PLAS-15 Loyalist",
       "resources": [
         "0xAA69A60D74A3EC54"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x6AF10FB5",
+        "name": "Plasma Pistol. Canister Pistol",
+        "addPath": "0xACA180FC6F846411",
+        "backingBaseValues": {
+          "capacity": 8,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "values": {
+          "capacity": 8,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x6AF10FB5",
+          "name": "Plasma Pistol. Canister Pistol",
+          "addPath": "0xACA180FC6F846411",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 8,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -3166,48 +3265,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x6AF10FB5",
-        "name": "Plasma Pistol. Canister Pistol",
-        "addPath": "0xACA180FC6F846411",
-        "backingBaseValues": {
-          "capacity": 8,
-          "startingMagazines": 3,
-          "magazinesFromSupply": 5,
-          "spareMagazines": 5
-        },
-        "values": {
-          "capacity": 8,
-          "startingMagazines": 3,
-          "magazinesFromSupply": 5,
-          "spareMagazines": 5
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "PLAS-39 Accelerator Rifle",
-      "slot": "primary",
+      "weapon": "PLAS-39 Accelerator Rifle",
       "resources": [
         "0x30061F91AF477F5E"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 9,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3239,27 +3316,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-2 Amendment",
-      "slot": "primary",
+      "weapon": "R-2 Amendment",
       "resources": [
         "0x0F83639AB8C86165"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 20,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3291,27 +3367,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-2124 Constitution",
-      "slot": "primary",
+      "weapon": "R-2124 Constitution",
       "resources": [
         "0x7B75E5132FFD4CA6"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 5,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -3354,27 +3429,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-36 Eruptor",
-      "slot": "primary",
+      "weapon": "R-36 Eruptor",
       "resources": [
         "0xB6AFF2195568767F"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 5,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3406,28 +3480,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-4 Hyena",
-      "slot": "primary",
+      "weapon": "R-4 Hyena",
       "resources": [
         "0xE5796355A8FD67E0"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xB7FA90FD",
+        "name": "RIFLE Drake. Standard ",
+        "addPath": "0x3359229E4E0F766D",
+        "backingBaseValues": {
+          "capacity": 15,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "values": {
+          "capacity": 15,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 24
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xB7FA90FD",
+          "name": "RIFLE Drake. Standard ",
+          "addPath": "0x3359229E4E0F766D",
+          "optionIdOffsets": [
+            28
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 15,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -3459,48 +3569,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xB7FA90FD",
-        "name": "RIFLE Drake. Standard ",
-        "addPath": "0x3359229E4E0F766D",
-        "backingBaseValues": {
-          "capacity": 15,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "values": {
-          "capacity": 15,
-          "startingMagazines": 4,
-          "magazinesFromSupply": 5,
-          "spareMagazines": 5
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "R-6 Deadeye",
-      "slot": "primary",
+      "weapon": "R-6 Deadeye",
       "resources": [
         "0xE6D932BE83729076"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 8,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -3543,27 +3631,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-63 Diligence",
-      "slot": "primary",
+      "weapon": "R-63 Diligence",
       "resources": [
         "0x03E67A19B07C6523"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 25,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3595,27 +3682,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-63CS Diligence Counter Sniper",
-      "slot": "primary",
+      "weapon": "R-63CS Diligence Counter Sniper",
       "resources": [
         "0x4C786785C79D44E7"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 15,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3647,28 +3733,66 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "R-72 Censor",
-      "slot": "primary",
+      "weapon": "R-72 Censor",
       "resources": [
         "0xF0338468DCDB6A6C"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x9FE412AD",
+        "name": "RIFLE Justice. Standard ",
+        "addPath": "0x462FC89D4903B33D",
+        "backingBaseValues": {
+          "capacity": 20,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "values": {
+          "capacity": 20,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 8
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x9FE412AD",
+          "name": "RIFLE Justice. Standard ",
+          "addPath": "0x462FC89D4903B33D",
+          "optionIdOffsets": [
+            12
+          ],
+          "addPathOffsets": [
+            128
+          ]
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 20,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -3700,48 +3824,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x9FE412AD",
-        "name": "RIFLE Justice. Standard ",
-        "addPath": "0x462FC89D4903B33D",
-        "backingBaseValues": {
-          "capacity": 20,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "values": {
-          "capacity": 20,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "R/40-K Hot-Shot Marksman Rifle",
-      "slot": "primary",
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
       "resources": [
         "0x1ABBFF60D26BA391"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 12,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -3773,27 +3875,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-20 Halt",
-      "slot": "primary",
+      "weapon": "SG-20 Halt",
       "resources": [
         "0x4E310B1FE4C52B52"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 16,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -3836,27 +3937,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-22 Bushwhacker",
-      "slot": "secondary",
+      "weapon": "SG-22 Bushwhacker",
       "resources": [
         "0x2B28E17FFED05F7C"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 3,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -3899,28 +3999,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-225 Breaker",
-      "slot": "primary",
+      "weapon": "SG-225 Breaker",
       "resources": [
         "0x46183B50961D1328"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xCA77DC98",
+        "name": "SHOTGUN 12g. Magazine Extended",
+        "addPath": "0x68B8D040421E8A49",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 16,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xCA77DC98",
+          "name": "SHOTGUN 12g. Magazine Extended",
+          "addPath": "0x68B8D040421E8A49",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 16,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -3952,14 +4088,20 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xCA77DC98",
-        "name": "SHOTGUN 12g. Magazine Extended",
-        "addPath": "0x68B8D040421E8A49",
+      }
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "resources": [
+        "0xC12A34F375BD5A87"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x2B798DFB",
+        "name": "SHOTGUN 12g. Drum ",
+        "addPath": "0x3DDB9D36DA22555D",
         "backingBaseValues": {
           "capacity": 30,
           "startingMagazines": 6,
@@ -3967,34 +4109,43 @@
           "spareMagazines": 12
         },
         "values": {
-          "capacity": 16,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 7,
-          "spareMagazines": 7
+          "capacity": 26,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 4,
+          "spareMagazines": 4
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [],
-        "shared": false
-      }
-    },
-    {
-      "name": "SG-225IE Breaker Incendiary",
-      "slot": "primary",
-      "resources": [
-        "0xC12A34F375BD5A87"
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x2B798DFB",
+          "name": "SHOTGUN 12g. Drum ",
+          "addPath": "0x3DDB9D36DA22555D",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 26,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -4026,14 +4177,20 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x2B798DFB",
-        "name": "SHOTGUN 12g. Drum ",
-        "addPath": "0x3DDB9D36DA22555D",
+      }
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "resources": [
+        "0x5EBAEA70C0D060B9"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0x562192C1",
+        "name": "SHOTGUN 12g. Drum Light",
+        "addPath": "0x040CE909939A3BAA",
         "backingBaseValues": {
           "capacity": 30,
           "startingMagazines": 6,
@@ -4042,33 +4199,42 @@
         },
         "values": {
           "capacity": 26,
-          "startingMagazines": 3,
-          "magazinesFromSupply": 4,
-          "spareMagazines": 4
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [],
-        "shared": false
-      }
-    },
-    {
-      "name": "SG-225SP Breaker Spray&Pray",
-      "slot": "primary",
-      "resources": [
-        "0x5EBAEA70C0D060B9"
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x562192C1",
+          "name": "SHOTGUN 12g. Drum Light",
+          "addPath": "0x040CE909939A3BAA",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 26,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -4100,48 +4266,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0x562192C1",
-        "name": "SHOTGUN 12g. Drum Light",
-        "addPath": "0x040CE909939A3BAA",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 12
-        },
-        "values": {
-          "capacity": 26,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 8,
-          "spareMagazines": 8
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "SG-451 Cookout",
-      "slot": "primary",
+      "weapon": "SG-451 Cookout",
       "resources": [
         "0xD323DE60855898AC"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 16,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -4184,27 +4328,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-8 Punisher",
-      "slot": "primary",
+      "weapon": "SG-8 Punisher",
       "resources": [
         "0x41EAC4A03987FAA0"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 16,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -4247,27 +4390,36 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-8P Punisher Plasma",
-      "slot": "primary",
+      "weapon": "SG-8P Punisher Plasma",
       "resources": [
         "0x05D8D8C073B9D502"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x6AF10FB5",
+          "name": "Plasma Pistol. Canister Pistol",
+          "addPath": "0xACA180FC6F846411",
+          "optionIdOffsets": [],
+          "addPathOffsets": [
+            128
+          ]
+        }
+      ],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 10,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -4299,27 +4451,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-8S Slugger",
-      "slot": "primary",
+      "weapon": "SG-8S Slugger",
       "resources": [
         "0x4F749E2EE26F532D"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 16,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -4362,27 +4513,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SG-97 Sweeper",
-      "slot": "primary",
+      "weapon": "SG-97 Sweeper",
       "resources": [
         "0xDCD1C835407EF7BA"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponRoundsComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 7,
         "source": "sum of feed capacities"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "feedCapacity1": {
@@ -4425,28 +4575,64 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SMG-203 Gallant",
-      "slot": "primary",
+      "weapon": "SMG-203 Gallant",
       "resources": [
         "0x186EA95DE7306B1A"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xCD85679E",
+        "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+        "addPath": "0x8F141212B0F6F515",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xCD85679E",
+          "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+          "addPath": "0x8F141212B0F6F515",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 50,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -4478,48 +4664,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xCD85679E",
-        "name": "SMG 9x20mm. Top Mounted Standard Solvent",
-        "addPath": "0x8F141212B0F6F515",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 6,
-          "magazinesFromSupply": 6,
-          "spareMagazines": 12
-        },
-        "values": {
-          "capacity": 50,
-          "startingMagazines": 5,
-          "magazinesFromSupply": 7,
-          "spareMagazines": 7
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "SMG-32 Reprimand",
-      "slot": "primary",
+      "weapon": "SMG-32 Reprimand",
       "resources": [
         "0x94BD931B5FB4EE95"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 25,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -4551,65 +4715,18 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "SMG-37 Defender",
-      "slot": "primary",
+      "weapon": "SMG-37 Defender",
       "resources": [
         "0x4E4A613EB9BF5C24",
         "0xCA4BBEF63C869C18"
       ],
       "ordinaryWritesBlocked": true,
       "backingDomain": "WeaponMagazineComponentData",
-      "effectiveCapacity": {
-        "status": "CORRELATED_CUSTOMIZATION",
-        "value": 45,
-        "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
-      },
-      "fields": {
-        "capacity": {
-          "value": 45,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "startingMagazines": {
-          "value": 5,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "magazinesFromSupply": {
-          "value": 7,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "spareMagazines": {
-          "value": 7,
-          "direct": false,
-          "writable": false,
-          "reason": "effective value is owned by the default magazine customization path"
-        },
-        "magazinesFromAmmoBox": {
-          "value": 3,
-          "derived": true,
-          "writable": false
-        }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
+      "simpleMagazineApi": false,
+      "defaultOption": {
         "optionId": "0x01B37BEC",
         "name": "SMG 12x25mm. Extended",
         "addPath": "0x51DF2B8840B0DC66",
@@ -4626,28 +4743,37 @@
           "spareMagazines": 7
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [],
-        "shared": false
-      }
-    },
-    {
-      "name": "SMG-72 Pummeler",
-      "slot": "primary",
-      "resources": [
-        "0x0807AEA5217E4767"
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0x01B37BEC",
+          "name": "SMG 12x25mm. Extended",
+          "addPath": "0x51DF2B8840B0DC66",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
       ],
-      "ordinaryWritesBlocked": false,
-      "backingDomain": "WeaponMagazineComponentData",
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 45,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -4679,11 +4805,17 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
+      }
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "resources": [
+        "0x0807AEA5217E4767"
+      ],
+      "ordinaryWritesBlocked": false,
+      "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
         "optionId": "0xDC2ADA1D",
         "name": "SMG 12x25mm. Extended Pummeler",
         "addPath": "0xCC944F51090C682B",
@@ -4700,28 +4832,126 @@
           "spareMagazines": 7
         },
         "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
         "sharedWithWeapons": [],
-        "shared": false
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xDC2ADA1D",
+          "name": "SMG 12x25mm. Extended Pummeler",
+          "addPath": "0xCC944F51090C682B",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
+      "effectiveCapacity": {
+        "status": "CORRELATED_CUSTOMIZATION",
+        "value": 45,
+        "source": "default customization option + imported catalog"
+      },
+      "fields": {
+        "capacity": {
+          "value": 45,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "startingMagazines": {
+          "value": 5,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "magazinesFromSupply": {
+          "value": 7,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "spareMagazines": {
+          "value": 7,
+          "direct": false,
+          "writable": false,
+          "reason": "effective value is owned by the default magazine customization path"
+        },
+        "magazinesFromAmmoBox": {
+          "value": 3,
+          "derived": true,
+          "writable": false
+        }
       }
     },
     {
-      "name": "SMG/FLAM-34 Stoker",
-      "slot": "primary",
+      "weapon": "SMG/FLAM-34 Stoker",
       "resources": [
         "0x8A307BD1811A5FE9"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": false,
+      "defaultOption": {
+        "optionId": "0xEB75D04E",
+        "name": "SMG Flamer Extended Magazine ",
+        "addPath": "0x1B1FCC0E025C1F7D",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "observedCustomizationOptions": [
+        {
+          "optionId": "0xEB75D04E",
+          "name": "SMG Flamer Extended Magazine ",
+          "addPath": "0x1B1FCC0E025C1F7D",
+          "optionIdOffsets": [
+            4
+          ],
+          "addPathOffsets": []
+        }
+      ],
+      "alternateOptions": {
+        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
+        "options": [],
+        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
+      },
       "effectiveCapacity": {
         "status": "CORRELATED_CUSTOMIZATION",
         "value": 50,
         "source": "default customization option + imported catalog"
-      },
-      "alternateMagazineOptions": {
-        "status": "COMPATIBILITY_GRAPH_UNRESOLVED",
-        "options": [],
-        "reason": "The native option catalog is decoded, but per-weapon allowed-option ownership is not exposed by a reviewed runtime record."
       },
       "fields": {
         "capacity": {
@@ -4753,48 +4983,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": false,
-      "diagnostics": [],
-      "defaultMagazineOption": {
-        "optionId": "0xEB75D04E",
-        "name": "SMG Flamer Extended Magazine ",
-        "addPath": "0x1B1FCC0E025C1F7D",
-        "backingBaseValues": {
-          "capacity": 30,
-          "startingMagazines": 3,
-          "magazinesFromSupply": 5,
-          "spareMagazines": 5
-        },
-        "values": {
-          "capacity": 50,
-          "startingMagazines": 3,
-          "magazinesFromSupply": 5,
-          "spareMagazines": 5
-        },
-        "writable": false,
-        "reason": "Option identity is proven; override-record ownership is not sufficiently proven for guarded writes.",
-        "sharedWithWeapons": [],
-        "shared": false
       }
     },
     {
-      "name": "StA-11 SMG",
-      "slot": "primary",
+      "weapon": "StA-11 SMG",
       "resources": [
         "0x4BA41B6F9F405CC2"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 48,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -4826,27 +5034,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "StA-52 Assault Rifle",
-      "slot": "primary",
+      "weapon": "StA-52 Assault Rifle",
       "resources": [
         "0xCDF28BE026BB7D84"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 56,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -4878,27 +5085,26 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     },
     {
-      "name": "VG-70 Variable",
-      "slot": "primary",
+      "weapon": "VG-70 Variable",
       "resources": [
         "0xF992CE97577C8A7F"
       ],
       "ordinaryWritesBlocked": false,
       "backingDomain": "WeaponMagazineComponentData",
+      "simpleMagazineApi": true,
+      "defaultOption": null,
+      "observedCustomizationOptions": [],
+      "alternateOptions": {
+        "status": "NONE_PROVEN",
+        "options": []
+      },
       "effectiveCapacity": {
         "status": "RESOLVED",
         "value": 49,
         "source": "WeaponMagazineComponentData.Capacity"
-      },
-      "alternateMagazineOptions": {
-        "status": "NONE_PROVEN",
-        "options": []
       },
       "fields": {
         "capacity": {
@@ -4930,16 +5136,7 @@
           "derived": true,
           "writable": false
         }
-      },
-      "shared": false,
-      "writable": true,
-      "diagnostics": []
+      }
     }
-  ],
-  "safety": {
-    "addressesInPublicMetadata": false,
-    "writes": 0,
-    "protectionChanges": 0,
-    "fixtureFallback": "disabled"
-  }
+  ]
 }

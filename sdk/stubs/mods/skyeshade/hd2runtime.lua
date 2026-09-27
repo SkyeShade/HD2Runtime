@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 4f5e16f1bc4c69ae52a9890058ec614ef566d639afb83288e5dd3ba23f9861d5
+-- Schema SHA256 cb78bf19d1d89b0a250c346f524b28e647b9a5861f9cfa2e3fda1acd4ccf98b2
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -60,22 +60,24 @@
 
 ---@class HD2PatchRequest
 ---@field id string
----@field target HD2DamageProfile
----@field field HD2PatchField
----@field expect 3
----@field value 4
+---@field target HD2AuthoringTarget
+---@field field string
+---@field expect number|boolean|HD2ProjectileReference
+---@field value number|boolean|HD2ProjectileReference
 ---@field diagnostic? boolean
+---@field allow_shared? boolean
 
 ---@class HD2TransactionChange
----@field field HD2TransactionField
----@field expect number
----@field value number
+---@field field string
+---@field expect number|boolean|HD2ProjectileReference
+---@field value number|boolean|HD2ProjectileReference
 
 ---@class HD2TransactionRequest
 ---@field id string
----@field target HD2Stratagem
+---@field target HD2AuthoringTarget
 ---@field changes HD2TransactionChange[]
 ---@field diagnostic? boolean
+---@field allow_shared? boolean
 
 ---@class HD2EnsureRequest
 ---@field patch? HD2PatchRequest
@@ -241,6 +243,66 @@ function HD2OrbitalAbility:read_target() end
 ---Describe mapped domain fields without process access.
 ---@return table
 function HD2OrbitalAbility:describe() end
+---@alias HD2AttackRole "alternate"|"feed_alternate"|"feed_primary"|"primary"
+
+---@class HD2PlayerAttack
+---@field resource "player_weapon"
+---@field path "attack"
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+local HD2PlayerAttack = {}
+---@return HD2ProjectileReference
+function HD2PlayerAttack:projectile() end
+---@return table
+function HD2PlayerAttack:describe() end
+
+---@class HD2ProjectileReference
+---@field resource "player_weapon"
+---@field path "projectile_reference"
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+local HD2ProjectileReference = {}
+---@param phase "impact"|"expiry"
+---@return HD2TerminalAction
+function HD2ProjectileReference:terminal_action(phase) end
+---@return table
+function HD2ProjectileReference:describe() end
+
+---@class HD2TerminalAction
+---@field resource "player_weapon"
+---@field path "terminal_action"
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+---@field phase "impact"|"expiry"
+local HD2TerminalAction = {}
+---@return table
+function HD2TerminalAction:describe() end
+
+---@class HD2MagazineOption
+---@field resource "player_weapon"
+---@field path "magazine_option"
+---@field weapon HD2WeaponName
+---@field option string
+local HD2MagazineOption = {}
+---@return table
+function HD2MagazineOption:describe() end
+
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack
+
+---@param role HD2AttackRole
+---@return HD2PlayerAttack
+function HD2Weapon:attack(role) end
+---@return HD2PlayerAttack[]
+function HD2Weapon:attacks() end
+---@return table
+function HD2Weapon:fire_modes() end
+---@return HD2MagazineOption[]
+function HD2Weapon:magazine_options() end
+---@return HD2MagazineOption?
+function HD2Weapon:default_magazine() end
+---@param identity string
+---@return HD2MagazineOption
+function HD2Weapon:magazine(identity) end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
@@ -331,6 +393,8 @@ function HD2OrbitalAbility:describe() end
 ---@field status_2_type "damage.status_2_type"
 ---@field status_3_strength "damage.status_3_strength"
 ---@field status_3_type "damage.status_3_type"
+---@field status_strength "damage.status_strength"
+---@field status_type "damage.status_type"
 ---@field type "damage.type"
 
 ---@class HD2Fields_vehicle
@@ -412,6 +476,12 @@ function HD2OrbitalAbility:describe() end
 ---@field range "arc.range"
 ---@field velocity "arc.velocity"
 
+---@class HD2Fields_attack
+---@field feed_alternate_projectile "attack.feed_alternate.projectile"
+---@field feed_primary_projectile "attack.feed_primary.projectile"
+---@field primary_projectile "attack.primary.projectile"
+---@field projectile "attack.projectile"
+
 ---@class HD2Fields_beam
 ---@field length "beam.length"
 ---@field radius "beam.radius"
@@ -432,6 +502,9 @@ function HD2OrbitalAbility:describe() end
 ---@field spare_rounds "rounds.spare_rounds"
 ---@field starting_rounds "rounds.starting_rounds"
 
+---@class HD2Fields_terminal
+---@field explosion "terminal.explosion"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -446,9 +519,11 @@ function HD2OrbitalAbility:describe() end
 ---@field jumppack HD2Fields_jumppack
 ---@field orbital HD2Fields_orbital
 ---@field arc HD2Fields_arc
+---@field attack HD2Fields_attack
 ---@field beam HD2Fields_beam
 ---@field magazine HD2Fields_magazine
 ---@field rounds HD2Fields_rounds
+---@field terminal HD2Fields_terminal
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177
@@ -525,7 +600,7 @@ function hd2.capture_snapshot(request) end
 ---@param result table
 ---@return string
 function hd2.format(result) end
----Freshly resolve and apply the reviewed JAR-5 logical AP field.
+---Freshly resolve and apply one reviewed scalar or typed-reference change.
 ---@param request HD2PatchRequest
 ---@return HD2Watch
 function hd2.patch(request) end
