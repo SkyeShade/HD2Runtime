@@ -32,15 +32,22 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if not worker then worker=coroutine.create(function()
             local reader=Reader.new(runtime)
             -- Fresh discovery on application, never a cached read result/address.
-            local resolved=resolution.capture(runtime,reader,{{key='jar5',fields={'armor_penetration'}}})
-            local plan=fields.prepare(resolved,reader,spec)
+            local resolved,plan
+            if spec.kind=='player_weapon'then
+                local domain=require('hd2runtime/domains/player_weapon_writes')
+                resolved=domain.capture(runtime,reader,spec);plan=domain.prepare(resolved,reader,spec)
+            else
+                resolved=resolution.capture(runtime,reader,fields.requests(spec))
+                plan=fields.prepare(resolved,reader,spec)
+            end
             reader.verify()
             log('patch '..spec.id..' target resolved')
             if spec.diagnostic then
-                log('patch '..spec.id..' resource=0x80F1A156D9FA1E36 projectile_type=177'
-                    ..' damage_type=153 group=1 record_index=158 width=12 queries='..reader.queries
+                local change=plan.changes and plan.changes[1]or plan
+                log('patch '..spec.id..' resource='..tostring(spec.resource)
+                    ..' width='..#(change.desired or change.new)..' queries='..reader.queries
                     ..' bytes_read='..reader.bytes..' fixture_fallback=disabled mode='..tostring(runtime.mode))
-                for _,i in ipairs(plan.chain)do
+                for _,i in ipairs(change.chain or{})do
                     log('patch '..spec.id..' component='..i.component..' type='..i.component_type
                         ..' record_index='..i.record_index..' unique_owner='..tostring(i.unique_owner)
                         ..' scope='..tostring(i.scope or 'resource_component_membership'))
@@ -56,7 +63,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if not ok then return reject(result)end
         if coroutine.status(worker)~='dead' then return end
         watch.result=result
-        result.id=spec.id;result.field=spec.field;result.resource='0x80F1A156D9FA1E36'
+        result.id=spec.id;result.field=spec.field;result.resource=spec.resource or'0x80F1A156D9FA1E36'
         result.mode=runtime.mode;result.fixture_fallback='disabled'
         if spec.diagnostic then
             log('patch '..spec.id..' writes='..result.writes..' bytes_written='..result.bytes_written

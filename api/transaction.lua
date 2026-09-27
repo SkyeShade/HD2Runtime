@@ -33,12 +33,18 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         end
         if not worker then worker=coroutine.create(function()
             local reader=Reader.new(runtime)
-            local resolved=resolution.capture(runtime,reader,domain.requests(spec))
-            local plan=domain.prepare(resolved,reader,spec)
+            local resolved,plan
+            if spec.kind=='player_weapon'then
+                local weapons=require('hd2runtime/domains/player_weapon_writes')
+                resolved=weapons.capture(runtime,reader,spec);plan=weapons.prepare(resolved,reader,spec)
+            else
+                resolved=resolution.capture(runtime,reader,domain.requests(spec))
+                plan=domain.prepare(resolved,reader,spec)
+            end
             reader.verify()
             log('transaction '..spec.id..' targets resolved')
             if spec.diagnostic then
-                log('transaction '..spec.id..' resource=0xED13DDC480EC6910 changes='..#plan.changes
+                log('transaction '..spec.id..' resource='..tostring(spec.resource)..' changes='..#plan.changes
                     ..' queries='..reader.queries..' bytes_read='..reader.bytes
                     ..' fixture_fallback=disabled mode='..tostring(runtime.mode))
                 for _,change in ipairs(plan.changes)do
@@ -59,7 +65,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if not ok then return reject(result)end
         if coroutine.status(worker)~='dead' then return end
         watch.result=result
-        result.id=spec.id;result.resource='0xED13DDC480EC6910'
+        result.id=spec.id;result.resource=spec.resource
         result.mode=runtime.mode;result.fixture_fallback='disabled'
         if spec.diagnostic then
             log('transaction '..spec.id..' writes='..result.writes

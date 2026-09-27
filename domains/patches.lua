@@ -5,6 +5,10 @@ local projectile=b.unhex('b10000006faf2f1e08cd3b206952cdf1f5c84b7d5898656a000070
 local damage=b.unhex('99000000130100005a000000030000000300000003000000000000000a000000230000000f000000000000000000000000000000000000000000000000000000000000000000000000000000')
 local function u32(n)return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,math.floor(n/16777216)%256)end
 function M.validate(request)
+    if type(request)=='table'and type(request.target)=='table'
+        and request.target.resource=='player_weapon'then
+        return require('hd2runtime/domains/player_weapon_writes').validate_patch(request)
+    end
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
@@ -18,6 +22,10 @@ function M.validate(request)
     assert(request.diagnostic==nil or type(request.diagnostic)=='boolean','invalid diagnostic flag')
     return {id=request.id,field=request.field,expect=request.expect,value=request.value,
         diagnostic=request.diagnostic==true}
+end
+function M.requests(spec)
+    if spec.kind=='player_weapon'then return nil end
+    return {{key='jar5',fields={'armor_penetration'}}}
 end
 function M.prepare(resolved,reader,spec)
     local r=resolved.record('jar5','DamageSettings')

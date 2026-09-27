@@ -13,7 +13,8 @@ function M.create()
     end
     function runtime.write(address,bytes)
         assert(type(address)=='number' and address>0 and address<=9007199254740991
-            and address%4==0 and type(bytes)=='string' and (#bytes==4 or #bytes==12),
+            and type(bytes)=='string' and (#bytes==1 or #bytes==4 or #bytes==12)
+            and (#bytes==1 or address%4==0),
             'unsupported native write extent')
         local count=ffi.new('size_t[1]')
         local ok=kernel.WriteProcessMemory(kernel.GetCurrentProcess(),ffi.cast('void *',address),bytes,#bytes,count)

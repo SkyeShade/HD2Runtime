@@ -23,6 +23,8 @@ def outputs():
     # Match Git's LF-normalized source on every checkout, including Windows.
     raw=(ROOT/'schemas/sdk.json').read_text(encoding='utf-8').encode('utf-8')
     schema=json.loads(raw)
+    player_schema=json.loads((ROOT/'schemas/player_weapon_fields.json').read_text())
+    player_capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
     digest=hashlib.sha256(raw).hexdigest()
     types=schema['types']; resources=schema['resources']
     fields={domain:{} for domain in types}
@@ -39,9 +41,18 @@ def outputs():
             assert fields[f['domain']].get(constant,name)==name, 'Constant collision'
             fields[f['domain']][constant]=name
             catalog[key][name]=f
+    player_field_ids=sorted({field['semanticFieldId']
+        for weapon in player_capabilities['weapons'] for field in weapon['fields']})
+    for field_id in player_field_ids:
+        domain,name=field_id.split('.',1)
+        constant=ident(name)
+        if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
+            constant='player_'+constant
+        fields[domain][constant]=field_id
     header='-- Generated from schemas/sdk.json; do not edit. SHA256 '+digest+'\n'
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
+              'player_weapon_authoring':player_capabilities['summary'],
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
     constants={'fields':fields,'enums':{k:v['values'] for k,v in schema['enums'].items()},
                'resources':{k:k for k in resources}}
@@ -71,7 +82,7 @@ def outputs():
         for constant,name in names.items():
             relevant=[(r['label'],f) for r in resources.values() for n,f in r['fields'].items() if n==name and f['domain']==domain]
             note='; '.join(label+': '+('reviewed writable' if f['writable'] else 'read-only')+', '+f['value_type'] for label,f in relevant)
-            stub.append('---@field '+constant+' '+json.dumps(name)+' '+note)
+            stub.append(('---@field '+constant+' '+json.dumps(name)+' '+note).rstrip())
     stub+=['','---@class HD2Fields']
     for domain in fields: stub.append('---@field '+domain+' HD2Fields_'+domain)
     for enum,spec in schema['enums'].items():
@@ -85,6 +96,7 @@ def outputs():
            '---@field resources HD2Resources','---@field version string','---@field api_version integer','local hd2 = {}']
     for method,domain in schema['builders'].items():
         names=[n for r in resources.values() if r['kind']==domain for n in r['aliases']]
+        if domain=='weapon':names+= [w['name'] for w in player_capabilities['weapons']]
         alias('HD2'+method.title()+'Name',names)
         stub+=['---@param name HD2'+method.title()+'Name','---@return '+types[domain]['class'],
                'function hd2.'+method+'(name) end']

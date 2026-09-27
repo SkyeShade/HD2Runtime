@@ -64,12 +64,14 @@ function M.apply(runtime,plan)
         assert(type(change.owner)=='table' and safe(change.offset)
             and type(change.expected)=='string' and type(change.desired)=='string'
             and type(change.before)=='string' and #change.expected==#change.desired
-            and #change.before==#change.desired and (#change.desired==4 or #change.desired==12),
+            and #change.before==#change.desired
+            and (#change.desired==1 or #change.desired==4 or #change.desired==12),
             'invalid transaction change')
         assert(change.before==change.expected or change.before==change.desired,
             'transaction change is neither expected nor desired')
         local address=change.owner.base+change.offset
-        assert(safe(address) and address%4==0 and address%PAGE+#change.desired<=PAGE,
+        assert(safe(address) and (#change.desired==1 or address%4==0)
+            and address%PAGE+#change.desired<=PAGE,
             'transaction target alignment/page boundary')
         intervals[#intervals+1]={first=address,last=address+#change.desired,index=index}
         before[index]=change.before;desired[index]=change.desired

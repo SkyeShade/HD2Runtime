@@ -172,6 +172,11 @@ function M.start(runtime,emit,request)
                     field(output,'horizontal_recoil',horizontal,hs.evidence)
                     field(output,'vertical_recoil',vertical,vs.evidence)
                     field(output,'recoil',(horizontal+vertical)/2,mapper_schema.fields.recoil.evidence)
+                    for _,name in ipairs({'recoil_drift_horizontal','recoil_drift_vertical',
+                        'recoil_climb_horizontal','recoil_climb_vertical'})do
+                        local spec=mapper_schema.fields[name]
+                        field(output,name,b.value(record.bytes,spec.offset,spec.storage),spec.evidence)
+                    end
                     local suppressed=mapper_schema.fields.is_suppressed
                     field(output,'is_suppressed',b.value(record.bytes,suppressed.offset,suppressed.storage)~=0,
                         suppressed.evidence)
@@ -255,6 +260,12 @@ function M.start(runtime,emit,request)
                     attack.arcType=arc_type
                     field(output,'arc_velocity',b.value(arc.bytes,4,'f32'),mapper_schema.fields.arc_velocity.evidence)
                     field(output,'arc_range',b.value(arc.bytes,8,'f32'),mapper_schema.fields.arc_range.evidence)
+                    for _,name in ipairs({'arc_distance_at_max_spread',
+                        'arc_distance_at_max_spread_first_shot','arc_max_angle_spread',
+                        'arc_max_angle_spread_first_shot','arc_chain_count','arc_max_split'})do
+                        local spec=mapper_schema.fields[name]
+                        field(output,name,b.value(arc.bytes,spec.offset,spec.storage),spec.evidence)
+                    end
                 end)
             end
             local beam_owner=candidate.ownership.BeamWeaponComponentData
@@ -268,6 +279,7 @@ function M.start(runtime,emit,request)
                         'linked BeamSettings record absent')
                     local attack=damage_attack(output,roots,damage_consumers,'Beam','beamSettings',beam,b.u32(beam.bytes,12))
                     attack.beamType=beam_type
+                    field(output,'beam_radius',b.value(beam.bytes,4,'f32'),mapper_schema.fields.beam_radius.evidence)
                     field(output,'beam_range',b.value(beam.bytes,8,'f32'),mapper_schema.fields.beam_range.evidence)
                 end)
             end
@@ -335,9 +347,14 @@ function M.start(runtime,emit,request)
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
             fixtureFallback='disabled',fieldsCurrentlyUsable={'weapon_slot','capacity','base_capacity',
                 'recoil','horizontal_recoil','vertical_recoil','is_suppressed',
+                'recoil_drift_horizontal','recoil_drift_vertical',
+                'recoil_climb_horizontal','recoil_climb_vertical',
                 'projectile_type','damage_type',
                 'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity',
-                'arc_type','arc_velocity','arc_range','beam_type','beam_range',
+                'arc_type','arc_velocity','arc_range','arc_distance_at_max_spread',
+                'arc_distance_at_max_spread_first_shot','arc_max_angle_spread',
+                'arc_max_angle_spread_first_shot','arc_chain_count','arc_max_split',
+                'beam_type','beam_radius','beam_range',
                 'spray_damage_type','melee_damage_type','rounds_primary_projectile_type',
                 'rounds_alternate_projectile_type',
                 'spread_horizontal','spread_vertical','sway','ergonomics',
