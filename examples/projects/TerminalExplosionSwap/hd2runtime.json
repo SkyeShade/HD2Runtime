@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "name": "TerminalExplosionSwap",
+  "resource": "mods/hd2runtime_examples/terminal_explosion_swap",
+  "guid": "c3aa5084-b2bb-59b9-8b5c-a9405fe0cec0",
+  "requires": {"bingus": {"min_release": 15, "api": 1}, "hd2runtime": {"min_version": "0.16.0", "api": 1, "module": "mods/skyeshade/hd2runtime"}},
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

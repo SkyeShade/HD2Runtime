@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.15.0",
+  "hd2RuntimeVersion": "0.16.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -18,7 +18,9 @@
     "weapons": 80,
     "projectileAttacks": 67,
     "readableActions": 134,
-    "writableActions": 0,
+    "writableActions": 16,
+    "writableImpactRefs": 12,
+    "writableExpiryRefs": 4,
     "impactExplosionLinks": 13,
     "expiryExplosionLinks": 5
   },
@@ -102,8 +104,8 @@
     }
   ],
   "findings": {
-    "impact": "Schema-labelled ExplosionType and structurally linked ExplosionSettings records.",
-    "expiry": "Current records link ExplosionSettings where nonzero, but the native consumer label remains incomplete.",
+    "impact": "Schema-labelled ExplosionType and structurally linked ExplosionSettings records; typed replacement is guarded.",
+    "expiry": "All nonzero current records link the same typed ExplosionSettings table and share the impact reference contract.",
     "otherActions": "Neighboring nonzero scalars are not promoted without typed ownership or consumer evidence."
   },
   "weapons": [
@@ -134,7 +136,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA8A91EB54892B6B2"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -146,7 +157,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA8A91EB54892B6B2"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -179,7 +199,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x84354339522C932D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -191,7 +220,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x84354339522C932D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -224,7 +262,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -236,7 +313,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -269,7 +385,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -281,7 +436,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -314,7 +508,26 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x263817187B7CE092"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x3D4970D1C4E640EE"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCF5F176E0E322BE1"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -326,7 +539,26 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x263817187B7CE092"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x3D4970D1C4E640EE"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCF5F176E0E322BE1"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -359,7 +591,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x3357EEBB0184FDEE"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x43CB1033961A2276"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4DF41F84668D07FB"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x73681FFD58FA1A90"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA32621E3BDE13379"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -371,7 +632,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x3357EEBB0184FDEE"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x43CB1033961A2276"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4DF41F84668D07FB"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x73681FFD58FA1A90"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA32621E3BDE13379"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -404,7 +694,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xBC29613666DF696B"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -416,7 +715,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xBC29613666DF696B"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -449,7 +757,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x708EA298C82093D0"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -461,7 +778,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x708EA298C82093D0"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -494,7 +820,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCE063AA33D95A812"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -506,7 +841,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCE063AA33D95A812"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -539,7 +883,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA955C4EA6F6D4203"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -551,7 +904,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA955C4EA6F6D4203"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -592,7 +954,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x5FECAB819F96A3E8"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -604,7 +975,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x5FECAB819F96A3E8"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -636,8 +1016,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF49227A0630A3F7F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -649,7 +1038,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF49227A0630A3F7F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -732,7 +1130,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x72170A55A1F37FF1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -744,7 +1151,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x72170A55A1F37FF1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -784,8 +1200,22 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x006E44327BB953FE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x006E44327BB953FE"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -796,8 +1226,22 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x006E44327BB953FE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x006E44327BB953FE"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             }
           ]
         }
@@ -829,8 +1273,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9EB160830321BFD6"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -842,7 +1295,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9EB160830321BFD6"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -876,7 +1338,31 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x02CD7321CD8445F5"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x02CD7321CD8445F5"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x52E4334E6A128CAF"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x52E4334E6A128CAF"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -888,7 +1374,31 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x02CD7321CD8445F5"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x02CD7321CD8445F5"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x52E4334E6A128CAF"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x52E4334E6A128CAF"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -921,7 +1431,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x80F1A156D9FA1E36"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -933,7 +1452,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x80F1A156D9FA1E36"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -966,7 +1494,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC85F576D5E086147"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -978,7 +1515,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC85F576D5E086147"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1019,7 +1565,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x295BEB26DC4F8FF1"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8645F167B3C813A2"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1031,7 +1591,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x295BEB26DC4F8FF1"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8645F167B3C813A2"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1064,7 +1638,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x295BEB26DC4F8FF1"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8645F167B3C813A2"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1076,7 +1664,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x295BEB26DC4F8FF1"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8645F167B3C813A2"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1118,7 +1720,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x416D053372C4E433"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1130,7 +1741,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x416D053372C4E433"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1172,7 +1792,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4D58C77087B774C5"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1184,7 +1813,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4D58C77087B774C5"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1217,7 +1855,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xBE70EE0D8D44028E"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1229,7 +1876,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xBE70EE0D8D44028E"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1262,7 +1918,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x90DDC374F4E3D756"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x90DDC374F4E3D756"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1274,7 +1944,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x90DDC374F4E3D756"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x90DDC374F4E3D756"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1307,7 +1991,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4DBD74F49C8FFC13"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1319,7 +2012,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4DBD74F49C8FFC13"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1352,7 +2054,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4BA41B6F9F405CC2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9571CA51F0DAF35B"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1364,7 +2080,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4BA41B6F9F405CC2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9571CA51F0DAF35B"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1397,7 +2127,31 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x03271411D3D0BAB9"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x03271411D3D0BAB9"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD6B1FB05B9109353"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xD6B1FB05B9109353"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1409,7 +2163,31 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x03271411D3D0BAB9"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x03271411D3D0BAB9"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD6B1FB05B9109353"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xD6B1FB05B9109353"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1442,7 +2220,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x1A437158E1B8D2A1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1454,7 +2241,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x1A437158E1B8D2A1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1502,8 +2298,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x14D5D4506056C7A4"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1514,8 +2319,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x14D5D4506056C7A4"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             }
           ]
         }
@@ -1547,8 +2361,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE91F569C2AD8AF01"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1559,8 +2382,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE91F569C2AD8AF01"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             }
           ]
         }
@@ -1593,7 +2425,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0B882808C6F498E8"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1605,7 +2446,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0B882808C6F498E8"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1638,7 +2488,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x8D3D52A3B2F19402"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1650,7 +2509,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x8D3D52A3B2F19402"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1683,7 +2551,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC780BCD79547DA0F"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xC780BCD79547DA0F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1695,7 +2577,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC780BCD79547DA0F"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xC780BCD79547DA0F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1737,7 +2633,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCF8934FF6567A42D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -1749,7 +2654,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCF8934FF6567A42D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1781,8 +2695,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xDBB6C961C59FADC1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1794,7 +2717,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xDBB6C961C59FADC1"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1826,8 +2758,27 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8633FF89EF4F6788"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA1379C8C41A10E22"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xEEA5E3CEF1E12C14"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1839,7 +2790,26 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8633FF89EF4F6788"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA1379C8C41A10E22"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xEEA5E3CEF1E12C14"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1871,8 +2841,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xFB3A19078694708A"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1884,7 +2863,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xFB3A19078694708A"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1916,8 +2904,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xAA69A60D74A3EC54"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1929,7 +2926,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xAA69A60D74A3EC54"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -1961,8 +2967,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x30061F91AF477F5E"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1974,7 +2989,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x30061F91AF477F5E"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2007,7 +3031,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0F83639AB8C86165"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2019,7 +3052,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0F83639AB8C86165"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2052,7 +3094,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x7B75E5132FFD4CA6"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2064,7 +3115,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x7B75E5132FFD4CA6"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2096,8 +3156,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB6AFF2195568767F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2108,8 +3177,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB6AFF2195568767F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             }
           ]
         }
@@ -2142,7 +3220,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE5796355A8FD67E0"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2154,7 +3241,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE5796355A8FD67E0"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2187,7 +3283,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE6D932BE83729076"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xE6D932BE83729076"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2199,7 +3309,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xE6D932BE83729076"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xE6D932BE83729076"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2232,7 +3356,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x03E67A19B07C6523"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2244,7 +3377,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x03E67A19B07C6523"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2277,7 +3419,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4C786785C79D44E7"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2289,7 +3440,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4C786785C79D44E7"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2322,7 +3482,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF0338468DCDB6A6C"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2334,7 +3503,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF0338468DCDB6A6C"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2367,7 +3545,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x1ABBFF60D26BA391"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2379,7 +3566,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x1ABBFF60D26BA391"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2412,7 +3608,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x4E310B1FE4C52B52"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2424,7 +3629,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x4E310B1FE4C52B52"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         },
@@ -2448,7 +3662,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x4E310B1FE4C52B52"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2460,7 +3683,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x4E310B1FE4C52B52"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2493,7 +3725,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x2B28E17FFED05F7C"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xBCC2177439D231BE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xBCC2177439D231BE"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2505,7 +3766,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x2B28E17FFED05F7C"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xBCC2177439D231BE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xBCC2177439D231BE"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2538,7 +3828,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x46183B50961D1328"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2550,7 +3849,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x46183B50961D1328"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2583,7 +3891,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC12A34F375BD5A87"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2595,7 +3912,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xC12A34F375BD5A87"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2628,7 +3954,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x5EBAEA70C0D060B9"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2640,7 +3975,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x5EBAEA70C0D060B9"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2673,7 +4017,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xD323DE60855898AC"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xD323DE60855898AC"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2685,7 +4043,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xD323DE60855898AC"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xD323DE60855898AC"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2718,7 +4090,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x2B28E17FFED05F7C"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xBCC2177439D231BE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xBCC2177439D231BE"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2730,7 +4131,36 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x2B28E17FFED05F7C"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x41EAC4A03987FAA0"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xBCC2177439D231BE"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0xBCC2177439D231BE"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2762,8 +4192,17 @@
               "actionKind": "explosion",
               "linkedExplosionRecord": true,
               "readable": true,
-              "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "writable": true,
+              "referenceClass": "ExplosionSettings",
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x05D8D8C073B9D502"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2775,7 +4214,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x05D8D8C073B9D502"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2808,7 +4256,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x4F749E2EE26F532D"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x4F749E2EE26F532D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2820,7 +4282,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0x4F749E2EE26F532D"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 68,
+                  "resourceHash": "0x4F749E2EE26F532D"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2853,7 +4329,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xDCD1C835407EF7BA"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xDCD1C835407EF7BA"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2865,7 +4355,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xDCD1C835407EF7BA"
+                },
+                {
+                  "component": "WeaponRoundsComponentData",
+                  "offset": 64,
+                  "resourceHash": "0xDCD1C835407EF7BA"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2898,7 +4402,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x186EA95DE7306B1A"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2910,7 +4423,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x186EA95DE7306B1A"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2943,7 +4465,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x94BD931B5FB4EE95"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -2955,7 +4486,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x94BD931B5FB4EE95"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -2989,7 +4529,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4E4A613EB9BF5C24"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3001,7 +4550,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4E4A613EB9BF5C24"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -3034,7 +4592,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0807AEA5217E4767"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3046,7 +4613,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x0807AEA5217E4767"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -3079,7 +4655,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8A307BD1811A5FE9"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3091,7 +4676,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x8A307BD1811A5FE9"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -3124,7 +4718,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4BA41B6F9F405CC2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9571CA51F0DAF35B"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3136,7 +4744,21 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x4BA41B6F9F405CC2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x9571CA51F0DAF35B"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -3169,7 +4791,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3181,7 +4842,46 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0x968211C0033DCE64"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA6A735ACCB4A327F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xA7EE1EBF58FCDF1F"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB43235DBD493750C"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xB9606C5AAB32C3C2"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xCDF28BE026BB7D84"
+                },
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xD53EE03481AE73FD"
+                }
+              ],
+              "affectsMultipleResources": true,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }
@@ -3214,7 +4914,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF992CE97577C8A7F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             },
             {
               "phase": "expiry",
@@ -3226,7 +4935,16 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "reason": "Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation."
+              "referenceClass": null,
+              "projectileSettingsConsumers": [
+                {
+                  "component": "ProjectileWeaponComponentData",
+                  "offset": 0,
+                  "resourceHash": "0xF992CE97577C8A7F"
+                }
+              ],
+              "affectsMultipleResources": false,
+              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
             }
           ]
         }

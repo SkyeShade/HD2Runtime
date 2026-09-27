@@ -1,0 +1,3963 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "hd2RuntimeVersion": "0.16.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "catalogWeapons": 80,
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "feature": "explosion_authoring_capabilities",
+  "summary": {
+    "weaponsWithExplosions": 13,
+    "explosiveProjectileAttacksResolved": 13,
+    "explosionSettingsResolved": 13,
+    "explosionScalarFieldsWritable": 144,
+    "sharedExplosionGroups": 4,
+    "shrapnelGraphsResolved": 1,
+    "shrapnelWrites": 0
+  },
+  "layout": {
+    "ExplosionSettings": {
+      "recordSize": 152,
+      "damageTypeOffset": 4,
+      "innerRadiusOffset": 16,
+      "outerRadiusOffset": 20,
+      "shockwaveRadiusOffset": 24,
+      "shrapnelCountOffset": 80,
+      "shrapnelProjectileOffset": 84
+    },
+    "DamageInfo": {
+      "recordSize": 76
+    }
+  },
+  "guardPolicy": {
+    "sharedSettingsRequireAllowShared": true,
+    "typedReferencesOnly": true,
+    "rawExplosionIdsRejected": true,
+    "outerDamage": "No independent outer-damage scalar was proven; radial falloff remains read-only native behavior."
+  },
+  "explosions": [
+    {
+      "explosionType": 59,
+      "settings": {
+        "group": 0,
+        "recordType": 59,
+        "row": 107,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 209,
+      "damageSettings": {
+        "group": 1,
+        "row": 208,
+        "recordType": 209,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 3.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 6.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 7.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 350
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 350
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 20
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 25
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 249
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "CB-9 Exploding Crossbow",
+          "role": "primary",
+          "projectileType": 249
+        }
+      ],
+      "damageConsumers": [
+        59
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 154,
+      "settings": {
+        "group": 0,
+        "recordType": 154,
+        "row": 223,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 563,
+      "damageSettings": {
+        "group": 1,
+        "row": 389,
+        "recordType": 563,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 4.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 12.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 300
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 300
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 40
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 40
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 127
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 127
+        },
+        {
+          "phase": "impact",
+          "projectileType": 152
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 152
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "P-33 Missile Pistol",
+          "role": "primary",
+          "projectileType": 152
+        }
+      ],
+      "damageConsumers": [
+        154
+      ],
+      "shared": true,
+      "writeScope": "shared_settings",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 155,
+      "settings": {
+        "group": 0,
+        "recordType": 155,
+        "row": 94,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 306,
+      "damageSettings": {
+        "group": 1,
+        "row": 297,
+        "recordType": 306,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 100
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 100
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 7
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 142
+        },
+        {
+          "phase": "impact",
+          "projectileType": 143
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "PLAS-1 Scorcher",
+          "role": "primary",
+          "projectileType": 142
+        }
+      ],
+      "damageConsumers": [
+        155
+      ],
+      "shared": true,
+      "writeScope": "shared_settings",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 158,
+      "settings": {
+        "group": 0,
+        "recordType": 158,
+        "row": 125,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 347,
+      "damageSettings": {
+        "group": 1,
+        "row": 337,
+        "recordType": 347,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 4.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 7.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 8.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 225
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 225
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 20
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 35
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 40
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 40
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 40
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "R-36 Eruptor",
+          "role": "primary",
+          "projectileType": 40
+        }
+      ],
+      "damageConsumers": [
+        158
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 30,
+        "projectileType": 201,
+        "projectileSettings": {
+          "group": 0,
+          "recordType": 201,
+          "row": 301,
+          "settingsType": "0xBD4042C2"
+        },
+        "structurallyProven": true,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 167,
+      "settings": {
+        "group": 0,
+        "recordType": 167,
+        "row": 224,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 69,
+      "damageSettings": {
+        "group": 1,
+        "row": 74,
+        "recordType": 69,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 0.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 1940
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 0
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 270
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 270
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "P-34 Breacher",
+          "role": "primary",
+          "projectileType": 270
+        }
+      ],
+      "damageConsumers": [
+        167
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 191,
+      "settings": {
+        "group": 0,
+        "recordType": 191,
+        "row": 101,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 313,
+      "damageSettings": {
+        "group": 1,
+        "row": 306,
+        "recordType": 313,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.9000000953674316
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 3.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 4.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 300
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 300
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 35
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 296
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "PLAS-101 Purifier",
+          "role": "primary",
+          "projectileType": 296
+        }
+      ],
+      "damageConsumers": [
+        191
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 268,
+      "settings": {
+        "group": 0,
+        "recordType": 268,
+        "row": 111,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 376,
+      "damageSettings": {
+        "group": 1,
+        "row": 365,
+        "recordType": 376,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.25
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 5.5
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 8.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 440
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 440
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 25
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 297
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 297
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "GL-15 Evictor",
+          "role": "primary",
+          "projectileType": 297
+        }
+      ],
+      "damageConsumers": [
+        268
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 290,
+      "settings": {
+        "group": 0,
+        "recordType": 290,
+        "row": 102,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 311,
+      "damageSettings": {
+        "group": 1,
+        "row": 302,
+        "recordType": 311,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.299999952316284
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 3.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 4.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 225
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 225
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 35
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 57
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "SG-8P Punisher Plasma",
+          "role": "primary",
+          "projectileType": 57
+        }
+      ],
+      "damageConsumers": [
+        290,
+        377
+      ],
+      "shared": true,
+      "writeScope": "shared_settings",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 327,
+      "settings": {
+        "group": 0,
+        "recordType": 327,
+        "row": 112,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 374,
+      "damageSettings": {
+        "group": 1,
+        "row": 363,
+        "recordType": 374,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.25
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 6.5
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 8.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 400
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 400
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 25
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 30
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 263
+        },
+        {
+          "phase": "expiry",
+          "projectileType": 263
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "GP-31 Grenade Pistol",
+          "role": "primary",
+          "projectileType": 263
+        }
+      ],
+      "damageConsumers": [
+        327
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": false,
+      "writableScalarFields": 0,
+      "reason": "Ambiguous weapon resource identity blocks ordinary writes.",
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 341,
+      "settings": {
+        "group": 0,
+        "recordType": 341,
+        "row": 150,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 281,
+      "damageSettings": {
+        "group": 1,
+        "row": 272,
+        "recordType": 281,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 12.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 25.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 2000
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 2000
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 6
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 40
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 70
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 60
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 103
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "GP-20 Ultimatum",
+          "role": "primary",
+          "projectileType": 103
+        }
+      ],
+      "damageConsumers": [
+        146,
+        341
+      ],
+      "shared": true,
+      "writeScope": "shared_settings",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 355,
+      "settings": {
+        "group": 0,
+        "recordType": 355,
+        "row": 93,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 305,
+      "damageSettings": {
+        "group": 1,
+        "row": 296,
+        "recordType": 305,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 0.75
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.5
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 25
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 25
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 5
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 171
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "PLAS-15 Loyalist",
+          "role": "primary",
+          "projectileType": 171
+        }
+      ],
+      "damageConsumers": [
+        355
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 388,
+      "settings": {
+        "group": 0,
+        "recordType": 388,
+        "row": 92,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 303,
+      "damageSettings": {
+        "group": 1,
+        "row": 294,
+        "recordType": 303,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 3.5
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 5.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 175
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 175
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 35
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 5
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 202
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "P/40-K Bolt Pistol",
+          "role": "primary",
+          "projectileType": 202
+        }
+      ],
+      "damageConsumers": [
+        388
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    },
+    {
+      "explosionType": 413,
+      "settings": {
+        "group": 0,
+        "recordType": 413,
+        "row": 96,
+        "settingsType": "0x2AEA2592"
+      },
+      "damageType": 309,
+      "damageSettings": {
+        "group": 1,
+        "row": 300,
+        "recordType": 309,
+        "settingsType": "0xE0A72CF0"
+      },
+      "fields": [
+        {
+          "id": "explosion.inner_radius",
+          "offset": 16,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 1.0
+        },
+        {
+          "id": "explosion.outer_radius",
+          "offset": 20,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.shockwave_radius",
+          "offset": 24,
+          "storage": "f32",
+          "type": "number",
+          "unit": "meters",
+          "value": 2.0
+        },
+        {
+          "id": "explosion.damage.standard_damage",
+          "offset": 4,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 100
+        },
+        {
+          "id": "explosion.damage.durable_damage",
+          "offset": 8,
+          "storage": "i32",
+          "type": "integer",
+          "unit": "damage",
+          "value": 100
+        },
+        {
+          "id": "explosion.damage.ap_direct",
+          "offset": 12,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 3
+        },
+        {
+          "id": "explosion.damage.ap_slight",
+          "offset": 16,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_large",
+          "offset": 20,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.ap_extreme",
+          "offset": 24,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "armor_class",
+          "value": 0
+        },
+        {
+          "id": "explosion.damage.demolition",
+          "offset": 28,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.stagger",
+          "offset": 32,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 10
+        },
+        {
+          "id": "explosion.damage.push_force",
+          "offset": 36,
+          "storage": "u32",
+          "type": "integer",
+          "unit": "force",
+          "value": 7
+        }
+      ],
+      "consumers": [
+        {
+          "phase": "impact",
+          "projectileType": 155
+        }
+      ],
+      "playerConsumers": [
+        {
+          "weapon": "PLAS-39 Accelerator Rifle",
+          "role": "primary",
+          "projectileType": 155
+        }
+      ],
+      "damageConsumers": [
+        413
+      ],
+      "shared": false,
+      "writeScope": "projectile_terminal_actions",
+      "writable": true,
+      "writableScalarFields": 12,
+      "reason": null,
+      "shrapnel": {
+        "count": 0,
+        "projectileType": null,
+        "projectileSettings": null,
+        "structurallyProven": false,
+        "writableCount": false,
+        "writableProjectileReference": false,
+        "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+      }
+    }
+  ],
+  "weapons": [
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "role": "primary",
+      "projectileType": 249,
+      "explosions": [
+        {
+          "explosionType": 59,
+          "settings": {
+            "group": 0,
+            "recordType": 59,
+            "row": 107,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 209,
+          "damageSettings": {
+            "group": 1,
+            "row": 208,
+            "recordType": 209,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 3.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 6.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 7.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 350
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 350
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 20
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 25
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 249
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "CB-9 Exploding Crossbow",
+              "role": "primary",
+              "projectileType": 249
+            }
+          ],
+          "damageConsumers": [
+            59
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "role": "primary",
+      "projectileType": 297,
+      "explosions": [
+        {
+          "explosionType": 268,
+          "settings": {
+            "group": 0,
+            "recordType": 268,
+            "row": 111,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 376,
+          "damageSettings": {
+            "group": 1,
+            "row": 365,
+            "recordType": 376,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.25
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 5.5
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 8.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 440
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 440
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 25
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 297
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 297
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "GL-15 Evictor",
+              "role": "primary",
+              "projectileType": 297
+            }
+          ],
+          "damageConsumers": [
+            268
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "role": "primary",
+      "projectileType": 103,
+      "explosions": [
+        {
+          "explosionType": 341,
+          "settings": {
+            "group": 0,
+            "recordType": 341,
+            "row": 150,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 281,
+          "damageSettings": {
+            "group": 1,
+            "row": 272,
+            "recordType": 281,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 12.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 25.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 2000
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 2000
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 6
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 40
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 70
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 60
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 103
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "GP-20 Ultimatum",
+              "role": "primary",
+              "projectileType": 103
+            }
+          ],
+          "damageConsumers": [
+            146,
+            341
+          ],
+          "shared": true,
+          "writeScope": "shared_settings",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "role": "primary",
+      "projectileType": 263,
+      "explosions": [
+        {
+          "explosionType": 327,
+          "settings": {
+            "group": 0,
+            "recordType": 327,
+            "row": 112,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 374,
+          "damageSettings": {
+            "group": 1,
+            "row": 363,
+            "recordType": 374,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.25
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 6.5
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 8.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 400
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 400
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 25
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 263
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 263
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "GP-31 Grenade Pistol",
+              "role": "primary",
+              "projectileType": 263
+            }
+          ],
+          "damageConsumers": [
+            327
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": false,
+          "writableScalarFields": 0,
+          "reason": "Ambiguous weapon resource identity blocks ordinary writes.",
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "role": "primary",
+      "projectileType": 152,
+      "explosions": [
+        {
+          "explosionType": 154,
+          "settings": {
+            "group": 0,
+            "recordType": 154,
+            "row": 223,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 563,
+          "damageSettings": {
+            "group": 1,
+            "row": 389,
+            "recordType": 563,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 4.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 12.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 300
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 300
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 40
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 40
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 127
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 127
+            },
+            {
+              "phase": "impact",
+              "projectileType": 152
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 152
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "P-33 Missile Pistol",
+              "role": "primary",
+              "projectileType": 152
+            }
+          ],
+          "damageConsumers": [
+            154
+          ],
+          "shared": true,
+          "writeScope": "shared_settings",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "role": "primary",
+      "projectileType": 270,
+      "explosions": [
+        {
+          "explosionType": 167,
+          "settings": {
+            "group": 0,
+            "recordType": 167,
+            "row": 224,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 69,
+          "damageSettings": {
+            "group": 1,
+            "row": 74,
+            "recordType": 69,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 0.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 1940
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 0
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 270
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 270
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "P-34 Breacher",
+              "role": "primary",
+              "projectileType": 270
+            }
+          ],
+          "damageConsumers": [
+            167
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "role": "primary",
+      "projectileType": 202,
+      "explosions": [
+        {
+          "explosionType": 388,
+          "settings": {
+            "group": 0,
+            "recordType": 388,
+            "row": 92,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 303,
+          "damageSettings": {
+            "group": 1,
+            "row": 294,
+            "recordType": 303,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 3.5
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 5.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 175
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 175
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 35
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 5
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 202
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "P/40-K Bolt Pistol",
+              "role": "primary",
+              "projectileType": 202
+            }
+          ],
+          "damageConsumers": [
+            388
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "role": "primary",
+      "projectileType": 142,
+      "explosions": [
+        {
+          "explosionType": 155,
+          "settings": {
+            "group": 0,
+            "recordType": 155,
+            "row": 94,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 306,
+          "damageSettings": {
+            "group": 1,
+            "row": 297,
+            "recordType": 306,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 100
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 100
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 7
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 142
+            },
+            {
+              "phase": "impact",
+              "projectileType": 143
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "PLAS-1 Scorcher",
+              "role": "primary",
+              "projectileType": 142
+            }
+          ],
+          "damageConsumers": [
+            155
+          ],
+          "shared": true,
+          "writeScope": "shared_settings",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "role": "primary",
+      "projectileType": 296,
+      "explosions": [
+        {
+          "explosionType": 191,
+          "settings": {
+            "group": 0,
+            "recordType": 191,
+            "row": 101,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 313,
+          "damageSettings": {
+            "group": 1,
+            "row": 306,
+            "recordType": 313,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.9000000953674316
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 3.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 4.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 300
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 300
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 35
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 296
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "PLAS-101 Purifier",
+              "role": "primary",
+              "projectileType": 296
+            }
+          ],
+          "damageConsumers": [
+            191
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "role": "primary",
+      "projectileType": 171,
+      "explosions": [
+        {
+          "explosionType": 355,
+          "settings": {
+            "group": 0,
+            "recordType": 355,
+            "row": 93,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 305,
+          "damageSettings": {
+            "group": 1,
+            "row": 296,
+            "recordType": 305,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 0.75
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.5
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 25
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 25
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 5
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 171
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "PLAS-15 Loyalist",
+              "role": "primary",
+              "projectileType": 171
+            }
+          ],
+          "damageConsumers": [
+            355
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "role": "primary",
+      "projectileType": 155,
+      "explosions": [
+        {
+          "explosionType": 413,
+          "settings": {
+            "group": 0,
+            "recordType": 413,
+            "row": 96,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 309,
+          "damageSettings": {
+            "group": 1,
+            "row": 300,
+            "recordType": 309,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 1.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 100
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 100
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 7
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 155
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "PLAS-39 Accelerator Rifle",
+              "role": "primary",
+              "projectileType": 155
+            }
+          ],
+          "damageConsumers": [
+            413
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "role": "primary",
+      "projectileType": 40,
+      "explosions": [
+        {
+          "explosionType": 158,
+          "settings": {
+            "group": 0,
+            "recordType": 158,
+            "row": 125,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 347,
+          "damageSettings": {
+            "group": 1,
+            "row": 337,
+            "recordType": 347,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 4.0
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 7.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 8.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 225
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 225
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 20
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 35
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 40
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 40
+            },
+            {
+              "phase": "expiry",
+              "projectileType": 40
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "R-36 Eruptor",
+              "role": "primary",
+              "projectileType": 40
+            }
+          ],
+          "damageConsumers": [
+            158
+          ],
+          "shared": false,
+          "writeScope": "projectile_terminal_actions",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 30,
+            "projectileType": 201,
+            "projectileSettings": {
+              "group": 0,
+              "recordType": 201,
+              "row": 301,
+              "settingsType": "0xBD4042C2"
+            },
+            "structurallyProven": true,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "role": "primary",
+      "projectileType": 57,
+      "explosions": [
+        {
+          "explosionType": 290,
+          "settings": {
+            "group": 0,
+            "recordType": 290,
+            "row": 102,
+            "settingsType": "0x2AEA2592"
+          },
+          "damageType": 311,
+          "damageSettings": {
+            "group": 1,
+            "row": 302,
+            "recordType": 311,
+            "settingsType": "0xE0A72CF0"
+          },
+          "fields": [
+            {
+              "id": "explosion.inner_radius",
+              "offset": 16,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 2.299999952316284
+            },
+            {
+              "id": "explosion.outer_radius",
+              "offset": 20,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 3.0
+            },
+            {
+              "id": "explosion.shockwave_radius",
+              "offset": 24,
+              "storage": "f32",
+              "type": "number",
+              "unit": "meters",
+              "value": 4.0
+            },
+            {
+              "id": "explosion.damage.standard_damage",
+              "offset": 4,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 225
+            },
+            {
+              "id": "explosion.damage.durable_damage",
+              "offset": 8,
+              "storage": "i32",
+              "type": "integer",
+              "unit": "damage",
+              "value": 225
+            },
+            {
+              "id": "explosion.damage.ap_direct",
+              "offset": 12,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_slight",
+              "offset": 16,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_large",
+              "offset": 20,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 3
+            },
+            {
+              "id": "explosion.damage.ap_extreme",
+              "offset": 24,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "armor_class",
+              "value": 0
+            },
+            {
+              "id": "explosion.damage.demolition",
+              "offset": 28,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 10
+            },
+            {
+              "id": "explosion.damage.stagger",
+              "offset": 32,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 35
+            },
+            {
+              "id": "explosion.damage.push_force",
+              "offset": 36,
+              "storage": "u32",
+              "type": "integer",
+              "unit": "force",
+              "value": 30
+            }
+          ],
+          "consumers": [
+            {
+              "phase": "impact",
+              "projectileType": 57
+            }
+          ],
+          "playerConsumers": [
+            {
+              "weapon": "SG-8P Punisher Plasma",
+              "role": "primary",
+              "projectileType": 57
+            }
+          ],
+          "damageConsumers": [
+            290,
+            377
+          ],
+          "shared": true,
+          "writeScope": "shared_settings",
+          "writable": true,
+          "writableScalarFields": 12,
+          "reason": null,
+          "shrapnel": {
+            "count": 0,
+            "projectileType": null,
+            "projectileSettings": null,
+            "structurallyProven": false,
+            "writableCount": false,
+            "writableProjectileReference": false,
+            "reason": "One correlated schema instance is insufficient to promote shrapnel writes."
+          }
+        }
+      ]
+    }
+  ]
+}

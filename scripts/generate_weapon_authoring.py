@@ -105,6 +105,9 @@ def build(catalog_path=CATALOG):
     def definition(field_id):
         base=field_id
         if base.startswith('attack.') and base.endswith('.projectile'):base='attack.projectile'
+        if base.startswith('terminal.') and base.endswith('.explosion'):base='terminal.explosion'
+        match=re.match(r'^explosion\.[^.]+\.(impact|expiry)\.(.+)$',base)
+        if match:base='explosion.'+match.group(2)
         for branch in ('.primary.','.alternate.'):
             if branch in base:base=base.replace(branch,'.')
         base=re.sub(r'\.status_\d+_type$','.status_type',base)
@@ -307,6 +310,56 @@ def build(catalog_path=CATALOG):
             field['referenceRole']=attack['role']
             field['referenceSettings']=attack['projectileSettings']
             fields.append(field)
+            explosions={item['explosionType']:item for item in attack.get('explosions',[])}
+            emitted_explosions=set()
+            for action in attack.get('terminalActions',[]):
+                if not action['referenceType']:continue
+                phase=action['phase'];terminal_id=f"terminal.{attack['role']}.{phase}.explosion"
+                terminal_backend=settings_backend('projectile',attack['projectileSettings'],
+                    action['offset'],'u32',attack['role'])
+                terminal_backend['phase']=phase
+                terminal_current={'weapon':name,'attack':attack['role'],'phase':phase,
+                    'explosionType':action['referenceType']}
+                terminal=make_field(terminal_id,terminal_current,terminal_backend,
+                    editable=unique and action['writable'],reason=blocked or action.get('reason'))
+                terminal['referenceKind']='explosion';terminal['referenceRole']=attack['role']
+                terminal['referencePhase']=phase;terminal['projectileBacking']=backing
+                terminal['projectileSettings']=attack['projectileSettings']
+                terminal['referenceSettings']=explosions[action['referenceType']]['settings']
+                resources=sorted({consumer['resourceHash'] for consumer in
+                    action.get('projectileSettingsConsumers',[])})
+                terminal['sharedWithResources']=resources
+                terminal['affectsMultipleWeapons']=len(resources)>1
+                terminal['writeScope']='shared_projectile' if len(resources)>1 else 'projectile_terminal_action'
+                fields.append(terminal)
+                explosion=explosions[action['referenceType']]
+                if action['referenceType'] in emitted_explosions:continue
+                emitted_explosions.add(action['referenceType'])
+                for explosion_field in explosion['fields']:
+                    suffix=explosion_field['id'][len('explosion.'):]
+                    field_id=f"explosion.{attack['role']}.{phase}.{suffix}"
+                    settings_kind='explosion_damage' if suffix.startswith('damage.') else 'explosion'
+                    record=explosion['damageSettings'] if settings_kind=='explosion_damage' else explosion['settings']
+                    backend=settings_backend(settings_kind,record,explosion_field['offset'],
+                        explosion_field['storage'],attack['role'])
+                    backend['phase']=phase
+                    scalar=make_field(field_id,explosion_field['value'],backend,
+                        editable=unique and explosion['writable'],reason=blocked or explosion.get('reason'))
+                    scalar['sharedWithWeapons']=sorted({consumer['weapon'] for consumer in
+                        explosion['playerConsumers'] if consumer['weapon']!=name})
+                    scalar['sharedWithResources']=sorted({str(value) for value in
+                        explosion['consumers']})
+                    scalar['affectsMultipleWeapons']=explosion['shared']
+                    scalar['writeScope']=explosion['writeScope']
+                    scalar['explosionType']=explosion['explosionType']
+                    scalar['terminalPhases']=[candidate['phase'] for candidate in
+                        attack['terminalActions'] if candidate['referenceType']==explosion['explosionType']]
+                    fields.append(scalar)
+                shrapnel=explosion['shrapnel']
+                for suffix,value in (('shrapnel_count',shrapnel['count']),
+                        ('shrapnel_projectile',shrapnel['projectileType'])):
+                    fields.append(make_field(f"explosion.{attack['role']}.{phase}.{suffix}",value,
+                        editable=False,reason=shrapnel['reason']))
         projectiles=[attack for attack in attacks if attack.get('kind')=='Projectile']
         for position,attack in enumerate(projectiles):
             role='primary' if position==0 else 'alternate'
@@ -459,6 +512,10 @@ def outputs(catalog_path=CATALOG):
             constants.setdefault(domain,{})[key]=field_id
     constants.setdefault('attack',{})['projectile']='attack.projectile'
     constants.setdefault('terminal',{})['explosion']='terminal.explosion'
+    for definition in value['fieldDefinitions']:
+        if definition['id'].startswith('explosion.'):
+            constants.setdefault('explosion',{})[
+                definition['id'][len('explosion.'):].replace('.','_')]=definition['id']
     runtime={'version':value['hd2RuntimeVersion'],'weapons':{w['name']:w for w in value['weapons']},
         'summary':value['summary'],'fields':constants,'semanticAliases':value['semanticAliases'],
         'backingCollisionAudit':value['backingCollisionAudit']}

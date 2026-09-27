@@ -38,11 +38,15 @@ def build():
                 'compatibility_class': attack['compatibilityClass'],
                 'target_backing': attack['targetBacking'],
                 'writable_reference_swap': attack['writableReferenceSwap'],
+                'explosions': attack.get('explosions', []),
                 'terminal_actions': {action['phase']: {
                     'phase': action['phase'], 'offset': action['offset'],
                     'reference_type': action['referenceType'],
                     'action_kind': action['actionKind'],
                     'linked_explosion_record': action['linkedExplosionRecord'],
+                    'reference_class': action.get('referenceClass'),
+                    'projectile_settings_consumers': action.get('projectileSettingsConsumers', []),
+                    'affects_multiple_resources': action.get('affectsMultipleResources', False),
                     'readable': action['readable'], 'writable': action['writable'],
                     'reason': action['reason']} for action in attack['terminalActions']}}
             attacks[attack['role']] = value; order.append(attack['role'])
@@ -52,11 +56,26 @@ def build():
         weapons[name] = {'attacks': attacks, 'attack_order': order,
             'fire_mode': item['fireMode'],
             'magazine': {'simple_api': item['magazine']['simpleApi'],
-                'default_option': default, 'observed_options': item['magazine']['observedOptions']}}
+                'default_option': default, 'observed_options': item['magazine']['observedOptions'],
+                'attachment_categories': item['magazine'].get('attachmentCategories', [])}}
     return {'schema_version': 1, 'runtime_version': source['hd2RuntimeVersion'],
         'summary': source['summary'],
         'fields': {'attack': {'projectile': 'attack.projectile'},
-            'terminal': {'explosion': 'terminal.explosion'}}, 'weapons': weapons}
+            'terminal': {'explosion': 'terminal.explosion'},
+            'explosion': {'inner_radius': 'explosion.inner_radius',
+                'outer_radius': 'explosion.outer_radius',
+                'shockwave_radius': 'explosion.shockwave_radius',
+                'standard_damage': 'explosion.damage.standard_damage',
+                'durable_damage': 'explosion.damage.durable_damage',
+                'ap_direct': 'explosion.damage.ap_direct',
+                'ap_slight': 'explosion.damage.ap_slight',
+                'ap_large': 'explosion.damage.ap_large',
+                'ap_extreme': 'explosion.damage.ap_extreme',
+                'demolition': 'explosion.damage.demolition',
+                'stagger': 'explosion.damage.stagger',
+                'push_force': 'explosion.damage.push_force',
+                'shrapnel_count': 'explosion.shrapnel_count',
+                'shrapnel_projectile': 'explosion.shrapnel_projectile'}}, 'weapons': weapons}
 
 
 def generate(check=False):

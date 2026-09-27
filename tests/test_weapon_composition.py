@@ -11,14 +11,15 @@ MAGAZINES = json.loads((ROOT / 'sdk/PlayerWeaponMagazineOptionGraph.json').read_
 PROJECTILES = json.loads((ROOT / 'sdk/PlayerWeaponProjectileReferenceGraph.json').read_text())
 FIRE_MODES = json.loads((ROOT / 'sdk/PlayerWeaponFireModeGraph.json').read_text())
 TERMINALS = json.loads((ROOT / 'sdk/PlayerWeaponTerminalActionGraph.json').read_text())
+EXPLOSIONS = json.loads((ROOT / 'sdk/ExplosionAuthoringCapabilities.json').read_text())
 
 
 class WeaponCompositionTests(unittest.TestCase):
     def test_generated_runtime_catalog_is_current(self):
         self.assertFalse(generate_weapon_composition.generate(check=True))
 
-    def test_four_reports_cover_all_80_and_are_read_only_research(self):
-        for report in (MAGAZINES, PROJECTILES, FIRE_MODES, TERMINALS):
+    def test_reports_cover_all_80_and_research_is_read_only(self):
+        for report in (MAGAZINES, PROJECTILES, FIRE_MODES, TERMINALS, EXPLOSIONS):
             self.assertEqual(report['catalogWeapons'], 80)
             self.assertEqual(report['safety'], {'writes': 0, 'protectionChanges': 0,
                 'fixtureFallback': 'disabled', 'snapshotOnly': True})
@@ -26,14 +27,19 @@ class WeaponCompositionTests(unittest.TestCase):
             self.assertNotIn('absoluteaddress',encoded)
             self.assertNotIn('baseaddress',encoded)
         self.assertEqual(MAGAZINES['summary']['nativeOptionIdentities'], 52)
-        self.assertEqual(MAGAZINES['summary']['defaultRelationshipsProven'], 19)
+        self.assertEqual(MAGAZINES['summary']['attachmentOptionsMapped'], 419)
+        self.assertEqual(MAGAZINES['summary']['magazineOptionsWithNativeIdentity'], 13)
         self.assertEqual(MAGAZINES['summary']['perOptionAmmoOwnersProven'], 0)
         self.assertEqual(PROJECTILES['summary']['projectileAttacks'], 67)
-        self.assertEqual(PROJECTILES['summary']['writableTargetAttacks'], 45)
+        self.assertEqual(PROJECTILES['summary']['writableTargetAttacks'], 57)
+        self.assertEqual(PROJECTILES['summary']['writableExplosiveSelectors'], 12)
         self.assertEqual(FIRE_MODES['summary']['nativePrimaryValueReadable'], 80)
         self.assertEqual(FIRE_MODES['summary']['writableWeapons'], 0)
         self.assertEqual(TERMINALS['summary']['readableActions'], 134)
-        self.assertEqual(TERMINALS['summary']['writableActions'], 0)
+        self.assertEqual(TERMINALS['summary']['writableActions'], 16)
+        self.assertEqual(EXPLOSIONS['summary']['explosionSettingsResolved'],13)
+        self.assertEqual(EXPLOSIONS['summary']['explosionScalarFieldsWritable'],144)
+        self.assertEqual(EXPLOSIONS['summary']['shrapnelGraphsResolved'],1)
 
     def test_magazine_default_is_proven_but_option_values_fail_closed(self):
         weapons={item['weapon']:item for item in MAGAZINES['weapons']}
@@ -58,7 +64,7 @@ class WeaponCompositionTests(unittest.TestCase):
             if item['weapon']=='CB-9 Exploding Crossbow')
         impact=crossbow['attacks'][0]['actions'][0]
         self.assertEqual((impact['phase'],impact['referenceType'],impact['actionKind']),('impact',59,'explosion'))
-        self.assertTrue(impact['linkedExplosionRecord']);self.assertFalse(impact['writable'])
+        self.assertTrue(impact['linkedExplosionRecord'] and impact['writable'])
 
     def test_public_composition_handles_and_reference_validation(self):
         script=modules()+r'''
@@ -80,15 +86,36 @@ local explosive=session.weapon('CB-9 Exploding Crossbow'):attack('primary'):proj
 ok=pcall(writes.validate_patch,{id='class-rejected',target=target,
  field=session.fields.attack.projectile,expect=current,value=explosive})
 assert(not ok)
+local eruptor=session.weapon('R-36 Eruptor'):attack('primary')
+local shrapnel=eruptor:projectile()
+local explosive_spec=writes.validate_patch{id='eruptor-projectile',target=eruptor,
+ field=session.fields.attack.projectile,expect=shrapnel,value=shrapnel}
+assert(explosive_spec.changes[1].descriptor.compatibilityClass=='explosive_shrapnel')
 local halt=session.weapon('SG-20 Halt'):attack('alternate')
 assert(halt.attack=='feed_alternate'and halt:projectile().attack=='feed_alternate')
 local fire=jar:fire_modes();assert(fire.nativeValue==2 and not fire.writable)
 local liberator=session.weapon('AR-23 Liberator')
 local magazine=assert(liberator:default_magazine());local described=magazine:describe()
-assert(described.optionId=='0x73CA1B5E'and not described.writable)
-local impact=session.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile()
- :terminal_action('impact'):describe()
-assert(impact.reference_type==59 and impact.action_kind=='explosion'and not impact.writable)
+assert(described.nativeOption.optionId=='0x73CA1B5E'and not described.writable)
+assert(#liberator:magazine_options()==3)
+local optics=liberator:attachment_options('Optics');assert(#optics>0)
+assert(liberator:attachment('Optics',optics[1]:describe().name):describe().category=='Optics')
+local terminal=session.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile()
+ :terminal_action('impact')
+local impact=terminal:describe();local explosion=terminal:explosion()
+assert(impact.reference_type==59 and impact.action_kind=='explosion'and impact.writable)
+assert(explosion:describe().explosionType==59 and explosion:damage()==explosion)
+assert(explosion:shrapnel().count==0)
+local radius=writes.validate_patch{id='crossbow-radius',target=explosion,
+ field=session.fields.explosion.inner_radius,expect=3,value=4}
+assert(radius.changes[1].descriptor.backing.settings=='explosion')
+local source=session.weapon('PLAS-101 Purifier'):attack('primary'):projectile()
+ :terminal_action('impact'):explosion()
+local terminal_spec=writes.validate_patch{id='crossbow-explosion',target=terminal,
+ field=session.fields.terminal.explosion,expect=explosion,value=source}
+assert(terminal_spec.changes[1].descriptor.type=='explosion_reference')
+ok=pcall(writes.validate_patch,{id='raw-explosion',target=terminal,
+ field=session.fields.terminal.explosion,expect=59,value=191});assert(not ok)
 return'ok'
 '''
         self.assertEqual(execute(script.encode()),b'ok')
@@ -178,7 +205,64 @@ return'ok'
 '''
         self.assertEqual(execute(script.encode()),b'ok')
 
-    def test_fire_modes_and_terminal_actions_remain_unwritable(self):
+    def test_explosion_scalar_and_terminal_reference_prepare_guarded_bytes(self):
+        script=modules()+r'''
+local b=require('hd2runtime/core/bytes')
+local session=require('hd2runtime/api/session').new({},function()end)
+local writes=require('hd2runtime/domains/player_weapon_writes')
+local function splice(value,offset,bytes)return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)end
+local eruptor=session.weapon('R-36 Eruptor'):attack('primary'):projectile()
+local impact=eruptor:terminal_action('impact');local explosion=impact:explosion()
+local radius=writes.validate_patch{id='radius',target=explosion,
+ field=session.fields.explosion.inner_radius,expect=4,value=5}
+local source=session.weapon('GL-15 Evictor'):attack('primary'):projectile()
+ :terminal_action('impact'):explosion()
+local reference=writes.validate_patch{id='terminal',target=impact,
+ field=session.fields.terminal.explosion,expect=explosion,value=source}
+local target_candidate={ownership={ProjectileWeaponComponentData=true}}
+local source_candidate={ownership={WeaponRoundsComponentData=true}}
+local target_component=string.rep('\0',616);target_component=splice(target_component,0,b.encode(40,'u32'))
+local source_component=string.rep('\0',136);source_component=splice(source_component,64,b.encode(297,'u32'))
+local projectile40=string.rep('\0',272);projectile40=splice(projectile40,144,b.encode(158,'u32'))
+local projectile297=string.rep('\0',272);projectile297=splice(projectile297,144,b.encode(268,'u32'))
+local explosion158=string.rep('\0',152);explosion158=splice(explosion158,16,b.encode(4,'f32'))
+local explosion268=string.rep('\0',152)
+local function settings(bytes,metadata,offset,owner)return{bytes=bytes,group=metadata.group,row=metadata.row,
+ kind=metadata.recordType,settings_type=metadata.settingsType,offset=offset,owner=owner}end
+local projectile_owner={base=0x100000,size=4096};local explosion_owner={base=0x200000,size=4096}
+local radius_descriptor=radius.changes[1].descriptor
+local ref_descriptor=reference.changes[1].descriptor
+local source_descriptor=reference.changes[1].source_descriptor
+local roots={projectile={owner=projectile_owner,records={
+ [40]=settings(projectile40,ref_descriptor.projectileSettings,64,projectile_owner),
+ [297]=settings(projectile297,source_descriptor.projectileSettings,512,projectile_owner)}},
+ explosion={owner=explosion_owner,records={
+ [158]=settings(explosion158,radius_descriptor.backing,32,explosion_owner),
+ [268]=settings(explosion268,source_descriptor.referenceSettings,512,explosion_owner)}}}
+local catalog={record=function(candidate,component)
+ if candidate==target_candidate then assert(component=='ProjectileWeaponComponentData')
+  return{bytes=target_component}
+ end
+ assert(candidate==source_candidate and component=='WeaponRoundsComponentData');return{bytes=source_component}
+end}
+local resolved={candidate=target_candidate,catalog=catalog,roots=roots,reference_sources={
+ [reference.changes[1].canonical_field]=source_candidate}}
+local radius_plan=writes.prepare(resolved,{snapshots={}},radius)
+assert(#radius_plan.changes==1 and radius_plan.changes[1].desired==b.encode(5,'f32'))
+local reference_plan=writes.prepare(resolved,{snapshots={}},reference)
+assert(#reference_plan.changes==1 and reference_plan.changes[1].desired==b.encode(268,'u32'))
+assert(#reference_plan.changes[1].chain==2)
+local shared=session.weapon('P-33 Missile Pistol'):attack('primary'):projectile()
+ :terminal_action('impact'):explosion()
+local ok=pcall(writes.validate_patch,{id='shared',target=shared,
+ field=session.fields.explosion.inner_radius,expect=2,value=3});assert(not ok)
+local allowed=writes.validate_patch{id='shared-ok',target=shared,allow_shared=true,
+ field=session.fields.explosion.inner_radius,expect=2,value=3};assert(allowed.allow_shared)
+return'ok'
+'''
+        self.assertEqual(execute(script.encode()),b'ok')
+
+    def test_fire_modes_and_null_terminal_actions_remain_unwritable(self):
         script=modules()+r'''
 local session=require('hd2runtime/api/session').new({},function()end)
 local writes=require('hd2runtime/domains/player_weapon_writes')
@@ -186,10 +270,11 @@ local jar=session.weapon('JAR-5 Dominator')
 local ok=pcall(writes.validate_patch,{id='full-auto-blocked',target=jar,
  field=session.fields.weapon.primary_fire_mode,expect=2,value=1})
 assert(not ok)
-ok=pcall(writes.validate_patch,{id='terminal-blocked',target=jar:attack('primary'),
- field=session.fields.terminal.explosion,
- expect=jar:attack('primary'):projectile():terminal_action('impact'),
- value=jar:attack('primary'):projectile():terminal_action('expiry')})
+local terminal=jar:attack('primary'):projectile():terminal_action('impact')
+local source=session.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile()
+ :terminal_action('impact'):explosion()
+ok=pcall(writes.validate_patch,{id='terminal-blocked',target=terminal,
+ field=session.fields.terminal.explosion,expect=source,value=source})
 assert(not ok)
 return'ok'
 '''

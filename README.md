@@ -1,8 +1,9 @@
 # HD2Runtime
 
-Version 0.15.0 adds the guarded typed projectile-reference API and the four
-player-weapon composition graphs. It builds on the 0.14.1 semantic alias fix and
-preserves backwards compatibility for existing mods. The complete 80-weapon
+Version 0.16.0 adds guarded same-class explosive projectile replacement,
+typed terminal `ExplosionSettings` replacement, explosion scalar authoring, and
+the normalized 419-option attachment catalog. It builds on the 0.15 projectile
+reference API and preserves backwards compatibility for existing mods. The complete 80-weapon
 primary and secondary catalog has 73 uniquely owned identities that
 expose reviewed weapon, projectile, DamageInfo, Arc, Beam, Spray, Melee, magazine,
 and rounds-feed fields through the existing `patch`, `transaction`, and `ensure`
@@ -57,7 +58,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.15.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.16.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.
