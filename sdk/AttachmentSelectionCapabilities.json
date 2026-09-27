@@ -13,9 +13,14 @@
   },
   "evidenceStates": [
     {
-      "label": "current_snapshot_unknown_preset",
+      "label": "censor_extended_equipped",
       "mode": "snapshot",
-      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap"
+    },
+    {
+      "label": "censor_short_selected",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap"
     }
   ],
   "feature": "attachment_selection_capabilities",
@@ -36,6 +41,14 @@
     "compatibilityMustBeNative": true,
     "currentSelectionMustBeVerified": true,
     "status": "read_only"
+  },
+  "controlledEvidence": {
+    "weapon": "R-72 Censor",
+    "transition": "Extended Magazine -> Short Magazine",
+    "selectedOptionIdentityObserved": false,
+    "stableWeaponLocalOwner": false,
+    "writable": false,
+    "reason": "The controlled transition changed no reviewed record and no directly referenced object."
   },
   "unboundNativeIdentityCatalog": [
     {
@@ -527,7 +540,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "AR-23 Liberator",
@@ -854,7 +867,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "AR-23A Liberator Carbine",
@@ -1164,7 +1177,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "AR-23C Liberator Concussive",
@@ -1423,7 +1436,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "AR-23P Liberator Penetrator",
@@ -3026,7 +3039,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "LAS-5 Scythe",
@@ -3227,7 +3240,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "MP-98 Knight",
@@ -4166,7 +4179,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "R-4 Hyena",
@@ -5156,7 +5169,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SG-225 Breaker",
@@ -5466,7 +5479,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SG-225IE Breaker Incendiary",
@@ -5691,7 +5704,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SG-225SP Breaker Spray&Pray",
@@ -6596,7 +6609,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SMG-203 Gallant",
@@ -7077,7 +7090,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SMG-37 Defender",
@@ -7404,7 +7417,7 @@
       "savedPresetReadable": false,
       "selectionOwner": null,
       "writable": false,
-      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state capture."
+      "reason": "The generated component definition proves this default identity, but no current/saved preset selection owner or alternate allowed-option collection is present in the available state captures."
     },
     {
       "weapon": "SMG-72 Pummeler",

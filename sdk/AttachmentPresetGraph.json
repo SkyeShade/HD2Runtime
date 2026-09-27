@@ -13,9 +13,14 @@
   },
   "evidenceStates": [
     {
-      "label": "current_snapshot_unknown_preset",
+      "label": "censor_extended_equipped",
       "mode": "snapshot",
-      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap"
+    },
+    {
+      "label": "censor_short_selected",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap"
     }
   ],
   "feature": "attachment_preset_graph",
@@ -25,7 +30,7 @@
     "knownNativeOptionCatalogIdentities": 52,
     "nativeOptionIdentitiesTiedToRows": 13,
     "nativeDefaultRelationships": 20,
-    "stateCapturesCompared": 0,
+    "stateCapturesCompared": 1,
     "selectedAttachmentOwnersProven": 0,
     "savedPresetOwnersProven": 0,
     "writablePresetFields": 0
@@ -52,6 +57,13 @@
     "selectedAttachmentOwner": null,
     "savedPresetOwner": null,
     "spawnRebuildBehavior": "unresolved; requires selected/saved/re-equipped state captures",
+    "controlledCensorMagazineComparison": {
+      "statesCompared": 1,
+      "changedReviewedRecords": 0,
+      "changedOneHopObjects": 0,
+      "selectedOptionIdentityObserved": false,
+      "result": "NO_OWNER_IN_BOUNDED_SCOPE"
+    },
     "importantDistinction": "DefaultCustomizations is static resource data and is not promoted as current selection or saved preset state."
   },
   "nativeIdentityCatalog": [

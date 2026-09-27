@@ -13,9 +13,14 @@
   },
   "evidenceStates": [
     {
-      "label": "current_snapshot_unknown_preset",
+      "label": "censor_extended_equipped",
       "mode": "snapshot",
-      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap"
+    },
+    {
+      "label": "censor_short_selected",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap"
     }
   ],
   "feature": "attachment_effect_ownership",
@@ -49,6 +54,11 @@
     "presetLocalOverrideOwner": null,
     "copiedEffectiveStateOwner": null,
     "sharedness": "unresolved",
+    "controlledCensorMagazineComparison": {
+      "changedReviewedRecords": 0,
+      "changedOneHopObjects": 0,
+      "copiedEffectiveValuesObserved": false
+    },
     "heatApplicationPath": "Direct WeaponHeat values remain proven, but no heatsink option-to-effective-value consumer edge is captured."
   },
   "options": [

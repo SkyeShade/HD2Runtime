@@ -20,6 +20,44 @@ No attachment selection or option effect is writable in this pass. Direct
 magazine, rounds-feed, heat, and heatsink fields retain their existing guarded
 APIs because their effective component owners are independently proven.
 
+## R-72 Censor controlled comparison
+
+Two same-session, same-build snapshots compared Extended Magazine with Short
+Magazine while holding the other attachment choices constant. The bounded pass
+found no changed bytes in any reviewed player-weapon record. Censor owns
+`WeaponCustomizationComponentData` record 127 (4,872 bytes),
+`WeaponMagazineComponentData` record 224 (160 bytes), and
+`WeaponDataComponentData` record 301 (1,232 bytes); all three records have the
+same complete SHA-256 in both captures. Censor has no
+`WeaponRoundsComponentData` or `WeaponHeatComponentData` record in either
+capture. The exact changed-range list is therefore empty.
+
+The native catalog identifies Extended as option `0x536662C0`, AddPath
+`0x37C2891774B38C87`, and Short as option `0x33EAAA65`, AddPath
+`0x986E6696B34B8902`. None of those four identities occurs in Censor's reviewed
+records. The controlled catalog effects are Extended: ergonomics -8, capacity
+30, four starting magazines, six maximum magazines, 2.9-second full reload and
+1.67-second partial reload; Short: ergonomics +3, capacity 20, six starting
+magazines, eight maximum magazines, 2.5-second full reload and 1.5-second partial
+reload. The catalog does not state a supply-magazine value for either choice.
+No corresponding capacity, magazine-count, reload-time, or handling delta was
+copied into the reviewed records.
+
+The fallback examined only aligned absolute pointers and entity-allocation-relative
+candidates encoded directly in those three Censor records. It excluded the known
+customization option table and rejected 32-bit option/scalar values that merely
+overlap a committed address range. No valid reference remained, so there was no
+directly referenced allocation to follow. No wider address or numeric scan was
+performed.
+
+This pair proves that current selection and applied effects are outside the
+reviewed weapon-resource records and their direct references. It does not prove
+whether another system stores a scalar option ID, an AddPath, or a coordinated
+set of values. There is therefore no stable weapon-local owner to guard with
+expect/value semantics, and neither a scalar write nor an `hd2.plan` can be
+selected safely. Magazine attachment selection remains read-only for Censor and
+cannot yet be generalized to other primary weapons.
+
 ## Targeted state comparison
 
 Create one process snapshot for each state in the same game session, then run
