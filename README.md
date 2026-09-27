@@ -1,5 +1,11 @@
 # HD2Runtime
 
+Version 0.20.1 corrects the support-authoring SDK metadata without changing runtime write
+semantics. `SupportWeaponAuthoringCapabilities.json` schema v2 publishes all 828 internal field
+instances with exact baselines, attack-qualified identities, semantic backing-object and shared
+scope keys, and transaction/plan grouping metadata. The 812-entry deduplicated weapon lookup is
+retained as a compatibility view and is no longer the canonical authoring source.
+
 Version 0.20.0 promotes guarded authoring for all 27 uniquely resolved support-weapon
 identities. The same semantic fields, exact baselines, shared-object acknowledgement,
 stable rereads, rollback, protection restoration, and composition plans used by player
@@ -85,7 +91,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.20.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.20.1.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

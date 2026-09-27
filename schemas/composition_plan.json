@@ -3,6 +3,10 @@
   "api": "hd2.plan",
   "semanticTargetModel": "Each operation owns one semantic target; a plan coordinates the complete physical write set across targets.",
   "fieldCapabilitySource": "PlayerWeaponAuthoringCapabilities.json",
+  "fieldCapabilitySources": [
+    "PlayerWeaponAuthoringCapabilities.json",
+    "SupportWeaponAuthoringCapabilities.json"
+  ],
   "identityContract": ["resource", "weapon", "attack", "phase", "semantic path"],
   "limits": {
     "phases": 8,

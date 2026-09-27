@@ -15,13 +15,23 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_generated_capability_is_current_and_sanitized(self):
         self.assertFalse(generate_support_weapon_authoring.generate(check=True))
         self.assertEqual(self.capabilities['contract'],
-            'hd2runtime.support_weapon.guarded_authoring.v1')
+            'hd2runtime.support_weapon.guarded_authoring.v2')
+        self.assertEqual(self.capabilities['schemaVersion'],2)
         self.assertEqual(self.capabilities['summary']['catalogWeapons'],35)
         self.assertEqual(self.capabilities['summary']['uniqueSupportIdentities'],27)
         self.assertEqual(self.capabilities['summary']['writableSupportWeapons'],27)
         self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],8)
         self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],16)
         self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],17)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],828)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],828)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],812)
+        self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],16)
+        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],16)
+        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],32)
+        self.assertEqual(self.capabilities['summary']['intentionallyOmittedInstances'],0)
+        self.assertEqual(self.capabilities['referenceContract']['currentReferenceFieldInstances'],0)
+        self.assertTrue(self.capabilities['referenceContract']['typedIdentityOnly'])
         required={'identityStatus','family','attackBranches','writableFieldsByDomain',
             'sharedScopes','blockedFields','backpackDependency','linkedStratagem'}
         self.assertEqual(len(self.capabilities['weapons']),35)
@@ -34,6 +44,77 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(self.capabilities['safety']['writesDuringGeneration'],0)
         self.assertEqual(self.capabilities['safety']['protectionChangesDuringGeneration'],0)
         self.assertEqual(self.capabilities['safety']['fixtureFallback'],'disabled')
+
+    def test_canonical_instances_exactly_cover_internal_descriptors(self):
+        runtime,generated=generate_support_weapon_authoring.build()
+        audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
+        self.assertEqual(audit,{'internalInstances':828,'publishedInstances':828,
+            'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
+        instances=self.capabilities['fieldInstances']
+        self.assertEqual(len(instances),828)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),828)
+        objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
+        operations={item['operationGroupingKey']:item
+            for item in self.capabilities['operationGroups']}
+        self.assertEqual(len(objects),146)
+        self.assertEqual(len(operations),155)
+        required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
+            'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
+            'readOnly','blockedReason','backing','sharedScope','operation','resolution',
+            'provenance'}
+        for instance in instances:
+            self.assertTrue(required.issubset(instance),instance['instanceKey'])
+            self.assertIn(instance['backing']['objectKey'],objects)
+            self.assertIn(instance['operation']['transactionGroupingKey'],operations)
+            self.assertEqual(instance['supportWeaponIdentity']['name'],instance['supportWeapon'])
+            self.assertEqual(instance['supportWeaponIdentity']['identityStatus'],'UNIQUE')
+            self.assertEqual(instance['value']['baseline'],instance['value']['expected'])
+            self.assertEqual(instance['operation']['phase'],1)
+            self.assertEqual(instance['target']['accessor'][0],'support_weapon')
+        self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
+            for weapon in self.capabilities['weapons']),828)
+
+    def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
+        instances=[item for item in self.capabilities['fieldInstances']
+            if item['supportWeapon']=='GR-8 Recoilless Rifle']
+        def field(field_id):
+            return next(item for item in instances if item['semanticFieldId']==field_id)
+        projectile=field('projectile.velocity');direct=field('damage.standard_damage')
+        radius=field('explosion.outer_radius');blast=field('explosion.damage.standard_damage')
+        self.assertEqual(projectile['value']['baseline'],250)
+        self.assertEqual(direct['value']['baseline'],3200)
+        self.assertEqual(radius['value']['baseline'],3)
+        self.assertEqual(blast['value']['baseline'],150)
+        self.assertEqual({item['target']['attackRole']for item in
+            (projectile,direct)}, {'primary'})
+        self.assertEqual({item['target']['attackRole']for item in
+            (radius,blast)}, {'primary_impact'})
+        self.assertEqual(len({item['backing']['objectKey']for item in
+            (projectile,direct,radius,blast)}),4)
+        self.assertEqual(len({item['operation']['planGroupingKey']for item in
+            (projectile,direct,radius,blast)}),1)
+        self.assertEqual(direct['resolution']['parentObjectKey'],
+            projectile['backing']['objectKey'])
+        self.assertEqual(blast['resolution']['parentObjectKey'],
+            radius['backing']['objectKey'])
+        self.assertEqual(direct['apiFieldConstant'],
+            'hd2.fields.damage.player_standard_damage')
+        self.assertTrue(all(item['sharedScope']['requiresAcknowledgement']
+            for item in (projectile,direct,radius,blast)))
+
+    def test_shared_scope_lists_every_reviewed_semantic_consumer(self):
+        scopes=[item for item in self.capabilities['backingObjects']
+            if item['semanticType']=='StatusEffectSettings'
+            and item['reviewedConsumerCount']==4]
+        self.assertEqual(len(scopes),1)
+        consumers={(item['weapon'],item['attackRole'])
+            for item in scopes[0]['affectedSemanticConsumers']}
+        self.assertEqual(consumers,{('B/FLAM-80 Cremator','primary_status_5'),
+            ('EAT-700 Expendable Napalm','primary_impact_status_5'),
+            ('FLAM-40 Flamethrower','primary_status_5'),
+            ('LAS-98 Laser Cannon','primary_status_5')})
+        self.assertTrue(scopes[0]['requiresSharedAcknowledgement'])
+        self.assertTrue(scopes[0]['reviewedScopeComplete'])
 
     def test_representative_capabilities_and_fail_closed_groups(self):
         by_name={weapon['name']:weapon for weapon in self.capabilities['weapons']}

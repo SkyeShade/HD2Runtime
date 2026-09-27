@@ -60,6 +60,8 @@ def outputs():
               'types':types,'builders':schema['builders'],
               'player_weapon_authoring':player_capabilities['summary'],
               'support_weapon_contract':support_authoring['contract'],
+              'support_weapon_schema_version':support_authoring['schemaVersion'],
+              'support_weapon_instance_collection':'fieldInstances',
               'support_weapon_summary':support_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,

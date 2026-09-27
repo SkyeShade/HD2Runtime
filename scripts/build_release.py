@@ -62,6 +62,12 @@ def main():
     support_capabilities=json.loads((ROOT/'sdk/SupportWeaponAuthoringCapabilities.json').read_text())
     support_validation=json.loads((ROOT/'research/support-weapon-authoring-validation-F5FEE03DCFDB.json').read_text())
     report['support_weapon_authoring']=support_capabilities['summary']
+    report['support_weapon_capability_contract']={
+        'schemaVersion':support_capabilities['schemaVersion'],
+        'contract':support_capabilities['contract'],
+        'instanceAudit':support_capabilities['instanceAudit'],
+        'backingObjects':len(support_capabilities['backingObjects']),
+        'operationGroups':len(support_capabilities['operationGroups'])}
     report['support_weapon_snapshot_validation']=support_validation
     report['support_weapon_proof_packages']=[
         'SupportAMRProof','RecoillessProof','ArcThrowerProof','C4Proof']
