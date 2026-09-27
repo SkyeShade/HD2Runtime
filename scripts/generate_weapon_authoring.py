@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
 DEFAULT_IDENTITIES=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.identity-candidates.json'
 SCHEMA=ROOT/'schemas/player_weapon_fields.json'
+VERSION_FILE=ROOT/'VERSION'
 CATALOG=ROOT/'schemas/player_weapon_authoring_catalog.json'
 AMMO_CATALOG=ROOT/'schemas/player_weapon_ammo_catalog.json'
 JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
@@ -419,7 +420,7 @@ def build(catalog_path=CATALOG):
         'semanticAliasRules':len(semantic_aliases),'semanticAliasInstances':alias_pair_instances,
         'familyCoverage':family_coverage}
     summary['ammo']=ammo_source['summary']
-    return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':'0.14.0',
+    return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':VERSION_FILE.read_text().strip(),
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             'F5FEE03DCFDB-20260926T222226Z.hd2snap','summary':summary,
         'fieldDefinitions':schema['fields'],'semanticAliases':semantic_aliases,

@@ -1,6 +1,8 @@
 # Player weapon authoring
 
-HD2Runtime 0.14.0 exposes reviewed semantic writes for the complete 80-weapon player catalog. The generated [capability catalog](../sdk/PlayerWeaponAuthoringCapabilities.json) and [ammo capability catalog](../sdk/PlayerWeaponAmmoCapabilities.json) are the canonical GUI inputs. They record current defaults, backing component or settings record, scalar storage, provenance, editability, derived fields, and shared write scope without publishing runtime addresses.
+HD2Runtime 0.14.1 exposes reviewed semantic writes for the complete 80-weapon player catalog. This
+patch release fixes duplicate ammo semantic aliases while preserving the 0.14.0 authoring API.
+The generated [capability catalog](../sdk/PlayerWeaponAuthoringCapabilities.json) and [ammo capability catalog](../sdk/PlayerWeaponAmmoCapabilities.json) are the canonical GUI inputs. They record current defaults, backing component or settings record, scalar storage, provenance, editability, derived fields, and shared write scope without publishing runtime addresses.
 
 `hd2.weapon(name)` is the identity root. `patch`, `transaction`, and `ensure` freshly resolve that identity at application time, check the game fingerprints and ownership chain, compare the declared expected value, and pass an exact-width change to the existing guarded transaction engine. A shared settings field is rejected unless the declaration includes `allow_shared=true`. A weapon with multiple indistinguishable runtime resources is rejected for ordinary writes.
 
