@@ -41,9 +41,21 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
     capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
     audit=[]
     for weapon in capabilities['weapons']:
-        fields=[{'field':f['semanticFieldId'],'expect':f['currentDefault'],'value':f['currentDefault']}
-                for f in weapon['fields'] if f['editable']]
-        audit.append({'name':weapon['name'],'blocked':weapon['ordinaryWritesBlocked'],'fields':fields})
+        batches=[]
+        for field in (f for f in weapon['fields'] if f['editable']):
+            backing=field['backing']
+            identity=(backing['kind'],backing.get('component'),backing.get('settings'),
+                backing.get('recordIndex'),backing.get('group'),backing.get('row'),
+                backing['offset'],backing['width'])
+            change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
+                'value':field['currentDefault']}
+            placed=False
+            for batch in batches:
+                if len(batch['changes'])<32 and identity not in batch['identities']:
+                    batch['changes'].append(change);batch['identities'].add(identity);placed=True;break
+            if not placed:batches.append({'changes':[change],'identities':{identity}})
+        audit.append({'name':weapon['name'],'blocked':weapon['ordinaryWritesBlocked'],
+            'batches':[batch['changes'] for batch in batches]})
     sources=module_sources()
     preload='\n'.join('package.preload['+lua(name)+']=function(...) return assert(loadstring('
         +lua(body)+','+lua(name)+'))(...) end' for name,body in sources.items())
@@ -68,9 +80,7 @@ for _,weapon in ipairs(audit)do
         assert(not ok,'duplicate identity unexpectedly writable')
     else
         result.weapons=result.weapons+1
-        for first=1,#weapon.fields,32 do
-            local changes={}
-            for index=first,math.min(first+31,#weapon.fields)do changes[#changes+1]=weapon.fields[index]end
+        for _,changes in ipairs(weapon.batches)do
             if #changes>0 then
                 local worker=coroutine.create(function()
                     local spec=domain.validate_transaction({id='snapshot-write-audit',allow_shared=true,

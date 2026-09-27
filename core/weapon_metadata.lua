@@ -31,6 +31,11 @@ function M.default_magazine_customization(customization_bytes,schema)
 end
 
 function M.capacity(records,schema)
+    local ammo=M.ammo(records,schema)
+    return ammo.capacity
+end
+
+function M.ammo(records,schema)
     records=records or{}
     local field=schema.fields.capacity
     local rounds=records.WeaponRoundsComponentData
@@ -42,26 +47,39 @@ function M.capacity(records,schema)
             values[#values+1]=item;value=value+item
         end
         assert(integral(value),'WeaponRounds summed magazine capacity is not a bounded integer')
-        return {status='RESOLVED',value=value,baseValue=value,feedValues=values,
+        local capacity={status='RESOLVED',value=value,baseValue=value,feedValues=values,
             transformation=field.rounds.transformation or'identity',
             chambered=rounds:byte(field.rounds.chambered_offset+1)~=0,
             source='WeaponRoundsComponentData.MagazineCapacity'}
+        local supply=b.u32(rounds,field.rounds.rounds_from_supply_offset)
+        return {kind='rounds',capacity=capacity,feed_capacity_1=values[1],feed_capacity_2=values[2],
+            spare_rounds=b.u32(rounds,field.rounds.spare_rounds_offset),
+            starting_rounds=b.u32(rounds,field.rounds.starting_rounds_offset),
+            rounds_from_supply=supply,rounds_from_ammo_box=math.floor(supply/2)}
     end
     local magazine=records.WeaponMagazineComponentData
-    if not magazine then return {status='UNMAPPED',reason='no reviewed magazine/feed component'}end
+    if not magazine then return {kind='none',capacity={status='UNMAPPED',reason='no reviewed magazine/feed component'}}end
     local value=b.u32(magazine,field.magazine.offset)
     assert(integral(value),'WeaponMagazine capacity outside bounded integer range')
+    local starting=b.u32(magazine,field.magazine.starting_magazines_offset)
+    local supply=b.u32(magazine,field.magazine.magazines_from_supply_offset)
+    local spare=b.u32(magazine,field.magazine.spare_magazines_offset)
     local customization=M.default_magazine_customization(
         records.WeaponCustomizationComponentData,schema)
     if customization then
-        return {status='CUSTOMIZED_UNRESOLVED',baseValue=value,
+        return {kind='magazine',capacity={status='CUSTOMIZED_UNRESOLVED',baseValue=value,
             chambered=magazine:byte(field.magazine.chambered_offset+1)~=0,
             defaultMagazineCustomization=string.format('0x%08X',customization.id),
-            reason='effective capacity is supplied by a default magazine customization AddPath'}
+            reason='effective capacity is supplied by a default magazine customization AddPath'},
+            base={capacity=value,starting_magazines=starting,magazines_from_supply=supply,
+                spare_magazines=spare,magazines_from_ammo_box=math.max(1,math.floor(supply/2))}}
     end
-    return {status='RESOLVED',value=value,baseValue=value,transformation='identity',
+    local capacity={status='RESOLVED',value=value,baseValue=value,transformation='identity',
         chambered=magazine:byte(field.magazine.chambered_offset+1)~=0,
         source='WeaponMagazineComponentData.Capacity'}
+    return {kind='magazine',capacity=capacity,capacity_value=value,
+        starting_magazines=starting,magazines_from_supply=supply,spare_magazines=spare,
+        magazines_from_ammo_box=math.max(1,math.floor(supply/2))}
 end
 
 local family_components={

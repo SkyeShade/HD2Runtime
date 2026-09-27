@@ -188,7 +188,7 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.13.0' and update==nil)
+assert(a==b and a.version=='0.14.0' and update==nil)
 return 'ok'
 ''').encode())
 

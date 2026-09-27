@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 3c6fe80ba6cdd741206520603d4fa6b38c45133acdfb6cfc94ba73b4468cd344
+-- Schema SHA256 ec6a36467cd465f348873bb5fc9e39ddee8ce1f0d347e74dd636afc6ae6d2754
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -416,6 +416,22 @@ function HD2OrbitalAbility:describe() end
 ---@field length "beam.length"
 ---@field radius "beam.radius"
 
+---@class HD2Fields_magazine
+---@field capacity "magazine.capacity"
+---@field magazines_from_ammo_box "magazine.magazines_from_ammo_box"
+---@field magazines_from_supply "magazine.magazines_from_supply"
+---@field spare_magazines "magazine.spare_magazines"
+---@field starting_magazines "magazine.starting_magazines"
+
+---@class HD2Fields_rounds
+---@field capacity "rounds.capacity"
+---@field feed_capacity_1 "rounds.feed_capacity_1"
+---@field feed_capacity_2 "rounds.feed_capacity_2"
+---@field rounds_from_ammo_box "rounds.rounds_from_ammo_box"
+---@field rounds_from_supply "rounds.rounds_from_supply"
+---@field spare_rounds "rounds.spare_rounds"
+---@field starting_rounds "rounds.starting_rounds"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -431,6 +447,8 @@ function HD2OrbitalAbility:describe() end
 ---@field orbital HD2Fields_orbital
 ---@field arc HD2Fields_arc
 ---@field beam HD2Fields_beam
+---@field magazine HD2Fields_magazine
+---@field rounds HD2Fields_rounds
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177

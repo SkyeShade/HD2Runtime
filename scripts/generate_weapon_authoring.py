@@ -11,7 +11,9 @@ DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.jso
 DEFAULT_IDENTITIES=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.identity-candidates.json'
 SCHEMA=ROOT/'schemas/player_weapon_fields.json'
 CATALOG=ROOT/'schemas/player_weapon_authoring_catalog.json'
+AMMO_CATALOG=ROOT/'schemas/player_weapon_ammo_catalog.json'
 JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
+AMMO_JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAmmoCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/player_weapon_authoring.lua'
 
 
@@ -49,6 +51,10 @@ def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIE
 
 def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
+    ammo_source=json.loads(AMMO_CATALOG.read_text())
+    ammo_by_name={item['name']:item for item in ammo_source['weapons']}
+    assert len(ammo_by_name)==80 and set(ammo_by_name)=={item['name'] for item in source['weapons']}, \
+        'ammo capability catalog must cover the same 80 player weapons'
     report={'gameFingerprints':source['gameFingerprints']};identities={};candidates=source['candidates']
     for entry in source['weapons']:
         resources=entry['resources']
@@ -187,6 +193,7 @@ def build(catalog_path=CATALOG):
                 unique and backend is not None,blocked or (None if backend else 'No reviewed direct fire-rate backing field.')))
 
         capacity=candidate.get('capacity') or {}
+        ammo=ammo_by_name[name]
         if 'WeaponRoundsComponentData' in ownership:
             feeds=capacity.get('feedValues') or []
             fields.append(make_field('weapon.capacity',resolved.get('capacity'),editable=False,
@@ -197,6 +204,22 @@ def build(catalog_path=CATALOG):
                 backend=component_backend(candidate,'WeaponRoundsComponentData',72+index*4,'f32')
                 fields.append(make_field(field_id,feeds[index] if index<len(feeds) else None,
                     backend,unique,blocked))
+            rounds_values=ammo['fields']
+            fields.append(make_field('rounds.capacity',rounds_values['capacity']['value'],editable=False,
+                reason=definitions['rounds.capacity']['reason'],derived=True))
+            for index,field_id in enumerate(('rounds.feed_capacity_1','rounds.feed_capacity_2')):
+                backend=component_backend(candidate,'WeaponRoundsComponentData',72+index*4,'f32')
+                fields.append(make_field(field_id,rounds_values['feedCapacity'+str(index+1)]['value'],
+                    backend,unique,blocked))
+            for field_id,key,offset in (
+                    ('rounds.spare_rounds','spareRounds',80),
+                    ('rounds.rounds_from_supply','roundsFromSupply',84),
+                    ('rounds.starting_rounds','startingRounds',88)):
+                backend=component_backend(candidate,'WeaponRoundsComponentData',offset,'u32')
+                fields.append(make_field(field_id,rounds_values[key]['value'],backend,unique,blocked))
+            fields.append(make_field('rounds.rounds_from_ammo_box',
+                rounds_values['roundsFromAmmoBox']['value'],editable=False,
+                reason=definitions['rounds.rounds_from_ammo_box']['reason'],derived=True))
         elif 'WeaponMagazineComponentData' in ownership:
             magazine_backend=component_backend(candidate,'WeaponMagazineComponentData',136,'u32')
             if capacity.get('status')=='RESOLVED':
@@ -206,6 +229,24 @@ def build(catalog_path=CATALOG):
                     reason=blocked or capacity.get('reason') or 'Effective capacity is unresolved.'))
             fields.append(make_field('weapon.base_capacity',capacity.get('baseValue'),magazine_backend,
                 editable=False,reason=definitions['weapon.base_capacity']['reason']))
+            custom='defaultMagazineOption'in ammo
+            magazine_values=ammo['fields']
+            for field_id,key,offset in (
+                    ('magazine.capacity','capacity',136),
+                    ('magazine.starting_magazines','startingMagazines',140),
+                    ('magazine.magazines_from_supply','magazinesFromSupply',144),
+                    ('magazine.spare_magazines','spareMagazines',148)):
+                value=magazine_values.get(key,{}).get('value')
+                if custom:
+                    fields.append(make_field(field_id,value,editable=False,
+                        reason='Default customization option owns the effective value; its override record is not approved for writes.'))
+                else:
+                    fields.append(make_field(field_id,value,
+                        component_backend(candidate,'WeaponMagazineComponentData',offset,'u32'),
+                        unique,blocked))
+            ammo_box=magazine_values.get('magazinesFromAmmoBox',{}).get('value')
+            fields.append(make_field('magazine.magazines_from_ammo_box',ammo_box,editable=False,
+                reason=definitions['magazine.magazines_from_ammo_box']['reason'],derived=True))
 
         attacks=candidate.get('attacks') or []
         projectiles=[attack for attack in attacks if attack.get('kind')=='Projectile']
@@ -307,7 +348,8 @@ def build(catalog_path=CATALOG):
         'weaponsRestrictedToWeaponLevelWrites':sum(any(f['editable']for f in w['fields'])and not any(
             f['editable']and not f['semanticFieldId'].startswith('weapon.')for f in w['fields'])for w in weapons),
         'familyCoverage':family_coverage}
-    return {'schemaVersion':1,'hd2RuntimeVersion':'0.13.0',
+    summary['ammo']=ammo_source['summary']
+    return {'schemaVersion':1,'hd2RuntimeVersion':'0.14.0',
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             'F5FEE03DCFDB-20260926T222226Z.hd2snap','summary':summary,
         'fieldDefinitions':schema['fields'],'weapons':weapons,
@@ -317,6 +359,7 @@ def build(catalog_path=CATALOG):
 
 def outputs(catalog_path=CATALOG):
     value=build(catalog_path)
+    ammo_source=json.loads(AMMO_CATALOG.read_text())
     constants={}
     for weapon in value['weapons']:
         for field in weapon['fields']:
@@ -325,7 +368,17 @@ def outputs(catalog_path=CATALOG):
             constants.setdefault(domain,{})[key]=field_id
     runtime={'version':value['hd2RuntimeVersion'],'weapons':{w['name']:w for w in value['weapons']},
         'summary':value['summary'],'fields':constants}
+    ammo={'schemaVersion':1,'hd2RuntimeVersion':value['hd2RuntimeVersion'],
+        'buildFingerprints':value['buildFingerprints'],'sourceSnapshot':value['sourceSnapshot'],
+        'summary':value['summary']['ammo'],'fieldLayout':ammo_source['fieldLayout'],
+        'ownershipFindings':ammo_source['ownershipFindings'],
+        'evidenceCounts':ammo_source['evidenceCounts'],
+        'nativeMagazineOptions':ammo_source['nativeMagazineOptions'],
+        'discrepancies':ammo_source['discrepancies'],
+        'weapons':ammo_source['weapons'],
+        'safety':value['safety']}
     return {JSON_OUTPUT:json.dumps(value,indent=2)+'\n',
+        AMMO_JSON_OUTPUT:json.dumps(ammo,indent=2)+'\n',
         LUA_OUTPUT:'-- Generated from schemas/player_weapon_fields.json and reviewed snapshot output; do not edit.\nreturn '+lua(runtime)+'\n'}
 
 

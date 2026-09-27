@@ -200,7 +200,8 @@ function M.start(runtime,emit,request)
             end
             if next(capacity_records)then
                 attempt('weapon capacity',function()
-                    output.capacity=weapon_metadata.capacity(capacity_records,mapper_schema)
+                    output.ammo=weapon_metadata.ammo(capacity_records,mapper_schema)
+                    output.capacity=output.ammo.capacity
                     if output.capacity.baseValue~=nil then
                         field(output,'base_capacity',output.capacity.baseValue,
                             mapper_schema.fields.capacity.evidence)
@@ -209,7 +210,10 @@ function M.start(runtime,emit,request)
                         field(output,'capacity',output.capacity.value,mapper_schema.fields.capacity.evidence)
                     end
                 end)
-            else output.capacity={status='UNMAPPED',reason='no reviewed magazine/feed component'}end
+            else
+                output.ammo={kind='none',capacity={status='UNMAPPED',reason='no reviewed magazine/feed component'}}
+                output.capacity=output.ammo.capacity
+            end
             local projectile_owner=candidate.ownership.ProjectileWeaponComponentData
             if projectile_owner then
                 attempt('ProjectileWeaponComponentData',function()
