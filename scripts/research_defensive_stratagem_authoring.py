@@ -13,6 +13,7 @@ WIKI = ROOT.parent / 'HD2WikiImporter/output/wiki_non_offensive_stratagems.json'
 NAMED_REFERENCE = ROOT.parent / 'StrongerOrbitalLaser/local_research/external_audit/generated_stratagem_settings.json'
 FILEDIVER = ROOT.parent / 'StrongerOrbitalLaser/local_research/dependencies/filediver-reference'
 OUTPUT = ROOT / 'build/non-offensive-stratagem-research.json'
+RETAINED_OUTPUT = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
 
 DEBUG_NAMES = {
     'A/MG-43 Machine Gun Sentry': 'SENTRYS. MACHINEGUN',
@@ -77,6 +78,26 @@ def component_value(component, offset):
         if item['offset'] == offset and item['value']:
             return item['value'][0]
     raise ValueError(f"missing component scalar at offset {offset}")
+
+
+def component_ownership(entities: bytes, probe, component: dict) -> dict:
+    """Retain exact record ownership without relying on the target entity alone."""
+    _, body, _, _, _ = probe.find_component(entities, component['name'])
+    capacity = component['index_capacity']
+    record_index = component['record_index']
+    owners = []
+    for row in range(capacity):
+        resource, index, _ = struct.unpack_from('<QII', body, row * 16)
+        if resource and index == record_index:
+            owners.append(f'0x{resource:016X}')
+    if not owners:
+        raise ValueError(f"{component['name']} record {record_index} has no owners")
+    return {
+        'ownerCount': len(owners),
+        'ownerResources': sorted(owners),
+        'uniqueOwner': len(owners) == 1,
+        'recordSha256': component.get('record_sha256'),
+    }
 
 
 def native_graph(settings, components, source):
@@ -242,6 +263,7 @@ def build() -> dict:
                     'name', 'record_type', 'record_index', 'index_row', 'instance_offset',
                     'instance_size', 'record_size', 'record_offset_in_instance',
                     'index_capacity')}
+                item.update(component_ownership(entities, probe, component))
                 item['typedReferences'] = source.typed_references(component, type_hashes)
                 if component['name'] in {
                     'HealthComponentData', 'WeaponDataComponentData',
@@ -259,6 +281,17 @@ def build() -> dict:
             })
         graph = imported['graph']['nodes']
         entity_components = payload_reports[0]['components']
+        imported_entity = next(node for node in graph if node['id'] == 'entity.main')
+        imported_health = imported_entity['entity']['mainHealth']['value']
+        imported_armor = imported_entity['entity']['mainArmor']['value']
+        health_component = next((component for component in entity_components
+            if component['name'] == 'HealthComponentData'), None)
+        if not health_component:
+            raise ValueError(f"missing deployed health owner: {imported['name']}")
+        native_health = component_value(health_component, 0)
+        native_armor = component_value(health_component, 280)
+        if native_health != imported_health or native_armor != imported_armor:
+            raise ValueError(f"deployed health/armor correlation changed: {imported['name']}")
         entries.append({
             'name': imported['name'],
             'family': imported['normalizedFamily'],
@@ -275,6 +308,14 @@ def build() -> dict:
                     imported['normalizedFamily']),
                 'componentNames': [component['name'] for component in entity_components],
                 'nativeGraph': native_graph(settings, entity_components, source),
+                'healthArmorProof': {
+                    'nativeHealth': native_health,
+                    'nativeArmor': native_armor,
+                    'importedHealth': imported_health,
+                    'importedArmor': imported_armor,
+                    'exactCorrelation': True,
+                    'layoutAnchor': 'HealthComponentData reviewed main health/default armor layout',
+                },
             },
             'importedBranches': [{key: node.get(key) for key in
                 ('id', 'name', 'kind', 'parentId', 'childIds', 'sourcePath',
@@ -294,7 +335,11 @@ def build() -> dict:
 
 def main() -> None:
     report = build()
-    OUTPUT.write_text(json.dumps(report, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    body = json.dumps(report, indent=2, allow_nan=False) + '\n'
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    RETAINED_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT.write_text(body, encoding='utf-8')
+    RETAINED_OUTPUT.write_text(body, encoding='utf-8')
     print(json.dumps({'stratagems': len(report['stratagems']), 'writes': 0,
         'protectionChanges': 0, 'fixtureFallback': 'disabled'}, indent=2))
 

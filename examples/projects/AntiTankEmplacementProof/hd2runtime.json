@@ -1,0 +1,1 @@
+{"format":1,"name":"AntiTankEmplacementProof","resource":"mods/hd2runtime_examples/anti_tank_emplacement_proof","guid":"1c806b69-511f-5cf4-8f26-7592c80370cb","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.22.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

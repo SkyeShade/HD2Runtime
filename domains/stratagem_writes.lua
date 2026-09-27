@@ -253,6 +253,10 @@ local function selected_record(resolved,change,spec)
         assert(component.identity.recordIndex==backing.recordIndex
             and component.identity.indexRow==backing.indexRow,
             'deployed component ownership changed')
+        assert(backing.ownerCount==nil or component.identity.ownerCount==backing.ownerCount,
+            'deployed component consumer scope changed')
+        assert(backing.uniqueOwner==nil or component.identity.uniqueOwner==backing.uniqueOwner,
+            'deployed component uniqueness changed')
         return component
     end
     if backing.kind=='OrbitalAbilityComponentData'then return resolved.component end
@@ -292,8 +296,10 @@ function M.prepare(resolved,reader,spec)
                 expected=change.expected,desired=change.desired,before=current,
                 already_desired=current==change.desired,expect=change.expect,value=change.value,
                 identity={component=backing.kind,component_type='semantic',record_index=backing.row,
-                    unique_owner=not change.descriptor.shared,
-                    owner_count=#change.descriptor.sharedConsumers,scope=change.descriptor.operationGroup},
+                    unique_owner=backing.uniqueOwner~=nil and backing.uniqueOwner
+                        or not change.descriptor.shared,
+                    owner_count=backing.ownerCount or#change.descriptor.sharedConsumers,
+                    scope=change.descriptor.sharedScopeKey},
                 chain={}}
             physical[key]=item;plan.changes[#plan.changes+1]=item
         end
