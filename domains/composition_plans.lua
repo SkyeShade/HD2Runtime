@@ -2,6 +2,7 @@
 -- semantic identities and dependencies; core/guarded_transaction still owns every
 -- byte, protection, verification, and rollback decision.
 local writes=require('hd2runtime/domains/player_weapon_writes')
+local stratagem_writes=require('hd2runtime/domains/stratagem_writes')
 local M={}
 
 local function valid_id(value,label)
@@ -29,6 +30,7 @@ local function target_from(dependency,path)
 end
 local function backing_scope(change)
     local backing=assert(change.descriptor.backing,'composition field backing missing')
+    if change.descriptor.operationGroup then return change.descriptor.operationGroup end
     if backing.kind=='settings'then
         return 'settings:'..assert(backing.settings,'composition settings owner missing')
     end
@@ -60,9 +62,10 @@ local function validate_operation(plan,phase_index,index,item,known)
     local spec
     if item.field~=nil then
         request.field=item.field;request.expect=item.expect;request.value=item.value
-        spec=writes.validate_patch(request)
+        spec=(target.resource=='stratagem'and stratagem_writes or writes).validate_patch(request)
     else
-        request.changes=item.changes;spec=writes.validate_transaction(request)
+        request.changes=item.changes
+        spec=(target.resource=='stratagem'and stratagem_writes or writes).validate_transaction(request)
     end
     local scope=backing_scope(spec.changes[1])
     for change_index=2,#spec.changes do
@@ -125,7 +128,8 @@ function M.prepare_phase(resolved,reader,phase)
         phase_id=phase.id,operation_fields={}}
     local physical={}
     for spec_index,spec in ipairs(phase.capture_specs)do
-        local prepared=writes.prepare(resolved[spec_index],reader,spec)
+        local prepared=(spec.kind=='stratagem'and stratagem_writes or writes)
+            .prepare(resolved[spec_index],reader,spec)
         local operation_id=assert(phase.capture_operation_ids[spec_index])
         plan.operation_fields[operation_id]={}
         for _,change in ipairs(prepared.changes)do

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "fields": [
+    {"id":"stratagem.cooldown","display_name":"Cooldown","type":"number","unit":"seconds","writable":true,"storage":"f32"},
+    {"id":"stratagem.max_uses","display_name":"Maximum mission uses","type":"integer","unit":"uses","writable":false,"reason":"The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven."},
+    {"id":"eagle.uses_per_rearm","display_name":"Uses before rearm","type":"integer","unit":"uses","writable":true,"storage":"u32"},
+    {"id":"eagle.rearm_time","display_name":"Eagle rearm time","type":"number","unit":"seconds","writable":true,"storage":"f32"},
+    {"id":"orbital.duration","display_name":"Orbital attack duration","type":"number","unit":"seconds","writable":true,"storage":"f32"},
+    {"id":"orbital.movement_speed","display_name":"Orbital tracking speed","type":"number","unit":"meters_per_second","writable":true,"storage":"f32"},
+    {"id":"orbital.search_radius","display_name":"Orbital search radius","type":"number","unit":"meters","writable":true,"storage":"f32"},
+    {"id":"orbital.tick_interval","display_name":"Orbital damage tick interval","type":"number","unit":"seconds","writable":true,"storage":"f32"}
+  ]
+}

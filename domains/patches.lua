@@ -9,6 +9,10 @@ function M.validate(request)
         and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
         return require('hd2runtime/domains/player_weapon_writes').validate_patch(request)
     end
+    if type(request)=='table'and type(request.target)=='table'
+        and request.target.resource=='stratagem'then
+        return require('hd2runtime/domains/stratagem_writes').validate_patch(request)
+    end
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end

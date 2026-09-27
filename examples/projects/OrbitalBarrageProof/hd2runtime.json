@@ -1,0 +1,1 @@
+{"format":1,"name":"OrbitalBarrageProof","resource":"mods/hd2runtime_examples/orbital_barrage_proof","guid":"b40ab54b-5045-5817-bdd4-ca26a21473a8","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.21.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

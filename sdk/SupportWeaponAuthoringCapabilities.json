@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "contract": "hd2runtime.support_weapon.guarded_authoring.v2",
-  "hd2RuntimeVersion": "0.20.1",
+  "hd2RuntimeVersion": "0.21.0",
   "summary": {
     "catalogWeapons": 35,
     "uniqueSupportIdentities": 27,

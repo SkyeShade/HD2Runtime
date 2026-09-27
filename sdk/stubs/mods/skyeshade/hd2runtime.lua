@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 14b649ee49736269730a9d4e23ab5405d7b175e41e4a49dd7f2cf2ff24db1b77
+-- Schema SHA256 b804131072d3b5fd18e834b271291aa4f86a20222b48b15bd1b2c691bef5b050
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -348,7 +348,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -430,6 +430,39 @@ function HD2SupportWeapon:projectile(identity) end
 ---@param identity integer|HD2SupportAttackName
 ---@return HD2SupportExplosion
 function HD2SupportWeapon:explosion(identity) end
+---@alias HD2StratagemAuthoringName "40-K Meltagun"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"
+---@alias HD2StratagemAttackRole "beam"|"beam_damage"|"delivery_1_projectile"|"delivery_1_projectile_damage"|"delivery_1_projectile_expiry"|"delivery_1_projectile_expiry_damage"|"delivery_1_projectile_expiry_shrapnel"|"delivery_1_projectile_expiry_shrapnel_damage"|"delivery_1_projectile_expiry_shrapnel_impact"|"delivery_1_projectile_expiry_shrapnel_impact_damage"|"delivery_1_projectile_impact"|"delivery_1_projectile_impact_damage"|"delivery_1_projectile_impact_damage_status_1"|"delivery_1_projectile_impact_damage_status_2"|"delivery_1_projectile_impact_shrapnel"|"delivery_1_projectile_impact_shrapnel_damage"|"delivery_1_projectile_impact_shrapnel_impact"|"delivery_1_projectile_impact_shrapnel_impact_damage"|"delivery_2_projectile"|"delivery_2_projectile_damage"|"delivery_2_projectile_impact"|"delivery_2_projectile_impact_damage"|"delivery_2_projectile_impact_damage_status_1"|"delivery_2_projectile_impact_damage_status_2"|"delivery_3_projectile"|"delivery_3_projectile_damage"|"delivery_3_projectile_impact"|"delivery_3_projectile_impact_damage"|"delivery_3_projectile_impact_damage_status_1"|"delivery_3_projectile_impact_damage_status_2"|"delivery_4_projectile"|"delivery_4_projectile_damage"
+
+---@class HD2StratagemAttack
+---@field resource "stratagem"
+---@field path "attack"
+---@field stratagem HD2StratagemAuthoringName
+---@field attack HD2StratagemAttackRole
+local HD2StratagemAttack = {}
+---@return table
+function HD2StratagemAttack:describe() end
+---@return HD2StratagemAttack
+function HD2StratagemAttack:projectile() end
+---@return HD2StratagemAttack
+function HD2StratagemAttack:explosion() end
+---@return HD2StratagemAttack
+function HD2StratagemAttack:damage() end
+---@return HD2StratagemAttack
+function HD2StratagemAttack:status() end
+---@class HD2EagleRearm
+---@field resource "stratagem"
+---@field path "eagle_rearm"
+---@field stratagem HD2StratagemAuthoringName
+local HD2EagleRearm = {}
+---@return table
+function HD2EagleRearm:describe() end
+---@param role HD2StratagemAttackRole
+---@return HD2StratagemAttack
+function HD2Stratagem:attack(role) end
+---@return HD2StratagemAttack[]
+function HD2Stratagem:attacks() end
+---@return HD2EagleRearm
+function HD2Stratagem:eagle_rearm() end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
@@ -573,6 +606,8 @@ function HD2SupportWeapon:explosion(identity) end
 
 ---@class HD2Fields_stratagem
 ---@field cooldown "cooldown" Shield Relay: reviewed writable, number
+---@field definition_cooldown "stratagem.cooldown"
+---@field max_uses "stratagem.max_uses"
 
 ---@class HD2Fields_shield
 ---@field durability "durability" Shield Relay: reviewed writable, number
@@ -593,6 +628,10 @@ function HD2SupportWeapon:explosion(identity) end
 
 ---@class HD2Fields_orbital
 ---@field interval "interval" Orbital Laser: read-only, number
+---@field duration "orbital.duration"
+---@field movement_speed "orbital.movement_speed"
+---@field search_radius "orbital.search_radius"
+---@field tick_interval "orbital.tick_interval"
 
 ---@class HD2Fields_arc
 ---@field chain_count "arc.chain_count"
@@ -696,6 +735,10 @@ function HD2SupportWeapon:explosion(identity) end
 ---@field primary_expiry_explosion "terminal.primary.expiry.explosion"
 ---@field primary_impact_explosion "terminal.primary.impact.explosion"
 
+---@class HD2Fields_eagle
+---@field uses_per_rearm "eagle.uses_per_rearm"
+---@field rearm_time "eagle.rearm_time"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -720,6 +763,7 @@ function HD2SupportWeapon:explosion(identity) end
 ---@field rounds HD2Fields_rounds
 ---@field status HD2Fields_status
 ---@field terminal HD2Fields_terminal
+---@field eagle HD2Fields_eagle
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177
@@ -765,7 +809,7 @@ function hd2.weapon(name) end
 ---@param name HD2VehicleName
 ---@return HD2Vehicle
 function hd2.vehicle(name) end
----@alias HD2StratagemName "Orbital Laser"|"Shield Relay"|"orbital_laser"|"shield_relay"
+---@alias HD2StratagemName "40-K Meltagun"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"Shield Relay"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"|"orbital_laser"|"shield_relay"
 ---@param name HD2StratagemName
 ---@return HD2Stratagem
 function hd2.stratagem(name) end

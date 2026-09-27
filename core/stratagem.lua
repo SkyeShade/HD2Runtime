@@ -58,7 +58,13 @@ function M.parse_all(bytes,base,pointers,s)
             else assert(b.pointer(bytes,ro+152)==0,'empty payload pointer changed')end
             records[#records+1]={record_kind=kind,id=b.u32(bytes,ro+4),group=group,row=row,
                 package=b.resource(bytes,ro+168),payload_count=payload_count,payloads=payloads,
-                payload_pointer=payload_representation,row_pointer=row_representation,offset=ro}
+                payload_pointer=payload_representation,row_pointer=row_representation,offset=ro,
+                use_count=b.u32(bytes,ro+80),spawn_time=b.value(bytes,ro+84,'f32'),
+                spawn_radius=b.value(bytes,ro+88,'f32'),beacon_linger_time=b.value(bytes,ro+96,'f32'),
+                extra_travel_time=b.value(bytes,ro+100,'f32'),cooldown=b.value(bytes,ro+104,'f32'),
+                cooldown_failed=b.value(bytes,ro+108,'f32'),cooldown_type=b.u32(bytes,ro+148),
+                max_in_loadout=b.u32(bytes,ro+204),
+                has_shared_uses_pool=bytes:byte(ro+209)%2==1}
         end
         at=finish
     end
@@ -182,6 +188,6 @@ function M.capture_all(runtime,reader,profile)
     local bytes=reader.read(region,0,s.size,true)
     local pointers=reader.read(image,s.table_rva,s.entries*8,true)
     reader.stage='core/stratagem:grouped_records'
-    return M.parse_all(bytes,base,pointers,s)
+    return M.parse_all(bytes,base,pointers,s),region
 end
 return M

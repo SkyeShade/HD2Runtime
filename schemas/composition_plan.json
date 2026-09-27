@@ -5,9 +5,10 @@
   "fieldCapabilitySource": "PlayerWeaponAuthoringCapabilities.json",
   "fieldCapabilitySources": [
     "PlayerWeaponAuthoringCapabilities.json",
-    "SupportWeaponAuthoringCapabilities.json"
+    "SupportWeaponAuthoringCapabilities.json",
+    "StratagemAuthoringCapabilities.json"
   ],
-  "identityContract": ["resource", "weapon", "attack", "phase", "semantic path"],
+  "identityContract": ["resource", "weapon or stratagem", "attack", "phase", "semantic path"],
   "limits": {
     "phases": 8,
     "operations": 64,

@@ -257,6 +257,82 @@ function M.new(describe)
         function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
         return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end
+    local legacy_stratagem=builders.stratagem
+    local stratagem_authoring=require('hd2runtime/domains/stratagem_authoring')
+    local function public_field(field)
+        return {instanceKey=field.instanceKey,semanticFieldId=field.semanticFieldId,
+            displayName=field.displayName,type=field.type,unit=field.unit,
+            currentDefault=copy(field.currentDefault),editable=field.editable,
+            reason=field.reason,backingObjectId=field.backingObjectId,
+            operationGroup=field.operationGroup,planGroup=field.planGroup,
+            requires=field.requires,allowSharedRequired=field.allowSharedRequired,
+            shared=field.shared,sharedConsumers=copy(field.sharedConsumers),
+            provenance=field.provenance}
+    end
+    local function stratagem_attack(name,role)
+        local entry=assert(stratagem_authoring.stratagems[name])
+        local attack=assert(entry.attacks[role],'unknown reviewed stratagem attack: '..tostring(role))
+        local methods={}
+        function methods.describe()
+            local result=copy(attack);result.fieldInstances={}
+            for _,field in ipairs(entry.fields)do if field.target.attack==role then
+                result.fieldInstances[#result.fieldInstances+1]=public_field(field)end end
+            return result
+        end
+        function methods.projectile(self)
+            assert(attack.kind=='ProjectileSettings','attack is not a projectile settings object');return self
+        end
+        function methods.explosion(self)
+            assert(attack.kind=='ExplosionSettings','attack is not an explosion settings object');return self
+        end
+        function methods.damage(self)
+            assert(attack.kind=='DamageInfo','attack is not a DamageInfo object');return self
+        end
+        function methods.status(self)
+            assert(attack.kind=='StatusEffectSettings','attack is not a status settings object');return self
+        end
+        return setmetatable({resource='stratagem',stratagem=name,path='attack',attack=role},
+            {__index=methods})
+    end
+    function builders.stratagem(name)
+        local entry=stratagem_authoring.stratagems[name]
+        if not entry then return legacy_stratagem(name)end
+        local methods={}
+        local legacy_ok,legacy=pcall(legacy_stratagem,name)
+        if legacy_ok then for method in pairs(metadata.types.stratagem.methods)do
+            if legacy[method]then methods[method]=function()return legacy[method](legacy)end end
+        end
+            if legacy.read_target then methods.read_target=function()return legacy:read_target()end end
+        end
+        function methods.describe()
+            local result={name=entry.name,family=entry.family,rootResolution=entry.rootResolution,
+                fields={},attackRoles={}}
+            for _,field in ipairs(entry.fields)do if field.target.path=='stratagem'then
+                result.fields[#result.fields+1]=public_field(field)end end
+            for role in pairs(entry.attacks)do result.attackRoles[#result.attackRoles+1]=role end
+            table.sort(result.attackRoles);return result
+        end
+        function methods.attacks()
+            local roles={};for role in pairs(entry.attacks)do roles[#roles+1]=role end;table.sort(roles)
+            local result={};for index,role in ipairs(roles)do result[index]=stratagem_attack(name,role)end
+            return result
+        end
+        function methods.attack(_,role)return stratagem_attack(name,role)end
+        function methods.eagle_rearm()
+            assert(entry.family=='eagle','stratagem has no Eagle rearm definition')
+            local rearm_methods={}
+            function rearm_methods.describe()
+                local result={name=name,path='eagle_rearm',fields={}}
+                for _,field in ipairs(entry.fields)do if field.target.path=='eagle_rearm'then
+                    result.fields[#result.fields+1]=public_field(field)end end
+                return result
+            end
+            return setmetatable({resource='stratagem',stratagem=name,path='eagle_rearm'},
+                {__index=rearm_methods})
+        end
+        return setmetatable({resource='stratagem',stratagem=name,path='stratagem'},
+            {__index=methods})
+    end
     return builders
 end
 return M
