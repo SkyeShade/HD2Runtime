@@ -1,0 +1,1 @@
+{"format":1,"name":"OrbitalPrecisionProof","resource":"mods/hd2runtime_examples/orbital_precision_proof","guid":"a6154833-7928-56f1-8e26-300809899a04","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.21.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

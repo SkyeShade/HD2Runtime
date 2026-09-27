@@ -1,5 +1,14 @@
 # HD2Runtime
 
+Version 0.21.0 adds guarded `hd2.stratagem(name)` authoring for all 20 imported offensive
+stratagems and cooldown authoring for 33 uniquely resolved support-weapon call-ins. It keeps
+Orbital, Eagle, and support call-in definitions separate from their projectile, DamageInfo,
+explosion, status, and beam payload objects. Eagle uses before rearm and the shared 150-second
+rearm definition have separate semantic fields. The canonical per-instance catalog contains
+exact baselines and opaque backing-object, shared-scope, transaction, and plan identities.
+Finite maximum uses and barrage scheduling remain read-only because their mutation semantics
+are not yet gameplay-proven. See [stratagem authoring](docs/stratagem-authoring.md).
+
 Version 0.20.1 corrects the support-authoring SDK metadata without changing runtime write
 semantics. `SupportWeaponAuthoringCapabilities.json` schema v2 publishes all 828 internal field
 instances with exact baselines, attack-qualified identities, semantic backing-object and shared
@@ -91,7 +100,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.20.1.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.21.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

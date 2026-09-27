@@ -28,6 +28,8 @@ def outputs():
     composition=json.loads((ROOT/'schemas/player_weapon_composition_catalog.json').read_text())
     support=json.loads((ROOT/'sdk/SupportWeaponCapabilities.json').read_text())
     support_authoring=json.loads((ROOT/'sdk/SupportWeaponAuthoringCapabilities.json').read_text())
+    stratagem_authoring=json.loads((ROOT/'sdk/StratagemAuthoringCapabilities.json').read_text())
+    stratagem_fields=json.loads((ROOT/'schemas/stratagem_fields.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
@@ -55,6 +57,12 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='player_'+constant
         fields[domain][constant]=field_id
+    for definition in stratagem_fields['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        constant=ident(name)
+        if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
+            constant='definition_'+constant
+        fields[domain][constant]=field_id
     header='-- Generated from schemas/sdk.json; do not edit. SHA256 '+digest+'\n'
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
@@ -63,6 +71,8 @@ def outputs():
               'support_weapon_schema_version':support_authoring['schemaVersion'],
               'support_weapon_instance_collection':'fieldInstances',
               'support_weapon_summary':support_authoring['summary'],
+              'stratagem_authoring_contract':stratagem_authoring['contract'],
+              'stratagem_authoring_summary':stratagem_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
@@ -128,7 +138,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end','---@return HD2PlayerAttack[]',
         'function HD2Weapon:attacks() end','---@return table',
@@ -173,6 +183,25 @@ def outputs():
         'function HD2SupportWeapon:projectile(identity) end',
         '---@param identity integer|HD2SupportAttackName','---@return HD2SupportExplosion',
         'function HD2SupportWeapon:explosion(identity) end']
+    stratagem_names=[item['name'] for item in stratagem_authoring['stratagems']]
+    stratagem_roles=[item['role'] for item in stratagem_authoring['attacks']]
+    alias('HD2StratagemAuthoringName',stratagem_names)
+    alias('HD2StratagemAttackRole',stratagem_roles)
+    stub+=['','---@class HD2StratagemAttack','---@field resource "stratagem"',
+        '---@field path "attack"','---@field stratagem HD2StratagemAuthoringName',
+        '---@field attack HD2StratagemAttackRole','local HD2StratagemAttack = {}',
+        '---@return table','function HD2StratagemAttack:describe() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:projectile() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:explosion() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:damage() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:status() end',
+        '---@class HD2EagleRearm','---@field resource "stratagem"',
+        '---@field path "eagle_rearm"','---@field stratagem HD2StratagemAuthoringName',
+        'local HD2EagleRearm = {}','---@return table','function HD2EagleRearm:describe() end',
+        '---@param role HD2StratagemAttackRole','---@return HD2StratagemAttack',
+        'function HD2Stratagem:attack(role) end','---@return HD2StratagemAttack[]',
+        'function HD2Stratagem:attacks() end','---@return HD2EagleRearm',
+        'function HD2Stratagem:eagle_rearm() end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():
@@ -196,6 +225,7 @@ def outputs():
     for method,domain in schema['builders'].items():
         names=[n for r in resources.values() if r['kind']==domain for n in r['aliases']]
         if domain=='weapon':names+= [w['name'] for w in player_capabilities['weapons']]
+        if domain=='stratagem':names+=stratagem_names
         alias('HD2'+method.title()+'Name',names)
         stub+=['---@param name HD2'+method.title()+'Name','---@return '+types[domain]['class'],
                'function hd2.'+method+'(name) end']
@@ -241,6 +271,7 @@ def outputs():
             'sdk/docs/composition-plans.md':(ROOT/'docs/composition-plans.md').read_text(),
             'sdk/docs/attachment-preset-research.md':(ROOT/'docs/attachment-preset-research.md').read_text(),
             'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(),
+            'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

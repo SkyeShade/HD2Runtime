@@ -11,6 +11,7 @@ import generate_sdk
 import generate_weapon_authoring
 import generate_support_weapon_sdk
 import generate_support_weapon_authoring
+import generate_stratagem_authoring
 import generate_weapon_composition
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -46,6 +47,7 @@ def main():
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
     generate_support_weapon_authoring.generate(check=True)
+    generate_stratagem_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
@@ -71,6 +73,12 @@ def main():
     report['support_weapon_snapshot_validation']=support_validation
     report['support_weapon_proof_packages']=[
         'SupportAMRProof','RecoillessProof','ArcThrowerProof','C4Proof']
+    stratagem_capabilities=json.loads((ROOT/'sdk/StratagemAuthoringCapabilities.json').read_text())
+    report['stratagem_authoring']=stratagem_capabilities['summary']
+    report['stratagem_snapshot_validation']=json.loads(
+        (ROOT/'validation/stratagem-authoring-snapshot.json').read_text())
+    report['stratagem_proof_packages']=['OrbitalLaserProof','OrbitalPrecisionProof',
+        'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

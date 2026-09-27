@@ -5,11 +5,12 @@
   "fieldCapabilitySource": "PlayerWeaponAuthoringCapabilities.json",
   "fieldCapabilitySources": [
     "PlayerWeaponAuthoringCapabilities.json",
-    "SupportWeaponAuthoringCapabilities.json"
+    "SupportWeaponAuthoringCapabilities.json",
+    "StratagemAuthoringCapabilities.json"
   ],
   "identityContract": [
     "resource",
-    "weapon",
+    "weapon or stratagem",
     "attack",
     "phase",
     "semantic path"

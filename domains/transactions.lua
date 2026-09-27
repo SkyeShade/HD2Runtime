@@ -22,6 +22,10 @@ function M.validate(request)
         and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
         return require('hd2runtime/domains/player_weapon_writes').validate_transaction(request)
     end
+    if type(request)=='table'and type(request.target)=='table'
+        and request.target.resource=='stratagem'then
+        return require('hd2runtime/domains/stratagem_writes').validate_transaction(request)
+    end
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
