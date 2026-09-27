@@ -54,9 +54,12 @@ def format_inspection(result):
         lines+=['',weapon['name']+'  '+', '.join(weapon['resources']),
             '  family: '+', '.join(weapon['implementationFamilies'])]
         for field in weapon['fields']:
-            access='editable' if field['editable'] else 'read-only'
+            if field.get('aliasOf'):
+                access='deprecated alias; write accepted' if field.get('acceptedForWrites') else 'deprecated read-only alias'
+            else:access='editable' if field['editable'] else 'read-only'
             lines+=['  '+field['semanticFieldId']+'  '+field['type']+'  '+access
                 +'  default='+str(field['currentDefault'])+'  scope='+field['writeScope']]
+            if field.get('aliasOf'):lines+=['    alias_of='+field['aliasOf']]
             if field.get('reason'):lines+=['    '+field['reason']]
         lines+=['',result['evidence_note']]
         return '\n'.join(lines)

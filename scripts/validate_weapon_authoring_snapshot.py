@@ -42,7 +42,7 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
     audit=[]
     for weapon in capabilities['weapons']:
         batches=[]
-        for field in (f for f in weapon['fields'] if f['editable']):
+        for field in (f for f in weapon['fields'] if f['acceptedForWrites']):
             backing=field['backing']
             identity=(backing['kind'],backing.get('component'),backing.get('settings'),
                 backing.get('recordIndex'),backing.get('group'),backing.get('row'),

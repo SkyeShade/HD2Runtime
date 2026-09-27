@@ -26,7 +26,9 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
             self.assertTrue(weapon['implementationFamilies'])
             for field in weapon['fields']:
                 for key in ('displayName','semanticFieldId','type','unit','currentDefault','editable',
-                            'derivedReadOnly','provenance','writeScope','sharedWithWeapons'):
+                            'derivedReadOnly','provenance','writeScope','sharedWithWeapons',
+                            'semanticTarget','canonical','preferred','deprecated','aliasOf',
+                            'acceptedForWrites'):
                     self.assertIn(key,field)
                 self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 self.assertIsNone(field['enumValues'])
@@ -95,6 +97,108 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         gp=next(w for w in AMMO_CAPABILITIES['weapons'] if w['name']=='GP-31 Grenade Pistol')
         self.assertEqual(gp['effectiveCapacity']['status'],'AMBIGUOUS_RUNTIME_IDENTITY')
         self.assertEqual(len(gp['resourceValues']),2)
+
+    def test_semantic_alias_metadata_and_complete_backing_audit(self):
+        aliases={(item['alias'],item['canonical']):item
+                 for item in CAPABILITIES['semanticAliases']}
+        self.assertEqual(set(aliases),{
+            ('weapon.capacity','magazine.capacity'),
+            ('weapon.feed_capacity_1','rounds.feed_capacity_1'),
+            ('weapon.feed_capacity_2','rounds.feed_capacity_2')})
+        self.assertEqual(aliases[('weapon.capacity','magazine.capacity')]['instanceCount'],32)
+        self.assertEqual(aliases[('weapon.feed_capacity_1','rounds.feed_capacity_1')]['instanceCount'],15)
+        self.assertEqual(aliases[('weapon.feed_capacity_2','rounds.feed_capacity_2')]['instanceCount'],15)
+        audit=CAPABILITIES['backingCollisionAudit']
+        self.assertEqual(audit['fieldInstancesAudited'],CAPABILITIES['summary']['fieldInstances'])
+        self.assertEqual(audit['exactBackingCollisionGroups'],62)
+        self.assertEqual(audit['aliasPairInstances'],62)
+        self.assertEqual(audit['unclassifiedCollisionPairs'],0)
+        jar=next(w for w in CAPABILITIES['weapons'] if w['name']=='JAR-5 Dominator')
+        fields={f['semanticFieldId']:f for f in jar['fields']}
+        legacy=fields['weapon.capacity'];canonical=fields['magazine.capacity']
+        self.assertEqual(legacy['aliasOf'],'magazine.capacity')
+        self.assertTrue(legacy['deprecated'] and legacy['acceptedForWrites'])
+        self.assertFalse(legacy['editable'] or legacy['preferred'] or legacy['canonical'])
+        self.assertTrue(canonical['editable'] and canonical['preferred'] and canonical['canonical'])
+        self.assertIsNone(canonical['aliasOf'])
+        self.assertEqual(legacy['backing'],canonical['backing'])
+        self.assertNotEqual(fields['weapon.base_capacity']['semanticTarget'],canonical['semanticTarget'])
+        self.assertFalse(fields['weapon.base_capacity']['editable'])
+
+    def test_legacy_and_canonical_alias_validation_and_coalescing(self):
+        script=modules()+r'''
+local writes=require('hd2runtime/domains/player_weapon_writes')
+local target={resource='player_weapon',path='weapon',weapon='JAR-5 Dominator'}
+local function patch(field)return writes.validate_patch{
+ id='capacity',target=target,field=field,expect=15,value=20}
+end
+local legacy=patch('weapon.capacity');local canonical=patch('magazine.capacity')
+assert(legacy.changes[1].field=='weapon.capacity')
+assert(legacy.changes[1].canonical_field=='magazine.capacity')
+assert(canonical.changes[1].canonical_field=='magazine.capacity')
+local same=writes.validate_transaction{id='same',target=target,changes={
+ {field='weapon.capacity',expect=15,value=20},
+ {field='magazine.capacity',expect=15,value=20}}}
+assert(#same.changes==1 and same.changes[1].canonical_field=='magazine.capacity')
+assert(#same.changes[1].semantic_aliases==2)
+local ok,why=pcall(writes.validate_transaction,{id='conflict',target=target,changes={
+ {field='weapon.capacity',expect=15,value=20},
+ {field='magazine.capacity',expect=15,value=21}}})
+assert(not ok and tostring(why):find('SEMANTIC_CONFLICT:',1,true))
+local session=require('hd2runtime/api/session').new({write=function()end,protect=function()end},function()end)
+local ensured=session.ensure{startup_delay=0,transaction={id='ensured-alias',
+ target=session.weapon('JAR-5 Dominator'),changes={
+  {field=session.fields.weapon.capacity,expect=15,value=20},
+  {field=session.fields.magazine.capacity,expect=15,value=20}}}}
+assert(ensured.kind=='transaction'and ensured.status=='waiting');ensured.cancel()
+local ensure_ok,ensure_why=pcall(session.ensure,{startup_delay=0,transaction={id='ensured-conflict',
+ target=session.weapon('JAR-5 Dominator'),changes={
+  {field=session.fields.weapon.capacity,expect=15,value=20},
+  {field=session.fields.magazine.capacity,expect=15,value=21}}}})
+assert(not ensure_ok and tostring(ensure_why):find('SEMANTIC_CONFLICT:',1,true))
+return'ok'
+'''
+        self.assertEqual(execute(script.encode()),b'ok')
+
+    def test_same_value_aliases_produce_one_physical_write(self):
+        script=modules()+r'''
+local b=require('hd2runtime/core/bytes')
+local writes=require('hd2runtime/domains/player_weapon_writes')
+local guard=require('hd2runtime/core/guarded_transaction')
+local target={resource='player_weapon',path='weapon',weapon='JAR-5 Dominator'}
+local spec=writes.validate_transaction{id='coalesced',target=target,changes={
+ {field='weapon.capacity',expect=15,value=20},
+ {field='magazine.capacity',expect=15,value=20}}}
+local descriptor=spec.changes[1].descriptor;local backing=descriptor.backing
+local owner={base=0x200000,size=8192,type=0x20000,protect=2}
+local record_offset=64;local record_bytes=string.rep('\0',152)
+local function splice(value,offset,bytes)return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)end
+record_bytes=splice(record_bytes,136,b.encode(15,'u32'))
+local memory=string.rep('\0',owner.size);memory=splice(memory,record_offset,record_bytes)
+local record={owner=owner,offset=record_offset,bytes=record_bytes,identity={
+ componentType=1,recordIndex=backing.recordIndex,indexRow=backing.indexRow,
+ uniqueOwner=backing.uniqueOwner,ownerCount=backing.ownerCount}}
+local resolved={candidate={},catalog={record=function(_,component)
+ assert(component=='WeaponMagazineComponentData');return record end}}
+local reader={snapshots={{owner=owner,offset=record_offset,bytes=record_bytes}}}
+local plan=writes.prepare(resolved,reader,spec)
+assert(#plan.changes==1 and #plan.changes[1].semantic_aliases==2)
+local protection,physical_writes=2,0
+local runtime={}
+function runtime.system_info()return 4096,0x1000000 end
+function runtime.query(address)return {base=owner.base,size=owner.size,allocation_base=owner.base,
+ state=0x1000,type=owner.type,protect=protection}end
+function runtime.read(address,length)local offset=address-owner.base
+ return memory:sub(offset+1,offset+length)end
+function runtime.protect(address,length,value)local old=protection;protection=value;return old end
+function runtime.write(address,value)physical_writes=physical_writes+1
+ memory=splice(memory,address-owner.base,value);return true,nil,#value end
+local result=guard.apply(runtime,plan)
+assert(result.status=='APPLIED'and result.writes==1 and physical_writes==1)
+assert(b.value(memory,record_offset+136,'u32')==20 and protection==2)
+return'ok'
+'''
+        self.assertEqual(execute(script.encode()),b'ok')
 
     def test_every_reviewed_descriptor_passes_public_shape_validation(self):
         script=modules()+r'''

@@ -10,6 +10,10 @@ for ordinary writes. Shared settings require explicit opt-in. See the
 [GUI capability catalog](sdk/PlayerWeaponAuthoringCapabilities.json). Ammo-specific
 controls and unresolved customization ownership are in the generated
 [ammo capability catalog](sdk/PlayerWeaponAmmoCapabilities.json).
+The capability catalog marks 0.13 capacity/feed constants as deprecated semantic
+aliases of their preferred `magazine.*` and `rounds.*` names. Runtime validation
+continues to accept the old constants and coalesces equal alias requests into one
+physical write.
 
 Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
 resolution. Slot tags separate all 54 unique training anchors. Capacity matches

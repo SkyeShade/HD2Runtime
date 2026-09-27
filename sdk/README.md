@@ -73,8 +73,11 @@ partial enums do not claim completeness or introduce unproven names.
 The 80-weapon authoring surface is described separately in
 `PlayerWeaponAuthoringCapabilities.json`. It is intended for SDK tools and GUI
 control generation, and includes editability, current reviewed defaults, native
-backing storage, implementation family, provenance, derived markers, and shared
-write scope. It contains no runtime addresses. `hd2 inspect weapon <name>` uses
+backing storage, implementation family, provenance, derived markers, shared
+write scope, semantic aliases, and the complete identical-backing collision audit.
+Deprecated aliases have `editable=false`, `preferred=false`, an `aliasOf` target,
+and an `acceptedForWrites` compatibility flag; GUI controls should render only
+preferred editable fields. It contains no runtime addresses. `hd2 inspect weapon <name>` uses
 this catalog for player weapons outside the original small live-read catalog.
 
 ## Scan a captured process offline
