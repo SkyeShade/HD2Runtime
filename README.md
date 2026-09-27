@@ -1,6 +1,8 @@
 # HD2Runtime
 
-Version 0.14.0 adds guarded detachable-magazine and rounds-feed ammo authoring for the complete 80
+Version 0.14.1 is a patch release for the guarded detachable-magazine and rounds-feed ammo authoring
+surface introduced in 0.14.0. It fixes duplicate semantic capacity/feed aliases while preserving
+backwards compatibility for existing mods. The complete 80
 primary and secondary weapon catalog. Seventy-three uniquely owned identities
 expose reviewed weapon, projectile, DamageInfo, Arc, Beam, Spray, Melee, magazine,
 and rounds-feed fields through the existing `patch`, `transaction`, and `ensure`
@@ -51,7 +53,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.14.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.14.1.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.
