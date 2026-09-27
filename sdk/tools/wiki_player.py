@@ -24,7 +24,9 @@ def weapon_stat(weapon, label, fallback):
 def pellet_count(attack):
     projectile=attack.get('projectile') or {}
     direct=projectile.get('pelletCount')
-    if isinstance(direct,(int,float)):return int(direct)
+    direct_value=scalar(direct)
+    if isinstance(direct,(int,float)):direct_value=direct
+    if isinstance(direct_value,(int,float)):return int(direct_value)
     raw = (attack.get('extraFields') or {}).get('Projectile.Pellets')
     match = re.search(r'\d+', str(raw)) if raw is not None else None
     return int(match.group()) if match else None
@@ -70,6 +72,10 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
         capacity=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
         spread_horizontal,spread_vertical=spread_values(weapon)
         sway=scalar(stats.get('sway'));ergonomics=scalar(stats.get('ergonomics'))
+        recoil=scalar(stats.get('recoil'));horizontal_recoil=scalar(stats.get('horizontalRecoil'))
+        vertical_recoil=scalar(stats.get('verticalRecoil'))
+        noise=str(stats.get('noise') or'')
+        is_suppressed=noise.lower().startswith('suppressed') if noise else None
         primary=dict(attacks[0]);primary['fire_rate']=fire_rate;primary['capacity']=capacity
         weapons.append({'name':weapon['name'],'slot':weapon_slot,
             'category':weapon.get('category') or weapon.get('primaryCategory'),
@@ -77,6 +83,8 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
             'traits':weapon.get('traits') or [],'wiki_page':weapon.get('wikiPage'),
             'fire_rate':fire_rate,'capacity':capacity,'spread_horizontal':spread_horizontal,
             'spread_vertical':spread_vertical,'sway':sway,'ergonomics':ergonomics,
+            'recoil':recoil,'horizontal_recoil':horizontal_recoil,
+            'vertical_recoil':vertical_recoil,'is_suppressed':is_suppressed,
             'primary':primary,'attacks':attacks})
     names=[item['name'] for item in weapons]
     if len(set(names))!=len(names):raise ValueError('duplicate wiki weapon name')

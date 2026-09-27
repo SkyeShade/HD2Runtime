@@ -36,6 +36,14 @@ class PlayerCatalogTests(unittest.TestCase):
         self.assertEqual(melee['attacks'][0]['kind'],'Melee')
         self.assertFalse(melee['attacks'][0]['projectile_branch'])
 
+    def test_wrapped_pellets_and_weapon_recoil_are_preserved(self):
+        halt=next(w for w in self.data['weapons'] if w['name']=='SG-20 Halt')
+        self.assertEqual([a['pellet_count'] for a in halt['attacks'][:2]],[11,20])
+        p2=next(w for w in self.data['weapons'] if w['name']=='P-2 Peacemaker')
+        self.assertEqual((p2['recoil'],p2['horizontal_recoil'],p2['vertical_recoil']),
+            (19.5,11.5,27.5))
+        self.assertFalse(p2['is_suppressed'])
+
     def test_primary_only_catalog_compatibility(self):
         data=compact(ROOT/'data/wiki_primary_weapons.json')
         self.assertEqual(data['weapon_count'],55)
@@ -45,6 +53,21 @@ class PlayerCatalogTests(unittest.TestCase):
 
 
 class BranchMatcherTests(unittest.TestCase):
+    def test_suppression_disambiguates_otherwise_equal_weapon_data(self):
+        lua_match("""
+local attack={name='P',kind='Projectile'}
+local runtime={weapon_slot='secondary',weapon_data_only=true,attack_kind='Projectile',fire_rate=900,
+ ergonomics=100,sway=1,spread_horizontal=10,spread_vertical=10,recoil=19.5,
+ horizontal_recoil=11.5,vertical_recoil=27.5,is_suppressed=false}
+local function item(name,suppressed)return {name=name,slot='secondary',fire_rate=900,
+ ergonomics=100,sway=1,spread_horizontal=10,spread_vertical=10,recoil=19.5,
+ horizontal_recoil=11.5,vertical_recoil=27.5,is_suppressed=suppressed,attacks={attack}}end
+local ranked=matcher.rank(runtime,{weapons={item('P-2 Peacemaker',false),item('M6C/SOCOM Pistol',true)}})
+assert(ranked.status=='EXACT'and ranked.rankedWikiMatches[1].name=='P-2 Peacemaker')
+assert(ranked.scoreMargin>=12)
+return'ok'
+""")
+
     def test_secondary_projectile_weapon(self):
         lua_match("""
 local p={name='Pistol P',kind='Projectile',standard_damage=100,durable_damage=32,

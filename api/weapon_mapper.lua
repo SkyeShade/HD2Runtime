@@ -21,6 +21,16 @@ local damage_fields={
     {'ap_direct',12,'u32'},{'ap_slight',16,'u32'},{'ap_large',20,'u32'},{'ap_extreme',24,'u32'},
     {'demolition',28,'u32'},{'stagger',32,'u32'},{'push_force',36,'u32'},
 }
+local function status_effects(damage_bytes)
+    local result={}
+    for index=0,3 do
+        local offset=44+index*8
+        local effect_type=b.u32(damage_bytes,offset)
+        if effect_type==0 then break end
+        result[#result+1]={type=effect_type,strength=b.value(damage_bytes,offset+4,'f32')}
+    end
+    return result
+end
 local unmapped=mapper_schema.unmapped
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'LoadoutPackageComponentData','WeaponMagazineComponentData','WeaponRoundsComponentData',
@@ -42,6 +52,7 @@ local function damage_attack(output,roots,damage_consumers,kind,settings_name,se
     attack.damageInfo={group=damage.group,row=damage.row,
         recordType=damage_type,settingsType=damage.settings_type,
         projectileConsumerCount=#(damage_consumers[damage_type]or{})}
+    attack.statusEffects=status_effects(damage.bytes)
     if settings_name and settings_record then
         attack[settings_name]={group=settings_record.group,row=settings_record.row,
             recordType=b.u32(settings_record.bytes,0),settingsType=settings_record.settings_type}
@@ -82,6 +93,7 @@ local function projectile_attack(output,roots,damage_consumers,projectile_type,r
     local damage=assert(roots.damage.records[damage_type],'linked DamageInfo record absent')
     attack.damageInfo={group=damage.group,row=damage.row,recordType=damage_type,
         settingsType=damage.settings_type,projectileConsumerCount=#(damage_consumers[damage_type]or{})}
+    attack.statusEffects=status_effects(damage.bytes)
     attack.resolvedFields.damage_type=damage_type
     for _,spec in ipairs(damage_fields)do
         local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
@@ -151,6 +163,18 @@ function M.start(runtime,emit,request)
                         local spec=mapper_schema.fields[name]
                         field(output,name,b.value(record.bytes,spec.offset,spec.storage),spec.evidence)
                     end
+                    local hs=mapper_schema.fields.horizontal_recoil
+                    local horizontal=(b.value(record.bytes,hs.offsets[1],'f32')
+                        +b.value(record.bytes,hs.offsets[2],'f32'))/2
+                    local vs=mapper_schema.fields.vertical_recoil
+                    local vertical=(b.value(record.bytes,vs.offsets[1],'f32')
+                        +b.value(record.bytes,vs.offsets[2],'f32'))/2
+                    field(output,'horizontal_recoil',horizontal,hs.evidence)
+                    field(output,'vertical_recoil',vertical,vs.evidence)
+                    field(output,'recoil',(horizontal+vertical)/2,mapper_schema.fields.recoil.evidence)
+                    local suppressed=mapper_schema.fields.is_suppressed
+                    field(output,'is_suppressed',b.value(record.bytes,suppressed.offset,suppressed.storage)~=0,
+                        suppressed.evidence)
                 end)
             end
             local loadout=candidate.ownership.LoadoutPackageComponentData
@@ -310,6 +334,7 @@ function M.start(runtime,emit,request)
             historicalAnalysis=request.historical_analysis==true,
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
             fixtureFallback='disabled',fieldsCurrentlyUsable={'weapon_slot','capacity','base_capacity',
+                'recoil','horizontal_recoil','vertical_recoil','is_suppressed',
                 'projectile_type','damage_type',
                 'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity',
                 'arc_type','arc_velocity','arc_range','beam_type','beam_range',

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.11.0",
+  "runtime_version": "0.12.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",

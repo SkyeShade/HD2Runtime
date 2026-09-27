@@ -24,6 +24,10 @@ function M.unhex(s)
     return (s:gsub('..',function(p)return string.char(tonumber(p,16))end))
 end
 function M.value(s,o,kind)
+    if kind=='u8' then
+        assert(type(o)=='number'and o>=0 and o%1==0 and o<#s,'u8 bounds')
+        return s:byte(o+1)
+    end
     local n=M.u32(s,o)
     if kind=='u32' then return n end
     if kind=='i32' then return n>=2147483648 and n-4294967296 or n end

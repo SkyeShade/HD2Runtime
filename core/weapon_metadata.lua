@@ -35,11 +35,17 @@ function M.capacity(records,schema)
     local field=schema.fields.capacity
     local rounds=records.WeaponRoundsComponentData
     if rounds then
-        local value=b.value(rounds,field.rounds.offset,'f32')
-        assert(integral(value),'WeaponRounds magazine capacity is not a bounded integer')
-        return {status='RESOLVED',value=value,baseValue=value,transformation='identity',
+        local values,value={},0
+        for index=0,(field.rounds.count or 1)-1 do
+            local item=b.value(rounds,field.rounds.offset+index*(field.rounds.stride or 4),'f32')
+            assert(integral(item),'WeaponRounds magazine capacity is not a bounded integer')
+            values[#values+1]=item;value=value+item
+        end
+        assert(integral(value),'WeaponRounds summed magazine capacity is not a bounded integer')
+        return {status='RESOLVED',value=value,baseValue=value,feedValues=values,
+            transformation=field.rounds.transformation or'identity',
             chambered=rounds:byte(field.rounds.chambered_offset+1)~=0,
-            source='WeaponRoundsComponentData.MagazineCapacity[0]'}
+            source='WeaponRoundsComponentData.MagazineCapacity'}
     end
     local magazine=records.WeaponMagazineComponentData
     if not magazine then return {status='UNMAPPED',reason='no reviewed magazine/feed component'}end

@@ -1,0 +1,83 @@
+{
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "catalogWeapons": 80,
+  "baseline": {"totalIdentitiesResolved": 75, "totalUniqueResolved": 68},
+  "final": {
+    "totalIdentitiesResolved": 80,
+    "totalUniqueResolved": 73,
+    "statusCounts": {"EXACT": 84, "STRONG": 3, "AMBIGUOUS": 21, "UNMATCHED": 257}
+  },
+  "mappings": {
+    "P-2 Peacemaker": {
+      "resourceHash": "0x05E4E5C2DB6E44A2", "status": "EXACT",
+      "weaponDataRecord": 190, "projectileWeaponRecord": 140,
+      "evidence": ["secondary slot", "fire_rate=900", "spread=10/10",
+        "recoil=19.5; horizontal=11.5; vertical=27.5", "sway=1; ergonomics=100",
+        "WeaponDataComponent.IsSuppressed=false"],
+      "unresolved": [
+        "default Magazine customization 0x116E8A0F points to AddPath 0x4F839E923046E631",
+        "default AmmoType customization 0xABEA8C15 points to AddPath 0x70564BCA8BDD43D1",
+        "the snapshot ownership graph does not expose either AddPath as a direct entity, so effective capacity and projectile remain fail-closed"]
+    },
+    "SG-20 Halt": {
+      "resourceHash": "0x4E310B1FE4C52B52", "status": "EXACT",
+      "weaponDataRecord": 173, "weaponRoundsRecord": 5, "capacityFeeds": [8, 8],
+      "attacks": [
+        {"role": "feed_primary", "projectileType": 183, "damageType": 166, "pellets": 11},
+        {"role": "feed_alternate", "projectileType": 191, "damageType": 175, "pellets": 20,
+          "damageStatusType": 39, "damageStatusStrength": 1}],
+      "evidence": ["two distinct WeaponRounds AmmoType entries",
+        "both projectile and DamageInfo fingerprints match their reviewed branches",
+        "capacity=sum(MagazineCapacity[0], MagazineCapacity[1])=8+8=16",
+        "weapon spread=300/200 and recoil=82.5 distinguish the resource"]
+    },
+    "SG-451 Cookout": {
+      "resourceHash": "0xD323DE60855898AC", "status": "EXACT",
+      "weaponDataRecord": 174, "weaponRoundsRecord": 6,
+      "projectileType": 347, "damageType": 164, "capacityFeeds": [8, 8],
+      "damageStatus": {"type": 5, "strength": 0.6000000238418579},
+      "evidence": ["projectile/damage/pellet fingerprint exact",
+        "Fire status strength is present on linked DamageInfo", "capacity=8+8=16",
+        "weapon spread=180/140 and recoil=71.25 distinguish the resource"]
+    },
+    "SG-8 Punisher": {
+      "resourceHash": "0x41EAC4A03987FAA0", "status": "EXACT",
+      "weaponDataRecord": 170, "weaponRoundsRecord": 2,
+      "projectileType": 260, "damageType": 163, "capacityFeeds": [8, 8],
+      "evidence": ["shared SG-22 P projectile and DamageInfo fingerprint",
+        "weapon spread=150/120 and recoil=82.5 select this resource", "capacity=8+8=16"],
+      "sharedProjectileFinding": {
+        "sharedWithBushwhackerResource": "0x2B28E17FFED05F7C",
+        "otherPartialResource": "0xBCC2177439D231BE",
+        "otherPartialMismatch": "spread=150/150; recoil=60",
+        "conclusion": "SG-22 P is genuinely shared projectile/settings data; the heading is not weapon identity evidence"}
+    },
+    "SG-8S Slugger": {
+      "resourceHash": "0x4F749E2EE26F532D", "status": "EXACT",
+      "weaponDataRecord": 172, "weaponRoundsRecord": 4,
+      "projectileType": 240, "damageType": 176, "capacityFeeds": [8, 8],
+      "evidence": ["damage=330/90; AP=3/3/3/0",
+        "velocity=390; mass=50; drag=2; gravity=1", "weapon spread=6/6; recoil=82.5",
+        "capacity=8+8=16"]
+    }
+  },
+  "schemaDiscoveries": {
+    "recoil": "reviewed recoil values equal the mean of schema-labelled drift/climb horizontal values and the mean of drift/climb vertical values; overall recoil is their mean",
+    "roundCapacity": "WeaponRoundsComponentData.MagazineCapacity is a Vec2 at offsets 72/76; the reviewed rounds-feed shotguns expose total capacity as the sum",
+    "statusEffects": "DamageInfo status entries begin at offset 44 and contain type/FP32 strength pairs",
+    "alternateAmmo": "Halt WeaponRounds owns two distinct projectile types; other reviewed shotguns repeat one projectile in both feed slots"
+  },
+  "catalogComparison": {
+    "numericDisagreements": [],
+    "missingImportedFields": [
+      "SG-8S Slugger pellet_count is null in the imported catalog; reviewed value is effectively 1 and runtime ProjectileSettings is 1"],
+    "representationNotes": [
+      "SG-8 Punisher attack heading is SG-22 P and corresponds to shared runtime projectile/settings data",
+      "Halt wiki labels its alternate status Stun Large; runtime DamageInfo exposes numeric status type 39 and strength 1, so HD2Runtime does not assert a text label",
+      "Cookout Fire duration/damage is a separate status settings branch and is not resolved by the current DamageInfo ownership graph"]
+  },
+  "remainingDuplicateGroups": ["CQC-42 Machete", "CQC-73 Entrenchment Tool",
+    "GP-31 Grenade Pistol", "LAS-5 Scythe", "LAS-7 Dagger", "P-72 Crisper", "SMG-37 Defender"],
+  "safety": {"mode": "snapshot", "writes": 0, "protectionChanges": 0,
+    "fixtureFallback": "disabled", "gameLaunched": false}
+}
