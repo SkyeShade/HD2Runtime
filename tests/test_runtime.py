@@ -110,7 +110,7 @@ return 'ok'
 """)
 
     def test_write_apis_inert(self):
-        run("for _,name in ipairs({'patch','ensure','transaction'})do local value,err=hd2[name]{};assert(not value and err.code=='READ_ONLY_MILESTONE')end;assert(runtime.reads==0);return 'ok'")
+        run("for _,name in ipairs({'patch','ensure','transaction','plan'})do local value,err=hd2[name]{};assert(not value and err.code=='READ_ONLY_MILESTONE')end;assert(runtime.reads==0);return 'ok'")
 
     def test_observe_interval_and_cancel(self):
         run("""

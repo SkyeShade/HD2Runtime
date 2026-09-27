@@ -17,7 +17,8 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.format(...)`: Format a completed read result.
 - `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.
-- `hd2.ensure(...)`: Wrap exactly one patch or transaction. Default 60 update seconds, three-second startup, terminal conflict rejection.
+- `hd2.plan(...)`: Coordinate ordered semantic operations across multiple related backing objects and phases.
+- `hd2.ensure(...)`: Wrap exactly one patch, transaction, or composition plan. Default 60 update seconds, three-second startup, terminal conflict rejection.
 
 ## HD2Weapon
 

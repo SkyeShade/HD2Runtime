@@ -6,6 +6,11 @@ The generated [capability catalog](../sdk/PlayerWeaponAuthoringCapabilities.json
 
 `hd2.weapon(name)` is the identity root. `patch`, `transaction`, and `ensure` freshly resolve that identity at application time, check the game fingerprints and ownership chain, compare the declared expected value, and pass an exact-width change to the existing guarded transaction engine. A shared settings field is rejected unless the declaration includes `allow_shared=true`. A weapon with multiple indistinguishable runtime resources is rejected for ordinary writes.
 
+Use `hd2.plan` when one logical modification spans multiple semantic targets,
+such as ProjectileSettings terminal slots and linked DamageInfo fields. Plans
+validate the complete per-phase write set and can be wrapped by `ensure`. See
+[guarded composition plans](composition-plans.md).
+
 The opt-in Concussive validation mod is intentionally one declaration:
 
 ```lua

@@ -17,9 +17,10 @@ def resources(writable=False):
         for path in sorted((ROOT/folder).glob('*.lua')):
             if path.name == 'addon.lua':
                 continue
-            if not writable and path.as_posix().endswith(('api/patch.lua', 'api/transaction.lua',
+            if not writable and path.as_posix().endswith(('api/patch.lua', 'api/transaction.lua', 'api/plan.lua',
                     'api/ensure.lua', 'core/guarded_write.lua', 'core/guarded_transaction.lua',
-                    'domains/patches.lua', 'domains/transactions.lua', 'runtime/windows_write.lua')):
+                    'domains/patches.lua', 'domains/transactions.lua', 'domains/composition_plans.lua',
+                    'runtime/windows_write.lua')):
                 continue
             name = 'hd2runtime/' + path.relative_to(ROOT).with_suffix('').as_posix()
             found[name] = path.read_bytes()

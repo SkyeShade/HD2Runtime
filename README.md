@@ -1,5 +1,12 @@
 # HD2Runtime
 
+Version 0.19.0 adds `hd2.plan`, a guarded multi-target composition operation.
+One plan can coordinate projectile physics, DamageInfo, terminal references,
+ExplosionSettings, and explosion DamageInfo as a complete declared write set.
+Ordered phases support projectile reference replacement followed by fresh
+resolution of the resulting shared projectile object. `ensure` accepts plans
+with the same 60-second conflict behavior as patches and transactions.
+
 Version 0.18.0 adds guarded heat and heatsink authoring for five uniquely owned
 player weapons through the native `WeaponHeatComponentData` record. Seven energy
 weapons are mapped; Scythe and Dagger remain fail-closed because their runtime
@@ -30,6 +37,7 @@ physical write.
 The weapon-composition pass includes typed projectile and terminal references, guarded explosion
 fields, magazine-option research, and fire-mode vectors. See the
 [composition guide](docs/player-weapon-composition.md) and
+[guarded composition-plan guide](docs/composition-plans.md), plus the
 [support-weapon API](docs/support-weapon-api.md).
 
 Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
@@ -68,7 +76,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.18.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.19.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

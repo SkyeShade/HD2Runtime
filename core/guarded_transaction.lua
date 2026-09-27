@@ -2,11 +2,43 @@
 local M={}
 local PAGE=4096
 local function safe(n)return type(n)=='number' and n>=0 and n%1==0 and n<=9007199254740991 end
+local function replace(value,offset,bytes)
+    return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)
+end
+-- Build a guarded inverse from the exact post-state of a completed phase. Only bytes
+-- actually changed by that phase are reverted; values that were already desired are
+-- never claimed by rollback.
+function M.inverse(plan)
+    local changes=assert(plan.changes,'transaction changes missing')
+    local snapshots={}
+    for index,snapshot in ipairs(assert(plan.snapshots,'transaction snapshots missing'))do
+        snapshots[index]={owner=snapshot.owner,offset=snapshot.offset,bytes=snapshot.bytes}
+    end
+    for _,change in ipairs(changes)do
+        local address=change.owner.base+change.offset
+        local contained=0
+        for _,snapshot in ipairs(snapshots)do
+            local first=snapshot.owner.base+snapshot.offset
+            if address>=first and address+#change.desired<=first+#snapshot.bytes then
+                snapshot.bytes=replace(snapshot.bytes,address-first,change.desired);contained=contained+1
+            end
+        end
+        assert(contained==1,'inverse transaction target context absent/ambiguous')
+    end
+    local inverse={changes={},snapshots=snapshots}
+    for _,change in ipairs(changes)do if change.before~=change.desired then
+        inverse.changes[#inverse.changes+1]={label=change.label,owner=change.owner,
+            offset=change.offset,expected=change.desired,desired=change.before,
+            before=change.desired,already_desired=false,identity=change.identity,
+            chain=change.chain,expect=change.value,value=change.expect}
+    end end
+    return inverse
+end
 function M.apply(runtime,plan)
     local report={status='REJECTED',writes=0,bytes_written=0,protection_changes=0,
         rollback='not_needed',protection_restored=true,non_target_bytes_unchanged=false,fields={}}
     local changes=assert(plan.changes,'transaction changes missing')
-    assert(#changes>=1 and #changes<=32,'unsupported transaction change count')
+    assert(#changes>=1 and #changes<=128,'unsupported transaction change count')
     local contexts,pages,page_by_key,total={}, {}, {},0
     local queries,bytes_read=0,0
     local function region(at,owner)

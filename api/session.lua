@@ -182,7 +182,7 @@ function M.new(runtime,emit)
     end
     local function disabled()
         log('write request rejected: milestone 1 is read-only')
-        return nil,{code='READ_ONLY_MILESTONE',message='patch, ensure and transaction require the guarded writer milestone'}
+        return nil,{code='READ_ONLY_MILESTONE',message='patch, transaction, plan and ensure require the guarded writer milestone'}
     end
     for name,builder in pairs(require('hd2runtime/api/target').new(self.describe))do self[name]=builder end
     local constants=copy(require('hd2runtime/domains/constants'))
@@ -210,6 +210,10 @@ function M.new(runtime,emit)
     function self.transaction(request)
         if not runtime.write or not runtime.protect then return disabled()end
         return require('hd2runtime/api/transaction').start(runtime,emit,request)
+    end
+    function self.plan(request)
+        if not runtime.write or not runtime.protect then return disabled()end
+        return require('hd2runtime/api/plan').start(runtime,emit,request)
     end
     function self.ensure(request)
         if not runtime.write or not runtime.protect then return disabled()end

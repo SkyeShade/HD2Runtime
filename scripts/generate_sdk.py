@@ -27,6 +27,7 @@ def outputs():
     player_capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
     composition=json.loads((ROOT/'schemas/player_weapon_composition_catalog.json').read_text())
     support=json.loads((ROOT/'sdk/SupportWeaponCapabilities.json').read_text())
+    composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
     types=schema['types']; resources=schema['resources']
@@ -59,6 +60,7 @@ def outputs():
               'player_weapon_authoring':player_capabilities['summary'],
               'support_weapon_contract':support['contract'],
               'support_weapon_summary':support['summary'],
+              'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
     constants={'fields':fields,'enums':{k:v['values'] for k,v in schema['enums'].items()},
                'resources':{k:k for k in resources}}
@@ -208,10 +210,12 @@ def outputs():
             'domains/constants.lua':header+'return '+lua(constants)+'\n',
             'domains/metadata.lua':header+'return '+lua(metadata)+'\n',
             'sdk/metadata.json':json.dumps(schema,indent=2)+'\n',
+            'sdk/CompositionPlanCapabilities.json':json.dumps(composition_plan,indent=2)+'\n',
             'sdk/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'starter/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'sdk/docs/api.md':'\n'.join(doc),
             'sdk/docs/player-weapon-composition.md':(ROOT/'docs/player-weapon-composition.md').read_text(),
+            'sdk/docs/composition-plans.md':(ROOT/'docs/composition-plans.md').read_text(),
             'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 

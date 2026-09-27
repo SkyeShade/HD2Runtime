@@ -179,7 +179,8 @@ other.tick(60);assert(runtime.reads==n and other.status=='cancelled')
         import build_live_validation
         for sources in (build.resources(),build_live_validation.resources()):
             for name in ('runtime/windows_write','core/guarded_write','core/guarded_transaction',
-                         'domains/patches','domains/transactions','api/patch','api/transaction','api/ensure'):
+                         'domains/patches','domains/transactions','domains/composition_plans',
+                         'api/patch','api/transaction','api/plan','api/ensure'):
                 self.assertNotIn('hd2runtime/'+name,sources)
 
     def test_proof_runs_from_packaged_sources_and_detaches(self):

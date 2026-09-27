@@ -1,0 +1,13 @@
+{
+  "format": 1,
+  "name": "ConcussiveComposition",
+  "resource": "mods/hd2runtime_examples/concussive_composition",
+  "guid": "d08eb996-447e-53c0-bdbd-cd06532d4b79",
+  "requires": {
+    "bingus": {"min_release": 15, "api": 1},
+    "hd2runtime": {"min_version": "0.19.0", "api": 1,
+      "module": "mods/skyeshade/hd2runtime"}
+  },
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

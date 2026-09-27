@@ -46,6 +46,13 @@ function M.transaction(request)
         require('hd2runtime/api/transaction').start(adapter.create(),
             require('hd2runtime/runtime/log').emit,request))
 end
+function M.plan(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    return require('hd2runtime/runtime/scheduler').attach(
+        require('hd2runtime/api/plan').start(adapter.create(),
+            require('hd2runtime/runtime/log').emit,request))
+end
 function M.ensure(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
