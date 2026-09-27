@@ -17,7 +17,7 @@ assert(s.rounds_primary_projectile_type.offset==64)
 assert(s.rounds_alternate_projectile_type.offset==68)
 for _,name in ipairs({'arc_type','beam_type','spray_damage_type','melee_damage_type',
  'rounds_primary_projectile_type','rounds_alternate_projectile_type','ergonomics',
- 'primary_fire_mode'})do
+ 'primary_fire_mode','is_suppressed','horizontal_recoil','vertical_recoil','recoil'})do
  local e=s[name].evidence
  assert(e.structural_candidate and e.schema_labelled and e.pending_gameplay_confirmation)
  assert(not e.gameplay_proven and not e.native_consumer_proven)
@@ -83,6 +83,11 @@ return'ok'
             'runtime/discover.lua','schemas/weapon_mapper.lua'))
         for token in ('VirtualProtect','WriteProcessMemory','windows_write','guarded_write'):
             self.assertNotIn(token,body)
+
+    def test_damage_status_effect_layout_is_schema_bounded(self):
+        body=(ROOT/'api/weapon_mapper.lua').read_text()
+        self.assertIn('local offset=44+index*8',body)
+        self.assertIn("strength=b.value(damage_bytes,offset+4,'f32')",body)
 
 
 class WeaponFamilyResearchTests(unittest.TestCase):

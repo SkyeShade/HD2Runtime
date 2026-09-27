@@ -45,9 +45,10 @@ return'ok'
         run("""
 local m=require('hd2runtime/core/weapon_metadata')
 local s=require('hd2runtime/schemas/weapon_mapper')
-local rounds=string.rep('\0',72)..string.char(0,0,192,64)..string.rep('\0',60)
+local rounds=string.rep('\0',72)..string.char(0,0,0,65)..string.char(0,0,0,65)..string.rep('\0',56)
 local value=m.capacity({WeaponRoundsComponentData=rounds},s)
-assert(value.status=='RESOLVED'and value.value==6 and value.source:find('MagazineCapacity',1,true))
+assert(value.status=='RESOLVED'and value.value==16 and value.source:find('MagazineCapacity',1,true))
+assert(value.transformation=='sum_feed_capacities'and value.feedValues[1]==8 and value.feedValues[2]==8)
 local f=m.implementation_families({ProjectileWeaponComponentData={},WeaponRoundsComponentData={}})
 assert(#f==2 and f[1]=='conventional_projectile'and f[2]=='rounds_feed')
 assert(m.implementation_families({BeamWeaponComponentData={}})[1]=='beam')

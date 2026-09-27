@@ -15,6 +15,9 @@ local rules={
     sway={weight=4,tolerance=0.01,label='sway',group='weapon'},
     spread_horizontal={weight=5,tolerance=0.01,high=true,label='horizontal spread',group='weapon'},
     spread_vertical={weight=5,tolerance=0.01,high=true,label='vertical spread',group='weapon'},
+    recoil={weight=5,tolerance=0.01,label='recoil',group='weapon'},
+    horizontal_recoil={weight=7,tolerance=0.01,high=true,label='horizontal recoil',group='weapon'},
+    vertical_recoil={weight=7,tolerance=0.01,high=true,label='vertical recoil',group='weapon'},
     projectile_mass={weight=5,tolerance=0.1,label='projectile mass',group='projectile'},
     drag={weight=4,tolerance=0.01,label='drag',group='projectile'},
     gravity={weight=4,tolerance=0.01,label='gravity',group='projectile'},
@@ -25,7 +28,7 @@ local rules={
 }
 local order={'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
     'projectile_velocity','fire_rate','capacity','ergonomics','sway','spread_horizontal',
-    'spread_vertical','projectile_mass','drag','gravity',
+    'spread_vertical','recoil','horizontal_recoil','vertical_recoil','projectile_mass','drag','gravity',
     'demolition','stagger','push_force','pellet_count'}
 local structural={'projectile_type','damage_type','crosshair_type'}
 
@@ -135,10 +138,22 @@ local function score_weapon(runtime,weapon)
     result.score=0
     local weapon_fields={fire_rate=weapon.fire_rate,capacity=weapon.capacity,
         ergonomics=weapon.ergonomics,sway=weapon.sway,spread_horizontal=weapon.spread_horizontal,
-        spread_vertical=weapon.spread_vertical}
+        spread_vertical=weapon.spread_vertical,recoil=weapon.recoil,
+        horizontal_recoil=weapon.horizontal_recoil,vertical_recoil=weapon.vertical_recoil}
     if weapon_fields.fire_rate==nil and weapon.primary then weapon_fields.fire_rate=weapon.primary.fire_rate end
     if weapon_fields.capacity==nil and weapon.primary then weapon_fields.capacity=weapon.primary.capacity end
     append(result,score_fields(runtime,weapon_fields,'weapon'))
+    if type(runtime.is_suppressed)=='boolean'and type(weapon.is_suppressed)=='boolean'then
+        result.compared=result.compared+1
+        if runtime.is_suppressed==weapon.is_suppressed then
+            result.score=result.score+8;result.highValueMatches=result.highValueMatches+1
+            result.matched[#result.matched+1]='suppressed='..tostring(runtime.is_suppressed)
+        else
+            result.score=result.score-16;result.highValueMismatches=result.highValueMismatches+1
+            result.mismatched[#result.mismatched+1]='suppressed runtime='..tostring(runtime.is_suppressed)
+                ..' wiki='..tostring(weapon.is_suppressed)
+        end
+    end
     local damage=best_branch(runtime,attacks,'damage')
     local projectile=best_branch(runtime,attacks,'projectile')
     if damage then append(result,damage);result.matchedDamageBranch=damage.attack.name end
@@ -174,6 +189,8 @@ local function runtime_variants(runtime)
             item.ergonomics=runtime.ergonomics;item.sway=runtime.sway
             item.spread_horizontal=runtime.spread_horizontal
             item.spread_vertical=runtime.spread_vertical
+            item.recoil=runtime.recoil;item.horizontal_recoil=runtime.horizontal_recoil
+            item.vertical_recoil=runtime.vertical_recoil;item.is_suppressed=runtime.is_suppressed
         end
         for key,value in pairs(attack.resolvedFields or{})do item[key]=value end
         result[#result+1]=item

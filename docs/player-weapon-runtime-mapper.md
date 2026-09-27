@@ -1,6 +1,6 @@
 # Offline Player Weapon Runtime Mapper
 
-HD2Runtime 0.11.0 accepts the normalized 80-weapon player catalog containing 55
+HD2Runtime 0.12.0 accepts the normalized 80-weapon player catalog containing 55
 primary and 25 secondary weapons. The scanner enumerates structurally owned
 weapon resources once. It treats entity/component composition as the identity
 root and resolves compatible attacks through Projectile, Arc, Beam, Spray,
@@ -37,11 +37,13 @@ candidate supports it. Equal resources remain `DUPLICATE`, and close wiki
 identities remain explicit in `credibleWikiIdentities`. Slot and category are
 reported metadata and do not override contradictory gameplay fields.
 
-The current-build mapper also reads two weapon-level properties. A
+The current-build mapper also reads slot, capacity, recoil, and suppression
+weapon-level properties. A
 `LoadoutPackageComponentData.BundleTag` maps to `primary` or `secondary` only
 for the two reviewed tag values. Unknown or absent tags remain unclassified.
-Capacity comes from `WeaponMagazineComponentData.Capacity`, or from
-`WeaponRoundsComponentData.MagazineCapacity[0]` for round-fed weapons. The
+Capacity comes from `WeaponMagazineComponentData.Capacity`, or from the sum of
+the two schema-labelled `WeaponRoundsComponentData.MagazineCapacity` feed
+entries for round-fed weapons. The
 catalog capacity excludes a separately reported chambered round. If a nonzero
 default Magazine customization is present, effective capacity remains
 unresolved because its attachment AddPath has not been mapped; the mapper
@@ -64,14 +66,19 @@ The current build has reviewed structural adapters for:
 
 `WeaponDataComponentData` ownership and record identity are reported even when
 the projectile is shared or supplied by an unresolved customization. Its
-schema-labelled spread, sway, ergonomics, fire-mode context, and crosshair data
-are weapon-level evidence. Shared projectile/settings groups retain each
+schema-labelled spread, sway, ergonomics, recoil, suppression, fire-mode
+context, and crosshair data are weapon-level evidence. Recoil uses the reviewed
+mean of drift/climb horizontal values and the mean of drift/climb vertical
+values; the displayed recoil is the mean of those two results. Shared
+projectile/settings groups retain each
 distinct resource and WeaponData record; a shared projectile never collapses
 the resources into one identity.
 
 All new family links are schema-labelled structural evidence pending gameplay
 and native-consumer confirmation. The build-bound evidence and shared-projectile
-analysis are in `research/weapon-family-expansion-F5FEE03DCFDB.json`.
+analysis are in `research/weapon-family-expansion-F5FEE03DCFDB.json`. The final
+five mappings, customization findings, catalog discrepancies, and status-link
+evidence are in `research/final-five-player-weapons-F5FEE03DCFDB.json`.
 
 The command uses `SnapshotMemoryReader`, enforces the captured fingerprints,
 and reports `writes=0`, `protectionChanges=0`, and
