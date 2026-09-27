@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import argparse
-import json
 from collections import defaultdict
+import hashlib
+import json
 from pathlib import Path
+import re
 
 ROOT=Path(__file__).resolve().parents[1]
 CATALOG=ROOT/'schemas/support_weapon_authoring_catalog.json'
@@ -12,6 +14,77 @@ FIELDS=ROOT/'schemas/player_weapon_fields.json'
 LEGACY=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
 JSON_OUTPUT=ROOT/'sdk/SupportWeaponAuthoringCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/support_weapon_authoring.lua'
+
+
+BACKING_TYPES={
+    'projectile':'ProjectileSettings',
+    'damage':'DamageInfo',
+    'explosion_damage':'DamageInfo',
+    'explosion':'ExplosionSettings',
+    'arc':'ArcSettings',
+    'beam':'BeamSettings',
+    'status':'StatusEffectSettings',
+}
+
+
+def digest(value,length=20):
+    encoded=json.dumps(value,sort_keys=True,separators=(',',':')).encode()
+    return hashlib.sha256(encoded).hexdigest()[:length]
+
+
+def slug(value):
+    return re.sub(r'[^a-z0-9]+','-',str(value).lower()).strip('-')or'root'
+
+
+def weapon_key(name):
+    return 'support-weapon/v1/'+slug(name)+'/'+digest(name,16)
+
+
+def backing_identity(backing):
+    if backing['kind']=='component':
+        return ('component',backing['component'],backing['recordIndex'],backing['indexRow'])
+    semantic_type=BACKING_TYPES[backing['settings']]
+    return ('settings',semantic_type,backing['settingsType'],backing['group'],
+        backing['row'],backing['recordType'])
+
+
+def backing_object_key(backing):
+    semantic_type=(backing['component']if backing['kind']=='component'
+        else BACKING_TYPES[backing['settings']])
+    return 'support-object/v1/'+slug(semantic_type)+'/'+digest(backing_identity(backing))
+
+
+def canonical_public_field_id(qualified):
+    parts=qualified.split('.')
+    if parts[0]in('projectile','damage','arc','beam','status')and len(parts)>2:
+        return parts[0]+'.'+'.'.join(parts[2:])
+    if parts[0]=='explosion'and len(parts)>2:
+        return 'explosion.'+'.'.join(parts[2:])
+    return qualified
+
+
+def descriptor_instance_key(weapon_name,field,public_field_id=None):
+    public_field_id=public_field_id or canonical_public_field_id(field['semanticFieldId'])
+    target=field['target']
+    identity={'weapon':weapon_name,'path':target['path'],'attack':target.get('attack'),
+        'qualifiedField':field['semanticFieldId'],'field':public_field_id,
+        'object':backing_object_key(field['backing'])}
+    readable='/'.join((slug(weapon_name),slug(target['path']),
+        slug(target.get('attack')or'root'),slug(public_field_id)))
+    return 'support-field/v1/'+readable+'/'+digest(identity,16)
+
+
+def audit_instance_coverage(runtime,public):
+    expected=[descriptor_instance_key(name,field)
+        for name,weapon in runtime['weapons'].items()for field in weapon['fields']]
+    published=[field['instanceKey']for field in public['fieldInstances']]
+    assert len(expected)==len(set(expected)),'internal support field instance keys are not unique'
+    assert len(published)==len(set(published)),'published support field instance keys are not unique'
+    assert set(expected)==set(published),'published support field instance identity coverage diverged'
+    return {'internalInstances':len(expected),'publishedInstances':len(published),
+        'missingInstances':len(set(expected)-set(published)),
+        'unexpectedInstances':len(set(published)-set(expected)),
+        'identityCoverage':'exact'}
 
 
 def lua(value):
@@ -323,6 +396,242 @@ def build(catalog_path=CATALOG):
                 for item in weapon['ownershipChain']if item['kind']=='stratagem_payload'),{'known':False}),
             'writable':unique and bool(fields),'writableFieldCount':len(fields)if unique else 0})
 
+    # Build the canonical public instance/object model only after every internal
+    # descriptor exists. Raw native record coordinates are used solely to join
+    # evidence here; public keys are opaque semantic digests and expose none of
+    # those coordinates.
+    source_weapons={weapon['name']:weapon for weapon in source['weapons']}
+    public_weapon_by_name={weapon['name']:weapon for weapon in public_weapons}
+    reviewed_consumers=defaultdict(dict)
+
+    def branch_aliases(weapon_name,role):
+        weapon=source_weapons[weapon_name]
+        return [{'name':branch['name'],'kind':branch['kind'],'state':branch['state']}
+            for branch in weapon['attackGraph']
+            if (branch.get('runtimeMatch')or{}).get('runtimeAttackRole')==role]
+
+    def semantic_consumer(weapon_name,path,role=None,kind=None,parent_role=None):
+        aliases=branch_aliases(weapon_name,role)if role else[]
+        value={'weapon':weapon_name,'targetPath':path,'attackRole':role,
+            'attackKind':kind,'parentAttackRole':parent_role,
+            'catalogBranches':aliases,
+            'writableCatalogBranches':[branch for branch in aliases if branch['state']=='RESOLVED']}
+        value['consumerKey']='support-consumer/v1/'+slug(weapon_name)+'/'+slug(path)+'/'+slug(role or'root')+'/'+digest(value,16)
+        return value
+
+    def register_consumer(backing,consumer):
+        reviewed_consumers[backing_object_key(backing)][consumer['consumerKey']]=consumer
+
+    def record_backing(settings_name,record):
+        return {'kind':'settings','settings':settings_name,'settingsType':record['settingsType'],
+            'group':record['group'],'row':record['row'],'recordType':record['recordType']}
+
+    for weapon in source['weapons']:
+        resources=list(weapon['resources'])
+        if weapon.get('attackResource')and weapon['attackResource']not in resources:
+            resources.append(weapon['attackResource'])
+        for resource in resources:
+            candidate=candidates.get(resource)
+            if not candidate:continue
+            for component_name,owner in candidate['ownership'].items():
+                register_consumer({'kind':'component','component':component_name,
+                    'recordIndex':owner['recordIndex'],'indexRow':owner['indexRow']},
+                    semantic_consumer(weapon['name'],'weapon'))
+            for attack in candidate['attacks']:
+                role=attack['role'];kind=attack['kind'];parent=attack.get('parentRole')
+                if attack.get('projectileSettings'):
+                    register_consumer(record_backing('projectile',attack['projectileSettings']),
+                        semantic_consumer(weapon['name'],'projectile_reference',role,kind,parent))
+                if attack.get('damageInfo'):
+                    path=('projectile_reference'if kind=='Projectile'else
+                        'explosion'if kind=='Explosion'else'attack')
+                    register_consumer(record_backing('damage',attack['damageInfo']),
+                        semantic_consumer(weapon['name'],path,role,kind,parent))
+                for record_name,settings_name,path in (
+                        ('explosionSettings','explosion','explosion'),
+                        ('arcSettings','arc','attack'),('beamSettings','beam','attack'),
+                        ('statusSettings','status','attack')):
+                    record=attack.get(record_name)
+                    if record:register_consumer(record_backing(settings_name,record),
+                        semantic_consumer(weapon['name'],path,role,kind,parent))
+
+    for weapon_name,weapon in runtime_weapons.items():
+        for field in weapon['fields']:
+            target=field['target'];role=target.get('attack');attack=weapon['attacks'].get(role)or{}
+            register_consumer(field['backing'],semantic_consumer(weapon_name,target['path'],role,
+                attack.get('kind'),attack.get('parentRole')))
+
+    sdk_schema=json.loads((ROOT/'schemas/sdk.json').read_text())
+    api_constants=defaultdict(dict)
+    for resource in sdk_schema['resources'].values():
+        for name,field in resource['fields'].items():
+            api_constants[field['domain']][name.replace('.','_')]=name
+    for field_id in sorted(definitions):
+        domain,name=field_id.split('.',1);constant=name.replace('.','_')
+        if constant in api_constants[domain]and api_constants[domain][constant]!=field_id:
+            constant='player_'+constant
+        api_constants[domain][constant]=field_id
+
+    def api_constant(field_id):
+        domain=field_id.split('.',1)[0]
+        constant=next(name for name,value in api_constants[domain].items()if value==field_id)
+        return 'hd2.fields.'+domain+'.'+constant
+
+    object_fields=defaultdict(list)
+    for weapon_name,weapon in runtime_weapons.items():
+        for field in weapon['fields']:
+            object_fields[backing_object_key(field['backing'])].append((weapon_name,field))
+
+    backing_objects={}
+    for object_key,entries in object_fields.items():
+        backing=entries[0][1]['backing'];consumers=sorted(
+            reviewed_consumers[object_key].values(),key=lambda item:item['consumerKey'])
+        requires_shared=any(field['affectsMultipleWeapons']for _,field in entries)
+        scope_key='support-scope/v1/'+digest({'object':object_key,
+            'consumers':[item['consumerKey']for item in consumers]},20)
+        semantic_type=(backing['component']if backing['kind']=='component'
+            else BACKING_TYPES[backing['settings']])
+        backing_objects[object_key]={'objectKey':object_key,'kind':backing['kind'],
+            'semanticType':semantic_type,
+            'domains':sorted(set(definition(field['semanticFieldId'])['id'].split('.')[0]
+                for _,field in entries)),
+            'shared':requires_shared,'requiresSharedAcknowledgement':requires_shared,
+            'sharedScopeKey':scope_key,'reviewedConsumerCount':len(consumers),
+            'affectedSemanticConsumers':consumers,'reviewedScopeComplete':True,
+            'dynamicConsumersPossible':any(field['dynamicConsumersPossible']for _,field in entries),
+            'fieldInstanceKeys':[]}
+
+    def find_parent_object(weapon_name,field):
+        backing=field['backing'];linkage=backing.get('linkage')or''
+        fields=runtime_weapons[weapon_name]['fields'];target=field['target']
+        wanted=None;role=target.get('attack')
+        if backing.get('settings')=='status':
+            for candidate in fields:
+                if candidate['target']==target and candidate['backing'].get('settings')in(
+                        'damage','explosion_damage'):
+                    return backing_object_key(candidate['backing'])
+            return None
+        if linkage in('projectile_damage','projectile_explosion'):
+            wanted='projectile'
+            role=backing.get('parentRole')or role
+        elif linkage in('arc_damage','beam_damage'):
+            wanted=linkage.split('_',1)[0]
+            role=backing.get('parentRole')or role
+        elif linkage.endswith('explosion_damage'):
+            wanted='explosion'
+        if not wanted:return None
+        for candidate in fields:
+            candidate_backing=candidate['backing']
+            if candidate_backing.get('settings')==wanted and candidate['target'].get('attack')==role:
+                return backing_object_key(candidate_backing)
+        return None
+
+    def resolution_metadata(weapon_name,field):
+        backing=field['backing'];linkage=backing.get('linkage')
+        source_weapon=source_weapons[weapon_name]
+        root_chain=[node['kind']for node in source_weapon.get('ownershipChain')or[]]
+        parent=find_parent_object(weapon_name,field)
+        return {'rootChain':root_chain or['weapon_entity'],
+            'linkage':linkage or'owned_component','parentObjectKey':parent,
+            'terminalPhase':backing.get('phase'),
+            'planPhase':1,'planDependencies':[],
+            'requiresLaterPlanPhase':False,'targetFrom':None}
+
+    instances=[];operation_groups=defaultdict(list)
+    for weapon_name,weapon in runtime_weapons.items():
+        public_weapon=public_weapon_by_name[weapon_name];public_weapon['fieldInstanceKeys']=[]
+        for field in weapon['fields']:
+            field_id=definition(field['semanticFieldId'])['id'];target=field['target']
+            role=target.get('attack');attack=weapon['attacks'].get(role)or{}
+            object_key=backing_object_key(field['backing']);object_meta=backing_objects[object_key]
+            instance_key=descriptor_instance_key(weapon_name,field,field_id)
+            backing_scope=(field['backing']['kind']+':'
+                +(field['backing'].get('settings')or field['backing'].get('component')))
+            target_identity={'weapon':weapon_name,'targetPath':target['path'],'attackRole':role}
+            operation_key='support-operation/v1/'+digest({'object':object_key,
+                'scope':backing_scope,'target':target_identity},20)
+            plan_key='support-plan/v1/'+slug(weapon_name)+'/'+digest(weapon_name,12)
+            consumers=object_meta['affectedSemanticConsumers']
+            reference=None
+            if field['type'].endswith('_reference'):
+                reference={'expectedSemanticReference':field['currentDefault'],
+                    'sourceClass':field['type'],'typedIdentityOnly':True}
+            accessor=['support_weapon']
+            if target['path']!='weapon':
+                accessor.append('attack')
+                if target['path']=='projectile_reference':accessor.append('projectile')
+                elif target['path']=='explosion':accessor.append('explosion')
+            instance={'instanceKey':instance_key,'supportWeapon':weapon_name,
+                'supportWeaponIdentity':{'weaponKey':weapon_key(weapon_name),
+                    'name':weapon_name,'identityStatus':public_weapon['identityStatus']},
+                'target':{'resource':'support_weapon','path':target['path'],
+                    'attackRole':role,'attackKind':attack.get('kind'),
+                    'parentAttackRole':attack.get('parentRole'),
+                    'accessor':accessor,
+                    'catalogBranches':branch_aliases(weapon_name,role)if role else[],
+                    'writableCatalogBranches':[branch for branch in branch_aliases(weapon_name,role)
+                        if branch['state']=='RESOLVED']if role else[]},
+                'semanticFieldId':field_id,
+                'qualifiedSemanticFieldId':field['semanticFieldId'],
+                'apiFieldConstant':api_constant(field_id),
+                'display':{'name':field['displayName'],'domain':field_id.split('.')[0],
+                    'group':object_meta['semanticType']},
+                'value':{'kind':'reference'if reference else'scalar','type':field['type'],
+                    'baseline':field['currentDefault'],'expected':field['currentDefault'],
+                    'unit':field['unit'],'reference':reference},
+                'writable':field['acceptedForWrites'],'readOnly':not field['acceptedForWrites'],
+                'blockedReason':field['reason'],
+                'backing':{'objectKey':object_key,'kind':object_meta['kind'],
+                    'semanticType':object_meta['semanticType'],
+                    'domain':field['backing'].get('settings')or field['backing'].get('component'),
+                    'operationGroupingKey':operation_key,'runtimeBackingScope':backing_scope},
+                'sharedScope':{'scopeKey':object_meta['sharedScopeKey'],
+                    'shared':object_meta['shared'],
+                    'requiresAcknowledgement':object_meta['requiresSharedAcknowledgement'],
+                    'reviewedConsumerCount':object_meta['reviewedConsumerCount'],
+                    'affectedSemanticConsumers':consumers,
+                    'reviewedScopeComplete':object_meta['reviewedScopeComplete'],
+                    'dynamicConsumersPossible':object_meta['dynamicConsumersPossible']},
+                'operation':{'minimumApi':'hd2.patch','patchSupported':True,
+                    'transactionSupported':True,'transactionRequired':False,
+                    'transactionGroupingKey':operation_key,'planSupported':True,
+                    'planRequired':False,'planRequiredForMultipleBackingObjects':True,
+                    'planGroupingKey':plan_key,'phase':1,'dependencies':[],
+                    'allowSharedRequired':object_meta['requiresSharedAcknowledgement']},
+                'resolution':resolution_metadata(weapon_name,field),
+                'provenance':{'identity':'unique reviewed support-weapon runtime identity',
+                    'semantics':'shared player/support field schema',
+                    'ownership':'typed retained-snapshot ownership chain',
+                    'baseline':'exact retained-snapshot value',
+                    'validation':'production resolver guarded ALREADY_DESIRED no-op',
+                    'evidenceArtifact':'support-weapon-authoring-validation-F5FEE03DCFDB.json'}}
+            instances.append(instance);operation_groups[operation_key].append(instance_key)
+            object_meta['fieldInstanceKeys'].append(instance_key)
+            public_weapon['fieldInstanceKeys'].append(instance_key)
+
+    operation_group_entries=[]
+    instance_by_key={instance['instanceKey']:instance for instance in instances}
+    for operation_key,instance_keys in sorted(operation_groups.items()):
+        first=instance_by_key[instance_keys[0]]
+        operation_group_entries.append({'operationGroupingKey':operation_key,
+            'backingObjectKey':first['backing']['objectKey'],
+            'runtimeBackingScope':first['backing']['runtimeBackingScope'],
+            'target':first['target'],'fieldInstanceKeys':instance_keys,
+            'recommendedApi':'hd2.transaction'if len(instance_keys)>1 else'hd2.patch',
+            'allowSharedRequired':first['operation']['allowSharedRequired'],
+            'planGroupingKey':first['operation']['planGroupingKey'],'phase':1,
+            'dependencies':[]})
+
+    duplicate_groups=[];by_semantic=defaultdict(list)
+    for instance in instances:
+        by_semantic[(instance['supportWeapon'],instance['semanticFieldId'])].append(instance)
+    for (weapon_name,field_id),entries in sorted(by_semantic.items()):
+        if len(entries)>1:
+            duplicate_groups.append({'supportWeapon':weapon_name,'semanticFieldId':field_id,
+                'count':len(entries),'instanceKeys':[entry['instanceKey']for entry in entries],
+                'attackRoles':[entry['target']['attackRole']for entry in entries],
+                'backingObjectKeys':[entry['backing']['objectKey']for entry in entries]})
+
     domain_counts=defaultdict(int);weapons_by_domain=defaultdict(int)
     for weapon in public_weapons:
         for domain,field_ids in weapon['writableFieldsByDomain'].items():
@@ -352,6 +661,25 @@ def build(catalog_path=CATALOG):
         'linkedStratagemScalarValues':0,
         'sharedFieldInstances':sum(field['affectsMultipleWeapons']
             for weapon in runtime_weapons.values()for field in weapon['fields']),
+        'internalSupportAuthoringInstances':sum(len(weapon['fields'])for weapon in runtime_weapons.values()),
+        'publishedSupportFieldInstances':len(instances),
+        'legacyFlattenedFieldEntries':sum(sum(len(fields)for fields in weapon['writableFieldsByDomain'].values())
+            for weapon in public_weapons),
+        'branchSpecificFieldInstances':sum(instance['target']['attackRole']is not None
+            for instance in instances),
+        'backingObjectCount':len(backing_objects),
+        'operationGroupingCount':len(operation_group_entries),
+        'sharedBackingObjectCount':sum(value['shared']for value in backing_objects.values()),
+        'sharedConsumerScopeCount':len({value['sharedScopeKey']for value in backing_objects.values()
+            if value['shared']}),
+        'duplicateSemanticFieldGroups':len(duplicate_groups),
+        'duplicateSemanticFieldInstances':sum(group['count']for group in duplicate_groups),
+        'deduplicationLossPrevented':len(instances)-sum(sum(len(fields)
+            for fields in weapon['writableFieldsByDomain'].values())for weapon in public_weapons),
+        'referenceFieldInstances':sum(instance['value']['kind']=='reference'for instance in instances),
+        'readOnlyFieldInstances':sum(instance['readOnly']for instance in instances),
+        'blockedFieldDeclarations':sum(len(weapon['blockedFields'])for weapon in public_weapons),
+        'intentionallyOmittedInstances':0,
         'safety':source['safety']}
     constants={}
     for definition_item in schema['fields']:
@@ -359,10 +687,28 @@ def build(catalog_path=CATALOG):
         if domain in('charge','status'):constants.setdefault(domain,{})[name.replace('.','_')]=definition_item['id']
     runtime={'version':(ROOT/'VERSION').read_text().strip(),'weapons':runtime_weapons,
         'fields':constants,'summary':summary}
-    public={'schemaVersion':1,'contract':'hd2runtime.support_weapon.guarded_authoring.v1',
+    public={'schemaVersion':2,'contract':'hd2runtime.support_weapon.guarded_authoring.v2',
         'hd2RuntimeVersion':runtime['version'],'summary':summary,'weapons':public_weapons,
+        'fieldInstances':instances,
+        'backingObjects':[backing_objects[key]for key in sorted(backing_objects)],
+        'operationGroups':operation_group_entries,
+        'duplicateSemanticFieldInstances':duplicate_groups,
+        'compatibility':{'legacyWeaponViewsRetained':True,
+            'legacyView':'weapons[].writableFieldsByDomain',
+            'legacyViewSemantics':'Deduplicated lookup only; use fieldInstances for authoring.',
+            'canonicalAuthoringCollection':'fieldInstances'},
+        'planContract':{'api':'hd2.plan','currentPhase':1,
+            'currentInstancesRequireTargetFrom':False,
+            'oneOperationPerOperationGroupingKey':True,
+            'multipleBackingObjectsRequirePlan':True},
+        'referenceContract':{'typedIdentityOnly':True,
+            'expectedValueProperty':'value.reference.expectedSemanticReference',
+            'sourceClassProperty':'value.reference.sourceClass',
+            'rawNativeIdentifiersPublished':False,
+            'currentReferenceFieldInstances':summary['referenceFieldInstances']},
         'safety':{'runtimeAddresses':False,'rawResourceIdentifiers':False,
             'writesDuringGeneration':0,'protectionChangesDuringGeneration':0,'fixtureFallback':'disabled'}}
+    public['instanceAudit']=audit_instance_coverage(runtime,public)
     return runtime,public
 
 

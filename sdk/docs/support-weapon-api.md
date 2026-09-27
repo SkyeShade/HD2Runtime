@@ -51,11 +51,23 @@ capacity, generation, cooling, and heatsinks. Its three runtime roots are still 
 heat and beam writes remain blocked. EAT-17, MG-43, MG-206, M-105, B/FLAM-80, CQC-20, and CQC-72
 are blocked for the same identity reason.
 
-The GUI-facing `SupportWeaponAuthoringCapabilities.json` reports every weapon, catalog branch,
-writable fields by domain, shared scopes, blocked fields and exact reasons, backpack dependency,
-and linked stratagem status. It contains no runtime addresses, offsets, record IDs, resource
-hashes, projectile IDs, or explosion IDs. The older `SupportWeaponCapabilities.json` remains as
-the detailed inspection/evidence artifact.
+The GUI-facing `SupportWeaponAuthoringCapabilities.json` schema v2 reports every weapon, catalog
+branch, writable fields by domain, shared scopes, blocked fields and exact reasons, backpack
+dependency, and linked stratagem status. Its canonical `fieldInstances` collection contains one
+entry for every internal authoring descriptor. Each entry includes the exact baseline, API field
+constant, attack-qualified target, semantic backing-object key, complete reviewed consumer scope,
+shared acknowledgement key, and transaction/plan grouping keys. `backingObjects` and
+`operationGroups` provide deduplicated joins for building one transaction per accepted Runtime
+backing scope and one plan across related objects.
+
+The older `weapons[].writableFieldsByDomain` lookup remains available as a deduplicated
+compatibility view. It must not be used to enumerate authoring instances because equal field names
+on different attacks or backing objects intentionally remain separate in `fieldInstances`.
+
+Semantic object and instance keys are stable opaque digests of reviewed identities. The artifact
+contains no runtime addresses, offsets, record IDs, resource hashes, projectile IDs, or explosion
+IDs. The older `SupportWeaponCapabilities.json` remains as the detailed inspection/evidence
+artifact.
 
 Snapshot validation resolves all promoted fields through production ownership chains and applies
 their current values as guarded no-ops. The checked result must be `ALREADY_DESIRED`, with zero
