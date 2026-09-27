@@ -15,6 +15,8 @@ INTERNAL = ROOT / 'schemas/stratagem_authoring_catalog.json'
 LUA = ROOT / 'domains/stratagem_authoring.lua'
 PUBLIC = ROOT / 'sdk/StratagemAuthoringCapabilities.json'
 RESEARCH = ROOT / 'research/offensive-stratagem-runtime-F5FEE03DCFDB.json'
+DEFENSIVE_INPUT = ROOT / 'build/non-offensive-stratagem-research.json'
+DEFENSIVE_FIELDS = ROOT / 'schemas/stratagem_fields.json'
 
 
 def lua(value):
@@ -49,6 +51,7 @@ def build():
     source = json.loads((INPUT if INPUT.exists() else RESEARCH).read_text())
     defs = {x['id']: x for path in (FIELDS, PLAYER_FIELDS)
             for x in json.loads(path.read_text())['fields']}
+    defensive_source = json.loads(DEFENSIVE_INPUT.read_text()) if DEFENSIVE_INPUT.exists() else None
     internal = {'schemaVersion': 1, 'sourceSnapshot': source['source']['snapshot'],
         'safety': {k: source['source'][k] for k in ('mode','writes','protectionChanges','fixtureFallback')},
         'stratagems': {}, 'eagleRearm': source['systemRoots']['eagleRearm']}
@@ -69,13 +72,14 @@ def build():
     def add_field(entry, field_id, baseline, backing, target, writable=True, reason=None,
                   provenance='current-build retained snapshot plus schema-labelled native ownership'):
         definition = defs[field_id]
-        target_identity = target['path'] + (':' + target['attack'] if target.get('attack') else '')
+        target_identity = ':'.join(str(target.get(key, '')) for key in
+            ('path', 'entity', 'weapon', 'attack'))
         instance_key = f"stratagem:{slug(entry['name'])}:{slug(target_identity)}:{field_id}"
         native_identity = backing['nativeIdentity']
         object_key = opaque(backing['kind'], native_identity)
         scope = backing.get('consumers', [{'stratagem': entry['name'], 'path': target['path']}])
         settings_object = backing['kind'] in ('ProjectileSettings','DamageInfo',
-            'ExplosionSettings','StatusEffectSettings')
+            'ExplosionSettings','StatusEffectSettings','ArcSettings','BeamSettings')
         shared = len(scope) > 1 or settings_object
         descriptor = {'instanceKey': instance_key, 'semanticFieldId': field_id,
             'displayName': definition['display_name'], 'type': definition['type'],
@@ -234,13 +238,242 @@ def build():
             'callInTime':{'value':None,'writable':False,
                 'reason':'No call-in-time owner is proven for this definition.'}})
 
-    public={'contract':'hd2runtime.stratagem.guarded_authoring.v1','schemaVersion':1,
+    # Defensive stratagems keep the deployed entity, mounted weapon, and attack
+    # branches as separate semantic instances. Native entity components and
+    # settings records are still resolved by the guarded stratagem writer.
+    defensive_consumers = defaultdict(list)
+    if defensive_source:
+        for item in defensive_source['stratagems']:
+            entity = item['deployedEntity']
+            entity_scope = {'stratagem': item['name'], 'path': 'deployed_entity'}
+            defensive_consumers[('HealthComponentData', entity['resource'])].append(entity_scope)
+            for component in entity['componentNames']:
+                if component in ('WeaponDataComponentData','WeaponMagazineComponentData',
+                        'WeaponRoundsComponentData','WeaponHeatComponentData',
+                        'WeaponChargeComponentData','ProjectileWeaponComponentData',
+                        'ArcWeaponComponentData','BeamWeaponComponentData',
+                        'SprayWeaponComponentData'):
+                    defensive_consumers[(component, entity['resource'])].append(
+                        {'stratagem': item['name'], 'path': 'deployed_entity/weapon:primary'})
+            for node in entity['nativeGraph']:
+                if 'recordType' in node:
+                    defensive_consumers[(node['kind'], node['recordType'])].append(
+                        {'stratagem': item['name'], 'path': node['path']})
+            for branch in item.get('importedBranches', []):
+                semantic_branches.append(dict(branch, stratagem=item['name'],
+                    family=item['family'].lower(),
+                    correlation='descriptive branch preserved; writable fields are declared only by nativeGraph objects'))
+
+        def scalar_at(component, offset):
+            for value in component.get('fields', []):
+                if value['offset'] == offset and value.get('value'):
+                    return value['value'][0]
+            return None
+
+        def attack_role(path):
+            marker = '/attack:'
+            start = path.index(marker) + len(marker)
+            role = path[start:].split('/', 1)[0]
+            suffix = path[start + len(role):]
+            for part in suffix.split('/'):
+                if part == 'impact': role += '_impact'
+                elif part == 'expiry': role += '_expiry'
+                elif part == 'damage': role += '_damage'
+                elif part.startswith('status:'): role += '_status_' + part.split(':', 1)[1]
+            return role
+
+        for item in defensive_source['stratagems']:
+            root = item['currentRoot']
+            entity = item['deployedEntity']
+            entry = {'name': item['name'], 'family': item['family'].lower(),
+                'rootResolution': 'UNIQUE', 'root': {'id': root['id'], 'package': root['package'],
+                    'payloads': root['payloads'], 'group': root['group'], 'row': root['row']},
+                'fields': [], 'attacks': {}, 'graph': entity['nativeGraph'],
+                'deployedEntity': entity, 'blockedFields': [
+                    {'field':'targeting.*', 'reason':'Target range, traverse, tracking speed, and firing arc ownership are not promoted without a native semantic proof.'},
+                    {'field':'deployment lifetime', 'reason':'The deployed lifetime owner is not unambiguous across sentry, emplacement, and mine families.'},
+                ]}
+            root_scope = [{'stratagem': item['name'], 'path': 'stratagem'}]
+            add_field(entry, 'stratagem.cooldown', root['cooldown'],
+                {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,
+                 'storage':'f32','width':4,'consumers':root_scope},
+                {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'})
+            max_value = None if root['use_count'] == 4294967295 else root['use_count']
+            add_field(entry, 'stratagem.max_uses', max_value,
+                {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,
+                 'storage':'u32','width':4,'consumers':root_scope},
+                {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'}, False)
+
+            components = {component['name']: component for report in item['payloadReports']
+                if report['payload'] == entity['resource'] for component in report['components']}
+            entity_target = {'resource':'stratagem','stratagem':item['name'],
+                'path':'deployed_entity','entity':'main'}
+            health = components.get('HealthComponentData')
+            if health:
+                for field_id, offset in (('entity.health', 0), ('entity.armor', 280)):
+                    baseline = scalar_at(health, offset)
+                    if baseline is not None:
+                        backing = {'kind':'HealthComponentData','component':'HealthComponentData',
+                            'nativeIdentity':entity['resource'],'recordIndex':health['record_index'],
+                            'indexRow':health['index_row'],'offset':offset,'storage':
+                            'i32' if field_id == 'entity.health' else 'u32','width':4,
+                            'consumers':defensive_consumers[('HealthComponentData', entity['resource'])]}
+                        add_field(entry, field_id, baseline, backing, entity_target)
+
+            weapon_target = {'resource':'stratagem','stratagem':item['name'],
+                'path':'weapon','entity':'main','weapon':'primary'}
+            component_fields = {
+                'weapon.fire_rate': ('ProjectileWeaponComponentData', 8, 'f32'),
+            }
+            if 'ArcWeaponComponentData' in components or 'BeamWeaponComponentData' in components:
+                component_fields['weapon.fire_rate'] = (
+                    'ArcWeaponComponentData' if 'ArcWeaponComponentData' in components else
+                    'BeamWeaponComponentData', 4, 'f32')
+            for field_id, (component_name, offset, storage) in component_fields.items():
+                component = components.get(component_name)
+                baseline = scalar_at(component, offset) if component else None
+                if baseline is not None:
+                    add_field(entry, field_id, baseline,
+                        {'kind':component_name,'component':component_name,
+                         'nativeIdentity':entity['resource'],'recordIndex':component['record_index'],
+                         'indexRow':component['index_row'],'offset':offset,'storage':storage,'width':4,
+                         'consumers':defensive_consumers[(component_name, entity['resource'])]}, weapon_target)
+            magazine = components.get('WeaponMagazineComponentData')
+            if magazine:
+                for field_id, offset in (('weapon.capacity',136),
+                        ('magazine.starting_magazines',140),
+                        ('magazine.magazines_from_supply',144),
+                        ('magazine.spare_magazines',148)):
+                    baseline = scalar_at(magazine, offset)
+                    if baseline is not None:
+                        add_field(entry, field_id, baseline,
+                            {'kind':'WeaponMagazineComponentData','component':'WeaponMagazineComponentData',
+                             'nativeIdentity':entity['resource'],'recordIndex':magazine['record_index'],
+                             'indexRow':magazine['index_row'],'offset':offset,'storage':'u32','width':4,
+                             'consumers':defensive_consumers[('WeaponMagazineComponentData', entity['resource'])]},
+                            weapon_target)
+            heat = components.get('WeaponHeatComponentData')
+            if heat:
+                for field_id, offset, storage in (
+                        ('heat.capacity',96,'f32'),('heat.heat_per_shot',116,'f32'),
+                        ('heat.heat_per_second',120,'f32'),('heat.cool_per_second',128,'f32'),
+                        ('heatsink.starting',84,'u32'),('heatsink.from_supply',88,'u32'),
+                        ('heatsink.spare',92,'u32')):
+                    baseline = scalar_at(heat, offset)
+                    if baseline is not None:
+                        add_field(entry, field_id, baseline,
+                            {'kind':'WeaponHeatComponentData','component':'WeaponHeatComponentData',
+                             'nativeIdentity':entity['resource'],'recordIndex':heat['record_index'],
+                             'indexRow':heat['index_row'],'offset':offset,'storage':storage,'width':4,
+                             'consumers':defensive_consumers[('WeaponHeatComponentData', entity['resource'])]},
+                            weapon_target)
+
+            for node in entity['nativeGraph']:
+                if not node.get('recordType'):
+                    continue
+                role = attack_role(node['path'])
+                kind = node['kind']
+                entry['attacks'].setdefault(role, {'role':role,'path':node['path'],
+                    'kind':kind,'parentRole':role.rsplit('_',1)[0] if '_' in role else None,'fields':[]})
+                if not any(x['stratagem'] == item['name'] and x['role'] == role
+                           for x in attack_instances):
+                    attack_instances.append({'stratagem':item['name'],'family':item['family'].lower(),
+                        'role':role,'path':node['path'],'kind':kind,
+                        'parentRole':entry['attacks'][role]['parentRole'],
+                        'entity':'main','weapon':'primary'})
+                target = {'resource':'stratagem','stratagem':item['name'],'path':'attack',
+                    'entity':'main','weapon':'primary','attack':role}
+                for original_id, baseline in node.get('fields', {}).items():
+                    field_id = ('explosion.damage.' + original_id[len('damage.'):] if
+                        (node.get('linkage') == 'explosion_damage' or
+                         '/impact/damage' in node['path'] or '/expiry/damage' in node['path'])
+                        and original_id.startswith('damage.')
+                        else original_id)
+                    if field_id not in defs:
+                        continue
+                    offsets = {'projectile.pellet_count':28,'projectile.velocity':32,
+                        'projectile.mass':36,'projectile.drag':40,'projectile.gravity':44,
+                        'damage.standard_damage':4,'damage.durable_damage':8,'damage.ap_direct':12,
+                        'damage.ap_slight':16,'damage.ap_large':20,'damage.ap_extreme':24,
+                        'damage.demolition':28,'damage.stagger':32,'damage.push_force':36,
+                        'explosion.inner_radius':16,'explosion.outer_radius':20,
+                        'explosion.shockwave_radius':24,'explosion.damage.standard_damage':4,
+                        'explosion.damage.durable_damage':8,'explosion.damage.ap_direct':12,
+                        'explosion.damage.ap_slight':16,'explosion.damage.ap_large':20,
+                        'explosion.damage.ap_extreme':24,'explosion.damage.demolition':28,
+                        'explosion.damage.stagger':32,'explosion.damage.push_force':36,
+                        'status.strength':44 + (node.get('slot',1)-1)*8 + 4,
+                        'status.duration':40,'arc.velocity':4,'arc.range':8,
+                        'arc.distance_at_max_spread':12,'arc.max_angle_spread':20,
+                        'arc.chain_count':28,'arc.max_split':32,'beam.radius':4,'beam.length':8}
+                    if field_id not in offsets:
+                        continue
+                    storage = defs[field_id].get('storage') or ('i32' if defs[field_id]['type'] == 'integer' else 'f32')
+                    backing_kind = kind
+                    add_field(entry, field_id, baseline,
+                        {'kind':backing_kind,'nativeIdentity':node['recordType'],
+                         'offset':offsets[field_id],'storage':storage,'width':4,
+                         'group':node.get('group'),'row':node.get('row'),
+                         'consumers':defensive_consumers[(backing_kind,node['recordType'])],
+                         'phase':1}, target)
+                    entry['attacks'][role]['fields'].append(field_id)
+            internal['stratagems'][item['name']] = entry
+            public_stratagems.append({'name':item['name'],'family':item['family'].lower(),
+                'rootResolution':'UNIQUE','attackRoles':list(entry['attacks']),
+                'cooldown':root['cooldown'],'cooldownCapability':{'value':root['cooldown'],
+                    'writable':True,'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
+                'maxUses':{'value':max_value,'writable':False,
+                    'reason':defs['stratagem.max_uses']['reason']},
+                'callInTime':{'value':None,'writable':False,
+                    'reason':'The resolved spawn-time scalar does not reproduce the semantic call-in time across families.'},
+                'deployedEntity':{'kind':entity['kind'],'identityStatus':'UNIQUE',
+                    'fieldCount':sum(field['target'].get('path') == 'deployed_entity' for field in entry['fields']),
+                    'weaponBranches':['primary'] if any(field['target'].get('path') == 'weapon' for field in entry['fields']) else [],
+                    'blockedFields':entry['blockedFields']},
+                'mineScopeDeferred':item['family'].lower() == 'mine'})
+
+    backing_objects = {}
+    operation_groups = {}
+    for field in field_instances:
+        backing_id = field['backingObjectId']
+        backing = backing_objects.setdefault(backing_id, {
+            'backingObjectId': backing_id, 'kind': field['backingObjectKind'],
+            'shared': field['shared'], 'sharedConsumers': field['sharedConsumers'],
+            'fieldInstances': []})
+        backing['fieldInstances'].append(field['instanceKey'])
+        group_id = field['operationGroup']
+        group = operation_groups.setdefault(group_id, {
+            'operationGroup': group_id, 'backingObjectId': backing_id,
+            'fieldInstances': [], 'planGroups': []})
+        group['fieldInstances'].append(field['instanceKey'])
+        if field['planGroup'] not in group['planGroups']:
+            group['planGroups'].append(field['planGroup'])
+    deployed_entities = []
+    for item in public_stratagems:
+        if item.get('deployedEntity'):
+            deployed_entities.append({
+                'stratagem': item['name'], 'family': item['family'],
+                'identity': item['deployedEntity'],
+                'fieldInstances': [field['instanceKey'] for field in field_instances
+                    if field['instanceKey'].startswith('stratagem:' + slug(item['name']) + ':')
+                    and field['target']['path'] in ('deployed_entity','weapon','attack')],
+                'attackRoles': item['attackRoles'],
+                'blockedFields': item['deployedEntity']['blockedFields']})
+    public={'contract':'hd2runtime.stratagem.guarded_authoring.v2','schemaVersion':2,
         'canonicalCollection':'fieldInstances','source':{'wikiCommit':source['source']['wikiCommit'],
             'snapshot':source['source']['snapshot']},'safety':internal['safety'],
         'stratagems':public_stratagems,'semanticBranches':semantic_branches,
-        'attacks':attack_instances,'fieldInstances':field_instances}
+        'attacks':attack_instances,'fieldInstances':field_instances,
+        'deployedEntities':deployed_entities,'backingObjects':list(backing_objects.values()),
+        'operationGroups':list(operation_groups.values())}
     counts=Counter(x['semanticFieldId'].split('.')[0] for x in field_instances if x['editable'])
     attack_counts=Counter(x['kind'] for x in attack_instances)
+    defensive = [x for x in public_stratagems if x['family'] in ('sentry','emplacement','mine')]
+    sentries = [x for x in defensive if x['family'] == 'sentry']
+    emplacements = [x for x in defensive if x['family'] == 'emplacement']
+    mines = [x for x in defensive if x['family'] == 'mine']
+    defensive_fields = [x for x in field_instances if x['target']['path'] in
+        ('deployed_entity','weapon','attack')]
     public['summary']={'offensiveRootsResolved':20,'orbitalRootsResolved':12,'eagleRootsResolved':8,
         'supportRootsResolved':sum(x['resolution']=='UNIQUE' for x in source['supportRoots']),
         'cooldownWritable':sum(x['semanticFieldId']=='stratagem.cooldown' and x['editable'] for x in field_instances),
@@ -256,6 +489,28 @@ def build():
         'importedBeamBranches':sum('Beam' in x.get('semanticRoles',[]) for x in semantic_branches),
         'nativeBranchInstancesByKind':dict(sorted(attack_counts.items())),
         'writableByDomain':dict(sorted(counts.items())),
+        'sentryRootsResolved':len(sentries),'emplacementRootsResolved':len(emplacements),
+        'mineRootsResolved':len(mines),'deployedEntitiesResolved':len(deployed_entities),
+        'healthWritable':sum(x['semanticFieldId']=='entity.health' and x['editable'] for x in defensive_fields),
+        'armorWritable':sum(x['semanticFieldId']=='entity.armor' and x['editable'] for x in defensive_fields),
+        'mountedWeaponsResolved':len({(x['target'].get('stratagem'),x['target'].get('weapon'))
+            for x in defensive_fields if x['target'].get('weapon')}),
+        'multiWeaponEntities':0,
+        'ammoWritable':sum(x['semanticFieldId'].startswith(('weapon.capacity','magazine.','rounds.'))
+            and x['editable'] for x in defensive_fields),
+        'fireRateWritable':sum(x['semanticFieldId']=='weapon.fire_rate' and x['editable']
+            for x in defensive_fields),
+        'projectileBranches':sum(x['kind']=='ProjectileSettings' for x in attack_instances),
+        'damageBranches':sum(x['kind']=='DamageInfo' for x in attack_instances),
+        'explosionBranches':sum(x['kind']=='ExplosionSettings' for x in attack_instances),
+        'beamBranches':sum(x['kind'] in ('Beam','BeamSettings') for x in attack_instances),
+        'arcBranches':sum(x['kind']=='ArcSettings' for x in attack_instances),
+        'sprayBranches':sum(x['kind']=='Spray' for x in attack_instances),
+        'statusBranches':sum(x['kind']=='StatusEffectSettings' for x in attack_instances),
+        'heatWritable':sum(x['semanticFieldId'].startswith('heat.') and x['editable']
+            for x in defensive_fields),
+        'canonicalBackingObjects':len(backing_objects),
+        'canonicalOperationGroups':len(operation_groups),
         'researchWrites':0,'protectionChanges':0,'fixtureFallback':'disabled'}
     return internal, public, source
 

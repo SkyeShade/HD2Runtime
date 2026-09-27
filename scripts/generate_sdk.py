@@ -195,13 +195,32 @@ def outputs():
         '---@return HD2StratagemAttack','function HD2StratagemAttack:explosion() end',
         '---@return HD2StratagemAttack','function HD2StratagemAttack:damage() end',
         '---@return HD2StratagemAttack','function HD2StratagemAttack:status() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:arc() end',
+        '---@return HD2StratagemAttack','function HD2StratagemAttack:beam() end',
+        '','---@class HD2MountedWeapon','---@field resource "stratagem"',
+        '---@field path "weapon"','---@field stratagem HD2StratagemAuthoringName',
+        '---@field entity string','---@field weapon string','local HD2MountedWeapon = {}',
+        '---@return table','function HD2MountedWeapon:describe() end',
+        '---@return HD2StratagemAttack[]','function HD2MountedWeapon:attacks() end',
+        '---@param role HD2StratagemAttackRole','---@return HD2StratagemAttack',
+        'function HD2MountedWeapon:attack(role) end',
+        '','---@class HD2DeployedEntity','---@field resource "stratagem"',
+        '---@field path "deployed_entity"','---@field stratagem HD2StratagemAuthoringName',
+        '---@field entity string','local HD2DeployedEntity = {}','---@return table',
+        'function HD2DeployedEntity:describe() end','---@return HD2DeployedEntity',
+        'function HD2DeployedEntity:health() end','---@param identity string',
+        '---@return HD2MountedWeapon','function HD2DeployedEntity:weapon(identity) end',
+        '---@return HD2MountedWeapon[]','function HD2DeployedEntity:weapons() end',
+        '---@param role HD2StratagemAttackRole','---@return HD2StratagemAttack',
+        'function HD2DeployedEntity:attack(role) end',
         '---@class HD2EagleRearm','---@field resource "stratagem"',
         '---@field path "eagle_rearm"','---@field stratagem HD2StratagemAuthoringName',
         'local HD2EagleRearm = {}','---@return table','function HD2EagleRearm:describe() end',
         '---@param role HD2StratagemAttackRole','---@return HD2StratagemAttack',
         'function HD2Stratagem:attack(role) end','---@return HD2StratagemAttack[]',
         'function HD2Stratagem:attacks() end','---@return HD2EagleRearm',
-        'function HD2Stratagem:eagle_rearm() end']
+        'function HD2Stratagem:eagle_rearm() end','---@return HD2DeployedEntity',
+        'function HD2Stratagem:deployed_entity() end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():

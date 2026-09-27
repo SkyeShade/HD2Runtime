@@ -7,7 +7,10 @@ local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/stratagem_authoring')
 local M={}
 local component_names={'BombardmentComponentData','EagleComponentData',
-    'ProjectileWeaponComponentData','OrbitalAbilityComponentData'}
+    'ProjectileWeaponComponentData','OrbitalAbilityComponentData',
+    'HealthComponentData','WeaponDataComponentData','WeaponMagazineComponentData',
+    'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
+    'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData'}
 
 local function equal(a,c,storage)
     if storage=='f32'then return type(a)=='number'and type(c)=='number'
@@ -22,6 +25,7 @@ local function find_field(entry,target,id)
     for _,field in ipairs(entry.fields)do
         local t=field.target
         if field.semanticFieldId==id and t.path==target.path
+            and t.entity==rawget(target,'entity') and t.weapon==rawget(target,'weapon')
             and t.attack==rawget(target,'attack') then return field end
     end
     error('field is not exposed for '..entry.name..': '..tostring(id),0)
@@ -29,12 +33,24 @@ end
 local function validate_target(target)
     assert(type(target)=='table'and target.resource=='stratagem'
         and type(target.stratagem)=='string','unsupported stratagem target')
-    if target.path=='attack'then assert(type(rawget(target,'attack'))=='string','stratagem attack role required')
-    else assert(target.path=='stratagem'or target.path=='eagle_rearm','unsupported stratagem target')end
-    for key in pairs(target)do assert(key=='resource'or key=='stratagem'or key=='path'or key=='attack',
-        'unsupported stratagem target identity')end
-    return assert(database.stratagems[target.stratagem],
+    local entry=assert(database.stratagems[target.stratagem],
         'unknown reviewed stratagem: '..target.stratagem)
+    if target.path=='attack'then
+        if entry.deployedEntity then
+            assert(type(rawget(target,'entity'))=='string','deployed entity required')
+            assert(type(rawget(target,'weapon'))=='string','mounted weapon required')
+        end
+        assert(type(rawget(target,'attack'))=='string','stratagem attack role required')
+    elseif target.path=='weapon'then
+        assert(type(rawget(target,'entity'))=='string','deployed entity required')
+        assert(type(rawget(target,'weapon'))=='string','mounted weapon required')
+    elseif target.path=='deployed_entity'then
+        assert(type(rawget(target,'entity'))=='string','deployed entity required')
+    else assert(target.path=='stratagem'or target.path=='eagle_rearm','unsupported stratagem target')end
+    for key in pairs(target)do assert(key=='resource'or key=='stratagem'or key=='path'or key=='entity'
+        or key=='weapon'or key=='attack',
+        'unsupported stratagem target identity')end
+    return entry
 end
 local function validate_change(entry,target,item,allow_shared)
     assert(type(item)=='table','change must be a descriptor')
@@ -108,7 +124,8 @@ local function find_candidate(catalog,resource)
 end
 local function graph_record(roots,node)
     local map={ProjectileSettings='projectile',DamageInfo='damage',
-        ExplosionSettings='explosion',StatusEffectSettings='status'}
+        ExplosionSettings='explosion',StatusEffectSettings='status',
+        ArcSettings='arc',BeamSettings='beam'}
     local kind=map[node.kind];if not kind then return nil end
     local record=assert(roots[kind]and roots[kind].records[node.recordType],
         'reviewed '..node.kind..' absent')
@@ -118,17 +135,17 @@ local function graph_record(roots,node)
 end
 local function validate_graph(entry,roots,component)
     local nodes={};for _,node in ipairs(entry.graph or{})do nodes[node.path]=node end
-    if entry.rootLink.component=='BombardmentComponentData'then
+    if entry.rootLink and entry.rootLink.component=='BombardmentComponentData'then
         for index,value in ipairs(entry.rootProjectiles)do
             assert(b.u32(component.bytes,64+(index-1)*4)==value,'bombardment projectile list changed')
         end
-    elseif entry.rootLink.component=='EagleComponentData'then
+    elseif entry.rootLink and entry.rootLink.component=='EagleComponentData'then
         assert(b.u32(component.bytes,24)==entry.rootProjectiles[1],'Eagle payload projectile changed')
-    elseif entry.rootLink.component=='ProjectileWeaponComponentData'then
+    elseif entry.rootLink and entry.rootLink.component=='ProjectileWeaponComponentData'then
         assert(b.u32(component.bytes,0)==entry.rootProjectiles[1],'Eagle gun projectile changed')
-    elseif entry.name=='Orbital Railcannon Strike'then
+    elseif entry.rootLink and entry.name=='Orbital Railcannon Strike'then
         assert(b.u32(component.bytes,532)==entry.rootProjectiles[1],'orbital projectile changed')
-    elseif entry.name=='Orbital Laser'then
+    elseif entry.rootLink and entry.name=='Orbital Laser'then
         local damage=assert(nodes['beam/damage'],'orbital laser DamageInfo descriptor absent')
         assert(b.u32(component.bytes,476)==damage.recordType,'orbital laser damage link changed')
     end
@@ -150,6 +167,12 @@ local function validate_graph(entry,roots,component)
                 for slot=1,4 do local child=nodes[node.path..'/status:'..slot]
                     if child then assert(b.u32(record.bytes,44+(slot-1)*8)==child.recordType,
                         'damage status link changed')end end
+            elseif node.kind=='ArcSettings'then
+                local child=nodes[node.path..'/damage'];if child then
+                    assert(b.u32(record.bytes,36)==child.recordType,'arc damage link changed')end
+            elseif node.kind=='BeamSettings'then
+                local child=nodes[node.path..'/damage'];if child then
+                    assert(b.u32(record.bytes,12)==child.recordType,'beam damage link changed')end
             end
         end
     end
@@ -163,11 +186,19 @@ local function collect_needs(spec)
         elseif kind=='DamageInfo'then needed.damage=true
         elseif kind=='ExplosionSettings'then needed.explosion=true
         elseif kind=='StatusEffectSettings'then needed.status=true
-        elseif kind=='OrbitalAbilityComponentData'then needed.entity=true end
+        elseif kind=='ArcSettings'then needed.arc=true
+        elseif kind=='BeamSettings'then needed.beam=true
+        elseif kind=='OrbitalAbilityComponentData'then needed.entity=true
+        elseif kind=='HealthComponentData' or kind=='WeaponDataComponentData'
+            or kind=='WeaponMagazineComponentData' or kind=='WeaponRoundsComponentData'
+            or kind=='WeaponHeatComponentData' or kind=='WeaponChargeComponentData'
+            or kind=='ArcWeaponComponentData' or kind=='BeamWeaponComponentData'
+            or kind=='SprayWeaponComponentData' then needed.entity=true end
     end
-    if spec.target_path=='attack'then
+    if spec.target_path=='deployed_entity' or spec.target_path=='weapon'
+        or spec.target_path=='attack'then
         needed.entity=true;needed.projectile=true;needed.damage=true
-        needed.explosion=true;needed.status='optional'
+        needed.explosion=true;needed.status='optional';needed.arc='optional';needed.beam='optional'
     end
     return needed
 end
@@ -186,13 +217,17 @@ function M.capture_many(runtime,reader,specs)
     for index,spec in ipairs(specs)do
         local entry=assert(database.stratagems[spec.stratagem]);local root=find_root(records,entry.root)
         local component,candidate
-        if spec.target_path=='attack'then
-            candidate=find_candidate(catalog,entry.rootLink.payload)
-            component=catalog.record(candidate,entry.rootLink.component)
-            assert(component.identity.recordIndex==entry.rootLink.recordIndex
-                and component.identity.indexRow==entry.rootLink.indexRow,
-                'payload component ownership changed')
-            validate_graph(entry,roots,component)
+        if spec.target_path=='deployed_entity' or spec.target_path=='weapon'
+            or spec.target_path=='attack'then
+            candidate=find_candidate(catalog,entry.rootLink and entry.rootLink.payload
+                or entry.deployedEntity.resource)
+            if entry.rootLink then
+                component=catalog.record(candidate,entry.rootLink.component)
+                assert(component.identity.recordIndex==entry.rootLink.recordIndex
+                    and component.identity.indexRow==entry.rootLink.indexRow,
+                    'payload component ownership changed')
+            end
+            if entry.graph and #entry.graph>0 then validate_graph(entry,roots,component)end
         end
         results[index]={entry=entry,root=root,stratagem_owner=stratagem_owner,roots=roots,
             catalog=catalog,candidate=candidate,component=component,records=records}
@@ -213,9 +248,16 @@ local function selected_record(resolved,change,spec)
         return {bytes=record.bytes or resolved.stratagem_owner and nil,offset=record.offset,
             owner=resolved.stratagem_owner,kind=record.record_kind,group=record.group,row=record.row}
     end
+    if backing.component then
+        local component=resolved.catalog.record(resolved.candidate,backing.component)
+        assert(component.identity.recordIndex==backing.recordIndex
+            and component.identity.indexRow==backing.indexRow,
+            'deployed component ownership changed')
+        return component
+    end
     if backing.kind=='OrbitalAbilityComponentData'then return resolved.component end
     local kind={ProjectileSettings='projectile',DamageInfo='damage',ExplosionSettings='explosion',
-        StatusEffectSettings='status'}
+        StatusEffectSettings='status',ArcSettings='arc',BeamSettings='beam'}
     local root=assert(resolved.roots[kind[backing.kind]],'settings allocation absent')
     local record=assert(root.records[backing.nativeIdentity],'settings record absent')
     assert(record.group==backing.group and record.row==backing.row and record.kind==backing.nativeIdentity,
