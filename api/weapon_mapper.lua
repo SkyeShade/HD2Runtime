@@ -4,6 +4,7 @@ local Reader=require('hd2runtime/runtime/reader')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
 local weapon_metadata=require('hd2runtime/core/weapon_metadata')
+local stratagem=require('hd2runtime/core/stratagem')
 local profile=require('hd2runtime/schemas/current')
 local mapper_schema=require('hd2runtime/schemas/weapon_mapper')
 local M={}
@@ -35,7 +36,9 @@ local unmapped=mapper_schema.unmapped
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'LoadoutPackageComponentData','WeaponMagazineComponentData','WeaponRoundsComponentData',
     'WeaponCustomizationComponentData','ArcWeaponComponentData','MeleeWeaponComponentData',
-    'BeamWeaponComponentData','SprayWeaponComponentData'}
+    'BeamWeaponComponentData','SprayWeaponComponentData','WeaponChargeComponentData',
+    'ExplosiveComponentData','HellpodRackComponentData','WeaponLinkedAmmoComponentData',
+    'BackpackComponentData','WeaponLinkerComponentData'}
 
 local function copy(value)
     if type(value)~='table'then return value end
@@ -46,7 +49,21 @@ local function field(output,name,value,evidence)
     output.resolvedFields[name]={value=value,provenance=p}
     output.matchFields[name]=value
 end
-local function damage_attack(output,roots,damage_consumers,kind,settings_name,settings_record,damage_type,attack)
+local function attach_status_attacks(output,roots,parent)
+    if not roots.status then return end
+    for _,effect in ipairs(parent.statusEffects or{})do
+        local settings_record=roots.status.records[effect.type]
+        if settings_record then
+            output.attacks[#output.attacks+1]={role=parent.role..'_status_'..effect.type,kind='Status',
+                parentRole=parent.role,statusType=effect.type,
+                statusSettings={group=settings_record.group,row=settings_record.row,
+                    recordType=effect.type,settingsType=settings_record.settings_type},
+                resolvedFields={status_strength=effect.strength,
+                    status_duration=b.value(settings_record.bytes,40,'f32')}}
+        end
+    end
+end
+local function damage_attack(output,roots,damage_consumers,kind,settings_name,settings_record,damage_type,attack,promote)
     local damage=assert(roots.damage.records[damage_type],'linked DamageInfo record absent')
     attack=attack or{role='primary',kind=kind,resolvedFields={}}
     attack.damageInfo={group=damage.group,row=damage.row,
@@ -60,12 +77,30 @@ local function damage_attack(output,roots,damage_consumers,kind,settings_name,se
     if not output.attacks[1]or output.attacks[#output.attacks]~=attack then
         output.attacks[#output.attacks+1]=attack
     end
-    field(output,'damage_type',damage_type,provenance.damage)
+    if promote~=false then field(output,'damage_type',damage_type,provenance.damage)end
     for _,spec in ipairs(damage_fields)do
         local name,value=spec[1],b.value(damage.bytes,spec[2],spec[3])
-        field(output,name,value,provenance.damage);attack.resolvedFields[name]=value
+        if promote~=false then field(output,name,value,provenance.damage)end
+        attack.resolvedFields[name]=value
     end
+    attach_status_attacks(output,roots,attack)
     return attack
+end
+local function explosion_attack(output,roots,damage_consumers,explosion_type,role,parent_role)
+    if explosion_type==0 or not roots.explosion then return nil end
+    local explosion=assert(roots.explosion.records[explosion_type],
+        'linked ExplosionSettings record absent')
+    local attack={role=role,kind='Explosion',explosionType=explosion_type,parentRole=parent_role,
+        explosionSettings={group=explosion.group,row=explosion.row,recordType=explosion_type,
+            settingsType=explosion.settings_type},resolvedFields={}}
+    output.attacks[#output.attacks+1]=attack
+    local radius_fields={{'explosion_inner_radius',16},{'explosion_outer_radius',20},
+        {'explosion_shockwave_radius',24}}
+    for _,spec in ipairs(radius_fields)do
+        attack.resolvedFields[spec[1]]=b.value(explosion.bytes,spec[2],'f32')
+    end
+    return damage_attack(output,roots,damage_consumers,'Explosion','explosionSettings',
+        explosion,b.u32(explosion.bytes,4),attack,false)
 end
 local function projectile_attack(output,roots,damage_consumers,projectile_type,role,promote)
     if projectile_type==0 then return nil end
@@ -101,6 +136,15 @@ local function projectile_attack(output,roots,damage_consumers,projectile_type,r
         if promote then field(output,name,value,provenance.damage)end
     end
     if promote then field(output,'damage_type',damage_type,provenance.damage)end
+    attach_status_attacks(output,roots,attack)
+    if roots.explosion then
+        explosion_attack(output,roots,damage_consumers,b.u32(projectile.bytes,144),
+            role..'_impact',role)
+        local expiry=b.u32(projectile.bytes,156)
+        if expiry~=b.u32(projectile.bytes,144) then
+            explosion_attack(output,roots,damage_consumers,expiry,role..'_expiry',role)
+        end
+    end
     return attack
 end
 
@@ -116,8 +160,9 @@ function M.start(runtime,emit,request)
         if not request.historical_analysis then
             assert(exe_sha==profile.exe_sha and dll_sha==profile.dll_sha,'unsupported build fingerprint')
         end
-        local roots=discover.locate(runtime,reader,profile,
-            {entity=true,projectile=true,damage=true,arc='optional',beam='optional'})
+        local needed={entity=true,projectile=true,damage=true,arc='optional',beam='optional'}
+        if request.support_graph then needed.explosion=true;needed.status=true end
+        local roots=discover.locate(runtime,reader,profile,needed)
         local catalog=entities.capture(reader,roots.entity,profile,component_names)
         local weapon_candidates={}
         for _,candidate in ipairs(catalog.candidates)do
@@ -214,6 +259,19 @@ function M.start(runtime,emit,request)
                 output.ammo={kind='none',capacity={status='UNMAPPED',reason='no reviewed magazine/feed component'}}
                 output.capacity=output.ammo.capacity
             end
+            local charge_owner=candidate.ownership.WeaponChargeComponentData
+            if charge_owner then
+                attempt('WeaponChargeComponentData',function()
+                    local charge=catalog.record(candidate,'WeaponChargeComponentData')
+                    output.chargeCadence={recordIndex=charge_owner.recordIndex,
+                        ownerCount=charge_owner.ownerCount,uniqueOwner=charge_owner.uniqueOwner,
+                        levels={b.value(charge.bytes,0,'f32'),b.value(charge.bytes,24,'f32'),
+                            b.value(charge.bytes,48,'f32')},
+                        minimumSeconds=b.value(charge.bytes,72,'f32'),
+                        maximumSeconds=b.value(charge.bytes,76,'f32'),
+                        fireRateRepresentation='charge_controlled'}
+                end)
+            end
             local projectile_owner=candidate.ownership.ProjectileWeaponComponentData
             if projectile_owner then
                 attempt('ProjectileWeaponComponentData',function()
@@ -222,6 +280,9 @@ function M.start(runtime,emit,request)
                     field(output,'projectile_type',projectile_type,provenance.projectile_type)
                     local fire=mapper_schema.fields.fire_rate
                     field(output,'fire_rate',b.value(weapon.bytes,fire.offset,fire.storage),fire.evidence)
+                    output.fireRateOptions={low=b.value(weapon.bytes,4,'f32'),
+                        default=b.value(weapon.bytes,8,'f32'),high=b.value(weapon.bytes,12,'f32'),
+                        representation='schema_vec3_selector'}
                     projectile_attack(output,roots,damage_consumers,projectile_type,'primary',true)
                 end)
             end
@@ -270,6 +331,12 @@ function M.start(runtime,emit,request)
                         local spec=mapper_schema.fields[name]
                         field(output,name,b.value(arc.bytes,spec.offset,spec.storage),spec.evidence)
                     end
+                    attack.resolvedFields.arc_velocity=b.value(arc.bytes,4,'f32')
+                    attack.resolvedFields.arc_range=b.value(arc.bytes,8,'f32')
+                    attack.resolvedFields.arc_spread=b.value(arc.bytes,12,'f32')
+                    attack.resolvedFields.arc_chain_spread=b.value(arc.bytes,20,'f32')
+                    attack.resolvedFields.arc_chain_count=b.u32(arc.bytes,28)
+                    attack.resolvedFields.arc_max_split=b.u32(arc.bytes,32)
                 end)
             end
             local beam_owner=candidate.ownership.BeamWeaponComponentData
@@ -319,6 +386,75 @@ function M.start(runtime,emit,request)
             pcall(emit,string.format('[HD2Runtime] PRIMARY_WEAPON_SCAN candidate=%d/%d resource=%s status=%s',
                 index,#weapon_candidates,candidate.resourceHash,output.resolutionStatus))
         end
+        local support_graph=nil
+        if request.support_graph then
+            support_graph={explosiveEntities={},hellpodRacks={},linkedAmmoOwners={},
+                backpackEntities={},weaponLinkers={},stratagems={},diagnostics={},
+                settingsCounts={explosion=0,status=0}}
+            for _ in pairs(roots.explosion.records)do
+                support_graph.settingsCounts.explosion=support_graph.settingsCounts.explosion+1
+            end
+            for _ in pairs(roots.status.records)do
+                support_graph.settingsCounts.status=support_graph.settingsCounts.status+1
+            end
+            for _,candidate in ipairs(catalog.candidates)do
+                local function graph_attempt(label,action)
+                    local ok,value=pcall(action)
+                    if not ok then support_graph.diagnostics[#support_graph.diagnostics+1]=
+                        candidate.resourceHash..' '..label..': '..tostring(value)end
+                end
+                if candidate.ownership.ExplosiveComponentData then graph_attempt('ExplosiveComponentData',function()
+                    local record=catalog.record(candidate,'ExplosiveComponentData')
+                    local node={resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
+                        ownership={ExplosiveComponentData=copy(candidate.ownership.ExplosiveComponentData)},
+                        attacks={},resolvedFields={},matchFields={},mode=runtime.mode or'fixture'}
+                    local detonation=b.u32(record.bytes,36);local impact=b.u32(record.bytes,40)
+                    explosion_attack(node,roots,damage_consumers,detonation,'detonation',nil)
+                    if impact~=detonation then explosion_attack(node,roots,damage_consumers,impact,'impact',nil)end
+                    node.mode=nil;support_graph.explosiveEntities[#support_graph.explosiveEntities+1]=node
+                end)end
+                if candidate.ownership.HellpodRackComponentData then graph_attempt('HellpodRackComponentData',function()
+                    local record=catalog.record(candidate,'HellpodRackComponentData');local attached={}
+                    for index=0,7 do
+                        local resource=b.resource(record.bytes,index*64)
+                        if resource~='0x0000000000000000'then attached[#attached+1]=resource end
+                    end
+                    support_graph.hellpodRacks[#support_graph.hellpodRacks+1]={resourceHash=candidate.resourceHash,
+                        entityRow=candidate.entityRow,recordIndex=candidate.ownership.HellpodRackComponentData.recordIndex,
+                        attachedResources=attached}
+                end)end
+                if candidate.ownership.WeaponLinkedAmmoComponentData then graph_attempt('WeaponLinkedAmmoComponentData',function()
+                    local record=catalog.record(candidate,'WeaponLinkedAmmoComponentData')
+                    support_graph.linkedAmmoOwners[#support_graph.linkedAmmoOwners+1]={
+                        resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
+                        recordIndex=candidate.ownership.WeaponLinkedAmmoComponentData.recordIndex,
+                        linkedAmmoType=b.pointer(record.bytes,0),ammoClass=b.u32(record.bytes,8),
+                        ammoVariant=b.u32(record.bytes,12),nativeValues={b.u32(record.bytes,16),
+                            b.u32(record.bytes,20),b.u32(record.bytes,24),b.u32(record.bytes,28)}}
+                end)end
+                if candidate.ownership.BackpackComponentData then
+                    support_graph.backpackEntities[#support_graph.backpackEntities+1]={
+                        resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
+                        recordIndex=candidate.ownership.BackpackComponentData.recordIndex}
+                end
+                if candidate.ownership.WeaponLinkerComponentData then graph_attempt('WeaponLinkerComponentData',function()
+                    local record=catalog.record(candidate,'WeaponLinkerComponentData')
+                    support_graph.weaponLinkers[#support_graph.weaponLinkers+1]={
+                        resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
+                        recordIndex=candidate.ownership.WeaponLinkerComponentData.recordIndex,
+                        linkerType=b.u32(record.bytes,0),linkerId=b.u32(record.bytes,4),
+                        flags=b.u32(record.bytes,8)}
+                end)end
+            end
+            local ok,records=pcall(stratagem.capture_all,runtime,reader,profile)
+            if ok then support_graph.stratagems=records
+            else support_graph.diagnostics[#support_graph.diagnostics+1]='stratagems: '..tostring(records)end
+            table.sort(support_graph.explosiveEntities,function(a,c)return a.resourceHash<c.resourceHash end)
+            table.sort(support_graph.hellpodRacks,function(a,c)return a.resourceHash<c.resourceHash end)
+            table.sort(support_graph.linkedAmmoOwners,function(a,c)return a.resourceHash<c.resourceHash end)
+            table.sort(support_graph.backpackEntities,function(a,c)return a.resourceHash<c.resourceHash end)
+            table.sort(support_graph.weaponLinkers,function(a,c)return a.resourceHash<c.resourceHash end)
+        end
         local shared_projectiles={}
         for _,output in ipairs(results)do
             if output.matchFields.weapon_slot then
@@ -345,7 +481,7 @@ function M.start(runtime,emit,request)
             end
         end
         reader.stage='runtime/reader:stable_reread';reader.verify()
-        return {runtimeCandidates=results,fingerprint={exe=exe_sha,dll=dll_sha},
+        return {runtimeCandidates=results,supportGraph=support_graph,fingerprint={exe=exe_sha,dll=dll_sha},
             requestedProfileFingerprint={exe=profile.exe_sha,dll=profile.dll_sha},
             historicalAnalysis=request.historical_analysis==true,
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
@@ -361,6 +497,10 @@ function M.start(runtime,emit,request)
                 'beam_type','beam_radius','beam_range',
                 'spray_damage_type','melee_damage_type','rounds_primary_projectile_type',
                 'rounds_alternate_projectile_type',
+                'projectile_impact_explosion_type','projectile_expiry_explosion_type',
+                'explosion_damage_type','explosion_inner_radius','explosion_outer_radius',
+                'explosion_shockwave_radius','status_duration','status_strength',
+                'charge_level_1','charge_level_2','charge_level_3','charge_min_seconds','charge_max_seconds',
                 'spread_horizontal','spread_vertical','sway','ergonomics',
                 'primary_fire_mode',
                 'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',

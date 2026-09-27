@@ -66,11 +66,17 @@ def main():
                        'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                        'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                        'ArcWeaponComponentData', 'MeleeWeaponComponentData',
-                       'BeamWeaponComponentData', 'SprayWeaponComponentData']
+                       'BeamWeaponComponentData', 'SprayWeaponComponentData',
+                       'WeaponChargeComponentData', 'ExplosiveComponentData',
+                       'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
+                       'BackpackComponentData', 'WeaponLinkerComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',
-                        'BeamWeaponComponentData', 'SprayWeaponComponentData'}
+                        'BeamWeaponComponentData', 'SprayWeaponComponentData',
+                        'WeaponChargeComponentData', 'ExplosiveComponentData',
+                        'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
+                        'BackpackComponentData', 'WeaponLinkerComponentData'}
     for name in component_names:
         inst, body, version, is64, offset = find_component(entity, name)
         outer = layout(library, name)
@@ -131,6 +137,8 @@ def main():
          'ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/'),
         ('beam', 'generated_beam_settings.dl_bin', 'BeamSettings', 112,
          'ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/'),
+        ('explosion', 'generated_explosion_settings.dl_bin', 'ExplosionSettings', 152,
+         'ShieldRelayImprovements/local_research/dependencies/filediver-current/datalibrary/'),
     ]
     for key, name, typename, stride, source_folder in setting_sources:
         raw = source(source_folder + name)
@@ -143,6 +151,17 @@ def main():
             desc['groups'].append(item)
         profile['settings'][key] = desc
         buffers[key] = raw.hex()
+    # The current snapshot's decoded status table is pinned by its exact grouped
+    # framing. The installed file is encoded and therefore is not used as a
+    # fixture source. Snapshot scans validate this descriptor before reading a row.
+    profile['settings']['status'] = {
+        'size': 13116, 'stride': 152, 'groups': [
+            {'offset': 4,
+             'header': '4c444c4401000000220b3ec6702e00000100000000000000',
+             'root': 28, 'row_offset': 16, 'count': 71},
+            {'offset': 11916,
+             'header': '4c444c4401000000c09381de980400000100000000000000'},
+        ]}
     profile['stratagem'] = {'buffer_rva': 0x348E8F8, 'table_rva': 0x37CB600, 'entries': 150,
         'size': 80280, 'groups': 11, 'stride': 400, 'type': 0x30EB6399,
         'version': 1, 'info_type': 0x7BD60854, 'payload_max': 16, 'payload_count': 2,

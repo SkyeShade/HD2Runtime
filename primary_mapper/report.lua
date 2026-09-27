@@ -17,6 +17,7 @@ local function public_match(match)
         matchedAttackBranch=match.matchedAttackBranch,matchedDamageBranch=match.matchedDamageBranch,
         matchedProjectileBranch=match.matchedProjectileBranch,branchMode=match.branchMode,
         runtimeAttackIndex=match.runtimeAttackIndex,runtimeAttackRole=match.runtimeAttackRole,
+        diagnosticDisagreements=copy_array(match.diagnosticDisagreements),
         incompatibility=match.incompatibility,credible=match.credible==true}
 end
 local function candidate_match(candidate,match)
@@ -27,6 +28,7 @@ local function candidate_match(candidate,match)
         matchedProjectileBranch=match.matchedProjectileBranch,branchMode=match.branchMode,
         runtimeAttackIndex=match.runtimeAttackIndex,runtimeAttackRole=match.runtimeAttackRole,
         matched=copy_array(match.matched),mismatched=copy_array(match.mismatched),
+        diagnosticDisagreements=copy_array(match.diagnosticDisagreements),
         unresolvedFields=copy_array(match.unresolvedFields),
         projectileType=candidate.resolvedFields.projectile_type and candidate.resolvedFields.projectile_type.value,
         damageType=candidate.resolvedFields.damage_type and candidate.resolvedFields.damage_type.value,
@@ -182,6 +184,7 @@ function M.compose(raw,dataset,metadata)
         catalogIdentities=json.array(catalog_list),identitySummary=identity_summary,
         fieldsCurrentlyUsable=copy_array(raw.fieldsCurrentlyUsable),
         fieldsNotRuntimeMapped=copy_array(raw.fieldsNotRuntimeMapped),
+        supportGraph=raw.supportGraph,
         stableSnapshot=raw.stableSnapshot,writes=0,protectionChanges=0,
         fixtureFallback='disabled',mode=raw.mode}
     return report,mapping,identity_summary

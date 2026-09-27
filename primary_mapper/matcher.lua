@@ -25,11 +25,25 @@ local rules={
     stagger={weight=6,exact=true,label='stagger',group='damage'},
     push_force={weight=5,exact=true,label='push force',group='damage'},
     pellet_count={weight=10,exact=true,high=true,label='pellet count',group='projectile'},
+    explosion_inner_radius={weight=8,tolerance=0.01,high=true,label='explosion inner radius',group='damage'},
+    explosion_outer_radius={weight=8,tolerance=0.01,high=true,label='explosion outer radius',group='damage'},
+    explosion_shockwave_radius={weight=8,tolerance=0.01,high=true,label='explosion shockwave radius',group='damage'},
+    arc_range={weight=10,tolerance=0.01,high=true,label='arc range',group='projectile'},
+    arc_velocity={weight=10,tolerance=0.01,high=true,label='arc velocity',group='projectile'},
+    arc_spread={weight=7,tolerance=0.01,high=true,label='arc spread',group='projectile'},
+    arc_chain_spread={weight=7,tolerance=0.01,high=true,label='arc chain spread',group='projectile'},
+    arc_chain_count={weight=7,exact=true,high=true,label='arc chain count',group='projectile'},
+    arc_max_split={weight=7,exact=true,high=true,label='arc max split',group='projectile'},
+    status_strength={weight=6,tolerance=0.01,label='status strength',group='damage'},
+    status_duration={weight=6,tolerance=0.01,label='status duration',group='damage'},
 }
 local order={'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
     'projectile_velocity','fire_rate','capacity','ergonomics','sway','spread_horizontal',
     'spread_vertical','recoil','horizontal_recoil','vertical_recoil','projectile_mass','drag','gravity',
-    'demolition','stagger','push_force','pellet_count'}
+    'demolition','stagger','push_force','pellet_count',
+    'explosion_inner_radius','explosion_outer_radius','explosion_shockwave_radius',
+    'arc_range','arc_velocity','arc_spread','arc_chain_spread','arc_chain_count','arc_max_split',
+    'status_strength','status_duration'}
 local structural={'projectile_type','damage_type','crosshair_type'}
 
 local function display(value)
@@ -125,7 +139,10 @@ local function score_weapon(runtime,weapon)
         result.incompatibility='weapon-level-only candidate has no classified player equipment slot'
         return result
     end
-    if runtime_slot~=nil and weapon.slot~=nil and runtime_slot~=weapon.slot then
+    -- Support is an acquisition family rather than the primary/secondary
+    -- equipment enum. Some support melee roots legitimately carry the native
+    -- secondary tag, so retain it as evidence without applying the player-slot gate.
+    if runtime_slot~=nil and weapon.slot~=nil and weapon.slot~='support'and runtime_slot~=weapon.slot then
         result.structurallyCompatible=false
         result.incompatibility='runtime weapon slot '..tostring(runtime_slot)
             ..' differs from catalog slot '..tostring(weapon.slot)
@@ -142,7 +159,11 @@ local function score_weapon(runtime,weapon)
         horizontal_recoil=weapon.horizontal_recoil,vertical_recoil=weapon.vertical_recoil}
     if weapon_fields.fire_rate==nil and weapon.primary then weapon_fields.fire_rate=weapon.primary.fire_rate end
     if weapon_fields.capacity==nil and weapon.primary then weapon_fields.capacity=weapon.primary.capacity end
-    append(result,score_fields(runtime,weapon_fields,'weapon'))
+    if runtime_kind=='Arc'and runtime.fire_rate==-1 and type(weapon_fields.fire_rate)=='number'then
+        result.diagnosticDisagreements={'fire rate runtime=-1 sentinel; native cadence is charge-controlled, catalog='..display(weapon_fields.fire_rate)}
+        local without={};for key,value in pairs(runtime)do without[key]=value end;without.fire_rate=nil
+        append(result,score_fields(without,weapon_fields,'weapon'))
+    else append(result,score_fields(runtime,weapon_fields,'weapon'))end
     if type(runtime.is_suppressed)=='boolean'and type(weapon.is_suppressed)=='boolean'then
         result.compared=result.compared+1
         if runtime.is_suppressed==weapon.is_suppressed then

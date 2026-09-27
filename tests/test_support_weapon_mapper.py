@@ -29,6 +29,15 @@ class SupportWeaponCatalogTests(unittest.TestCase):
         unknown=[a for a in railgun['attacks'] if a['kind']=='Unknown']
         self.assertEqual(len(unknown),1)
         self.assertIn('Max Charge',unknown[0]['name'])
+        arc=next(w for w in data['weapons'] if w['name']=='ARC-3 Arc Thrower')
+        self.assertEqual((arc['attacks'][0]['arc_range'],arc['attacks'][0]['arc_velocity'],
+                          arc['attacks'][0]['arc_spread'],arc['attacks'][0]['arc_chain_spread']),
+                         (55,300,40,60))
+        self.assertEqual((arc['attacks'][1]['status_strength'],arc['attacks'][1]['status_duration']),(8,1.5))
+        c4=next(w for w in data['weapons'] if w['name']=='B/MD C4 Pack')
+        self.assertEqual((c4['attacks'][0]['explosion_inner_radius'],
+                          c4['attacks'][0]['explosion_outer_radius'],
+                          c4['attacks'][0]['explosion_shockwave_radius']),(3,7,8))
 
     def test_support_weapon_only_candidates_do_not_weaken_player_slot_gate(self):
         run("""
@@ -40,6 +49,23 @@ local primary={name='Primary',slot='primary',fire_rate=760,capacity=175,ergonomi
 local a=matcher.rank(runtime,{weapons={support}}).rankedWikiMatches[1]
 local b=matcher.rank(runtime,{weapons={primary}}).rankedWikiMatches[1]
 assert(a.structurallyCompatible and not b.structurallyCompatible)
+return'ok'
+""")
+
+    def test_support_melee_accepts_native_secondary_tag_and_arc_rate_is_diagnostic(self):
+        run("""
+local matcher=require('hd2runtime/primary_mapper/matcher')
+local melee={name='Tool',slot='support',attacks={{name='hit',kind='Melee',
+ standard_damage=165,durable_damage=83,ap_direct=3,stagger=25}}}
+local mr=matcher.rank({weapon_slot='secondary',attack_kind='Melee',standard_damage=165,
+ durable_damage=83,ap_direct=3,stagger=25},{weapons={melee}})
+assert(mr.rankedWikiMatches[1].structurallyCompatible)
+local arc={name='Arc',slot='support',fire_rate=60,attacks={{name='arc',kind='Arc',
+ standard_damage=250,durable_damage=100,ap_direct=7,arc_range=55}}}
+local ar=matcher.rank({attack_kind='Arc',fire_rate=-1,standard_damage=250,durable_damage=100,
+ ap_direct=7,arc_range=55},{weapons={arc}})
+local top=ar.rankedWikiMatches[1]
+assert(#top.mismatched==0 and #top.diagnosticDisagreements==1)
 return'ok'
 """)
 
@@ -57,8 +83,10 @@ class SupportWeaponRuntimeMapTests(unittest.TestCase):
         self.assertEqual(self.report['mode'],'snapshot')
         self.assertEqual((self.report['writes'],self.report['protectionChanges'],
                           self.report['fixtureFallback']),(0,0,'disabled'))
-        self.assertEqual(self.summary['resolvedIdentities'],30)
-        self.assertEqual(self.summary['uniqueIdentities'],24)
+        self.assertEqual(self.summary['resolvedIdentities'],35)
+        self.assertEqual(self.summary['uniqueIdentities'],27)
+        self.assertEqual(self.summary['duplicateIdentityGroups'],8)
+        self.assertEqual((self.summary['ambiguousIdentities'],self.summary['unresolvedIdentities']),(0,0))
         self.assertFalse(self.summary['guardedAuthoringReady'])
 
     def test_catalog_branch_counts_and_unknown_are_preserved(self):
@@ -83,24 +111,55 @@ class SupportWeaponRuntimeMapTests(unittest.TestCase):
         self.assertEqual(len(gr8['attackGraph']),5)
         self.assertTrue(gr8['backpackDependent'])
         self.assertTrue(any(a['kind']=='Projectile'and a['state']=='RESOLVED' for a in gr8['attackGraph']))
-        self.assertTrue(all(a['state']=='UNRESOLVED' for a in gr8['attackGraph'] if a['kind']=='Explosion'))
+        linked=next(a for a in gr8['attackGraph'] if a['name']=='GR-8 P IE')
+        self.assertEqual(linked['state'],'RESOLVED')
         self.assertFalse(gr8['ammoFeedMagazine'][0]['backpackRuntimeOwnershipProven'])
 
     def test_duplicate_resources_and_shared_settings_fail_closed(self):
         duplicates={w['catalogIdentity'] for w in self.report['weapons']
                     if w['identityResolution']=='DUPLICATE'}
-        self.assertEqual(duplicates,{'B/FLAM-80 Cremator','EAT-17 Expendable Anti-Tank',
-            'LAS-98 Laser Cannon','M-105 Stalwart','MG-206 Heavy Machine Gun','MG-43 Machine Gun'})
+        self.assertEqual(duplicates,{'B/FLAM-80 Cremator','CQC-20 Breaching Hammer',
+            'CQC-72 Entrenchment Tool','EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon',
+            'M-105 Stalwart','MG-206 Heavy Machine Gun','MG-43 Machine Gun'})
         self.assertIsNone(self.mapping['MG-43 Machine Gun']['canonicalResourceHash'])
-        self.assertEqual(len(self.report['sharedSettingsGroups']),1)
-        self.assertEqual(self.report['sharedSettingsGroups'][0]['weapons'],
-            ['GL-21 Grenade Launcher','GL-52 De-Escalator'])
+        self.assertGreaterEqual(len(self.report['sharedSettingsGroups']),1)
+        self.assertTrue(any(group['weapons']==['GL-21 Grenade Launcher','GL-52 De-Escalator']
+            for group in self.report['sharedSettingsGroups']))
         self.assertTrue(all(not weapon['guardedAuthoringReady'] for weapon in self.report['weapons']))
 
-    def test_unresolved_set_is_explicit(self):
-        self.assertEqual(set(self.summary['unresolvedWeapons']),{
-            'ARC-3 Arc Thrower','B/MD C4 Pack','CQC-72 Entrenchment Tool',
-            'GL-28 Belt-Fed Grenade Launcher','MS-11 Solo Silo'})
+    def test_native_family_resolution_and_rate_diagnostics(self):
+        self.assertEqual(self.summary['unresolvedWeapons'],[])
+        arc=self.by_name['ARC-3 Arc Thrower']
+        self.assertEqual(arc['resourceHashes'],['0x96DE9CD50F7306E6'])
+        self.assertEqual(arc['chargeCadence'][0]['value']['minimumSeconds'],.699999988079071)
+        self.assertEqual([branch['state'] for branch in arc['attackGraph']],['RESOLVED','RESOLVED'])
+        cqc=self.by_name['CQC-72 Entrenchment Tool']
+        self.assertEqual(cqc['identityResolution'],'DUPLICATE')
+        self.assertEqual(cqc['resourceHashes'],['0x7E1F76163C667E4B','0xE85E623F93F96FB3'])
+        gl28=self.by_name['GL-28 Belt-Fed Grenade Launcher']
+        self.assertEqual(gl28['identityResolutionBasis'],'linked_projectile_explosion_graph_with_rate_diagnostic')
+        self.assertEqual(gl28['fireRateDiagnostics'][0]['runtimeOptions'],
+            {'low':160,'default':240,'high':320,'representation':'schema_vec3_selector'})
+
+    def test_deployable_and_stratagem_owned_explosion_graphs(self):
+        c4=self.by_name['B/MD C4 Pack']
+        self.assertEqual(c4['resourceHashes'],['0x9B75217D8312DD67'])
+        self.assertEqual(c4['attackGraph'][0]['state'],'RESOLVED')
+        solo=self.by_name['MS-11 Solo Silo']
+        self.assertEqual(solo['resourceHashes'],['0xDE18775FA447A9BF'])
+        self.assertEqual(solo['attackOwnerResourceHash'],'0xDDDB2910FF2B24E9')
+        self.assertEqual([node['kind'] for node in solo['ownershipChain']],
+            ['stratagem_payload','spawned_silo','placed_or_attack_entity'])
+        self.assertTrue(all(branch['state']=='RESOLVED' for branch in solo['attackGraph']))
+
+    def test_explosion_status_and_backpack_progress_are_bounded(self):
+        self.assertEqual(self.summary['resolvedBranchCounts']['Explosion'],18)
+        self.assertEqual(self.summary['resolvedBranchCounts']['Status'],8)
+        graph=self.report['nativeSupportGraph']
+        self.assertEqual(graph['settingsCounts'],{'explosion':422,'status':71})
+        self.assertEqual(self.summary['backpackDependentWeapons'],9)
+        self.assertEqual(self.summary['backpackWeaponsWithWeaponLinkedAmmoOwnership'],3)
+        self.assertEqual(self.summary['backpackEntityLinksProven'],0)
 
 
 if __name__=='__main__':unittest.main()
