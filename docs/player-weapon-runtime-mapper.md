@@ -1,6 +1,6 @@
 # Offline Player Weapon Runtime Mapper
 
-HD2Runtime 0.9.0 accepts the normalized 80-weapon player catalog containing 55
+HD2Runtime 0.10.0 accepts the normalized 80-weapon player catalog containing 55
 primary and 25 secondary weapons. The scanner enumerates structurally owned
 `ProjectileWeaponComponentData` resources once and resolves their linked
 `ProjectileSettings` and `DamageInfo` records. Matching happens offline after
@@ -35,9 +35,26 @@ candidate supports it. Equal resources remain `DUPLICATE`, and close wiki
 identities remain explicit in `credibleWikiIdentities`. Slot and category are
 reported metadata and do not override contradictory gameplay fields.
 
-Capacity remains unmapped. Runtime projectile type, damage type, and crosshair
-type are preserved as structural evidence, but they are not compared to a wiki
-ID that the catalog does not provide.
+The current-build mapper also reads two weapon-level properties. A
+`LoadoutPackageComponentData.BundleTag` maps to `primary` or `secondary` only
+for the two reviewed tag values. Unknown or absent tags remain unclassified.
+Capacity comes from `WeaponMagazineComponentData.Capacity`, or from
+`WeaponRoundsComponentData.MagazineCapacity[0]` for round-fed weapons. The
+catalog capacity excludes a separately reported chambered round. If a nonzero
+default Magazine customization is present, effective capacity remains
+unresolved because its attachment AddPath has not been mapped; the mapper
+reports the base value but does not compare it as effective capacity.
+
+These mappings are schema-labelled and correlation/structural-proven against
+the unique snapshot identities. They remain pending gameplay and native
+consumer confirmation. Runtime projectile type, damage type, and crosshair
+type remain structural evidence without corresponding wiki IDs.
+
+The summary groups unresolved identities by their catalog attack family. The
+current entity schema exposes `BeamWeaponComponentData`,
+`ArcWeaponComponentData`, `SprayWeaponComponentData`,
+`MeleeWeaponComponentData`, and the `WeaponRoundsComponentData` feed variant;
+their deeper attack settings remain reconnaissance work.
 
 The command uses `SnapshotMemoryReader`, enforces the captured fingerprints,
 and reports `writes=0`, `protectionChanges=0`, and

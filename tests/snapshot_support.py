@@ -38,7 +38,7 @@ def snapshot_bytes(path: Path, regions, *, exe_sha=None, dll_sha=None, version=V
     modules=[('helldivers2.exe',0x10000000,0x1000,exe_sha),('game.dll',0x10001000,0x1000,dll_sha)]
     fixed=struct.pack('<8sIIIIIIIIQQQQ',MAGIC,version,0,RESERVE,len(rows),2,0x8664,4096,0,
         0x10002000,total_virtual,total_captured,1700000000)
-    body=fixed+exe_sha.encode()+dll_sha.encode()+_text('0.8.0')+_text('')+_text('2026-01-01T00:00:00Z')
+    body=fixed+exe_sha.encode()+dll_sha.encode()+_text('0.10.0')+_text('')+_text('2026-01-01T00:00:00Z')
     body+=struct.pack('<8Q',0,0,0,0,0,0,0,0)
     for name,base,size,sha in modules:
         body+=_text(name)+struct.pack('<QQ',base,size)+sha.encode()

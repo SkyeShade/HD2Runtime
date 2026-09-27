@@ -1,0 +1,2443 @@
+{
+  "schemaVersion": 1,
+  "mode": "offline_snapshot_correlation",
+  "snapshot": {
+    "path": "C:\\Users\\Skye\\AppData\\Local\\HD2Runtime\\local_research\\snapshots\\F5FEE03DCFDB-20260926T222226Z.hd2snap",
+    "fingerprints": {
+      "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+      "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+    }
+  },
+  "catalog": {
+    "path": "C:\\Users\\Skye\\Documents\\HD2Mods\\HD2Runtime\\data\\wiki_player_weapons.json",
+    "weapons": 80
+  },
+  "identityGate": {
+    "source": "C:\\Users\\Skye\\Documents\\HD2Mods\\HD2Runtime\\build\\snapshot-results\\PlayerWeaponRuntimeMap.identity-candidates.json",
+    "uniqueAnchors": 54,
+    "primaryAnchors": 43,
+    "secondaryAnchors": 11
+  },
+  "weaponSlot": {
+    "promoted": true,
+    "structure": "LoadoutPackageComponentData",
+    "path": "BundleTag",
+    "offset": 0,
+    "primitive": "U32 thin hash",
+    "encoding": {
+      "0x82C32E74": "primary",
+      "0x89747DEC": "secondary"
+    },
+    "exactSeparation": 54,
+    "primaryExact": 43,
+    "secondaryExact": 11,
+    "mismatches": [],
+    "missing": [],
+    "allRuntimeCandidateClassifications": {
+      "primary": 67,
+      "secondary": 31,
+      "unclassified": 267
+    },
+    "unlabelledCandidatesUsingKnownTags": 44,
+    "falsePositiveAssessment": "44 tagged candidates are outside the unique-anchor training set; they are not labelled as proven non-player resources, so a false-positive count cannot be asserted",
+    "provenance": "schema-labelled BundleTag; structural/correlation-proven slot meaning; pending gameplay/native-consumer confirmation"
+  },
+  "capacity": {
+    "promoted": true,
+    "effectiveValueFailClosed": true,
+    "paths": [
+      {
+        "structure": "WeaponMagazineComponentData",
+        "path": "Capacity",
+        "offset": 136,
+        "primitive": "U32",
+        "transformation": "identity",
+        "guard": "no default Magazine customization"
+      },
+      {
+        "structure": "WeaponRoundsComponentData",
+        "path": "MagazineCapacity[0]",
+        "offset": 72,
+        "primitive": "FP32 integral",
+        "transformation": "identity"
+      }
+    ],
+    "customizationGuard": {
+      "structure": "WeaponCustomizationComponentData",
+      "path": "DefaultCustomizations[slot=Magazine]",
+      "offset": 0,
+      "entryStride": 8,
+      "entries": 10,
+      "unresolvedReason": "attachment AddPath effective capacity is not yet resolved"
+    },
+    "chambering": {
+      "magazineOffset": 156,
+      "roundsOffset": 104,
+      "transformation": "none",
+      "reason": "catalog capacity is magazine capacity; chambered is reported separately"
+    },
+    "counts": {
+      "CUSTOMIZED_UNRESOLVED_unresolved": 15,
+      "RESOLVED_exact": 35,
+      "UNMAPPED_missing_wiki": 4
+    },
+    "anchors": [
+      {
+        "name": "AR-11 Arbitrator",
+        "resourceHash": "0xA8A91EB54892B6B2",
+        "expected": 45.0,
+        "actual": 45,
+        "baseValue": 45,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "AR-2 Coyote",
+        "resourceHash": "0x84354339522C932D",
+        "expected": 45.0,
+        "actual": 45,
+        "baseValue": 45,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "AR-23 Liberator",
+        "resourceHash": "0x968211C0033DCE64",
+        "expected": 45.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x73CA1B5E",
+        "result": "unresolved"
+      },
+      {
+        "name": "AR-23A Liberator Carbine",
+        "resourceHash": "0xA7EE1EBF58FCDF1F",
+        "expected": 45.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x71FBEF8C",
+        "result": "unresolved"
+      },
+      {
+        "name": "AR-23C Liberator Concussive",
+        "resourceHash": "0xCF5F176E0E322BE1",
+        "expected": 60.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xDF4F1322",
+        "result": "unresolved"
+      },
+      {
+        "name": "AR-32 Pacifier",
+        "resourceHash": "0xBC29613666DF696B",
+        "expected": 40.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x45A1B03E",
+        "result": "unresolved"
+      },
+      {
+        "name": "AR-59 Suppressor",
+        "resourceHash": "0x708EA298C82093D0",
+        "expected": 45.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x73CA1B5E",
+        "result": "unresolved"
+      },
+      {
+        "name": "AR-61 Tenderizer",
+        "resourceHash": "0xCE063AA33D95A812",
+        "expected": 35.0,
+        "actual": 35,
+        "baseValue": 35,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "AR/GL-21 One-Two",
+        "resourceHash": "0xA955C4EA6F6D4203",
+        "expected": 40.0,
+        "actual": 40,
+        "baseValue": 40,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "BR-14 Adjudicator",
+        "resourceHash": "0x5FECAB819F96A3E8",
+        "expected": 30.0,
+        "actual": 30,
+        "baseValue": 30,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "CB-9 Exploding Crossbow",
+        "resourceHash": "0xF49227A0630A3F7F",
+        "expected": 5.0,
+        "actual": 5,
+        "baseValue": 5,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "GL-15 Evictor",
+        "resourceHash": "0x006E44327BB953FE",
+        "expected": 4.0,
+        "actual": 4,
+        "baseValue": 4,
+        "status": "RESOLVED",
+        "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "GP-20 Ultimatum",
+        "resourceHash": "0x9EB160830321BFD6",
+        "expected": 1.0,
+        "actual": 1,
+        "baseValue": 1,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "JAR-5 Dominator",
+        "resourceHash": "0x80F1A156D9FA1E36",
+        "expected": 15.0,
+        "actual": 15,
+        "baseValue": 15,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "LAS-12 Sai",
+        "resourceHash": "0xC85F576D5E086147",
+        "expected": null,
+        "actual": null,
+        "baseValue": null,
+        "status": "UNMAPPED",
+        "source": null,
+        "chambered": null,
+        "defaultMagazineCustomization": null,
+        "result": "missing_wiki"
+      },
+      {
+        "name": "LAS-16 Sickle",
+        "resourceHash": "0x8645F167B3C813A2",
+        "expected": null,
+        "actual": null,
+        "baseValue": null,
+        "status": "UNMAPPED",
+        "source": null,
+        "chambered": null,
+        "defaultMagazineCustomization": null,
+        "result": "missing_wiki"
+      },
+      {
+        "name": "LAS-17 Double-Edge Sickle",
+        "resourceHash": "0x295BEB26DC4F8FF1",
+        "expected": null,
+        "actual": null,
+        "baseValue": null,
+        "status": "UNMAPPED",
+        "source": null,
+        "chambered": null,
+        "defaultMagazineCustomization": null,
+        "result": "missing_wiki"
+      },
+      {
+        "name": "LAS-58 Talon",
+        "resourceHash": "0x416D053372C4E433",
+        "expected": null,
+        "actual": null,
+        "baseValue": null,
+        "status": "UNMAPPED",
+        "source": null,
+        "chambered": null,
+        "defaultMagazineCustomization": null,
+        "result": "missing_wiki"
+      },
+      {
+        "name": "M6C/SOCOM Pistol",
+        "resourceHash": "0x4D58C77087B774C5",
+        "expected": 12.0,
+        "actual": 12,
+        "baseValue": 12,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "M7S SMG",
+        "resourceHash": "0xBE70EE0D8D44028E",
+        "expected": 48.0,
+        "actual": 48,
+        "baseValue": 48,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "M90A Shotgun",
+        "resourceHash": "0x90DDC374F4E3D756",
+        "expected": 6.0,
+        "actual": 6,
+        "baseValue": 6,
+        "status": "RESOLVED",
+        "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "MA5C Assault Rifle",
+        "resourceHash": "0x4DBD74F49C8FFC13",
+        "expected": 32.0,
+        "actual": 32,
+        "baseValue": 32,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "MP-98 Knight",
+        "resourceHash": "0x9571CA51F0DAF35B",
+        "expected": 50.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x47E45B79",
+        "result": "unresolved"
+      },
+      {
+        "name": "P-113 Verdict",
+        "resourceHash": "0x1A437158E1B8D2A1",
+        "expected": 10.0,
+        "actual": 10,
+        "baseValue": 10,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P-33 Missile Pistol",
+        "resourceHash": "0x14D5D4506056C7A4",
+        "expected": 1.0,
+        "actual": 1,
+        "baseValue": 1,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P-34 Breacher",
+        "resourceHash": "0xE91F569C2AD8AF01",
+        "expected": 1.0,
+        "actual": 1,
+        "baseValue": 1,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P-35 Re-Educator",
+        "resourceHash": "0x0B882808C6F498E8",
+        "expected": 6.0,
+        "actual": 6,
+        "baseValue": 6,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P-69 Veto",
+        "resourceHash": "0xC780BCD79547DA0F",
+        "expected": 12.0,
+        "actual": 12,
+        "baseValue": 12,
+        "status": "RESOLVED",
+        "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P-92 Warrant",
+        "resourceHash": "0xCF8934FF6567A42D",
+        "expected": 13.0,
+        "actual": 13,
+        "baseValue": 13,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "P/40-K Bolt Pistol",
+        "resourceHash": "0xDBB6C961C59FADC1",
+        "expected": 6.0,
+        "actual": 6,
+        "baseValue": 6,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "PLAS-1 Scorcher",
+        "resourceHash": "0xEEA5E3CEF1E12C14",
+        "expected": 20.0,
+        "actual": 20,
+        "baseValue": 20,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "PLAS-101 Purifier",
+        "resourceHash": "0xFB3A19078694708A",
+        "expected": 15.0,
+        "actual": 15,
+        "baseValue": 15,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "PLAS-15 Loyalist",
+        "resourceHash": "0xAA69A60D74A3EC54",
+        "expected": 8.0,
+        "actual": null,
+        "baseValue": 8,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": false,
+        "defaultMagazineCustomization": "0x6AF10FB5",
+        "result": "unresolved"
+      },
+      {
+        "name": "PLAS-39 Accelerator Rifle",
+        "resourceHash": "0x30061F91AF477F5E",
+        "expected": 9.0,
+        "actual": 9,
+        "baseValue": 9,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-2 Amendment",
+        "resourceHash": "0x0F83639AB8C86165",
+        "expected": 20.0,
+        "actual": 20,
+        "baseValue": 20,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-36 Eruptor",
+        "resourceHash": "0xB6AFF2195568767F",
+        "expected": 5.0,
+        "actual": 5,
+        "baseValue": 5,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-4 Hyena",
+        "resourceHash": "0xE5796355A8FD67E0",
+        "expected": 15.0,
+        "actual": null,
+        "baseValue": 15,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xB7FA90FD",
+        "result": "unresolved"
+      },
+      {
+        "name": "R-6 Deadeye",
+        "resourceHash": "0xE6D932BE83729076",
+        "expected": 8.0,
+        "actual": 8,
+        "baseValue": 8,
+        "status": "RESOLVED",
+        "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-63 Diligence",
+        "resourceHash": "0x03E67A19B07C6523",
+        "expected": 25.0,
+        "actual": 25,
+        "baseValue": 25,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-63CS Diligence Counter Sniper",
+        "resourceHash": "0x4C786785C79D44E7",
+        "expected": 15.0,
+        "actual": 15,
+        "baseValue": 15,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "R-72 Censor",
+        "resourceHash": "0xF0338468DCDB6A6C",
+        "expected": 20.0,
+        "actual": null,
+        "baseValue": 20,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x9FE412AD",
+        "result": "unresolved"
+      },
+      {
+        "name": "R/40-K Hot-Shot Marksman Rifle",
+        "resourceHash": "0x1ABBFF60D26BA391",
+        "expected": 12.0,
+        "actual": 12,
+        "baseValue": 12,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "SG-225 Breaker",
+        "resourceHash": "0x46183B50961D1328",
+        "expected": 16.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xCA77DC98",
+        "result": "unresolved"
+      },
+      {
+        "name": "SG-225IE Breaker Incendiary",
+        "resourceHash": "0xC12A34F375BD5A87",
+        "expected": 26.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x2B798DFB",
+        "result": "unresolved"
+      },
+      {
+        "name": "SG-225SP Breaker Spray&Pray",
+        "resourceHash": "0x5EBAEA70C0D060B9",
+        "expected": 26.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0x562192C1",
+        "result": "unresolved"
+      },
+      {
+        "name": "SG-8P Punisher Plasma",
+        "resourceHash": "0x05D8D8C073B9D502",
+        "expected": 10.0,
+        "actual": 10,
+        "baseValue": 10,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "SG-97 Sweeper",
+        "resourceHash": "0xDCD1C835407EF7BA",
+        "expected": 7.0,
+        "actual": 7,
+        "baseValue": 7,
+        "status": "RESOLVED",
+        "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "SMG-203 Gallant",
+        "resourceHash": "0x186EA95DE7306B1A",
+        "expected": 50.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xCD85679E",
+        "result": "unresolved"
+      },
+      {
+        "name": "SMG-32 Reprimand",
+        "resourceHash": "0x94BD931B5FB4EE95",
+        "expected": 25.0,
+        "actual": 25,
+        "baseValue": 25,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "SMG-72 Pummeler",
+        "resourceHash": "0x0807AEA5217E4767",
+        "expected": 45.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xDC2ADA1D",
+        "result": "unresolved"
+      },
+      {
+        "name": "SMG/FLAM-34 Stoker",
+        "resourceHash": "0x8A307BD1811A5FE9",
+        "expected": 45.0,
+        "actual": null,
+        "baseValue": 30,
+        "status": "CUSTOMIZED_UNRESOLVED",
+        "source": null,
+        "chambered": true,
+        "defaultMagazineCustomization": "0xEB75D04E",
+        "result": "unresolved"
+      },
+      {
+        "name": "StA-11 SMG",
+        "resourceHash": "0x4BA41B6F9F405CC2",
+        "expected": 48.0,
+        "actual": 48,
+        "baseValue": 48,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "StA-52 Assault Rifle",
+        "resourceHash": "0xCDF28BE026BB7D84",
+        "expected": 56.0,
+        "actual": 56,
+        "baseValue": 56,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": true,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      },
+      {
+        "name": "VG-70 Variable",
+        "resourceHash": "0xF992CE97577C8A7F",
+        "expected": 49.0,
+        "actual": 49,
+        "baseValue": 49,
+        "status": "RESOLVED",
+        "source": "WeaponMagazineComponentData.Capacity",
+        "chambered": false,
+        "defaultMagazineCustomization": null,
+        "result": "exact"
+      }
+    ],
+    "duplicateResourceEvidence": [
+      {
+        "name": "GP-31 Grenade Pistol",
+        "resources": [
+          {
+            "resourceHash": "0x02CD7321CD8445F5",
+            "weaponSlot": null,
+            "capacity": {
+              "baseValue": 1,
+              "chambered": true,
+              "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+              "status": "RESOLVED",
+              "transformation": "identity",
+              "value": 1
+            }
+          },
+          {
+            "resourceHash": "0x52E4334E6A128CAF",
+            "weaponSlot": "secondary",
+            "capacity": {
+              "baseValue": 1,
+              "chambered": true,
+              "source": "WeaponRoundsComponentData.MagazineCapacity[0]",
+              "status": "RESOLVED",
+              "transformation": "identity",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "SMG-37 Defender",
+        "resources": [
+          {
+            "resourceHash": "0x4E4A613EB9BF5C24",
+            "weaponSlot": "primary",
+            "capacity": {
+              "baseValue": 30,
+              "chambered": true,
+              "defaultMagazineCustomization": "0x01B37BEC",
+              "reason": "effective capacity is supplied by a default magazine customization AddPath",
+              "status": "CUSTOMIZED_UNRESOLVED"
+            }
+          },
+          {
+            "resourceHash": "0xCA4BBEF63C869C18",
+            "weaponSlot": null,
+            "capacity": {
+              "baseValue": 30,
+              "chambered": false,
+              "defaultMagazineCustomization": "0x01B37BEC",
+              "reason": "effective capacity is supplied by a default magazine customization AddPath",
+              "status": "CUSTOMIZED_UNRESOLVED"
+            }
+          }
+        ]
+      }
+    ],
+    "provenance": "schema-labelled fields; structural/correlation-proven; pending gameplay/native-consumer confirmation"
+  },
+  "implementationFamilyComponents": [
+    {
+      "family": "arc",
+      "component": "ArcWeaponComponentData",
+      "componentIndex": 265,
+      "typeHash": "0xB87BA9ED",
+      "recordStride": 80
+    },
+    {
+      "family": "melee",
+      "component": "MeleeWeaponComponentData",
+      "componentIndex": 268,
+      "typeHash": "0xBBA9003F",
+      "recordStride": 192
+    },
+    {
+      "family": "beam",
+      "component": "BeamWeaponComponentData",
+      "componentIndex": 270,
+      "typeHash": "0xF0721C2C",
+      "recordStride": 120
+    },
+    {
+      "family": "spray/flame",
+      "component": "SprayWeaponComponentData",
+      "componentIndex": 315,
+      "typeHash": "0x8E551126",
+      "recordStride": 224
+    },
+    {
+      "family": "shotgun/feed variants",
+      "component": "WeaponRoundsComponentData",
+      "componentIndex": 117,
+      "typeHash": "0x66081072",
+      "recordStride": 136
+    },
+    {
+      "family": "conventional projectile",
+      "component": "ProjectileWeaponComponentData",
+      "componentIndex": 321,
+      "typeHash": "0x45171B68",
+      "recordStride": 616
+    }
+  ],
+  "matcherComparison": {
+    "before": {
+      "primariesResolvedUnique": 43,
+      "secondariesResolvedUnique": 11,
+      "totalUniqueResolved": 54,
+      "primaryIdentitiesResolved": 45,
+      "secondaryIdentitiesResolved": 12,
+      "totalIdentitiesResolved": 57,
+      "statusCounts": {
+        "AMBIGUOUS": 22,
+        "EXACT": 61,
+        "STRONG": 2,
+        "UNMATCHED": 280
+      }
+    },
+    "after": {
+      "primariesResolvedUnique": 44,
+      "secondariesResolvedUnique": 11,
+      "totalUniqueResolved": 55,
+      "primaryIdentitiesResolved": 45,
+      "secondaryIdentitiesResolved": 12,
+      "totalIdentitiesResolved": 57,
+      "statusCounts": {
+        "AMBIGUOUS": 22,
+        "EXACT": 57,
+        "STRONG": 2,
+        "UNMATCHED": 284
+      }
+    }
+  },
+  "duplicateIdentityGroups": [
+    {
+      "name": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "slot": "secondary"
+    },
+    {
+      "name": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "slot": "primary"
+    }
+  ],
+  "runtimeCandidatesMatchingMultipleCatalogWeapons": [
+    {
+      "identities": [
+        "AR-23 Liberator",
+        "AR-23A Liberator Carbine",
+        "StA-52 Assault Rifle"
+      ],
+      "resourceHash": "0xA6A735ACCB4A327F",
+      "scoreMargin": 0
+    },
+    {
+      "identities": [
+        "AR-23 Liberator",
+        "AR-23A Liberator Carbine",
+        "StA-52 Assault Rifle"
+      ],
+      "resourceHash": "0xB43235DBD493750C",
+      "scoreMargin": 0
+    },
+    {
+      "identities": [
+        "AR-23 Liberator",
+        "AR-23A Liberator Carbine",
+        "StA-52 Assault Rifle"
+      ],
+      "resourceHash": "0xB9606C5AAB32C3C2",
+      "scoreMargin": 0
+    },
+    {
+      "identities": [
+        "AR-23 Liberator",
+        "AR-23A Liberator Carbine",
+        "StA-52 Assault Rifle"
+      ],
+      "resourceHash": "0xD53EE03481AE73FD",
+      "scoreMargin": 0
+    }
+  ],
+  "unresolvedCatalogWeapons": [
+    {
+      "category": "Energy-Based",
+      "likelyImplementationFamilies": [
+        "arc"
+      ],
+      "name": "ARC-12 Blitzer",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-19 Stun Lance",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-2 Saber",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-30 Stun Baton",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-42 Machete",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-5 Combat Hatchet",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Melee",
+      "likelyImplementationFamilies": [
+        "melee"
+      ],
+      "name": "CQC-73 Entrenchment Tool",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Shotgun",
+      "likelyImplementationFamilies": [
+        "shotgun/feed_variants",
+        "conventional_projectile"
+      ],
+      "name": "DBS-2 Double Freedom",
+      "reason": "partial candidates exist but none is uniquely credible",
+      "slot": "primary"
+    },
+    {
+      "category": "Special",
+      "likelyImplementationFamilies": [
+        "spray/flame"
+      ],
+      "name": "FLAM-66 Torcher",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Energy-Based",
+      "likelyImplementationFamilies": [
+        "beam"
+      ],
+      "name": "LAS-13 Trident",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Energy-Based",
+      "likelyImplementationFamilies": [
+        "beam"
+      ],
+      "name": "LAS-5 Scythe",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Special",
+      "likelyImplementationFamilies": [
+        "beam"
+      ],
+      "name": "LAS-7 Dagger",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Special",
+      "likelyImplementationFamilies": [
+        "conventional_projectile"
+      ],
+      "name": "P-11 Stim Pistol",
+      "reason": "partial candidates exist but none is uniquely credible",
+      "slot": "secondary"
+    },
+    {
+      "category": "Pistol",
+      "likelyImplementationFamilies": [
+        "conventional_projectile"
+      ],
+      "name": "P-19 Redeemer",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Pistol",
+      "likelyImplementationFamilies": [
+        "conventional_projectile"
+      ],
+      "name": "P-2 Peacemaker",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Pistol",
+      "likelyImplementationFamilies": [
+        "conventional_projectile"
+      ],
+      "name": "P-4 Senator",
+      "reason": "partial candidates exist but none is uniquely credible",
+      "slot": "secondary"
+    },
+    {
+      "category": "Special",
+      "likelyImplementationFamilies": [
+        "spray/flame"
+      ],
+      "name": "P-72 Crisper",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "secondary"
+    },
+    {
+      "category": "Marksman Rifle",
+      "likelyImplementationFamilies": [
+        "conventional_projectile",
+        "melee"
+      ],
+      "name": "R-2124 Constitution",
+      "reason": "partial candidates exist but none is uniquely credible",
+      "slot": "primary"
+    },
+    {
+      "category": "Shotgun",
+      "likelyImplementationFamilies": [
+        "shotgun/feed_variants",
+        "conventional_projectile"
+      ],
+      "name": "SG-20 Halt",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Special",
+      "likelyImplementationFamilies": [
+        "conventional_projectile"
+      ],
+      "name": "SG-22 Bushwhacker",
+      "reason": "partial candidates exist but none is uniquely credible",
+      "slot": "secondary"
+    },
+    {
+      "category": "Shotgun",
+      "likelyImplementationFamilies": [
+        "shotgun/feed_variants",
+        "conventional_projectile"
+      ],
+      "name": "SG-451 Cookout",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Shotgun",
+      "likelyImplementationFamilies": [
+        "shotgun/feed_variants",
+        "conventional_projectile"
+      ],
+      "name": "SG-8 Punisher",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    },
+    {
+      "category": "Shotgun",
+      "likelyImplementationFamilies": [
+        "shotgun/feed_variants",
+        "conventional_projectile"
+      ],
+      "name": "SG-8S Slugger",
+      "reason": "no credible structurally compatible runtime candidate",
+      "slot": "primary"
+    }
+  ],
+  "unresolvedImplementationFamilies": {
+    "arc": [
+      "ARC-12 Blitzer"
+    ],
+    "beam": [
+      "LAS-5 Scythe",
+      "LAS-13 Trident",
+      "LAS-7 Dagger"
+    ],
+    "conventional_projectile": [
+      "R-2124 Constitution",
+      "SG-8 Punisher",
+      "SG-8S Slugger",
+      "SG-451 Cookout",
+      "SG-20 Halt",
+      "DBS-2 Double Freedom",
+      "P-2 Peacemaker",
+      "P-19 Redeemer",
+      "P-4 Senator",
+      "SG-22 Bushwhacker",
+      "P-11 Stim Pistol"
+    ],
+    "melee": [
+      "R-2124 Constitution",
+      "CQC-19 Stun Lance",
+      "CQC-30 Stun Baton",
+      "CQC-5 Combat Hatchet",
+      "CQC-2 Saber",
+      "CQC-42 Machete",
+      "CQC-73 Entrenchment Tool"
+    ],
+    "shotgun/feed_variants": [
+      "SG-8 Punisher",
+      "SG-8S Slugger",
+      "SG-451 Cookout",
+      "SG-20 Halt",
+      "DBS-2 Double Freedom"
+    ],
+    "spray/flame": [
+      "FLAM-66 Torcher",
+      "P-72 Crisper"
+    ]
+  },
+  "regressionAnchors": {
+    "JAR-5 Dominator": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "capacity": 15,
+        "crosshairType": 4,
+        "damageType": 153,
+        "entityRow": 3639,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=250",
+          "capacity=15",
+          "standard damage=275",
+          "durable damage=90",
+          "AP direct=3",
+          "AP slight=3",
+          "AP large=3",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=35",
+          "push force=15",
+          "velocity=180",
+          "projectile mass=100",
+          "drag=0",
+          "gravity=0.300000012"
+        ],
+        "matchedAttackBranch": "JAR-5 P",
+        "matchedDamageBranch": "JAR-5 P",
+        "matchedProjectileBranch": "JAR-5 P",
+        "mismatched": [],
+        "projectileType": 177,
+        "resourceHash": "0x80F1A156D9FA1E36",
+        "score": 116,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Special",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "JAR-5 Dominator",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 116,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "PLAS-101 Purifier": {
+      "bestCandidate": {
+        "branchMode": "composite",
+        "candidateStatus": "EXACT",
+        "capacity": 15,
+        "crosshairType": 15,
+        "damageType": 63,
+        "entityRow": 138,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=1000",
+          "capacity=15",
+          "standard damage=200",
+          "durable damage=100",
+          "AP direct=3",
+          "AP slight=3",
+          "AP large=3",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=20",
+          "push force=10",
+          "velocity=350",
+          "projectile mass=25",
+          "drag=1.5",
+          "gravity=1"
+        ],
+        "matchedDamageBranch": "P",
+        "matchedProjectileBranch": "PLAS-101 P",
+        "mismatched": [],
+        "projectileType": 296,
+        "resourceHash": "0xFB3A19078694708A",
+        "score": 116,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Energy-Based",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "PLAS-101 Purifier",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 116,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "PLAS-15 Loyalist": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "crosshairType": 15,
+        "damageType": 56,
+        "entityRow": 3157,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=1000",
+          "standard damage=100",
+          "durable damage=50",
+          "AP direct=2",
+          "AP slight=2",
+          "AP large=2",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=20",
+          "push force=10",
+          "velocity=550",
+          "projectile mass=10",
+          "drag=1",
+          "gravity=0.5"
+        ],
+        "matchedAttackBranch": "PLAS-15 P",
+        "matchedDamageBranch": "PLAS-15 P",
+        "matchedProjectileBranch": "PLAS-15 P",
+        "mismatched": [],
+        "projectileType": 171,
+        "resourceHash": "0xAA69A60D74A3EC54",
+        "score": 108,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "secondary"
+      },
+      "category": "Special",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "PLAS-15 Loyalist",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 108,
+      "slot": "secondary",
+      "status": "EXACT"
+    },
+    "PLAS-1 Scorcher": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "capacity": 20,
+        "crosshairType": 4,
+        "damageType": 56,
+        "entityRow": 3092,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=350",
+          "capacity=20",
+          "standard damage=100",
+          "durable damage=50",
+          "AP direct=2",
+          "AP slight=2",
+          "AP large=2",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=20",
+          "push force=10",
+          "velocity=550",
+          "projectile mass=25",
+          "drag=1.5",
+          "gravity=0.5"
+        ],
+        "matchedAttackBranch": "PLAS-1 P",
+        "matchedDamageBranch": "PLAS-1 P",
+        "matchedProjectileBranch": "PLAS-1 P",
+        "mismatched": [],
+        "projectileType": 142,
+        "resourceHash": "0xEEA5E3CEF1E12C14",
+        "score": 116,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Energy-Based",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "PLAS-1 Scorcher",
+      "partialCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 24,
+          "crosshairType": 0,
+          "damageType": 56,
+          "entityRow": 1930,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=100",
+            "durable damage=50",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=20",
+            "push force=10",
+            "velocity=550",
+            "projectile mass=25",
+            "drag=1.5",
+            "gravity=0.5"
+          ],
+          "matchedAttackBranch": "PLAS-1 P",
+          "matchedDamageBranch": "PLAS-1 P",
+          "matchedProjectileBranch": "PLAS-1 P",
+          "mismatched": [
+            "fire rate runtime=160 wiki=350",
+            "capacity runtime=24 wiki=20"
+          ],
+          "projectileType": 142,
+          "resourceHash": "0x8633FF89EF4F6788",
+          "score": 68,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 50,
+          "crosshairType": 4,
+          "damageType": 56,
+          "entityRow": 3618,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=100",
+            "durable damage=50",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=20",
+            "push force=10",
+            "velocity=550",
+            "projectile mass=25",
+            "drag=1.5",
+            "gravity=0.5"
+          ],
+          "matchedAttackBranch": "PLAS-1 P",
+          "matchedDamageBranch": "PLAS-1 P",
+          "matchedProjectileBranch": "PLAS-1 P",
+          "mismatched": [
+            "fire rate runtime=150 wiki=350",
+            "capacity runtime=50 wiki=20"
+          ],
+          "projectileType": 142,
+          "resourceHash": "0xA1379C8C41A10E22",
+          "score": 68,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ],
+          "weaponSlot": "primary"
+        }
+      ],
+      "partialRuntimeCandidateMatches": 2,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 116,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "PLAS-39 Accelerator Rifle": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "capacity": 9,
+        "crosshairType": 15,
+        "damageType": 308,
+        "entityRow": 3934,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=550",
+          "capacity=9",
+          "standard damage=250",
+          "durable damage=125",
+          "AP direct=3",
+          "AP slight=3",
+          "AP large=3",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=20",
+          "push force=10",
+          "velocity=1000",
+          "projectile mass=25",
+          "drag=0.100000001",
+          "gravity=0.5"
+        ],
+        "matchedAttackBranch": "PLAS-39 P",
+        "matchedDamageBranch": "PLAS-39 P",
+        "matchedProjectileBranch": "PLAS-39 P",
+        "mismatched": [],
+        "projectileType": 155,
+        "resourceHash": "0x30061F91AF477F5E",
+        "score": 116,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Energy-Based",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "PLAS-39 Accelerator Rifle",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 116,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "AR-23 Liberator": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "crosshairType": 4,
+        "damageType": 108,
+        "entityRow": 3686,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=640",
+          "standard damage=90",
+          "durable damage=22",
+          "AP direct=2",
+          "AP slight=2",
+          "AP large=2",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=15",
+          "push force=10",
+          "velocity=900",
+          "projectile mass=4.5",
+          "drag=0.300000012",
+          "gravity=1"
+        ],
+        "matchedAttackBranch": "AR-23 P",
+        "matchedDamageBranch": "AR-23 P",
+        "matchedProjectileBranch": "AR-23 P",
+        "mismatched": [],
+        "projectileType": 276,
+        "resourceHash": "0x968211C0033DCE64",
+        "score": 108,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Assault Rifle",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "AR-23 Liberator",
+      "partialCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 1300,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=640"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xB43235DBD493750C",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 962,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=640"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xB9606C5AAB32C3C2",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 1041,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=640"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xD53EE03481AE73FD",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 250,
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 640,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=640",
+            "capacity runtime=250 wiki=45"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xA6A735ACCB4A327F",
+          "score": 68,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        }
+      ],
+      "partialRuntimeCandidateMatches": 4,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 108,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "AR-23A Liberator Carbine": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "crosshairType": 4,
+        "damageType": 108,
+        "entityRow": 3871,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=920",
+          "standard damage=90",
+          "durable damage=22",
+          "AP direct=2",
+          "AP slight=2",
+          "AP large=2",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=15",
+          "push force=10",
+          "velocity=900",
+          "projectile mass=4.5",
+          "drag=0.300000012",
+          "gravity=1"
+        ],
+        "matchedAttackBranch": "AR-23 P",
+        "matchedDamageBranch": "AR-23 P",
+        "matchedProjectileBranch": "AR-23 P",
+        "mismatched": [],
+        "projectileType": 276,
+        "resourceHash": "0xA7EE1EBF58FCDF1F",
+        "score": 108,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Assault Rifle",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "AR-23A Liberator Carbine",
+      "partialCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 1300,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=920"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xB43235DBD493750C",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 962,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=920"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xB9606C5AAB32C3C2",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 1041,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=920"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xD53EE03481AE73FD",
+          "score": 84,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 250,
+          "crosshairType": 0,
+          "damageType": 108,
+          "entityRow": 640,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "standard damage=90",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=15",
+            "push force=10",
+            "velocity=900",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23 P",
+          "matchedDamageBranch": "AR-23 P",
+          "matchedProjectileBranch": "AR-23 P",
+          "mismatched": [
+            "fire rate runtime=850 wiki=920",
+            "capacity runtime=250 wiki=45"
+          ],
+          "projectileType": 276,
+          "resourceHash": "0xA6A735ACCB4A327F",
+          "score": 68,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        }
+      ],
+      "partialRuntimeCandidateMatches": 4,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 108,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "AR-23P Liberator Penetrator": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "crosshairType": 4,
+        "damageType": 105,
+        "entityRow": 631,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=640",
+          "standard damage=65",
+          "durable damage=15",
+          "AP direct=3",
+          "AP slight=3",
+          "AP large=3",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=10",
+          "push force=10",
+          "velocity=1000",
+          "projectile mass=4.5",
+          "drag=0.300000012",
+          "gravity=1"
+        ],
+        "matchedAttackBranch": "AR-23P P",
+        "matchedDamageBranch": "AR-23P P",
+        "matchedProjectileBranch": "AR-23P P",
+        "mismatched": [],
+        "projectileType": 7,
+        "resourceHash": "0x43CB1033961A2276",
+        "score": 108,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Assault Rifle",
+      "competingCandidates": [],
+      "duplicateRuntimeResources": false,
+      "name": "AR-23P Liberator Penetrator",
+      "partialCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 30,
+          "crosshairType": 0,
+          "damageType": 105,
+          "entityRow": 3566,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "fire rate=640",
+            "standard damage=65",
+            "durable damage=15",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=10",
+            "velocity=1000",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23P P",
+          "matchedDamageBranch": "AR-23P P",
+          "matchedProjectileBranch": "AR-23P P",
+          "mismatched": [
+            "capacity runtime=30 wiki=45"
+          ],
+          "projectileType": 7,
+          "resourceHash": "0x3357EEBB0184FDEE",
+          "score": 92,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 120,
+          "crosshairType": 0,
+          "damageType": 105,
+          "entityRow": 2043,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "fire rate=640",
+            "standard damage=65",
+            "durable damage=15",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=10",
+            "velocity=1000",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23P P",
+          "matchedDamageBranch": "AR-23P P",
+          "matchedProjectileBranch": "AR-23P P",
+          "mismatched": [
+            "capacity runtime=120 wiki=45"
+          ],
+          "projectileType": 7,
+          "resourceHash": "0x4DF41F84668D07FB",
+          "score": 92,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 30,
+          "crosshairType": 0,
+          "damageType": 105,
+          "entityRow": 237,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "fire rate=640",
+            "standard damage=65",
+            "durable damage=15",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=10",
+            "velocity=1000",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23P P",
+          "matchedDamageBranch": "AR-23P P",
+          "matchedProjectileBranch": "AR-23P P",
+          "mismatched": [
+            "capacity runtime=30 wiki=45"
+          ],
+          "projectileType": 331,
+          "resourceHash": "0x6DB0CACE51C8A0ED",
+          "score": 92,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 140,
+          "crosshairType": 0,
+          "damageType": 105,
+          "entityRow": 2705,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "fire rate=640",
+            "standard damage=65",
+            "durable damage=15",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=10",
+            "velocity=1000",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23P P",
+          "matchedDamageBranch": "AR-23P P",
+          "matchedProjectileBranch": "AR-23P P",
+          "mismatched": [
+            "capacity runtime=140 wiki=45"
+          ],
+          "projectileType": 7,
+          "resourceHash": "0x73681FFD58FA1A90",
+          "score": 92,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        },
+        {
+          "branchMode": "single",
+          "candidateStatus": "AMBIGUOUS",
+          "capacity": 45,
+          "crosshairType": 4,
+          "damageType": 105,
+          "entityRow": 890,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "capacity=45",
+            "standard damage=65",
+            "durable damage=15",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=10",
+            "velocity=1000",
+            "projectile mass=4.5",
+            "drag=0.300000012",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "AR-23P P",
+          "matchedDamageBranch": "AR-23P P",
+          "matchedProjectileBranch": "AR-23P P",
+          "mismatched": [
+            "fire rate runtime=660 wiki=640"
+          ],
+          "projectileType": 7,
+          "resourceHash": "0xA32621E3BDE13379",
+          "score": 92,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ],
+          "weaponSlot": "primary"
+        }
+      ],
+      "partialRuntimeCandidateMatches": 5,
+      "resolution": "UNIQUE",
+      "runtimeCandidateMatches": 1,
+      "scoreMargin": 108,
+      "slot": "primary",
+      "status": "EXACT"
+    },
+    "SMG-37 Defender": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "crosshairType": 4,
+        "damageType": 83,
+        "entityRow": 3108,
+        "implementationFamilies": [
+          "conventional_projectile"
+        ],
+        "matched": [
+          "fire rate=520",
+          "standard damage=110",
+          "durable damage=22",
+          "AP direct=2",
+          "AP slight=2",
+          "AP large=2",
+          "AP extreme=0",
+          "demolition=10",
+          "stagger=10",
+          "push force=5",
+          "velocity=285",
+          "projectile mass=15",
+          "drag=1.20000005",
+          "gravity=1"
+        ],
+        "matchedAttackBranch": "SMG-37 P",
+        "matchedDamageBranch": "SMG-37 P",
+        "matchedProjectileBranch": "SMG-37 P",
+        "mismatched": [],
+        "projectileType": 3,
+        "resourceHash": "0x4E4A613EB9BF5C24",
+        "score": 108,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ],
+        "weaponSlot": "primary"
+      },
+      "category": "Submachine Gun",
+      "competingCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "EXACT",
+          "crosshairType": 0,
+          "damageType": 83,
+          "entityRow": 3096,
+          "implementationFamilies": [
+            "conventional_projectile"
+          ],
+          "matched": [
+            "fire rate=520",
+            "standard damage=110",
+            "durable damage=22",
+            "AP direct=2",
+            "AP slight=2",
+            "AP large=2",
+            "AP extreme=0",
+            "demolition=10",
+            "stagger=10",
+            "push force=5",
+            "velocity=285",
+            "projectile mass=15",
+            "drag=1.20000005",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "SMG-37 P",
+          "matchedDamageBranch": "SMG-37 P",
+          "matchedProjectileBranch": "SMG-37 P",
+          "mismatched": [],
+          "projectileType": 150,
+          "resourceHash": "0xCA4BBEF63C869C18",
+          "score": 108,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ]
+        }
+      ],
+      "duplicateRuntimeResources": true,
+      "name": "SMG-37 Defender",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "DUPLICATE",
+      "runtimeCandidateMatches": 2,
+      "scoreMargin": 0,
+      "slot": "primary",
+      "status": "AMBIGUOUS"
+    },
+    "GP-31 Grenade Pistol": {
+      "bestCandidate": {
+        "branchMode": "single",
+        "candidateStatus": "EXACT",
+        "capacity": 1,
+        "crosshairType": 0,
+        "damageType": 225,
+        "entityRow": 1527,
+        "implementationFamilies": [
+          "conventional_projectile",
+          "rounds_feed"
+        ],
+        "matched": [
+          "fire rate=900",
+          "capacity=1",
+          "standard damage=250",
+          "durable damage=250",
+          "AP direct=3",
+          "AP slight=3",
+          "AP large=3",
+          "AP extreme=0",
+          "demolition=30",
+          "stagger=40",
+          "push force=10",
+          "velocity=100",
+          "projectile mass=50",
+          "drag=1.20000005",
+          "gravity=1"
+        ],
+        "matchedAttackBranch": "GP-31 P",
+        "matchedDamageBranch": "GP-31 P",
+        "matchedProjectileBranch": "GP-31 P",
+        "mismatched": [],
+        "projectileType": 263,
+        "resourceHash": "0x02CD7321CD8445F5",
+        "score": 116,
+        "unresolvedFields": [
+          "projectile_type (runtime structural ID; no wiki ID)",
+          "damage_type (runtime structural ID; no wiki ID)",
+          "crosshair_type (runtime structural ID; no wiki ID)",
+          "pellet_count"
+        ]
+      },
+      "category": "Special",
+      "competingCandidates": [
+        {
+          "branchMode": "single",
+          "candidateStatus": "EXACT",
+          "capacity": 1,
+          "crosshairType": 0,
+          "damageType": 225,
+          "entityRow": 3247,
+          "implementationFamilies": [
+            "conventional_projectile",
+            "rounds_feed"
+          ],
+          "matched": [
+            "fire rate=900",
+            "capacity=1",
+            "standard damage=250",
+            "durable damage=250",
+            "AP direct=3",
+            "AP slight=3",
+            "AP large=3",
+            "AP extreme=0",
+            "demolition=30",
+            "stagger=40",
+            "push force=10",
+            "velocity=100",
+            "projectile mass=50",
+            "drag=1.20000005",
+            "gravity=1"
+          ],
+          "matchedAttackBranch": "GP-31 P",
+          "matchedDamageBranch": "GP-31 P",
+          "matchedProjectileBranch": "GP-31 P",
+          "mismatched": [],
+          "projectileType": 263,
+          "resourceHash": "0x52E4334E6A128CAF",
+          "score": 116,
+          "unresolvedFields": [
+            "projectile_type (runtime structural ID; no wiki ID)",
+            "damage_type (runtime structural ID; no wiki ID)",
+            "crosshair_type (runtime structural ID; no wiki ID)",
+            "pellet_count"
+          ],
+          "weaponSlot": "secondary"
+        }
+      ],
+      "duplicateRuntimeResources": true,
+      "name": "GP-31 Grenade Pistol",
+      "partialCandidates": [],
+      "partialRuntimeCandidateMatches": 0,
+      "resolution": "DUPLICATE",
+      "runtimeCandidateMatches": 2,
+      "scoreMargin": 0,
+      "slot": "secondary",
+      "status": "AMBIGUOUS"
+    }
+  },
+  "focusFindings": {
+    "AR-23P Liberator Penetrator": "slot and capacity evidence reduce five formerly credible resource matches to one exact resource; four remain partial only",
+    "SMG-37 Defender": "both resources retain the same base magazine/customization identity; one has a primary BundleTag and the other is unclassified, which is insufficient to choose canonically",
+    "GP-31 Grenade Pistol": "both resources resolve capacity 1 through WeaponRounds; one has a secondary BundleTag and the other is unclassified, which is insufficient to choose canonically",
+    "Liberator/Carbine/StA-52 partial resources": "four resources still match all three identities; capacity values are absent, customized, or conflicting and do not establish a unique identity"
+  },
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "gameLaunched": false
+  }
+}

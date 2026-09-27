@@ -103,6 +103,7 @@ local function unresolved(runtime,result)
 end
 local function score_weapon(runtime,weapon)
     local runtime_kind=runtime.attack_kind or runtime.attackKind
+    local runtime_slot=runtime.weapon_slot or runtime.weaponSlot
     local attacks={}
     for _,attack in ipairs(weapon.attacks or {})do
         if compatible(runtime_kind,attack)then attacks[#attacks+1]=attack end
@@ -110,7 +111,13 @@ local function score_weapon(runtime,weapon)
     local result={name=weapon.name,slot=weapon.slot or'primary',category=weapon.category,
         score=-100000,matched={},mismatched={},unresolvedFields={},compared=0,
         highValueMatches=0,highValueMismatches=0,structurallyCompatible=#attacks>0,
-        compatibleAttackKind=runtime_kind}
+        compatibleAttackKind=runtime_kind,compatibleWeaponSlot=runtime_slot}
+    if runtime_slot~=nil and weapon.slot~=nil and runtime_slot~=weapon.slot then
+        result.structurallyCompatible=false
+        result.incompatibility='runtime weapon slot '..tostring(runtime_slot)
+            ..' differs from catalog slot '..tostring(weapon.slot)
+        return result
+    end
     if #attacks==0 then
         result.incompatibility='runtime attack kind '..tostring(runtime_kind)..' absent from catalog weapon'
         return result

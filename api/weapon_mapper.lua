@@ -3,6 +3,7 @@ local b=require('hd2runtime/core/bytes')
 local Reader=require('hd2runtime/runtime/reader')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
+local weapon_metadata=require('hd2runtime/core/weapon_metadata')
 local profile=require('hd2runtime/schemas/current')
 local mapper_schema=require('hd2runtime/schemas/weapon_mapper')
 local M={}
@@ -21,6 +22,10 @@ local damage_fields={
     {'demolition',28,'u32'},{'stagger',32,'u32'},{'push_force',36,'u32'},
 }
 local unmapped=mapper_schema.unmapped
+local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
+    'LoadoutPackageComponentData','WeaponMagazineComponentData','WeaponRoundsComponentData',
+    'WeaponCustomizationComponentData','ArcWeaponComponentData','MeleeWeaponComponentData',
+    'BeamWeaponComponentData','SprayWeaponComponentData'}
 
 local function copy(value)
     if type(value)~='table'then return value end
@@ -45,9 +50,15 @@ function M.start(runtime,emit,request)
             assert(exe_sha==profile.exe_sha and dll_sha==profile.dll_sha,'unsupported build fingerprint')
         end
         local roots=discover.locate(runtime,reader,profile,{entity=true,projectile=true,damage=true})
-        local catalog=entities.capture(reader,roots.entity,profile,
-            {'ProjectileWeaponComponentData','WeaponDataComponentData'})
-        assert(#catalog.candidates==profile.weapon_mapper.expected_candidates,
+        local catalog=entities.capture(reader,roots.entity,profile,component_names)
+        local weapon_candidates={}
+        for _,candidate in ipairs(catalog.candidates)do
+            if candidate.ownership.ProjectileWeaponComponentData
+                or candidate.ownership.WeaponDataComponentData then
+                weapon_candidates[#weapon_candidates+1]=candidate
+            end
+        end
+        assert(#weapon_candidates==profile.weapon_mapper.expected_candidates,
             'weapon candidate count changed')
         local damage_consumers={}
         for projectile_type,record in pairs(roots.projectile.records)do
@@ -56,11 +67,15 @@ function M.start(runtime,emit,request)
             consumers[#consumers+1]=projectile_type;damage_consumers[damage_type]=consumers
         end
         local results,failed={},0
-        for index,candidate in ipairs(catalog.candidates)do
+        for index,candidate in ipairs(weapon_candidates)do
             reader.stage='api/weapon_mapper:candidate_checkpoint';reader.checkpoint()
             local output={resourceHash=candidate.resourceHash,entityRow=candidate.entityRow,
-                ownership=copy(candidate.ownership),resolvedFields={},matchFields={attack_kind='Projectile'},attacks={},
+                ownership=copy(candidate.ownership),resolvedFields={},matchFields={},attacks={},
                 diagnostics=copy(candidate.diagnostics),mode=runtime.mode or 'fixture'}
+            output.implementationFamilies=weapon_metadata.implementation_families(candidate.ownership)
+            if candidate.ownership.ProjectileWeaponComponentData then
+                output.matchFields.attack_kind='Projectile'
+            end
             local resolved=0
             local function attempt(label,action)
                 local ok,why=pcall(action)
@@ -74,6 +89,34 @@ function M.start(runtime,emit,request)
                     field(output,'crosshair_type',b.u32(record.bytes,400),provenance.crosshair_type)
                 end)
             end
+            local loadout=candidate.ownership.LoadoutPackageComponentData
+            if loadout then
+                attempt('LoadoutPackageComponentData',function()
+                    local record=catalog.record(candidate,'LoadoutPackageComponentData')
+                    local slot,detail=weapon_metadata.weapon_slot(record.bytes,mapper_schema)
+                    output.weaponSlot=detail
+                    if slot then field(output,'weapon_slot',slot,mapper_schema.fields.weapon_slot.evidence)end
+                end)
+            else output.weaponSlot={status='UNCLASSIFIED',reason='loadout package ownership absent'}end
+            local capacity_records={}
+            for _,name in ipairs({'WeaponMagazineComponentData','WeaponRoundsComponentData',
+                'WeaponCustomizationComponentData'})do
+                if candidate.ownership[name]then
+                    attempt(name,function()capacity_records[name]=catalog.record(candidate,name).bytes end)
+                end
+            end
+            if next(capacity_records)then
+                attempt('weapon capacity',function()
+                    output.capacity=weapon_metadata.capacity(capacity_records,mapper_schema)
+                    if output.capacity.baseValue~=nil then
+                        field(output,'base_capacity',output.capacity.baseValue,
+                            mapper_schema.fields.capacity.evidence)
+                    end
+                    if output.capacity.value~=nil then
+                        field(output,'capacity',output.capacity.value,mapper_schema.fields.capacity.evidence)
+                    end
+                end)
+            else output.capacity={status='UNMAPPED',reason='no reviewed magazine/feed component'}end
             local projectile_owner=candidate.ownership.ProjectileWeaponComponentData
             if projectile_owner then
                 attempt('ProjectileWeaponComponentData',function()
@@ -116,14 +159,15 @@ function M.start(runtime,emit,request)
             else output.resolutionStatus='RESOLVED' end
             results[#results+1]=output
             pcall(emit,string.format('[HD2Runtime] PRIMARY_WEAPON_SCAN candidate=%d/%d resource=%s status=%s',
-                index,#catalog.candidates,candidate.resourceHash,output.resolutionStatus))
+                index,#weapon_candidates,candidate.resourceHash,output.resolutionStatus))
         end
         reader.stage='runtime/reader:stable_reread';reader.verify()
         return {runtimeCandidates=results,fingerprint={exe=exe_sha,dll=dll_sha},
             requestedProfileFingerprint={exe=profile.exe_sha,dll=profile.dll_sha},
             historicalAnalysis=request.historical_analysis==true,
             mode=runtime.mode or 'fixture',stableSnapshot=true,writes=0,protectionChanges=0,
-            fixtureFallback='disabled',fieldsCurrentlyUsable={'projectile_type','damage_type',
+            fixtureFallback='disabled',fieldsCurrentlyUsable={'weapon_slot','capacity','base_capacity',
+                'projectile_type','damage_type',
                 'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity',
                 'standard_damage','durable_damage','ap_direct','ap_slight','ap_large','ap_extreme',
                 'demolition','stagger','push_force','crosshair_type'},
@@ -131,7 +175,7 @@ function M.start(runtime,emit,request)
                 candidatesProcessed=#results,expectedCandidateCount=profile.weapon_mapper.expected_candidates,
                 sharedDiscoveryPasses=1,queries=reader.queries,
                 bytesRead=reader.bytes,queryLimit=100000,byteLimit=16*1024*1024,
-                candidatesPerTick=1,candidateComponentReadLimit=2}}
+                candidatesPerTick=1,candidateComponentReadLimit=#component_names}}
     end)
     function job.step()
         if job.status=='complete'or job.status=='rejected'then return true end
