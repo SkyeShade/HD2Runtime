@@ -13,6 +13,13 @@ see `docs/player-weapon-composition.md` for the guarded APIs.
 phase dependencies, `target_from` paths, and per-operation shared scope. Field
 editability remains canonical in `PlayerWeaponAuthoringCapabilities.json`.
 
+Attachment preset research is split into `AttachmentPresetGraph.json`,
+`AttachmentSelectionCapabilities.json`, and `AttachmentEffectOwnership.json`.
+These distinguish static resource defaults from current selections, saved
+presets, and effect owners. The current capture does not prove a writable
+selection or option effect; see `docs/attachment-preset-research.md` for the
+targeted lifecycle comparison workflow.
+
 Install Bingus Shared Loader v15+ / API 1, then import the separate
 `HD2Runtime-0.19.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,

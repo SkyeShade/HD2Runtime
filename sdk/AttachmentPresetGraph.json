@@ -1,0 +1,5603 @@
+{
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.19.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "evidenceStates": [
+    {
+      "label": "current_snapshot_unknown_preset",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+    }
+  ],
+  "feature": "attachment_preset_graph",
+  "summary": {
+    "weapons": 80,
+    "attachmentOptions": 419,
+    "knownNativeOptionCatalogIdentities": 52,
+    "nativeOptionIdentitiesTiedToRows": 13,
+    "nativeDefaultRelationships": 20,
+    "stateCapturesCompared": 0,
+    "selectedAttachmentOwnersProven": 0,
+    "savedPresetOwnersProven": 0,
+    "writablePresetFields": 0
+  },
+  "nativeLayout": {
+    "component": "WeaponCustomizationComponentData",
+    "recordSize": 4872,
+    "defaultDefinitions": {
+      "offset": 0,
+      "entryStride": 8,
+      "entryCount": 10,
+      "slotOffset": 0,
+      "optionIdOffset": 4,
+      "terminatorSlot": 0,
+      "meaning": "Generated weapon-resource default definition; not proven current player selection."
+    },
+    "selectedAttachmentState": null,
+    "savedPresetState": null,
+    "effectApplicationRecord": null
+  },
+  "ownershipFindings": {
+    "weaponPresetStateFound": false,
+    "defaultDefinitionOwner": "weapon resource WeaponCustomizationComponentData",
+    "selectedAttachmentOwner": null,
+    "savedPresetOwner": null,
+    "spawnRebuildBehavior": "unresolved; requires selected/saved/re-equipped state captures",
+    "importantDistinction": "DefaultCustomizations is static resource data and is not promoted as current selection or saved preset state."
+  },
+  "nativeIdentityCatalog": [
+    {
+      "optionId": "0x14679F6E",
+      "name": "Jet Assisted Rifle 15mm. Drum Standard ",
+      "addPath": "0xD246831EFD370FA8",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x45A1B03E",
+      "name": "Karbin Rifle Standard",
+      "addPath": "0x16AB263BC03B4F96",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x643262CC",
+      "name": "Laser Heatsink (Blaster). Improved Cooldown",
+      "addPath": "0xA313B38037CEE20B",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x87B6BE3A",
+      "name": "Laser Heatsink (Blaster). Improved Heatcapacity",
+      "addPath": "0x08755D8F453EA7BA",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x39BBF52C",
+      "name": "Laser Heatsink (Blaster). Standard",
+      "addPath": "0x764EA2289AC0CB49",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x3D0687C6",
+      "name": "Laser Heatsink (Charge). Extended Heatsink",
+      "addPath": "0x7DCA2947CCDA8F56",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x53120A73",
+      "name": "Laser Heatsink (Charge). Rapid Heatsink",
+      "addPath": "0xB4E981030087D094",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x5672E4B7",
+      "name": "Laser Heatsink (Charge). Standard Heatsink",
+      "addPath": "0xB889C472C393E06B",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x87770B73",
+      "name": "Laser Heatsink. Medium Improved Cooldown",
+      "addPath": "0x86BCCD5B35E0EEA5",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xF9D96D40",
+      "name": "Laser Heatsink. Medium Improved Heatcapacity",
+      "addPath": "0x55E9F7BC3BFA32FA",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xF3D0DF39",
+      "name": "Laser Heatsink. Medium Standard",
+      "addPath": "0xB61B1340B74AAA5C",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x116E8A0F",
+      "name": "Pistol 12x20mm. Standard",
+      "addPath": "0x4F839E923046E631",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xB269A0B3",
+      "name": "Pistol 9x20mm. Extended ",
+      "addPath": "0xC891ACF9E8DBDA97",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x70C52CEC",
+      "name": "Plasma Medium. Canister Extended",
+      "addPath": "0x80F0A339E905D2D3",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x83DB4D5A",
+      "name": "Plasma Medium. Canister Standard",
+      "addPath": "0x193BECDF64AA66A9",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x8189A695",
+      "name": "Plasma Pistol. Canister Extended",
+      "addPath": "0x990B06BF5C26BD01",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x6AF10FB5",
+      "name": "Plasma Pistol. Canister Pistol",
+      "addPath": "0xACA180FC6F846411",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xBCFF63A2",
+      "name": "RIFLE 9x70mm. Extended ",
+      "addPath": "0xC138B650D94AD5E3",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x1E6C8A0A",
+      "name": "RIFLE 9x70mm. Standard ",
+      "addPath": "0xE8E18735416D8A2F",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x4F3F221D",
+      "name": "RIFLE Drake. Short ",
+      "addPath": "0x61D9B85315F9B5BB",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xB7FA90FD",
+      "name": "RIFLE Drake. Standard ",
+      "addPath": "0x3359229E4E0F766D",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x536662C0",
+      "name": "RIFLE Justice. Extended ",
+      "addPath": "0x37C2891774B38C87",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x33EAAA65",
+      "name": "RIFLE Justice. Short ",
+      "addPath": "0x986E6696B34B8902",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x9FE412AD",
+      "name": "RIFLE Justice. Standard ",
+      "addPath": "0x462FC89D4903B33D",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xDF4F1322",
+      "name": "Rifle 5,5x50mm. Drum ",
+      "addPath": "0xE8DE5E95B9635C21",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xB71E1C41",
+      "name": "Rifle 5,5x50mm. Drum Carbine",
+      "addPath": "0xB3FEF7AD6BC385B2",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x73CA1B5E",
+      "name": "Rifle 5,5x50mm. Extended",
+      "addPath": "0x7BE1E04A7738E673",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x71FBEF8C",
+      "name": "Rifle 5,5x50mm. Extended Fastreload",
+      "addPath": "0x2D761A80BCBFE792",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xDF7E8E38",
+      "name": "Rifle 5,5x50mm. Standard",
+      "addPath": "0xA4FA3EF43A8CECAF",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x5FBC2C8A",
+      "name": "Rifle 5,5x50mm. Standard Fastreload",
+      "addPath": "0x344CBD588A1F8058",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xDED45539",
+      "name": "Rifle 8x40mm Rifle Standard",
+      "addPath": "0x963ACA558CD906BC",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x2B798DFB",
+      "name": "SHOTGUN 12g. Drum ",
+      "addPath": "0x3DDB9D36DA22555D",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x562192C1",
+      "name": "SHOTGUN 12g. Drum Light",
+      "addPath": "0x040CE909939A3BAA",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xCA77DC98",
+      "name": "SHOTGUN 12g. Magazine Extended",
+      "addPath": "0x68B8D040421E8A49",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xD510632D",
+      "name": "SHOTGUN 12g. Magazine Extended Light",
+      "addPath": "0x676C58913606A8E7",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xE4ABBAF6",
+      "name": "SMG 12x25mm. Drum ",
+      "addPath": "0x7706F9EA88A12C33",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x6F65C295",
+      "name": "SMG 12x25mm. Drum Pummeler",
+      "addPath": "0x2FD25216D6ACABEE",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x01B37BEC",
+      "name": "SMG 12x25mm. Extended",
+      "addPath": "0x51DF2B8840B0DC66",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xDC2ADA1D",
+      "name": "SMG 12x25mm. Extended Pummeler",
+      "addPath": "0xCC944F51090C682B",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x08AF081B",
+      "name": "SMG 12x25mm. Standard ",
+      "addPath": "0x538191ECBD222856",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xC47F4FBE",
+      "name": "SMG 12x25mm. Standard Pummeler",
+      "addPath": "0x3C13706AAEBD5F53",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x4F5D28F6",
+      "name": "SMG 9x20mm. Top Mounted Extended",
+      "addPath": "0x21F0B1A5E00AF770",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x7C51A74A",
+      "name": "SMG 9x20mm. Top Mounted Extended Solvent",
+      "addPath": "0x6ABDDD8224A3328F",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x47E45B79",
+      "name": "SMG 9x20mm. Top Mounted Standard ",
+      "addPath": "0x3A58B9DCB84F665D",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xCD85679E",
+      "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+      "addPath": "0x8F141212B0F6F515",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x6C1F86EA",
+      "name": "SMG Flamer Drum Magazine ",
+      "addPath": "0x7E3F787B75FA8C62",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xEB75D04E",
+      "name": "SMG Flamer Extended Magazine ",
+      "addPath": "0x1B1FCC0E025C1F7D",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x692EABF3",
+      "name": "SMG Flamer Standard Magazine ",
+      "addPath": "0x9237CCEC8FE86D22",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xAE7BADEF",
+      "name": "Shotgun 12g. Magazine Standard ",
+      "addPath": "0x9992E382B80955CC",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x8D7DFD68",
+      "name": "Shotgun 12g. Magazine Standard Light",
+      "addPath": "0xA3AF33F240E2F4E9",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0x6AF47A1D",
+      "name": "Whisper Rifle 5,5x50mm. Drum ",
+      "addPath": "0x493B364B37B48AE4",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    },
+    {
+      "optionId": "0xA8F88FA1",
+      "name": "Whisper Rifle 5,5x50mm. Standard",
+      "addPath": "0xFD5B6104526745D2",
+      "capacityResolved": false,
+      "spareMagazinesResolved": false,
+      "applicableWeaponsResolved": false,
+      "reason": "The catalog proves option identity and AddPath, but the captured runtime does not expose a reviewed option-to-weapon compatibility/override record."
+    }
+  ],
+  "weapons": [
+    {
+      "weapon": "AR-11 Arbitrator",
+      "resources": [
+        "0xA8A91EB54892B6B2"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "AR-2 Coyote",
+      "resources": [
+        "0x84354339522C932D"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "AR-23 Liberator",
+      "resources": [
+        "0x968211C0033DCE64"
+      ],
+      "componentDefault": {
+        "optionId": "0x73CA1B5E",
+        "name": "Rifle 5,5x50mm. Extended",
+        "addPath": "0x7BE1E04A7738E673",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [
+          "AR-23P Liberator Penetrator",
+          "AR-59 Suppressor"
+        ],
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x73CA1B5E",
+                "addPath": "0x7BE1E04A7738E673",
+                "name": "Rifle 5,5x50mm. Extended"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23A Liberator Carbine",
+      "resources": [
+        "0xA7EE1EBF58FCDF1F"
+      ],
+      "componentDefault": {
+        "optionId": "0x71FBEF8C",
+        "name": "Rifle 5,5x50mm. Extended Fastreload",
+        "addPath": "0x2D761A80BCBFE792",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x71FBEF8C",
+                "addPath": "0x2D761A80BCBFE792",
+                "name": "Rifle 5,5x50mm. Extended Fastreload"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23C Liberator Concussive",
+      "resources": [
+        "0xCF5F176E0E322BE1"
+      ],
+      "componentDefault": {
+        "optionId": "0xDF4F1322",
+        "name": "Rifle 5,5x50mm. Drum ",
+        "addPath": "0xE8DE5E95B9635C21",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 60,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xDF4F1322",
+                "addPath": "0xE8DE5E95B9635C21",
+                "name": "Rifle 5,5x50mm. Drum "
+              },
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-23P Liberator Penetrator",
+      "resources": [
+        "0x43CB1033961A2276"
+      ],
+      "componentDefault": {
+        "optionId": "0x73CA1B5E",
+        "name": "Rifle 5,5x50mm. Extended",
+        "addPath": "0x7BE1E04A7738E673",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [
+          "AR-23 Liberator",
+          "AR-59 Suppressor"
+        ],
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x73CA1B5E",
+                "addPath": "0x7BE1E04A7738E673",
+                "name": "Rifle 5,5x50mm. Extended"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR-32 Pacifier",
+      "resources": [
+        "0xBC29613666DF696B"
+      ],
+      "componentDefault": {
+        "optionId": "0x45A1B03E",
+        "name": "Karbin Rifle Standard",
+        "addPath": "0x16AB263BC03B4F96",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 40,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": []
+    },
+    {
+      "weapon": "AR-59 Suppressor",
+      "resources": [
+        "0x708EA298C82093D0"
+      ],
+      "componentDefault": {
+        "optionId": "0x73CA1B5E",
+        "name": "Rifle 5,5x50mm. Extended",
+        "addPath": "0x7BE1E04A7738E673",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [
+          "AR-23 Liberator",
+          "AR-23P Liberator Penetrator"
+        ],
+        "shared": true,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 8
+      },
+      "categories": []
+    },
+    {
+      "weapon": "AR-61 Tenderizer",
+      "resources": [
+        "0xCE063AA33D95A812"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "AR/GL-21 One-Two",
+      "resources": [
+        "0xA955C4EA6F6D4203"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "ARC-12 Blitzer",
+      "resources": [
+        "0x076DD5D4F4360204"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "BR-14 Adjudicator",
+      "resources": [
+        "0x5FECAB819F96A3E8"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "CB-9 Exploding Crossbow",
+      "resources": [
+        "0xF49227A0630A3F7F"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "CQC-19 Stun Lance",
+      "resources": [
+        "0xE3B6AEDD07FCB464"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "CQC-2 Saber",
+      "resources": [
+        "0xFCD8A6E67EAC635A"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "CQC-30 Stun Baton",
+      "resources": [
+        "0x52CDBFBACA3CB397"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "CQC-42 Machete",
+      "resources": [
+        "0x792D5D2A340FD6E6",
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "CQC-5 Combat Hatchet",
+      "resources": [
+        "0x75816077C139C850"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "CQC-73 Entrenchment Tool",
+      "resources": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "DBS-2 Double Freedom",
+      "resources": [
+        "0x72170A55A1F37FF1"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "FLAM-66 Torcher",
+      "resources": [
+        "0x4FB0F8C02F55C82B"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "GL-15 Evictor",
+      "resources": [
+        "0x006E44327BB953FE"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "No Optics",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "GP-20 Ultimatum",
+      "resources": [
+        "0x9EB160830321BFD6"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "GP-31 Grenade Pistol",
+      "resources": [
+        "0x02CD7321CD8445F5",
+        "0x52E4334E6A128CAF"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "JAR-5 Dominator",
+      "resources": [
+        "0x80F1A156D9FA1E36"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-12 Sai",
+      "resources": [
+        "0xC85F576D5E086147"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "LAS-13 Trident",
+      "resources": [
+        "0x3C86E871923F3970"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "LAS-16 Sickle",
+      "resources": [
+        "0x8645F167B3C813A2"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "resources": [
+        "0x295BEB26DC4F8FF1"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-5 Scythe",
+      "resources": [
+        "0x27EE1ED8F6FB6356",
+        "0x7E3145A5BAA4B948"
+      ],
+      "componentDefault": {
+        "optionId": "0xF3D0DF39",
+        "addPath": "0xB61B1340B74AAA5C",
+        "name": "Laser Heatsink. Medium Standard",
+        "values": {},
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "writable": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked."
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Standard Heatsink",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xF3D0DF39",
+                "addPath": "0xB61B1340B74AAA5C",
+                "name": "Laser Heatsink. Medium Standard"
+              },
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "High Capacity Heatsink",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 7,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "High Dissipation Heatsink",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "LAS-58 Talon",
+      "resources": [
+        "0x416D053372C4E433"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "LAS-7 Dagger",
+      "resources": [
+        "0x2B3C367B280F4094",
+        "0x7B06196E90154C88"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "M6C/SOCOM Pistol",
+      "resources": [
+        "0x4D58C77087B774C5"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "M7S SMG",
+      "resources": [
+        "0xBE70EE0D8D44028E"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "M90A Shotgun",
+      "resources": [
+        "0x90DDC374F4E3D756"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "MA5C Assault Rifle",
+      "resources": [
+        "0x4DBD74F49C8FFC13"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "MP-98 Knight",
+      "resources": [
+        "0x9571CA51F0DAF35B"
+      ],
+      "componentDefault": {
+        "optionId": "0x47E45B79",
+        "name": "SMG 9x20mm. Top Mounted Standard ",
+        "addPath": "0x3A58B9DCB84F665D",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x47E45B79",
+                "addPath": "0x3A58B9DCB84F665D",
+                "name": "SMG 9x20mm. Top Mounted Standard "
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "P-11 Stim Pistol",
+      "resources": [
+        "0xD6B1FB05B9109353"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-113 Verdict",
+      "resources": [
+        "0x1A437158E1B8D2A1"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-19 Redeemer",
+      "resources": [
+        "0x3575AABC5F1F9326"
+      ],
+      "componentDefault": {
+        "optionId": "0xB269A0B3",
+        "name": "Pistol 9x20mm. Extended ",
+        "addPath": "0xC891ACF9E8DBDA97",
+        "backingBaseValues": {
+          "capacity": 31,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "values": {
+          "capacity": 31,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 6
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": []
+    },
+    {
+      "weapon": "P-2 Peacemaker",
+      "resources": [
+        "0x05E4E5C2DB6E44A2"
+      ],
+      "componentDefault": {
+        "optionId": "0x116E8A0F",
+        "name": "Pistol 12x20mm. Standard",
+        "addPath": "0x4F839E923046E631",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 15,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 16
+      },
+      "categories": []
+    },
+    {
+      "weapon": "P-33 Missile Pistol",
+      "resources": [
+        "0x14D5D4506056C7A4"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-34 Breacher",
+      "resources": [
+        "0xE91F569C2AD8AF01"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-35 Re-Educator",
+      "resources": [
+        "0x0B882808C6F498E8"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-4 Senator",
+      "resources": [
+        "0x8D3D52A3B2F19402"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-69 Veto",
+      "resources": [
+        "0xC780BCD79547DA0F"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-72 Crisper",
+      "resources": [
+        "0x3F92BA65EF65CCA9",
+        "0x992B6F65A5BAB53D"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P-92 Warrant",
+      "resources": [
+        "0xCF8934FF6567A42D"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "P/40-K Bolt Pistol",
+      "resources": [
+        "0xDBB6C961C59FADC1"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "PLAS-1 Scorcher",
+      "resources": [
+        "0xEEA5E3CEF1E12C14"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-101 Purifier",
+      "resources": [
+        "0xFB3A19078694708A"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "PLAS-15 Loyalist",
+      "resources": [
+        "0xAA69A60D74A3EC54"
+      ],
+      "componentDefault": {
+        "optionId": "0x6AF10FB5",
+        "name": "Plasma Pistol. Canister Pistol",
+        "addPath": "0xACA180FC6F846411",
+        "backingBaseValues": {
+          "capacity": 8,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "values": {
+          "capacity": 8,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": []
+    },
+    {
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "resources": [
+        "0x30061F91AF477F5E"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "R-2 Amendment",
+      "resources": [
+        "0x0F83639AB8C86165"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-2124 Constitution",
+      "resources": [
+        "0x7B75E5132FFD4CA6"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "R-36 Eruptor",
+      "resources": [
+        "0xB6AFF2195568767F"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-4 Hyena",
+      "resources": [
+        "0xE5796355A8FD67E0"
+      ],
+      "componentDefault": {
+        "optionId": "0xB7FA90FD",
+        "name": "RIFLE Drake. Standard ",
+        "addPath": "0x3359229E4E0F766D",
+        "backingBaseValues": {
+          "capacity": 15,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "values": {
+          "capacity": 15,
+          "startingMagazines": 4,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 24
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xB7FA90FD",
+                "addPath": "0x3359229E4E0F766D",
+                "name": "RIFLE Drake. Standard "
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-6 Deadeye",
+      "resources": [
+        "0xE6D932BE83729076"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-63 Diligence",
+      "resources": [
+        "0x03E67A19B07C6523"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "resources": [
+        "0x4C786785C79D44E7"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "10x Sniper Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "R-72 Censor",
+      "resources": [
+        "0xF0338468DCDB6A6C"
+      ],
+      "componentDefault": {
+        "optionId": "0x9FE412AD",
+        "name": "RIFLE Justice. Standard ",
+        "addPath": "0x462FC89D4903B33D",
+        "backingBaseValues": {
+          "capacity": 20,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "values": {
+          "capacity": 20,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 8
+      },
+      "categories": []
+    },
+    {
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "resources": [
+        "0x1ABBFF60D26BA391"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "SG-20 Halt",
+      "resources": [
+        "0x4E310B1FE4C52B52"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-22 Bushwhacker",
+      "resources": [
+        "0x2B28E17FFED05F7C"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "SG-225 Breaker",
+      "resources": [
+        "0x46183B50961D1328"
+      ],
+      "componentDefault": {
+        "optionId": "0xCA77DC98",
+        "name": "SHOTGUN 12g. Magazine Extended",
+        "addPath": "0x68B8D040421E8A49",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 16,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xCA77DC98",
+                "addPath": "0x68B8D040421E8A49",
+                "name": "SHOTGUN 12g. Magazine Extended"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Half Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Full Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Duckbill",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225IE Breaker Incendiary",
+      "resources": [
+        "0xC12A34F375BD5A87"
+      ],
+      "componentDefault": {
+        "optionId": "0x2B798DFB",
+        "name": "SHOTGUN 12g. Drum ",
+        "addPath": "0x3DDB9D36DA22555D",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 26,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 4,
+          "spareMagazines": 4
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x2B798DFB",
+                "addPath": "0x3DDB9D36DA22555D",
+                "name": "SHOTGUN 12g. Drum "
+              },
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Half Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Full Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Duckbill",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "resources": [
+        "0x5EBAEA70C0D060B9"
+      ],
+      "componentDefault": {
+        "optionId": "0x562192C1",
+        "name": "SHOTGUN 12g. Drum Light",
+        "addPath": "0x040CE909939A3BAA",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 26,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 8,
+          "spareMagazines": 8
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x562192C1",
+                "addPath": "0x040CE909939A3BAA",
+                "name": "SHOTGUN 12g. Drum Light"
+              },
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "Duckbill",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Half Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Full Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-451 Cookout",
+      "resources": [
+        "0xD323DE60855898AC"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8 Punisher",
+      "resources": [
+        "0x41EAC4A03987FAA0"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Half Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Full Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Duckbill",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8P Punisher Plasma",
+      "resources": [
+        "0x05D8D8C073B9D502"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-8S Slugger",
+      "resources": [
+        "0x4F749E2EE26F532D"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SG-97 Sweeper",
+      "resources": [
+        "0xDCD1C835407EF7BA"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Half Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Full Choke",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Duckbill",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "No Optics",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-203 Gallant",
+      "resources": [
+        "0x186EA95DE7306B1A"
+      ],
+      "componentDefault": {
+        "optionId": "0xCD85679E",
+        "name": "SMG 9x20mm. Top Mounted Standard Solvent",
+        "addPath": "0x8F141212B0F6F515",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xCD85679E",
+                "addPath": "0x8F141212B0F6F515",
+                "name": "SMG 9x20mm. Top Mounted Standard Solvent"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-32 Reprimand",
+      "resources": [
+        "0x94BD931B5FB4EE95"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Iron Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-37 Defender",
+      "resources": [
+        "0x4E4A613EB9BF5C24",
+        "0xCA4BBEF63C869C18"
+      ],
+      "componentDefault": {
+        "optionId": "0x01B37BEC",
+        "name": "SMG 12x25mm. Extended",
+        "addPath": "0x51DF2B8840B0DC66",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0x01B37BEC",
+                "addPath": "0x51DF2B8840B0DC66",
+                "name": "SMG 12x25mm. Extended"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flashlight Vertical Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Laser Sight Angled Foregrip",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG-72 Pummeler",
+      "resources": [
+        "0x0807AEA5217E4767"
+      ],
+      "componentDefault": {
+        "optionId": "0xDC2ADA1D",
+        "name": "SMG 12x25mm. Extended Pummeler",
+        "addPath": "0xCC944F51090C682B",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 6,
+          "magazinesFromSupply": 6,
+          "spareMagazines": 12
+        },
+        "values": {
+          "capacity": 45,
+          "startingMagazines": 5,
+          "magazinesFromSupply": 7,
+          "spareMagazines": 7
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": [
+        {
+          "category": "Magazine",
+          "options": [
+            {
+              "name": "Extended Magazine",
+              "defaultDefinition": true,
+              "nativeOption": {
+                "optionId": "0xDC2ADA1D",
+                "addPath": "0xCC944F51090C682B",
+                "name": "SMG 12x25mm. Extended Pummeler"
+              },
+              "effectFieldCount": 5,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Short Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Drum Magazine",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 6,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Muzzle",
+          "options": [
+            {
+              "name": "No Attachment",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Flash Hider",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 4,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Muzzle Brake",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Compensator",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 3,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        },
+        {
+          "category": "Underbarrel",
+          "options": [
+            {
+              "name": "Laser Sight W/ Flashlight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "No Underbarrel",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 0,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "weapon": "SMG/FLAM-34 Stoker",
+      "resources": [
+        "0x8A307BD1811A5FE9"
+      ],
+      "componentDefault": {
+        "optionId": "0xEB75D04E",
+        "name": "SMG Flamer Extended Magazine ",
+        "addPath": "0x1B1FCC0E025C1F7D",
+        "backingBaseValues": {
+          "capacity": 30,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "values": {
+          "capacity": 50,
+          "startingMagazines": 3,
+          "magazinesFromSupply": 5,
+          "spareMagazines": 5
+        },
+        "writable": false,
+        "reason": "Default option identity is native, but no option-owned ammo override record is structurally linked.",
+        "sharedWithWeapons": [],
+        "shared": false,
+        "default": true,
+        "allowed": true,
+        "optionIdentityProven": true,
+        "allowedRelationshipProven": true,
+        "ammoValueOwnerProven": false,
+        "backingOwner": "WeaponCustomizationComponentData.DefaultCustomizations[Magazine]",
+        "defaultEntryOffset": 0
+      },
+      "categories": []
+    },
+    {
+      "weapon": "StA-11 SMG",
+      "resources": [
+        "0x4BA41B6F9F405CC2"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "StA-52 Assault Rifle",
+      "resources": [
+        "0xCDF28BE026BB7D84"
+      ],
+      "componentDefault": null,
+      "categories": []
+    },
+    {
+      "weapon": "VG-70 Variable",
+      "resources": [
+        "0xF992CE97577C8A7F"
+      ],
+      "componentDefault": null,
+      "categories": [
+        {
+          "category": "Optics",
+          "options": [
+            {
+              "name": "2x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Reflex Sight Mk2",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "Holographic Sight",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "1.5x Tube Red Dot",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 1,
+              "selectionWritable": false,
+              "effectsWritable": false
+            },
+            {
+              "name": "4x Combat Scope",
+              "defaultDefinition": false,
+              "nativeOption": null,
+              "effectFieldCount": 2,
+              "selectionWritable": false,
+              "effectsWritable": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

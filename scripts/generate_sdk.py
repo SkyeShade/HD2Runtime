@@ -216,6 +216,7 @@ def outputs():
             'sdk/docs/api.md':'\n'.join(doc),
             'sdk/docs/player-weapon-composition.md':(ROOT/'docs/player-weapon-composition.md').read_text(),
             'sdk/docs/composition-plans.md':(ROOT/'docs/composition-plans.md').read_text(),
+            'sdk/docs/attachment-preset-research.md':(ROOT/'docs/attachment-preset-research.md').read_text(),
             'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 

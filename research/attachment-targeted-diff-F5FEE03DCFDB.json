@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.19.0",
+  "gameFingerprints": {
+    "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+    "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
+  },
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  },
+  "evidenceStates": [
+    {
+      "label": "current_snapshot_unknown_preset",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+    }
+  ],
+  "feature": "attachment_targeted_state_diff",
+  "summary": {
+    "states": 1,
+    "comparisons": 0,
+    "changedRecords": 0,
+    "result": "INSUFFICIENT_STATE_CAPTURES"
+  },
+  "scope": {
+    "weapons": 80,
+    "components": [
+      "WeaponCustomizationComponentData",
+      "WeaponMagazineComponentData",
+      "WeaponRoundsComponentData",
+      "WeaponDataComponentData",
+      "WeaponHeatComponentData"
+    ],
+    "broadNumericScan": false,
+    "arbitraryAddressScan": false
+  },
+  "stateFingerprints": [
+    {
+      "label": "current_snapshot_unknown_preset",
+      "records": [
+        {
+          "weapon": "AR-23 Liberator",
+          "resourceHash": "0x968211C0033DCE64",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 96,
+              "length": 4872,
+              "sha256": "e74e27826b4095855e6028909c706e68083d53a703ea1e8d46cf9ad26f6b3913",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0x73CA1B5E",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 6,
+                  "optionId": "0x5F6938E0",
+                  "offset": 32
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x6EEAFF66",
+                  "offset": 40
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x7E7D4EEE",
+                  "offset": 48
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 56
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 270,
+              "length": 1232,
+              "sha256": "029cf3f3a6798b19e8c093eb49900223fa3d11876e0f6b47fe127f4b9f94526a",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 201,
+              "length": 160,
+              "sha256": "a7b85bd692cdaed996ac44aca0497bd807862b11b046cd4a28e1e826f65acf42",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "AR-23C Liberator Concussive",
+          "resourceHash": "0xCF5F176E0E322BE1",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 98,
+              "length": 4872,
+              "sha256": "78c0e875eebd1aeab4d4c9dd0dd5b4e238d349870923e5d098eb8c6b72f31efc",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0xDF4F1322",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0x00000000",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x661DF57B",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 6,
+                  "optionId": "0x00000000",
+                  "offset": 32
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x00000000",
+                  "offset": 40
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x00000000",
+                  "offset": 48
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 56
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 272,
+              "length": 1232,
+              "sha256": "79bebc8617825a5b41a1eeb02f4e06ecb5df7e4da77e18511a273c2fe6ad56f9",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 203,
+              "length": 160,
+              "sha256": "a7b85bd692cdaed996ac44aca0497bd807862b11b046cd4a28e1e826f65acf42",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-16 Sickle",
+          "resourceHash": "0x8645F167B3C813A2",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 120,
+              "length": 4872,
+              "sha256": "2b2828b2d1b7537d36c8031a0370a72211943f704f84c4ced9ede082d83a910f",
+              "defaultDefinitions": [
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 0
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 8
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 16
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 294,
+              "length": 1232,
+              "sha256": "59811171d7d16c67f2cb9a9870b86a60289e6f86a608466ca3b0a090dd73af3e",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 20,
+              "length": 592,
+              "sha256": "dff153cfc79f8742a27485be76fe13fef40ae74c41cef5a87be8f7a0a3b6f50b",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-17 Double-Edge Sickle",
+          "resourceHash": "0x295BEB26DC4F8FF1",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 121,
+              "length": 4872,
+              "sha256": "847cce1b030d813317b29b376f378460f9f729a450497c0856922d7d0c3ae1c3",
+              "defaultDefinitions": [
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 0
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 8
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 16
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 295,
+              "length": 1232,
+              "sha256": "e480ddc6fcb3981f99f22ebde8741b120a74585ce3bbf8da8a43852d2e590727",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 21,
+              "length": 592,
+              "sha256": "45fda9aa612dfcf0beac3296fe8f30d9ce2d3e6a2164e066107cf7750be8e7a3",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-5 Scythe",
+          "resourceHash": "0x27EE1ED8F6FB6356",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 118,
+              "length": 4872,
+              "sha256": "e0554092a35b5768e5a8f17553859157876436af480a8d33c98b6431834e413e",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0xF3D0DF39",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0xE917F79B",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 32
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 292,
+              "length": 1232,
+              "sha256": "aae94d917f21671edbc32bbc58086afe32f62b145e2f1209c58737b7294ea294",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 18,
+              "length": 592,
+              "sha256": "bf0fa4df4c6805e39749866f16307cbd4b45b2597a4e9a5511fa565dbfc8c15f",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-7 Dagger",
+          "resourceHash": "0x2B3C367B280F4094",
+          "components": {
+            "WeaponDataComponentData": {
+              "recordIndex": 99,
+              "length": 1232,
+              "sha256": "8eb31f48c69abea568cb941cf993771e40d010f2b17a0d0bd77b863741093937",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 7,
+              "length": 592,
+              "sha256": "1415145a7bc2312e861d6a5fa342f67f024b0b8d50c94a25193cfc64cf8ec094",
+              "defaultDefinitions": null
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "comparisons": [],
+  "requiredExperiment": [
+    {
+      "label": "ar23c_extended_equipped",
+      "action": "Equip AR-23C with Extended magazine; capture before editing."
+    },
+    {
+      "label": "ar23c_short_selected",
+      "action": "Select Short magazine without saving; capture."
+    },
+    {
+      "label": "ar23c_short_saved",
+      "action": "Save the preset; capture."
+    },
+    {
+      "label": "ar23c_short_reequipped",
+      "action": "Re-equip/spawn the saved preset; capture."
+    },
+    {
+      "label": "ar23c_drum_selected",
+      "action": "Select Drum magazine; capture."
+    },
+    {
+      "label": "optic_selected",
+      "action": "Change one optic on the same weapon; capture."
+    },
+    {
+      "label": "heatsink_selected",
+      "action": "Change one Sickle/Scythe heatsink option; capture."
+    }
+  ],
+  "promotionGate": "No selection/effect field is writable until repeated deltas prove identity, semantics, ownership, scope, and consumer behavior."
+}
