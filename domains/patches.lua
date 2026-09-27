@@ -6,7 +6,7 @@ local damage=b.unhex('99000000130100005a000000030000000300000003000000000000000a
 local function u32(n)return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,math.floor(n/16777216)%256)end
 function M.validate(request)
     if type(request)=='table'and type(request.target)=='table'
-        and request.target.resource=='player_weapon'then
+        and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
         return require('hd2runtime/domains/player_weapon_writes').validate_patch(request)
     end
     assert(type(request)=='table','patch requires a descriptor')

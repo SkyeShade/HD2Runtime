@@ -1,5 +1,14 @@
 # HD2Runtime
 
+Version 0.20.0 promotes guarded authoring for all 27 uniquely resolved support-weapon
+identities. The same semantic fields, exact baselines, shared-object acknowledgement,
+stable rereads, rollback, protection restoration, and composition plans used by player
+weapons now cover ordinary support weapon, ammo, projectile, DamageInfo, explosion,
+Arc, Beam, Spray, Melee, status, and charge values. All eight duplicate groups remain
+fail-closed. LAS-98 heat is structurally present but blocked with its duplicate identity;
+backpack storage and unresolved stratagem scalars remain read-only. See the generated
+[support capability catalog](sdk/SupportWeaponAuthoringCapabilities.json).
+
 Version 0.19.0 adds `hd2.plan`, a guarded multi-target composition operation.
 One plan can coordinate projectile physics, DamageInfo, terminal references,
 ExplosionSettings, and explosion DamageInfo as a complete declared write set.
@@ -76,7 +85,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.19.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.20.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

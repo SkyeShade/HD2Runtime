@@ -39,7 +39,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
             local reader=Reader.new(runtime)
             -- Fresh discovery on application, never a cached read result/address.
             local resolved,plan
-            if spec.kind=='player_weapon'then
+            if spec.kind=='player_weapon'or spec.kind=='support_weapon'then
                 local domain=require('hd2runtime/domains/player_weapon_writes')
                 resolved=domain.capture(runtime,reader,spec);plan=domain.prepare(resolved,reader,spec)
             else

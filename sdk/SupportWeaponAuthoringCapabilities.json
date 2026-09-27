@@ -1,0 +1,3281 @@
+{
+  "schemaVersion": 1,
+  "contract": "hd2runtime.support_weapon.guarded_authoring.v1",
+  "hd2RuntimeVersion": "0.20.0",
+  "summary": {
+    "catalogWeapons": 35,
+    "uniqueSupportIdentities": 27,
+    "duplicateGroupsBlocked": 8,
+    "duplicateGroupNames": [
+      "B/FLAM-80 Cremator",
+      "CQC-20 Breaching Hammer",
+      "CQC-72 Entrenchment Tool",
+      "EAT-17 Expendable Anti-Tank",
+      "LAS-98 Laser Cannon",
+      "M-105 Stalwart",
+      "MG-206 Heavy Machine Gun",
+      "MG-43 Machine Gun"
+    ],
+    "writableSupportWeapons": 27,
+    "writableFieldInstances": 828,
+    "fieldInstancesByDomain": {
+      "arc": 6,
+      "beam": 2,
+      "charge": 20,
+      "damage": 198,
+      "explosion": 204,
+      "heat": 4,
+      "heatsink": 3,
+      "magazine": 48,
+      "projectile": 80,
+      "rounds": 15,
+      "status": 16,
+      "weapon": 232
+    },
+    "weaponsWithDomain": {
+      "arc": 1,
+      "beam": 1,
+      "charge": 4,
+      "damage": 22,
+      "explosion": 16,
+      "heat": 1,
+      "heatsink": 1,
+      "magazine": 16,
+      "projectile": 16,
+      "rounds": 3,
+      "status": 6,
+      "weapon": 25
+    },
+    "writableProjectileBranches": 16,
+    "writableExplosionBranches": 17,
+    "writableBranchesByFamily": {
+      "Projectile": 16,
+      "Explosion": 17,
+      "Arc": 1,
+      "Beam": 1,
+      "Spray": 2,
+      "Melee": 2,
+      "Status": 8
+    },
+    "weaponsWithHeatFields": 1,
+    "weaponsWithChargeFields": 4,
+    "weaponsWithDirectAmmoFields": 19,
+    "linkedStratagemIdentities": 1,
+    "linkedStratagemScalarValues": 0,
+    "sharedFieldInstances": 506,
+    "safety": {
+      "writes": 0,
+      "protectionChanges": 0,
+      "fixtureFallback": "disabled",
+      "mode": "snapshot"
+    }
+  },
+  "weapons": [
+    {
+      "name": "40-K Meltagun",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Beam",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "40-K MELTAGUN B",
+          "kind": "Beam",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Fire Panic",
+          "kind": "Status",
+          "parentAttack": "40-K MELTAGUN B",
+          "runtimeRole": "primary_status_6",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked StatusEffectSettings branch matched this catalog branch"
+        },
+        {
+          "name": "FlamerSlowed",
+          "kind": "Status",
+          "parentAttack": "40-K MELTAGUN B",
+          "runtimeRole": "primary_status_67",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "beam": [
+          "beam.length",
+          "beam.radius"
+        ],
+        "charge": [
+          "charge.level_1",
+          "charge.level_2",
+          "charge.level_3",
+          "charge.maximum_seconds",
+          "charge.minimum_seconds"
+        ],
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_beam",
+        "shared_damage",
+        "shared_status"
+      ],
+      "blockedFields": [
+        {
+          "field": "weapon.fire_rate",
+          "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Fire Panic: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 30
+    },
+    {
+      "name": "AC-8 Autocannon",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "AC-8 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "AC-8 P IE",
+          "kind": "Explosion",
+          "parentAttack": "AC-8 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "AC-8 P1",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "AC-8 P1 IE",
+          "kind": "Explosion",
+          "parentAttack": "AC-8 P1",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "AC-8 P2",
+          "kind": "Projectile",
+          "parentAttack": "AC-8 P IE",
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "rounds": [
+          "rounds.feed_capacity_1",
+          "rounds.feed_capacity_2",
+          "rounds.rounds_from_supply",
+          "rounds.spare_rounds",
+          "rounds.starting_rounds"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "AC-8 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 40
+    },
+    {
+      "name": "APW-1 Anti-Materiel Rifle",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "APW-1 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 27
+    },
+    {
+      "name": "ARC-3 Arc Thrower",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Arc",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "ARC-3 ARC THROWER A",
+          "kind": "Arc",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Stun Small",
+          "kind": "Status",
+          "parentAttack": "ARC-3 ARC THROWER A",
+          "runtimeRole": "primary_status_37",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "arc": [
+          "arc.chain_count",
+          "arc.distance_at_max_spread",
+          "arc.max_angle_spread",
+          "arc.max_split",
+          "arc.range",
+          "arc.velocity"
+        ],
+        "charge": [
+          "charge.level_1",
+          "charge.level_2",
+          "charge.level_3",
+          "charge.maximum_seconds",
+          "charge.minimum_seconds"
+        ],
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_arc",
+        "shared_damage",
+        "shared_status"
+      ],
+      "blockedFields": [
+        {
+          "field": "weapon.fire_rate",
+          "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 30
+    },
+    {
+      "name": "B/FLAM-80 Cremator",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Spray",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "B/FLAM-80 CREMATOR S",
+          "kind": "Spray",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "Fire",
+          "kind": "Status",
+          "parentAttack": "B/FLAM-80 CREMATOR S",
+          "runtimeRole": "primary_status_5",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "Fire Panic",
+          "kind": "Status",
+          "parentAttack": "B/FLAM-80 CREMATOR S",
+          "runtimeRole": "primary_status_5",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "FlamerSlowed",
+          "kind": "Status",
+          "parentAttack": "B/FLAM-80 CREMATOR S",
+          "runtimeRole": "primary_status_5",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "linked backpack ammo",
+          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Fire: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Fire Panic: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "FlamerSlowed: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": true,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "B/MD C4 Pack",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion"
+      ],
+      "attackBranches": [
+        {
+          "name": "B/MD C4 PACK E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "detonation",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ]
+      },
+      "sharedScopes": [
+        "shared_explosion",
+        "shared_explosion_damage"
+      ],
+      "blockedFields": [
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 12
+    },
+    {
+      "name": "CQC-1 One True Flag",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Melee"
+      ],
+      "attackBranches": [
+        {
+          "name": "CQC-1 ONE TRUE FLAG_dm",
+          "kind": "Melee",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage"
+      ],
+      "blockedFields": [],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 17
+    },
+    {
+      "name": "CQC-20 Breaching Hammer",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Explosion",
+        "Melee"
+      ],
+      "attackBranches": [
+        {
+          "name": "CQC-20 BREACHING HAMMER_dm",
+          "kind": "Melee",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "CQC-20 BREACHING HAMMER IE",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": null,
+          "state": "UNRESOLVED",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "CQC-20 BREACHING HAMMER IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "CQC-72 Entrenchment Tool",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Melee"
+      ],
+      "attackBranches": [
+        {
+          "name": "CQC-72 ENTRENCHMENT TOOL_dm",
+          "kind": "Melee",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "CQC-9 Defoliation Tool",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Melee"
+      ],
+      "attackBranches": [
+        {
+          "name": "CQC-9 DEFOLIATION TOOL_dm",
+          "kind": "Melee",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage"
+      ],
+      "blockedFields": [],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 17
+    },
+    {
+      "name": "EAT-17 Expendable Anti-Tank",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "EAT-17 BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "EAT-17 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "EAT-17 P IE",
+          "kind": "Explosion",
+          "parentAttack": "EAT-17 P",
+          "runtimeRole": "primary_impact",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "EAT-17 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "EAT-17 P IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "EAT-411 Leveller",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "EAT-17 BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "EAT-411 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "EAT-411 P IE",
+          "kind": "Explosion",
+          "parentAttack": "EAT-411 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "EAT-17 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 39
+    },
+    {
+      "name": "EAT-700 Expendable Napalm",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "EAT-17 BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "EAT-700 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "BurningHeavy",
+          "kind": "Status",
+          "parentAttack": "EAT-700 P",
+          "runtimeRole": "primary_impact_status_32",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "EAT-700 P IE",
+          "kind": "Explosion",
+          "parentAttack": "EAT-700 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "EAT-700 P1",
+          "kind": "Projectile",
+          "parentAttack": "EAT-700 P IE",
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "EAT-700 P1 IE",
+          "kind": "Explosion",
+          "parentAttack": "EAT-700 P1",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "Fire",
+          "kind": "Status",
+          "parentAttack": "EAT-700 P IE",
+          "runtimeRole": "primary_impact_status_5",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile",
+        "shared_status"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "EAT-17 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "EAT-700 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Fire: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 41
+    },
+    {
+      "name": "FAF-14 Spear",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "FAF-14 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "FAF-14 P IE",
+          "kind": "Explosion",
+          "parentAttack": "FAF-14 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_explosion",
+        "shared_explosion_damage"
+      ],
+      "blockedFields": [
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 25
+    },
+    {
+      "name": "FLAM-40 Flamethrower",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Spray",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "FLAM-40 FLAMETHROWER S",
+          "kind": "Spray",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Fire",
+          "kind": "Status",
+          "parentAttack": "FLAM-40 FLAMETHROWER S",
+          "runtimeRole": "primary_status_5",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Fire Panic",
+          "kind": "Status",
+          "parentAttack": "FLAM-40 FLAMETHROWER S",
+          "runtimeRole": "primary_status_5",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked StatusEffectSettings branch matched this catalog branch"
+        },
+        {
+          "name": "FlamerSlowed",
+          "kind": "Status",
+          "parentAttack": "FLAM-40 FLAMETHROWER S",
+          "runtimeRole": "primary_status_5",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_status"
+      ],
+      "blockedFields": [
+        {
+          "field": "unresolved branch",
+          "reason": "Fire Panic: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "FlamerSlowed: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 23
+    },
+    {
+      "name": "GL-21 Grenade Launcher",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "GL-21 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GL-21 P IE",
+          "kind": "Explosion",
+          "parentAttack": "GL-21 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 39
+    },
+    {
+      "name": "GL-28 Belt-Fed Grenade Launcher",
+      "identityStatus": "UNIQUE",
+      "confidence": "STRONG",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "GL-28 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GL-28 P IE",
+          "kind": "Explosion",
+          "parentAttack": "GL-28 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "field": "weapon.fire_rate",
+          "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "linked backpack ammo",
+          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": true,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 34
+    },
+    {
+      "name": "GL-52 De-Escalator",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Arc",
+        "Explosion",
+        "Projectile",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "GL-52 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GL-52 P IE",
+          "kind": "Explosion",
+          "parentAttack": "GL-52 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GL-52 P IE A",
+          "kind": "Arc",
+          "parentAttack": "GL-52 P IE",
+          "runtimeRole": null,
+          "state": "UNRESOLVED",
+          "writable": false,
+          "blockedReason": "no compatible runtime attack branch resolved from the owned root components"
+        },
+        {
+          "name": "Stun Small",
+          "kind": "Status",
+          "parentAttack": "GL-52 P IE A",
+          "runtimeRole": null,
+          "state": "UNRESOLVED",
+          "writable": false,
+          "blockedReason": "no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "rounds": [
+          "rounds.feed_capacity_1",
+          "rounds.feed_capacity_2",
+          "rounds.rounds_from_supply",
+          "rounds.spare_rounds",
+          "rounds.starting_rounds"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "GL-52 P IE A: no compatible runtime attack branch resolved from the owned root components"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Stun Small: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 40
+    },
+    {
+      "name": "GR-8 Recoilless Rifle",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "GR-8 BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "GR-8 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GR-8 P IE",
+          "kind": "Explosion",
+          "parentAttack": "GR-8 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "GR-8 P1",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "GR-8 P1 IE",
+          "kind": "Explosion",
+          "parentAttack": "GR-8 P1",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "GR-8 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "GR-8 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 39
+    },
+    {
+      "name": "LAS-98 Laser Cannon",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Beam",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "LAS-98 LASER CANNON B",
+          "kind": "Beam",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "name": "Fire",
+          "kind": "Status",
+          "parentAttack": "LAS-98 LASER CANNON B",
+          "runtimeRole": "primary_status_5",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        },
+        {
+          "field": "heat.* / heatsink.*",
+          "reason": "WeaponHeatComponentData is present on the reviewed runtime candidates, but three duplicate weapon roots remain."
+        },
+        {
+          "field": "beam.* / damage.*",
+          "reason": "BeamSettings and linked DamageInfo are structurally proven, but their owning LAS-98 root remains ambiguous."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Fire: no structurally linked StatusEffectSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "LAS-99 Quasar Cannon",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "LAS-99 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "LAS-99 P IE",
+          "kind": "Explosion",
+          "parentAttack": "LAS-99 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "heat": [
+          "heat.capacity",
+          "heat.cool_per_second",
+          "heat.heat_per_second",
+          "heat.heat_per_shot"
+        ],
+        "heatsink": [
+          "heatsink.from_supply",
+          "heatsink.spare",
+          "heatsink.starting"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 42
+    },
+    {
+      "name": "M-1000 Maxigun",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "M-1000 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "linked backpack ammo",
+          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": true,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 23
+    },
+    {
+      "name": "M-105 Stalwart",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "AR-23 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "MG-206 Heavy Machine Gun",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "MG-206 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "MG-43 Machine Gun",
+      "identityStatus": "DUPLICATE",
+      "confidence": "AMBIGUOUS",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "MG-43 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "IDENTITY_AMBIGUOUS",
+          "writable": false,
+          "blockedReason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "writableFieldsByDomain": {},
+      "sharedScopes": [],
+      "blockedFields": [
+        {
+          "field": "ordinary writes",
+          "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": false,
+      "writableFieldCount": 0
+    },
+    {
+      "name": "MGX-42 Bullet Storm",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "MGX-42 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 27
+    },
+    {
+      "name": "MLS-4X Commando",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "MLS-4X BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "MLS-4X P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "MLS-4X P IE",
+          "kind": "Explosion",
+          "parentAttack": "MLS-4X P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_explosion",
+        "shared_explosion_damage"
+      ],
+      "blockedFields": [
+        {
+          "field": "unresolved branch",
+          "reason": "MLS-4X BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 25
+    },
+    {
+      "name": "MS-11 Solo Silo",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion"
+      ],
+      "attackBranches": [
+        {
+          "name": "SWP SOLO SILO E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "detonation",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "SWP SOLO SILO EImpact",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ]
+      },
+      "sharedScopes": [
+        "shared_explosion",
+        "shared_explosion_damage"
+      ],
+      "blockedFields": [
+        {
+          "field": "linked stratagem scalars",
+          "reason": "Delivery identity is linked; cooldown/uses/call-in scalar ownership is not reviewed."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": true,
+        "kind": "support_weapon_delivery"
+      },
+      "writable": true,
+      "writableFieldCount": 24
+    },
+    {
+      "name": "PLAS-45 Epoch",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "P3",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "P3 IE",
+          "kind": "Explosion",
+          "parentAttack": "P3",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "PLAS-45 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "PLAS-45 P IE",
+          "kind": "Explosion",
+          "parentAttack": "PLAS-45 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "PLAS-45 EPOCH Overcharge E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "charge": [
+          "charge.level_1",
+          "charge.level_2",
+          "charge.level_3",
+          "charge.maximum_seconds",
+          "charge.minimum_seconds"
+        ],
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "field": "weapon.fire_rate",
+          "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "P3 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "PLAS-45 EPOCH Overcharge E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 43
+    },
+    {
+      "name": "RL-77 Airburst Rocket Launcher",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "GR-8 BACKBLAST E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "RL-77 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "RL-77 P IE",
+          "kind": "Explosion",
+          "parentAttack": "RL-77 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "RL-77 P1",
+          "kind": "Projectile",
+          "parentAttack": "RL-77 P IE",
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "RL-77 P1 IE",
+          "kind": "Explosion",
+          "parentAttack": "RL-77 P3",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "RL-77 P2",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "RL-77 P2 IE",
+          "kind": "Explosion",
+          "parentAttack": "RL-77 P2",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "RL-77 P3",
+          "kind": "Projectile",
+          "parentAttack": "RL-77 P IE",
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "GR-8 BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "RL-77 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 39
+    },
+    {
+      "name": "RS-422 Railgun",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "RS-422 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "RS-422 RAILGUN Overcharge E",
+          "kind": "Explosion",
+          "parentAttack": null,
+          "runtimeRole": null,
+          "state": "UNRESOLVED",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "name": "Railgun Max Charge",
+          "kind": "Unknown",
+          "parentAttack": null,
+          "runtimeRole": null,
+          "state": "UNRESOLVED",
+          "writable": false,
+          "blockedReason": "catalog intentionally leaves this attack implementation unknown"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "charge": [
+          "charge.level_1",
+          "charge.level_2",
+          "charge.level_3",
+          "charge.maximum_seconds",
+          "charge.minimum_seconds"
+        ],
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "field": "weapon.fire_rate",
+          "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "RS-422 RAILGUN Overcharge E: no structurally linked ExplosionSettings branch matched this catalog branch"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "Railgun Max Charge: catalog intentionally leaves this attack implementation unknown"
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 31
+    },
+    {
+      "name": "S-11 Speargun",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "S-11 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Gas",
+          "kind": "Status",
+          "parentAttack": "S-11 P",
+          "runtimeRole": "primary_status_42",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Gas Confusion",
+          "kind": "Status",
+          "parentAttack": "S-11 P",
+          "runtimeRole": "primary_status_44",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "S-11 P E",
+          "kind": "Explosion",
+          "parentAttack": "S-11 P",
+          "runtimeRole": "primary_expiry",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_explosion",
+        "shared_explosion_damage",
+        "shared_projectile",
+        "shared_status"
+      ],
+      "blockedFields": [
+        {
+          "attack": "primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 43
+    },
+    {
+      "name": "SG-88 Break-Action Shotgun",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "SG-88 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "feed_primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "projectile": [
+          "projectile.drag",
+          "projectile.gravity",
+          "projectile.mass",
+          "projectile.pellet_count",
+          "projectile.velocity"
+        ],
+        "rounds": [
+          "rounds.feed_capacity_1",
+          "rounds.feed_capacity_2",
+          "rounds.rounds_from_supply",
+          "rounds.spare_rounds",
+          "rounds.starting_rounds"
+        ],
+        "weapon": [
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_projectile"
+      ],
+      "blockedFields": [
+        {
+          "attack": "feed_primary",
+          "field": "projectile.lifetime",
+          "reason": "No shared schema-labelled native field is proven."
+        },
+        {
+          "attack": "feed_primary",
+          "field": "projectile.penetration_slowdown",
+          "reason": "No shared schema-labelled native field is proven."
+        }
+      ],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 28
+    },
+    {
+      "name": "StA-X3 W.A.S.P. Launcher",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Explosion",
+        "Projectile"
+      ],
+      "attackBranches": [
+        {
+          "name": "StA-X3 P",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "StA-X3 P IE",
+          "kind": "Explosion",
+          "parentAttack": "StA-X3 P",
+          "runtimeRole": "primary_impact",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "StA-X3 P1",
+          "kind": "Projectile",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": null
+        },
+        {
+          "name": "StA-X3 P1 IE",
+          "kind": "Explosion",
+          "parentAttack": "StA-X3 P1",
+          "runtimeRole": "primary_impact",
+          "state": "PARTIAL",
+          "writable": false,
+          "blockedReason": "no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "writableFieldsByDomain": {
+        "explosion": [
+          "explosion.damage.ap_direct",
+          "explosion.damage.ap_extreme",
+          "explosion.damage.ap_large",
+          "explosion.damage.ap_slight",
+          "explosion.damage.demolition",
+          "explosion.damage.durable_damage",
+          "explosion.damage.push_force",
+          "explosion.damage.stagger",
+          "explosion.damage.standard_damage",
+          "explosion.inner_radius",
+          "explosion.outer_radius",
+          "explosion.shockwave_radius"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.fire_rate",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_explosion",
+        "shared_explosion_damage"
+      ],
+      "blockedFields": [
+        {
+          "field": "backpack storage",
+          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+        },
+        {
+          "field": "unresolved branch",
+          "reason": "StA-X3 P1 IE: no structurally linked ExplosionSettings branch matched this catalog branch"
+        }
+      ],
+      "backpackDependency": true,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 25
+    },
+    {
+      "name": "TX-41 Sterilizer",
+      "identityStatus": "UNIQUE",
+      "confidence": "EXACT",
+      "family": [
+        "Spray",
+        "Status"
+      ],
+      "attackBranches": [
+        {
+          "name": "TX-41 STERILIZER S",
+          "kind": "Spray",
+          "parentAttack": null,
+          "runtimeRole": "primary",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Gas Confusion Var2",
+          "kind": "Status",
+          "parentAttack": "TX-41 STERILIZER S",
+          "runtimeRole": "primary_status_45",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        },
+        {
+          "name": "Gas Var2",
+          "kind": "Status",
+          "parentAttack": "TX-41 STERILIZER S",
+          "runtimeRole": "primary_status_43",
+          "state": "RESOLVED",
+          "writable": true,
+          "blockedReason": null
+        }
+      ],
+      "writableFieldsByDomain": {
+        "damage": [
+          "damage.ap_direct",
+          "damage.ap_extreme",
+          "damage.ap_large",
+          "damage.ap_slight",
+          "damage.demolition",
+          "damage.durable_damage",
+          "damage.push_force",
+          "damage.stagger",
+          "damage.standard_damage"
+        ],
+        "magazine": [
+          "magazine.magazines_from_supply",
+          "magazine.spare_magazines",
+          "magazine.starting_magazines"
+        ],
+        "status": [
+          "status.duration",
+          "status.strength"
+        ],
+        "weapon": [
+          "weapon.capacity",
+          "weapon.ergonomics",
+          "weapon.horizontal_spread",
+          "weapon.recoil_climb_horizontal",
+          "weapon.recoil_climb_vertical",
+          "weapon.recoil_drift_horizontal",
+          "weapon.recoil_drift_vertical",
+          "weapon.sway",
+          "weapon.vertical_spread"
+        ]
+      },
+      "sharedScopes": [
+        "shared_damage",
+        "shared_status"
+      ],
+      "blockedFields": [],
+      "backpackDependency": false,
+      "linkedAmmoOwnership": false,
+      "linkedStratagem": {
+        "known": false
+      },
+      "writable": true,
+      "writableFieldCount": 25
+    }
+  ],
+  "safety": {
+    "runtimeAddresses": false,
+    "rawResourceIdentifiers": false,
+    "writesDuringGeneration": 0,
+    "protectionChangesDuringGeneration": 0,
+    "fixtureFallback": "disabled"
+  }
+}

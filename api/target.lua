@@ -197,19 +197,50 @@ function M.new(describe)
         end
     end
     local support_catalog=require('hd2runtime/domains/support_weapon_catalog')
+    local support_authoring=require('hd2runtime/domains/support_weapon_authoring')
     local function support_attack(name,index)
         local weapon=assert(support_catalog.weapons[name],'unknown reviewed support weapon')
         local attack=assert(weapon.attackGraph[index],'unknown support weapon attack index')
+        local role=attack.runtimeMatch and attack.runtimeMatch.runtimeAttackRole
+        local authoring=support_authoring.weapons[name]
+        local writable=role and authoring and authoring.attacks[role]
         local methods={}
         function methods.describe()return copy(attack)end
-        return setmetatable({resource='support_weapon',path='attack',weapon=name,
-            attack_index=index},{__index=methods})
+        function methods.projectile()
+            assert(writable and writable.kind=='Projectile','attack has no writable reviewed projectile object')
+            local projectile_methods={}
+            function projectile_methods.describe()return copy(writable)end
+            function projectile_methods.damage(self)return self end
+            return setmetatable({resource='support_weapon',path='projectile_reference',weapon=name,
+                attack=role},{__index=projectile_methods})
+        end
+        function methods.explosion()
+            assert(writable and writable.kind=='Explosion','attack has no writable reviewed explosion object')
+            local explosion_methods={}
+            function explosion_methods.describe()return copy(writable)end
+            function explosion_methods.damage(self)return self end
+            return setmetatable({resource='support_weapon',path='explosion',weapon=name,
+                attack=role},{__index=explosion_methods})
+        end
+        function methods.damage(self)
+            assert(writable and writable.kind~='Status','attack has no directly owned DamageInfo')
+            return self
+        end
+        local identity={resource='support_weapon',path=writable and'attack'or'attack_read_only',weapon=name}
+        if writable then identity.attack=role else identity.attack_index=index end
+        return setmetatable(identity,{__index=methods})
     end
     function builders.support_weapon(name)
         local weapon=assert(support_catalog.weapons[name],
             'unknown reviewed support weapon: '..tostring(name))
         local methods={}
-        function methods.describe()return copy(weapon)end
+        function methods.describe()
+            local result=copy(weapon);local authoring=support_authoring.weapons[name]
+            result.authoring={writable=authoring and not authoring.ordinaryWritesBlocked or false,
+                blockReason=authoring and authoring.blockReason or nil,
+                writableFieldCount=authoring and#authoring.fields or 0}
+            return result
+        end
         function methods.attacks()
             local result={};for index=1,#weapon.attackGraph do result[index]=support_attack(name,index)end
             return result
@@ -222,6 +253,8 @@ function M.new(describe)
             end
             error('unknown reviewed support attack: '..tostring(identity))
         end
+        function methods.projectile(_,identity)return methods.attack(nil,identity):projectile()end
+        function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
         return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end
     return builders

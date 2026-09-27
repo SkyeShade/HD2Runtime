@@ -10,6 +10,7 @@ import build
 import generate_sdk
 import generate_weapon_authoring
 import generate_support_weapon_sdk
+import generate_support_weapon_authoring
 import generate_weapon_composition
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -44,6 +45,7 @@ def main():
     args=parser.parse_args()
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
+    generate_support_weapon_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
@@ -57,6 +59,12 @@ def main():
             'deployed':False,'game_launched':False,'live_process_access':False,
             'prior_gameplay_confirmation':'User confirmed 0.4.0 live gameplay proof',
             'new_live_gameplay_test':False,'fixture_fallback':'disabled'}
+    support_capabilities=json.loads((ROOT/'sdk/SupportWeaponAuthoringCapabilities.json').read_text())
+    support_validation=json.loads((ROOT/'research/support-weapon-authoring-validation-F5FEE03DCFDB.json').read_text())
+    report['support_weapon_authoring']=support_capabilities['summary']
+    report['support_weapon_snapshot_validation']=support_validation
+    report['support_weapon_proof_packages']=[
+        'SupportAMRProof','RecoillessProof','ArcThrowerProof','C4Proof']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

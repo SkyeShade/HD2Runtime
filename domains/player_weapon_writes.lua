@@ -4,11 +4,13 @@ local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
 local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/player_weapon_authoring')
+local support_database=require('hd2runtime/domains/support_weapon_authoring')
 local M={}
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
-    'WeaponHeatComponentData'}
+    'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
+    'HellpodRackComponentData','WeaponLinkedAmmoComponentData'}
 
 local function equal(a,c,kind)
     if kind=='f32'then return type(a)=='number'and type(c)=='number'
@@ -16,22 +18,24 @@ local function equal(a,c,kind)
     return a==c
 end
 local function target_name(target)
-    assert(type(target)=='table'and target.resource=='player_weapon'
-        and type(target.weapon)=='string','unsupported player weapon target')
+    assert(type(target)=='table'and(target.resource=='player_weapon'
+        or target.resource=='support_weapon')and type(target.weapon)=='string',
+        'unsupported weapon target')
+    local kind=target.resource
     if target.path=='weapon'then
         for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
             'unsupported player weapon target identity')end
-        return target.weapon,nil,'weapon',nil
+        return target.weapon,nil,'weapon',nil,kind
     end
     assert((target.path=='attack'or target.path=='projectile_reference'
         or target.path=='terminal_action'or target.path=='explosion')
-        and type(target.attack)=='string','unsupported player weapon target')
-    if target.path=='terminal_action'or target.path=='explosion'then
+        and type(target.attack)=='string','unsupported weapon target')
+    if target.path=='terminal_action'or(target.path=='explosion'and kind=='player_weapon')then
         assert(target.phase=='impact'or target.phase=='expiry','unsupported terminal action phase')
     end
     for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack'
         or key=='phase','unsupported player weapon target identity')end
-    return target.weapon,target.attack,target.path,target.phase
+    return target.weapon,target.attack,target.path,target.phase,kind
 end
 local function canonical_explosion_phase(weapon,role,phase)
     local graph=assert(require('hd2runtime/domains/player_weapon_composition').weapons[weapon.name])
@@ -44,6 +48,23 @@ local function canonical_explosion_phase(weapon,role,phase)
 end
 local function field_for(weapon,id,role,path,phase)
     local resolved=id
+    if weapon.supportWeapon then
+        if path=='projectile_reference'and id:match('^projectile%.')then
+            resolved='projectile.'..role..'.'..id:sub(#'projectile.'+1)
+        elseif path=='projectile_reference'and id:match('^damage%.')then
+            resolved='damage.'..role..'.'..id:sub(#'damage.'+1)
+        elseif path=='explosion'and id:match('^explosion%.damage%.')then
+            resolved='explosion.'..role..'.damage.'..id:sub(#'explosion.damage.'+1)
+        elseif path=='explosion'and id:match('^explosion%.')then
+            resolved='explosion.'..role..'.'..id:sub(#'explosion.'+1)
+        elseif path=='attack'and(id:match('^damage%.')or id:match('^arc%.')
+            or id:match('^beam%.')or id:match('^status%.'))then
+            local domain=id:match('^([^.]+)')
+            resolved=domain..'.'..role..'.'..id:sub(#domain+2)
+        end
+        for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
+        error('field is not exposed for '..weapon.name..': '..tostring(id),0)
+    end
     if id=='attack.projectile'then
         assert(type(role)=='string','attack.projectile requires weapon:attack(role) target')
         resolved='attack.'..role..'.projectile'
@@ -103,7 +124,11 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
-    if path=='attack'then
+    if path=='attack'and weapon.supportWeapon then
+        assert(item.field:match('^damage%.')or item.field:match('^arc%.')
+            or item.field:match('^beam%.')or item.field:match('^status%.'),
+            'support attack target accepts only its reviewed damage/family/status fields')
+    elseif path=='attack'then
         assert(item.field=='attack.projectile'or item.field=='attack.'..role..'.projectile',
             'COMPOSITION_TARGET_CHANGED: attack transactions only replace the projectile reference; edit the freshly resolved source projectile object in a separate guarded operation with allow_shared=true')
     elseif path=='terminal_action'then
@@ -209,11 +234,15 @@ function M.validate_patch(request)
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
-    id(request.id);local name,role,path,phase=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
+    id(request.id);local name,role,path,phase,kind=target_name(request.target)
+    local selected=kind=='support_weapon'and support_database or database
+    local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
         request.allow_shared==true,role,path,phase)
-    return {kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],
+    return {kind=kind,id=request.id,weapon=name,
+        resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
+        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,
         attack=role,target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
         field=request.field,expect=request.expect,value=request.value,changes={change}}
@@ -222,11 +251,15 @@ function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true,allow_shared=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
-    id(request.id);local name,role,path,phase=target_name(request.target);local weapon=assert(database.weapons[name],'unknown player weapon')
+    id(request.id);local name,role,path,phase,kind=target_name(request.target)
+    local selected=kind=='support_weapon'and support_database or database
+    local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     assert(type(request.changes)=='table'and#request.changes>=1 and#request.changes<=32,
         'transaction requires one to 32 changes')
-    local result={kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],attack=role,
+    local result={kind=kind,id=request.id,weapon=name,
+        resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
+        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,attack=role,
         target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,changes={}}
     local seen,canonical_seen={},{ }
@@ -278,8 +311,15 @@ local function collect_needs(needed,spec)
     add_need(needed,'entity',true)
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing
-        if backing.kind=='settings'and backing.settings~='explosion_damage'then
-            add_need(needed,backing.settings,true)
+        if backing.kind=='settings'then
+            local settings_kind=backing.settings=='explosion_damage'and'damage'or backing.settings
+            add_need(needed,settings_kind,true)
+            local linkage=(backing.linkage or'')..' '..(backing.parentLinkage or'')
+            if backing.parentLinkage then add_need(needed,'damage',true)end
+            if linkage:find('projectile',1,true)then add_need(needed,'projectile',true)end
+            if linkage:find('explosion',1,true)then add_need(needed,'explosion',true)end
+            if linkage:find('arc',1,true)then add_need(needed,'arc',true)end
+            if linkage:find('beam',1,true)then add_need(needed,'beam',true)end
         end
         if change.descriptor.type=='projectile_reference'then add_need(needed,'projectile',true)end
         if change.descriptor.type=='explosion_reference'or backing.settings=='explosion'
@@ -305,11 +345,39 @@ function M.capture_many(runtime,reader,specs)
     local catalog=entities.capture(reader,roots.entity,profile,component_names)
     local results={}
     for index,spec in ipairs(specs)do
+        local selected=spec.kind=='support_weapon'and support_database or database
         local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
+            database=selected,
             reference_sources={}}
+        if spec.kind=='support_weapon'and spec.identity_resource
+            and spec.identity_resource~=spec.resource then
+            local identity_candidate=find_candidate(catalog,spec.identity_resource)
+            local rack=resolved.catalog.record(identity_candidate,'HellpodRackComponentData')
+            local linked=false
+            for slot=0,7 do if b.resource(rack.bytes,slot*64)==spec.resource then linked=true end end
+            assert(linked,'support ownership chain changed: rack no longer links attack entity')
+            local expected=spec.root_rack
+            assert(expected and identity_candidate.entityRow==expected.entityRow
+                and rack.identity.recordIndex==expected.recordIndex,
+                'support ownership chain changed: rack identity differs')
+            local stratagem=require('hd2runtime/core/stratagem')
+            local records=stratagem.capture_all(runtime,reader,profile);local chain=spec.ownership_chain or{}
+            for _,node in ipairs(chain)do if node.kind=='stratagem_payload'then
+                local found=false
+                for _,record in ipairs(records)do
+                    if record.id==node.id and record.package==node.package then
+                        for _,payload in ipairs(record.payloads or{})do
+                            if payload==spec.identity_resource then found=true end
+                        end
+                    end
+                end
+                assert(found,'support ownership chain changed: stratagem payload link absent')
+            end end
+            resolved.identity_candidate=identity_candidate
+        end
         for _,change in ipairs(spec.changes)do
             if change.desired_selector and not change.desired_selector.is_null then
-                local source=assert(database.weapons[change.desired_selector.weapon],
+                local source=assert(selected.weapons[change.desired_selector.weapon],
                     'projectile source metadata missing')
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
             end
@@ -390,11 +458,95 @@ local function linked(resolved,kind,branch,phase)
     error('reviewed settings linkage unavailable: '..kind,0)
 end
 
+local function support_explosion(resolved,backing)
+    if backing.linkage:find('explosive_explosion',1,true)then
+        local component=component_record(resolved,{component='ExplosiveComponentData',
+            recordIndex=resolved.candidate.ownership.ExplosiveComponentData.recordIndex,
+            indexRow=resolved.candidate.ownership.ExplosiveComponentData.indexRow,
+            ownerCount=resolved.candidate.ownership.ExplosiveComponentData.ownerCount})
+        local explosion_type=b.u32(component.bytes,assert(backing.selectorOffset))
+        return assert(resolved.roots.explosion.records[explosion_type],
+            'linked placed-entity ExplosionSettings absent')
+    end
+    local projectile=projectile_for_candidate(resolved,resolved.candidate,
+        backing.parentRole or backing.branch)
+    local offset=backing.phase=='expiry'and 156 or 144
+    return assert(resolved.roots.explosion.records[b.u32(projectile.bytes,offset)],
+        'linked support projectile ExplosionSettings absent')
+end
+
+local function support_damage(resolved,backing,linkage)
+    if linkage=='projectile_damage'then
+        local projectile=projectile_for_candidate(resolved,resolved.candidate,backing.branch)
+        return assert(resolved.roots.damage.records[b.u32(projectile.bytes,60)],
+            'linked support projectile DamageInfo absent')
+    end
+    if linkage=='arc_damage'then
+        local component=resolved.catalog.record(resolved.candidate,'ArcWeaponComponentData')
+        local arc=assert(resolved.roots.arc.records[b.u32(component.bytes,0)],'linked ArcSettings absent')
+        return assert(resolved.roots.damage.records[b.u32(arc.bytes,36)],'linked arc DamageInfo absent')
+    end
+    if linkage=='beam_damage'then
+        local component=resolved.catalog.record(resolved.candidate,'BeamWeaponComponentData')
+        local beam=assert(resolved.roots.beam.records[b.u32(component.bytes,0)],'linked BeamSettings absent')
+        return assert(resolved.roots.damage.records[b.u32(beam.bytes,12)],'linked beam DamageInfo absent')
+    end
+    if linkage=='spray_damage'then
+        local component=resolved.catalog.record(resolved.candidate,'SprayWeaponComponentData')
+        return assert(resolved.roots.damage.records[b.u32(component.bytes,200)],'linked spray DamageInfo absent')
+    end
+    if linkage=='melee_damage'then
+        local component=resolved.catalog.record(resolved.candidate,'MeleeWeaponComponentData')
+        return assert(resolved.roots.damage.records[b.u32(component.bytes,12)],'linked melee DamageInfo absent')
+    end
+    if linkage:find('explosion_damage',1,true)then
+        local explosion=support_explosion(resolved,backing)
+        return assert(resolved.roots.damage.records[b.u32(explosion.bytes,4)],
+            'linked support explosion DamageInfo absent')
+    end
+    error('reviewed support DamageInfo linkage unavailable: '..tostring(linkage),0)
+end
+
+local function support_linked(resolved,backing)
+    local linkage=assert(backing.linkage,'support settings linkage missing')
+    if linkage=='projectile'then
+        local record=projectile_for_candidate(resolved,resolved.candidate,backing.branch)
+        return record,resolved.roots.projectile.owner
+    end
+    if linkage=='arc'then
+        local component=resolved.catalog.record(resolved.candidate,'ArcWeaponComponentData')
+        return assert(resolved.roots.arc.records[b.u32(component.bytes,0)],'linked ArcSettings absent'),
+            resolved.roots.arc.owner
+    end
+    if linkage=='beam'then
+        local component=resolved.catalog.record(resolved.candidate,'BeamWeaponComponentData')
+        return assert(resolved.roots.beam.records[b.u32(component.bytes,0)],'linked BeamSettings absent'),
+            resolved.roots.beam.owner
+    end
+    if linkage=='status'then
+        local damage=support_damage(resolved,backing,assert(backing.parentLinkage))
+        local matches=0
+        for offset=44,68,8 do if b.u32(damage.bytes,offset)==backing.statusType then matches=matches+1 end end
+        assert(matches==1,'linked StatusEffectSettings owner absent or ambiguous')
+        return assert(resolved.roots.status.records[backing.statusType],
+            'linked StatusEffectSettings absent'),resolved.roots.status.owner
+    end
+    if linkage:find('explosion',1,true)and not linkage:find('damage',1,true)then
+        return support_explosion(resolved,backing),resolved.roots.explosion.owner
+    end
+    return support_damage(resolved,backing,linkage),resolved.roots.damage.owner
+end
+
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots};local physical={}
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
+        elseif spec.kind=='support_weapon'and backing.linkage then
+            record,owner=support_linked(resolved,backing)
+            assert(record.group==backing.group and record.row==backing.row
+                and record.kind==backing.recordType and record.settings_type==backing.settingsType,
+                'support settings record identity changed')
         else
             record,owner=linked(resolved,backing.settings,backing.branch,backing.phase)
             assert(record.group==backing.group and record.row==backing.row

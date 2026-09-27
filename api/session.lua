@@ -201,6 +201,11 @@ function M.new(runtime,emit)
         self.fields[domain]=self.fields[domain]or{}
         for key,value in pairs(values)do self.fields[domain][key]=value end
     end
+    local support=require('hd2runtime/domains/support_weapon_authoring')
+    for domain,values in pairs(support.fields)do
+        self.fields[domain]=self.fields[domain]or{}
+        for key,value in pairs(values)do self.fields[domain][key]=value end
+    end
     local metadata=require('hd2runtime/domains/metadata')
     self.version=metadata.version;self.api_version=metadata.api_version
     function self.patch(request)
