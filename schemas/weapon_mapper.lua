@@ -3,6 +3,7 @@
 local source='research/primary-weapon-field-correlation-F5FEE03DCFDB.json'
 local slot_capacity_source='research/weapon-slot-capacity-F5FEE03DCFDB.json'
 local family_source='research/weapon-family-expansion-F5FEE03DCFDB.json'
+local ammo_source='research/player-weapon-ammo-F5FEE03DCFDB.json'
 local function evidence(comparisons)
     return {source=source,structural_candidate=true,schema_labelled=false,
         correlation_proven=true,current_live_ownership_proven=false,
@@ -152,9 +153,11 @@ return {
                 native_consumer_proven=false,pending_gameplay_confirmation=true,
                 confidence_evidence='54/54 uniquely identified anchors separated: 43 primary tag 0x82C32E74, 11 secondary tag 0x89747DEC'}},
         capacity={value_type='integer',unit='rounds',
-            magazine={structure='WeaponMagazineComponentData',offset=136,storage='u32',chambered_offset=156},
+            magazine={structure='WeaponMagazineComponentData',offset=136,storage='u32',chambered_offset=156,
+                starting_magazines_offset=140,magazines_from_supply_offset=144,spare_magazines_offset=148},
             rounds={structure='WeaponRoundsComponentData',offset=72,storage='f32',count=2,stride=4,
-                chambered_offset=104,transformation='sum_feed_capacities'},
+                chambered_offset=104,transformation='sum_feed_capacities',spare_rounds_offset=80,
+                rounds_from_supply_offset=84,starting_rounds_offset=88},
             default_customizations={structure='WeaponCustomizationComponentData',offset=0,stride=8,count=10,none=0,magazine=5},
             evidence={source=slot_capacity_source,structural_candidate=true,schema_labelled=true,
                 correlation_proven=true,current_live_ownership_proven=false,gameplay_proven=false,
@@ -179,5 +182,8 @@ return {
             value_type='number',unit='factor',tolerance=0.01,
             evidence=evidence('37/37 identities and 49/49 candidates exact')},
     },
-    unmapped={'capacity when supplied by a default magazine customization AddPath'},
+    ammo_evidence={source=ammo_source,structural_candidate=true,schema_labelled=true,
+        correlation_proven=true,current_live_ownership_proven=false,gameplay_proven=false,
+        native_consumer_proven=false,pending_gameplay_confirmation=true},
+    unmapped={'default magazine customization override record ownership and per-weapon alternate magazine compatibility'},
 }

@@ -1,13 +1,15 @@
 # HD2Runtime
 
-Version 0.13.0 adds a guarded semantic authoring surface for the complete 80
+Version 0.14.0 adds guarded detachable-magazine and rounds-feed ammo authoring for the complete 80
 primary and secondary weapon catalog. Seventy-three uniquely owned identities
 expose reviewed weapon, projectile, DamageInfo, Arc, Beam, Spray, Melee, magazine,
 and rounds-feed fields through the existing `patch`, `transaction`, and `ensure`
 engine. The seven duplicate-resource identities remain visible but fail closed
 for ordinary writes. Shared settings require explicit opt-in. See the
 [authoring guide](docs/player-weapon-authoring.md) and generated
-[GUI capability catalog](sdk/PlayerWeaponAuthoringCapabilities.json).
+[GUI capability catalog](sdk/PlayerWeaponAuthoringCapabilities.json). Ammo-specific
+controls and unresolved customization ownership are in the generated
+[ammo capability catalog](sdk/PlayerWeaponAmmoCapabilities.json).
 
 Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
 resolution. Slot tags separate all 54 unique training anchors. Capacity matches
@@ -43,7 +45,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.13.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.14.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

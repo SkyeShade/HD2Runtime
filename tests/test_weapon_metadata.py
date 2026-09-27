@@ -38,6 +38,26 @@ local blocked=m.capacity({WeaponMagazineComponentData=magazine,
 assert(blocked.status=='CUSTOMIZED_UNRESOLVED'and blocked.value==nil and blocked.baseValue==15)
 local empty=put(string.rep('\0',4872),0,u32(5)..u32(0))
 assert(m.capacity({WeaponMagazineComponentData=magazine,WeaponCustomizationComponentData=empty},s).value==15)
+local ammo=m.ammo({WeaponMagazineComponentData=magazine},s)
+assert(ammo.kind=='magazine'and ammo.capacity.value==15)
+return'ok'
+""")
+
+    def test_detachable_magazine_reserve_fields_and_ammo_box_derivation(self):
+        run("""
+local m=require('hd2runtime/core/weapon_metadata')
+local s=require('hd2runtime/schemas/weapon_mapper')
+local function u32(n)return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,math.floor(n/16777216)%256)end
+local function put(value,offset,bytes)return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)end
+local magazine=string.rep('\0',160)
+for _,item in ipairs({{136,15},{140,4},{144,7},{148,6}})do magazine=put(magazine,item[1],u32(item[2]))end
+local ammo=m.ammo({WeaponMagazineComponentData=magazine},s)
+assert(ammo.capacity_value==15 and ammo.starting_magazines==4 and ammo.spare_magazines==6)
+assert(ammo.magazines_from_supply==7 and ammo.magazines_from_ammo_box==3)
+local custom=put(string.rep('\0',4872),0,u32(5)..u32(0x116E8A0F))
+local blocked=m.ammo({WeaponMagazineComponentData=magazine,WeaponCustomizationComponentData=custom},s)
+assert(blocked.capacity.status=='CUSTOMIZED_UNRESOLVED'and blocked.base.capacity==15)
+assert(blocked.base.starting_magazines==4 and blocked.base.spare_magazines==6)
 return'ok'
 """)
 
@@ -49,6 +69,10 @@ local rounds=string.rep('\0',72)..string.char(0,0,0,65)..string.char(0,0,0,65)..
 local value=m.capacity({WeaponRoundsComponentData=rounds},s)
 assert(value.status=='RESOLVED'and value.value==16 and value.source:find('MagazineCapacity',1,true))
 assert(value.transformation=='sum_feed_capacities'and value.feedValues[1]==8 and value.feedValues[2]==8)
+local ammo=m.ammo({WeaponRoundsComponentData=rounds:sub(1,80)..string.char(60,0,0,0)..
+ string.char(60,0,0,0)..string.char(32,0,0,0)..rounds:sub(93)},s)
+assert(ammo.spare_rounds==60 and ammo.rounds_from_supply==60 and ammo.starting_rounds==32)
+assert(ammo.rounds_from_ammo_box==30)
 local f=m.implementation_families({ProjectileWeaponComponentData={},WeaponRoundsComponentData={}})
 assert(#f==2 and f[1]=='conventional_projectile'and f[2]=='rounds_feed')
 assert(m.implementation_families({BeamWeaponComponentData={}})[1]=='beam')

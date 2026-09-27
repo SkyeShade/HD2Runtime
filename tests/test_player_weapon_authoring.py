@@ -8,6 +8,7 @@ import generate_weapon_authoring
 
 
 CAPABILITIES = json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
+AMMO_CAPABILITIES = json.loads((ROOT/'sdk/PlayerWeaponAmmoCapabilities.json').read_text())
 
 
 class PlayerWeaponAuthoringTests(unittest.TestCase):
@@ -49,6 +50,51 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
             if field['editable']:
                 self.assertIn('backing',field)
                 self.assertIn(field['backing']['width'],(1,4))
+
+    def test_ammo_capability_matrix_covers_all_player_weapons(self):
+        summary=AMMO_CAPABILITIES['summary']
+        self.assertEqual(summary['weapons'],80)
+        self.assertEqual(summary['roundsFeedWeapons'],15)
+        self.assertEqual(summary['directMagazineWeapons'],33)
+        self.assertEqual(summary['defaultMagazineOptions'],19)
+        self.assertEqual(summary['nativeMagazineOptionsCataloged'],52)
+        self.assertEqual(summary['sharedDefaultOptionGroups'],1)
+        self.assertEqual(len(AMMO_CAPABILITIES['weapons']),80)
+        self.assertEqual(AMMO_CAPABILITIES['safety']['writes'],0)
+        self.assertEqual(AMMO_CAPABILITIES['safety']['protectionChanges'],0)
+        self.assertEqual(
+            {(item['weapon'],item['catalog'],item['runtime'])
+             for item in AMMO_CAPABILITIES['discrepancies']},
+            {('AR-11 Arbitrator',4,45),('AR/GL-21 One-Two',1,40)})
+
+    def test_detachable_rounds_customization_and_duplicate_semantics(self):
+        by_name={w['name']:w for w in CAPABILITIES['weapons']}
+        def fields(name):return {f['semanticFieldId']:f for f in by_name[name]['fields']}
+        jar=fields('JAR-5 Dominator')
+        self.assertTrue(jar['magazine.capacity']['editable'])
+        self.assertEqual(jar['magazine.spare_magazines']['currentDefault'],6)
+        self.assertEqual(jar['magazine.starting_magazines']['currentDefault'],4)
+        self.assertEqual(jar['magazine.magazines_from_supply']['currentDefault'],6)
+        self.assertTrue(jar['magazine.magazines_from_ammo_box']['derivedReadOnly'])
+        punisher=fields('SG-8 Punisher')
+        self.assertTrue(punisher['rounds.spare_rounds']['editable'])
+        self.assertEqual(punisher['rounds.spare_rounds']['currentDefault'],60)
+        self.assertEqual(punisher['rounds.starting_rounds']['currentDefault'],32)
+        self.assertEqual(punisher['rounds.rounds_from_supply']['currentDefault'],60)
+        self.assertEqual(punisher['rounds.rounds_from_ammo_box']['currentDefault'],30)
+        peacemaker=fields('P-2 Peacemaker')
+        self.assertEqual(peacemaker['magazine.capacity']['currentDefault'],15)
+        self.assertFalse(peacemaker['magazine.capacity']['editable'])
+        ammo_by_name={w['name']:w for w in AMMO_CAPABILITIES['weapons']}
+        shared=ammo_by_name['AR-23 Liberator']['defaultMagazineOption']
+        self.assertTrue(shared['shared'])
+        self.assertEqual(shared['sharedWithWeapons'],
+            ['AR-23P Liberator Penetrator','AR-59 Suppressor'])
+        self.assertEqual(ammo_by_name['P-2 Peacemaker']['defaultMagazineOption']['name'],
+            'Pistol 12x20mm. Standard')
+        gp=next(w for w in AMMO_CAPABILITIES['weapons'] if w['name']=='GP-31 Grenade Pistol')
+        self.assertEqual(gp['effectiveCapacity']['status'],'AMBIGUOUS_RUNTIME_IDENTITY')
+        self.assertEqual(len(gp['resourceValues']),2)
 
     def test_every_reviewed_descriptor_passes_public_shape_validation(self):
         script=modules()+r'''
@@ -99,6 +145,12 @@ local arc=session.weapon('ARC-12 Blitzer')
 local described=arc:describe();assert(described.name=='ARC-12 Blitzer')
 assert(validate({id='blitzer-range',target=arc,
     field=session.fields.arc.range,expect=25,value=30}).changes[1].field=='arc.range')
+local jar_ammo=session.weapon('JAR-5 Dominator')
+assert(validate({id='jar-spares',target=jar_ammo,
+    field=session.fields.magazine.spare_magazines,expect=6,value=8}).changes[1].field=='magazine.spare_magazines')
+local punisher=session.weapon('SG-8 Punisher')
+assert(validate({id='punisher-reserve',target=punisher,
+    field=session.fields.rounds.spare_rounds,expect=60,value=80}).changes[1].field=='rounds.spare_rounds')
 -- JAR root is the generic authoring identity while the proven chain remains compatible.
 local jar=session.weapon('JAR-5 Dominator');assert(jar.resource=='player_weapon')
 assert(jar:projectile():damage().resource=='jar5')

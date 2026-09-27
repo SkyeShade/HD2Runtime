@@ -2,7 +2,7 @@
 
 Opt-in gameplay validation for the reviewed AR-23C Liberator Concussive fire-rate field: 400 to 1100 RPM.
 
-Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime 0.13.0+ / API 1 installed once.
+Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime 0.14.0+ / API 1 installed once.
 
 This project contains only gameplay declarations. Do not copy the runtime or SDK stubs into src.
 

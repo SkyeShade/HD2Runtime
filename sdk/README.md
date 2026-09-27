@@ -1,12 +1,12 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.13.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.14.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.13.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.14.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -164,9 +164,13 @@ proof bundle that ships the same runtime resource identity.
 ## Runtime guarantees and evidence
 
 The 0.4.0 proof was confirmed successful in live gameplay by the user. Version
-0.13.0 routes additional reviewed descriptors through the same guarded
-`patch`, `transaction`, and `ensure` engine. Ensure
-retains the three-update-second startup and default 60-update-second recheck,
+0.14.0 routes additional reviewed descriptors through the same guarded `patch`,
+`transaction`, and `ensure` engine and adds `magazine.*` and `rounds.*`
+authoring constants.
+`PlayerWeaponAmmoCapabilities.json` separates direct magazine values, rounds-fed
+values, derived refills, customization defaults, sharedness, and fail-closed
+reasons for all 80 player weapons. Ensure retains the three-update-second startup
+and default 60-update-second recheck,
 fresh resolution, expected/desired classification and terminal conflict behavior.
 Transactions retain exact-width writes, stable rereads, page restoration and
 guarded rollback; interference that prevents safe rollback is explicitly reported.
