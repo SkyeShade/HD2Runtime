@@ -62,7 +62,15 @@ def main():
     span(0, map_inst)
     component_names = ['ProjectileWeaponComponentData', 'WeaponDataComponentData', 'HealthComponentData',
                        'OrbitalAbilityComponentData', 'ShieldComponentData', 'HellpodPayloadComponentData',
-                       'RechargeComponentData', 'JumppackComponentData']
+                       'RechargeComponentData', 'JumppackComponentData',
+                       'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
+                       'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
+                       'ArcWeaponComponentData', 'MeleeWeaponComponentData',
+                       'BeamWeaponComponentData', 'SprayWeaponComponentData']
+    mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
+                        'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
+                        'ArcWeaponComponentData', 'MeleeWeaponComponentData',
+                        'BeamWeaponComponentData', 'SprayWeaponComponentData'}
     for name in component_names:
         inst, body, version, is64, offset = find_component(entity, name)
         outer = layout(library, name)
@@ -74,7 +82,9 @@ def main():
              'indices': indices['array_or_bits'], 'records': records['array_or_bits'],
              'record_offset': records['offset64'], 'stride': record_layout['size64'], 'type': dl_hash(name)}
         profile['components'][name] = c
-        span(offset-4, entity[offset-4:offset+28+c['record_offset']])
+        end = offset+28+(c['record_offset']+c['records']*c['stride']
+                         if name in mapper_auxiliary else c['record_offset'])
+        span(offset-4, entity[offset-4:end])
     weapon_resources = set()
     for name in ('ProjectileWeaponComponentData', 'WeaponDataComponentData'):
         c = profile['components'][name]

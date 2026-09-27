@@ -40,8 +40,9 @@ class PrimaryWeaponCorrelationTests(unittest.TestCase):
         self.assertEqual(self.report['fields']['pellet_count']['best_candidate']['exact_matches'],5)
         run("""
 local schema=require('hd2runtime/schemas/weapon_mapper')
-assert(#schema.unmapped==1 and schema.unmapped[1]=='capacity')
-for name,spec in pairs(schema.fields)do
+assert(#schema.unmapped==1 and schema.unmapped[1]:find('default magazine customization',1,true))
+for _,name in ipairs({'fire_rate','pellet_count','projectile_velocity','projectile_mass','drag','gravity'})do
+ local spec=schema.fields[name]
  assert(spec.evidence.correlation_proven and spec.evidence.pending_gameplay_confirmation)
  assert(not spec.evidence.gameplay_proven and not spec.evidence.schema_labelled)
 end

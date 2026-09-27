@@ -13,6 +13,7 @@ local function public_match(match)
         unresolvedFields=copy_array(match.unresolvedFields),compared=match.compared,
         highValueMatches=match.highValueMatches,highValueMismatches=match.highValueMismatches,
         structurallyCompatible=match.structurallyCompatible,compatibleAttackKind=match.compatibleAttackKind,
+        compatibleWeaponSlot=match.compatibleWeaponSlot,
         matchedAttackBranch=match.matchedAttackBranch,matchedDamageBranch=match.matchedDamageBranch,
         matchedProjectileBranch=match.matchedProjectileBranch,branchMode=match.branchMode,
         incompatibility=match.incompatibility,credible=match.credible==true}
@@ -27,7 +28,22 @@ local function candidate_match(candidate,match)
         unresolvedFields=copy_array(match.unresolvedFields),
         projectileType=candidate.resolvedFields.projectile_type and candidate.resolvedFields.projectile_type.value,
         damageType=candidate.resolvedFields.damage_type and candidate.resolvedFields.damage_type.value,
-        crosshairType=candidate.resolvedFields.crosshair_type and candidate.resolvedFields.crosshair_type.value}
+        crosshairType=candidate.resolvedFields.crosshair_type and candidate.resolvedFields.crosshair_type.value,
+        weaponSlot=candidate.resolvedFields.weapon_slot and candidate.resolvedFields.weapon_slot.value,
+        capacity=candidate.resolvedFields.capacity and candidate.resolvedFields.capacity.value,
+        implementationFamilies=copy_array(candidate.implementationFamilies)}
+end
+local function catalog_families(weapon)
+    local found,result={},{}
+    local function add(value)if not found[value]then found[value]=true;result[#result+1]=value end end
+    if tostring(weapon.category):lower():find('shotgun',1,true)then add('shotgun/feed_variants')end
+    for _,attack in ipairs(weapon.attacks or{})do
+        local family=({Beam='beam',Arc='arc',Spray='spray/flame',Melee='melee',
+            Projectile='conventional_projectile'})[attack.kind]
+        if family then add(family)end
+    end
+    if #result==0 then add('special/non_damaging')end
+    return result
 end
 local function candidate_before(a,b)
     if a.score~=b.score then return a.score>b.score end
@@ -58,6 +74,7 @@ local function summary(dataset,catalog,candidates,status_counts)
     local unique_primary,unique_secondary=0,0
     local identified_primary,identified_secondary=0,0
     local duplicates,unresolved,multiple,partial,plasma={},{},{},{},{}
+    local unresolved_families={}
     for _,candidate in ipairs(candidates)do
         if candidate.status=='AMBIGUOUS'then partial[#partial+1]=candidate.resourceHash end
         if #candidate.credibleWikiIdentities>1 then
@@ -76,9 +93,15 @@ local function summary(dataset,catalog,candidates,status_counts)
             for _,value in ipairs(entry.competingCandidates)do resources[#resources+1]=value.resourceHash end
             duplicates[#duplicates+1]={name=entry.name,slot=entry.slot,resources=json.array(resources)}
         elseif entry.resolution=='UNRESOLVED'or entry.resolution=='AMBIGUOUS'then
+            local families=catalog_families(weapon)
             unresolved[#unresolved+1]={name=entry.name,slot=entry.slot,category=entry.category,
+                likelyImplementationFamilies=copy_array(families),
                 reason=entry.resolution=='AMBIGUOUS'and'partial candidates exist but none is uniquely credible'
                     or'no credible structurally compatible runtime candidate'}
+            for _,family in ipairs(families)do
+                local values=unresolved_families[family]or{};values[#values+1]=entry.name
+                unresolved_families[family]=values
+            end
         end
         if entry.name:match('^PLAS%-')then
             plasma[#plasma+1]={name=entry.name,slot=entry.slot,resolution=entry.resolution,
@@ -98,6 +121,7 @@ local function summary(dataset,catalog,candidates,status_counts)
         totalIdentitiesResolved=identified_primary+identified_secondary,
         partialRuntimeCandidateCount=#partial,partialRuntimeCandidates=json.array(partial),
         duplicateIdentityGroups=json.array(duplicates),unresolvedCatalogWeapons=json.array(unresolved),
+        unresolvedImplementationFamilies=unresolved_families,
         runtimeCandidatesMatchingMultipleCatalogWeapons=json.array(multiple),
         plasmaFamilySpecificFindings=json.array(plasma),writes=0,protectionChanges=0,
         fixtureFallback='disabled'}

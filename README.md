@@ -1,5 +1,11 @@
 # HD2Runtime
 
+Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
+resolution. Slot tags separate all 54 unique training anchors. Capacity matches
+all 35 anchors whose effective magazine is directly represented; default
+magazine customizations remain fail-closed until their attachment AddPath is
+mapped. See [the slot/capacity report](research/weapon-slot-capacity-F5FEE03DCFDB.json).
+
 Version 0.8.0 adds offline-correlated primary-weapon fire rate and projectile
 pellet count, velocity, mass, drag, and gravity fields. These mappings are
 structural/correlation evidence pending gameplay confirmation. Capacity remains
@@ -28,7 +34,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.9.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.10.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

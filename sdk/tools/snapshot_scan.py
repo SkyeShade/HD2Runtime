@@ -11,6 +11,7 @@ SDK=Path(__file__).resolve().parents[1]
 ROOT=SDK.parent
 MODULE_PATHS={
     'hd2runtime/core/binary':'core/binary.lua','hd2runtime/core/bytes':'core/bytes.lua',
+    'hd2runtime/core/weapon_metadata':'core/weapon_metadata.lua',
     'hd2runtime/core/entity_catalog':'core/entity_catalog.lua','hd2runtime/core/settings':'core/settings.lua',
     'hd2runtime/core/snapshot_format':'core/snapshot_format.lua','hd2runtime/runtime/reader':'runtime/reader.lua',
     'hd2runtime/runtime/discover':'runtime/discover.lua','hd2runtime/runtime/snapshot_memory_reader':'runtime/snapshot_memory_reader.lua',
