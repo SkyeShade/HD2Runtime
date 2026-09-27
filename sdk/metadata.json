@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.18.0",
+  "runtime_version": "0.19.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2772,9 +2772,34 @@
         "diagnostic?": "boolean",
         "allow_shared?": "boolean"
       },
+      "HD2PlanTargetFrom": {
+        "operation": "string",
+        "path": "\"projectile\"|\"terminal.impact\"|\"terminal.expiry\""
+      },
+      "HD2PlanOperation": {
+        "id": "string",
+        "target?": "HD2AuthoringTarget",
+        "target_from?": "HD2PlanTargetFrom",
+        "field?": "string",
+        "expect?": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "value?": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "changes?": "HD2TransactionChange[]",
+        "allow_shared?": "boolean"
+      },
+      "HD2PlanPhase": {
+        "id?": "string",
+        "operations": "HD2PlanOperation[]"
+      },
+      "HD2PlanRequest": {
+        "id": "string",
+        "operations?": "HD2PlanOperation[]",
+        "phases?": "HD2PlanPhase[]",
+        "diagnostic?": "boolean"
+      },
       "HD2EnsureRequest": {
         "patch?": "HD2PatchRequest",
         "transaction?": "HD2TransactionRequest",
+        "plan?": "HD2PlanRequest",
         "interval?": "number",
         "startup_delay?": "number"
       }
@@ -2870,6 +2895,16 @@
         "returns": "HD2Watch",
         "doc": "Validate every change before writing; guarded rollback on failure."
       },
+      "plan": {
+        "params": [
+          [
+            "request",
+            "HD2PlanRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Coordinate ordered semantic operations across multiple related backing objects and phases."
+      },
       "ensure": {
         "params": [
           [
@@ -2878,7 +2913,7 @@
           ]
         ],
         "returns": "HD2EnsureWatch",
-        "doc": "Wrap exactly one patch or transaction. Default 60 update seconds, three-second startup, terminal conflict rejection."
+        "doc": "Wrap exactly one patch, transaction, or composition plan. Default 60 update seconds, three-second startup, terminal conflict rejection."
       }
     },
     "target_methods": {

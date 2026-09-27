@@ -57,6 +57,8 @@ class SDKTests(unittest.TestCase):
         self.assertIn('---@return HD2DamageProfile\nfunction HD2Projectile:damage()',body)
         self.assertIn('---@field armor_penetration "armor_penetration"',body)
         self.assertIn('---@param request HD2EnsureRequest',body)
+        self.assertIn('---@class HD2PlanRequest',body)
+        self.assertIn('function hd2.plan(request)',body)
         execute(('local body='+lua(body)+";CowboyBingusModLoader={};local chunk=assert(loadstring(body));local ok,why=pcall(chunk);assert(not ok and why:find('authoring%-only'));return 'ok'").encode())
 
     def test_typed_builders_use_only_existing_mappings_and_no_native_access(self):
@@ -191,7 +193,7 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.18.0' and update==nil)
+assert(a==b and a.version=='0.19.0' and update==nil)
 return 'ok'
 ''').encode())
 

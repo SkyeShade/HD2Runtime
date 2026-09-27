@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "api": "hd2.plan",
+  "semanticTargetModel": "Each operation owns one semantic target; a plan coordinates the complete physical write set across targets.",
+  "fieldCapabilitySource": "PlayerWeaponAuthoringCapabilities.json",
+  "identityContract": [
+    "resource",
+    "weapon",
+    "attack",
+    "phase",
+    "semantic path"
+  ],
+  "limits": {
+    "phases": 8,
+    "operations": 64,
+    "physicalChangesPerPhase": 128
+  },
+  "operationForms": [
+    "target + field/expect/value",
+    "target + changes[]",
+    "target_from + field/expect/value",
+    "target_from + changes[]"
+  ],
+  "targetFromPaths": {
+    "projectile": "Freshly resolve the projectile selected by a prior projectile-reference operation.",
+    "terminal.impact": "Freshly resolve that resulting projectile's impact terminal slot.",
+    "terminal.expiry": "Freshly resolve that resulting projectile's expiry terminal slot."
+  },
+  "semanticObjects": {
+    "attack": [
+      "attack.projectile"
+    ],
+    "projectile": [
+      "projectile.*",
+      "damage.*"
+    ],
+    "terminal": [
+      "terminal.explosion"
+    ],
+    "explosion": [
+      "explosion.*",
+      "explosion.damage.*"
+    ]
+  },
+  "grouping": {
+    "samePhase": "Independent targets whose identities do not change are resolved together and guarded as one complete physical write set.",
+    "newPhaseRequired": "A reference replacement that changes a later semantic target requires target_from in a subsequent phase.",
+    "order": "phase index, then operation declaration index, then change declaration index"
+  },
+  "sharedScope": {
+    "granularity": "operation",
+    "rule": "allow_shared=true authorizes only the semantic object targeted by that operation.",
+    "backingObjectRule": "One operation may contain fields from exactly one owning component/settings object; split ProjectileSettings, DamageInfo, ExplosionSettings, and explosion DamageInfo into separate operations.",
+    "implicitCrossObjectAuthorization": false
+  },
+  "execution": [
+    "fresh resolution per phase",
+    "complete phase write-set validation before protection changes",
+    "stable reread of every participating context",
+    "deterministic declared operation order",
+    "exact-width verified writes",
+    "reverse-order rollback across phases",
+    "page protection restoration and verification",
+    "undeclared-byte verification"
+  ],
+  "safety": {
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled",
+    "snapshotOnly": true
+  }
+}

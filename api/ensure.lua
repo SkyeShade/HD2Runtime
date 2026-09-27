@@ -1,13 +1,14 @@
 -- Persistent scheduler over the same one-shot guarded operations.
 local patches=require('hd2runtime/domains/patches')
 local transactions=require('hd2runtime/domains/transactions')
+local plans=require('hd2runtime/domains/composition_plans')
 local M={}
 function M.start(runtime,emit,request)
     assert(type(request)=='table','ensure requires a descriptor')
-    local allowed={patch=true,transaction=true,interval=true,startup_delay=true}
+    local allowed={patch=true,transaction=true,plan=true,interval=true,startup_delay=true}
     for key in pairs(request)do assert(allowed[key],'unsupported ensure option: '..tostring(key))end
-    assert((request.patch~=nil)~=(request.transaction~=nil),
-        'ensure requires exactly one patch or transaction')
+    local count=(request.patch and 1 or 0)+(request.transaction and 1 or 0)+(request.plan and 1 or 0)
+    assert(count==1,'ensure requires exactly one patch, transaction or plan')
     local interval=request.interval or 60
     local startup=request.startup_delay or 3
     assert(type(interval)=='number' and interval>=1 and interval<math.huge,'invalid ensure interval')
@@ -15,9 +16,11 @@ function M.start(runtime,emit,request)
     local kind,spec,module
     if request.patch then
         kind='patch';spec=patches.validate(request.patch);module=require('hd2runtime/api/patch')
-    else
+    elseif request.transaction then
         kind='transaction';spec=transactions.validate(request.transaction)
         module=require('hd2runtime/api/transaction')
+    else
+        kind='plan';spec=plans.validate(request.plan);module=require('hd2runtime/api/plan')
     end
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local watch={status='waiting',runs=0,kind=kind,id=spec.id,interval=interval}

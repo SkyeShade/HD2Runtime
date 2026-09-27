@@ -194,7 +194,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
     end
     local storage=field.backing.storage
     local canonical=field.type=='boolean'and(field.currentDefault and 1 or 0)or field.currentDefault
-    assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '..item.field)
+    assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '
+        ..item.field..': declared='..tostring(expected)..' reviewed='..tostring(canonical)
+        ..' resolved='..tostring(field.semanticFieldId))
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         semantic_aliases={item.field},expect=item.expect,value=item.value,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage)}
@@ -269,38 +271,55 @@ local function find_candidate(catalog,resource)
     return found
 end
 
-function M.capture(runtime,reader,spec)
+local function add_need(needed,name,value)
+    if value==true or needed[name]==nil then needed[name]=value end
+end
+local function collect_needs(needed,spec)
+    add_need(needed,'entity',true)
+    for _,change in ipairs(spec.changes)do
+        local backing=change.descriptor.backing
+        if backing.kind=='settings'and backing.settings~='explosion_damage'then
+            add_need(needed,backing.settings,true)
+        end
+        if change.descriptor.type=='projectile_reference'then add_need(needed,'projectile',true)end
+        if change.descriptor.type=='explosion_reference'or backing.settings=='explosion'
+            or backing.settings=='explosion_damage'then
+            add_need(needed,'projectile',true);add_need(needed,'explosion',true)
+        end
+        if backing.settings=='explosion_damage'then add_need(needed,'damage',true)end
+        if backing.settings=='damage'then
+            add_need(needed,'projectile',true);add_need(needed,'arc','optional')
+            add_need(needed,'beam','optional')
+        end
+    end
+end
+function M.capture_many(runtime,reader,specs)
+    assert(type(specs)=='table'and#specs>=1,'composition capture requires operation specs')
     reader.stage='runtime/windows_readonly:fingerprint'
     local exe,dll=runtime.module(nil),runtime.module('game.dll')
     if not exe or not dll then error('TARGET_UNAVAILABLE: game modules not ready',0)end
     assert(runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha,
         'unsupported build fingerprint')
-    local needed={entity=true}
-    for _,change in ipairs(spec.changes)do
-        local backing=change.descriptor.backing
-        if backing.kind=='settings'and backing.settings~='explosion_damage'then needed[backing.settings]=true end
-        if change.descriptor.type=='projectile_reference'then needed.projectile=true end
-        if change.descriptor.type=='explosion_reference'or backing.settings=='explosion'
-            or backing.settings=='explosion_damage'then
-            needed.projectile=true;needed.explosion=true
-        end
-        if backing.settings=='explosion_damage'then needed.damage=true end
-        if backing.settings=='damage'then
-            needed.projectile=true;needed.arc='optional';needed.beam='optional'
-        end
-    end
+    local needed={};for _,spec in ipairs(specs)do collect_needs(needed,spec)end
     local roots=discover.locate(runtime,reader,profile,needed)
     local catalog=entities.capture(reader,roots.entity,profile,component_names)
-    local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
-        reference_sources={}}
-    for _,change in ipairs(spec.changes)do
-        if change.desired_selector and not change.desired_selector.is_null then
-            local source=assert(database.weapons[change.desired_selector.weapon],
-                'projectile source metadata missing')
-            resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
+    local results={}
+    for index,spec in ipairs(specs)do
+        local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
+            reference_sources={}}
+        for _,change in ipairs(spec.changes)do
+            if change.desired_selector and not change.desired_selector.is_null then
+                local source=assert(database.weapons[change.desired_selector.weapon],
+                    'projectile source metadata missing')
+                resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
+            end
         end
+        results[index]=resolved
     end
-    return resolved
+    return results
+end
+function M.capture(runtime,reader,spec)
+    return M.capture_many(runtime,reader,{spec})[1]
 end
 
 local function component_record_for(resolved,candidate,backing)

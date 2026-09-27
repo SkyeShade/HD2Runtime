@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 632c0a77536b85848c211ea46aeff828518450707e4ce4ba2350a6f42b68c4cd
+-- Schema SHA256 d48c1515eb241c255319ee6015f9ebdd2015dbc3e4150acc1f1ecaa27974be43
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -79,9 +79,34 @@
 ---@field diagnostic? boolean
 ---@field allow_shared? boolean
 
+---@class HD2PlanTargetFrom
+---@field operation string
+---@field path "projectile"|"terminal.impact"|"terminal.expiry"
+
+---@class HD2PlanOperation
+---@field id string
+---@field target? HD2AuthoringTarget
+---@field target_from? HD2PlanTargetFrom
+---@field field? string
+---@field expect? number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value? number|boolean|HD2ProjectileReference|HD2Explosion
+---@field changes? HD2TransactionChange[]
+---@field allow_shared? boolean
+
+---@class HD2PlanPhase
+---@field id? string
+---@field operations HD2PlanOperation[]
+
+---@class HD2PlanRequest
+---@field id string
+---@field operations? HD2PlanOperation[]
+---@field phases? HD2PlanPhase[]
+---@field diagnostic? boolean
+
 ---@class HD2EnsureRequest
 ---@field patch? HD2PatchRequest
 ---@field transaction? HD2TransactionRequest
+---@field plan? HD2PlanRequest
 ---@field interval? number
 ---@field startup_delay? number
 
@@ -739,7 +764,11 @@ function hd2.patch(request) end
 ---@param request HD2TransactionRequest
 ---@return HD2Watch
 function hd2.transaction(request) end
----Wrap exactly one patch or transaction. Default 60 update seconds, three-second startup, terminal conflict rejection.
+---Coordinate ordered semantic operations across multiple related backing objects and phases.
+---@param request HD2PlanRequest
+---@return HD2Watch
+function hd2.plan(request) end
+---Wrap exactly one patch, transaction, or composition plan. Default 60 update seconds, three-second startup, terminal conflict rejection.
 ---@param request HD2EnsureRequest
 ---@return HD2EnsureWatch
 function hd2.ensure(request) end

@@ -64,7 +64,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.18.0 or newer / API 1, installed once.
+2. HD2Runtime 0.19.0 or newer / API 1, installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.
