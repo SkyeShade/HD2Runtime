@@ -1,0 +1,288 @@
+{
+  "40-K Meltagun": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x6CFCC7F8801A0266"
+    ],
+    "canonicalResourceHash": "0x6CFCC7F8801A0266"
+  },
+  "AC-8 Autocannon": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xA8CFFB316F0B5C5F"
+    ],
+    "canonicalResourceHash": "0xA8CFFB316F0B5C5F"
+  },
+  "APW-1 Anti-Materiel Rifle": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x89C5493E08CA4207"
+    ],
+    "canonicalResourceHash": "0x89C5493E08CA4207"
+  },
+  "ARC-3 Arc Thrower": {
+    "status": "AMBIGUOUS",
+    "resolution": "AMBIGUOUS",
+    "resourceHashes": [
+      "0x96DE9CD50F7306E6"
+    ],
+    "canonicalResourceHash": null
+  },
+  "B/FLAM-80 Cremator": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x0736BEE2D6328726",
+      "0x78A8185F63A70795"
+    ],
+    "canonicalResourceHash": null
+  },
+  "B/MD C4 Pack": {
+    "status": "UNMATCHED",
+    "resolution": "UNRESOLVED",
+    "resourceHashes": [],
+    "canonicalResourceHash": null
+  },
+  "CQC-1 One True Flag": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xB0F1B354BA1D38D8"
+    ],
+    "canonicalResourceHash": "0xB0F1B354BA1D38D8"
+  },
+  "CQC-20 Breaching Hammer": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x5F3EC9BDA2BD8553"
+    ],
+    "canonicalResourceHash": "0x5F3EC9BDA2BD8553"
+  },
+  "CQC-72 Entrenchment Tool": {
+    "status": "AMBIGUOUS",
+    "resolution": "AMBIGUOUS",
+    "resourceHashes": [
+      "0x2670E0047B2EB409"
+    ],
+    "canonicalResourceHash": null
+  },
+  "CQC-9 Defoliation Tool": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xBF4CFD2AEABFB5A4"
+    ],
+    "canonicalResourceHash": "0xBF4CFD2AEABFB5A4"
+  },
+  "EAT-17 Expendable Anti-Tank": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x5C54E81A4AAA31FC",
+      "0x80932FA0ED6901D3"
+    ],
+    "canonicalResourceHash": null
+  },
+  "EAT-411 Leveller": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x7617642765AC38C7"
+    ],
+    "canonicalResourceHash": "0x7617642765AC38C7"
+  },
+  "EAT-700 Expendable Napalm": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xB2B5E0D185605F9E"
+    ],
+    "canonicalResourceHash": "0xB2B5E0D185605F9E"
+  },
+  "FAF-14 Spear": {
+    "status": "STRONG",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x25AA2FD4643CF4EE"
+    ],
+    "canonicalResourceHash": "0x25AA2FD4643CF4EE"
+  },
+  "FLAM-40 Flamethrower": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x39AB99895147A3BF"
+    ],
+    "canonicalResourceHash": "0x39AB99895147A3BF"
+  },
+  "GL-21 Grenade Launcher": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x02EECD0B1FA49630"
+    ],
+    "canonicalResourceHash": "0x02EECD0B1FA49630"
+  },
+  "GL-28 Belt-Fed Grenade Launcher": {
+    "status": "AMBIGUOUS",
+    "resolution": "AMBIGUOUS",
+    "resourceHashes": [
+      "0x88C2D09AD85A7C9F"
+    ],
+    "canonicalResourceHash": null
+  },
+  "GL-52 De-Escalator": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xFE3B29B2CFA63F9B"
+    ],
+    "canonicalResourceHash": "0xFE3B29B2CFA63F9B"
+  },
+  "GR-8 Recoilless Rifle": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x9F80D67A12A7E40F"
+    ],
+    "canonicalResourceHash": "0x9F80D67A12A7E40F"
+  },
+  "LAS-98 Laser Cannon": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x1980D92B619FF5FE",
+      "0x56070F36CFFFA8A8",
+      "0xD54B9505C0F72873"
+    ],
+    "canonicalResourceHash": null
+  },
+  "LAS-99 Quasar Cannon": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x35A61296619CC47E"
+    ],
+    "canonicalResourceHash": "0x35A61296619CC47E"
+  },
+  "M-1000 Maxigun": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x43A58CB89CFA197C"
+    ],
+    "canonicalResourceHash": "0x43A58CB89CFA197C"
+  },
+  "M-105 Stalwart": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0xA6A735ACCB4A327F",
+      "0xB43235DBD493750C",
+      "0xB9606C5AAB32C3C2",
+      "0xD53EE03481AE73FD"
+    ],
+    "canonicalResourceHash": null
+  },
+  "MG-206 Heavy Machine Gun": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x085C1EDB038EC24E",
+      "0x2152D5147B0AC418",
+      "0xCD00BDC1149C2928"
+    ],
+    "canonicalResourceHash": null
+  },
+  "MG-43 Machine Gun": {
+    "status": "AMBIGUOUS",
+    "resolution": "DUPLICATE",
+    "resourceHashes": [
+      "0x11C27D3BABB38956",
+      "0x587878FB76F4B9B1"
+    ],
+    "canonicalResourceHash": null
+  },
+  "MGX-42 Bullet Storm": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xB16C9D490AA59B77"
+    ],
+    "canonicalResourceHash": "0xB16C9D490AA59B77"
+  },
+  "MLS-4X Commando": {
+    "status": "STRONG",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x5990123D142B16CB"
+    ],
+    "canonicalResourceHash": "0x5990123D142B16CB"
+  },
+  "MS-11 Solo Silo": {
+    "status": "UNMATCHED",
+    "resolution": "UNRESOLVED",
+    "resourceHashes": [],
+    "canonicalResourceHash": null
+  },
+  "PLAS-45 Epoch": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xE8D5F49AD7780E54"
+    ],
+    "canonicalResourceHash": "0xE8D5F49AD7780E54"
+  },
+  "RL-77 Airburst Rocket Launcher": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x26E40437EA275296"
+    ],
+    "canonicalResourceHash": "0x26E40437EA275296"
+  },
+  "RS-422 Railgun": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x2E9D0BDC48B09E60"
+    ],
+    "canonicalResourceHash": "0x2E9D0BDC48B09E60"
+  },
+  "S-11 Speargun": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x3828E2051AA9E897"
+    ],
+    "canonicalResourceHash": "0x3828E2051AA9E897"
+  },
+  "SG-88 Break-Action Shotgun": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x52071F49263415E4"
+    ],
+    "canonicalResourceHash": "0x52071F49263415E4"
+  },
+  "StA-X3 W.A.S.P. Launcher": {
+    "status": "STRONG",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0xCC786F6491FE7E65"
+    ],
+    "canonicalResourceHash": "0xCC786F6491FE7E65"
+  },
+  "TX-41 Sterilizer": {
+    "status": "EXACT",
+    "resolution": "UNIQUE",
+    "resourceHashes": [
+      "0x88F61AFFF48AC8A4"
+    ],
+    "canonicalResourceHash": "0x88F61AFFF48AC8A4"
+  }
+}

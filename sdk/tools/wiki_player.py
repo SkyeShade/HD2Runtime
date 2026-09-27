@@ -11,6 +11,14 @@ def scalar(value):
     return value.get('value') if isinstance(value, dict) else None
 
 
+def normalized(weapon):
+    return weapon.get('normalizedFields') or {}
+
+
+def weapon_stats(weapon):
+    return weapon.get('weaponStats') or normalized(weapon).get('weaponStats') or {}
+
+
 def weapon_stat(weapon, label, fallback):
     for section in weapon.get('rawSections') or []:
         if section.get('name') == 'Weapon':
@@ -33,7 +41,7 @@ def pellet_count(attack):
 
 
 def spread_values(weapon):
-    value=(weapon.get('weaponStats') or {}).get('spread')
+    value=weapon_stats(weapon).get('spread')
     numbers=re.findall(r'-?\d+(?:\.\d+)?',str(value or''))
     return (float(numbers[0]),float(numbers[1])) if len(numbers)>=2 else (None,None)
 
@@ -41,7 +49,7 @@ def spread_values(weapon):
 def attack_record(attack,index):
     projectile=attack.get('projectile') or {};damage=attack.get('damage') or {}
     penetration=attack.get('penetration') or {};effects=attack.get('specialEffects') or {}
-    extra=attack.get('extraFields') or {}
+    extra=attack.get('extraFields') or attack.get('normalizedExtraFields') or {}
     explosion_branches=sorted({str(value) for key,value in extra.items()
         if 'Explosion' in key and value not in (None,'')})
     return {'index':index,'name':attack.get('name'),'kind':attack.get('kind'),
@@ -53,6 +61,7 @@ def attack_record(attack,index):
         'gravity':scalar(projectile.get('gravityFactor')),'demolition':scalar(effects.get('demolitionForce')),
         'stagger':scalar(effects.get('staggerForce')),'push_force':scalar(effects.get('pushForce')),
         'pellet_count':pellet_count(attack),'charge':attack.get('charge'),
+        'parent_attack':attack.get('parentAttack'),'child_attacks':attack.get('childAttacks') or [],
         'projectile_data':attack.get('projectile'),'area_of_effect':attack.get('areaOfEffect'),
         'beam':attack.get('beam'),
         'projectile_branch':bool(attack.get('projectile')),
@@ -67,7 +76,7 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
         if slot and weapon_slot != slot.lower():continue
         attacks=[attack_record(item,index) for index,item in enumerate(weapon.get('attacks') or [],1)]
         if not attacks:raise ValueError(f"{weapon.get('name')}: no attacks")
-        stats=weapon.get('weaponStats') or {}
+        normalized_fields=normalized(weapon);stats=weapon_stats(weapon)
         fire_rate=weapon_stat(weapon,'Fire Rate',scalar(stats.get('fireRateRpm')))
         capacity=weapon_stat(weapon,'Capacity',scalar(stats.get('capacity')))
         spread_horizontal,spread_vertical=spread_values(weapon)
@@ -78,9 +87,16 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
         is_suppressed=noise.lower().startswith('suppressed') if noise else None
         primary=dict(attacks[0]);primary['fire_rate']=fire_rate;primary['capacity']=capacity
         weapons.append({'name':weapon['name'],'slot':weapon_slot,
-            'category':weapon.get('category') or weapon.get('primaryCategory'),
-            'primary_category':weapon.get('primaryCategory'),'weapon_type':weapon.get('weaponType'),
-            'traits':weapon.get('traits') or [],'wiki_page':weapon.get('wikiPage'),
+            'category':weapon.get('category') or weapon.get('primaryCategory') or weapon.get('sourceSection'),
+            'primary_category':weapon.get('primaryCategory'),
+            'weapon_type':weapon.get('weaponType') or normalized_fields.get('weaponType'),
+            'traits':weapon.get('traits') or normalized_fields.get('traits') or [],
+            'source_section':weapon.get('sourceSection'),'relationships':weapon.get('relationships') or [],
+            'backpack_dependent':normalized_fields.get('backpackDependent'),
+            'expendable':normalized_fields.get('expendable'),
+            'firing_modes':normalized_fields.get('firingModes') or [],
+            'selectable_ammo_modes':normalized_fields.get('selectableAmmoModes') or [],
+            'wiki_page':weapon.get('wikiPage'),
             'fire_rate':fire_rate,'capacity':capacity,'spread_horizontal':spread_horizontal,
             'spread_vertical':spread_vertical,'sway':sway,'ergonomics':ergonomics,
             'recoil':recoil,'horizontal_recoil':horizontal_recoil,
@@ -93,6 +109,8 @@ def compact(source: Path, summary_path: Path | None = None, slot: str | None = N
     if summary and not slot and len(weapons)!=summary['totalWeapons']:
         raise ValueError('wiki summary count differs')
     counts={name:sum(1 for weapon in weapons if weapon['slot']==name) for name in ('primary','secondary')}
+    support_count=sum(1 for weapon in weapons if weapon['slot']=='support')
+    if support_count:counts['support']=support_count
     return {'schema_version':2,'source':root.get('source'),'imported_at':root.get('importedAt'),
         'source_sha256':hashlib.sha256(raw).hexdigest().upper(),
         'summary_sha256':hashlib.sha256(summary_raw).hexdigest().upper() if summary_raw else'',

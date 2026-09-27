@@ -1,0 +1,51 @@
+{
+  "catalogWeapons": 35,
+  "resolvedIdentities": 30,
+  "uniqueIdentities": 24,
+  "duplicateIdentityGroups": 6,
+  "ambiguousIdentities": 3,
+  "unresolvedIdentities": 2,
+  "identityStatusCounts": {
+    "EXACT": 21,
+    "STRONG": 3,
+    "AMBIGUOUS": 9,
+    "UNMATCHED": 2
+  },
+  "sourceGroupCounts": {
+    "Civilian": 2,
+    "Engineering Bay": 4,
+    "Patriotic Administration Center": 13,
+    "Warbonds": 16
+  },
+  "catalogBranchCounts": {
+    "Projectile": 32,
+    "Explosion": 34,
+    "Beam": 2,
+    "Arc": 2,
+    "Spray": 3,
+    "Melee": 4,
+    "Status": 17,
+    "Unknown": 1
+  },
+  "resolvedBranchCounts": {
+    "Projectile": 16,
+    "Explosion": 0,
+    "Beam": 1,
+    "Arc": 0,
+    "Spray": 2,
+    "Melee": 3,
+    "Status": 0,
+    "Unknown": 0
+  },
+  "sharedSettingsGroups": 1,
+  "backpackDependentWeapons": 9,
+  "readOnlySemanticResolutionReady": 24,
+  "guardedAuthoringReady": false,
+  "unresolvedWeapons": [
+    "ARC-3 Arc Thrower",
+    "B/MD C4 Pack",
+    "CQC-72 Entrenchment Tool",
+    "GL-28 Belt-Fed Grenade Launcher",
+    "MS-11 Solo Silo"
+  ]
+}
