@@ -63,6 +63,10 @@ function M.new(describe)
         local methods={}
         function methods.describe()return copy(action)end
         function methods.explosion()return explosion_target(name,attack.role,phase)end
+        function methods.no_explosion()
+            return {resource='player_weapon',path='no_explosion',weapon=name,
+                attack=attack.role,phase=phase}
+        end
         return setmetatable({resource='player_weapon',path='terminal_action',weapon=name,
             attack=attack.role,phase=phase},{__index=methods})
     end
@@ -191,6 +195,34 @@ function M.new(describe)
             end
             error('unknown reviewed '..kind..' alias: '..tostring(name))
         end
+    end
+    local support_catalog=require('hd2runtime/domains/support_weapon_catalog')
+    local function support_attack(name,index)
+        local weapon=assert(support_catalog.weapons[name],'unknown reviewed support weapon')
+        local attack=assert(weapon.attackGraph[index],'unknown support weapon attack index')
+        local methods={}
+        function methods.describe()return copy(attack)end
+        return setmetatable({resource='support_weapon',path='attack',weapon=name,
+            attack_index=index},{__index=methods})
+    end
+    function builders.support_weapon(name)
+        local weapon=assert(support_catalog.weapons[name],
+            'unknown reviewed support weapon: '..tostring(name))
+        local methods={}
+        function methods.describe()return copy(weapon)end
+        function methods.attacks()
+            local result={};for index=1,#weapon.attackGraph do result[index]=support_attack(name,index)end
+            return result
+        end
+        function methods.attack(_,identity)
+            if type(identity)=='number'then return support_attack(name,identity)end
+            for index,item in ipairs(weapon.attackGraph)do
+                if item.name==identity or item.runtimeMatch
+                    and item.runtimeMatch.runtimeAttackRole==identity then return support_attack(name,index)end
+            end
+            error('unknown reviewed support attack: '..tostring(identity))
+        end
+        return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end
     return builders
 end

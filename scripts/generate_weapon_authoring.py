@@ -201,6 +201,7 @@ def build(catalog_path=CATALOG):
         blocked=None if unique else 'Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.'
         fields=[];resolved=candidate['resolvedFields']
         ownership=candidate['ownership']
+        composition=composition_source['weapons'][name]
 
         slot_backend=component_backend(candidate,'LoadoutPackageComponentData',0,'u32') \
             if 'LoadoutPackageComponentData'in ownership else None
@@ -224,6 +225,15 @@ def build(catalog_path=CATALOG):
         fields.append(make_field('weapon.primary_fire_mode',resolved.get('primary_fire_mode'),
             component_backend(candidate,'WeaponDataComponentData',144,'u32'),editable=False,
             reason=definitions['weapon.primary_fire_mode']['reason']))
+        fire_mode=composition_source['weapons'][name]['fireMode']
+        default_mode=make_field('weapon.default_fire_mode',fire_mode['nativeValue'],
+            component_backend(candidate,'WeaponDataComponentData',144,'u32'),
+            editable=unique and fire_mode['writable'],reason=blocked or fire_mode.get('reason'))
+        default_mode['enumValues']={'full_auto':1,'semi_auto':2}
+        default_mode['allowedValues']=fire_mode['allowedModes']
+        default_mode['nativeModeVector']=fire_mode['nativeModeVector']
+        default_mode['writeKind']=fire_mode.get('writeKind')
+        fields.append(default_mode)
         for field_id,value_key in (('weapon.recoil','recoil'),
                 ('weapon.horizontal_recoil','horizontal_recoil'),('weapon.vertical_recoil','vertical_recoil')):
             fields.append(make_field(field_id,resolved.get(value_key),editable=False,
@@ -295,7 +305,6 @@ def build(catalog_path=CATALOG):
                 reason=definitions['magazine.magazines_from_ammo_box']['reason'],derived=True))
 
         attacks=candidate.get('attacks') or []
-        composition=composition_source['weapons'][name]
         for attack in composition['attacks']:
             backing=attack.get('targetBacking')
             if not backing:continue
@@ -309,11 +318,11 @@ def build(catalog_path=CATALOG):
             field['compatibilityClass']=attack['compatibilityClass']
             field['referenceRole']=attack['role']
             field['referenceSettings']=attack['projectileSettings']
+            field['residency']=attack['residency']
             fields.append(field)
             explosions={item['explosionType']:item for item in attack.get('explosions',[])}
             emitted_explosions=set()
             for action in attack.get('terminalActions',[]):
-                if not action['referenceType']:continue
                 phase=action['phase'];terminal_id=f"terminal.{attack['role']}.{phase}.explosion"
                 terminal_backend=settings_backend('projectile',attack['projectileSettings'],
                     action['offset'],'u32',attack['role'])
@@ -325,13 +334,16 @@ def build(catalog_path=CATALOG):
                 terminal['referenceKind']='explosion';terminal['referenceRole']=attack['role']
                 terminal['referencePhase']=phase;terminal['projectileBacking']=backing
                 terminal['projectileSettings']=attack['projectileSettings']
-                terminal['referenceSettings']=explosions[action['referenceType']]['settings']
+                terminal['referenceSettings']=(explosions[action['referenceType']]['settings']
+                    if action['referenceType'] else None)
+                terminal['nullSentinel']=action.get('nullSentinel',0)
                 resources=sorted({consumer['resourceHash'] for consumer in
                     action.get('projectileSettingsConsumers',[])})
                 terminal['sharedWithResources']=resources
                 terminal['affectsMultipleWeapons']=len(resources)>1
                 terminal['writeScope']='shared_projectile' if len(resources)>1 else 'projectile_terminal_action'
                 fields.append(terminal)
+                if not action['referenceType']:continue
                 explosion=explosions[action['referenceType']]
                 if action['referenceType'] in emitted_explosions:continue
                 emitted_explosions.add(action['referenceType'])
@@ -376,7 +388,13 @@ def build(catalog_path=CATALOG):
                 ('drag','drag',40,'f32'),('gravity','gravity',44,'f32'),
                 ('pellet_count','pellet_count',28,'u32')):
                 backend=settings_backend('projectile',record,offset,storage,role)
-                fields.append(make_field(prefix+'.'+suffix,values.get(key),backend,unique,blocked))
+                scalar=make_field(prefix+'.'+suffix,values.get(key),backend,unique,
+                    blocked or 'Projectile definitions are shared objects; allow_shared=true is required.')
+                scalar['writeScope']='shared_projectile_definition'
+                scalar['affectsMultipleWeapons']=True
+                scalar['sharedWithWeapons']=sorted(set(scalar.get('sharedWithWeapons',[])))
+                scalar['dynamicConsumersPossible']=True
+                fields.append(scalar)
 
         damage_attacks=[attack for attack in attacks if attack.get('damageInfo')]
         for position,attack in enumerate(damage_attacks):
@@ -400,7 +418,12 @@ def build(catalog_path=CATALOG):
                 ('demolition','demolition',28,'u32'),('stagger','stagger',32,'u32'),
                 ('push_force','push_force',36,'u32')):
                 backend=settings_backend('damage',record,offset,storage,role)
-                fields.append(make_field(prefix+'.'+suffix,values.get(key),backend,unique,blocked))
+                scalar=make_field(prefix+'.'+suffix,values.get(key),backend,unique,blocked)
+                if kind=='Projectile':
+                    scalar['writeScope']='shared_projectile_damage_definition'
+                    scalar['affectsMultipleWeapons']=True
+                    scalar['dynamicConsumersPossible']=True
+                fields.append(scalar)
             status=attack.get('statusEffects')
             if isinstance(status,list):
                 for index,effect in enumerate(status,1):
@@ -409,8 +432,13 @@ def build(catalog_path=CATALOG):
                     fields.append(make_field(status_prefix+'_type',effect['type'],type_backend,editable=False,
                         reason=definitions['damage.status_type']['reason']))
                     backend=settings_backend('damage',record,44+(index-1)*8+4,'f32',role)
-                    fields.append(make_field(status_prefix+'_strength',effect['strength'],backend,
-                        unique,blocked))
+                    scalar=make_field(status_prefix+'_strength',effect['strength'],backend,
+                        unique,blocked)
+                    if kind=='Projectile':
+                        scalar['writeScope']='shared_projectile_damage_definition'
+                        scalar['affectsMultipleWeapons']=True
+                        scalar['dynamicConsumersPossible']=True
+                    fields.append(scalar)
 
         if 'arc_type' in resolved:
             attack=next(a for a in attacks if a.get('kind')=='Arc');record=attack['arcSettings']

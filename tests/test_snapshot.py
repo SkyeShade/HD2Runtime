@@ -199,7 +199,7 @@ for _,f in pairs(handles)do f:close()end;snapshot.close();return'ok'
             report=json.loads(output.read_text());identities=json.loads(mapping.read_text())
             self.assertEqual(report['scanMetrics']['candidateCount'],365)
             self.assertEqual(report['mode'],'snapshot')
-            self.assertEqual(report['hd2RuntimeVersion'],'0.16.0')
+            self.assertEqual(report['hd2RuntimeVersion'],'0.17.0')
             self.assertEqual(identities['JAR-5 Dominator']['status'],'EXACT')
 
     def test_combined_player_catalog_command_is_snapshot_only_and_read_only(self):

@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "name": "FireModeSelect",
+  "resource": "mods/hd2runtime_examples/fire_mode_select",
+  "guid": "58deec5a-3fa6-54cc-8748-0c95165d38cd",
+  "requires": {"bingus": {"min_release": 15, "api": 1}, "hd2runtime": {"min_version": "0.17.0", "api": 1, "module": "mods/skyeshade/hd2runtime"}},
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

@@ -36,6 +36,8 @@ def build():
                 'projectile_type': attack['projectileType'],
                 'projectile_settings': attack['projectileSettings'],
                 'compatibility_class': attack['compatibilityClass'],
+                'projectile_object': attack.get('projectileObject'),
+                'residency': attack.get('residency'),
                 'target_backing': attack['targetBacking'],
                 'writable_reference_swap': attack['writableReferenceSwap'],
                 'explosions': attack.get('explosions', []),

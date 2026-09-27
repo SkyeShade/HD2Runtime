@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.16.0",
+  "hd2RuntimeVersion": "0.17.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -21,6 +21,7 @@
     "writableTargetAttacks": 57,
     "compatibleSourceAttacks": 57,
     "writableExplosiveSelectors": 12,
+    "sharedProjectileGroups": 4,
     "compatibilityClasses": {
       "conventional_plain": 45,
       "explosive_impact": 8,
@@ -337,6 +338,96 @@
       }
     ]
   },
+  "sharedProjectileGroups": [
+    {
+      "settings": {
+        "group": 0,
+        "row": 165,
+        "recordType": 215
+      },
+      "consumers": [
+        {
+          "weapon": "MP-98 Knight",
+          "role": "primary",
+          "projectileType": 215
+        },
+        {
+          "weapon": "StA-11 SMG",
+          "role": "primary",
+          "projectileType": 215
+        }
+      ]
+    },
+    {
+      "settings": {
+        "group": 0,
+        "row": 199,
+        "recordType": 276
+      },
+      "consumers": [
+        {
+          "weapon": "AR-23 Liberator",
+          "role": "primary",
+          "projectileType": 276
+        },
+        {
+          "weapon": "AR-23A Liberator Carbine",
+          "role": "primary",
+          "projectileType": 276
+        },
+        {
+          "weapon": "StA-52 Assault Rifle",
+          "role": "primary",
+          "projectileType": 276
+        }
+      ]
+    },
+    {
+      "settings": {
+        "group": 0,
+        "row": 281,
+        "recordType": 260
+      },
+      "consumers": [
+        {
+          "weapon": "SG-22 Bushwhacker",
+          "role": "feed_primary",
+          "projectileType": 260
+        },
+        {
+          "weapon": "SG-8 Punisher",
+          "role": "feed_primary",
+          "projectileType": 260
+        }
+      ]
+    },
+    {
+      "settings": {
+        "group": 0,
+        "row": 326,
+        "recordType": 149
+      },
+      "consumers": [
+        {
+          "weapon": "LAS-16 Sickle",
+          "role": "primary",
+          "projectileType": 149
+        },
+        {
+          "weapon": "LAS-17 Double-Edge Sickle",
+          "role": "primary",
+          "projectileType": 149
+        }
+      ]
+    }
+  ],
+  "residencyPolicy": {
+    "preloadApiAvailable": false,
+    "knownSourceWeaponRequired": [
+      "LAS-58 Talon"
+    ],
+    "unknownSourcesRemain": 65
+  },
   "weapons": [
     {
       "weapon": "AR-11 Arbitrator",
@@ -358,6 +449,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 288,
+              "row": 234,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA8A91EB54892B6B2"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -395,6 +509,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 138,
+              "row": 216,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x84354339522C932D"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -432,6 +569,59 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 276,
+              "row": 199,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x968211C0033DCE64"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA6A735ACCB4A327F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA7EE1EBF58FCDF1F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB43235DBD493750C"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB9606C5AAB32C3C2"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCDF28BE026BB7D84"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xD53EE03481AE73FD"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -469,6 +659,59 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 276,
+              "row": 199,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x968211C0033DCE64"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA6A735ACCB4A327F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA7EE1EBF58FCDF1F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB43235DBD493750C"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB9606C5AAB32C3C2"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCDF28BE026BB7D84"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xD53EE03481AE73FD"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -506,6 +749,39 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 310,
+              "row": 203,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x263817187B7CE092"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x3D4970D1C4E640EE"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCF5F176E0E322BE1"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -543,6 +819,49 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 7,
+              "row": 200,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x3357EEBB0184FDEE"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x43CB1033961A2276"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4DF41F84668D07FB"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x73681FFD58FA1A90"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA32621E3BDE13379"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -580,6 +899,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 98,
+              "row": 212,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xBC29613666DF696B"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -617,6 +959,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 139,
+              "row": 209,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x708EA298C82093D0"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -654,6 +1019,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 44,
+              "row": 236,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCE063AA33D95A812"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -691,6 +1079,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 334,
+              "row": 233,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA955C4EA6F6D4203"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -739,6 +1150,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 135,
+              "row": 235,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x5FECAB819F96A3E8"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -776,6 +1210,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 249,
+              "row": 254,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xF49227A0630A3F7F"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -882,6 +1339,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 317,
+              "row": 299,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x72170A55A1F37FF1"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -931,6 +1411,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact_and_expiry",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 297,
+              "row": 82,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x006E44327BB953FE"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x006E44327BB953FE"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -968,6 +1476,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 103,
+              "row": 146,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x9EB160830321BFD6"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1007,6 +1538,44 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact_and_expiry",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 263,
+              "row": 85,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x02CD7321CD8445F5"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x02CD7321CD8445F5"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x52E4334E6A128CAF"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x52E4334E6A128CAF"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -1044,6 +1613,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 177,
+              "row": 262,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x80F1A156D9FA1E36"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "SELF_CONTAINED",
+            "evidence": "Observed Reprimand to JAR-5 gameplay swap remained functional.",
+            "preloadSupported": false,
+            "reason": null
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1081,6 +1673,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 236,
+              "row": 327,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xC85F576D5E086147"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1129,6 +1744,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 149,
+              "row": 326,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x295BEB26DC4F8FF1"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x8645F167B3C813A2"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1166,6 +1809,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 149,
+              "row": 326,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x295BEB26DC4F8FF1"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x8645F167B3C813A2"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1215,6 +1886,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 144,
+              "row": 332,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x416D053372C4E433"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "SOURCE_WEAPON_REQUIRED",
+            "evidence": "Observed gameplay control: projectile is invisible until LAS-58 Talon is equipped.",
+            "preloadSupported": false,
+            "reason": "No reviewed Bingus or native resource-loader contract is available."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1264,6 +1958,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 308,
+              "row": 184,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4D58C77087B774C5"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1301,6 +2018,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 340,
+              "row": 162,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xBE70EE0D8D44028E"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1339,6 +2079,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 62,
+              "row": 298,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x90DDC374F4E3D756"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x90DDC374F4E3D756"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -1376,6 +2144,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 119,
+              "row": 237,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4DBD74F49C8FFC13"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1413,6 +2204,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 215,
+              "row": 165,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4BA41B6F9F405CC2"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x9571CA51F0DAF35B"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1451,6 +2270,44 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 318,
+              "row": 198,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x03271411D3D0BAB9"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x03271411D3D0BAB9"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xD6B1FB05B9109353"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xD6B1FB05B9109353"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -1488,6 +2345,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 15,
+              "row": 182,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x1A437158E1B8D2A1"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1547,6 +2427,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact_and_expiry",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 152,
+              "row": 187,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x14D5D4506056C7A4"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1584,6 +2487,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact_and_expiry",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 270,
+              "row": 324,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xE91F569C2AD8AF01"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1621,6 +2547,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 343,
+              "row": 323,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x0B882808C6F498E8"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1659,6 +2608,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 309,
+              "row": 192,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x8D3D52A3B2F19402"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -1697,6 +2669,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 237,
+              "row": 183,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xC780BCD79547DA0F"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xC780BCD79547DA0F"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -1746,6 +2746,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 326,
+              "row": 185,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCF8934FF6567A42D"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1783,6 +2806,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 202,
+              "row": 260,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xDBB6C961C59FADC1"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1820,6 +2866,39 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 142,
+              "row": 310,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x8633FF89EF4F6788"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA1379C8C41A10E22"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xEEA5E3CEF1E12C14"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1857,6 +2936,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 296,
+              "row": 315,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xFB3A19078694708A"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1894,6 +2996,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 171,
+              "row": 309,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xAA69A60D74A3EC54"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1931,6 +3056,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 155,
+              "row": 311,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x30061F91AF477F5E"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -1968,6 +3116,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 327,
+              "row": 239,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x0F83639AB8C86165"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2006,6 +3177,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 282,
+              "row": 238,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x7B75E5132FFD4CA6"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2043,6 +3237,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_shrapnel",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 40,
+              "row": 265,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB6AFF2195568767F"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2080,6 +3297,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 207,
+              "row": 248,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xE5796355A8FD67E0"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2118,6 +3358,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 299,
+              "row": 240,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xE6D932BE83729076"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xE6D932BE83729076"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2155,6 +3423,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 305,
+              "row": 242,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x03E67A19B07C6523"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2192,6 +3483,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 241,
+              "row": 243,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4C786785C79D44E7"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2229,6 +3543,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 325,
+              "row": 228,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xF0338468DCDB6A6C"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2266,6 +3603,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 86,
+              "row": 261,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x1ABBFF60D26BA391"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2304,6 +3664,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 183,
+              "row": 285,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x4E310B1FE4C52B52"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2329,6 +3712,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 191,
+              "row": 294,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0x4E310B1FE4C52B52"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 68,
@@ -2367,6 +3773,49 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 260,
+              "row": 281,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x2B28E17FFED05F7C"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x41EAC4A03987FAA0"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0x41EAC4A03987FAA0"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xBCC2177439D231BE"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0xBCC2177439D231BE"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2404,6 +3853,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 179,
+              "row": 272,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x46183B50961D1328"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2441,6 +3913,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 314,
+              "row": 275,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xC12A34F375BD5A87"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2478,6 +3973,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 174,
+              "row": 271,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x5EBAEA70C0D060B9"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2516,6 +4034,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 347,
+              "row": 283,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xD323DE60855898AC"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0xD323DE60855898AC"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2554,6 +4100,49 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 260,
+              "row": 281,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x2B28E17FFED05F7C"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x41EAC4A03987FAA0"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0x41EAC4A03987FAA0"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xBCC2177439D231BE"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0xBCC2177439D231BE"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2591,6 +4180,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "explosive_impact",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 57,
+              "row": 316,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x05D8D8C073B9D502"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2629,6 +4241,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 240,
+              "row": 295,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0x4F749E2EE26F532D"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 68,
+                "resourceHash": "0x4F749E2EE26F532D"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2667,6 +4307,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 262,
+              "row": 349,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xDCD1C835407EF7BA"
+              },
+              {
+                "component": "WeaponRoundsComponentData",
+                "offset": 64,
+                "resourceHash": "0xDCD1C835407EF7BA"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "WeaponRoundsComponentData",
             "offset": 64,
@@ -2704,6 +4372,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 76,
+              "row": 167,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x186EA95DE7306B1A"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2741,6 +4432,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 123,
+              "row": 189,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x94BD931B5FB4EE95"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2779,6 +4493,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 3,
+              "row": 173,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4E4A613EB9BF5C24"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2816,6 +4553,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "status_bearing",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 157,
+              "row": 181,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x0807AEA5217E4767"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2853,6 +4613,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 38,
+              "row": 190,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x8A307BD1811A5FE9"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2890,6 +4673,34 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 215,
+              "row": 165,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x4BA41B6F9F405CC2"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x9571CA51F0DAF35B"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2927,6 +4738,59 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 276,
+              "row": 199,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0x968211C0033DCE64"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA6A735ACCB4A327F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xA7EE1EBF58FCDF1F"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB43235DBD493750C"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xB9606C5AAB32C3C2"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xCDF28BE026BB7D84"
+              },
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xD53EE03481AE73FD"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,
@@ -2964,6 +4828,29 @@
             "settingsType": "0xBD4042C2"
           },
           "compatibilityClass": "conventional_plain",
+          "projectileObject": {
+            "identity": {
+              "group": 0,
+              "recordType": 94,
+              "row": 197,
+              "settingsType": "0xBD4042C2"
+            },
+            "consumers": [
+              {
+                "component": "ProjectileWeaponComponentData",
+                "offset": 0,
+                "resourceHash": "0xF992CE97577C8A7F"
+              }
+            ],
+            "scalarWriteScope": "shared_projectile_definition",
+            "weaponLocalOverrideProven": false
+          },
+          "residency": {
+            "classification": "DEPENDENCY_UNRESOLVED",
+            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "preloadSupported": false,
+            "reason": "Resource bundle/package ownership is not structurally proven."
+          },
           "targetBacking": {
             "component": "ProjectileWeaponComponentData",
             "offset": 0,

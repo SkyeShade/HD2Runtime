@@ -31,7 +31,9 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                             'acceptedForWrites'):
                     self.assertIn(key,field)
                 self.assertIsNone(field['min']);self.assertIsNone(field['max'])
-                self.assertIsNone(field['enumValues'])
+                if field['semanticFieldId']=='weapon.default_fire_mode':
+                    self.assertEqual(field['enumValues'],{'full_auto':1,'semi_auto':2})
+                else:self.assertIsNone(field['enumValues'])
 
     def test_duplicates_and_customization_projectiles_fail_closed(self):
         blocked={w['name'] for w in CAPABILITIES['weapons'] if w['ordinaryWritesBlocked']}
@@ -47,7 +49,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         fields=[field for weapon in CAPABILITIES['weapons'] for field in weapon['fields']]
         self.assertTrue(any(f['derivedReadOnly'] and not f['editable'] for f in fields))
         self.assertTrue(any(f['writeScope']=='shared_projectile' and f['affectsMultipleWeapons'] for f in fields))
-        self.assertTrue(any(f['writeScope']=='shared_damage' and f['affectsMultipleWeapons'] for f in fields))
+        self.assertTrue(any(f['writeScope']=='shared_projectile_damage_definition'
+            and f['affectsMultipleWeapons'] for f in fields))
         for field in fields:
             if field['editable']:
                 self.assertIn('backing',field)
@@ -110,7 +113,7 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(aliases[('weapon.feed_capacity_2','rounds.feed_capacity_2')]['instanceCount'],15)
         audit=CAPABILITIES['backingCollisionAudit']
         self.assertEqual(audit['fieldInstancesAudited'],CAPABILITIES['summary']['fieldInstances'])
-        self.assertEqual(audit['exactBackingCollisionGroups'],129)
+        self.assertEqual(audit['exactBackingCollisionGroups'],209)
         self.assertEqual(audit['aliasPairInstances'],62)
         self.assertEqual(audit['unclassifiedCollisionPairs'],0)
         jar=next(w for w in CAPABILITIES['weapons'] if w['name']=='JAR-5 Dominator')
@@ -210,8 +213,14 @@ for name,weapon in pairs(db.weapons)do
         if field.editable and field.type~='projectile_reference'
             and field.type~='explosion_reference'
             and not field.semanticFieldId:match('^explosion%.') then
+            local value=field.currentDefault
+            if field.writeKind=='reorder_native_mode_vector'then
+                for _,candidate in ipairs(field.allowedValues)do
+                    if candidate~=field.currentDefault then value=candidate end
+                end
+            end
             changes[#changes+1]={field=field.semanticFieldId,
-                expect=field.currentDefault,value=field.currentDefault}
+                expect=field.currentDefault,value=value}
         end
     end
     if weapon.ordinaryWritesBlocked then
@@ -244,9 +253,11 @@ assert(validate({id='concussive-1100-rpm',target=concussive,
     field=session.fields.weapon.fire_rate,expect=400,value=1100}).changes[1].field=='weapon.fire_rate')
 local verdict=session.weapon('P-113 Verdict')
 assert(validate({id='verdict-gravity',target=verdict,
-    field=session.fields.projectile.gravity,expect=1,value=0.25}).changes[1].field=='projectile.gravity')
+    field=session.fields.projectile.gravity,expect=1,value=0.25,
+    allow_shared=true}).changes[1].field=='projectile.gravity')
 assert(validate({id='verdict-damage',target=verdict,
-    field=session.fields.damage.player_standard_damage,expect=140,value=150}).changes[1].field=='damage.standard_damage')
+    field=session.fields.damage.player_standard_damage,expect=140,value=150,
+    allow_shared=true}).changes[1].field=='damage.standard_damage')
 local arc=session.weapon('ARC-12 Blitzer')
 local described=arc:describe();assert(described.name=='ARC-12 Blitzer')
 assert(validate({id='blitzer-range',target=arc,
