@@ -1,0 +1,5418 @@
+{
+  "schemaVersion": 2,
+  "researchQuestion": "Locate exact R-72 Censor magazine selection identities outside static weapon components.",
+  "scope": {
+    "scan": "exact-value-only over captured snapshot region payloads",
+    "values": {
+      "extendedOptionId": "0x536662C0",
+      "shortOptionId": "0x33EAAA65",
+      "extendedAddPath": "0x37C2891774B38C87",
+      "shortAddPath": "0x986E6696B34B8902"
+    },
+    "contextRadiusBytes": 128,
+    "unrestrictedSemanticScan": false,
+    "fixtureFallback": false
+  },
+  "snapshots": {
+    "extended": {
+      "path": "C:\\Users\\Skye\\AppData\\Local\\HD2Runtime\\local_research\\snapshots\\F5FEE03DCFDB-20260927T155654Z.hd2snap",
+      "capturedAt": "2026-09-27T15:56:54Z",
+      "captureUnixTime": 1790524672,
+      "runtimeVersion": "0.19.0",
+      "gameVersion": "",
+      "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+      "dllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+      "architecture": 34404,
+      "pageSize": 4096,
+      "regionCount": 17161,
+      "totalVirtualBytes": 140737488224256,
+      "totalCapturedBytes": 11782914048
+    },
+    "short": {
+      "path": "C:\\Users\\Skye\\AppData\\Local\\HD2Runtime\\local_research\\snapshots\\F5FEE03DCFDB-20260927T160033Z.hd2snap",
+      "capturedAt": "2026-09-27T16:00:33Z",
+      "captureUnixTime": 1790524896,
+      "runtimeVersion": "0.19.0",
+      "gameVersion": "",
+      "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+      "dllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+      "architecture": 34404,
+      "pageSize": 4096,
+      "regionCount": 16564,
+      "totalVirtualBytes": 140737488224256,
+      "totalCapturedBytes": 11787395072
+    },
+    "buildFingerprintsMatch": true
+  },
+  "occurrenceCounts": {
+    "extendedOptionId": {
+      "extendedSnapshot": 24,
+      "shortSnapshot": 4,
+      "commonSameVa": 0,
+      "extendedOnly": 24,
+      "shortOnly": 4
+    },
+    "shortOptionId": {
+      "extendedSnapshot": 2,
+      "shortSnapshot": 2,
+      "commonSameVa": 0,
+      "extendedOnly": 2,
+      "shortOnly": 2
+    },
+    "extendedAddPath": {
+      "extendedSnapshot": 45,
+      "shortSnapshot": 9,
+      "commonSameVa": 0,
+      "extendedOnly": 45,
+      "shortOnly": 9
+    },
+    "shortAddPath": {
+      "extendedSnapshot": 9,
+      "shortSnapshot": 9,
+      "commonSameVa": 0,
+      "extendedOnly": 9,
+      "shortOnly": 9
+    }
+  },
+  "occurrenceSets": {
+    "commonSameNeedleAndVa": [],
+    "extendedOnly": [
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021D9B6E8BE0",
+        "fileOffset": "0x43B2EBE0",
+        "regionIndex": 2447,
+        "regionBase": "0x0000021D9B6E0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021D9B6E0000",
+        "allocationOffset": "0x8BE0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021E5A765118",
+        "fileOffset": "0xE6C00118",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x5118",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021E5A765128",
+        "fileOffset": "0xE6C00128",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x5128",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021E5A765168",
+        "fileOffset": "0xE6C00168",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x5168",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EA1673270",
+        "fileOffset": "0x12DA8C270",
+        "regionIndex": 5045,
+        "regionBase": "0x0000021EA1660000",
+        "regionSize": "0x20000",
+        "allocationBase": "0x0000021EA1660000",
+        "allocationOffset": "0x13270",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484CE50",
+        "fileOffset": "0x14089EE50",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760CE50",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484D878",
+        "fileOffset": "0x14089F878",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760D878",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484D940",
+        "fileOffset": "0x14089F940",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760D940",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484DA08",
+        "fileOffset": "0x14089FA08",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760DA08",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484DAD0",
+        "fileOffset": "0x14089FAD0",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760DAD0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC484DB98",
+        "fileOffset": "0x14089FB98",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x760DB98",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D50670",
+        "fileOffset": "0x140D9A670",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x10670",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D52128",
+        "fileOffset": "0x140D9C128",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x12128",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D521D8",
+        "fileOffset": "0x140D9C1D8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x121D8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D55898",
+        "fileOffset": "0x140D9F898",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x15898",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D559A0",
+        "fileOffset": "0x140D9F9A0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x159A0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D57458",
+        "fileOffset": "0x140DA1458",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x17458",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D5ABC8",
+        "fileOffset": "0x140DA4BC8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1ABC8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D5ACD0",
+        "fileOffset": "0x140DA4CD0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1ACD0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D5C730",
+        "fileOffset": "0x140DA6730",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1C730",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D5FEF8",
+        "fileOffset": "0x140DA9EF8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1FEF8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D61A08",
+        "fileOffset": "0x140DABA08",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x21A08",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D66CE0",
+        "fileOffset": "0x140DB0CE0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x26CE0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D6BFB8",
+        "fileOffset": "0x140DB5FB8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x2BFB8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D71290",
+        "fileOffset": "0x140DBB290",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x31290",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D76568",
+        "fileOffset": "0x140DC0568",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x36568",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D7B790",
+        "fileOffset": "0x140DC5790",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x3B790",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D7B898",
+        "fileOffset": "0x140DC5898",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x3B898",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D85D98",
+        "fileOffset": "0x140DCFD98",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x45D98",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D85EA0",
+        "fileOffset": "0x140DCFEA0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x45EA0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D8B0C8",
+        "fileOffset": "0x140DD50C8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x4B0C8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4D9FCD8",
+        "fileOffset": "0x140DE9CD8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x5FCD8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4DB9B68",
+        "fileOffset": "0x140E03B68",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x79B68",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EC4DBED90",
+        "fileOffset": "0x140E08D90",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x7ED90",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021ED03A3CF8",
+        "fileOffset": "0x14C085CF8",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3CF8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021ED2E33570",
+        "fileOffset": "0x14EAE8570",
+        "regionIndex": 6033,
+        "regionBase": "0x0000021ED2E30000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED2E30000",
+        "allocationOffset": "0x3570",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021ED2FA160C",
+        "fileOffset": "0x14EC5660C",
+        "regionIndex": 6041,
+        "regionBase": "0x0000021ED2FA0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED2FA0000",
+        "allocationOffset": "0x160C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EF8E02108",
+        "fileOffset": "0x172179108",
+        "regionIndex": 7999,
+        "regionBase": "0x0000021EF8E00000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021EF8E00000",
+        "allocationOffset": "0x2108",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EF8E02118",
+        "fileOffset": "0x172179118",
+        "regionIndex": 7999,
+        "regionBase": "0x0000021EF8E00000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021EF8E00000",
+        "allocationOffset": "0x2118",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021EF8E02158",
+        "fileOffset": "0x172179158",
+        "regionIndex": 7999,
+        "regionBase": "0x0000021EF8E00000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021EF8E00000",
+        "allocationOffset": "0x2158",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021F177E08DC",
+        "fileOffset": "0x19012E8DC",
+        "regionIndex": 9747,
+        "regionBase": "0x0000021F177E0000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x0000021F177E0000",
+        "allocationOffset": "0x8DC",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021F1780B088",
+        "fileOffset": "0x190159088",
+        "regionIndex": 9747,
+        "regionBase": "0x0000021F177E0000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x0000021F177E0000",
+        "allocationOffset": "0x2B088",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x0000021F510DA970",
+        "fileOffset": "0x1C93FD970",
+        "regionIndex": 12851,
+        "regionBase": "0x0000021F510D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021F510D0000",
+        "allocationOffset": "0xA970",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002200C189AB8",
+        "fileOffset": "0x283E44AB8",
+        "regionIndex": 14724,
+        "regionBase": "0x000002200C050000",
+        "regionSize": "0x1FE000",
+        "allocationBase": "0x000002200C050000",
+        "allocationOffset": "0x139AB8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002200C189B10",
+        "fileOffset": "0x283E44B10",
+        "regionIndex": 14724,
+        "regionBase": "0x000002200C050000",
+        "regionSize": "0x1FE000",
+        "allocationBase": "0x000002200C050000",
+        "allocationOffset": "0x139B10",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021B676C4F3E",
+        "fileOffset": "0x834FF3E",
+        "regionIndex": 608,
+        "regionBase": "0x0000021B67410000",
+        "regionSize": "0x2003000",
+        "allocationBase": "0x0000021B67410000",
+        "allocationOffset": "0x2B4F3E",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC000D61C",
+        "fileOffset": "0x13C05F61C",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x2DCD61C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC006319C",
+        "fileOffset": "0x13C0B519C",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x2E2319C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC17272DC",
+        "fileOffset": "0x13D7792DC",
+        "regionIndex": 5367,
+        "regionBase": "0x0000021EBD240000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x0000021EBD240000",
+        "allocationOffset": "0x44E72DC",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D50658",
+        "fileOffset": "0x140D9A658",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x10658",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D521C0",
+        "fileOffset": "0x140D9C1C0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x121C0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D55988",
+        "fileOffset": "0x140D9F988",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x15988",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D57440",
+        "fileOffset": "0x140DA1440",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x17440",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D5ACB8",
+        "fileOffset": "0x140DA4CB8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1ACB8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D5C718",
+        "fileOffset": "0x140DA6718",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1C718",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D619F0",
+        "fileOffset": "0x140DAB9F0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x219F0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D66CC8",
+        "fileOffset": "0x140DB0CC8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x26CC8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D6BFA0",
+        "fileOffset": "0x140DB5FA0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x2BFA0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D71278",
+        "fileOffset": "0x140DBB278",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x31278",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D76550",
+        "fileOffset": "0x140DC0550",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x36550",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D7B880",
+        "fileOffset": "0x140DC5880",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x3B880",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D85E88",
+        "fileOffset": "0x140DCFE88",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x45E88",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4D9FCC0",
+        "fileOffset": "0x140DE9CC0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x5FCC0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021EC4DB9B50",
+        "fileOffset": "0x140E03B50",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x79B50",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021ECF489894",
+        "fileOffset": "0x14B198894",
+        "regionIndex": 5854,
+        "regionBase": "0x0000021ECF410000",
+        "regionSize": "0x101000",
+        "allocationBase": "0x0000021ECF410000",
+        "allocationOffset": "0x79894",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021ED03A3CE0",
+        "fileOffset": "0x14C085CE0",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3CE0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021F510DA958",
+        "fileOffset": "0x1C93FD958",
+        "regionIndex": 12851,
+        "regionBase": "0x0000021F510D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021F510D0000",
+        "allocationOffset": "0xA958",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x0000021FD1084895",
+        "fileOffset": "0x2490E5895",
+        "regionIndex": 14173,
+        "regionBase": "0x0000021FAB7E0000",
+        "regionSize": "0x40000000",
+        "allocationBase": "0x0000021FAB7E0000",
+        "allocationOffset": "0x258A4895",
+        "regionType": "0x40000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x000002200A7C8D67",
+        "fileOffset": "0x2824C3D67",
+        "regionIndex": 14533,
+        "regionBase": "0x000002200A7A0000",
+        "regionSize": "0x60000",
+        "allocationBase": "0x000002200A7A0000",
+        "allocationOffset": "0x28D67",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021E5A765498",
+        "fileOffset": "0xE6C00498",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x5498",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021E5A7654A8",
+        "fileOffset": "0xE6C004A8",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x54A8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021E5A7654E8",
+        "fileOffset": "0xE6C004E8",
+        "regionIndex": 4296,
+        "regionBase": "0x0000021E5A760000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021E5A760000",
+        "allocationOffset": "0x54E8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021EA16741C0",
+        "fileOffset": "0x12DA8D1C0",
+        "regionIndex": 5045,
+        "regionBase": "0x0000021EA1660000",
+        "regionSize": "0x20000",
+        "allocationBase": "0x0000021EA1660000",
+        "allocationOffset": "0x141C0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021ED03A3D50",
+        "fileOffset": "0x14C085D50",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3D50",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021ED2E324D0",
+        "fileOffset": "0x14EAE74D0",
+        "regionIndex": 6033,
+        "regionBase": "0x0000021ED2E30000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED2E30000",
+        "allocationOffset": "0x24D0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021ED2FA165C",
+        "fileOffset": "0x14EC5665C",
+        "regionIndex": 6041,
+        "regionBase": "0x0000021ED2FA0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED2FA0000",
+        "allocationOffset": "0x165C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021F177E108C",
+        "fileOffset": "0x19012F08C",
+        "regionIndex": 9747,
+        "regionBase": "0x0000021F177E0000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x0000021F177E0000",
+        "allocationOffset": "0x108C",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x0000021F1780B104",
+        "fileOffset": "0x190159104",
+        "regionIndex": 9747,
+        "regionBase": "0x0000021F177E0000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x0000021F177E0000",
+        "allocationOffset": "0x2B104",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortOptionId",
+        "value": "0x33EAAA65",
+        "width": 4,
+        "va": "0x0000021ED03A3D38",
+        "fileOffset": "0x14C085D38",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3D38",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortOptionId",
+        "value": "0x33EAAA65",
+        "width": 4,
+        "va": "0x0000021FB8BF0FEF",
+        "fileOffset": "0x230C51FEF",
+        "regionIndex": 14173,
+        "regionBase": "0x0000021FAB7E0000",
+        "regionSize": "0x40000000",
+        "allocationBase": "0x0000021FAB7E0000",
+        "allocationOffset": "0xD410FEF",
+        "regionType": "0x40000",
+        "protect": "0x4",
+        "captureStatus": 1
+      }
+    ],
+    "shortOnly": [
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x00000257276D4B98",
+        "fileOffset": "0xB38BCB98",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4B98",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x00000257276D4BA8",
+        "fileOffset": "0xB38BCBA8",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4BA8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x00000257276D4BE8",
+        "fileOffset": "0xB38BCBE8",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4BE8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002579B683CF8",
+        "fileOffset": "0x1277B2CF8",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3CF8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002579CD93270",
+        "fileOffset": "0x128EB3270",
+        "regionIndex": 4539,
+        "regionBase": "0x000002579CD80000",
+        "regionSize": "0x20000",
+        "allocationBase": "0x000002579CD80000",
+        "allocationOffset": "0x13270",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x00000257CE283570",
+        "fileOffset": "0x149BF2570",
+        "regionIndex": 5512,
+        "regionBase": "0x00000257CE280000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257CE280000",
+        "allocationOffset": "0x3570",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x00000257CE3F160C",
+        "fileOffset": "0x149D6060C",
+        "regionIndex": 5520,
+        "regionBase": "0x00000257CE3F0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257CE3F0000",
+        "allocationOffset": "0x160C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002581BA508DC",
+        "fileOffset": "0x195D3C8DC",
+        "regionIndex": 9866,
+        "regionBase": "0x000002581BA50000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x000002581BA50000",
+        "allocationOffset": "0x8DC",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedAddPath",
+        "value": "0x37C2891774B38C87",
+        "width": 8,
+        "va": "0x000002581BA7B088",
+        "fileOffset": "0x195D67088",
+        "regionIndex": 9866,
+        "regionBase": "0x000002581BA50000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x000002581BA50000",
+        "allocationOffset": "0x2B088",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x000002579B683CE0",
+        "fileOffset": "0x1277B2CE0",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3CE0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x00000257BB7CD61C",
+        "fileOffset": "0x13749D61C",
+        "regionIndex": 4884,
+        "regionBase": "0x00000257B8A00000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x00000257B8A00000",
+        "allocationOffset": "0x2DCD61C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x00000257BB82319C",
+        "fileOffset": "0x1374F319C",
+        "regionIndex": 4884,
+        "regionBase": "0x00000257B8A00000",
+        "regionSize": "0x7AF8000",
+        "allocationBase": "0x00000257B8A00000",
+        "allocationOffset": "0x2E2319C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedOptionId",
+        "value": "0x536662C0",
+        "width": 4,
+        "va": "0x00000258D1524895",
+        "fileOffset": "0x24B3C8895",
+        "regionIndex": 13702,
+        "regionBase": "0x00000258ABC80000",
+        "regionSize": "0x40000000",
+        "allocationBase": "0x00000258ABC80000",
+        "allocationOffset": "0x258A4895",
+        "regionType": "0x40000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x00000257276D4F18",
+        "fileOffset": "0xB38BCF18",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4F18",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x00000257276D4F28",
+        "fileOffset": "0xB38BCF28",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4F28",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x00000257276D4F68",
+        "fileOffset": "0xB38BCF68",
+        "regionIndex": 3331,
+        "regionBase": "0x00000257276D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257276D0000",
+        "allocationOffset": "0x4F68",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x000002579B683D50",
+        "fileOffset": "0x1277B2D50",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3D50",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x000002579CD941C0",
+        "fileOffset": "0x128EB41C0",
+        "regionIndex": 4539,
+        "regionBase": "0x000002579CD80000",
+        "regionSize": "0x20000",
+        "allocationBase": "0x000002579CD80000",
+        "allocationOffset": "0x141C0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x00000257CE2824D0",
+        "fileOffset": "0x149BF14D0",
+        "regionIndex": 5512,
+        "regionBase": "0x00000257CE280000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257CE280000",
+        "allocationOffset": "0x24D0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x00000257CE3F165C",
+        "fileOffset": "0x149D6065C",
+        "regionIndex": 5520,
+        "regionBase": "0x00000257CE3F0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x00000257CE3F0000",
+        "allocationOffset": "0x165C",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x000002581BA5108C",
+        "fileOffset": "0x195D3D08C",
+        "regionIndex": 9866,
+        "regionBase": "0x000002581BA50000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x000002581BA50000",
+        "allocationOffset": "0x108C",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortAddPath",
+        "value": "0x986E6696B34B8902",
+        "width": 8,
+        "va": "0x000002581BA7B104",
+        "fileOffset": "0x195D67104",
+        "regionIndex": 9866,
+        "regionBase": "0x000002581BA50000",
+        "regionSize": "0x56000",
+        "allocationBase": "0x000002581BA50000",
+        "allocationOffset": "0x2B104",
+        "regionType": "0x20000",
+        "protect": "0x2",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortOptionId",
+        "value": "0x33EAAA65",
+        "width": 4,
+        "va": "0x000002579B683D38",
+        "fileOffset": "0x1277B2D38",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3D38",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortOptionId",
+        "value": "0x33EAAA65",
+        "width": 4,
+        "va": "0x00000258B9090FEF",
+        "fileOffset": "0x232F34FEF",
+        "regionIndex": 13702,
+        "regionBase": "0x00000258ABC80000",
+        "regionSize": "0x40000000",
+        "allocationBase": "0x00000258ABC80000",
+        "allocationOffset": "0xD410FEF",
+        "regionType": "0x40000",
+        "protect": "0x4",
+        "captureStatus": 1
+      }
+    ]
+  },
+  "allocationLayouts": {
+    "extendedSnapshot": [
+      {
+        "allocationBase": "0x0000021B67410000",
+        "hitCount": 1,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2B4F3E"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021D9B6E0000",
+        "hitCount": 1,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x8BE0"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021E5A760000",
+        "hitCount": 6,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x5118"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x5128"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x5168"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x5498"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x54A8"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x54E8"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021EA1660000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x13270"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x141C0"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021EBD240000",
+        "hitCount": 9,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760CE50"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760D878"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760D940"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760DA08"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760DAD0"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x760DB98"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2DCD61C"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2E2319C"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x44E72DC"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021EC4D40000",
+        "hitCount": 38,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x10670"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x12128"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x121D8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x15898"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x159A0"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x17458"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x1ABC8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x1ACD0"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x1C730"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x1FEF8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x21A08"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x26CE0"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2BFB8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x31290"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x36568"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3B790"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3B898"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x45D98"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x45EA0"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x4B0C8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x5FCD8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x79B68"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x7ED90"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x10658"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x121C0"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x15988"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x17440"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x1ACB8"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x1C718"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x219F0"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x26CC8"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2BFA0"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x31278"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x36550"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x3B880"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x45E88"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x5FCC0"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x79B50"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021ECF410000",
+        "hitCount": 1,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x79894"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021ED03A0000",
+        "hitCount": 4,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3CF8"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x3CE0"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x3D50"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0x3D38"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021ED2E30000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3570"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x24D0"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021ED2FA0000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x160C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x165C"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021EF8E00000",
+        "hitCount": 3,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2108"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2118"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2158"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021F177E0000",
+        "hitCount": 4,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x8DC"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2B088"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x108C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x2B104"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021F510D0000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0xA970"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0xA958"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x0000021FAB7E0000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x258A4895"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0xD410FEF"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x000002200A7A0000",
+        "hitCount": 1,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x28D67"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x000002200C050000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x139AB8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x139B10"
+          }
+        ]
+      }
+    ],
+    "shortSnapshot": [
+      {
+        "allocationBase": "0x00000257276D0000",
+        "hitCount": 6,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x4B98"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x4BA8"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x4BE8"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x4F18"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x4F28"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x4F68"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x000002579B680000",
+        "hitCount": 4,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3CF8"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x3CE0"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x3D50"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0x3D38"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x000002579CD80000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x13270"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x141C0"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x00000257B8A00000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2DCD61C"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x2E2319C"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x00000257CE280000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3570"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x24D0"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x00000257CE3F0000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x160C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x165C"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x000002581BA50000",
+        "hitCount": 4,
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x8DC"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2B088"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x108C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x2B104"
+          }
+        ]
+      },
+      {
+        "allocationBase": "0x00000258ABC80000",
+        "hitCount": 2,
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x258A4895"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0xD410FEF"
+          }
+        ]
+      }
+    ],
+    "structurallyMatchedAcrossRebase": [
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021F177E0000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x000002581BA50000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x8DC"
+          },
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x2B088"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x108C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x2B104"
+          }
+        ]
+      },
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021ED2FA0000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x00000257CE3F0000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x160C"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x165C"
+          }
+        ]
+      },
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021ED2E30000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x00000257CE280000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3570"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x24D0"
+          }
+        ]
+      },
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021ED03A0000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x000002579B680000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x3CF8"
+          },
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x3CE0"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x3D50"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0x3D38"
+          }
+        ]
+      },
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021EA1660000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x000002579CD80000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedAddPath",
+            "allocationOffset": "0x13270"
+          },
+          {
+            "needle": "shortAddPath",
+            "allocationOffset": "0x141C0"
+          }
+        ]
+      },
+      {
+        "extendedSnapshotAllocations": [
+          "0x0000021FAB7E0000"
+        ],
+        "shortSnapshotAllocations": [
+          "0x00000258ABC80000"
+        ],
+        "signature": [
+          {
+            "needle": "extendedOptionId",
+            "allocationOffset": "0x258A4895"
+          },
+          {
+            "needle": "shortOptionId",
+            "allocationOffset": "0xD410FEF"
+          }
+        ]
+      }
+    ]
+  },
+  "descriptorEvidence": {
+    "extendedSnapshot": {
+      "layout": {
+        "optionIdOffset": "0x08",
+        "addPathOffset": "0x20",
+        "addPathDeltaFromOptionId": "0x18",
+        "adjacentDescriptorStride": "0x58"
+      },
+      "pairedOccurrences": {
+        "extended": [
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D50658",
+              "fileOffset": "0x140D9A658",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x10658",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D50670",
+              "fileOffset": "0x140D9A670",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x10670",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D50650"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D521C0",
+              "fileOffset": "0x140D9C1C0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x121C0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D521D8",
+              "fileOffset": "0x140D9C1D8",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x121D8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D521B8"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D55988",
+              "fileOffset": "0x140D9F988",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x15988",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D559A0",
+              "fileOffset": "0x140D9F9A0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x159A0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D55980"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D57440",
+              "fileOffset": "0x140DA1440",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x17440",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D57458",
+              "fileOffset": "0x140DA1458",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x17458",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D57438"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D5ACB8",
+              "fileOffset": "0x140DA4CB8",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x1ACB8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D5ACD0",
+              "fileOffset": "0x140DA4CD0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x1ACD0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D5ACB0"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D5C718",
+              "fileOffset": "0x140DA6718",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x1C718",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D5C730",
+              "fileOffset": "0x140DA6730",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x1C730",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D5C710"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D619F0",
+              "fileOffset": "0x140DAB9F0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x219F0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D61A08",
+              "fileOffset": "0x140DABA08",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x21A08",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D619E8"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D66CC8",
+              "fileOffset": "0x140DB0CC8",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x26CC8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D66CE0",
+              "fileOffset": "0x140DB0CE0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x26CE0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D66CC0"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D6BFA0",
+              "fileOffset": "0x140DB5FA0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x2BFA0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D6BFB8",
+              "fileOffset": "0x140DB5FB8",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x2BFB8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D6BF98"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D71278",
+              "fileOffset": "0x140DBB278",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x31278",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D71290",
+              "fileOffset": "0x140DBB290",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x31290",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D71270"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D76550",
+              "fileOffset": "0x140DC0550",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x36550",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D76568",
+              "fileOffset": "0x140DC0568",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x36568",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D76548"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D7B880",
+              "fileOffset": "0x140DC5880",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x3B880",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D7B898",
+              "fileOffset": "0x140DC5898",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x3B898",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D7B878"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D85E88",
+              "fileOffset": "0x140DCFE88",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x45E88",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D85EA0",
+              "fileOffset": "0x140DCFEA0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x45EA0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D85E80"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4D9FCC0",
+              "fileOffset": "0x140DE9CC0",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x5FCC0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4D9FCD8",
+              "fileOffset": "0x140DE9CD8",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x5FCD8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4D9FCB8"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021EC4DB9B50",
+              "fileOffset": "0x140E03B50",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x79B50",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021EC4DB9B68",
+              "fileOffset": "0x140E03B68",
+              "regionIndex": 5369,
+              "regionBase": "0x0000021EC4D40000",
+              "regionSize": "0x201000",
+              "allocationBase": "0x0000021EC4D40000",
+              "allocationOffset": "0x79B68",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021EC4DB9B48"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021ED03A3CE0",
+              "fileOffset": "0x14C085CE0",
+              "regionIndex": 5928,
+              "regionBase": "0x0000021ED03A0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021ED03A0000",
+              "allocationOffset": "0x3CE0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021ED03A3CF8",
+              "fileOffset": "0x14C085CF8",
+              "regionIndex": 5928,
+              "regionBase": "0x0000021ED03A0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021ED03A0000",
+              "allocationOffset": "0x3CF8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021ED03A3CD8"
+          },
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x0000021F510DA958",
+              "fileOffset": "0x1C93FD958",
+              "regionIndex": 12851,
+              "regionBase": "0x0000021F510D0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021F510D0000",
+              "allocationOffset": "0xA958",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x0000021F510DA970",
+              "fileOffset": "0x1C93FD970",
+              "regionIndex": 12851,
+              "regionBase": "0x0000021F510D0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021F510D0000",
+              "allocationOffset": "0xA970",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021F510DA950"
+          }
+        ],
+        "short": [
+          {
+            "option": {
+              "needle": "shortOptionId",
+              "value": "0x33EAAA65",
+              "width": 4,
+              "va": "0x0000021ED03A3D38",
+              "fileOffset": "0x14C085D38",
+              "regionIndex": 5928,
+              "regionBase": "0x0000021ED03A0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021ED03A0000",
+              "allocationOffset": "0x3D38",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "shortAddPath",
+              "value": "0x986E6696B34B8902",
+              "width": 8,
+              "va": "0x0000021ED03A3D50",
+              "fileOffset": "0x14C085D50",
+              "regionIndex": 5928,
+              "regionBase": "0x0000021ED03A0000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x0000021ED03A0000",
+              "allocationOffset": "0x3D50",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x0000021ED03A3D30"
+          }
+        ]
+      },
+      "canonicalAdjacentTable": {
+        "extended": {
+          "recordStartVa": "0x0000021ED03A3CD8",
+          "optionIdVa": "0x0000021ED03A3CE0",
+          "addPathVa": "0x0000021ED03A3CF8",
+          "allocationBase": "0x0000021ED03A0000",
+          "allocationOffset": "0x3CD8"
+        },
+        "short": {
+          "recordStartVa": "0x0000021ED03A3D30",
+          "optionIdVa": "0x0000021ED03A3D38",
+          "addPathVa": "0x0000021ED03A3D50",
+          "allocationBase": "0x0000021ED03A0000",
+          "allocationOffset": "0x3D30"
+        }
+      }
+    },
+    "shortSnapshot": {
+      "layout": {
+        "optionIdOffset": "0x08",
+        "addPathOffset": "0x20",
+        "addPathDeltaFromOptionId": "0x18",
+        "adjacentDescriptorStride": "0x58"
+      },
+      "pairedOccurrences": {
+        "extended": [
+          {
+            "option": {
+              "needle": "extendedOptionId",
+              "value": "0x536662C0",
+              "width": 4,
+              "va": "0x000002579B683CE0",
+              "fileOffset": "0x1277B2CE0",
+              "regionIndex": 4510,
+              "regionBase": "0x000002579B680000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x000002579B680000",
+              "allocationOffset": "0x3CE0",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "extendedAddPath",
+              "value": "0x37C2891774B38C87",
+              "width": 8,
+              "va": "0x000002579B683CF8",
+              "fileOffset": "0x1277B2CF8",
+              "regionIndex": 4510,
+              "regionBase": "0x000002579B680000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x000002579B680000",
+              "allocationOffset": "0x3CF8",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x000002579B683CD8"
+          }
+        ],
+        "short": [
+          {
+            "option": {
+              "needle": "shortOptionId",
+              "value": "0x33EAAA65",
+              "width": 4,
+              "va": "0x000002579B683D38",
+              "fileOffset": "0x1277B2D38",
+              "regionIndex": 4510,
+              "regionBase": "0x000002579B680000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x000002579B680000",
+              "allocationOffset": "0x3D38",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "addPath": {
+              "needle": "shortAddPath",
+              "value": "0x986E6696B34B8902",
+              "width": 8,
+              "va": "0x000002579B683D50",
+              "fileOffset": "0x1277B2D50",
+              "regionIndex": 4510,
+              "regionBase": "0x000002579B680000",
+              "regionSize": "0x10000",
+              "allocationBase": "0x000002579B680000",
+              "allocationOffset": "0x3D50",
+              "regionType": "0x20000",
+              "protect": "0x4",
+              "captureStatus": 1
+            },
+            "recordStartVa": "0x000002579B683D30"
+          }
+        ]
+      },
+      "canonicalAdjacentTable": {
+        "extended": {
+          "recordStartVa": "0x000002579B683CD8",
+          "optionIdVa": "0x000002579B683CE0",
+          "addPathVa": "0x000002579B683CF8",
+          "allocationBase": "0x000002579B680000",
+          "allocationOffset": "0x3CD8"
+        },
+        "short": {
+          "recordStartVa": "0x000002579B683D30",
+          "optionIdVa": "0x000002579B683D38",
+          "addPathVa": "0x000002579B683D50",
+          "allocationBase": "0x000002579B680000",
+          "allocationOffset": "0x3D30"
+        }
+      }
+    },
+    "canonicalTableContexts": {
+      "extendedSnapshot": {
+        "startVa": "0x0000021ED03A3C60",
+        "endVaExclusive": "0x0000021ED03A3D60",
+        "bytesHex": "0100000000000000000000000000000000000000000000000000000000000000EC473AD01E020000AD12E49FF56AA560AD4DD9CF914CE77400000000000000003DB303499DC82F46000000000000000008483AD01E02000001000000000000000000000000000000000000000000000000000000000000000C483AD01E020000C062665379980C902D447E882B11BE0B0000000000000000878CB3741789C237000000000000000028483AD01E02000001000000000000000000000000000000000000000000000000000000000000002C483AD01E02000065AAEA33D29089FB5D3FABC122DFB667000000000000000002894BB396666E980000000000000000",
+        "alignedU32": [
+          {
+            "va": "0x0000021ED03A3C60",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x0000021ED03A3C64",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C68",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C6C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C70",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C74",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C78",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C7C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C80",
+            "value": "0xD03A47EC"
+          },
+          {
+            "va": "0x0000021ED03A3C84",
+            "value": "0x0000021E"
+          },
+          {
+            "va": "0x0000021ED03A3C88",
+            "value": "0x9FE412AD"
+          },
+          {
+            "va": "0x0000021ED03A3C8C",
+            "value": "0x60A56AF5"
+          },
+          {
+            "va": "0x0000021ED03A3C90",
+            "value": "0xCFD94DAD"
+          },
+          {
+            "va": "0x0000021ED03A3C94",
+            "value": "0x74E74C91"
+          },
+          {
+            "va": "0x0000021ED03A3C98",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3C9C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CA0",
+            "value": "0x4903B33D"
+          },
+          {
+            "va": "0x0000021ED03A3CA4",
+            "value": "0x462FC89D"
+          },
+          {
+            "va": "0x0000021ED03A3CA8",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CAC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CB0",
+            "value": "0xD03A4808"
+          },
+          {
+            "va": "0x0000021ED03A3CB4",
+            "value": "0x0000021E"
+          },
+          {
+            "va": "0x0000021ED03A3CB8",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x0000021ED03A3CBC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CC0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CC4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CC8",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CCC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CD0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CD4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CD8",
+            "value": "0xD03A480C"
+          },
+          {
+            "va": "0x0000021ED03A3CDC",
+            "value": "0x0000021E"
+          },
+          {
+            "va": "0x0000021ED03A3CE0",
+            "value": "0x536662C0"
+          },
+          {
+            "va": "0x0000021ED03A3CE4",
+            "value": "0x900C9879"
+          },
+          {
+            "va": "0x0000021ED03A3CE8",
+            "value": "0x887E442D"
+          },
+          {
+            "va": "0x0000021ED03A3CEC",
+            "value": "0x0BBE112B"
+          },
+          {
+            "va": "0x0000021ED03A3CF0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CF4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3CF8",
+            "value": "0x74B38C87"
+          },
+          {
+            "va": "0x0000021ED03A3CFC",
+            "value": "0x37C28917"
+          },
+          {
+            "va": "0x0000021ED03A3D00",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D04",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D08",
+            "value": "0xD03A4828"
+          },
+          {
+            "va": "0x0000021ED03A3D0C",
+            "value": "0x0000021E"
+          },
+          {
+            "va": "0x0000021ED03A3D10",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x0000021ED03A3D14",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D18",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D1C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D20",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D24",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D28",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D2C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D30",
+            "value": "0xD03A482C"
+          },
+          {
+            "va": "0x0000021ED03A3D34",
+            "value": "0x0000021E"
+          },
+          {
+            "va": "0x0000021ED03A3D38",
+            "value": "0x33EAAA65"
+          },
+          {
+            "va": "0x0000021ED03A3D3C",
+            "value": "0xFB8990D2"
+          },
+          {
+            "va": "0x0000021ED03A3D40",
+            "value": "0xC1AB3F5D"
+          },
+          {
+            "va": "0x0000021ED03A3D44",
+            "value": "0x67B6DF22"
+          },
+          {
+            "va": "0x0000021ED03A3D48",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D4C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D50",
+            "value": "0xB34B8902"
+          },
+          {
+            "va": "0x0000021ED03A3D54",
+            "value": "0x986E6696"
+          },
+          {
+            "va": "0x0000021ED03A3D58",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x0000021ED03A3D5C",
+            "value": "0x00000000"
+          }
+        ],
+        "alignedU64": [
+          {
+            "va": "0x0000021ED03A3C60",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x0000021ED03A3C68",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3C70",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3C78",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3C80",
+            "value": "0x0000021ED03A47EC"
+          },
+          {
+            "va": "0x0000021ED03A3C88",
+            "value": "0x60A56AF59FE412AD"
+          },
+          {
+            "va": "0x0000021ED03A3C90",
+            "value": "0x74E74C91CFD94DAD"
+          },
+          {
+            "va": "0x0000021ED03A3C98",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CA0",
+            "value": "0x462FC89D4903B33D"
+          },
+          {
+            "va": "0x0000021ED03A3CA8",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CB0",
+            "value": "0x0000021ED03A4808"
+          },
+          {
+            "va": "0x0000021ED03A3CB8",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x0000021ED03A3CC0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CC8",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CD0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CD8",
+            "value": "0x0000021ED03A480C"
+          },
+          {
+            "va": "0x0000021ED03A3CE0",
+            "value": "0x900C9879536662C0"
+          },
+          {
+            "va": "0x0000021ED03A3CE8",
+            "value": "0x0BBE112B887E442D"
+          },
+          {
+            "va": "0x0000021ED03A3CF0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3CF8",
+            "value": "0x37C2891774B38C87"
+          },
+          {
+            "va": "0x0000021ED03A3D00",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3D08",
+            "value": "0x0000021ED03A4828"
+          },
+          {
+            "va": "0x0000021ED03A3D10",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x0000021ED03A3D18",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3D20",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3D28",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3D30",
+            "value": "0x0000021ED03A482C"
+          },
+          {
+            "va": "0x0000021ED03A3D38",
+            "value": "0xFB8990D233EAAA65"
+          },
+          {
+            "va": "0x0000021ED03A3D40",
+            "value": "0x67B6DF22C1AB3F5D"
+          },
+          {
+            "va": "0x0000021ED03A3D48",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x0000021ED03A3D50",
+            "value": "0x986E6696B34B8902"
+          },
+          {
+            "va": "0x0000021ED03A3D58",
+            "value": "0x0000000000000000"
+          }
+        ],
+        "outgoingCapturedPointers": [
+          {
+            "sourceVa": "0x0000021ED03A3C80",
+            "targetVa": "0x0000021ED03A47EC",
+            "targetRegion": 5928,
+            "targetAllocationBase": "0x0000021ED03A0000",
+            "targetAllocationOffset": "0x47EC"
+          },
+          {
+            "sourceVa": "0x0000021ED03A3CB0",
+            "targetVa": "0x0000021ED03A4808",
+            "targetRegion": 5928,
+            "targetAllocationBase": "0x0000021ED03A0000",
+            "targetAllocationOffset": "0x4808"
+          },
+          {
+            "sourceVa": "0x0000021ED03A3CD8",
+            "targetVa": "0x0000021ED03A480C",
+            "targetRegion": 5928,
+            "targetAllocationBase": "0x0000021ED03A0000",
+            "targetAllocationOffset": "0x480C"
+          },
+          {
+            "sourceVa": "0x0000021ED03A3D08",
+            "targetVa": "0x0000021ED03A4828",
+            "targetRegion": 5928,
+            "targetAllocationBase": "0x0000021ED03A0000",
+            "targetAllocationOffset": "0x4828"
+          },
+          {
+            "sourceVa": "0x0000021ED03A3D30",
+            "targetVa": "0x0000021ED03A482C",
+            "targetRegion": 5928,
+            "targetAllocationBase": "0x0000021ED03A0000",
+            "targetAllocationOffset": "0x482C"
+          }
+        ]
+      },
+      "shortSnapshot": {
+        "startVa": "0x000002579B683C60",
+        "endVaExclusive": "0x000002579B683D60",
+        "bytesHex": "0100000000000000000000000000000000000000000000000000000000000000EC47689B57020000AD12E49FF56AA560AD4DD9CF914CE77400000000000000003DB303499DC82F4600000000000000000848689B5702000001000000000000000000000000000000000000000000000000000000000000000C48689B57020000C062665379980C902D447E882B11BE0B0000000000000000878CB3741789C23700000000000000002848689B5702000001000000000000000000000000000000000000000000000000000000000000002C48689B5702000065AAEA33D29089FB5D3FABC122DFB667000000000000000002894BB396666E980000000000000000",
+        "alignedU32": [
+          {
+            "va": "0x000002579B683C60",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x000002579B683C64",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C68",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C6C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C70",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C74",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C78",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C7C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C80",
+            "value": "0x9B6847EC"
+          },
+          {
+            "va": "0x000002579B683C84",
+            "value": "0x00000257"
+          },
+          {
+            "va": "0x000002579B683C88",
+            "value": "0x9FE412AD"
+          },
+          {
+            "va": "0x000002579B683C8C",
+            "value": "0x60A56AF5"
+          },
+          {
+            "va": "0x000002579B683C90",
+            "value": "0xCFD94DAD"
+          },
+          {
+            "va": "0x000002579B683C94",
+            "value": "0x74E74C91"
+          },
+          {
+            "va": "0x000002579B683C98",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683C9C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CA0",
+            "value": "0x4903B33D"
+          },
+          {
+            "va": "0x000002579B683CA4",
+            "value": "0x462FC89D"
+          },
+          {
+            "va": "0x000002579B683CA8",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CAC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CB0",
+            "value": "0x9B684808"
+          },
+          {
+            "va": "0x000002579B683CB4",
+            "value": "0x00000257"
+          },
+          {
+            "va": "0x000002579B683CB8",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x000002579B683CBC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CC0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CC4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CC8",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CCC",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CD0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CD4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CD8",
+            "value": "0x9B68480C"
+          },
+          {
+            "va": "0x000002579B683CDC",
+            "value": "0x00000257"
+          },
+          {
+            "va": "0x000002579B683CE0",
+            "value": "0x536662C0"
+          },
+          {
+            "va": "0x000002579B683CE4",
+            "value": "0x900C9879"
+          },
+          {
+            "va": "0x000002579B683CE8",
+            "value": "0x887E442D"
+          },
+          {
+            "va": "0x000002579B683CEC",
+            "value": "0x0BBE112B"
+          },
+          {
+            "va": "0x000002579B683CF0",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CF4",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683CF8",
+            "value": "0x74B38C87"
+          },
+          {
+            "va": "0x000002579B683CFC",
+            "value": "0x37C28917"
+          },
+          {
+            "va": "0x000002579B683D00",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D04",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D08",
+            "value": "0x9B684828"
+          },
+          {
+            "va": "0x000002579B683D0C",
+            "value": "0x00000257"
+          },
+          {
+            "va": "0x000002579B683D10",
+            "value": "0x00000001"
+          },
+          {
+            "va": "0x000002579B683D14",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D18",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D1C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D20",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D24",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D28",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D2C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D30",
+            "value": "0x9B68482C"
+          },
+          {
+            "va": "0x000002579B683D34",
+            "value": "0x00000257"
+          },
+          {
+            "va": "0x000002579B683D38",
+            "value": "0x33EAAA65"
+          },
+          {
+            "va": "0x000002579B683D3C",
+            "value": "0xFB8990D2"
+          },
+          {
+            "va": "0x000002579B683D40",
+            "value": "0xC1AB3F5D"
+          },
+          {
+            "va": "0x000002579B683D44",
+            "value": "0x67B6DF22"
+          },
+          {
+            "va": "0x000002579B683D48",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D4C",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D50",
+            "value": "0xB34B8902"
+          },
+          {
+            "va": "0x000002579B683D54",
+            "value": "0x986E6696"
+          },
+          {
+            "va": "0x000002579B683D58",
+            "value": "0x00000000"
+          },
+          {
+            "va": "0x000002579B683D5C",
+            "value": "0x00000000"
+          }
+        ],
+        "alignedU64": [
+          {
+            "va": "0x000002579B683C60",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x000002579B683C68",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683C70",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683C78",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683C80",
+            "value": "0x000002579B6847EC"
+          },
+          {
+            "va": "0x000002579B683C88",
+            "value": "0x60A56AF59FE412AD"
+          },
+          {
+            "va": "0x000002579B683C90",
+            "value": "0x74E74C91CFD94DAD"
+          },
+          {
+            "va": "0x000002579B683C98",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CA0",
+            "value": "0x462FC89D4903B33D"
+          },
+          {
+            "va": "0x000002579B683CA8",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CB0",
+            "value": "0x000002579B684808"
+          },
+          {
+            "va": "0x000002579B683CB8",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x000002579B683CC0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CC8",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CD0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CD8",
+            "value": "0x000002579B68480C"
+          },
+          {
+            "va": "0x000002579B683CE0",
+            "value": "0x900C9879536662C0"
+          },
+          {
+            "va": "0x000002579B683CE8",
+            "value": "0x0BBE112B887E442D"
+          },
+          {
+            "va": "0x000002579B683CF0",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683CF8",
+            "value": "0x37C2891774B38C87"
+          },
+          {
+            "va": "0x000002579B683D00",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683D08",
+            "value": "0x000002579B684828"
+          },
+          {
+            "va": "0x000002579B683D10",
+            "value": "0x0000000000000001"
+          },
+          {
+            "va": "0x000002579B683D18",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683D20",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683D28",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683D30",
+            "value": "0x000002579B68482C"
+          },
+          {
+            "va": "0x000002579B683D38",
+            "value": "0xFB8990D233EAAA65"
+          },
+          {
+            "va": "0x000002579B683D40",
+            "value": "0x67B6DF22C1AB3F5D"
+          },
+          {
+            "va": "0x000002579B683D48",
+            "value": "0x0000000000000000"
+          },
+          {
+            "va": "0x000002579B683D50",
+            "value": "0x986E6696B34B8902"
+          },
+          {
+            "va": "0x000002579B683D58",
+            "value": "0x0000000000000000"
+          }
+        ],
+        "outgoingCapturedPointers": [
+          {
+            "sourceVa": "0x000002579B683C80",
+            "targetVa": "0x000002579B6847EC",
+            "targetRegion": 4510,
+            "targetAllocationBase": "0x000002579B680000",
+            "targetAllocationOffset": "0x47EC"
+          },
+          {
+            "sourceVa": "0x000002579B683CB0",
+            "targetVa": "0x000002579B684808",
+            "targetRegion": 4510,
+            "targetAllocationBase": "0x000002579B680000",
+            "targetAllocationOffset": "0x4808"
+          },
+          {
+            "sourceVa": "0x000002579B683CD8",
+            "targetVa": "0x000002579B68480C",
+            "targetRegion": 4510,
+            "targetAllocationBase": "0x000002579B680000",
+            "targetAllocationOffset": "0x480C"
+          },
+          {
+            "sourceVa": "0x000002579B683D08",
+            "targetVa": "0x000002579B684828",
+            "targetRegion": 4510,
+            "targetAllocationBase": "0x000002579B680000",
+            "targetAllocationOffset": "0x4828"
+          },
+          {
+            "sourceVa": "0x000002579B683D30",
+            "targetVa": "0x000002579B68482C",
+            "targetRegion": 4510,
+            "targetAllocationBase": "0x000002579B680000",
+            "targetAllocationOffset": "0x482C"
+          }
+        ]
+      }
+    }
+  },
+  "derivedReferencePass": {
+    "performed": true,
+    "scope": "exact U64 references derived from the unique stable adjacent descriptor table",
+    "needles": {
+      "extendedSnapshot": {
+        "extendedDescriptorStartReference": "0x0000021ED03A3CD8",
+        "extendedOptionFieldReference": "0x0000021ED03A3CE0",
+        "extendedAddPathFieldReference": "0x0000021ED03A3CF8",
+        "extendedDescriptorLeadTarget": "0x0000021ED03A480C",
+        "shortDescriptorStartReference": "0x0000021ED03A3D30",
+        "shortOptionFieldReference": "0x0000021ED03A3D38",
+        "shortAddPathFieldReference": "0x0000021ED03A3D50",
+        "shortDescriptorLeadTarget": "0x0000021ED03A482C"
+      },
+      "shortSnapshot": {
+        "extendedDescriptorStartReference": "0x000002579B683CD8",
+        "extendedOptionFieldReference": "0x000002579B683CE0",
+        "extendedAddPathFieldReference": "0x000002579B683CF8",
+        "extendedDescriptorLeadTarget": "0x000002579B68480C",
+        "shortDescriptorStartReference": "0x000002579B683D30",
+        "shortOptionFieldReference": "0x000002579B683D38",
+        "shortAddPathFieldReference": "0x000002579B683D50",
+        "shortDescriptorLeadTarget": "0x000002579B68482C"
+      }
+    },
+    "counts": {
+      "extendedAddPathFieldReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      },
+      "extendedDescriptorLeadTarget": {
+        "extendedSnapshot": 17,
+        "shortSnapshot": 1
+      },
+      "extendedDescriptorStartReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      },
+      "extendedOptionFieldReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      },
+      "shortAddPathFieldReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      },
+      "shortDescriptorLeadTarget": {
+        "extendedSnapshot": 1,
+        "shortSnapshot": 1
+      },
+      "shortDescriptorStartReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      },
+      "shortOptionFieldReference": {
+        "extendedSnapshot": 0,
+        "shortSnapshot": 0
+      }
+    },
+    "extendedSnapshotHits": [
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D50650",
+        "fileOffset": "0x140D9A650",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x10650",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D521B8",
+        "fileOffset": "0x140D9C1B8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x121B8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D55980",
+        "fileOffset": "0x140D9F980",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x15980",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D57438",
+        "fileOffset": "0x140DA1438",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x17438",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D5ACB0",
+        "fileOffset": "0x140DA4CB0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1ACB0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D5C710",
+        "fileOffset": "0x140DA6710",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x1C710",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D619E8",
+        "fileOffset": "0x140DAB9E8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x219E8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D66CC0",
+        "fileOffset": "0x140DB0CC0",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x26CC0",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D6BF98",
+        "fileOffset": "0x140DB5F98",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x2BF98",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D71270",
+        "fileOffset": "0x140DBB270",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x31270",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D76548",
+        "fileOffset": "0x140DC0548",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x36548",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D7B878",
+        "fileOffset": "0x140DC5878",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x3B878",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D85E80",
+        "fileOffset": "0x140DCFE80",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x45E80",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4D9FCB8",
+        "fileOffset": "0x140DE9CB8",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x5FCB8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021EC4DB9B48",
+        "fileOffset": "0x140E03B48",
+        "regionIndex": 5369,
+        "regionBase": "0x0000021EC4D40000",
+        "regionSize": "0x201000",
+        "allocationBase": "0x0000021EC4D40000",
+        "allocationOffset": "0x79B48",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021ED03A3CD8",
+        "fileOffset": "0x14C085CD8",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3CD8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortDescriptorLeadTarget",
+        "value": "0x0000021ED03A482C",
+        "width": 8,
+        "va": "0x0000021ED03A3D30",
+        "fileOffset": "0x14C085D30",
+        "regionIndex": 5928,
+        "regionBase": "0x0000021ED03A0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021ED03A0000",
+        "allocationOffset": "0x3D30",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x0000021ED03A480C",
+        "width": 8,
+        "va": "0x0000021F510DA950",
+        "fileOffset": "0x1C93FD950",
+        "regionIndex": 12851,
+        "regionBase": "0x0000021F510D0000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x0000021F510D0000",
+        "allocationOffset": "0xA950",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      }
+    ],
+    "shortSnapshotHits": [
+      {
+        "needle": "extendedDescriptorLeadTarget",
+        "value": "0x000002579B68480C",
+        "width": 8,
+        "va": "0x000002579B683CD8",
+        "fileOffset": "0x1277B2CD8",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3CD8",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      },
+      {
+        "needle": "shortDescriptorLeadTarget",
+        "value": "0x000002579B68482C",
+        "width": 8,
+        "va": "0x000002579B683D30",
+        "fileOffset": "0x1277B2D30",
+        "regionIndex": 4510,
+        "regionBase": "0x000002579B680000",
+        "regionSize": "0x10000",
+        "allocationBase": "0x000002579B680000",
+        "allocationOffset": "0x3D30",
+        "regionType": "0x20000",
+        "protect": "0x4",
+        "captureStatus": 1
+      }
+    ],
+    "interpretation": "No descriptor-start, option-field, or AddPath-field references were found. Lead-target values occur only as the first field of copied catalog descriptors."
+  },
+  "changingCandidates": {
+    "extendedSnapshotOnly": [
+      {
+        "allocationBase": "0x0000021EC4D40000",
+        "regions": [
+          {
+            "index": 5369,
+            "base": "0x0000021EC4D40000",
+            "size": "0x201000",
+            "capturedLength": "0x201000",
+            "type": "0x20000",
+            "protect": "0x4"
+          }
+        ],
+        "totalVirtualBytes": 2101248,
+        "totalCapturedBytes": 2101248,
+        "completeExtendedDescriptorCopies": 15,
+        "completeShortDescriptorCopies": 0,
+        "standardOptionIdOccurrences": [
+          "0x0000021EC4D50600",
+          "0x0000021EC4D52168",
+          "0x0000021EC4D55930",
+          "0x0000021EC4D573E8",
+          "0x0000021EC4D5AC60",
+          "0x0000021EC4D5C6C0",
+          "0x0000021EC4D61998",
+          "0x0000021EC4D66C70",
+          "0x0000021EC4D6BF48",
+          "0x0000021EC4D71220",
+          "0x0000021EC4D764F8",
+          "0x0000021EC4D7B828",
+          "0x0000021EC4D85E30",
+          "0x0000021EC4D9FC68",
+          "0x0000021EC4DB9AF8"
+        ],
+        "standardAddPathOccurrences": [
+          "0x0000021EC4D50618",
+          "0x0000021EC4D52180",
+          "0x0000021EC4D55948",
+          "0x0000021EC4D57400",
+          "0x0000021EC4D5AC78",
+          "0x0000021EC4D5C6D8",
+          "0x0000021EC4D619B0",
+          "0x0000021EC4D66C88",
+          "0x0000021EC4D6BF60",
+          "0x0000021EC4D71238",
+          "0x0000021EC4D76510",
+          "0x0000021EC4D7B840",
+          "0x0000021EC4D85E48",
+          "0x0000021EC4D9FC80",
+          "0x0000021EC4DB9B10"
+        ],
+        "shortOptionIdOccurrences": [],
+        "shortAddPathOccurrences": [],
+        "weaponResourceOccurrences": [],
+        "descriptorCopies": [
+          {
+            "recordStartVa": "0x0000021EC4D50650",
+            "recordOffset": "0x10650",
+            "optionIdVa": "0x0000021EC4D50658",
+            "addPathVa": "0x0000021EC4D50670",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D521B8",
+            "recordOffset": "0x121B8",
+            "optionIdVa": "0x0000021EC4D521C0",
+            "addPathVa": "0x0000021EC4D521D8",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D55980",
+            "recordOffset": "0x15980",
+            "optionIdVa": "0x0000021EC4D55988",
+            "addPathVa": "0x0000021EC4D559A0",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D57438",
+            "recordOffset": "0x17438",
+            "optionIdVa": "0x0000021EC4D57440",
+            "addPathVa": "0x0000021EC4D57458",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D5ACB0",
+            "recordOffset": "0x1ACB0",
+            "optionIdVa": "0x0000021EC4D5ACB8",
+            "addPathVa": "0x0000021EC4D5ACD0",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D5C710",
+            "recordOffset": "0x1C710",
+            "optionIdVa": "0x0000021EC4D5C718",
+            "addPathVa": "0x0000021EC4D5C730",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D619E8",
+            "recordOffset": "0x219E8",
+            "optionIdVa": "0x0000021EC4D619F0",
+            "addPathVa": "0x0000021EC4D61A08",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D66CC0",
+            "recordOffset": "0x26CC0",
+            "optionIdVa": "0x0000021EC4D66CC8",
+            "addPathVa": "0x0000021EC4D66CE0",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D6BF98",
+            "recordOffset": "0x2BF98",
+            "optionIdVa": "0x0000021EC4D6BFA0",
+            "addPathVa": "0x0000021EC4D6BFB8",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D71270",
+            "recordOffset": "0x31270",
+            "optionIdVa": "0x0000021EC4D71278",
+            "addPathVa": "0x0000021EC4D71290",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D76548",
+            "recordOffset": "0x36548",
+            "optionIdVa": "0x0000021EC4D76550",
+            "addPathVa": "0x0000021EC4D76568",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D7B878",
+            "recordOffset": "0x3B878",
+            "optionIdVa": "0x0000021EC4D7B880",
+            "addPathVa": "0x0000021EC4D7B898",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D85E80",
+            "recordOffset": "0x45E80",
+            "optionIdVa": "0x0000021EC4D85E88",
+            "addPathVa": "0x0000021EC4D85EA0",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4D9FCB8",
+            "recordOffset": "0x5FCB8",
+            "optionIdVa": "0x0000021EC4D9FCC0",
+            "addPathVa": "0x0000021EC4D9FCD8",
+            "precededByStandardDescriptorAtStride0x58": true
+          },
+          {
+            "recordStartVa": "0x0000021EC4DB9B48",
+            "recordOffset": "0x79B48",
+            "optionIdVa": "0x0000021EC4DB9B50",
+            "addPathVa": "0x0000021EC4DB9B68",
+            "precededByStandardDescriptorAtStride0x58": true
+          }
+        ],
+        "adjacentSlotOptionPairs": [],
+        "recognizedCategories": [
+          "Magazine"
+        ],
+        "multipleAttachmentCategoriesObserved": false,
+        "representativeContext": {
+          "startVa": "0x0000021EC4D505D8",
+          "endVaExclusive": "0x0000021EC4D506D8",
+          "bytesHex": "0100000000000000000000000000000000000000000000000000000000000000EC473AD01E020000AD12E49FF56AA560AD4DD9CF914CE77400000000000000003DB303499DC82F46000000000000000008483AD01E02000001000000000000000000000000000000000000000000000000000000000000000C483AD01E020000C062665379980C902D447E882B11BE0B0000000000000000878CB3741789C237000000000000000028483AD01E020000010000000000000000000000000000000000000000000000000000000000000030613AD01E020000C3159158D5A43F46EEA2ADC82510D9A30000000000000000C045DD93D7CE92230000000000000000",
+          "alignedU32": [
+            {
+              "va": "0x0000021EC4D505D8",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021EC4D505DC",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505E0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505E4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505E8",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505EC",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505F0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505F4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D505F8",
+              "value": "0xD03A47EC"
+            },
+            {
+              "va": "0x0000021EC4D505FC",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021EC4D50600",
+              "value": "0x9FE412AD"
+            },
+            {
+              "va": "0x0000021EC4D50604",
+              "value": "0x60A56AF5"
+            },
+            {
+              "va": "0x0000021EC4D50608",
+              "value": "0xCFD94DAD"
+            },
+            {
+              "va": "0x0000021EC4D5060C",
+              "value": "0x74E74C91"
+            },
+            {
+              "va": "0x0000021EC4D50610",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50614",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50618",
+              "value": "0x4903B33D"
+            },
+            {
+              "va": "0x0000021EC4D5061C",
+              "value": "0x462FC89D"
+            },
+            {
+              "va": "0x0000021EC4D50620",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50624",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50628",
+              "value": "0xD03A4808"
+            },
+            {
+              "va": "0x0000021EC4D5062C",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021EC4D50630",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021EC4D50634",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50638",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D5063C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50640",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50644",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50648",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D5064C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50650",
+              "value": "0xD03A480C"
+            },
+            {
+              "va": "0x0000021EC4D50654",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021EC4D50658",
+              "value": "0x536662C0"
+            },
+            {
+              "va": "0x0000021EC4D5065C",
+              "value": "0x900C9879"
+            },
+            {
+              "va": "0x0000021EC4D50660",
+              "value": "0x887E442D"
+            },
+            {
+              "va": "0x0000021EC4D50664",
+              "value": "0x0BBE112B"
+            },
+            {
+              "va": "0x0000021EC4D50668",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D5066C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50670",
+              "value": "0x74B38C87"
+            },
+            {
+              "va": "0x0000021EC4D50674",
+              "value": "0x37C28917"
+            },
+            {
+              "va": "0x0000021EC4D50678",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D5067C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50680",
+              "value": "0xD03A4828"
+            },
+            {
+              "va": "0x0000021EC4D50684",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021EC4D50688",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021EC4D5068C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50690",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50694",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D50698",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D5069C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506A0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506A4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506A8",
+              "value": "0xD03A6130"
+            },
+            {
+              "va": "0x0000021EC4D506AC",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021EC4D506B0",
+              "value": "0x589115C3"
+            },
+            {
+              "va": "0x0000021EC4D506B4",
+              "value": "0x463FA4D5"
+            },
+            {
+              "va": "0x0000021EC4D506B8",
+              "value": "0xC8ADA2EE"
+            },
+            {
+              "va": "0x0000021EC4D506BC",
+              "value": "0xA3D91025"
+            },
+            {
+              "va": "0x0000021EC4D506C0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506C4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506C8",
+              "value": "0x93DD45C0"
+            },
+            {
+              "va": "0x0000021EC4D506CC",
+              "value": "0x2392CED7"
+            },
+            {
+              "va": "0x0000021EC4D506D0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021EC4D506D4",
+              "value": "0x00000000"
+            }
+          ],
+          "alignedU64": [
+            {
+              "va": "0x0000021EC4D505D8",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021EC4D505E0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D505E8",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D505F0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D505F8",
+              "value": "0x0000021ED03A47EC"
+            },
+            {
+              "va": "0x0000021EC4D50600",
+              "value": "0x60A56AF59FE412AD"
+            },
+            {
+              "va": "0x0000021EC4D50608",
+              "value": "0x74E74C91CFD94DAD"
+            },
+            {
+              "va": "0x0000021EC4D50610",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50618",
+              "value": "0x462FC89D4903B33D"
+            },
+            {
+              "va": "0x0000021EC4D50620",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50628",
+              "value": "0x0000021ED03A4808"
+            },
+            {
+              "va": "0x0000021EC4D50630",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021EC4D50638",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50640",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50648",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50650",
+              "value": "0x0000021ED03A480C"
+            },
+            {
+              "va": "0x0000021EC4D50658",
+              "value": "0x900C9879536662C0"
+            },
+            {
+              "va": "0x0000021EC4D50660",
+              "value": "0x0BBE112B887E442D"
+            },
+            {
+              "va": "0x0000021EC4D50668",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50670",
+              "value": "0x37C2891774B38C87"
+            },
+            {
+              "va": "0x0000021EC4D50678",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50680",
+              "value": "0x0000021ED03A4828"
+            },
+            {
+              "va": "0x0000021EC4D50688",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021EC4D50690",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D50698",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D506A0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D506A8",
+              "value": "0x0000021ED03A6130"
+            },
+            {
+              "va": "0x0000021EC4D506B0",
+              "value": "0x463FA4D5589115C3"
+            },
+            {
+              "va": "0x0000021EC4D506B8",
+              "value": "0xA3D91025C8ADA2EE"
+            },
+            {
+              "va": "0x0000021EC4D506C0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021EC4D506C8",
+              "value": "0x2392CED793DD45C0"
+            },
+            {
+              "va": "0x0000021EC4D506D0",
+              "value": "0x0000000000000000"
+            }
+          ],
+          "outgoingCapturedPointers": [
+            {
+              "sourceVa": "0x0000021EC4D505F8",
+              "targetVa": "0x0000021ED03A47EC",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x47EC"
+            },
+            {
+              "sourceVa": "0x0000021EC4D50628",
+              "targetVa": "0x0000021ED03A4808",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x4808"
+            },
+            {
+              "sourceVa": "0x0000021EC4D50650",
+              "targetVa": "0x0000021ED03A480C",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x480C"
+            },
+            {
+              "sourceVa": "0x0000021EC4D50680",
+              "targetVa": "0x0000021ED03A4828",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x4828"
+            },
+            {
+              "sourceVa": "0x0000021EC4D506A8",
+              "targetVa": "0x0000021ED03A6130",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x6130"
+            }
+          ]
+        },
+        "classification": "copied extended option-definition rows; no symmetric counterpart allocation"
+      },
+      {
+        "allocationBase": "0x0000021F510D0000",
+        "regions": [
+          {
+            "index": 12851,
+            "base": "0x0000021F510D0000",
+            "size": "0x10000",
+            "capturedLength": "0x10000",
+            "type": "0x20000",
+            "protect": "0x4"
+          }
+        ],
+        "totalVirtualBytes": 65536,
+        "totalCapturedBytes": 65536,
+        "completeExtendedDescriptorCopies": 1,
+        "completeShortDescriptorCopies": 0,
+        "standardOptionIdOccurrences": [
+          "0x0000021F510DA900"
+        ],
+        "standardAddPathOccurrences": [
+          "0x0000021F510DA918"
+        ],
+        "shortOptionIdOccurrences": [],
+        "shortAddPathOccurrences": [],
+        "weaponResourceOccurrences": [],
+        "descriptorCopies": [
+          {
+            "recordStartVa": "0x0000021F510DA950",
+            "recordOffset": "0xA950",
+            "optionIdVa": "0x0000021F510DA958",
+            "addPathVa": "0x0000021F510DA970",
+            "precededByStandardDescriptorAtStride0x58": true
+          }
+        ],
+        "adjacentSlotOptionPairs": [],
+        "recognizedCategories": [
+          "Magazine"
+        ],
+        "multipleAttachmentCategoriesObserved": false,
+        "representativeContext": {
+          "startVa": "0x0000021F510DA8D8",
+          "endVaExclusive": "0x0000021F510DA9D8",
+          "bytesHex": "0100000000000000000000000000000000000000000000000000000000000000EC473AD01E020000AD12E49FF56AA560AD4DD9CF914CE77400000000000000003DB303499DC82F46000000000000000008483AD01E02000001000000000000000000000000000000000000000000000000000000000000000C483AD01E020000C062665379980C902D447E882B11BE0B0000000000000000878CB3741789C237000000000000000028483AD01E020000010000000000000000000000000000000000000000000000000000000000000030613AD01E020000C3159158D5A43F46EEA2ADC82510D9A30000000000000000C045DD93D7CE92230000000000000000",
+          "alignedU32": [
+            {
+              "va": "0x0000021F510DA8D8",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021F510DA8DC",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8E0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8E4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8E8",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8EC",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8F0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8F4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA8F8",
+              "value": "0xD03A47EC"
+            },
+            {
+              "va": "0x0000021F510DA8FC",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021F510DA900",
+              "value": "0x9FE412AD"
+            },
+            {
+              "va": "0x0000021F510DA904",
+              "value": "0x60A56AF5"
+            },
+            {
+              "va": "0x0000021F510DA908",
+              "value": "0xCFD94DAD"
+            },
+            {
+              "va": "0x0000021F510DA90C",
+              "value": "0x74E74C91"
+            },
+            {
+              "va": "0x0000021F510DA910",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA914",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA918",
+              "value": "0x4903B33D"
+            },
+            {
+              "va": "0x0000021F510DA91C",
+              "value": "0x462FC89D"
+            },
+            {
+              "va": "0x0000021F510DA920",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA924",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA928",
+              "value": "0xD03A4808"
+            },
+            {
+              "va": "0x0000021F510DA92C",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021F510DA930",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021F510DA934",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA938",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA93C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA940",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA944",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA948",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA94C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA950",
+              "value": "0xD03A480C"
+            },
+            {
+              "va": "0x0000021F510DA954",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021F510DA958",
+              "value": "0x536662C0"
+            },
+            {
+              "va": "0x0000021F510DA95C",
+              "value": "0x900C9879"
+            },
+            {
+              "va": "0x0000021F510DA960",
+              "value": "0x887E442D"
+            },
+            {
+              "va": "0x0000021F510DA964",
+              "value": "0x0BBE112B"
+            },
+            {
+              "va": "0x0000021F510DA968",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA96C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA970",
+              "value": "0x74B38C87"
+            },
+            {
+              "va": "0x0000021F510DA974",
+              "value": "0x37C28917"
+            },
+            {
+              "va": "0x0000021F510DA978",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA97C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA980",
+              "value": "0xD03A4828"
+            },
+            {
+              "va": "0x0000021F510DA984",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021F510DA988",
+              "value": "0x00000001"
+            },
+            {
+              "va": "0x0000021F510DA98C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA990",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA994",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA998",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA99C",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9A0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9A4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9A8",
+              "value": "0xD03A6130"
+            },
+            {
+              "va": "0x0000021F510DA9AC",
+              "value": "0x0000021E"
+            },
+            {
+              "va": "0x0000021F510DA9B0",
+              "value": "0x589115C3"
+            },
+            {
+              "va": "0x0000021F510DA9B4",
+              "value": "0x463FA4D5"
+            },
+            {
+              "va": "0x0000021F510DA9B8",
+              "value": "0xC8ADA2EE"
+            },
+            {
+              "va": "0x0000021F510DA9BC",
+              "value": "0xA3D91025"
+            },
+            {
+              "va": "0x0000021F510DA9C0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9C4",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9C8",
+              "value": "0x93DD45C0"
+            },
+            {
+              "va": "0x0000021F510DA9CC",
+              "value": "0x2392CED7"
+            },
+            {
+              "va": "0x0000021F510DA9D0",
+              "value": "0x00000000"
+            },
+            {
+              "va": "0x0000021F510DA9D4",
+              "value": "0x00000000"
+            }
+          ],
+          "alignedU64": [
+            {
+              "va": "0x0000021F510DA8D8",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021F510DA8E0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA8E8",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA8F0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA8F8",
+              "value": "0x0000021ED03A47EC"
+            },
+            {
+              "va": "0x0000021F510DA900",
+              "value": "0x60A56AF59FE412AD"
+            },
+            {
+              "va": "0x0000021F510DA908",
+              "value": "0x74E74C91CFD94DAD"
+            },
+            {
+              "va": "0x0000021F510DA910",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA918",
+              "value": "0x462FC89D4903B33D"
+            },
+            {
+              "va": "0x0000021F510DA920",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA928",
+              "value": "0x0000021ED03A4808"
+            },
+            {
+              "va": "0x0000021F510DA930",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021F510DA938",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA940",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA948",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA950",
+              "value": "0x0000021ED03A480C"
+            },
+            {
+              "va": "0x0000021F510DA958",
+              "value": "0x900C9879536662C0"
+            },
+            {
+              "va": "0x0000021F510DA960",
+              "value": "0x0BBE112B887E442D"
+            },
+            {
+              "va": "0x0000021F510DA968",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA970",
+              "value": "0x37C2891774B38C87"
+            },
+            {
+              "va": "0x0000021F510DA978",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA980",
+              "value": "0x0000021ED03A4828"
+            },
+            {
+              "va": "0x0000021F510DA988",
+              "value": "0x0000000000000001"
+            },
+            {
+              "va": "0x0000021F510DA990",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA998",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA9A0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA9A8",
+              "value": "0x0000021ED03A6130"
+            },
+            {
+              "va": "0x0000021F510DA9B0",
+              "value": "0x463FA4D5589115C3"
+            },
+            {
+              "va": "0x0000021F510DA9B8",
+              "value": "0xA3D91025C8ADA2EE"
+            },
+            {
+              "va": "0x0000021F510DA9C0",
+              "value": "0x0000000000000000"
+            },
+            {
+              "va": "0x0000021F510DA9C8",
+              "value": "0x2392CED793DD45C0"
+            },
+            {
+              "va": "0x0000021F510DA9D0",
+              "value": "0x0000000000000000"
+            }
+          ],
+          "outgoingCapturedPointers": [
+            {
+              "sourceVa": "0x0000021F510DA8F8",
+              "targetVa": "0x0000021ED03A47EC",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x47EC"
+            },
+            {
+              "sourceVa": "0x0000021F510DA928",
+              "targetVa": "0x0000021ED03A4808",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x4808"
+            },
+            {
+              "sourceVa": "0x0000021F510DA950",
+              "targetVa": "0x0000021ED03A480C",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x480C"
+            },
+            {
+              "sourceVa": "0x0000021F510DA980",
+              "targetVa": "0x0000021ED03A4828",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x4828"
+            },
+            {
+              "sourceVa": "0x0000021F510DA9A8",
+              "targetVa": "0x0000021ED03A6130",
+              "targetRegion": 5928,
+              "targetAllocationBase": "0x0000021ED03A0000",
+              "targetAllocationOffset": "0x6130"
+            }
+          ]
+        },
+        "classification": "copied extended option-definition rows; no symmetric counterpart allocation"
+      }
+    ],
+    "shortSnapshotOnly": [],
+    "assessment": {
+      "symmetricExtendedToShortReplacement": false,
+      "weaponResourceIdentityNearby": false,
+      "slotOptionArrayObserved": false,
+      "multipleAttachmentCategoriesObserved": false
+    }
+  },
+  "candidateIncomingReferencePass": {
+    "extendedSnapshot": {
+      "performed": true,
+      "scope": "exact U64 references to candidate allocation bases and complete descriptor starts",
+      "needles": {
+        "candidate0AllocationBaseReference": "0x0000021EC4D40000",
+        "candidate0Descriptor0Reference": "0x0000021EC4D50650",
+        "candidate0Descriptor1Reference": "0x0000021EC4D521B8",
+        "candidate0Descriptor2Reference": "0x0000021EC4D55980",
+        "candidate0Descriptor3Reference": "0x0000021EC4D57438",
+        "candidate0Descriptor4Reference": "0x0000021EC4D5ACB0",
+        "candidate0Descriptor5Reference": "0x0000021EC4D5C710",
+        "candidate0Descriptor6Reference": "0x0000021EC4D619E8",
+        "candidate0Descriptor7Reference": "0x0000021EC4D66CC0",
+        "candidate0Descriptor8Reference": "0x0000021EC4D6BF98",
+        "candidate0Descriptor9Reference": "0x0000021EC4D71270",
+        "candidate0Descriptor10Reference": "0x0000021EC4D76548",
+        "candidate0Descriptor11Reference": "0x0000021EC4D7B878",
+        "candidate0Descriptor12Reference": "0x0000021EC4D85E80",
+        "candidate0Descriptor13Reference": "0x0000021EC4D9FCB8",
+        "candidate0Descriptor14Reference": "0x0000021EC4DB9B48",
+        "candidate1AllocationBaseReference": "0x0000021F510D0000",
+        "candidate1Descriptor0Reference": "0x0000021F510DA950"
+      },
+      "rawHitCount": 0,
+      "alignedPointerHitCount": 0,
+      "unalignedRejectedCount": 0,
+      "alignedHits": []
+    },
+    "shortSnapshot": {
+      "performed": false,
+      "reason": "No state-only complete descriptor candidate existed in this capture."
+    }
+  },
+  "sameLocationTransitions": [],
+  "conclusion": {
+    "exactIdentityTransitionCount": 0,
+    "candidateOwnerFound": false,
+    "ownershipClassification": "option definitions and asymmetric copied descriptor caches",
+    "currentUnsavedSelectionProven": false,
+    "savedPresetStateProven": false,
+    "loadoutStateProven": false,
+    "weaponConstructionInputProven": false,
+    "selectionPersistenceProven": false,
+    "reason": "Extended and Short coexist in a stable rebased option table. The Extended capture has additional Standard+Extended descriptor copies, but the Short capture has no symmetric Standard+Short copies. No Censor resource identity, slot-option array, or incoming descriptor/field reference anchors those copies.",
+    "indexOrTransformedIdentityStatus": "Not promoted: exact identities are present as option definitions, while a low-entropy index search has no bounded preset/loadout owner anchor.",
+    "writePathPromoted": false,
+    "remainingBlocker": "A stable player preset/loadout root or a same-lifecycle symmetric reference transition is required before selection ownership or persistence can be tested."
+  },
+  "safety": {
+    "researchWrites": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled"
+  }
+}

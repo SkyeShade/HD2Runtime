@@ -22,7 +22,7 @@ APIs because their effective component owners are independently proven.
 
 ## R-72 Censor controlled comparison
 
-Two same-session, same-build snapshots compared Extended Magazine with Short
+Two controlled, same-build snapshots compared Extended Magazine with Short
 Magazine while holding the other attachment choices constant. The bounded pass
 found no changed bytes in any reviewed player-weapon record. Censor owns
 `WeaponCustomizationComponentData` record 127 (4,872 bytes),
@@ -57,6 +57,62 @@ set of values. There is therefore no stable weapon-local owner to guard with
 expect/value semantics, and neither a scalar write nor an `hd2.plan` can be
 selected safely. Magazine attachment selection remains read-only for Censor and
 cannot yet be generalized to other primary weapons.
+
+## Exact-value preset and loadout pivot
+
+The follow-up scan searched all captured region payloads for only the two known
+option IDs and two known AddPaths. It scanned 11.0 GiB in each snapshot and
+mapped each file hit back to its virtual address, allocation, region, and
+protection. It did not perform an unrestricted semantic or numeric scan. The
+full occurrence sets and aligned contexts are in
+`research/attachment-selection-candidates-F5FEE03DCFDB.json`.
+
+The raw occurrence counts are:
+
+| Identity | Extended snapshot | Short snapshot |
+| --- | ---: | ---: |
+| Extended option ID | 24 | 4 |
+| Short option ID | 2 | 2 |
+| Extended AddPath | 45 | 9 |
+| Short AddPath | 9 | 9 |
+
+No identity retained the same absolute VA because the relevant allocations were
+rebased or recreated. Six allocation layouts nevertheless matched across the
+captures by allocation-relative hit signature. The strongest match is an option
+table at allocation `0x0000021ED03A0000` in the Extended capture and
+`0x000002579B680000` in the Short capture. Both use the same relative layout:
+
+- Extended descriptor start `+0x3CD8`, option ID `+0x3CE0`, AddPath `+0x3CF8`.
+- Short descriptor start `+0x3D30`, option ID `+0x3D38`, AddPath `+0x3D50`.
+- Each option ID is at descriptor offset `+0x08`, each AddPath is at `+0x20`,
+  and adjacent descriptors have a `0x58` stride.
+
+Both choices coexist in this table in both captures, so it is an option-definition
+table rather than current selection state. Exact U64 searches for references to
+the descriptor starts, option fields, and AddPath fields returned zero hits in
+both snapshots. Values from the first descriptor field occur in copied rows,
+but they do not point back to a selected descriptor.
+
+Two Extended-only private, read/write allocations initially looked relevant.
+Allocation `0x0000021EC4D40000` is `0x201000` bytes and contains 15 complete
+Standard-then-Extended descriptor pairs. Allocation `0x0000021F510D0000` is
+`0x10000` bytes and contains one such pair. The Short snapshot contains no
+symmetric Standard-then-Short allocation. Neither candidate contains the Censor
+resource `0xF0338468DCDB6A6C`, an adjacent small-slot/option-ID pair, a Short
+descriptor, or evidence of another attachment category. They are asymmetric
+copies of option-definition rows and cannot distinguish current, saved,
+loadout, or construction state.
+
+A final one-hop pass searched for exact U64 references to both candidate
+allocation bases and all 16 complete descriptor starts. It found zero raw or
+aligned hits, so neither cache exposes a captured parent preset/loadout object.
+
+The exact-value pass therefore does not identify a player preset or loadout
+owner. A low-entropy index search would be unbounded without a preset/loadout
+root, so it was not performed. Selection persistence and expect/value semantics
+remain unproven, and no scalar or coordinated write path is promoted. The next
+required anchor is a stable player preset/loadout root or a symmetric reference
+transition captured at the same lifecycle point.
 
 ## Targeted state comparison
 
