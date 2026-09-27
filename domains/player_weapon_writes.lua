@@ -25,6 +25,14 @@ local function field_for(weapon,id)
     for _,field in ipairs(weapon.fields)do if field.semanticFieldId==id then return field end end
     error('field is not exposed for '..weapon.name..': '..tostring(id),0)
 end
+local function identical_backing(a,c)
+    if type(a)~='table'or type(c)~='table'or a.kind~=c.kind
+        or a.offset~=c.offset or a.width~=c.width or a.storage~=c.storage then return false end
+    if a.kind=='component'then return a.component==c.component and a.recordIndex==c.recordIndex
+        and a.indexRow==c.indexRow end
+    return a.settings==c.settings and a.group==c.group and a.row==c.row
+        and a.recordType==c.recordType and a.settingsType==c.settingsType
+end
 local function scalar(field,value,label)
     if field.type=='boolean'then assert(type(value)=='boolean',label..' must be boolean');return value and 1 or 0 end
     assert(type(value)=='number'and value==value and value>-math.huge and value<math.huge,
@@ -36,7 +44,15 @@ local function validate_change(weapon,item,allow_shared)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
-    local field=field_for(weapon,item.field)
+    local requested=field_for(weapon,item.field);local field=requested
+    if requested.aliasOf then
+        field=field_for(weapon,requested.aliasOf)
+        assert(requested.deprecated and not requested.canonical and not requested.preferred
+            and requested.acceptedForWrites and field.canonical and field.preferred,
+            'field is read-only: '..item.field..' ('..tostring(requested.reason)..')')
+        assert(requested.semanticTarget==field.semanticTarget
+            and identical_backing(requested.backing,field.backing),'semantic alias backing changed')
+    end
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
@@ -44,7 +60,8 @@ local function validate_change(weapon,item,allow_shared)
     local storage=field.backing.storage
     local canonical=field.type=='boolean'and(field.currentDefault and 1 or 0)or field.currentDefault
     assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '..item.field)
-    return {field=item.field,descriptor=field,expect=item.expect,value=item.value,
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+        semantic_aliases={item.field},expect=item.expect,value=item.value,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage)}
 end
 local function id(value)
@@ -73,10 +90,23 @@ function M.validate_transaction(request)
         'transaction requires one to 32 changes')
     local result={kind='player_weapon',id=request.id,weapon=name,resource=weapon.resources[1],
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,changes={}}
-    local seen={}
-    for index,item in ipairs(request.changes)do
+    local seen,canonical_seen={},{ }
+    for _,item in ipairs(request.changes)do
         assert(not seen[item.field],'duplicate transaction field: '..tostring(item.field));seen[item.field]=true
-        result.changes[index]=validate_change(weapon,item,result.allow_shared)
+        local change=validate_change(weapon,item,result.allow_shared)
+        local prior=canonical_seen[change.canonical_field]
+        if prior then
+            if prior.desired~=change.desired then
+                error('SEMANTIC_CONFLICT: '..prior.field..' and '..change.field
+                    ..' alias '..change.canonical_field..' with different desired values',0)
+            end
+            assert(prior.expected==change.expected,
+                'semantic alias expected values differ: '..prior.field..' and '..change.field)
+            prior.semantic_aliases[#prior.semantic_aliases+1]=change.field
+        else
+            result.changes[#result.changes+1]=change
+            canonical_seen[change.canonical_field]=change
+        end
     end
     return result
 end
@@ -159,8 +189,8 @@ local function linked(resolved,kind,branch)
 end
 
 function M.prepare(resolved,reader,spec)
-    local plan={changes={},snapshots=reader.snapshots}
-    for index,change in ipairs(spec.changes)do
+    local plan={changes={},snapshots=reader.snapshots};local physical={}
+    for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
         else
@@ -185,10 +215,30 @@ function M.prepare(resolved,reader,spec)
                 unique_owner=not change.descriptor.affectsMultipleWeapons,
                 owner_count=#change.descriptor.sharedWithWeapons+1,scope=change.descriptor.writeScope}
         end
-        plan.changes[index]={label=change.field,owner=owner,offset=record.offset+backing.offset,
+        local offset=record.offset+backing.offset
+        local key=tostring(owner.base)..':'..tostring(offset)..':'..tostring(backing.width)
+        local prior=physical[key]
+        if prior then
+            if prior.canonical_field==change.canonical_field then
+                if prior.desired~=change.desired then
+                    error('SEMANTIC_CONFLICT: '..prior.label..' and '..change.field
+                        ..' resolve to the same backing bytes with different desired values',0)
+                end
+                for _,alias in ipairs(change.semantic_aliases)do
+                    prior.semantic_aliases[#prior.semantic_aliases+1]=alias
+                end
+            else
+                error('overlapping semantic fields are not proven aliases: '..prior.label
+                    ..' and '..change.field,0)
+            end
+        else
+            local item={label=change.field,canonical_field=change.canonical_field,
+            semantic_aliases=change.semantic_aliases,owner=owner,offset=offset,
             expected=change.expected,desired=change.desired,before=current,
             already_desired=current==change.desired,identity=identity,chain={identity},
             expect=change.expect,value=change.value}
+            plan.changes[#plan.changes+1]=item;physical[key]=item
+        end
     end
     return plan
 end

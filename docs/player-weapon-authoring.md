@@ -73,6 +73,13 @@ hd2.transaction({
 })
 ```
 
+`hd2.fields.weapon.capacity` remains accepted for projects written against 0.13, but it is a
+deprecated compatibility alias when it resolves to the same reviewed magazine record as
+`hd2.fields.magazine.capacity`. New projects should use the magazine field. A transaction that
+declares both aliases with the same desired value is reduced to one physical write. Different
+desired values are rejected as `SEMANTIC_CONFLICT` during descriptor validation, before runtime
+discovery, page protection changes, or writes.
+
 Rounds-fed weapons retain separate feed and reserve-round semantics. Total capacity and ammo-box refill are derived read-only values:
 
 ```lua
@@ -88,6 +95,13 @@ hd2.transaction({
     },
 })
 ```
+
+The older `weapon.feed_capacity_1` and `weapon.feed_capacity_2` constants remain accepted aliases
+for `rounds.feed_capacity_1` and `rounds.feed_capacity_2`. Generated GUI metadata marks the older
+names deprecated and non-preferred, so only the canonical rounds controls are editable. The
+capability catalog includes a complete identical-backing audit; `weapon.base_capacity` is recorded
+as a separate read-only native view because its underlying-base semantics differ from effective
+magazine capacity even where both currently read the same bytes.
 
 The current build's customization catalog provides 52 magazine, heatsink, and canister option identities with names and AddPaths. Nineteen player weapons select a default magazine option. Their effective values are visible in the ammo capability catalog, but their override records and per-weapon allowed-option graph are not sufficiently owned for guarded writes. `magazine.*` remains read-only for those weapons. Selecting a different preset, or editing `magazine.option[n]`, therefore fails closed in this release.
 

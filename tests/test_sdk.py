@@ -126,6 +126,9 @@ return 'ok'
         authoring=sdk.inspect('weapon','AR-23C Liberator Concussive')
         self.assertEqual(authoring['authoringWeapon']['name'],'AR-23C Liberator Concussive')
         self.assertIn('weapon.fire_rate',sdk.format_inspection(authoring))
+        aliases=sdk.format_inspection(sdk.inspect('weapon','P-113 Verdict'))
+        self.assertIn('weapon.capacity  integer  deprecated alias; write accepted',aliases)
+        self.assertIn('alias_of=magazine.capacity',aliases)
         run=subprocess.run([sys.executable,'-B',str(ROOT/'sdk/hd2.py'),'inspect','type','DamageProfile','--json'],capture_output=True,text=True,check=True)
         self.assertEqual(len(json.loads(run.stdout)['resources']),2)
 

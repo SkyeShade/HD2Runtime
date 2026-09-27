@@ -25,6 +25,7 @@ def outputs():
     schema=json.loads(raw)
     player_schema=json.loads((ROOT/'schemas/player_weapon_fields.json').read_text())
     player_capabilities=json.loads((ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
+    player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
     types=schema['types']; resources=schema['resources']
     fields={domain:{} for domain in types}
@@ -82,6 +83,9 @@ def outputs():
         for constant,name in names.items():
             relevant=[(r['label'],f) for r in resources.values() for n,f in r['fields'].items() if n==name and f['domain']==domain]
             note='; '.join(label+': '+('reviewed writable' if f['writable'] else 'read-only')+', '+f['value_type'] for label,f in relevant)
+            if name in player_aliases:
+                note=('Deprecated compatibility alias; use hd2.fields.'
+                    +player_aliases[name]+('. '+note if note else '.'))
             stub.append(('---@field '+constant+' '+json.dumps(name)+' '+note).rstrip())
     stub+=['','---@class HD2Fields']
     for domain in fields: stub.append('---@field '+domain+' HD2Fields_'+domain)

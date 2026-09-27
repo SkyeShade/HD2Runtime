@@ -245,11 +245,11 @@ function HD2OrbitalAbility:describe() end
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
 ---@field base_capacity "weapon.base_capacity"
----@field capacity "weapon.capacity"
+---@field capacity "weapon.capacity" Deprecated compatibility alias; use hd2.fields.magazine.capacity.
 ---@field player_crosshair_type "weapon.crosshair_type"
 ---@field ergonomics "weapon.ergonomics"
----@field feed_capacity_1 "weapon.feed_capacity_1"
----@field feed_capacity_2 "weapon.feed_capacity_2"
+---@field feed_capacity_1 "weapon.feed_capacity_1" Deprecated compatibility alias; use hd2.fields.rounds.feed_capacity_1.
+---@field feed_capacity_2 "weapon.feed_capacity_2" Deprecated compatibility alias; use hd2.fields.rounds.feed_capacity_2.
 ---@field fire_rate "weapon.fire_rate"
 ---@field horizontal_recoil "weapon.horizontal_recoil"
 ---@field horizontal_spread "weapon.horizontal_spread"

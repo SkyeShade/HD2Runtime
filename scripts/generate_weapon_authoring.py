@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import Counter
+from itertools import combinations
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -63,6 +65,7 @@ def build(catalog_path=CATALOG):
             'competingCandidates':[{'resourceHash':resource}for resource in resources[1:]]}
     schema=json.loads(SCHEMA.read_text())
     definitions={item['id']:item for item in schema['fields']}
+    alias_rules=schema.get('alias_rules',[])
 
     weapon_candidates={}
     for name,entry in identities.items():
@@ -110,6 +113,8 @@ def build(catalog_path=CATALOG):
             'type':spec['type'],'unit':spec.get('unit'),'currentDefault':current,
             'editable':spec['writable'] if editable is None else editable,
             'derivedReadOnly':spec['derived'] if derived is None else derived,
+            'semanticTarget':spec.get('semantic_target',spec['id']),
+            'canonical':True,'preferred':True,'deprecated':False,'aliasOf':None,
             'provenance':provenance.copy(),'min':None,'max':None,'enumValues':None}
         if backend:
             result['backing']=backend
@@ -132,7 +137,41 @@ def build(catalog_path=CATALOG):
             result['affectsMultipleWeapons']=False
         result['reason']=reason or spec.get('reason')
         if result['derivedReadOnly']:result['editable']=False
+        result['acceptedForWrites']=result['editable']
         return result
+
+    def backing_signature(field):
+        backend=field.get('backing')
+        if not backend:return None
+        if backend['kind']=='component':
+            owner=('component',backend['component'],backend['recordIndex'],backend['indexRow'])
+        else:
+            owner=('settings',backend['settings'],backend['group'],backend['row'],
+                backend['recordType'],backend['settingsType'])
+        return owner+(backend['offset'],backend['width'],backend['storage'])
+
+    alias_instance_counts=Counter();alias_write_counts=Counter()
+
+    def apply_alias_rules(fields):
+        by_id={field['semanticFieldId']:field for field in fields}
+        for rule in alias_rules:
+            alias=by_id.get(rule['alias']);canonical=by_id.get(rule['canonical'])
+            if not alias or not canonical:continue
+            alias_backing=backing_signature(alias);canonical_backing=backing_signature(canonical)
+            if rule.get('requires_identical_backing') and (
+                    alias_backing is None or alias_backing!=canonical_backing):continue
+            assert alias['semanticTarget']==canonical['semanticTarget'], \
+                f"Alias semantic target differs: {rule['alias']} -> {rule['canonical']}"
+            write_accepted=alias['editable'] and canonical['editable']
+            previous_reason=alias.get('reason')
+            alias.update(aliasOf=canonical['semanticFieldId'],canonical=False,preferred=False,
+                deprecated=rule.get('deprecated',True),editable=False,
+                acceptedForWrites=write_accepted)
+            alias['reason']='Deprecated compatibility alias; use '+canonical['semanticFieldId']+'.'
+            if previous_reason:alias['reason']+=' '+previous_reason
+            canonical.update(canonical=True,preferred=True,deprecated=False,aliasOf=None)
+            alias_instance_counts[(rule['alias'],rule['canonical'])]+=1
+            if write_accepted:alias_write_counts[(rule['alias'],rule['canonical'])]+=1
 
     def component_backend(candidate,name,offset,storage):
         identity=candidate['ownership'][name]
@@ -318,10 +357,40 @@ def build(catalog_path=CATALOG):
                 fields.append(make_field(field_id,resolved.get(key),
                     settings_backend('beam',record,offset,'f32','primary'),unique,blocked))
 
+        apply_alias_rules(fields)
         weapons.append({'name':name,'slot':identity['slot'],'category':identity.get('category'),
             'resolution':identity['resolution'],'ordinaryWritesBlocked':not unique,
             'blockReason':blocked,'resources':weapon_candidates[name],
             'implementationFamilies':candidate['implementationFamilies'],'fields':fields})
+
+    collision_groups=0;alias_pair_instances=0;distinct_pair_instances=0;unclassified=[]
+    for weapon in weapons:
+        by_backing={}
+        for field in weapon['fields']:
+            signature=backing_signature(field)
+            if signature:by_backing.setdefault(signature,[]).append(field)
+        for signature,fields in by_backing.items():
+            if len(fields)<2:continue
+            collision_groups+=1
+            for left,right in combinations(fields,2):
+                if left['semanticTarget']==right['semanticTarget']:
+                    if left.get('aliasOf')==right['semanticFieldId'] or right.get('aliasOf')==left['semanticFieldId']:
+                        alias_pair_instances+=1
+                    else:
+                        unclassified.append({'weapon':weapon['name'],'fields':sorted(
+                            (left['semanticFieldId'],right['semanticFieldId']))})
+                else:distinct_pair_instances+=1
+    assert not unclassified, 'Unclassified identical-backing semantic fields: '+repr(unclassified)
+    semantic_aliases=[]
+    for rule in alias_rules:
+        key=(rule['alias'],rule['canonical'])
+        semantic_aliases.append({**rule,'instanceCount':alias_instance_counts[key],
+            'writeAcceptedInstanceCount':alias_write_counts[key]})
+    collision_audit={'fieldInstancesAudited':sum(len(w['fields'])for w in weapons),
+        'exactBackingCollisionGroups':collision_groups,'aliasPairInstances':alias_pair_instances,
+        'distinctSemanticPairInstances':distinct_pair_instances,'unclassifiedCollisionPairs':0,
+        'distinctSemanticExample':{'fields':['weapon.base_capacity','magazine.capacity'],
+            'reason':'Underlying base capacity is a read-only native view; effective magazine capacity is a separate semantic target.'}}
 
     family_coverage={}
     for weapon in weapons:
@@ -347,12 +416,14 @@ def build(catalog_path=CATALOG):
             for f in w['fields']) for w in weapons),
         'weaponsRestrictedToWeaponLevelWrites':sum(any(f['editable']for f in w['fields'])and not any(
             f['editable']and not f['semanticFieldId'].startswith('weapon.')for f in w['fields'])for w in weapons),
+        'semanticAliasRules':len(semantic_aliases),'semanticAliasInstances':alias_pair_instances,
         'familyCoverage':family_coverage}
     summary['ammo']=ammo_source['summary']
-    return {'schemaVersion':1,'hd2RuntimeVersion':'0.14.0',
+    return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':'0.14.0',
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             'F5FEE03DCFDB-20260926T222226Z.hd2snap','summary':summary,
-        'fieldDefinitions':schema['fields'],'weapons':weapons,
+        'fieldDefinitions':schema['fields'],'semanticAliases':semantic_aliases,
+        'backingCollisionAudit':collision_audit,'weapons':weapons,
         'safety':{'addressesInPublicMetadata':False,'writes':0,'protectionChanges':0,
             'fixtureFallback':'disabled'}}
 
@@ -367,7 +438,8 @@ def outputs(catalog_path=CATALOG):
             key=field_id[len(domain)+1:].replace('.','_')
             constants.setdefault(domain,{})[key]=field_id
     runtime={'version':value['hd2RuntimeVersion'],'weapons':{w['name']:w for w in value['weapons']},
-        'summary':value['summary'],'fields':constants}
+        'summary':value['summary'],'fields':constants,'semanticAliases':value['semanticAliases'],
+        'backingCollisionAudit':value['backingCollisionAudit']}
     ammo={'schemaVersion':1,'hd2RuntimeVersion':value['hd2RuntimeVersion'],
         'buildFingerprints':value['buildFingerprints'],'sourceSnapshot':value['sourceSnapshot'],
         'summary':value['summary']['ammo'],'fieldLayout':ammo_source['fieldLayout'],
