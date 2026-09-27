@@ -25,6 +25,30 @@ OUTPUTS = {
 }
 COMPONENTS = ('WeaponCustomizationComponentData', 'WeaponMagazineComponentData',
     'WeaponRoundsComponentData', 'WeaponDataComponentData', 'WeaponHeatComponentData')
+DEFAULT_FOCUS_WEAPONS = ('R-72 Censor',)
+REFERENCE_WINDOW = 256
+EVIDENCE_WEAPONS = {'AR-23 Liberator', 'AR-23C Liberator Concussive',
+    'LAS-5 Scythe', 'LAS-16 Sickle', 'LAS-17 Double-Edge Sickle', 'LAS-7 Dagger',
+    'R-72 Censor'}
+CENSOR_EXPERIMENT = {
+    'weapon': 'R-72 Censor',
+    'resourceHash': '0xF0338468DCDB6A6C',
+    'category': 'Magazine',
+    'catalogSource': 'Cached imported R-72 Censor attachment table',
+    'catalogSourceUrl': 'https://helldivers.wiki.gg/wiki/R-72_Censor',
+    'before': {'name': 'Extended Magazine', 'optionId': '0x536662C0',
+        'addPath': '0x37C2891774B38C87',
+        'effects': {'ergonomicsDelta': -8, 'capacityRounds': 30,
+            'startingMagazines': 4, 'maxMagazines': 6,
+            'magazinesFromSupply': None, 'fullReloadSeconds': 2.9,
+            'partialReloadSeconds': 1.67}},
+    'after': {'name': 'Short Magazine', 'optionId': '0x33EAAA65',
+        'addPath': '0x986E6696B34B8902',
+        'effects': {'ergonomicsDelta': 3, 'capacityRounds': 20,
+            'startingMagazines': 6, 'maxMagazines': 8,
+            'magazinesFromSupply': None, 'fullReloadSeconds': 2.5,
+            'partialReloadSeconds': 1.5}},
+}
 
 sys.path.insert(0, str(ROOT / 'sdk'))
 from tools.lua_runner import execute
@@ -52,7 +76,7 @@ def _module_sources():
     return result
 
 
-def scan_snapshot(snapshot, label):
+def scan_snapshot(snapshot, label, focus_weapons=DEFAULT_FOCUS_WEAPONS):
     """Extract only reviewed attachment-related components from one snapshot."""
     authoring = json.loads((ROOT / 'schemas/player_weapon_authoring_catalog.json').read_text())
     requested = [{'name': item['name'], 'resource': item['resources'][0]}
@@ -65,6 +89,7 @@ local profile=require('hd2runtime/schemas/current')
 local Reader=require('hd2runtime/runtime/reader')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
+local b=require('hd2runtime/core/bytes')
 local json=require('hd2runtime/primary_mapper/json')
 local worker=coroutine.create(function()
  local source=require('hd2runtime/runtime/snapshot_memory_reader').open(''' + _lua(str(Path(snapshot).resolve())) + r''',{
@@ -75,9 +100,50 @@ local worker=coroutine.create(function()
  local catalog=entities.capture(reader,roots.entity,profile,names)
  local by_resource={};for _,candidate in ipairs(catalog.candidates)do
   by_resource[candidate.resourceHash]=candidate end
- local result={mode='snapshot',fingerprints={exe=source.module_hash(source.module(nil)),
+local result={mode='snapshot',fingerprints={exe=source.module_hash(source.module(nil)),
   dll=source.module_hash(source.module('game.dll'))},weapons={},writes=0,
-  protectionChanges=0,fixtureFallback='disabled'}
+  protectionChanges=0,fixtureFallback='disabled',referenceHopPolicy={
+   focusWeapons=''' + _lua(list(focus_weapons)) + r''',alignment=4,windowBytes=''' + str(REFERENCE_WINDOW) + r''',
+   arbitraryAddressScan=false,broadNumericScan=false}}
+ local focus={};for _,name in ipairs(result.referenceHopPolicy.focusWeapons)do focus[name]=true end
+ local function reference_hops(record)
+  local hops={};local seen={}
+  for offset=0,#record.bytes-8,4 do
+   local low,high=b.u32(record.bytes,offset),b.u32(record.bytes,offset+4)
+   local reference_kind,value=nil,0
+   if high>0 and high<=2097151 then
+    reference_kind='absolute_pointer';value=low+high*4294967296
+   elseif high==0 and low>=28+profile.map_rows*32 and low+8<=roots.entity.size
+      and not(record.component=='WeaponCustomizationComponentData'and offset<80)then
+    -- Entity records also use allocation-relative references.  Restrict these
+    -- to offsets inside the already-reviewed entity owner and exclude the
+    -- known customization (slot, optionId) definition table.
+    reference_kind='entity_relative_candidate';value=roots.entity.base+low
+   end
+   if value>=65536 and not seen[value]then
+    local region=source.query(value)
+    if region and region.state==0x1000 and region.allocation_base~=0
+       and (region.protect==2 or region.protect==4 or region.protect==8
+        or region.protect==0x20 or region.protect==0x40 or region.protect==0x80)then
+     local length=math.min(result.referenceHopPolicy.windowBytes,region.base+region.size-value)
+     if length>=8 then
+      local bytes=source.read(value,length)
+      if bytes and source.read(value,length)==bytes then
+       seen[value]=true
+       hops[#hops+1]={componentOffset=offset,referenceKind=reference_kind,
+        targetOwner=region.allocation_base==roots.entity.base
+        and'entity_component_allocation'or'direct_referenced_allocation',
+        allocationOffset=value-region.allocation_base,regionOffset=value-region.base,
+        allocationType=string.format('0x%X',region.type),protection=string.format('0x%X',region.protect),
+        bytes=(bytes:gsub('.',function(c)return string.format('%02x',c:byte())end)),length=#bytes}
+      end
+     end
+    end
+   end
+  end
+  table.sort(hops,function(a,c)return a.componentOffset<c.componentOffset end)
+  return hops
+ end
  for _,item in ipairs(''' + _lua(requested) + r''')do
   local candidate=assert(by_resource[item.resource],'reviewed attachment root missing: '..item.resource)
   assert(candidate.entityRow and#candidate.diagnostics==0,'attachment root ownership unresolved: '..item.resource)
@@ -86,6 +152,7 @@ local worker=coroutine.create(function()
    local record=catalog.record(candidate,name)
    output.components[name]={identity=record.identity,bytes=(record.bytes:gsub('.',function(c)
     return string.format('%02x',c:byte())end)),length=#record.bytes}
+   if focus[item.name]then output.components[name].referenceHops=reference_hops(record)end
   end end
   result.weapons[#result.weapons+1]=output
  end
@@ -115,6 +182,10 @@ def _component_state(component):
     body = bytes.fromhex(component['bytes'])
     result = {'identity': component['identity'], 'length': len(body),
         'sha256': hashlib.sha256(body).hexdigest(), 'bytes': component['bytes']}
+    if 'referenceHops' in component:
+        result['referenceHops'] = [{**hop,
+            'sha256': hashlib.sha256(bytes.fromhex(hop['bytes'])).hexdigest()}
+            for hop in component['referenceHops']]
     if component['identity']['component'] == 'WeaponCustomizationComponentData':
         result['defaultDefinitions'] = _defaults(body)
     return result
@@ -130,10 +201,23 @@ def state_from_composition_raw(raw, label):
             if name in COMPONENTS}
         weapons.append({'weapon': weapon['name'], 'resourceHash': weapon['resourceHash'],
             'components': components})
-    return {'schemaVersion': 1, 'label': label, 'mode': raw.get('mode', 'snapshot'),
+    safety = {'writes': raw.get('writes'),
+        'protectionChanges': raw.get('protectionChanges'),
+        'fixtureFallback': raw.get('fixtureFallback')}
+    if safety != {'writes': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled'}:
+        raise ValueError('attachment research input is not read-only/current-evidence safe')
+    return {'schemaVersion': 2, 'label': label, 'mode': raw.get('mode', 'snapshot'),
         'sourceSnapshot': source_snapshot, 'gameFingerprints': raw['fingerprints'],
-        'safety': {'writes': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled'},
+        'safety': safety,
+        'referenceHopPolicy': raw.get('referenceHopPolicy'),
         'weapons': weapons}
+
+
+def compact_evidence_state(state):
+    """Keep only fixed reviewed anchors needed to reproduce the committed report."""
+    return {**{key: value for key, value in state.items() if key != 'weapons'},
+        'weapons': [weapon for weapon in state['weapons']
+            if weapon['weapon'] in EVIDENCE_WEAPONS]}
 
 
 def _ranges(before: bytes, after: bytes):
@@ -165,6 +249,39 @@ def _word_views(before, after, first, last):
     return views
 
 
+def _hop_identity(hop):
+    return {key: hop[key] for key in ('componentOffset', 'referenceKind', 'targetOwner', 'allocationOffset',
+        'regionOffset', 'allocationType', 'protection', 'length', 'sha256')}
+
+
+def _compare_reference_hops(weapon, component, left, right):
+    before = {item['componentOffset']: item for item in left.get('referenceHops', [])}
+    after = {item['componentOffset']: item for item in right.get('referenceHops', [])}
+    followed = []
+    for offset in sorted(set(before) | set(after)):
+        prior, current = before.get(offset), after.get(offset)
+        row = {'sourceComponentOffset': offset,
+            'beforeTarget': _hop_identity(prior) if prior else None,
+            'afterTarget': _hop_identity(current) if current else None}
+        if prior is None or current is None:
+            row['result'] = 'REFERENCE_TARGET_CHANGED'
+        else:
+            a, b = bytes.fromhex(prior['bytes']), bytes.fromhex(current['bytes'])
+            if a == b and _hop_identity(prior) == _hop_identity(current):
+                row['result'] = 'UNCHANGED'
+            elif len(a) != len(b):
+                row['result'] = 'REFERENCED_EXTENT_CHANGED'
+            else:
+                row['result'] = 'REFERENCED_BYTES_CHANGED'
+                row['ranges'] = [{'offset': first, 'length': last - first,
+                    'before': a[first:last].hex(), 'after': b[first:last].hex(),
+                    'alignedScalarViews': _word_views(a, b, first, last)}
+                    for first, last in _ranges(a, b)]
+        followed.append(row)
+    return {'weapon': weapon, 'component': component, 'followedObjects': followed,
+        'changedObjects': sum(item['result'] != 'UNCHANGED' for item in followed)}
+
+
 def compare_states(before, after):
     if before['gameFingerprints'] != after['gameFingerprints']:
         raise ValueError('attachment states use different game fingerprints')
@@ -173,6 +290,7 @@ def compare_states(before, after):
     if prior.keys() != current.keys():
         raise ValueError('attachment state weapon roots differ')
     changes = []
+    reference_hops = []
     for key in sorted(prior):
         left, right = prior[key], current[key]
         names = set(left['components']) | set(right['components'])
@@ -183,25 +301,29 @@ def compare_states(before, after):
                 continue
             a = bytes.fromhex(left['components'][name]['bytes'])
             b = bytes.fromhex(right['components'][name]['bytes'])
-            if a == b:
-                continue
             if len(a) != len(b):
                 changes.append({'weapon': key[0], 'resourceHash': key[1], 'component': name,
                     'kind': 'record_extent_changed', 'beforeLength': len(a), 'afterLength': len(b)})
-                continue
-            ranges = []
-            for first, last in _ranges(a, b):
-                ranges.append({'offset': first, 'length': last - first,
-                    'before': a[first:last].hex(), 'after': b[first:last].hex(),
-                    'alignedScalarViews': _word_views(a, b, first, last)})
-            entry = {'weapon': key[0], 'resourceHash': key[1], 'component': name,
-                'kind': 'bytes_changed', 'ranges': ranges}
-            if name == 'WeaponCustomizationComponentData':
-                entry['beforeDefaultDefinitions'] = _defaults(a)
-                entry['afterDefaultDefinitions'] = _defaults(b)
-            changes.append(entry)
+            elif a != b:
+                ranges = []
+                for first, last in _ranges(a, b):
+                    ranges.append({'offset': first, 'length': last - first,
+                        'before': a[first:last].hex(), 'after': b[first:last].hex(),
+                        'alignedScalarViews': _word_views(a, b, first, last)})
+                entry = {'weapon': key[0], 'resourceHash': key[1], 'component': name,
+                    'kind': 'bytes_changed', 'ranges': ranges}
+                if name == 'WeaponCustomizationComponentData':
+                    entry['beforeDefaultDefinitions'] = _defaults(a)
+                    entry['afterDefaultDefinitions'] = _defaults(b)
+                changes.append(entry)
+            if ('referenceHops' in left['components'][name]
+                    or 'referenceHops' in right['components'][name]):
+                reference_hops.append(_compare_reference_hops(key[0], name,
+                    left['components'][name], right['components'][name]))
     return {'before': before['label'], 'after': after['label'], 'changedRecords': len(changes),
-        'changes': changes}
+        'changes': changes,
+        'referenceHopComparisons': reference_hops,
+        'changedReferencedObjects': sum(item['changedObjects'] for item in reference_hops)}
 
 
 def _flatten_options(capabilities):
@@ -211,17 +333,79 @@ def _flatten_options(capabilities):
                 yield weapon, category['category'], option
 
 
+def _find_all(body, needle):
+    offsets = []
+    start = 0
+    while True:
+        offset = body.find(needle, start)
+        if offset < 0:
+            return offsets
+        offsets.append(offset)
+        start = offset + 1
+
+
+def _identity_occurrences(states, experiment):
+    identities = {}
+    for side in ('before', 'after'):
+        option = experiment[side]
+        identities[side] = {
+            'optionId': bytes.fromhex(option['optionId'][2:])[::-1],
+            'addPath': bytes.fromhex(option['addPath'][2:])[::-1],
+        }
+    result = []
+    for state in states:
+        weapon = next(item for item in state['weapons']
+            if item['weapon'] == experiment['weapon'])
+        state_result = {'label': state['label'], 'identities': {}}
+        for side, needles in identities.items():
+            found = []
+            for component_name, component in weapon['components'].items():
+                body = bytes.fromhex(component['bytes'])
+                for kind, needle in needles.items():
+                    found.extend({'scope': 'reviewed_component_record',
+                        'component': component_name, 'recordOffset': offset, 'kind': kind}
+                        for offset in _find_all(body, needle))
+                for hop in component.get('referenceHops', []):
+                    target = bytes.fromhex(hop['bytes'])
+                    for kind, needle in needles.items():
+                        found.extend({'scope': 'one_reference_hop',
+                            'sourceComponent': component_name,
+                            'sourceComponentOffset': hop['componentOffset'],
+                            'targetOffset': offset, 'kind': kind}
+                            for offset in _find_all(target, needle))
+            state_result['identities'][side] = found
+        result.append(state_result)
+    return result
+
+
 def build_reports(states):
     capabilities = json.loads(ATTACHMENTS.read_text())
     version = (ROOT / 'VERSION').read_text().strip()
     safety = {'writes': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled',
         'snapshotOnly': True}
+    for state in states:
+        if state.get('safety') != {key: safety[key]
+                for key in ('writes', 'protectionChanges', 'fixtureFallback')}:
+            raise ValueError('attachment evidence state failed read-only safety invariants')
     comparisons = [compare_states(states[index - 1], states[index])
         for index in range(1, len(states))]
     all_options = list(_flatten_options(capabilities))
     native_options = sum(option.get('optionIdentityProven', False)
         for _, _, option in all_options)
     native_catalog = capabilities.get('nativeMagazineOptions', [])
+    native_by_id = {item['optionId']: item for item in native_catalog}
+    for side in ('before', 'after'):
+        expected = CENSOR_EXPERIMENT[side]
+        native = native_by_id.get(expected['optionId'])
+        if not native or native['addPath'] != expected['addPath']:
+            raise ValueError('Censor controlled option identity differs from native catalog: '
+                + expected['name'])
+    changed_records = sum(item['changedRecords'] for item in comparisons)
+    changed_references = sum(item.get('changedReferencedObjects', 0) for item in comparisons)
+    identity_occurrences = _identity_occurrences(states, CENSOR_EXPERIMENT)
+    selected_identity_observed = any(
+        occurrences for state in identity_occurrences
+        for occurrences in state['identities'].values())
     heatsink_identities = sum('heatsink' in item['name'].lower() for item in native_catalog)
     native_defaults = sum(weapon.get('defaultOption') is not None
         and weapon['defaultOption'].get('optionIdentityProven', False)
@@ -244,7 +428,7 @@ def build_reports(states):
                 default_definition = bool(option.get('default') and native)
                 reason = ('The generated component definition proves this default identity, '
                     'but no current/saved preset selection owner or alternate allowed-option '
-                    'collection is present in the available state capture.' if default_definition else
+                    'collection is present in the available state captures.' if default_definition else
                     'Catalog compatibility is known; native option identity and current/saved '
                     'selection ownership are not proven.')
                 row = {'weapon': weapon['weapon'], 'resources': weapon['resources'],
@@ -292,6 +476,11 @@ def build_reports(states):
             'defaultDefinitionOwner': 'weapon resource WeaponCustomizationComponentData',
             'selectedAttachmentOwner': None, 'savedPresetOwner': None,
             'spawnRebuildBehavior': 'unresolved; requires selected/saved/re-equipped state captures',
+            'controlledCensorMagazineComparison': {
+                'statesCompared': len(comparisons), 'changedReviewedRecords': changed_records,
+                'changedOneHopObjects': changed_references,
+                'selectedOptionIdentityObserved': selected_identity_observed,
+                'result': 'NO_OWNER_IN_BOUNDED_SCOPE'},
             'importantDistinction': 'DefaultCustomizations is static resource data and is not promoted as current selection or saved preset state.'},
         'nativeIdentityCatalog': native_catalog, 'weapons': preset_weapons}
     selection = {**common, 'feature': 'attachment_selection_capabilities',
@@ -305,6 +494,11 @@ def build_reports(states):
         'guardPolicy': {'typedHandlesOnly': True, 'rawOptionIdsRejected': True,
             'rawAddPathsRejected': True, 'compatibilityMustBeNative': True,
             'currentSelectionMustBeVerified': True, 'status': 'read_only'},
+        'controlledEvidence': {'weapon': CENSOR_EXPERIMENT['weapon'],
+            'transition': 'Extended Magazine -> Short Magazine',
+            'selectedOptionIdentityObserved': selected_identity_observed,
+            'stableWeaponLocalOwner': False, 'writable': False,
+            'reason': 'The controlled transition changed no reviewed record and no directly referenced object.'},
         'unboundNativeIdentityCatalog': native_catalog, 'options': selection_rows}
     effects = {**common, 'feature': 'attachment_effect_ownership',
         'summary': {'attachmentOptions': len(effect_rows),
@@ -315,15 +509,17 @@ def build_reports(states):
         'effectFieldOccurrences': dict(sorted(effect_fields.items())),
         'ownershipFindings': {'optionDefinitionOwner': None, 'presetLocalOverrideOwner': None,
             'copiedEffectiveStateOwner': None, 'sharedness': 'unresolved',
+            'controlledCensorMagazineComparison': {
+                'changedReviewedRecords': changed_records,
+                'changedOneHopObjects': changed_references,
+                'copiedEffectiveValuesObserved': False},
             'heatApplicationPath': 'Direct WeaponHeat values remain proven, but no heatsink option-to-effective-value consumer edge is captured.'},
         'options': effect_rows}
     baseline_fingerprints = []
-    anchors = {'AR-23 Liberator', 'AR-23C Liberator Concussive', 'LAS-5 Scythe',
-        'LAS-16 Sickle', 'LAS-17 Double-Edge Sickle', 'LAS-7 Dagger'}
     for state in states:
         records = []
         for weapon in state['weapons']:
-            if weapon['weapon'] not in anchors:
+            if weapon['weapon'] not in EVIDENCE_WEAPONS:
                 continue
             records.append({'weapon': weapon['weapon'], 'resourceHash': weapon['resourceHash'],
                 'components': {name: {'recordIndex': value['identity']['recordIndex'],
@@ -331,13 +527,39 @@ def build_reports(states):
                     'defaultDefinitions': value.get('defaultDefinitions')}
                     for name, value in weapon['components'].items()}})
         baseline_fingerprints.append({'label': state['label'], 'records': records})
+    effect_correlation = []
+    for field in CENSOR_EXPERIMENT['before']['effects']:
+        before_value = CENSOR_EXPERIMENT['before']['effects'][field]
+        after_value = CENSOR_EXPERIMENT['after']['effects'][field]
+        effect_correlation.append({'field': field, 'extendedCatalogValue': before_value,
+            'shortCatalogValue': after_value,
+            'expectedDelta': round(after_value - before_value, 8)
+                if before_value is not None and after_value is not None else None,
+            'changedReviewedValueObserved': False,
+            'changedOneHopValueObserved': False})
+    controlled_experiment = {**CENSOR_EXPERIMENT,
+        'identityOccurrences': identity_occurrences,
+        'effectCorrelation': effect_correlation,
+        'observations': {
+            'reviewedComponentChangedRecords': changed_records,
+            'changedOneHopObjects': changed_references,
+            'selectedOptionIdentityObserved': selected_identity_observed,
+            'copiedEffectiveValuesObserved': False,
+            'selectionOwner': None},
+        'promotionDecision': {'selectionWritable': False, 'effectsWritable': False,
+            'reason': 'Neither the five reviewed Censor component records nor their direct referenced objects changed between the controlled selections.'}}
     diff = {**common, 'feature': 'attachment_targeted_state_diff',
         'summary': {'states': len(states), 'comparisons': len(comparisons),
-            'changedRecords': sum(item['changedRecords'] for item in comparisons),
+            'changedRecords': changed_records,
+            'changedReferencedObjects': changed_references,
             'result': 'COMPARED' if comparisons else 'INSUFFICIENT_STATE_CAPTURES'},
         'scope': {'weapons': 80, 'components': list(COMPONENTS),
-            'broadNumericScan': False, 'arbitraryAddressScan': False},
+            'broadNumericScan': False, 'arbitraryAddressScan': False,
+            'referenceHop': {'enabled': True, 'focusWeapons': list(DEFAULT_FOCUS_WEAPONS),
+                'alignment': 4, 'windowBytes': REFERENCE_WINDOW,
+                'rule': 'Only committed readable absolute pointers or entity-allocation-relative candidates encoded directly in focused reviewed records are followed once; the known customization option table is excluded.'}},
         'stateFingerprints': baseline_fingerprints, 'comparisons': comparisons,
+        'controlledExperiment': controlled_experiment,
         'requiredExperiment': [
             {'label': 'ar23c_extended_equipped', 'action': 'Equip AR-23C with Extended magazine; capture before editing.'},
             {'label': 'ar23c_short_selected', 'action': 'Select Short magazine without saving; capture.'},
@@ -369,14 +591,25 @@ def main():
         help='LABEL=weapon-composition-raw.json; repeat in capture order')
     parser.add_argument('--snapshot-state', action='append', type=_named,
         help='LABEL=snapshot.hd2snap; repeat in capture order')
+    parser.add_argument('--evidence-state', action='append', type=_named,
+        help='LABEL=attachment-evidence.json; repeat in capture order')
     parser.add_argument('--state-output-dir', type=Path,
         help='Optional directory for compact extracted state JSON files')
+    parser.add_argument('--evidence-output-dir', type=Path,
+        help='Optional directory for reproducible reviewed-anchor evidence states')
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
-    if args.raw_state and args.snapshot_state:
-        parser.error('use either --raw-state or --snapshot-state')
+    if sum(bool(value) for value in (args.raw_state, args.snapshot_state,
+            args.evidence_state)) > 1:
+        parser.error('use only one state input kind')
     if args.snapshot_state:
         states = [scan_snapshot(path, label) for label, path in args.snapshot_state]
+    elif args.evidence_state:
+        states = []
+        for label, path in args.evidence_state:
+            state = json.loads(path.read_text())
+            state['label'] = label
+            states.append(state)
     else:
         inputs = args.raw_state or [('current_snapshot_unknown_preset', RAW)]
         states = [state_from_composition_raw(json.loads(path.read_text()), label)
@@ -386,6 +619,12 @@ def main():
         for state in states:
             (args.state_output_dir / (state['label'] + '.attachment-state.json')).write_text(
                 json.dumps(state, indent=2) + '\n')
+    if args.evidence_output_dir:
+        args.evidence_output_dir.mkdir(parents=True, exist_ok=True)
+        for state in states:
+            evidence = compact_evidence_state(state)
+            (args.evidence_output_dir / (state['label'] + '.attachment-evidence.json')).write_text(
+                json.dumps(evidence, indent=2) + '\n')
     reports = build_reports(states)
     if args.check:
         for name, path in OUTPUTS.items():

@@ -13,17 +13,23 @@
   },
   "evidenceStates": [
     {
-      "label": "current_snapshot_unknown_preset",
+      "label": "censor_extended_equipped",
       "mode": "snapshot",
-      "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap"
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap"
+    },
+    {
+      "label": "censor_short_selected",
+      "mode": "snapshot",
+      "sourceSnapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap"
     }
   ],
   "feature": "attachment_targeted_state_diff",
   "summary": {
-    "states": 1,
-    "comparisons": 0,
+    "states": 2,
+    "comparisons": 1,
     "changedRecords": 0,
-    "result": "INSUFFICIENT_STATE_CAPTURES"
+    "changedReferencedObjects": 0,
+    "result": "COMPARED"
   },
   "scope": {
     "weapons": 80,
@@ -35,11 +41,20 @@
       "WeaponHeatComponentData"
     ],
     "broadNumericScan": false,
-    "arbitraryAddressScan": false
+    "arbitraryAddressScan": false,
+    "referenceHop": {
+      "enabled": true,
+      "focusWeapons": [
+        "R-72 Censor"
+      ],
+      "alignment": 4,
+      "windowBytes": 256,
+      "rule": "Only committed readable absolute pointers or entity-allocation-relative candidates encoded directly in focused reviewed records are followed once; the known customization option table is excluded."
+    }
   },
   "stateFingerprints": [
     {
-      "label": "current_snapshot_unknown_preset",
+      "label": "censor_extended_equipped",
       "records": [
         {
           "weapon": "AR-23 Liberator",
@@ -318,11 +333,553 @@
               "defaultDefinitions": null
             }
           }
+        },
+        {
+          "weapon": "R-72 Censor",
+          "resourceHash": "0xF0338468DCDB6A6C",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 127,
+              "length": 4872,
+              "sha256": "6c00cbcd9d5a379af566e2c5d256d8228ec93e5f35b5ce83bad1b3dbbc11673e",
+              "defaultDefinitions": [
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 0
+                },
+                {
+                  "slot": 5,
+                  "optionId": "0x9FE412AD",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0xE8C28B34",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xCD55C088",
+                  "offset": 24
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x6EEAFF66",
+                  "offset": 32
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x7E7D4EEE",
+                  "offset": 40
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 301,
+              "length": 1232,
+              "sha256": "b1c1efa622b9929eddd36d75bf7a7c90b072217c0ac8aa7d43e822e095db585d",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 224,
+              "length": 160,
+              "sha256": "0c8cc67c2d7537bdace96565b4a9329128a8292aa05849769492007251a0597c",
+              "defaultDefinitions": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "censor_short_selected",
+      "records": [
+        {
+          "weapon": "AR-23 Liberator",
+          "resourceHash": "0x968211C0033DCE64",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 96,
+              "length": 4872,
+              "sha256": "e74e27826b4095855e6028909c706e68083d53a703ea1e8d46cf9ad26f6b3913",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0x73CA1B5E",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 6,
+                  "optionId": "0x5F6938E0",
+                  "offset": 32
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x6EEAFF66",
+                  "offset": 40
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x7E7D4EEE",
+                  "offset": 48
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 56
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 270,
+              "length": 1232,
+              "sha256": "029cf3f3a6798b19e8c093eb49900223fa3d11876e0f6b47fe127f4b9f94526a",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 201,
+              "length": 160,
+              "sha256": "a7b85bd692cdaed996ac44aca0497bd807862b11b046cd4a28e1e826f65acf42",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "AR-23C Liberator Concussive",
+          "resourceHash": "0xCF5F176E0E322BE1",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 98,
+              "length": 4872,
+              "sha256": "78c0e875eebd1aeab4d4c9dd0dd5b4e238d349870923e5d098eb8c6b72f31efc",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0xDF4F1322",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0x00000000",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x661DF57B",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 6,
+                  "optionId": "0x00000000",
+                  "offset": 32
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x00000000",
+                  "offset": 40
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x00000000",
+                  "offset": 48
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 56
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 272,
+              "length": 1232,
+              "sha256": "79bebc8617825a5b41a1eeb02f4e06ecb5df7e4da77e18511a273c2fe6ad56f9",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 203,
+              "length": 160,
+              "sha256": "a7b85bd692cdaed996ac44aca0497bd807862b11b046cd4a28e1e826f65acf42",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-16 Sickle",
+          "resourceHash": "0x8645F167B3C813A2",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 120,
+              "length": 4872,
+              "sha256": "2b2828b2d1b7537d36c8031a0370a72211943f704f84c4ced9ede082d83a910f",
+              "defaultDefinitions": [
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 0
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 8
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 16
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 294,
+              "length": 1232,
+              "sha256": "59811171d7d16c67f2cb9a9870b86a60289e6f86a608466ca3b0a090dd73af3e",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 20,
+              "length": 592,
+              "sha256": "dff153cfc79f8742a27485be76fe13fef40ae74c41cef5a87be8f7a0a3b6f50b",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-17 Double-Edge Sickle",
+          "resourceHash": "0x295BEB26DC4F8FF1",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 121,
+              "length": 4872,
+              "sha256": "847cce1b030d813317b29b376f378460f9f729a450497c0856922d7d0c3ae1c3",
+              "defaultDefinitions": [
+                {
+                  "slot": 4,
+                  "optionId": "0x0A702474",
+                  "offset": 0
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 8
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 16
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 295,
+              "length": 1232,
+              "sha256": "e480ddc6fcb3981f99f22ebde8741b120a74585ce3bbf8da8a43852d2e590727",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 21,
+              "length": 592,
+              "sha256": "45fda9aa612dfcf0beac3296fe8f30d9ce2d3e6a2164e066107cf7750be8e7a3",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-5 Scythe",
+          "resourceHash": "0x27EE1ED8F6FB6356",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 118,
+              "length": 4872,
+              "sha256": "e0554092a35b5768e5a8f17553859157876436af480a8d33c98b6431834e413e",
+              "defaultDefinitions": [
+                {
+                  "slot": 5,
+                  "optionId": "0xF3D0DF39",
+                  "offset": 0
+                },
+                {
+                  "slot": 4,
+                  "optionId": "0xE917F79B",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0x322A9233",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xD9A3531E",
+                  "offset": 24
+                },
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 32
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 292,
+              "length": 1232,
+              "sha256": "aae94d917f21671edbc32bbc58086afe32f62b145e2f1209c58737b7294ea294",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 18,
+              "length": 592,
+              "sha256": "bf0fa4df4c6805e39749866f16307cbd4b45b2597a4e9a5511fa565dbfc8c15f",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "LAS-7 Dagger",
+          "resourceHash": "0x2B3C367B280F4094",
+          "components": {
+            "WeaponDataComponentData": {
+              "recordIndex": 99,
+              "length": 1232,
+              "sha256": "8eb31f48c69abea568cb941cf993771e40d010f2b17a0d0bd77b863741093937",
+              "defaultDefinitions": null
+            },
+            "WeaponHeatComponentData": {
+              "recordIndex": 7,
+              "length": 592,
+              "sha256": "1415145a7bc2312e861d6a5fa342f67f024b0b8d50c94a25193cfc64cf8ec094",
+              "defaultDefinitions": null
+            }
+          }
+        },
+        {
+          "weapon": "R-72 Censor",
+          "resourceHash": "0xF0338468DCDB6A6C",
+          "components": {
+            "WeaponCustomizationComponentData": {
+              "recordIndex": 127,
+              "length": 4872,
+              "sha256": "6c00cbcd9d5a379af566e2c5d256d8228ec93e5f35b5ce83bad1b3dbbc11673e",
+              "defaultDefinitions": [
+                {
+                  "slot": 3,
+                  "optionId": "0x80FBE63D",
+                  "offset": 0
+                },
+                {
+                  "slot": 5,
+                  "optionId": "0x9FE412AD",
+                  "offset": 8
+                },
+                {
+                  "slot": 2,
+                  "optionId": "0xE8C28B34",
+                  "offset": 16
+                },
+                {
+                  "slot": 1,
+                  "optionId": "0xCD55C088",
+                  "offset": 24
+                },
+                {
+                  "slot": 8,
+                  "optionId": "0x6EEAFF66",
+                  "offset": 32
+                },
+                {
+                  "slot": 9,
+                  "optionId": "0x7E7D4EEE",
+                  "offset": 40
+                }
+              ]
+            },
+            "WeaponDataComponentData": {
+              "recordIndex": 301,
+              "length": 1232,
+              "sha256": "b1c1efa622b9929eddd36d75bf7a7c90b072217c0ac8aa7d43e822e095db585d",
+              "defaultDefinitions": null
+            },
+            "WeaponMagazineComponentData": {
+              "recordIndex": 224,
+              "length": 160,
+              "sha256": "0c8cc67c2d7537bdace96565b4a9329128a8292aa05849769492007251a0597c",
+              "defaultDefinitions": null
+            }
+          }
         }
       ]
     }
   ],
-  "comparisons": [],
+  "comparisons": [
+    {
+      "before": "censor_extended_equipped",
+      "after": "censor_short_selected",
+      "changedRecords": 0,
+      "changes": [],
+      "referenceHopComparisons": [
+        {
+          "weapon": "R-72 Censor",
+          "component": "WeaponCustomizationComponentData",
+          "followedObjects": [],
+          "changedObjects": 0
+        },
+        {
+          "weapon": "R-72 Censor",
+          "component": "WeaponDataComponentData",
+          "followedObjects": [],
+          "changedObjects": 0
+        },
+        {
+          "weapon": "R-72 Censor",
+          "component": "WeaponMagazineComponentData",
+          "followedObjects": [],
+          "changedObjects": 0
+        }
+      ],
+      "changedReferencedObjects": 0
+    }
+  ],
+  "controlledExperiment": {
+    "weapon": "R-72 Censor",
+    "resourceHash": "0xF0338468DCDB6A6C",
+    "category": "Magazine",
+    "catalogSource": "Cached imported R-72 Censor attachment table",
+    "catalogSourceUrl": "https://helldivers.wiki.gg/wiki/R-72_Censor",
+    "before": {
+      "name": "Extended Magazine",
+      "optionId": "0x536662C0",
+      "addPath": "0x37C2891774B38C87",
+      "effects": {
+        "ergonomicsDelta": -8,
+        "capacityRounds": 30,
+        "startingMagazines": 4,
+        "maxMagazines": 6,
+        "magazinesFromSupply": null,
+        "fullReloadSeconds": 2.9,
+        "partialReloadSeconds": 1.67
+      }
+    },
+    "after": {
+      "name": "Short Magazine",
+      "optionId": "0x33EAAA65",
+      "addPath": "0x986E6696B34B8902",
+      "effects": {
+        "ergonomicsDelta": 3,
+        "capacityRounds": 20,
+        "startingMagazines": 6,
+        "maxMagazines": 8,
+        "magazinesFromSupply": null,
+        "fullReloadSeconds": 2.5,
+        "partialReloadSeconds": 1.5
+      }
+    },
+    "identityOccurrences": [
+      {
+        "label": "censor_extended_equipped",
+        "identities": {
+          "before": [],
+          "after": []
+        }
+      },
+      {
+        "label": "censor_short_selected",
+        "identities": {
+          "before": [],
+          "after": []
+        }
+      }
+    ],
+    "effectCorrelation": [
+      {
+        "field": "ergonomicsDelta",
+        "extendedCatalogValue": -8,
+        "shortCatalogValue": 3,
+        "expectedDelta": 11,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "capacityRounds",
+        "extendedCatalogValue": 30,
+        "shortCatalogValue": 20,
+        "expectedDelta": -10,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "startingMagazines",
+        "extendedCatalogValue": 4,
+        "shortCatalogValue": 6,
+        "expectedDelta": 2,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "maxMagazines",
+        "extendedCatalogValue": 6,
+        "shortCatalogValue": 8,
+        "expectedDelta": 2,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "magazinesFromSupply",
+        "extendedCatalogValue": null,
+        "shortCatalogValue": null,
+        "expectedDelta": null,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "fullReloadSeconds",
+        "extendedCatalogValue": 2.9,
+        "shortCatalogValue": 2.5,
+        "expectedDelta": -0.4,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      },
+      {
+        "field": "partialReloadSeconds",
+        "extendedCatalogValue": 1.67,
+        "shortCatalogValue": 1.5,
+        "expectedDelta": -0.17,
+        "changedReviewedValueObserved": false,
+        "changedOneHopValueObserved": false
+      }
+    ],
+    "observations": {
+      "reviewedComponentChangedRecords": 0,
+      "changedOneHopObjects": 0,
+      "selectedOptionIdentityObserved": false,
+      "copiedEffectiveValuesObserved": false,
+      "selectionOwner": null
+    },
+    "promotionDecision": {
+      "selectionWritable": false,
+      "effectsWritable": false,
+      "reason": "Neither the five reviewed Censor component records nor their direct referenced objects changed between the controlled selections."
+    }
+  },
   "requiredExperiment": [
     {
       "label": "ar23c_extended_equipped",

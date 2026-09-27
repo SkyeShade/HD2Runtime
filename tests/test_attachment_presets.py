@@ -19,6 +19,11 @@ class AttachmentPresetResearchTests(unittest.TestCase):
         cls.raw = json.loads((ROOT / 'build/weapon-composition-raw.json').read_text())
         cls.state = research.state_from_composition_raw(cls.raw, 'current_snapshot_unknown_preset')
         cls.reports = research.build_reports([cls.state])
+        evidence_dir = ROOT / 'research' / 'attachment-states'
+        cls.censor_states = [json.loads((evidence_dir / name).read_text()) for name in (
+            'censor_extended_equipped.attachment-evidence.json',
+            'censor_short_selected.attachment-evidence.json')]
+        cls.censor_reports = research.build_reports(cls.censor_states)
 
     def test_catalog_is_complete_and_all_new_paths_fail_closed(self):
         selection = self.reports['selection']
@@ -81,9 +86,37 @@ class AttachmentPresetResearchTests(unittest.TestCase):
             self.assertEqual(artifact['safety']['protectionChanges'], 0)
             self.assertEqual(artifact['safety']['fixtureFallback'], 'disabled')
 
+    def test_censor_controlled_states_change_no_reviewed_or_one_hop_bytes(self):
+        report = self.censor_reports['diff']
+        comparison = report['comparisons'][0]
+        self.assertEqual(comparison['changedRecords'], 0)
+        self.assertEqual(comparison['changedReferencedObjects'], 0)
+        self.assertEqual(comparison['changes'], [])
+        self.assertTrue(all(not item['followedObjects']
+            for item in comparison['referenceHopComparisons']))
+        experiment = report['controlledExperiment']
+        self.assertFalse(experiment['observations']['selectedOptionIdentityObserved'])
+        self.assertFalse(experiment['observations']['copiedEffectiveValuesObserved'])
+        self.assertFalse(experiment['promotionDecision']['selectionWritable'])
+        self.assertEqual(experiment['before']['optionId'], '0x536662C0')
+        self.assertEqual(experiment['after']['optionId'], '0x33EAAA65')
+        self.assertEqual(experiment['before']['effects']['capacityRounds'], 30)
+        self.assertEqual(experiment['after']['effects']['capacityRounds'], 20)
+
+    def test_censor_evidence_remains_read_only_and_bounded(self):
+        report = self.censor_reports['diff']
+        self.assertFalse(report['scope']['broadNumericScan'])
+        self.assertFalse(report['scope']['arbitraryAddressScan'])
+        self.assertEqual(report['scope']['referenceHop']['focusWeapons'], ['R-72 Censor'])
+        for state in self.censor_states:
+            self.assertEqual(state['safety']['writes'], 0)
+            self.assertEqual(state['safety']['protectionChanges'], 0)
+            self.assertEqual(state['safety']['fixtureFallback'], 'disabled')
+
     def test_generated_artifacts_are_current(self):
+        reports = self.censor_reports
         for name, path in research.OUTPUTS.items():
-            self.assertEqual(json.loads(path.read_text()), self.reports[name])
+            self.assertEqual(json.loads(path.read_text()), reports[name])
 
 
 if __name__ == '__main__':
