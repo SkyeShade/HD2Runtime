@@ -1,9 +1,9 @@
 # HD2Runtime
 
-Version 0.16.0 adds guarded same-class explosive projectile replacement,
-typed terminal `ExplosionSettings` replacement, explosion scalar authoring, and
-the normalized 419-option attachment catalog. It builds on the 0.15 projectile
-reference API and preserves backwards compatibility for existing mods. The complete 80-weapon
+Version 0.17.0 adds guarded Full Auto/Semi Auto selection for 21 weapons whose native
+mode vectors contain both values, typed terminal explosion removal, explicit shared projectile
+object semantics, projectile-residency safety metadata, and a stable read-only 35-support-weapon
+SDK contract. It preserves backwards compatibility for existing mods. The complete 80-weapon
 primary and secondary catalog has 73 uniquely owned identities that
 expose reviewed weapon, projectile, DamageInfo, Arc, Beam, Spray, Melee, magazine,
 and rounds-feed fields through the existing `patch`, `transaction`, and `ensure`
@@ -18,9 +18,10 @@ aliases of their preferred `magazine.*` and `rounds.*` names. Runtime validation
 continues to accept the old constants and coalesces equal alias requests into one
 physical write.
 
-The weapon-composition pass adds typed conventional projectile reference
-replacement plus read-only magazine-option, fire-mode, and projectile terminal
-graphs. See the [composition guide](docs/player-weapon-composition.md).
+The weapon-composition pass includes typed projectile and terminal references, guarded explosion
+fields, magazine-option research, and fire-mode vectors. See the
+[composition guide](docs/player-weapon-composition.md) and
+[support-weapon API](docs/support-weapon-api.md).
 
 Version 0.10.0 adds offline-correlated player-weapon slot and guarded capacity
 resolution. Slot tags separate all 54 unique training anchors. Capacity matches
@@ -58,7 +59,7 @@ independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
 was confirmed in live gameplay by the user and is retained unchanged.
 
 Version 0.5.1 added the recommended beginner path. For this release, extract
-`HD2Runtime-ModTemplate-0.16.0.zip`, open that folder directly in Rider, rename
+`HD2Runtime-ModTemplate-0.17.0.zip`, open that folder directly in Rider, rename
 the display name and resource ID, edit `src/addon.lua`, and run `build.cmd`.
 The starter bundles IDE annotations and a Windows PowerShell/.NET archive builder,
 so normal use needs no Python or HD2Runtime source copy.

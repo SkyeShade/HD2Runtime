@@ -234,6 +234,7 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.enums.projectile_type`: {"jar5": 177}; partial catalog, source: Jar-5_buff/docs/research.md
 - `hd2.enums.damage_type`: {"jar5": 153, "orbital_laser": 513}; partial catalog, source: Existing checked projectile/OrbitalAbility linkage
 - `hd2.enums.crosshair_type`: {"amr_original": 3}; partial catalog, source: ReticleAmr/research/gameplay-confirmation-0.1.0.json
+- `hd2.enums.fire_mode`: {"full_auto": 1, "semi_auto": 2}; partial catalog, source: WeaponDataComponentData native mode vector; conventional projectile consumers only
 
 ## Reviewed write contracts
 

@@ -1,0 +1,9 @@
+{
+  "format": 1,
+  "name": "TerminalExplosionRemove",
+  "resource": "mods/hd2runtime_examples/terminal_explosion_remove",
+  "guid": "93c42ca1-9d97-54f5-b909-7351363528d6",
+  "requires": {"bingus": {"min_release": 15, "api": 1}, "hd2runtime": {"min_version": "0.17.0", "api": 1, "module": "mods/skyeshade/hd2runtime"}},
+  "sdk": "../../../sdk",
+  "ide_library": "../../../sdk/stubs"
+}

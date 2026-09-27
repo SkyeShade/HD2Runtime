@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.16.0",
+  "hd2RuntimeVersion": "0.17.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -17,8 +17,8 @@
   "summary": {
     "weapons": 80,
     "nativePrimaryValueReadable": 80,
-    "allowedModeListsProven": 0,
-    "writableWeapons": 0
+    "allowedModeListsProven": 80,
+    "writableWeapons": 21
   },
   "nativeValueGroups": {
     "1": [
@@ -110,14 +110,131 @@
       "PLAS-15 Loyalist"
     ]
   },
+  "nativeModeVectors": {
+    "(1, 0, 0)": [
+      "ARC-12 Blitzer",
+      "CQC-19 Stun Lance",
+      "CQC-2 Saber",
+      "CQC-30 Stun Baton",
+      "CQC-42 Machete",
+      "CQC-5 Combat Hatchet",
+      "CQC-73 Entrenchment Tool",
+      "FLAM-66 Torcher",
+      "GL-15 Evictor",
+      "LAS-12 Sai",
+      "LAS-13 Trident",
+      "LAS-16 Sickle",
+      "LAS-17 Double-Edge Sickle",
+      "LAS-5 Scythe",
+      "LAS-7 Dagger",
+      "SG-97 Sweeper",
+      "SMG/FLAM-34 Stoker",
+      "StA-11 SMG"
+    ],
+    "(1, 2, 0)": [
+      "AR-2 Coyote",
+      "AR-23C Liberator Concussive",
+      "BR-14 Adjudicator",
+      "P-19 Redeemer",
+      "SG-225 Breaker",
+      "SG-225SP Breaker Spray&Pray",
+      "StA-52 Assault Rifle"
+    ],
+    "(1, 2, 3)": [
+      "AR-23 Liberator",
+      "AR-23A Liberator Carbine",
+      "AR-23P Liberator Penetrator",
+      "AR-32 Pacifier",
+      "AR-59 Suppressor",
+      "AR-61 Tenderizer",
+      "AR/GL-21 One-Two",
+      "M7S SMG",
+      "MA5C Assault Rifle",
+      "MP-98 Knight",
+      "SMG-203 Gallant",
+      "SMG-32 Reprimand",
+      "SMG-37 Defender",
+      "SMG-72 Pummeler"
+    ],
+    "(1, 3, 0)": [
+      "AR-11 Arbitrator"
+    ],
+    "(1, 4, 7)": [
+      "VG-70 Variable"
+    ],
+    "(2, 0, 0)": [
+      "CB-9 Exploding Crossbow",
+      "GP-20 Ultimatum",
+      "GP-31 Grenade Pistol",
+      "LAS-58 Talon",
+      "M6C/SOCOM Pistol",
+      "M90A Shotgun",
+      "P-11 Stim Pistol",
+      "P-113 Verdict",
+      "P-2 Peacemaker",
+      "P-35 Re-Educator",
+      "P-4 Senator",
+      "P-69 Veto",
+      "P-72 Crisper",
+      "P/40-K Bolt Pistol",
+      "PLAS-101 Purifier",
+      "PLAS-39 Accelerator Rifle",
+      "R-2124 Constitution",
+      "R-36 Eruptor",
+      "R-4 Hyena",
+      "R-6 Deadeye",
+      "R-63 Diligence",
+      "R-63CS Diligence Counter Sniper",
+      "R-72 Censor",
+      "R/40-K Hot-Shot Marksman Rifle",
+      "SG-20 Halt",
+      "SG-451 Cookout",
+      "SG-8 Punisher",
+      "SG-8P Punisher Plasma",
+      "SG-8S Slugger"
+    ],
+    "(2, 1, 0)": [
+      "PLAS-1 Scorcher"
+    ],
+    "(2, 3, 0)": [
+      "JAR-5 Dominator",
+      "R-2 Amendment"
+    ],
+    "(2, 4, 0)": [
+      "DBS-2 Double Freedom",
+      "SG-22 Bushwhacker"
+    ],
+    "(3, 0, 0)": [
+      "P-33 Missile Pistol",
+      "P-34 Breacher",
+      "P-92 Warrant"
+    ],
+    "(3, 2, 0)": [
+      "SG-225IE Breaker Incendiary"
+    ],
+    "(5, 0, 0)": [
+      "PLAS-15 Loyalist"
+    ]
+  },
   "findings": {
     "primaryValue": {
       "component": "WeaponDataComponentData",
       "offset": 144,
-      "storage": "u32"
+      "storage": "u32",
+      "vectorOffsets": [
+        144,
+        148,
+        152
+      ]
+    },
+    "nativeValues": {
+      "1": "Full Auto for conventional projectile consumers; family-specific held trigger elsewhere.",
+      "2": "Semi Auto for conventional projectile consumers; family-specific trigger elsewhere.",
+      "3": "Special sequence/guided/burst-like; not sufficiently uniform to name as Burst.",
+      "5": "Charge-controlled on PLAS-15 Loyalist; not promoted as a general enum."
     },
     "rateSelector": "Separate from fire-mode selection; no player-weapon rate selector graph was proven.",
-    "jar5FullAuto": "Blocked: JAR-5 native value is readable, but Full Auto compatibility and allowed-mode ownership are not proven."
+    "jar5FullAuto": "Blocked: JAR-5 vector is [2,3,0]; native Full Auto value 1 is not an allowed member."
   },
   "weapons": [
     {
@@ -137,11 +254,19 @@
         "recordIndex": 280,
         "indexRow": 106
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        3,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "AR-2 Coyote",
@@ -160,11 +285,20 @@
         "recordIndex": 276,
         "indexRow": 137
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-23 Liberator",
@@ -183,11 +317,20 @@
         "recordIndex": 270,
         "indexRow": 564
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-23A Liberator Carbine",
@@ -206,11 +349,20 @@
         "recordIndex": 278,
         "indexRow": 365
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-23C Liberator Concussive",
@@ -229,11 +381,20 @@
         "recordIndex": 272,
         "indexRow": 207
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-23P Liberator Penetrator",
@@ -252,11 +413,20 @@
         "recordIndex": 271,
         "indexRow": 710
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-32 Pacifier",
@@ -275,11 +445,20 @@
         "recordIndex": 275,
         "indexRow": 427
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-59 Suppressor",
@@ -298,11 +477,20 @@
         "recordIndex": 281,
         "indexRow": 120
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR-61 Tenderizer",
@@ -321,11 +509,20 @@
         "recordIndex": 279,
         "indexRow": 164
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "AR/GL-21 One-Two",
@@ -344,11 +541,20 @@
         "recordIndex": 273,
         "indexRow": 5
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "ARC-12 Blitzer",
@@ -367,11 +573,17 @@
         "recordIndex": 269,
         "indexRow": 411
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "BR-14 Adjudicator",
@@ -390,11 +602,20 @@
         "recordIndex": 285,
         "indexRow": 461
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "CB-9 Exploding Crossbow",
@@ -413,11 +634,19 @@
         "recordIndex": 288,
         "indexRow": 223
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-19 Stun Lance",
@@ -436,11 +665,17 @@
         "recordIndex": 164,
         "indexRow": 438
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-2 Saber",
@@ -459,11 +694,17 @@
         "recordIndex": 262,
         "indexRow": 376
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-30 Stun Baton",
@@ -482,11 +723,17 @@
         "recordIndex": 264,
         "indexRow": 471
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-42 Machete",
@@ -506,11 +753,17 @@
         "recordIndex": 267,
         "indexRow": 283
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-5 Combat Hatchet",
@@ -529,11 +782,17 @@
         "recordIndex": 266,
         "indexRow": 246
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "CQC-73 Entrenchment Tool",
@@ -553,11 +812,17 @@
         "recordIndex": 166,
         "indexRow": 595
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "DBS-2 Double Freedom",
@@ -577,11 +842,19 @@
         "recordIndex": 177,
         "indexRow": 10
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        4,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "FLAM-66 Torcher",
@@ -600,11 +873,17 @@
         "recordIndex": 289,
         "indexRow": 26
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "GL-15 Evictor",
@@ -624,11 +903,19 @@
         "recordIndex": 169,
         "indexRow": 558
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "GP-20 Ultimatum",
@@ -647,11 +934,19 @@
         "recordIndex": 320,
         "indexRow": 128
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "GP-31 Grenade Pistol",
@@ -672,11 +967,19 @@
         "recordIndex": 250,
         "indexRow": 202
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "JAR-5 Dominator",
@@ -695,11 +998,19 @@
         "recordIndex": 290,
         "indexRow": 362
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        3,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-12 Sai",
@@ -718,11 +1029,19 @@
         "recordIndex": 297,
         "indexRow": 131
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-13 Trident",
@@ -741,11 +1060,17 @@
         "recordIndex": 296,
         "indexRow": 604
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-16 Sickle",
@@ -764,11 +1089,19 @@
         "recordIndex": 294,
         "indexRow": 682
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-17 Double-Edge Sickle",
@@ -787,11 +1120,19 @@
         "recordIndex": 295,
         "indexRow": 333
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-5 Scythe",
@@ -811,11 +1152,17 @@
         "recordIndex": 292,
         "indexRow": 410
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-58 Talon",
@@ -834,11 +1181,19 @@
         "recordIndex": 313,
         "indexRow": 500
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "LAS-7 Dagger",
@@ -858,11 +1213,17 @@
         "recordIndex": 99,
         "indexRow": 622
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "M6C/SOCOM Pistol",
@@ -881,11 +1242,19 @@
         "recordIndex": 321,
         "indexRow": 389
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "M7S SMG",
@@ -904,11 +1273,20 @@
         "recordIndex": 182,
         "indexRow": 27
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "M90A Shotgun",
@@ -928,11 +1306,19 @@
         "recordIndex": 178,
         "indexRow": 59
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "MA5C Assault Rifle",
@@ -951,11 +1337,20 @@
         "recordIndex": 277,
         "indexRow": 351
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "MP-98 Knight",
@@ -974,11 +1369,20 @@
         "recordIndex": 179,
         "indexRow": 467
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "P-11 Stim Pistol",
@@ -998,11 +1402,19 @@
         "recordIndex": 191,
         "indexRow": 674
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-113 Verdict",
@@ -1021,11 +1433,19 @@
         "recordIndex": 318,
         "indexRow": 340
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-19 Redeemer",
@@ -1044,11 +1464,20 @@
         "recordIndex": 311,
         "indexRow": 224
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "P-2 Peacemaker",
@@ -1067,11 +1496,19 @@
         "recordIndex": 190,
         "indexRow": 150
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-33 Missile Pistol",
@@ -1090,11 +1527,17 @@
         "recordIndex": 189,
         "indexRow": 662
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        3,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-34 Breacher",
@@ -1113,11 +1556,17 @@
         "recordIndex": 316,
         "indexRow": 196
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        3,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-35 Re-Educator",
@@ -1136,11 +1585,19 @@
         "recordIndex": 312,
         "indexRow": 396
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-4 Senator",
@@ -1160,11 +1617,19 @@
         "recordIndex": 324,
         "indexRow": 256
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-69 Veto",
@@ -1184,11 +1649,19 @@
         "recordIndex": 319,
         "indexRow": 453
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-72 Crisper",
@@ -1208,11 +1681,17 @@
         "recordIndex": 314,
         "indexRow": 499
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P-92 Warrant",
@@ -1231,11 +1710,17 @@
         "recordIndex": 188,
         "indexRow": 469
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        3,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "P/40-K Bolt Pistol",
@@ -1254,11 +1739,19 @@
         "recordIndex": 322,
         "indexRow": 391
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "PLAS-1 Scorcher",
@@ -1277,11 +1770,20 @@
         "recordIndex": 308,
         "indexRow": 407
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        1,
+        0
+      ],
+      "allowedModes": [
+        2,
+        1
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "PLAS-101 Purifier",
@@ -1300,11 +1802,19 @@
         "recordIndex": 309,
         "indexRow": 169
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "PLAS-15 Loyalist",
@@ -1323,11 +1833,17 @@
         "recordIndex": 323,
         "indexRow": 378
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        5,
+        0,
+        0
+      ],
+      "allowedModes": [],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "PLAS-39 Accelerator Rifle",
@@ -1346,11 +1862,19 @@
         "recordIndex": 185,
         "indexRow": 162
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-2 Amendment",
@@ -1369,11 +1893,19 @@
         "recordIndex": 286,
         "indexRow": 141
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        3,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-2124 Constitution",
@@ -1393,11 +1925,19 @@
         "recordIndex": 287,
         "indexRow": 270
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-36 Eruptor",
@@ -1416,11 +1956,19 @@
         "recordIndex": 291,
         "indexRow": 553
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-4 Hyena",
@@ -1439,11 +1987,19 @@
         "recordIndex": 300,
         "indexRow": 142
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-6 Deadeye",
@@ -1463,11 +2019,19 @@
         "recordIndex": 298,
         "indexRow": 145
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-63 Diligence",
@@ -1486,11 +2050,19 @@
         "recordIndex": 303,
         "indexRow": 691
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-63CS Diligence Counter Sniper",
@@ -1509,11 +2081,19 @@
         "recordIndex": 304,
         "indexRow": 408
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R-72 Censor",
@@ -1532,11 +2112,19 @@
         "recordIndex": 301,
         "indexRow": 390
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "R/40-K Hot-Shot Marksman Rifle",
@@ -1555,11 +2143,19 @@
         "recordIndex": 302,
         "indexRow": 90
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-20 Halt",
@@ -1579,11 +2175,19 @@
         "recordIndex": 173,
         "indexRow": 64
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-22 Bushwhacker",
@@ -1603,11 +2207,19 @@
         "recordIndex": 310,
         "indexRow": 436
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        4,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-225 Breaker",
@@ -1626,11 +2238,20 @@
         "recordIndex": 282,
         "indexRow": 147
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SG-225IE Breaker Incendiary",
@@ -1649,11 +2270,19 @@
         "recordIndex": 284,
         "indexRow": 331
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        3,
+        2,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "family_specific_or_unresolved",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-225SP Breaker Spray&Pray",
@@ -1672,11 +2301,20 @@
         "recordIndex": 283,
         "indexRow": 157
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SG-451 Cookout",
@@ -1696,11 +2334,19 @@
         "recordIndex": 174,
         "indexRow": 324
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-8 Punisher",
@@ -1720,11 +2366,19 @@
         "recordIndex": 170,
         "indexRow": 723
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-8P Punisher Plasma",
@@ -1743,11 +2397,19 @@
         "recordIndex": 175,
         "indexRow": 704
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-8S Slugger",
@@ -1767,11 +2429,19 @@
         "recordIndex": 172,
         "indexRow": 459
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        2,
+        0,
+        0
+      ],
+      "allowedModes": [
+        2
+      ],
+      "defaultModeSemantics": "semi_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SG-97 Sweeper",
@@ -1791,11 +2461,19 @@
         "recordIndex": 176,
         "indexRow": 570
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SMG-203 Gallant",
@@ -1814,11 +2492,20 @@
         "recordIndex": 184,
         "indexRow": 398
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SMG-32 Reprimand",
@@ -1837,11 +2524,20 @@
         "recordIndex": 183,
         "indexRow": 34
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SMG-37 Defender",
@@ -1861,11 +2557,20 @@
         "recordIndex": 305,
         "indexRow": 660
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "SMG-72 Pummeler",
@@ -1884,11 +2589,20 @@
         "recordIndex": 306,
         "indexRow": 287
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        3
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "SMG/FLAM-34 Stoker",
@@ -1907,11 +2621,19 @@
         "recordIndex": 180,
         "indexRow": 31
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "StA-11 SMG",
@@ -1930,11 +2652,19 @@
         "recordIndex": 181,
         "indexRow": 406
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        0,
+        0
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     },
     {
       "weapon": "StA-52 Assault Rifle",
@@ -1953,11 +2683,20 @@
         "recordIndex": 274,
         "indexRow": 422
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        2,
+        0
+      ],
+      "allowedModes": [
+        1,
+        2
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
-      "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writable": true,
+      "writeKind": "reorder_native_mode_vector",
+      "reason": null
     },
     {
       "weapon": "VG-70 Variable",
@@ -1976,11 +2715,19 @@
         "recordIndex": 186,
         "indexRow": 173
       },
-      "allowedModes": null,
-      "defaultModeSemantics": "unresolved",
+      "nativeModeVector": [
+        1,
+        4,
+        7
+      ],
+      "allowedModes": [
+        1
+      ],
+      "defaultModeSemantics": "full_auto",
       "selectedRuntimeMode": null,
       "writable": false,
-      "reason": "One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven."
+      "writeKind": null,
+      "reason": "Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable."
     }
   ]
 }

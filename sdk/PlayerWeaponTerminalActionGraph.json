@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
-  "hd2RuntimeVersion": "0.16.0",
+  "hd2RuntimeVersion": "0.17.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"
@@ -18,9 +18,9 @@
     "weapons": 80,
     "projectileAttacks": 67,
     "readableActions": 134,
-    "writableActions": 16,
-    "writableImpactRefs": 12,
-    "writableExpiryRefs": 4,
+    "writableActions": 130,
+    "writableImpactRefs": 65,
+    "writableExpiryRefs": 65,
     "impactExplosionLinks": 13,
     "expiryExplosionLinks": 5
   },
@@ -106,6 +106,7 @@
   "findings": {
     "impact": "Schema-labelled ExplosionType and structurally linked ExplosionSettings records; typed replacement is guarded.",
     "expiry": "All nonzero current records link the same typed ExplosionSettings table and share the impact reference contract.",
+    "null": "Zero is the repeatedly observed native no-action sentinel in both typed slots; raw numeric zero remains rejected.",
     "otherActions": "Neighboring nonzero scalars are not promoted without typed ownership or consumer evidence."
   },
   "weapons": [
@@ -135,8 +136,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -145,7 +147,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -156,8 +158,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -166,7 +169,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -198,8 +201,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -208,7 +212,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -219,8 +223,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -229,7 +234,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -261,8 +266,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -301,7 +307,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -312,8 +318,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -352,7 +359,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -384,8 +391,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -424,7 +432,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -435,8 +443,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -475,7 +484,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -507,8 +516,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -527,7 +537,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -538,8 +548,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -558,7 +569,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -590,8 +601,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -620,7 +632,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -631,8 +643,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -661,7 +674,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -693,8 +706,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -703,7 +717,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -714,8 +728,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -724,7 +739,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -756,8 +771,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -766,7 +782,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -777,8 +793,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -787,7 +804,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -819,8 +836,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -829,7 +847,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -840,8 +858,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -850,7 +869,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -882,8 +901,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -892,7 +912,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -903,8 +923,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -913,7 +934,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -953,8 +974,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -963,7 +985,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -974,8 +996,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -984,7 +1007,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1017,7 +1040,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1037,8 +1061,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1047,7 +1072,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1129,8 +1154,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -1139,7 +1165,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1150,8 +1176,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -1160,7 +1187,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1201,7 +1228,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1227,7 +1255,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1274,7 +1303,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1294,8 +1324,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1304,7 +1335,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1338,7 +1369,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": false,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1362,7 +1394,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": "Ambiguous weapon identity blocks an ordinary typed terminal write."
             },
             {
               "phase": "expiry",
@@ -1374,7 +1406,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": false,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1398,7 +1431,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": "Ambiguous weapon identity blocks an ordinary typed terminal write."
             }
           ]
         }
@@ -1430,8 +1463,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1440,7 +1474,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1451,8 +1485,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1461,7 +1496,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1493,8 +1528,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1503,7 +1539,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1514,8 +1550,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1524,7 +1561,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1564,8 +1601,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1579,7 +1617,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1590,8 +1628,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1605,7 +1644,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1637,8 +1676,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1652,7 +1692,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1663,8 +1703,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1678,7 +1719,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1719,8 +1760,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1729,7 +1771,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1740,8 +1782,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1750,7 +1793,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1791,8 +1834,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1801,7 +1845,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1812,8 +1856,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1822,7 +1867,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1854,8 +1899,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1864,7 +1910,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1875,8 +1921,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1885,7 +1932,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1917,8 +1964,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1932,7 +1980,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -1943,8 +1991,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -1958,7 +2007,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -1990,8 +2039,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2000,7 +2050,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2011,8 +2061,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2021,7 +2072,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2053,8 +2104,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2068,7 +2120,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2079,8 +2131,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2094,7 +2147,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2126,8 +2179,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2151,7 +2205,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2162,8 +2216,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2187,7 +2242,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2219,8 +2274,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2229,7 +2285,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2240,8 +2296,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2250,7 +2307,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2299,7 +2356,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2320,7 +2378,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2362,7 +2421,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2383,7 +2443,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2424,8 +2485,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2434,7 +2496,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2445,8 +2507,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2455,7 +2518,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2487,8 +2550,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -2497,7 +2561,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2508,8 +2572,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -2518,7 +2583,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2550,8 +2615,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2565,7 +2631,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2576,8 +2642,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2591,7 +2658,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2632,8 +2699,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2642,7 +2710,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -2653,8 +2721,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2663,7 +2732,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2696,7 +2765,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2716,8 +2786,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2726,7 +2797,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2759,7 +2830,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2789,8 +2861,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2809,7 +2882,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2842,7 +2915,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2862,8 +2936,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2872,7 +2947,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2905,7 +2980,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2925,8 +3001,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2935,7 +3012,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -2968,7 +3045,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2988,8 +3066,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -2998,7 +3077,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3030,8 +3109,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3040,7 +3120,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3051,8 +3131,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3061,7 +3142,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3093,8 +3174,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3103,7 +3185,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3114,8 +3196,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3124,7 +3207,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3157,7 +3240,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3178,7 +3262,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3219,8 +3304,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3229,7 +3315,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3240,8 +3326,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3250,7 +3337,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3282,8 +3369,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3297,7 +3385,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3308,8 +3396,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3323,7 +3412,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3355,8 +3444,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3365,7 +3455,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3376,8 +3466,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3386,7 +3477,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3418,8 +3509,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3428,7 +3520,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3439,8 +3531,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3449,7 +3542,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3481,8 +3574,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3491,7 +3585,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3502,8 +3596,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3512,7 +3607,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3544,8 +3639,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3554,7 +3650,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3565,8 +3661,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3575,7 +3672,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3607,8 +3704,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3617,7 +3715,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3628,8 +3726,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3638,7 +3737,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         },
@@ -3661,8 +3760,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3671,7 +3771,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3682,8 +3782,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3692,7 +3793,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3724,8 +3825,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3754,7 +3856,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3765,8 +3867,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -3795,7 +3898,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3827,8 +3930,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3837,7 +3941,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3848,8 +3952,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3858,7 +3963,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3890,8 +3995,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3900,7 +4006,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3911,8 +4017,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3921,7 +4028,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -3953,8 +4060,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3963,7 +4071,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -3974,8 +4082,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -3984,7 +4093,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4016,8 +4125,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4031,7 +4141,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4042,8 +4152,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4057,7 +4168,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4089,8 +4200,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4119,7 +4231,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4130,8 +4242,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4160,7 +4273,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4193,7 +4306,8 @@
               "linkedExplosionRecord": true,
               "readable": true,
               "writable": true,
-              "referenceClass": "ExplosionSettings",
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4213,8 +4327,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4223,7 +4338,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4255,8 +4370,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4270,7 +4386,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4281,8 +4397,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "WeaponRoundsComponentData",
@@ -4296,7 +4413,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4328,8 +4445,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4343,7 +4461,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4354,8 +4472,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4369,7 +4488,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4401,8 +4520,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4411,7 +4531,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4422,8 +4542,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4432,7 +4553,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4464,8 +4585,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4474,7 +4596,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4485,8 +4607,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4495,7 +4618,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4529,7 +4652,8 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "referenceClass": null,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4538,7 +4662,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": "Ambiguous weapon identity blocks an ordinary typed terminal write."
             },
             {
               "phase": "expiry",
@@ -4550,7 +4674,8 @@
               "linkedExplosionRecord": false,
               "readable": true,
               "writable": false,
-              "referenceClass": null,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4559,7 +4684,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": "Ambiguous weapon identity blocks an ordinary typed terminal write."
             }
           ]
         }
@@ -4591,8 +4716,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4601,7 +4727,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4612,8 +4738,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4622,7 +4749,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4654,8 +4781,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4664,7 +4792,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4675,8 +4803,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4685,7 +4814,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4717,8 +4846,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4732,7 +4862,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4743,8 +4873,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4758,7 +4889,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4790,8 +4921,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4830,7 +4962,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4841,8 +4973,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4881,7 +5014,7 @@
                 }
               ],
               "affectsMultipleResources": true,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }
@@ -4913,8 +5046,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4923,7 +5057,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             },
             {
               "phase": "expiry",
@@ -4934,8 +5068,9 @@
               "actionKind": "none",
               "linkedExplosionRecord": false,
               "readable": true,
-              "writable": false,
-              "referenceClass": null,
+              "writable": true,
+              "referenceClass": "ExplosionSettings?",
+              "nullSentinel": 0,
               "projectileSettingsConsumers": [
                 {
                   "component": "ProjectileWeaponComponentData",
@@ -4944,7 +5079,7 @@
                 }
               ],
               "affectsMultipleResources": false,
-              "reason": "Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle."
+              "reason": null
             }
           ]
         }

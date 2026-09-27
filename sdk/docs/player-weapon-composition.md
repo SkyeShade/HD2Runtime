@@ -1,5 +1,34 @@
 # Player weapon composition research and authoring
 
+## Fire modes in 0.17
+
+`WeaponDataComponentData` contains a three-member native mode vector at offsets 144, 148, and 152.
+For conventional projectile consumers, values 1 and 2 correlate structurally and across the catalog
+with Full Auto and Semi Auto. Values 3 and 5 remain family-specific diagnostics. HD2Runtime only
+reorders 1 and 2 when both already occur in the uniquely owned weapon vector. JAR-5 remains
+read-only because its vector is `[2, 3, 0]` and therefore does not prove Full Auto compatibility.
+
+## Projectile objects and residency
+
+An attack owns a projectile reference. ProjectileSettings, physics, DamageInfo, terminal actions,
+and linked explosions belong to the referenced projectile object. After a swap, scalar resolution
+follows the new reference. Editing the object is a shared definition write and requires
+`allow_shared=true`; HD2Runtime has found no native weapon-local clone/override contract.
+
+The current snapshot contains no equipped/unequipped residency pair and Bingus exposes no reviewed
+resource preload request in this repository. LAS-58 Talon is marked `SOURCE_WEAPON_REQUIRED` from
+the reported gameplay control and is blocked as a swap source. Other untested sources remain
+`DEPENDENCY_UNRESOLVED`; JAR-5 carries the successful observed swap evidence.
+
+Terminal explosion slots accept typed explosion handles or `terminal:no_explosion()`. Native zero
+is never accepted as a raw public reference.
+
+A reference replacement and scalar edits are intentionally separate operations. The existing
+transaction model has one semantic target and cannot prove an atomic identity transition between
+two objects. An attempted combined attack transaction is rejected with `COMPOSITION_TARGET_CHANGED`;
+the author then targets the source projectile handle in a second guarded operation and explicitly
+acknowledges its shared consumers.
+
 This pass uses the build-bound `F5FEE03DCFDB-20260926T222226Z.hd2snap` and the
 reviewed 80-player-weapon identity catalog. The research scan is bounded to those
 resources, five relevant component types, and their already-linked projectile,

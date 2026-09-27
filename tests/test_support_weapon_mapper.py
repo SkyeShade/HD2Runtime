@@ -3,6 +3,8 @@ import sys
 import unittest
 
 from support import ROOT, run
+sys.path.insert(0,str(ROOT/'scripts'))
+import generate_support_weapon_sdk
 
 sys.path.insert(0,str(ROOT/'sdk'))
 from tools.wiki_player import compact
@@ -88,6 +90,16 @@ class SupportWeaponRuntimeMapTests(unittest.TestCase):
         self.assertEqual(self.summary['duplicateIdentityGroups'],8)
         self.assertEqual((self.summary['ambiguousIdentities'],self.summary['unresolvedIdentities']),(0,0))
         self.assertFalse(self.summary['guardedAuthoringReady'])
+
+    def test_stable_read_only_sdk_contract(self):
+        self.assertFalse(generate_support_weapon_sdk.generate(check=True))
+        sdk=json.loads((ROOT/'sdk/SupportWeaponCapabilities.json').read_text())
+        self.assertEqual(sdk['contract'],'hd2runtime.support_weapon.read_only.v1')
+        self.assertEqual(len(sdk['weapons']),35)
+        self.assertEqual(sdk['safety'],{'writes':0,'protectionChanges':0,
+            'fixtureFallback':'disabled'})
+        self.assertNotIn('baseAddress',json.dumps(sdk))
+        self.assertEqual(len(sdk['weapons']['MS-11 Solo Silo']['ownershipChain']),3)
 
     def test_catalog_branch_counts_and_unknown_are_preserved(self):
         self.assertEqual(self.summary['catalogBranchCounts'],{

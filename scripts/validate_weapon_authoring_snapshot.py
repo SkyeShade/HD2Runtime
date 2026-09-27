@@ -55,7 +55,8 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
                 target={'resource':'player_weapon','path':'attack','weapon':weapon['name'],'attack':role}
             elif field['type']=='explosion_reference':
                 role=field['referenceRole'];phase=field['referencePhase']
-                handle={'resource':'player_weapon','path':'explosion','weapon':weapon['name'],
+                handle={'resource':'player_weapon','path':('explosion'
+                    if field['currentDefault']['explosionType'] else 'no_explosion'),'weapon':weapon['name'],
                     'attack':role,'phase':phase}
                 change={'field':'terminal.explosion','expect':handle,'value':handle}
                 target={'resource':'player_weapon','path':'terminal_action','weapon':weapon['name'],
@@ -67,13 +68,23 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
                     'value':field['currentDefault']}
                 target={'resource':'player_weapon','path':'explosion','weapon':weapon['name'],
                     'attack':role,'phase':phase}
+            elif field.get('writeKind')=='reorder_native_mode_vector':
+                destination=next(value for value in field['allowedValues']
+                    if value!=field['currentDefault'])
+                change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
+                    'value':destination,'validationOnly':True}
+                target={'resource':'player_weapon','path':'weapon','weapon':weapon['name']}
             else:
                 change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
                     'value':field['currentDefault']}
                 target={'resource':'player_weapon','path':'weapon','weapon':weapon['name']}
+            force_single=field.get('writeKind')=='reorder_native_mode_vector'
             placed=False
+            if force_single:
+                batches.append({'target':target,'changes':[change],'identities':{identity},'exclusive':True})
+                continue
             for batch in batches:
-                if batch['target']==target and len(batch['changes'])<32 and identity not in batch['identities']:
+                if not batch.get('exclusive') and batch['target']==target and len(batch['changes'])<32 and identity not in batch['identities']:
                     batch['changes'].append(change);batch['identities'].add(identity);placed=True;break
             if not placed:batches.append({'target':target,'changes':[change],'identities':{identity}})
         audit.append({'name':weapon['name'],'blocked':weapon['ordinaryWritesBlocked'],
@@ -106,16 +117,25 @@ for _,weapon in ipairs(audit)do
             local changes=batch.changes
             if #changes>0 then
                 local worker=coroutine.create(function()
+                    local validation_only=changes[1].validationOnly
+                    for _,change in ipairs(changes)do change.validationOnly=nil end
                     local spec=domain.validate_transaction({id='snapshot-write-audit',allow_shared=true,
                         target=batch.target,changes=changes})
                     local reader=Reader.new(source)
                     local resolved=domain.capture(source,reader,spec)
                     local plan=domain.prepare(resolved,reader,spec)
                     reader.verify()
-                    assert(#plan.changes==#changes)
-                    local guarded_result=guarded.apply(source,plan)
-                    assert(guarded_result.status=='ALREADY_DESIRED'and guarded_result.writes==0
-                        and guarded_result.protection_changes==0 and guarded_result.protection_restored)
+                    if validation_only then
+                        local labels={};for _,item in ipairs(plan.changes)do labels[#labels+1]=item.label end
+                        assert(#plan.changes==2 and not plan.changes[1].already_desired,
+                            'fire mode plan count='..#plan.changes..' already='..tostring(plan.changes[1].already_desired)
+                            ..' labels='..table.concat(labels,','))
+                    else
+                        assert(#plan.changes==#changes)
+                        local guarded_result=guarded.apply(source,plan)
+                        assert(guarded_result.status=='ALREADY_DESIRED'and guarded_result.writes==0
+                            and guarded_result.protection_changes==0 and guarded_result.protection_restored)
+                    end
                     return #changes
                 end)
                 local ok,value

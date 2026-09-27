@@ -22,7 +22,8 @@ local function target_name(target)
             'unsupported player weapon target identity')end
         return target.weapon,nil,'weapon',nil
     end
-    assert((target.path=='attack'or target.path=='terminal_action'or target.path=='explosion')
+    assert((target.path=='attack'or target.path=='projectile_reference'
+        or target.path=='terminal_action'or target.path=='explosion')
         and type(target.attack)=='string','unsupported player weapon target')
     if target.path=='terminal_action'or target.path=='explosion'then
         assert(target.phase=='impact'or target.phase=='expiry','unsupported terminal action phase')
@@ -47,6 +48,12 @@ local function field_for(weapon,id,role,path,phase)
         resolved='attack.'..role..'.projectile'
     elseif id=='terminal.explosion'then
         resolved='terminal.'..role..'.'..phase..'.explosion'
+    elseif path=='projectile_reference'and id:match('^projectile%.')then
+        local branch='projectile.'..role..'.'..id:sub(#'projectile.'+1)
+        for _,field in ipairs(weapon.fields)do if field.semanticFieldId==branch then resolved=branch end end
+    elseif path=='projectile_reference'and id:match('^damage%.')then
+        local branch='damage.'..role..'.'..id:sub(#'damage.'+1)
+        for _,field in ipairs(weapon.fields)do if field.semanticFieldId==branch then resolved=branch end end
     elseif path=='explosion'and id:match('^explosion%.')
         and not id:match('^explosion%.[^.]+%.impact%.')
         and not id:match('^explosion%.[^.]+%.expiry%.')then
@@ -84,11 +91,12 @@ local function explosion_selector(value,label)
     assert(type(value)=='table',label..' must be an explosion reference handle')
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack'
         or key=='phase',label..' contains unsupported explosion reference identity')end
-    assert(value.resource=='player_weapon'and value.path=='explosion'
+    assert(value.resource=='player_weapon'and(value.path=='explosion'or value.path=='no_explosion')
         and type(value.weapon)=='string'and type(value.attack)=='string'
         and(value.phase=='impact'or value.phase=='expiry'),
         label..' must come from projectile:terminal_action(phase):explosion()')
-    return {weapon=value.weapon,attack=value.attack,phase=value.phase}
+    return {weapon=value.weapon,attack=value.attack,phase=value.phase,
+        is_null=value.path=='no_explosion'}
 end
 local function validate_change(weapon,item,allow_shared,role,path,phase)
     assert(type(item)=='table','change must be a descriptor')
@@ -96,12 +104,15 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
         'unsupported change option: '..tostring(key))end
     if path=='attack'then
         assert(item.field=='attack.projectile'or item.field=='attack.'..role..'.projectile',
-            'attack targets only accept the typed attack.projectile reference field')
+            'COMPOSITION_TARGET_CHANGED: attack transactions only replace the projectile reference; edit the freshly resolved source projectile object in a separate guarded operation with allow_shared=true')
     elseif path=='terminal_action'then
         assert(item.field=='terminal.explosion'or item.field=='terminal.'..role..'.'..phase..'.explosion',
             'terminal targets only accept the typed terminal.explosion reference field')
     elseif path=='explosion'then
         assert(item.field:match('^explosion%.'),'explosion targets only accept explosion fields')
+    elseif path=='projectile_reference'then
+        assert(item.field:match('^projectile%.')or item.field:match('^damage%.'),
+            'projectile objects only accept projectile or linked damage fields')
     else
         assert(item.field~='attack.projectile'and item.field~='terminal.explosion'
             and not item.field:match('^attack%..+%.projectile$')
@@ -119,6 +130,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
+    if path=='projectile_reference'and field.backing.settings then
+        assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
+    end
     if field.type=='projectile_reference'then
         assert(field.referenceKind=='projectile'and field.referenceRole==role,
             'projectile reference role changed')
@@ -138,6 +152,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
             or source.compatibilityClass=='explosive_impact_and_expiry'
             or source.compatibilityClass=='explosive_shrapnel',
             'projectile compatibility class is not approved for replacement')
+        assert(expected.weapon==desired.weapon and expected.attack==desired.attack
+            or not source.residency or source.residency.classification~='SOURCE_WEAPON_REQUIRED',
+            'projectile source dependency is not resident without its source weapon: '..desired.weapon)
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected_selector=expected,desired_selector=desired,source_descriptor=source}
@@ -149,18 +166,31 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
         local desired=explosion_selector(item.value,'value')
         assert(expected.weapon==weapon.name and expected.attack==role and expected.phase==phase,
             'expect must be the target terminal action current explosion handle')
-        local source_weapon=assert(database.weapons[desired.weapon],
-            'unknown explosion source weapon: '..desired.weapon)
-        assert(not source_weapon.ordinaryWritesBlocked,
-            'explosion source identity is ambiguous: '..desired.weapon)
-        local source=field_for(source_weapon,'terminal.explosion',desired.attack,
-            'terminal_action',desired.phase)
-        assert(source.referenceKind=='explosion','source is not a reviewed ExplosionSettings reference')
+        assert(expected.is_null==(field.currentDefault.explosionType==0),
+            'expect does not represent the reviewed terminal reference')
+        local source
+        if not desired.is_null then
+            local source_weapon=assert(database.weapons[desired.weapon],
+                'unknown explosion source weapon: '..desired.weapon)
+            assert(not source_weapon.ordinaryWritesBlocked,
+                'explosion source identity is ambiguous: '..desired.weapon)
+            source=field_for(source_weapon,'terminal.explosion',desired.attack,
+                'terminal_action',desired.phase)
+            assert(source.referenceKind=='explosion'and source.currentDefault.explosionType~=0,
+                'source is not a reviewed ExplosionSettings reference')
+        end
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected_selector=expected,desired_selector=desired,source_descriptor=source}
     end
     local expected=scalar(field,item.expect,'expect');local desired=scalar(field,item.value,'value')
+    if field.writeKind=='reorder_native_mode_vector'then
+        assert((expected==1 or expected==2)and(expected==field.currentDefault),
+            'expect differs from reviewed default fire mode')
+        local allowed={};for _,mode in ipairs(field.allowedValues)do allowed[mode]=true end
+        assert(allowed[desired]and desired~=expected,
+            'destination fire mode is not in this weapon native mode vector')
+    end
     local storage=field.backing.storage
     local canonical=field.type=='boolean'and(field.currentDefault and 1 or 0)or field.currentDefault
     assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '..item.field)
@@ -263,7 +293,7 @@ function M.capture(runtime,reader,spec)
     local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
         reference_sources={}}
     for _,change in ipairs(spec.changes)do
-        if change.desired_selector then
+        if change.desired_selector and not change.desired_selector.is_null then
             local source=assert(database.weapons[change.desired_selector.weapon],
                 'projectile source metadata missing')
             resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
@@ -349,7 +379,9 @@ function M.prepare(resolved,reader,spec)
             record,owner=linked(resolved,backing.settings,backing.branch,backing.phase)
             assert(record.group==backing.group and record.row==backing.row
                 and record.kind==backing.recordType and record.settings_type==backing.settingsType,
-                'settings record identity changed')
+                (spec.target_path=='projectile_reference'
+                    and 'COMPOSITION_TARGET_CHANGED: projectile fields now belong to the newly referenced object; target that source projectile handle and acknowledge shared ownership'
+                    or 'settings record identity changed'))
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
         local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
@@ -381,31 +413,34 @@ function M.prepare(resolved,reader,spec)
         elseif change.descriptor.type=='explosion_reference'then
             local reviewed=change.descriptor.currentDefault.explosionType
             local expected=b.encode(reviewed,'u32')
-            local source_candidate=assert(resolved.reference_sources[change.canonical_field],
-                'explosion source was not freshly resolved')
-            local source_projectile,source_projectile_type=projectile_for_candidate(resolved,
-                source_candidate,change.source_descriptor.referenceRole)
-            local reviewed_projectile=change.source_descriptor.projectileSettings
-            assert(source_projectile.group==reviewed_projectile.group
-                and source_projectile.row==reviewed_projectile.row
-                and source_projectile.kind==reviewed_projectile.recordType
-                and source_projectile.settings_type==reviewed_projectile.settingsType,
-                'source ProjectileSettings identity changed')
-            local source_type=b.u32(source_projectile.bytes,change.source_descriptor.backing.offset)
-            assert(source_type==change.source_descriptor.currentDefault.explosionType,
-                'CONFLICT: source explosion reference changed')
-            local settings=assert(resolved.roots.explosion.records[source_type],
-                'source ExplosionSettings record absent')
-            local reviewed_settings=change.source_descriptor.referenceSettings
-            assert(settings.group==reviewed_settings.group and settings.row==reviewed_settings.row
-                and settings.kind==reviewed_settings.recordType
-                and settings.settings_type==reviewed_settings.settingsType,
-                'source ExplosionSettings identity changed')
+            local source_type=0
+            if not change.desired_selector.is_null then
+                local source_candidate=assert(resolved.reference_sources[change.canonical_field],
+                    'explosion source was not freshly resolved')
+                local source_projectile,source_projectile_type=projectile_for_candidate(resolved,
+                    source_candidate,change.source_descriptor.referenceRole)
+                local reviewed_projectile=change.source_descriptor.projectileSettings
+                assert(source_projectile.group==reviewed_projectile.group
+                    and source_projectile.row==reviewed_projectile.row
+                    and source_projectile.kind==reviewed_projectile.recordType
+                    and source_projectile.settings_type==reviewed_projectile.settingsType,
+                    'source ProjectileSettings identity changed')
+                source_type=b.u32(source_projectile.bytes,change.source_descriptor.backing.offset)
+                assert(source_type==change.source_descriptor.currentDefault.explosionType,
+                    'CONFLICT: source explosion reference changed')
+                local settings=assert(resolved.roots.explosion.records[source_type],
+                    'source ExplosionSettings record absent')
+                local reviewed_settings=change.source_descriptor.referenceSettings
+                assert(settings.group==reviewed_settings.group and settings.row==reviewed_settings.row
+                    and settings.kind==reviewed_settings.recordType
+                    and settings.settings_type==reviewed_settings.settingsType,
+                    'source ExplosionSettings identity changed')
+                source_identity={component='ExplosionSettings',record_index=settings.row,
+                    projectile_type=source_projectile_type,explosion_type=source_type,
+                    settings_group=settings.group,settings_row=settings.row,
+                    settings_type=settings.settings_type,scope='explosion_reference_source'}
+            end
             change.expected=expected;change.desired=b.encode(source_type,'u32')
-            source_identity={component='ExplosionSettings',record_index=settings.row,
-                projectile_type=source_projectile_type,explosion_type=source_type,
-                settings_group=settings.group,settings_row=settings.row,
-                settings_type=settings.settings_type,scope='explosion_reference_source'}
         end
         assert(current==change.expected or current==change.desired,
             'CONFLICT: '..change.field..' is neither expected nor desired')
@@ -445,6 +480,30 @@ function M.prepare(resolved,reader,spec)
             expect=change.expect,value=change.value}
             if source_identity then item.chain[#item.chain+1]=source_identity end
             plan.changes[#plan.changes+1]=item;physical[key]=item
+            if change.descriptor.writeKind=='reorder_native_mode_vector'then
+                local vector=change.descriptor.nativeModeVector
+                assert(#vector==3 and(b.u32(record.bytes,144)==change.expect
+                    or b.u32(record.bytes,144)==change.value),
+                    'CONFLICT: native fire-mode vector changed')
+                local companion_index
+                for index=2,3 do if vector[index]==change.value then companion_index=index end end
+                assert(companion_index,'destination fire mode is absent from native vector')
+                local companion_offset=record.offset+144+(companion_index-1)*4
+                local companion_current=record.bytes:sub(145+(companion_index-1)*4,
+                    148+(companion_index-1)*4)
+                local companion_expected=b.encode(change.value,'u32')
+                local companion_desired=b.encode(change.expect,'u32')
+                assert(companion_current==companion_expected or companion_current==companion_desired,
+                    'CONFLICT: native fire-mode companion changed')
+                local companion={label=change.field..'.allowed_slot',
+                    canonical_field=change.canonical_field..'.allowed_slot',semantic_aliases={},
+                    owner=owner,offset=companion_offset,expected=companion_expected,
+                    desired=companion_desired,before=companion_current,
+                    already_desired=companion_current==companion_desired,identity=identity,
+                    chain={identity},expect=change.value,value=change.expect}
+                plan.changes[#plan.changes+1]=companion
+                physical[tostring(owner.base)..':'..tostring(companion_offset)..':4']=companion
+            end
         end
     end
     return plan

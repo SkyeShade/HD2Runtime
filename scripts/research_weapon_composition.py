@@ -369,6 +369,9 @@ def analyze(raw):
             'defaultRelationshipsProven': sum(w['defaultOption'] is not None and
                 w['defaultOption']['optionIdentityProven'] for w in magazine_weapons),
             'perOptionAmmoOwnersProven': 0, 'writableOptionFields': 0,
+            'completeCustomizationRecordsCompared': sum(
+                'WeaponCustomizationComponentData' in raw_by_name[name]['components']
+                for name in raw_by_name),
             'simpleMagazineWeapons': ammo['summary']['directMagazineWeapons'],
             'roundsFeedWeapons': ammo['summary']['roundsFeedWeapons']},
         'findings': {'defaultSlot': {'component': 'WeaponCustomizationComponentData',
@@ -377,6 +380,7 @@ def analyze(raw):
             'terminatorSlot': 0},
             'allowedOptions': 'The importer supplies catalog relationships; no reviewed native per-weapon allowed-option list was found in the captured component record.',
             'overrideOwnership': 'No option-owned attachment effect/ammo override record is linked by the captured component graph.',
+            'effectTupleSearch': 'All normalized tuples were compared with the complete captured customization components; scalar correlation without a native option-to-owner reference was rejected.',
             'writePolicy': 'Correlation never promotes a write without native option identity, effect owner, and scope.'},
         'nativeMagazineOptions': option_catalog, 'weapons': magazine_weapons}
 
@@ -427,6 +431,23 @@ def analyze(raw):
                 writable_attacks += 1
             item = {'role': role, 'projectileType': attack['projectileType'],
                 'projectileSettings': attack['projectileSettings'], 'compatibilityClass': compatibility,
+                'projectileObject': {'identity': attack['projectileSettings'],
+                    'consumers': record['consumers'],
+                    'scalarWriteScope': 'shared_projectile_definition',
+                    'weaponLocalOverrideProven': False},
+                'residency': ({'classification': 'SOURCE_WEAPON_REQUIRED',
+                    'evidence': 'Observed gameplay control: projectile is invisible until LAS-58 Talon is equipped.',
+                    'preloadSupported': False,
+                    'reason': 'No reviewed Bingus or native resource-loader contract is available.'}
+                    if name == 'LAS-58 Talon' else
+                    {'classification': 'SELF_CONTAINED',
+                    'evidence': 'Observed Reprimand to JAR-5 gameplay swap remained functional.',
+                    'preloadSupported': False, 'reason': None}
+                    if name == 'JAR-5 Dominator' else
+                    {'classification': 'DEPENDENCY_UNRESOLVED',
+                    'evidence': 'No equipped/unequipped residency pair exists in the current snapshot set.',
+                    'preloadSupported': False,
+                    'reason': 'Resource bundle/package ownership is not structurally proven.'}),
                 'targetBacking': ({'component': component, 'offset': offset, 'width': 4,
                     'storage': 'u32', 'recordIndex': owner['recordIndex'],
                     'indexRow': owner['indexRow'], 'ownerCount': owner['ownerCount'],
@@ -446,16 +467,20 @@ def analyze(raw):
                 if linked and linked['explosionRecord']:
                     explosion_offset_hits[offset] += 1
                 distinct_consumers = sorted({consumer['resourceHash'] for consumer in record['consumers']})
-                writable_action = bool(value and linked and linked['explosionRecord'] and unique_identity)
+                # Zero is the native no-action sentinel. It occurs in the same two typed
+                # slots as non-zero ExplosionSettings references, so it can be guarded as
+                # a typed null without accepting an arbitrary integer.
+                writable_action = bool(unique_identity and (value == 0 or
+                    (linked and linked['explosionRecord'])))
                 actions.append({'phase': phase, 'offset': offset, 'width': 4, 'storage': 'u32',
                     'referenceType': value, 'actionKind': 'explosion' if value else 'none',
                     'linkedExplosionRecord': bool(linked and linked['explosionRecord']),
                     'readable': True, 'writable': writable_action,
-                    'referenceClass': 'ExplosionSettings' if value else None,
+                    'referenceClass': 'ExplosionSettings?', 'nullSentinel': 0,
                     'projectileSettingsConsumers': record['consumers'],
                     'affectsMultipleResources': len(distinct_consumers) > 1,
                     'reason': (None if writable_action else
-                        'Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle.')})
+                        'Ambiguous weapon identity blocks an ordinary typed terminal write.')})
             for ref in record['references']:
                 if ref['value']:
                     neighbor_nonzero[ref['offset']] += 1
@@ -526,6 +551,16 @@ def analyze(raw):
             'attacks': attacks})
         terminal_weapons.append({'weapon': name, 'resources': identity['resources'],
             'resolution': identity['resolution'], 'attacks': terminal_attacks})
+    projectile_groups = defaultdict(list)
+    for weapon in projectile_weapons:
+        for attack in weapon['attacks']:
+            settings=attack['projectileSettings']
+            projectile_groups[(settings['group'],settings['row'],settings['recordType'])].append(
+                {'weapon':weapon['weapon'],'role':attack['role'],
+                    'projectileType':attack['projectileType']})
+    shared_projectile_groups=[{'settings': {'group':key[0],'row':key[1],'recordType':key[2]},
+        'consumers':sorted(value,key=lambda item:(item['weapon'],item['role']))}
+        for key,value in sorted(projectile_groups.items()) if len(value)>1]
     projectile = {**common, 'feature': 'projectile_reference_graph',
         'summary': {'weapons': 80, 'weaponsWithProjectileAttack': sum(bool(w['attacks']) for w in projectile_weapons),
             'projectileAttacks': sum(len(w['attacks']) for w in projectile_weapons),
@@ -533,6 +568,7 @@ def analyze(raw):
             'compatibleSourceAttacks': sum(map(len, compatible_sources.values())),
             'writableExplosiveSelectors': sum(1 for weapon in projectile_weapons for attack in weapon['attacks']
                 if attack['writableReferenceSwap'] and attack['compatibilityClass'].startswith('explosive_')),
+            'sharedProjectileGroups': len(shared_projectile_groups),
             'compatibilityClasses': {key: len(value) for key, value in sorted(compatible_sources.items())}},
         'guardPolicy': {'operationKind': 'typed_reference_replacement',
             'allowed': 'same reviewed structural class only',
@@ -540,9 +576,16 @@ def analyze(raw):
             'sourceSettingsMutated': False, 'expectedReferenceRequired': True,
             'sourceIdentityMustResolveUniquely': True,
             'sharedTargetPolicy': 'fail_closed; no shared target selector is promoted in this pass'},
-        'compatibleSourcesByClass': dict(sorted(compatible_sources.items())), 'weapons': projectile_weapons}
+        'compatibleSourcesByClass': dict(sorted(compatible_sources.items())),
+        'sharedProjectileGroups': shared_projectile_groups,
+        'residencyPolicy': {'preloadApiAvailable': False,
+            'knownSourceWeaponRequired': ['LAS-58 Talon'],
+            'unknownSourcesRemain': sum(attack['residency']['classification']=='DEPENDENCY_UNRESOLVED'
+                for weapon in projectile_weapons for attack in weapon['attacks'])},
+        'weapons': projectile_weapons}
 
     fire_groups = defaultdict(list)
+    fire_vectors = defaultdict(list)
     fire_weapons = []
     for name in sorted(author_by_name):
         identity = author_by_name[name]; candidate = candidate_by_name[name]
@@ -550,22 +593,44 @@ def analyze(raw):
         if value is not None:
             fire_groups[str(value)].append(name)
         owner = candidate['ownership'].get('WeaponDataComponentData')
+        component = raw_by_name[name]['components'].get('WeaponDataComponentData')
+        component_bytes = bytes.fromhex(component['bytes']) if component else b''
+        vector = [_u32(component_bytes, offset) for offset in (144, 148, 152)] \
+            if len(component_bytes) >= 156 else []
+        fire_vectors[str(tuple(vector))].append(name)
+        conventional = 'conventional_projectile' in candidate['implementationFamilies']
+        allowed = [mode for mode in vector if mode]
+        semantics = ({1: 'full_auto', 2: 'semi_auto'}.get(value)
+            if conventional else None)
+        safe_modes = [mode for mode in allowed if mode in (1, 2)] if conventional else []
+        unique = identity['resolution'] == 'UNIQUE'
+        writable = unique and len(set(safe_modes)) > 1
         fire_weapons.append({'weapon': name, 'resources': identity['resources'],
             'implementationFamilies': candidate['implementationFamilies'],
             'primaryFireModeNativeValue': value,
             'backing': ({'component': 'WeaponDataComponentData', 'offset': 144, 'width': 4,
                 'storage': 'u32', 'recordIndex': owner['recordIndex'], 'indexRow': owner['indexRow']}
                 if owner and value is not None else None),
-            'allowedModes': None, 'defaultModeSemantics': 'unresolved',
-            'selectedRuntimeMode': None, 'writable': False,
-            'reason': 'One schema-labelled native value is readable; allowed-mode collection and enum semantics are not proven.'})
+            'nativeModeVector': vector, 'allowedModes': safe_modes,
+            'defaultModeSemantics': semantics or 'family_specific_or_unresolved',
+            'selectedRuntimeMode': None, 'writable': writable,
+            'writeKind': 'reorder_native_mode_vector' if writable else None,
+            'reason': (None if writable else
+                'Only conventional, uniquely resolved weapons with both native 1 and 2 in their three-slot vector are writable.')})
     fire_mode = {**common, 'feature': 'fire_mode_graph',
         'summary': {'weapons': 80, 'nativePrimaryValueReadable': sum(w['primaryFireModeNativeValue'] is not None for w in fire_weapons),
-            'allowedModeListsProven': 0, 'writableWeapons': 0},
+            'allowedModeListsProven': sum(bool(w['nativeModeVector']) for w in fire_weapons),
+            'writableWeapons': sum(w['writable'] for w in fire_weapons)},
         'nativeValueGroups': dict(sorted(fire_groups.items())),
+        'nativeModeVectors': dict(sorted(fire_vectors.items())),
         'findings': {'primaryValue': {'component': 'WeaponDataComponentData', 'offset': 144,
-            'storage': 'u32'}, 'rateSelector': 'Separate from fire-mode selection; no player-weapon rate selector graph was proven.',
-            'jar5FullAuto': 'Blocked: JAR-5 native value is readable, but Full Auto compatibility and allowed-mode ownership are not proven.'},
+            'storage': 'u32', 'vectorOffsets': [144, 148, 152]},
+            'nativeValues': {'1': 'Full Auto for conventional projectile consumers; family-specific held trigger elsewhere.',
+                '2': 'Semi Auto for conventional projectile consumers; family-specific trigger elsewhere.',
+                '3': 'Special sequence/guided/burst-like; not sufficiently uniform to name as Burst.',
+                '5': 'Charge-controlled on PLAS-15 Loyalist; not promoted as a general enum.'},
+            'rateSelector': 'Separate from fire-mode selection; no player-weapon rate selector graph was proven.',
+            'jar5FullAuto': 'Blocked: JAR-5 vector is [2,3,0]; native Full Auto value 1 is not an allowed member.'},
         'weapons': fire_weapons}
 
     terminal = {**common, 'feature': 'projectile_terminal_action_graph',
@@ -586,6 +651,7 @@ def analyze(raw):
             'linkedExplosionRecords': explosion_offset_hits[offset]} for offset in range(128, 177, 4)],
         'findings': {'impact': 'Schema-labelled ExplosionType and structurally linked ExplosionSettings records; typed replacement is guarded.',
             'expiry': 'All nonzero current records link the same typed ExplosionSettings table and share the impact reference contract.',
+            'null': 'Zero is the repeatedly observed native no-action sentinel in both typed slots; raw numeric zero remains rejected.',
             'otherActions': 'Neighboring nonzero scalars are not promoted without typed ownership or consumer evidence.'},
         'weapons': terminal_weapons}
     explosion = {**common, 'feature': 'explosion_authoring_capabilities',
@@ -640,7 +706,13 @@ def write(reports):
                 'observedOptions': magazines[name]['observedCustomizationOptions'],
                 'attachmentCategories': magazines[name]['categories']},
             'fireMode': {'nativeValue': fire_modes[name]['primaryFireModeNativeValue'],
-                'backing': fire_modes[name]['backing'], 'writable': False},
+                'nativeModeVector': fire_modes[name]['nativeModeVector'],
+                'allowedModes': fire_modes[name]['allowedModes'],
+                'defaultModeSemantics': fire_modes[name]['defaultModeSemantics'],
+                'backing': fire_modes[name]['backing'],
+                'writable': fire_modes[name]['writable'],
+                'writeKind': fire_modes[name]['writeKind'],
+                'reason': fire_modes[name]['reason']},
             'attacks': [{**attack,
                 'aliases': (['primary'] if index == 0 else ['alternate']),
                 'terminalActions': terminal_by_role.get(attack['role'], []),

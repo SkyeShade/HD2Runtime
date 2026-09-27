@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.16.0",
+  "runtime_version": "0.17.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2650,6 +2650,13 @@
         "amr_original": 3
       },
       "source": "ReticleAmr/research/gameplay-confirmation-0.1.0.json"
+    },
+    "fire_mode": {
+      "values": {
+        "full_auto": 1,
+        "semi_auto": 2
+      },
+      "source": "WeaponDataComponentData native mode vector; conventional projectile consumers only"
     }
   },
   "contracts": {
