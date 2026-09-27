@@ -100,6 +100,15 @@ This writes `PlayerWeaponRuntimeMap.json`,
 `player_weapon_identity_summary.json`. The compatibility `scan-weapons`
 command continues to accept the original primary-only catalog.
 
+For the graph-aware 35-support-weapon catalog, use:
+
+```powershell
+python <SDK>/hd2.py snapshot scan-support-weapons <build>.hd2snap wiki_support_weapons.json
+```
+
+This emits `SupportWeaponRuntimeMap.json`, its identity-candidate map, a compact identity summary,
+and a log. The support command remains read-only and does not expose support-weapon writes.
+
 The SDK locates HD2's owned `bin/lua51.dll` through `HD2_GAME_ROOT`; pass
 `--lua-dll <path>` when needed. The command rejects fingerprints that differ
 from the bundled current-build profile. `--historical-analysis` is an explicit

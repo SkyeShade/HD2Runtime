@@ -209,6 +209,10 @@ def main():
     player_scan.add_argument('--output',type=Path);player_scan.add_argument('--summary-output',type=Path)
     player_scan.add_argument('--historical-analysis',action='store_true')
     player_scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
+    support_scan=snapshot_sub.add_parser('scan-support-weapons')
+    support_scan.add_argument('snapshot',type=Path);support_scan.add_argument('wiki',type=Path)
+    support_scan.add_argument('--output',type=Path);support_scan.add_argument('--historical-analysis',action='store_true')
+    support_scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
     args=parser.parse_args()
     try:
         if args.command=='inspect':
@@ -220,11 +224,16 @@ def main():
             from tools.snapshot_scan import scan
             output,mapping=scan(args.snapshot,args.wiki,args.output,args.historical_analysis,args.lua_dll)
             print(output);print(mapping)
-        else:
+        elif args.snapshot_command=='scan-player-weapons':
             from tools.snapshot_scan import scan_player_weapons
             output,mapping,summary=scan_player_weapons(args.snapshot,args.wiki,args.output,
                 args.historical_analysis,args.lua_dll,args.summary_output)
             print(output);print(mapping);print(summary)
+        else:
+            from tools.snapshot_scan import scan_support_weapons
+            output,mapping,summary,log=scan_support_weapons(args.snapshot,args.wiki,args.output,
+                args.historical_analysis,args.lua_dll)
+            print(output);print(mapping);print(summary);print(log)
     except (ValueError,KeyError,OSError,RuntimeError) as error:parser.exit(2,str(error)+'\n')
 
 

@@ -120,7 +120,7 @@ local function score_weapon(runtime,weapon)
         score=-100000,matched={},mismatched={},unresolvedFields={},compared=0,
         highValueMatches=0,highValueMismatches=0,structurallyCompatible=#attacks>0,
         compatibleAttackKind=runtime_kind,compatibleWeaponSlot=runtime_slot}
-    if runtime.weapon_only_unclassified then
+    if runtime.weapon_only_unclassified and weapon.slot~='support'then
         result.structurallyCompatible=false
         result.incompatibility='weapon-level-only candidate has no classified player equipment slot'
         return result

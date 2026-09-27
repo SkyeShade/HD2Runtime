@@ -89,3 +89,15 @@ def scan_player_weapons(snapshot: Path,wiki: Path,output: Path|None=None,histori
     output=Path(output) if output else Path(snapshot).with_name('PlayerWeaponRuntimeMap.json')
     summary_output=Path(summary_output) if summary_output else output.with_name('player_weapon_identity_summary.json')
     return _scan(snapshot,wiki,output,historical,lua_dll,80,summary_output)
+
+
+def scan_support_weapons(snapshot: Path,wiki: Path,output: Path|None=None,historical=False,
+                         lua_dll: Path|None=None):
+    """Run the shared mapper and compose the graph-aware 35-support-weapon report."""
+    output=Path(output) if output else Path(snapshot).with_name('SupportWeaponRuntimeMap.json')
+    base,mapping_path,_=_scan(snapshot,wiki,output,historical,lua_dll,35,None)
+    base_report=json.loads(base.read_text());mapping=json.loads(mapping_path.read_text())
+    dataset=compact(Path(wiki))
+    from .support_weapon import compose,write_outputs
+    version=json.loads((SDK/'metadata.json').read_text())['runtime_version']
+    return write_outputs(compose(base_report,mapping,dataset,version),output)

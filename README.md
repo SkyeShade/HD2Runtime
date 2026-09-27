@@ -39,6 +39,8 @@ projectile and damage branch evidence without writing game memory. The original
 primary-only offline command remains available. See the
 [player mapper guide](docs/player-weapon-runtime-mapper.md) and the
 [live diagnostic guide](docs/primary-weapon-runtime-mapper.md).
+The [support weapon mapper guide](docs/support-weapon-runtime-mapper.md) describes the graph-aware,
+read-only pass over the imported 35-support-weapon catalog.
 
 Version 0.5.0 separates the installed-once runtime from the developer SDK and
 independent gameplay mods. The 0.4.0 guarded patch/transaction/ensure behavior
