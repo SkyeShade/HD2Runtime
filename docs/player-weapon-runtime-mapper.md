@@ -1,6 +1,6 @@
 # Offline Player Weapon Runtime Mapper
 
-HD2Runtime 0.15.0 accepts the normalized 80-weapon player catalog containing 55
+HD2Runtime 0.16.0 accepts the normalized 80-weapon player catalog containing 55
 primary and 25 secondary weapons. The scanner enumerates structurally owned
 weapon resources once. It treats entity/component composition as the identity
 root and resolves compatible attacks through Projectile, Arc, Beam, Spray,

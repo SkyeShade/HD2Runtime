@@ -20,12 +20,15 @@ from tools.lua_runner import execute
 SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
 AUTHORING = ROOT / 'schemas/player_weapon_authoring_catalog.json'
 AMMO = ROOT / 'schemas/player_weapon_ammo_catalog.json'
+ATTACHMENTS_SOURCE = ROOT.parent / 'HD2WikiImporter/output/wiki_primary_weapon_attachments.json'
+ATTACHMENTS_CATALOG = ROOT / 'schemas/player_weapon_attachment_catalog.json'
 RAW = ROOT / 'build/weapon-composition-raw.json'
 OUTPUTS = {
-    'magazine': ROOT / 'sdk/PlayerWeaponMagazineOptionGraph.json',
-    'projectile': ROOT / 'sdk/PlayerWeaponProjectileReferenceGraph.json',
+    'magazine': ROOT / 'sdk/AttachmentOptionCapabilities.json',
+    'projectile': ROOT / 'sdk/ProjectileCompositionCapabilities.json',
     'fire_mode': ROOT / 'sdk/PlayerWeaponFireModeGraph.json',
     'terminal': ROOT / 'sdk/PlayerWeaponTerminalActionGraph.json',
+    'explosion': ROOT / 'sdk/ExplosionAuthoringCapabilities.json',
 }
 COMPOSITION_CATALOG = ROOT / 'schemas/player_weapon_composition_catalog.json'
 
@@ -92,6 +95,48 @@ end
 local result={mode='snapshot',fingerprints={exe=source.module_hash(source.module(nil)),
  dll=source.module_hash(source.module('game.dll'))},weapons={},writes=0,protectionChanges=0,
  fixtureFallback='disabled'}
+local projectile_consumers={}
+local function add_projectile_consumer(projectile_type,candidate,component,offset)
+ if projectile_type==0 then return end
+ projectile_consumers[projectile_type]=projectile_consumers[projectile_type]or{}
+ projectile_consumers[projectile_type][#projectile_consumers[projectile_type]+1]={
+  resourceHash=candidate.resourceHash,component=component,offset=offset}
+end
+for _,candidate in ipairs(catalog.candidates)do
+ if candidate.entityRow and#candidate.diagnostics==0 then
+  if candidate.ownership.ProjectileWeaponComponentData then
+   local ok,record=pcall(catalog.record,candidate,'ProjectileWeaponComponentData')
+   if ok then add_projectile_consumer(b.u32(record.bytes,0),candidate,
+    'ProjectileWeaponComponentData',0)end
+  end
+  if candidate.ownership.WeaponRoundsComponentData then
+   local ok,record=pcall(catalog.record,candidate,'WeaponRoundsComponentData')
+   if ok then
+    add_projectile_consumer(b.u32(record.bytes,64),candidate,'WeaponRoundsComponentData',64)
+    add_projectile_consumer(b.u32(record.bytes,68),candidate,'WeaponRoundsComponentData',68)
+   end
+  end
+ end
+end
+local explosion_consumers={}
+local explosion_damage_consumers={}
+for explosion_type,explosion in pairs(roots.explosion.records)do
+ local damage_type=b.u32(explosion.bytes,4)
+ if damage_type~=0 then
+  explosion_damage_consumers[damage_type]=explosion_damage_consumers[damage_type]or{}
+  explosion_damage_consumers[damage_type][#explosion_damage_consumers[damage_type]+1]=explosion_type
+ end
+end
+for projectile_type,projectile in pairs(roots.projectile.records)do
+ for _,offset in ipairs({144,156})do
+  local explosion_type=b.u32(projectile.bytes,offset)
+  if explosion_type~=0 then
+   explosion_consumers[explosion_type]=explosion_consumers[explosion_type]or{}
+   explosion_consumers[explosion_type][#explosion_consumers[explosion_type]+1]={
+    projectileType=projectile_type,phase=offset==144 and'impact'or'expiry'}
+  end
+ end
+end
 for _,item in ipairs(requested)do
  local candidate=assert(by_resource[item.resource],'reviewed player resource missing: '..item.resource)
  local output={name=item.name,resourceHash=item.resource,ownership=candidate.ownership,
@@ -117,11 +162,40 @@ for _,item in ipairs(requested)do
    references[#references+1]={offset=offset,value=value,
     explosionRecord=value~=0 and roots.explosion.records[value]~=nil or false}
   end
+  local explosions={}
+  local seen_explosions={}
+  for _,terminal in ipairs({{phase='impact',offset=144},{phase='expiry',offset=156}})do
+   local explosion_type=b.u32(projectile.bytes,terminal.offset)
+   if explosion_type~=0 and not seen_explosions[explosion_type]then
+    seen_explosions[explosion_type]=true
+    local explosion=assert(roots.explosion.records[explosion_type],
+     'linked ExplosionSettings absent: '..explosion_type)
+    local damage_type=b.u32(explosion.bytes,4)
+    local damage=assert(roots.damage.records[damage_type],
+     'linked explosion DamageInfo absent: '..damage_type)
+    local projectile_refs={}
+    for offset=0,#explosion.bytes-4,4 do
+     local value=b.u32(explosion.bytes,offset)
+     local linked=value~=0 and roots.projectile.records[value]or nil
+     if linked then projectile_refs[#projectile_refs+1]={offset=offset,projectileType=value,
+      settings={group=linked.group,row=linked.row,recordType=linked.kind,
+       settingsType=linked.settings_type},bytes=hex(linked.bytes)}end
+    end
+    explosions[#explosions+1]={explosionType=explosion_type,
+     settings={group=explosion.group,row=explosion.row,recordType=explosion.kind,
+      settingsType=explosion.settings_type},bytes=hex(explosion.bytes),length=#explosion.bytes,
+     damageType=damage_type,damage={group=damage.group,row=damage.row,recordType=damage.kind,
+      settingsType=damage.settings_type,bytes=hex(damage.bytes),length=#damage.bytes,
+      consumers=explosion_damage_consumers[damage_type]or{}},
+     projectileReferences=projectile_refs,consumers=explosion_consumers[explosion_type]or{}}
+   end
+  end
   output.projectiles[#output.projectiles+1]={role=attack.role,projectileType=attack.projectileType,
    settings={group=projectile.group,row=projectile.row,recordType=projectile.kind,
     settingsType=projectile.settings_type},damageType=damage_type,statusCount=status_count,
    impactExplosionType=b.u32(projectile.bytes,144),expiryExplosionType=b.u32(projectile.bytes,156),
-   references=references,bytes=hex(projectile.bytes),length=#projectile.bytes}
+   references=references,explosions=explosions,consumers=projectile_consumers[attack.projectileType]or{},
+   bytes=hex(projectile.bytes),length=#projectile.bytes}
  end
  result.weapons[#result.weapons+1]=output
 end
@@ -148,9 +222,53 @@ def _find_all(data: bytes, needle: bytes):
     return result
 
 
+def _u32(data, offset):
+    return struct.unpack_from('<I', data, offset)[0]
+
+
+def _i32(data, offset):
+    return struct.unpack_from('<i', data, offset)[0]
+
+
+def _f32(data, offset):
+    return struct.unpack_from('<f', data, offset)[0]
+
+
+def _attachment_effects(option):
+    result = {}
+    for key, item in option.get('effects', {}).items():
+        if key in ('zoomValues', 'magnificationValues'):
+            result[key] = [value['value'] for value in item]
+        elif isinstance(item, dict) and 'value' in item:
+            result[key] = item['value']
+    return result
+
+
+def _default_attachment(default, options):
+    if not default:
+        return None
+    expected = default.get('values') or {}
+    aliases = {'capacity': 'capacity', 'startingMagazines': 'startingMagazines',
+        'spareMagazines': 'maxMagazines'}
+    matches = []
+    for option in options:
+        correlation = option.get('magazineCorrelation') or {}
+        compared = 0
+        for native, wiki in aliases.items():
+            if expected.get(native) is not None and correlation.get(wiki) is not None:
+                compared += 1
+                if expected[native] != correlation[wiki]:
+                    break
+        else:
+            if compared >= 2:
+                matches.append(option)
+    return matches[0] if len(matches) == 1 else None
+
+
 def analyze(raw):
     authoring = json.loads(AUTHORING.read_text())
     ammo = json.loads(AMMO.read_text())
+    attachment_source = json.loads(ATTACHMENTS_SOURCE.read_text())
     ammo_by_name = {item['name']: item for item in ammo['weapons']}
     author_by_name = {item['name']: item for item in authoring['weapons']}
     candidate_by_name = {item['name']: authoring['candidates'][item['resources'][0]]
@@ -163,10 +281,12 @@ def analyze(raw):
         'hd2RuntimeVersion': (ROOT / 'VERSION').read_text().strip(),
         'gameFingerprints': raw['fingerprints'], 'catalogWeapons': 80, 'safety': safety}
 
+    imported_attachments = {item['name']: item for item in attachment_source['weapons']}
     magazine_weapons = []
     option_occurrences = Counter()
     for name in sorted(author_by_name):
         info = ammo_by_name[name]
+        imported = imported_attachments.get(name, {'optionsByCategory': {}, 'attachmentCount': 0})
         custom = raw_by_name[name]['components'].get('WeaponCustomizationComponentData')
         custom_bytes = bytes.fromhex(custom['bytes']) if custom else b''
         seen = []
@@ -181,6 +301,20 @@ def analyze(raw):
                     'addPath': option['addPath'], 'optionIdOffsets': id_offsets,
                     'addPathOffsets': path_offsets})
         default = info.get('defaultMagazineOption')
+        magazine_options = imported.get('optionsByCategory', {}).get('Magazine', [])
+        if not default and magazine_options:
+            native_defaults = [item for item in seen if item['optionIdOffsets'] and
+                all(offset >= 4 and _u32(custom_bytes, offset - 4) == 5
+                    for offset in item['optionIdOffsets'])]
+            if len(native_defaults) == 1:
+                observed = native_defaults[0]
+                default = {'optionId': observed['optionId'], 'addPath': observed['addPath'],
+                    'name': observed['name'], 'values': {}}
+        matched_default = _default_attachment(default, magazine_options)
+        if default and matched_default is None and 'standard' in default['name'].lower():
+            standard = [option for option in magazine_options if 'standard' in option['name'].lower()]
+            if len(standard) == 1:
+                matched_default = standard[0]
         default_entry = None
         if default:
             observed_default = next((x for x in seen if x['optionId'] == default['optionId']), None)
@@ -192,14 +326,45 @@ def analyze(raw):
                 'defaultEntryOffset': (observed_default['optionIdOffsets'][0] - 4
                     if observed_default and observed_default['optionIdOffsets'] else None),
                 'reason': 'Default option identity is native, but no option-owned ammo override record is structurally linked.'}
+        categories = []
+        for category, options in sorted(imported.get('optionsByCategory', {}).items()):
+            rendered = []
+            for option in options:
+                is_default = matched_default is option
+                rendered.append({'category': category, 'name': option['name'],
+                    'default': is_default, 'catalogAllowed': True,
+                    'nativeAllowedRelationshipProven': is_default and default_entry is not None,
+                    'optionIdentityProven': is_default and default_entry is not None,
+                    'nativeOption': ({'optionId': default_entry['optionId'],
+                        'addPath': default_entry['addPath'], 'name': default_entry['name']}
+                        if is_default and default_entry else None),
+                    'effects': _attachment_effects(option),
+                    'nativeEffectOwner': None, 'sharedConsumers': [], 'writable': False,
+                    'reason': ('Default selection identity is native, but effect override ownership is unresolved.'
+                        if is_default and default_entry else
+                        'Importer proves catalog compatibility only; native option identity and effect owner are unresolved.')})
+            categories.append({'category': category, 'options': rendered})
         magazine_weapons.append({'weapon': name, 'resources': info['resources'],
             'ordinaryWritesBlocked': info['ordinaryWritesBlocked'],
             'backingDomain': info['backingDomain'], 'simpleMagazineApi': default is None,
             'defaultOption': default_entry, 'observedCustomizationOptions': seen,
             'alternateOptions': info['alternateMagazineOptions'],
-            'effectiveCapacity': info['effectiveCapacity'], 'fields': info['fields']})
-    magazine = {**common, 'feature': 'magazine_option_graph',
-        'summary': {'weapons': 80, 'nativeOptionIdentities': len(option_catalog),
+            'effectiveCapacity': info['effectiveCapacity'], 'fields': info['fields'],
+            'attachmentCount': imported.get('attachmentCount', 0), 'categories': categories})
+    mapped_rows = sum(item['attachmentCount'] for item in magazine_weapons)
+    native_magazine_options = sum(1 for weapon in magazine_weapons for category in weapon['categories']
+        if category['category'] == 'Magazine' for option in category['options']
+        if option['optionIdentityProven'])
+    magazine = {**common, 'feature': 'attachment_option_capabilities',
+        'importer': {'commit': '6c60b215377a40a004b54c011dc26dc674a1abfe',
+            'importedAt': attachment_source['importedAt'], 'source': attachment_source['source']},
+        'summary': {'weapons': 80, 'primaryWeaponsWithAttachments': 37,
+            'attachmentOptionsMapped': mapped_rows, 'attachmentOptionsTotal': 419,
+            'magazineOptionsMapped': 36, 'magazineOptionsTotal': 36,
+            'magazineOptionsWithNativeIdentity': native_magazine_options,
+            'weaponsWithWritablePerOptionFields': 0,
+            'opticsMapped': 195, 'underbarrelMapped': 117, 'muzzleMapped': 71,
+            'nativeOptionIdentities': len(option_catalog),
             'weaponsWithNativeDefaultOption': sum(w['defaultOption'] is not None for w in magazine_weapons),
             'defaultRelationshipsProven': sum(w['defaultOption'] is not None and
                 w['defaultOption']['optionIdentityProven'] for w in magazine_weapons),
@@ -210,14 +375,17 @@ def analyze(raw):
             'path': 'DefaultCustomizations[] entry where slot == Magazine', 'slotTag': 5,
             'listOffset': 0, 'entryStride': 8, 'slotOffset': 0, 'optionIdOffset': 4,
             'terminatorSlot': 0},
-            'allowedOptions': 'No reviewed per-weapon allowed-option list was found in the captured component record.',
-            'overrideOwnership': 'No option-owned ammo override record is linked by the captured component graph.'},
+            'allowedOptions': 'The importer supplies catalog relationships; no reviewed native per-weapon allowed-option list was found in the captured component record.',
+            'overrideOwnership': 'No option-owned attachment effect/ammo override record is linked by the captured component graph.',
+            'writePolicy': 'Correlation never promotes a write without native option identity, effect owner, and scope.'},
         'nativeMagazineOptions': option_catalog, 'weapons': magazine_weapons}
 
     projectile_weapons = []
     writable_attacks = 0
-    plain_sources = []
+    compatible_sources = defaultdict(list)
     terminal_weapons = []
+    explosion_weapons = []
+    explosion_types = {}
     explosion_offset_hits = Counter()
     neighbor_nonzero = Counter()
     for name in sorted(author_by_name):
@@ -235,8 +403,13 @@ def analyze(raw):
             expiry = record['expiryExplosionType']
             status = record['statusCount'] > 0
             explosive = impact != 0 or expiry != 0
+            shrapnel = any(_u32(bytes.fromhex(explosion['bytes']), 80) > 0
+                for explosion in record['explosions'])
             compatibility = ('explosive_status' if explosive and status else
-                'explosive' if explosive else 'status_bearing' if status else 'conventional_plain')
+                'explosive_shrapnel' if shrapnel else
+                'explosive_impact_and_expiry' if impact and expiry else
+                'explosive_impact' if impact else 'explosive_expiry' if expiry else
+                'status_bearing' if status else 'conventional_plain')
             if 'WeaponRoundsComponentData' in candidate['ownership']:
                 component = 'WeaponRoundsComponentData'
                 offset = 68 if role in ('alternate', 'feed_alternate') else 64
@@ -247,7 +420,9 @@ def analyze(raw):
             owner = candidate['ownership'].get(component) if component else None
             unique_identity = identity['resolution'] == 'UNIQUE'
             target_owned = bool(owner and owner['uniqueOwner'] and owner['ownerCount'] == 1)
-            writable = unique_identity and target_owned and compatibility == 'conventional_plain'
+            approved_class = compatibility in {'conventional_plain', 'explosive_impact',
+                'explosive_impact_and_expiry', 'explosive_shrapnel'}
+            writable = unique_identity and target_owned and approved_class
             if writable:
                 writable_attacks += 1
             item = {'role': role, 'projectileType': attack['projectileType'],
@@ -260,25 +435,92 @@ def analyze(raw):
                 'writableReferenceSwap': writable,
                 'reason': None if writable else ('ambiguous weapon identity' if not unique_identity else
                     'weapon-local projectile selector is absent or shared' if not target_owned else
-                    'only conventional_plain to conventional_plain swaps are approved')}
+                    'status or unsupported terminal companion graph is not approved for swapping')}
             attacks.append(item)
-            if unique_identity and compatibility == 'conventional_plain':
-                plain_sources.append({'weapon': name, 'role': role, 'projectileType': attack['projectileType']})
+            if unique_identity and approved_class:
+                compatible_sources[compatibility].append({'weapon': name, 'role': role,
+                    'projectileType': attack['projectileType']})
             actions = []
             for phase, value, offset in (('impact', impact, 144), ('expiry', expiry, 156)):
                 linked = next((x for x in record['references'] if x['offset'] == offset), None)
                 if linked and linked['explosionRecord']:
                     explosion_offset_hits[offset] += 1
+                distinct_consumers = sorted({consumer['resourceHash'] for consumer in record['consumers']})
+                writable_action = bool(value and linked and linked['explosionRecord'] and unique_identity)
                 actions.append({'phase': phase, 'offset': offset, 'width': 4, 'storage': 'u32',
                     'referenceType': value, 'actionKind': 'explosion' if value else 'none',
                     'linkedExplosionRecord': bool(linked and linked['explosionRecord']),
-                    'readable': True, 'writable': False,
-                    'reason': 'Reference layout is proven read-only; guarded terminal-action replacement awaits native consumer confirmation.'})
+                    'readable': True, 'writable': writable_action,
+                    'referenceClass': 'ExplosionSettings' if value else None,
+                    'projectileSettingsConsumers': record['consumers'],
+                    'affectsMultipleResources': len(distinct_consumers) > 1,
+                    'reason': (None if writable_action else
+                        'Null terminal actions are readable but cannot supply a typed expected ExplosionSettings handle.')})
             for ref in record['references']:
                 if ref['value']:
                     neighbor_nonzero[ref['offset']] += 1
             terminal_attacks.append({'role': role, 'projectileType': attack['projectileType'],
                 'projectileSettings': attack['projectileSettings'], 'actions': actions})
+            explosion_entries = []
+            for explosion in record['explosions']:
+                explosion_bytes = bytes.fromhex(explosion['bytes'])
+                damage_bytes = bytes.fromhex(explosion['damage']['bytes'])
+                distinct_projectiles = sorted({consumer['projectileType'] for consumer in explosion['consumers']})
+                damage_consumers = sorted(set(explosion['damage']['consumers']))
+                shared = len(distinct_projectiles) > 1 or len(damage_consumers) > 1
+                player_consumers = []
+                for consumer_weapon in raw['weapons']:
+                    for consumer_attack in consumer_weapon['projectiles']:
+                        if consumer_attack['projectileType'] in distinct_projectiles:
+                            player_consumers.append({'weapon': consumer_weapon['name'],
+                                'role': consumer_attack['role'],
+                                'projectileType': consumer_attack['projectileType']})
+                fields = [
+                    {'id': 'explosion.inner_radius', 'offset': 16, 'storage': 'f32',
+                        'type': 'number', 'unit': 'meters', 'value': _f32(explosion_bytes, 16)},
+                    {'id': 'explosion.outer_radius', 'offset': 20, 'storage': 'f32',
+                        'type': 'number', 'unit': 'meters', 'value': _f32(explosion_bytes, 20)},
+                    {'id': 'explosion.shockwave_radius', 'offset': 24, 'storage': 'f32',
+                        'type': 'number', 'unit': 'meters', 'value': _f32(explosion_bytes, 24)},
+                ]
+                for field_id, offset, storage in (
+                    ('explosion.damage.standard_damage', 4, 'i32'),
+                    ('explosion.damage.durable_damage', 8, 'i32'),
+                    ('explosion.damage.ap_direct', 12, 'u32'),
+                    ('explosion.damage.ap_slight', 16, 'u32'),
+                    ('explosion.damage.ap_large', 20, 'u32'),
+                    ('explosion.damage.ap_extreme', 24, 'u32'),
+                    ('explosion.damage.demolition', 28, 'u32'),
+                    ('explosion.damage.stagger', 32, 'u32'),
+                    ('explosion.damage.push_force', 36, 'u32')):
+                    fields.append({'id': field_id, 'offset': offset, 'storage': storage,
+                        'type': 'integer', 'unit': 'damage' if offset in (4, 8) else
+                            'armor_class' if offset in (12, 16, 20, 24) else 'force',
+                        'value': _i32(damage_bytes, offset) if storage == 'i32' else _u32(damage_bytes, offset)})
+                shrapnel_count = _u32(explosion_bytes, 80)
+                shrapnel_type = _u32(explosion_bytes, 84)
+                shrapnel_record = next((reference for reference in explosion['projectileReferences']
+                    if reference['offset'] == 84 and reference['projectileType'] == shrapnel_type), None)
+                entry = {'explosionType': explosion['explosionType'],
+                    'settings': explosion['settings'], 'damageType': explosion['damageType'],
+                    'damageSettings': {key: explosion['damage'][key] for key in
+                        ('group', 'row', 'recordType', 'settingsType')},
+                    'fields': fields, 'consumers': explosion['consumers'],
+                    'playerConsumers': sorted(player_consumers, key=lambda value: (value['weapon'], value['role'])),
+                    'damageConsumers': damage_consumers, 'shared': shared,
+                    'writeScope': 'shared_settings' if shared else 'projectile_terminal_actions',
+                    'writable': unique_identity, 'writableScalarFields': len(fields) if unique_identity else 0,
+                    'reason': None if unique_identity else 'Ambiguous weapon resource identity blocks ordinary writes.',
+                    'shrapnel': {'count': shrapnel_count, 'projectileType': shrapnel_type or None,
+                        'projectileSettings': shrapnel_record['settings'] if shrapnel_record else None,
+                        'structurallyProven': bool(shrapnel_count and shrapnel_record),
+                        'writableCount': False, 'writableProjectileReference': False,
+                        'reason': 'One correlated schema instance is insufficient to promote shrapnel writes.'}}
+                explosion_entries.append(entry)
+                explosion_types.setdefault(explosion['explosionType'], entry)
+            if explosion_entries:
+                explosion_weapons.append({'weapon': name, 'role': role,
+                    'projectileType': attack['projectileType'], 'explosions': explosion_entries})
         projectile_weapons.append({'weapon': name, 'resources': identity['resources'],
             'resolution': identity['resolution'], 'implementationFamilies': candidate['implementationFamilies'],
             'attacks': attacks})
@@ -287,13 +529,18 @@ def analyze(raw):
     projectile = {**common, 'feature': 'projectile_reference_graph',
         'summary': {'weapons': 80, 'weaponsWithProjectileAttack': sum(bool(w['attacks']) for w in projectile_weapons),
             'projectileAttacks': sum(len(w['attacks']) for w in projectile_weapons),
-            'writableTargetAttacks': writable_attacks, 'compatibleSourceAttacks': len(plain_sources)},
+            'writableTargetAttacks': writable_attacks,
+            'compatibleSourceAttacks': sum(map(len, compatible_sources.values())),
+            'writableExplosiveSelectors': sum(1 for weapon in projectile_weapons for attack in weapon['attacks']
+                if attack['writableReferenceSwap'] and attack['compatibilityClass'].startswith('explosive_')),
+            'compatibilityClasses': {key: len(value) for key, value in sorted(compatible_sources.items())}},
         'guardPolicy': {'operationKind': 'typed_reference_replacement',
-            'allowed': 'conventional_plain -> conventional_plain',
+            'allowed': 'same reviewed structural class only',
+            'approvedClasses': sorted(compatible_sources),
             'sourceSettingsMutated': False, 'expectedReferenceRequired': True,
             'sourceIdentityMustResolveUniquely': True,
             'sharedTargetPolicy': 'fail_closed; no shared target selector is promoted in this pass'},
-        'compatibleSources': plain_sources, 'weapons': projectile_weapons}
+        'compatibleSourcesByClass': dict(sorted(compatible_sources.items())), 'weapons': projectile_weapons}
 
     fire_groups = defaultdict(list)
     fire_weapons = []
@@ -324,28 +571,63 @@ def analyze(raw):
     terminal = {**common, 'feature': 'projectile_terminal_action_graph',
         'summary': {'weapons': 80, 'projectileAttacks': sum(len(w['attacks']) for w in terminal_weapons),
             'readableActions': sum(2 * len(w['attacks']) for w in terminal_weapons),
-            'writableActions': 0, 'impactExplosionLinks': explosion_offset_hits[144],
+            'writableActions': sum(action['writable'] for weapon in terminal_weapons
+                for attack in weapon['attacks'] for action in attack['actions']),
+            'writableImpactRefs': sum(action['writable'] and action['phase'] == 'impact'
+                for weapon in terminal_weapons for attack in weapon['attacks'] for action in attack['actions']),
+            'writableExpiryRefs': sum(action['writable'] and action['phase'] == 'expiry'
+                for weapon in terminal_weapons for attack in weapon['attacks'] for action in attack['actions']),
+            'impactExplosionLinks': explosion_offset_hits[144],
             'expiryExplosionLinks': explosion_offset_hits[156]},
         'layout': {'record': 'ProjectileSettings', 'recordSize': 272,
             'impact': {'offset': 144, 'schemaLabel': 'ProjectileInfo.ExplosionType'},
             'expiry': {'offset': 156, 'schemaLabel': 'lifetime-end explosion candidate'}},
         'neighborReferenceEvidence': [{'offset': offset, 'nonzeroRecords': neighbor_nonzero[offset],
             'linkedExplosionRecords': explosion_offset_hits[offset]} for offset in range(128, 177, 4)],
-        'findings': {'impact': 'Schema-labelled ExplosionType and structurally linked ExplosionSettings records.',
-            'expiry': 'Current records link ExplosionSettings where nonzero, but the native consumer label remains incomplete.',
+        'findings': {'impact': 'Schema-labelled ExplosionType and structurally linked ExplosionSettings records; typed replacement is guarded.',
+            'expiry': 'All nonzero current records link the same typed ExplosionSettings table and share the impact reference contract.',
             'otherActions': 'Neighboring nonzero scalars are not promoted without typed ownership or consumer evidence.'},
         'weapons': terminal_weapons}
-    return {'magazine': magazine, 'projectile': projectile, 'fire_mode': fire_mode, 'terminal': terminal}
+    explosion = {**common, 'feature': 'explosion_authoring_capabilities',
+        'summary': {'weaponsWithExplosions': len({item['weapon'] for item in explosion_weapons}),
+            'explosiveProjectileAttacksResolved': len(explosion_weapons),
+            'explosionSettingsResolved': len(explosion_types),
+            'explosionScalarFieldsWritable': sum(item['writableScalarFields'] for item in explosion_types.values()),
+            'sharedExplosionGroups': sum(item['shared'] for item in explosion_types.values()),
+            'shrapnelGraphsResolved': sum(item['shrapnel']['structurallyProven'] for item in explosion_types.values()),
+            'shrapnelWrites': 0},
+        'layout': {'ExplosionSettings': {'recordSize': 152, 'damageTypeOffset': 4,
+            'innerRadiusOffset': 16, 'outerRadiusOffset': 20, 'shockwaveRadiusOffset': 24,
+            'shrapnelCountOffset': 80, 'shrapnelProjectileOffset': 84},
+            'DamageInfo': {'recordSize': 76}},
+        'guardPolicy': {'sharedSettingsRequireAllowShared': True,
+            'typedReferencesOnly': True, 'rawExplosionIdsRejected': True,
+            'outerDamage': 'No independent outer-damage scalar was proven; radial falloff remains read-only native behavior.'},
+        'explosions': [explosion_types[key] for key in sorted(explosion_types)],
+        'weapons': explosion_weapons}
+    return {'magazine': magazine, 'projectile': projectile, 'fire_mode': fire_mode,
+        'terminal': terminal, 'explosion': explosion}
 
 
 def write(reports):
     for key, path in OUTPUTS.items():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(reports[key], indent=2) + '\n')
+    # Compatibility filenames remain available to existing SDK consumers.
+    (ROOT / 'sdk/PlayerWeaponMagazineOptionGraph.json').write_text(
+        json.dumps(reports['magazine'], indent=2) + '\n')
+    (ROOT / 'sdk/PlayerWeaponProjectileReferenceGraph.json').write_text(
+        json.dumps(reports['projectile'], indent=2) + '\n')
+    ATTACHMENTS_CATALOG.write_text(json.dumps({'schemaVersion': 1,
+        'importer': reports['magazine']['importer'], 'summary': reports['magazine']['summary'],
+        'weapons': reports['magazine']['weapons']}, indent=2) + '\n')
     magazines = {item['weapon']: item for item in reports['magazine']['weapons']}
     projectiles = {item['weapon']: item for item in reports['projectile']['weapons']}
     fire_modes = {item['weapon']: item for item in reports['fire_mode']['weapons']}
     terminals = {item['weapon']: item for item in reports['terminal']['weapons']}
+    explosions = defaultdict(dict)
+    for item in reports['explosion']['weapons']:
+        explosions[item['weapon']][item['role']] = item['explosions']
     catalog = {'schemaVersion': 1, 'sourceSnapshot': SNAPSHOT.name,
         'hd2RuntimeVersion': reports['projectile']['hd2RuntimeVersion'],
         'gameFingerprints': reports['projectile']['gameFingerprints'],
@@ -355,12 +637,14 @@ def write(reports):
         catalog['weapons'][name] = {
             'magazine': {'simpleApi': magazines[name]['simpleMagazineApi'],
                 'defaultOption': magazines[name]['defaultOption'],
-                'observedOptions': magazines[name]['observedCustomizationOptions']},
+                'observedOptions': magazines[name]['observedCustomizationOptions'],
+                'attachmentCategories': magazines[name]['categories']},
             'fireMode': {'nativeValue': fire_modes[name]['primaryFireModeNativeValue'],
                 'backing': fire_modes[name]['backing'], 'writable': False},
             'attacks': [{**attack,
                 'aliases': (['primary'] if index == 0 else ['alternate']),
-                'terminalActions': terminal_by_role.get(attack['role'], [])}
+                'terminalActions': terminal_by_role.get(attack['role'], []),
+                'explosions': explosions[name].get(attack['role'], [])}
                 for index, attack in enumerate(projectiles[name]['attacks'])]}
     COMPOSITION_CATALOG.write_text(json.dumps(catalog, indent=2) + '\n')
 

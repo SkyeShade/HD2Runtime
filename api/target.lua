@@ -40,11 +40,29 @@ function M.new(describe)
         -- Methods live on the metatable; strict patch/transaction identity validation is unchanged.
         return setmetatable({resource=key,path=domain},{__index=methods})
     end
+    local function explosion_target(name,role,phase)
+        local attack=assert(composition.weapons[name].attacks[role],'unknown reviewed attack role')
+        local action=assert(attack.terminal_actions[phase],'unknown terminal action phase: '..tostring(phase))
+        assert(action.reference_type~=0 and action.linked_explosion_record,
+            'terminal action has no reviewed ExplosionSettings reference')
+        local explosion
+        for _,candidate in ipairs(attack.explosions or{})do
+            if candidate.explosionType==action.reference_type then explosion=candidate;break end
+        end
+        assert(explosion,'reviewed ExplosionSettings descriptor missing')
+        local methods={}
+        function methods.describe()return copy(explosion)end
+        function methods.damage(self)return self end
+        function methods.shrapnel()return copy(explosion.shrapnel)end
+        return setmetatable({resource='player_weapon',path='explosion',weapon=name,
+            attack=attack.role,phase=phase},{__index=methods})
+    end
     local function terminal_target(name,role,phase)
         local attack=assert(composition.weapons[name].attacks[role],'unknown reviewed attack role')
         local action=assert(attack.terminal_actions[phase],'unknown terminal action phase: '..tostring(phase))
         local methods={}
         function methods.describe()return copy(action)end
+        function methods.explosion()return explosion_target(name,attack.role,phase)end
         return setmetatable({resource='player_weapon',path='terminal_action',weapon=name,
             attack=attack.role,phase=phase},{__index=methods})
     end
@@ -68,7 +86,17 @@ function M.new(describe)
     local function magazine_target(name,option)
         local methods={};function methods.describe()return copy(option)end
         return setmetatable({resource='player_weapon',path='magazine_option',weapon=name,
-            option=option.optionId},{__index=methods})
+            option=option.optionId or option.name},{__index=methods})
+    end
+    local function attachment_target(name,category,option)
+        local methods={};function methods.describe()return copy(option)end
+        return setmetatable({resource='player_weapon',path='attachment_option',weapon=name,
+            category=category,option=option.name},{__index=methods})
+    end
+    local function attachment_category(graph,category)
+        for _,item in ipairs(graph.magazine.attachment_categories or{})do
+            if item.category==category then return item end
+        end
     end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
@@ -92,16 +120,28 @@ function M.new(describe)
         function methods.attack(_,role)return attack_target(name,role)end
         function methods.fire_modes()return copy(graph.fire_mode)end
         function methods.magazine_options()
-            local result={};for _,option in ipairs(graph.magazine.observed_options)do
+            local result={};local category=attachment_category(graph,'Magazine')
+            for _,option in ipairs(category and category.options or graph.magazine.observed_options)do
                 result[#result+1]=magazine_target(name,option)
             end
             return result
         end
         function methods.default_magazine()
+            local category=attachment_category(graph,'Magazine')
+            if category then for _,option in ipairs(category.options)do
+                if option.default then return magazine_target(name,option)end
+            end end
             local option=graph.magazine.default_option
             return option and magazine_target(name,option)or nil
         end
         function methods.magazine(_,identity)
+            local category=attachment_category(graph,'Magazine')
+            if category then for _,option in ipairs(category.options)do
+                local native=option.nativeOption
+                if identity==option.name or native and identity==native.optionId then
+                    return magazine_target(name,option)
+                end
+            end end
             local option=graph.magazine.default_option
             if option and(identity==option.name or identity==option.optionId)then
                 return magazine_target(name,option)
@@ -112,6 +152,21 @@ function M.new(describe)
                 end
             end
             error('unknown reviewed magazine option for '..name..': '..tostring(identity))
+        end
+        function methods.attachment_options(_,category)
+            local item=assert(attachment_category(graph,category),
+                'unknown reviewed attachment category for '..name..': '..tostring(category))
+            local result={};for _,option in ipairs(item.options)do
+                result[#result+1]=attachment_target(name,category,option)
+            end
+            return result
+        end
+        function methods.attachment(_,category,identity)
+            local item=assert(attachment_category(graph,category),
+                'unknown reviewed attachment category for '..name..': '..tostring(category))
+            for _,option in ipairs(item.options)do if option.name==identity then
+                return attachment_target(name,category,option)end end
+            error('unknown reviewed attachment for '..name..': '..tostring(identity))
         end
         return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
     end

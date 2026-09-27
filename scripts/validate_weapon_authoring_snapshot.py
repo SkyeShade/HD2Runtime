@@ -53,6 +53,20 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
                     'weapon':weapon['name'],'attack':role}
                 change={'field':'attack.projectile','expect':handle,'value':handle}
                 target={'resource':'player_weapon','path':'attack','weapon':weapon['name'],'attack':role}
+            elif field['type']=='explosion_reference':
+                role=field['referenceRole'];phase=field['referencePhase']
+                handle={'resource':'player_weapon','path':'explosion','weapon':weapon['name'],
+                    'attack':role,'phase':phase}
+                change={'field':'terminal.explosion','expect':handle,'value':handle}
+                target={'resource':'player_weapon','path':'terminal_action','weapon':weapon['name'],
+                    'attack':role,'phase':phase}
+            elif field['semanticFieldId'].startswith('explosion.'):
+                parts=field['semanticFieldId'].split('.')
+                role,phase=parts[1:3]
+                change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
+                    'value':field['currentDefault']}
+                target={'resource':'player_weapon','path':'explosion','weapon':weapon['name'],
+                    'attack':role,'phase':phase}
             else:
                 change={'field':field['semanticFieldId'],'expect':field['currentDefault'],
                     'value':field['currentDefault']}

@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 cb78bf19d1d89b0a250c346f524b28e647b9a5861f9cfa2e3fda1acd4ccf98b2
+-- Schema SHA256 012a9205932ffbcc0e03d34fd6856a34bac2d086a280181a0260525599bcd482
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -62,15 +62,15 @@
 ---@field id string
 ---@field target HD2AuthoringTarget
 ---@field field string
----@field expect number|boolean|HD2ProjectileReference
----@field value number|boolean|HD2ProjectileReference
+---@field expect number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value number|boolean|HD2ProjectileReference|HD2Explosion
 ---@field diagnostic? boolean
 ---@field allow_shared? boolean
 
 ---@class HD2TransactionChange
 ---@field field string
----@field expect number|boolean|HD2ProjectileReference
----@field value number|boolean|HD2ProjectileReference
+---@field expect number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value number|boolean|HD2ProjectileReference|HD2Explosion
 
 ---@class HD2TransactionRequest
 ---@field id string
@@ -277,6 +277,22 @@ function HD2ProjectileReference:describe() end
 local HD2TerminalAction = {}
 ---@return table
 function HD2TerminalAction:describe() end
+---@return HD2Explosion
+function HD2TerminalAction:explosion() end
+
+---@class HD2Explosion
+---@field resource "player_weapon"
+---@field path "explosion"
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+---@field phase "impact"|"expiry"
+local HD2Explosion = {}
+---@return table
+function HD2Explosion:describe() end
+---@return HD2Explosion
+function HD2Explosion:damage() end
+---@return table
+function HD2Explosion:shrapnel() end
 
 ---@class HD2MagazineOption
 ---@field resource "player_weapon"
@@ -287,7 +303,17 @@ local HD2MagazineOption = {}
 ---@return table
 function HD2MagazineOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack
+---@class HD2AttachmentOption
+---@field resource "player_weapon"
+---@field path "attachment_option"
+---@field weapon HD2WeaponName
+---@field category string
+---@field option string
+local HD2AttachmentOption = {}
+---@return table
+function HD2AttachmentOption:describe() end
+
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2PlayerAttack|HD2TerminalAction|HD2Explosion
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -303,6 +329,13 @@ function HD2Weapon:default_magazine() end
 ---@param identity string
 ---@return HD2MagazineOption
 function HD2Weapon:magazine(identity) end
+---@param category string
+---@return HD2AttachmentOption[]
+function HD2Weapon:attachment_options(category) end
+---@param category string
+---@param identity string
+---@return HD2AttachmentOption
+function HD2Weapon:attachment(category, identity) end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
@@ -486,6 +519,36 @@ function HD2Weapon:magazine(identity) end
 ---@field length "beam.length"
 ---@field radius "beam.radius"
 
+---@class HD2Fields_explosion
+---@field damage_ap_direct "explosion.damage.ap_direct"
+---@field damage_ap_extreme "explosion.damage.ap_extreme"
+---@field damage_ap_large "explosion.damage.ap_large"
+---@field damage_ap_slight "explosion.damage.ap_slight"
+---@field damage_demolition "explosion.damage.demolition"
+---@field damage_durable_damage "explosion.damage.durable_damage"
+---@field damage_push_force "explosion.damage.push_force"
+---@field damage_stagger "explosion.damage.stagger"
+---@field damage_standard_damage "explosion.damage.standard_damage"
+---@field inner_radius "explosion.inner_radius"
+---@field outer_radius "explosion.outer_radius"
+---@field primary_impact_damage_ap_direct "explosion.primary.impact.damage.ap_direct"
+---@field primary_impact_damage_ap_extreme "explosion.primary.impact.damage.ap_extreme"
+---@field primary_impact_damage_ap_large "explosion.primary.impact.damage.ap_large"
+---@field primary_impact_damage_ap_slight "explosion.primary.impact.damage.ap_slight"
+---@field primary_impact_damage_demolition "explosion.primary.impact.damage.demolition"
+---@field primary_impact_damage_durable_damage "explosion.primary.impact.damage.durable_damage"
+---@field primary_impact_damage_push_force "explosion.primary.impact.damage.push_force"
+---@field primary_impact_damage_stagger "explosion.primary.impact.damage.stagger"
+---@field primary_impact_damage_standard_damage "explosion.primary.impact.damage.standard_damage"
+---@field primary_impact_inner_radius "explosion.primary.impact.inner_radius"
+---@field primary_impact_outer_radius "explosion.primary.impact.outer_radius"
+---@field primary_impact_shockwave_radius "explosion.primary.impact.shockwave_radius"
+---@field primary_impact_shrapnel_count "explosion.primary.impact.shrapnel_count"
+---@field primary_impact_shrapnel_projectile "explosion.primary.impact.shrapnel_projectile"
+---@field shockwave_radius "explosion.shockwave_radius"
+---@field shrapnel_count "explosion.shrapnel_count"
+---@field shrapnel_projectile "explosion.shrapnel_projectile"
+
 ---@class HD2Fields_magazine
 ---@field capacity "magazine.capacity"
 ---@field magazines_from_ammo_box "magazine.magazines_from_ammo_box"
@@ -504,6 +567,8 @@ function HD2Weapon:magazine(identity) end
 
 ---@class HD2Fields_terminal
 ---@field explosion "terminal.explosion"
+---@field primary_expiry_explosion "terminal.primary.expiry.explosion"
+---@field primary_impact_explosion "terminal.primary.impact.explosion"
 
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
@@ -521,6 +586,7 @@ function HD2Weapon:magazine(identity) end
 ---@field arc HD2Fields_arc
 ---@field attack HD2Fields_attack
 ---@field beam HD2Fields_beam
+---@field explosion HD2Fields_explosion
 ---@field magazine HD2Fields_magazine
 ---@field rounds HD2Fields_rounds
 ---@field terminal HD2Fields_terminal

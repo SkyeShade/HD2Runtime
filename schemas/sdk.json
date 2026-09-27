@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "runtime_version": "0.15.0",
+  "runtime_version": "0.16.0",
   "api_version": 1,
   "evidence_categories": [
     "structural_candidate",
@@ -2748,15 +2748,15 @@
         "id": "string",
         "target": "HD2AuthoringTarget",
         "field": "string",
-        "expect": "number|boolean|HD2ProjectileReference",
-        "value": "number|boolean|HD2ProjectileReference",
+        "expect": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "value": "number|boolean|HD2ProjectileReference|HD2Explosion",
         "diagnostic?": "boolean",
         "allow_shared?": "boolean"
       },
       "HD2TransactionChange": {
         "field": "string",
-        "expect": "number|boolean|HD2ProjectileReference",
-        "value": "number|boolean|HD2ProjectileReference"
+        "expect": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "value": "number|boolean|HD2ProjectileReference|HD2Explosion"
       },
       "HD2TransactionRequest": {
         "id": "string",

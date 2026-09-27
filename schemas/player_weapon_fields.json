@@ -68,6 +68,20 @@
     {"id":"arc.max_split","display_name":"Arc maximum split","type":"integer","unit":"targets","derived":false,"writable":true,"settings":"arc","offset":32,"storage":"u32"},
     {"id":"beam.radius","display_name":"Beam radius","type":"number","unit":"meters","derived":false,"writable":true,"settings":"beam","offset":4,"storage":"f32"},
     {"id":"beam.length","display_name":"Beam length","type":"number","unit":"meters","derived":false,"writable":true,"settings":"beam","offset":8,"storage":"f32"},
-    {"id":"terminal.explosion","display_name":"Terminal explosion reference","type":"explosion_reference","unit":null,"derived":false,"writable":false,"reason":"Impact and expiry references are structurally readable; guarded replacement awaits native consumer confirmation."}
+    {"id":"terminal.explosion","display_name":"Terminal explosion reference","type":"explosion_reference","unit":null,"derived":false,"writable":true,"semantic_target":"terminal_explosion_reference","reason":"Guarded typed ExplosionSettings replacement for a reviewed non-null terminal action."},
+    {"id":"explosion.inner_radius","display_name":"Explosion inner radius","type":"number","unit":"meters","derived":false,"writable":true,"settings":"explosion","offset":16,"storage":"f32"},
+    {"id":"explosion.outer_radius","display_name":"Explosion outer radius","type":"number","unit":"meters","derived":false,"writable":true,"settings":"explosion","offset":20,"storage":"f32"},
+    {"id":"explosion.shockwave_radius","display_name":"Explosion shockwave radius","type":"number","unit":"meters","derived":false,"writable":true,"settings":"explosion","offset":24,"storage":"f32"},
+    {"id":"explosion.damage.standard_damage","display_name":"Explosion standard damage","type":"integer","unit":"damage","derived":false,"writable":true,"settings":"explosion_damage","offset":4,"storage":"i32"},
+    {"id":"explosion.damage.durable_damage","display_name":"Explosion durable damage","type":"integer","unit":"damage","derived":false,"writable":true,"settings":"explosion_damage","offset":8,"storage":"i32"},
+    {"id":"explosion.damage.ap_direct","display_name":"Explosion AP: direct","type":"integer","unit":"armor_class","derived":false,"writable":true,"settings":"explosion_damage","offset":12,"storage":"u32"},
+    {"id":"explosion.damage.ap_slight","display_name":"Explosion AP: slight angle","type":"integer","unit":"armor_class","derived":false,"writable":true,"settings":"explosion_damage","offset":16,"storage":"u32"},
+    {"id":"explosion.damage.ap_large","display_name":"Explosion AP: large angle","type":"integer","unit":"armor_class","derived":false,"writable":true,"settings":"explosion_damage","offset":20,"storage":"u32"},
+    {"id":"explosion.damage.ap_extreme","display_name":"Explosion AP: extreme angle","type":"integer","unit":"armor_class","derived":false,"writable":true,"settings":"explosion_damage","offset":24,"storage":"u32"},
+    {"id":"explosion.damage.demolition","display_name":"Explosion demolition","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":28,"storage":"u32"},
+    {"id":"explosion.damage.stagger","display_name":"Explosion stagger","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":32,"storage":"u32"},
+    {"id":"explosion.damage.push_force","display_name":"Explosion push force","type":"integer","unit":"force","derived":false,"writable":true,"settings":"explosion_damage","offset":36,"storage":"u32"},
+    {"id":"explosion.shrapnel_count","display_name":"Explosion shrapnel count","type":"integer","unit":"projectiles","derived":false,"writable":false,"reason":"Structurally correlated for one current projectile; native consumer confirmation is incomplete."},
+    {"id":"explosion.shrapnel_projectile","display_name":"Explosion shrapnel projectile","type":"projectile_reference","unit":null,"derived":false,"writable":false,"reason":"Typed shrapnel linkage is readable; replacement compatibility is not yet proven."}
   ]
 }
