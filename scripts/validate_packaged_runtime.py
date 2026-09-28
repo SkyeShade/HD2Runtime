@@ -155,6 +155,23 @@ operations[#operations+1]=hd2.ensure({patch={id='gl28-backpack-supply',
 return operations
 '''
 
+# Drop-pod payloads: an ordinary support pod, a weapon+backpack pod, and the shared Resupply spawn count.
+POD_PAYLOADS = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+local rail=hd2.stratagem('RS-422 Railgun'):payload()
+operations[#operations+1]=hd2.ensure({patch={id='railgun-pod-mg43',target=rail:slot(1),
+    field=hd2.fields.payload.entity,expect=rail:slot(1):current(),value=hd2.pickup('MG-43 Machine Gun'),
+    allow_unverified_reference=true}})
+local maxigun=hd2.stratagem('M-1000 Maxigun'):payload()
+operations[#operations+1]=hd2.ensure({patch={id='maxigun-pod-backpack',target=maxigun:slot(2),
+    field=hd2.fields.payload.entity,expect=maxigun:slot(2):current(),value=hd2.pickup('B-1 Supply Pack'),
+    allow_unverified_reference=true}})
+local resupply=hd2.pod_rack('Resupply pod')
+operations[#operations+1]=hd2.ensure({patch={id='resupply-three-boxes',target=resupply,
+    field=hd2.fields.payload.spawn_count,expect=4,value=3,allow_unverified_effect=true,allow_shared=true}})
+return operations
+'''
+
 
 BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local operations={}
@@ -350,6 +367,8 @@ SCENARIOS = {
     'stratagem-uses-finite': lambda: STRATAGEM_USES,
     'backpack-ammo-maxigun': lambda: example('MaxigunBackpackAmmo'),
     'backpack-ammo-coverage': lambda: BACKPACK_AMMO,
+    'pod-payload-surplus-eat': lambda: example('SurplusEatPodSwap'),
+    'pod-payload-coverage': lambda: POD_PAYLOADS,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),

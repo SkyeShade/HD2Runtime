@@ -1,0 +1,131 @@
+{
+  "acknowledgementRejections": 192,
+  "baselineMatches": 192,
+  "changedWrites": 192,
+  "conflictRejections": 192,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "noOps": 192,
+  "racks": 48,
+  "rejections": [
+    "raw identifier",
+    "unknown pickup",
+    "wrong slot",
+    "read-only rack",
+    "field on wrong target",
+    "rack turned random",
+    "slot lost its attach node",
+    "replacement lost its pickup interaction"
+  ],
+  "rollbacks": 192,
+  "scenarios": {
+    "ordinary_support_pod": {
+      "changes": [
+        {
+          "after": "79754f01",
+          "before": "609eb048",
+          "fieldOffset": 0
+        },
+        {
+          "after": "ca1349a9",
+          "before": "dc0b9d2e",
+          "fieldOffset": 4
+        }
+      ],
+      "rack": "RS-422 Railgun pod",
+      "writes": 2
+    },
+    "package_risk_replacement": {
+      "changes": [
+        {
+          "after": "9c4093f0",
+          "before": "609eb048",
+          "fieldOffset": 0
+        },
+        {
+          "after": "fb34af97",
+          "before": "dc0b9d2e",
+          "fieldOffset": 4
+        }
+      ],
+      "rack": "RS-422 Railgun pod",
+      "writes": 2
+    },
+    "restore_vanilla": {
+      "acknowledgement": "allow_shared only (vanilla occupant)"
+    },
+    "same_entity_twice": {
+      "changes": [
+        {
+          "after": "79754f01",
+          "before": "d30169ed",
+          "fieldOffset": 0
+        },
+        {
+          "after": "ca1349a9",
+          "before": "a02f9380",
+          "fieldOffset": 4
+        }
+      ],
+      "rack": "EAT-17 Expendable Anti-Tank pod",
+      "writes": 2
+    },
+    "surplus_eat_consumable": {
+      "changes": [
+        {
+          "after": "79754f01",
+          "before": "d30169ed",
+          "fieldOffset": 64
+        },
+        {
+          "after": "ca1349a9",
+          "before": "a02f9380",
+          "fieldOffset": 68
+        }
+      ],
+      "rack": "EAT-17 Expendable Anti-Tank pod",
+      "writes": 2
+    },
+    "surplus_eat_support_weapon": {
+      "changes": [
+        {
+          "after": "5689b3ab",
+          "before": "d30169ed",
+          "fieldOffset": 0
+        },
+        {
+          "after": "3b7dc211",
+          "before": "a02f9380",
+          "fieldOffset": 4
+        }
+      ],
+      "rack": "EAT-17 Expendable Anti-Tank pod",
+      "writes": 2
+    },
+    "two_different_slots": {
+      "slot1": "79754f01",
+      "slot2": "9c4093f0"
+    },
+    "weapon_backpack_pod": {
+      "changes": [
+        {
+          "after": "589a2309",
+          "before": "3e721ee2",
+          "fieldOffset": 64
+        },
+        {
+          "after": "71a4f94e",
+          "before": "c5e16d05",
+          "fieldOffset": 68
+        }
+      ],
+      "rack": "M-1000 Maxigun pod",
+      "writes": 2
+    }
+  },
+  "sharedRejections": 24,
+  "slots": 192,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "spawnCounts": 48,
+  "status": "VALIDATED"
+}

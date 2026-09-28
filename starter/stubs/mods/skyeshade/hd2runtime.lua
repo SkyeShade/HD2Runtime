@@ -426,7 +426,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -584,6 +584,11 @@ function HD2Stratagem:attacks() end
 function HD2Stratagem:eagle_rearm() end
 ---@return HD2DeployedEntity
 function HD2Stratagem:deployed_entity() end
+---The drop pod this call-in delivers.
+---@return HD2PodDelivery
+function HD2Stratagem:delivery() end
+---@return HD2PodRack
+function HD2Stratagem:payload() end
 
 ---@class HD2DeployedShield
 ---@field resource "stratagem"
@@ -717,6 +722,49 @@ function HD2Backpack:weapon() end
 local HD2BoosterTarget = {}
 ---@return table
 function HD2BoosterTarget:describe() end
+---Granted-stratagem targets only: the drop pod the granted stratagem delivers.
+---@return HD2PodDelivery
+function HD2BoosterTarget:delivery() end
+---@return HD2PodRack
+function HD2BoosterTarget:payload() end
+
+---@class HD2PodDelivery
+local HD2PodDelivery = {}
+---@return HD2PodRack
+function HD2PodDelivery:rack() end
+
+---@class HD2PodRack
+---@field resource "pod_rack"
+---@field rack string
+---@field path "rack"
+local HD2PodRack = {}
+---@return table
+function HD2PodRack:describe() end
+---@return HD2PodSlot[]
+function HD2PodRack:slots() end
+---@param number integer
+---@return HD2PodSlot
+function HD2PodRack:slot(number) end
+
+---@class HD2PodSlot
+---@field resource "pod_rack"
+---@field rack string
+---@field path "slot"
+---@field slot integer
+local HD2PodSlot = {}
+---@return table
+function HD2PodSlot:describe() end
+---@return HD2Pickup|"empty"
+function HD2PodSlot:current() end
+
+---@class HD2Pickup
+---@field resource "pickup"
+---@field semanticId string
+---@field name string
+---@field category "support_weapon"|"backpack"|"ammo"|"stim"|"grenade"|"supply"
+local HD2Pickup = {}
+---@return table
+function HD2Pickup:describe() end
 
 ---@class HD2Booster
 ---@field resource "booster"
@@ -916,6 +964,8 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_payload
 ---@field lifetime "lifetime" Shield Relay: reviewed writable, number
 ---@field entity_lifetime "payload.lifetime"
+---@field entity "payload.entity"
+---@field spawn_count "payload.spawn_count"
 
 ---@class HD2Fields_equipment
 
@@ -1196,6 +1246,17 @@ function hd2.booster(name) end
 ---@param identity HD2MagazineAttachmentId
 ---@return HD2WeaponAttachment
 function hd2.weapon_attachment(identity) end
+---A drop-pod rack by name or semantic ID (see sdk/PodPayloadCapabilities.json).
+---@param identity string
+---@return HD2PodRack
+function hd2.pod_rack(identity) end
+---A reviewed replacement pickup by name or semantic ID.
+---@param identity string
+---@return HD2Pickup
+function hd2.pickup(identity) end
+---@param category? "support_weapon"|"backpack"|"ammo"|"stim"|"grenade"|"supply"
+---@return HD2Pickup[]
+function hd2.pickups(category) end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table

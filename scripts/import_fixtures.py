@@ -73,7 +73,7 @@ def main():
                        'BackpackComponentData', 'WeaponLinkerComponentData',
                        'BombardmentComponentData', 'EagleComponentData', 'MountComponentData',
                        'WeaponReloadComponentData', 'WeaponWindUpComponentData',
-                       'DepositComponentData', 'TagComponentData']
+                       'DepositComponentData', 'TagComponentData', 'InteractableComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',
@@ -84,7 +84,7 @@ def main():
                         'BackpackComponentData', 'WeaponLinkerComponentData',
                         'BombardmentComponentData', 'EagleComponentData',
                         'WeaponReloadComponentData', 'WeaponWindUpComponentData',
-                        'DepositComponentData', 'TagComponentData'}
+                        'DepositComponentData', 'TagComponentData', 'InteractableComponentData'}
     for name in component_names:
         inst, body, version, is64, offset = find_component(entity, name)
         outer = layout(library, name)

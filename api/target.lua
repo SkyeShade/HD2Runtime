@@ -661,6 +661,75 @@ function M.new(describe)
         end
         return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end
+    -- Drop-pod payloads: a stratagem's primary payload is a hellpod rack whose slots name the items the pod
+    -- opens with. The rack is the semantic owner (several stratagems can share one); see
+    -- sdk/PodPayloadCapabilities.json. Replacements are catalog pickups, never raw identifiers.
+    local pods=require('hd2runtime/domains/pod_payload_authoring')
+    local function pickup_view(identity)
+        if identity=='empty'or identity==nil then return identity end
+        local item=pods.pickups[identity]
+        return {semanticId=item.semanticId,name=item.name,category=item.category,compatibility=item.compatibility}
+    end
+    function builders.pickup(identity)
+        local semantic=pods.pickups[identity]and identity or pods.names[identity]
+        local item=assert(semantic and pods.pickups[semantic],'unknown reviewed pickup: '..tostring(identity))
+        return setmetatable({resource='pickup',semanticId=item.semanticId,name=item.name,category=item.category},
+            {__index={describe=function()
+                return {name=item.name,semanticId=item.semanticId,category=item.category,
+                    compatibility=item.compatibility,alwaysResident=item.alwaysResident,packageKey=item.packageKey}
+            end}})
+    end
+    -- Every reviewed pickup, optionally of one category (support_weapon, backpack, ammo, stim, grenade, supply).
+    function builders.pickups(category)
+        local names={}
+        for name,semantic in pairs(pods.names)do
+            if category==nil or pods.pickups[semantic].category==category then names[#names+1]=name end
+        end
+        table.sort(names)
+        local result={};for index,name in ipairs(names)do result[index]=builders.pickup(name)end
+        return result
+    end
+    local function rack_entry(identity)
+        if pods.racks[identity]then return pods.racks[identity]end
+        for _,rack in pairs(pods.racks)do if rack.semanticId==identity then return rack end end
+        error('unknown reviewed pod rack: '..tostring(identity),0)
+    end
+    function builders.pod_rack(identity)
+        local rack=rack_entry(identity);local name=rack.name
+        local methods={}
+        local function slot_target(number)
+            local slot=assert(rack.slots[tostring(number)],'slot '..tostring(number)..' of '..name
+                ..' is not an authored payload slot')
+            local slot_methods={}
+            function slot_methods.describe()
+                return {rack=name,slot=number,active=slot.active,current=pickup_view(slot.current),
+                    shared=rack.shared,acknowledgements=rack.shared and{'allow_unverified_reference','allow_shared'}
+                        or{'allow_unverified_reference'}}
+            end
+            function slot_methods.current()
+                return slot.current=='empty'and'empty'or builders.pickup(slot.current)
+            end
+            return setmetatable({resource='pod_rack',rack=name,path='slot',slot=number},{__index=slot_methods})
+        end
+        function methods.slot(_,number)return slot_target(number)end
+        function methods.slots()
+            local numbers={};for number in pairs(rack.slots)do numbers[#numbers+1]=tonumber(number)end
+            table.sort(numbers)
+            local result={};for index,number in ipairs(numbers)do result[index]=slot_target(number)end
+            return result
+        end
+        function methods.describe()
+            local consumers={};for index,consumer in ipairs(rack.consumers)do consumers[index]=consumer.name end
+            local slots={};for _,target in ipairs(methods.slots())do slots[#slots+1]=target:describe()end
+            return {name=name,semanticId=rack.semanticId,shared=rack.shared,consumers=consumers,
+                spawnCount=rack.spawnCount,writable=rack.writable,reason=rack.reason,slots=slots}
+        end
+        return setmetatable({resource='pod_rack',rack=name,path='rack'},{__index=methods})
+    end
+    local function delivery_for(rack_name,owner)
+        assert(rack_name,owner..' delivers no reviewed pod rack')
+        return setmetatable({},{__index={rack=function()return builders.pod_rack(rack_name)end}})
+    end
     -- Boosters own no settings type: their fields live on the records the Booster enum
     -- reaches (native definition table, code-selected settings rows, granted stratagem,
     -- deployed entity), each exposed as a sub-target.
@@ -686,8 +755,14 @@ function M.new(describe)
         end
         local function owned_target(path)
             assert(entry.targets[path],entry.name..' has no reviewed '..path..' target')
-            return setmetatable({resource='booster',booster=entry.name,path=path},{__index={
-                describe=function()return {booster=entry.name,path=path,fields=owned_fields(path)}end}})
+            local owned={describe=function()return {booster=entry.name,path=path,fields=owned_fields(path)}end}
+            if path=='granted_stratagem'then
+                -- The granted stratagem's drop pod (its primary payload rack).
+                local rack=pods.byStratagemId[pods.boosterGranted[entry.name]or'']
+                function owned.delivery()return delivery_for(rack,entry.name)end
+                function owned.payload()return delivery_for(rack,entry.name):rack()end
+            end
+            return setmetatable({resource='booster',booster=entry.name,path=path},{__index=owned})
         end
         local methods={}
         function methods.describe()
@@ -731,6 +806,9 @@ function M.new(describe)
         end
         function methods.attack(_,role)return stratagem_attack(name,role)end
         function methods.deployed_entity()return stratagem_entity(name)end
+        -- The drop pod this call-in delivers (hellpod rack and its item slots).
+        function methods.delivery()return delivery_for(pods.byStratagem[name],name)end
+        function methods.payload()return delivery_for(pods.byStratagem[name],name):rack()end
         function methods.eagle_rearm()
             assert(entry.family=='eagle','stratagem has no Eagle rearm definition')
             local rearm_methods={}

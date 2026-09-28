@@ -19,6 +19,7 @@ import generate_booster_authoring
 import generate_weapon_composition
 import generate_fire_mode_authoring
 import generate_vehicle_weapon_authoring
+import generate_pod_payload_authoring
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
@@ -83,6 +84,7 @@ def main():
     generate_weapon_authoring.generate(check=True)
     generate_fire_mode_authoring.generate(check=True)
     generate_vehicle_weapon_authoring.generate(check=True)
+    generate_pod_payload_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
@@ -137,6 +139,9 @@ def main():
         for item in ammo_research['backpackFedWeapons']},'liveEquality':ammo_research['liveEquality']}
     report['backpack_ammo_snapshot_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/backpack-ammo-snapshot.json').read_text()).items() if key!='backpacks'}
+    report['pod_payloads']=json.loads((ROOT/'sdk/PodPayloadCapabilities.json').read_text())['summary']
+    report['pod_payload_snapshot_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/pod-payload-snapshot.json').read_text()).items() if key!='scenarios'}
     report['vehicle_weapons']=json.loads((ROOT/'sdk/VehicleWeaponCapabilities.json').read_text())['summary']
     report['vehicle_weapon_snapshot_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/vehicle-weapon-authoring-snapshot.json').read_text()).items() if key!='scenarios'}
@@ -165,7 +170,7 @@ def main():
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
         'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto','ExosuitUnlimitedUses',
-        'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs','MaxigunBackpackAmmo']
+        'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs','MaxigunBackpackAmmo','SurplusEatPodSwap']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}
