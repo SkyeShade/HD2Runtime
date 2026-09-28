@@ -18,6 +18,12 @@ spec=importlib.util.spec_from_file_location('sdk_cli',ROOT/'sdk/hd2.py')
 sdk=importlib.util.module_from_spec(spec);spec.loader.exec_module(sdk)
 
 
+def test_artifacts():
+    # Keep test builds away from release artifacts in build/.
+    folder=ROOT/'build/test-artifacts';folder.mkdir(parents=True,exist_ok=True)
+    return folder
+
+
 def archive_sources(path):
     with zipfile.ZipFile(path) as z:
         data=z.read(next(n for n in z.namelist() if n.endswith('.patch_0')))
@@ -238,7 +244,7 @@ return 'ok'
 
     def test_standalone_starter_inventory_and_bundled_stub(self):
         version=(ROOT/'VERSION').read_text().strip()
-        path=build_release.build_starter(version)
+        path=build_release.build_starter(version,folder=test_artifacts())
         with zipfile.ZipFile(path) as archive:
             self.assertIsNone(archive.testzip())
             self.assertEqual(set(archive.namelist()),{
@@ -261,7 +267,7 @@ return 'ok'
     def test_clean_starter_builds_with_powershell_and_cmd_without_python_on_path(self):
         from hd2_archive import resource_hash
         version=(ROOT/'VERSION').read_text().strip()
-        starter=build_release.build_starter(version)
+        starter=build_release.build_starter(version,folder=test_artifacts())
         windows=Path(os.environ.get('WINDIR',r'C:\Windows'))
         clean_path=os.pathsep.join([str(windows/'System32'),
             str(windows/'System32/WindowsPowerShell/v1.0'),str(windows/'System32/Wbem')])
