@@ -54,7 +54,8 @@ local worker=coroutine.create(function()
      end
     else
      local key=field.operationGroup
-     if not grouped[key]then grouped[key]={target=target,allow_shared=field.shared,changes={}};order[#order+1]=key end
+     if not grouped[key]then grouped[key]={target=target,allow_shared=field.shared,changes={},
+      allow_unverified_effect=field.acknowledgement=='allow_unverified_effect'or nil};order[#order+1]=key end
      local changes=grouped[key].changes
      changes[#changes+1]={field=field.semanticFieldId,expect=field.currentDefault,value=field.currentDefault}
     end
@@ -90,7 +91,7 @@ def main():
     parser.add_argument('--output',type=Path,default=OUTPUT)
     args=parser.parse_args();result=validate(args.snapshot)
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+    args.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n',newline='\n')
     print(json.dumps(result,indent=2))
 
 if __name__=='__main__':main()

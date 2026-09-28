@@ -14,6 +14,7 @@ import support_callin_linkage
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
+BACKPACK_AMMO = ROOT / 'research/backpack-ammo-F5FEE03DCFDB.json'
 FIELDS = ROOT / 'schemas/entity_fields.json'
 VEHICLE_OUTPUT = ROOT / 'sdk/VehicleAuthoringCapabilities.json'
 BACKPACK_OUTPUT = ROOT / 'sdk/BackpackAuthoringCapabilities.json'
@@ -62,6 +63,18 @@ def vehicle_key(name):
 
 def backpack_key(name):
     return 'backpack/v1/' + slug(name) + '/' + digest(name)
+
+
+AMMO_RANGE = {'deposit.capacity': (1, 100000), 'deposit.start_amount': (0, 100000),
+    'deposit.refill_amount': (0, 100000)}
+AMMO_LABELS = {'deposit.capacity': 'Backpack ammo capacity', 'deposit.start_amount': 'Starting backpack ammo',
+    'deposit.refill_amount': 'Backpack ammo from supply'}
+AMMO_UNVERIFIED = ('The backpack DepositComponent is the proven ammunition store (exact capacity and supply '
+    'fingerprints), but no edit has been confirmed in game yet.')
+
+
+def backpack_ammo_name(weapon):
+    return weapon + ' Backpack'
 
 
 def weapon_key(resource, label):
@@ -196,6 +209,11 @@ class Builder:
             item['sharedConsumers'] = descriptor['sharedConsumers']
             item['allowedValues'] = descriptor.get('allowedValues')
             item['acknowledgement'] = descriptor.get('acknowledgement')
+            item['acknowledgementReason'] = descriptor.get('acknowledgementReason')
+            item['min'], item['max'] = descriptor.get('min'), descriptor.get('max')
+            for key in ('displayName', 'unit', 'uiGroup'):
+                if descriptor.get('uiGroup'):
+                    item[key] = descriptor.get(key)
             item['backing'] = {key: backing[key] for key in ('component', 'resource', 'recordIndex', 'indexRow',
                 'ownerCount', 'uniqueOwner', 'offset', 'storage', 'width')}
             result.append(item)
@@ -426,6 +444,62 @@ def build(research_path=RESEARCH):
                 'indexRow': rack['indexRow']},
             'fields': backpack_builder.runtime(name)}
 
+    # Weapon-fed backpacks: the call-in rack delivers the support weapon with this backpack, and the weapon's
+    # WeaponLinkedAmmoComponent draws from the backpack slot through a tag only this backpack carries. The
+    # backpack DepositComponent is the ammunition store (research/backpack-ammo-F5FEE03DCFDB.json).
+    ammo_research = json.loads(BACKPACK_AMMO.read_text())
+    for item in sorted(ammo_research['backpackFedWeapons'], key=lambda entry: entry['supportWeapon']):
+        weapon = item['supportWeapon']; name = backpack_ammo_name(weapon); deposit = item['deposit']
+        if not item['fingerprintExact'] or not deposit['uniqueOwner'] or item['weaponOwnsMagazine']:
+            raise ValueError(name + ': backpack ammo ownership is not proven')
+        target = {'resource': 'backpack', 'backpack': name, 'path': 'backpack'}
+        keys = []
+        for field_id, offset, storage in (('deposit.capacity', 0, 'u32'), ('deposit.start_amount', 4, 'i32'),
+                ('deposit.refill_amount', 8, 'u32')):
+            low, high = AMMO_RANGE[field_id]
+            keys.append(backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
+                component_backing(deposit, item['backpackResource'], offset, storage, [name]),
+                extra={'displayName': AMMO_LABELS[field_id], 'unit': 'ammo', 'uiGroup': 'backpack_ammo',
+                    'min': low, 'max': high, 'acknowledgement': 'allow_unverified_effect',
+                    'acknowledgementReason': AMMO_UNVERIFIED,
+                    'provenance': 'call-in rack -> weapon linked ammo tag -> backpack TagComponent -> '
+                        'backpack DepositComponent; exact wiki capacity and supply fingerprints'})['instanceKey'])
+        fingerprint = item['fingerprint']
+        public_backpacks.append({'name': name, 'semanticId': backpack_key(name),
+            'callInStratagem': {'semanticId': support_callin_linkage.stratagem_key(weapon), 'name': weapon,
+                'relationship': 'delivered_with_support_weapon', 'known': True,
+                'provenance': 'call-in primary payload is the rack that attaches the weapon and this backpack'},
+            'deliveryChain': ['stratagem_definition', 'hellpod_rack', 'backpack_entity'],
+            'feeds': {'supportWeapon': weapon, 'supportWeaponSemanticId': support_callin_linkage.support_weapon_key(weapon),
+                'relationship': 'backpack_ammo', 'ammoMode': item['linkedAmmo']['ammoMode'],
+                'inventorySlot': item['linkedAmmo']['inventorySlot'], 'refillStyle': deposit['refillStyle'],
+                'weaponOwnsMagazine': False,
+                'chain': ['call-in rack attaches the weapon and this backpack',
+                    'weapon WeaponLinkedAmmoComponent: inventory slot Backpack, tag',
+                    'only this backpack carries the tag (TagComponent)',
+                    'backpack DepositComponent holds the ammunition']},
+            'ammo': {'capacity': deposit['values']['0'], 'startAmount': deposit['values']['4'],
+                'refillAmount': deposit['values']['8'],
+                'fromAmmoBox': {'value': fingerprint['fromAmmoBox']['wiki'], 'writable': False,
+                    'reason': 'Half of the supply refill, applied by game code; not a stored member.'},
+                'fingerprint': {'capacity': fingerprint['capacity'], 'fromSupply': fingerprint['fromSupply']}},
+            'correlation': {'capacity': True, 'fromSupply': True},
+            'components': ['Backpack', 'Deposit', 'Tag'],
+            'settingGroups': [{'group': 'backpack_ammo', 'fieldInstanceKeys': keys}],
+            'blockedFields': [{'field': 'remaining ammunition', 'reason': 'The live remaining count is per-mission '
+                'instance state, not a definition field; capacity, starting ammo and supply refill are authored.'}],
+            'fieldInstanceKeys': keys})
+        rack = item['rack']; linked = item['linkedAmmoIdentity']; tag = item['backpackTag']
+        runtime_backpacks[name] = {'name': name, 'semanticId': backpack_key(name), 'resource': item['backpackResource'],
+            'entityRow': item['backpackEntityRow'],
+            'rack': {'resource': rack['resource'], 'recordIndex': rack['recordIndex'], 'indexRow': rack['indexRow'],
+                'slots': {str(rack['weaponSlot']): item['weaponResource'], str(rack['backpackSlot']): item['backpackResource']}},
+            'feeds': {'weapon': weapon, 'weaponResource': item['weaponResource'], 'weaponEntityRow': item['weaponEntityRow'],
+                'linkedAmmo': {'recordIndex': linked['recordIndex'], 'indexRow': linked['indexRow']},
+                'tag': {'recordIndex': tag['recordIndex'], 'indexRow': tag['indexRow'], 'value': tag['value']},
+                'ammoMode': item['linkedAmmo']['ammoMode'], 'inventorySlot': ammo_research['typeLibrary']['inventorySlotBackpack']},
+            'fields': backpack_builder.runtime(name)}
+
     runtime_weapons = {item['semanticId']: {'semanticId': item['semanticId'], 'displayName': item['displayName'],
         'resource': item['resource'], 'entityRow': item['entityRow'], 'attackFamily': item['attackFamily']}
         for item in weapons.values()}
@@ -514,6 +588,8 @@ def build(research_path=RESEARCH):
             if field['target']['backpack'] == item['name']) for item in public_backpacks),
         'writableByTier': tiers(backpack_builder),
         'rackChainsResolved': len(public_backpacks),
+        'weaponFedBackpacks': sum(1 for item in public_backpacks if item.get('feeds')),
+        'backpackAmmoWritable': sum(item['editable'] for item in backpack_fields if item.get('uiGroup') == 'backpack_ammo'),
         'researchWrites': 0, 'protectionChanges': 0, 'fixtureFallback': 'disabled'}
     backpack_doc = {'contract': 'hd2runtime.backpack.guarded_authoring.v1', 'schemaVersion': 1,
         'hd2RuntimeVersion': version, 'canonicalCollection': 'fieldInstances',
@@ -527,7 +603,8 @@ def build(research_path=RESEARCH):
         if '0x' in text:
             raise ValueError('public entity capability leaks a native identifier')
         for resource in list(mounted) + [item['resource'] for item in vehicles_source] + \
-                [item['resource'] for item in research['backpacks']]:
+                [item['resource'] for item in research['backpacks']] + \
+                [x for item in ammo_research['backpackFedWeapons'] for x in (item['backpackResource'], item['weaponResource'])]:
             if resource[2:].lower() in text:
                 raise ValueError('public entity capability leaks a native resource hash')
 

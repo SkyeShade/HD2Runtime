@@ -130,6 +130,13 @@ def main():
     report['fire_mode_authoring_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/fire-mode-authoring-snapshot.json').read_text()).items() if key!='weapons'}
     report['weapon_fire_modes']=json.loads((ROOT/'sdk/WeaponFireModeCapabilities.json').read_text())['summary']
+    ammo_research=json.loads((ROOT/'research/backpack-ammo-F5FEE03DCFDB.json').read_text())
+    report['backpack_ammo']={'backpackFedWeapons':{item['supportWeapon']:{'capacity':item['deposit']['values']['0'],
+        'startAmount':item['deposit']['values']['4'],'refillAmount':item['deposit']['values']['8'],
+        'fingerprintExact':item['fingerprintExact'],'weaponOwnsMagazine':item['weaponOwnsMagazine']}
+        for item in ammo_research['backpackFedWeapons']},'liveEquality':ammo_research['liveEquality']}
+    report['backpack_ammo_snapshot_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/backpack-ammo-snapshot.json').read_text()).items() if key!='backpacks'}
     report['vehicle_weapons']=json.loads((ROOT/'sdk/VehicleWeaponCapabilities.json').read_text())['summary']
     report['vehicle_weapon_snapshot_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/vehicle-weapon-authoring-snapshot.json').read_text()).items() if key!='scenarios'}
@@ -158,7 +165,7 @@ def main():
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
         'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto','ExosuitUnlimitedUses',
-        'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs']
+        'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs','MaxigunBackpackAmmo']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

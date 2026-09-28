@@ -42,9 +42,11 @@ keeps the full stratagem payload -> `HellpodRackComponentData` -> missile entity
 Silo write freshly verifies that chain, then resolves the independently owned detonation or impact
 explosion. The handheld or delivery root is never treated as the damage owner.
 
-Weapon-side magazine and rounds-feed fields are independent of backpack storage. Backpack ammo
-stays read-only until its entity/package storage owner and semantics are proven. Known
-`WeaponLinkedAmmoComponentData` ownership is reported as classification evidence only.
+Weapon-side magazine and rounds-feed fields are independent of backpack storage. The three
+backpack-fed weapons (M-1000 Maxigun, B/FLAM-80 Cremator, GL-28 Belt-Fed Grenade Launcher) own no
+magazine at all: their ammunition is the backpack's `DepositComponent`, authored through
+`hd2.support_weapon(name):backpack()` (see [Backpack ammunition](backpack-ammo.md)). Other
+backpack-dependent weapons keep backpack storage read-only.
 
 LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, including heat
 capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),

@@ -72,7 +72,8 @@ def main():
                        'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
                        'BackpackComponentData', 'WeaponLinkerComponentData',
                        'BombardmentComponentData', 'EagleComponentData', 'MountComponentData',
-                       'WeaponReloadComponentData', 'WeaponWindUpComponentData']
+                       'WeaponReloadComponentData', 'WeaponWindUpComponentData',
+                       'DepositComponentData', 'TagComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',
@@ -82,7 +83,8 @@ def main():
                         'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
                         'BackpackComponentData', 'WeaponLinkerComponentData',
                         'BombardmentComponentData', 'EagleComponentData',
-                        'WeaponReloadComponentData', 'WeaponWindUpComponentData'}
+                        'WeaponReloadComponentData', 'WeaponWindUpComponentData',
+                        'DepositComponentData', 'TagComponentData'}
     for name in component_names:
         inst, body, version, is64, offset = find_component(entity, name)
         outer = layout(library, name)
@@ -209,11 +211,11 @@ def main():
     fixture = {'entity': [{'offset': k, 'hex': v.hex()} for k, v in sorted(spans.items())],
                'buffers': buffers, 'cooldown_record': cooldown.hex(),
                'notice': 'Sparse reference bytes plus saved live cooldown row. Synthetic allocation addresses; not a new live capture.'}
-    (ROOT/'schemas/current.lua').write_text('return '+lua(profile)+'\n', encoding='ascii')
+    (ROOT/'schemas/current.lua').write_text('return '+lua(profile)+'\n', encoding='ascii', newline='\n')
     (ROOT/'tests/fixtures').mkdir(parents=True, exist_ok=True)
-    (ROOT/'tests/fixtures/reference.json').write_text(json.dumps(fixture, separators=(',', ':'))+'\n')
-    (ROOT/'tests/fixtures/stratagem_records.json').write_text(json.dumps(stratagem_records,indent=2)+'\n')
-    (ROOT/'docs/provenance.json').write_text(json.dumps(manifest, indent=2)+'\n')
+    (ROOT/'tests/fixtures/reference.json').write_text(json.dumps(fixture, separators=(',', ':'))+'\n', newline='\n')
+    (ROOT/'tests/fixtures/stratagem_records.json').write_text(json.dumps(stratagem_records,indent=2)+'\n', newline='\n')
+    (ROOT/'docs/provenance.json').write_text(json.dumps(manifest, indent=2)+'\n', newline='\n')
     print('Generated pinned schema profile and sparse fixtures for', len(resources), 'resources')
 
 

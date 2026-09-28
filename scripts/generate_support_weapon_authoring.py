@@ -19,6 +19,7 @@ CATALOG=ROOT/'schemas/support_weapon_authoring_catalog.json'
 FIELDS=ROOT/'schemas/player_weapon_fields.json'
 LEGACY=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
 COVERAGE=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
+BACKPACK_AMMO=ROOT/'research/backpack-ammo-F5FEE03DCFDB.json'
 UNVERIFIED_REASONS={
     'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
         '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
@@ -158,6 +159,7 @@ def refresh_catalog(base_path,legacy_path=LEGACY,catalog_path=CATALOG):
 
 def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
+    fed_backpacks={item['supportWeapon']:item for item in json.loads(BACKPACK_AMMO.read_text())['backpackFedWeapons']}
     coverage=json.loads(COVERAGE.read_text())
     delivery={name:item for name,item in coverage['deliveryResolution'].items()if item['decision']=='RESOLVED'}
     schema=json.loads(FIELDS.read_text());definitions={item['id']:item for item in schema['fields']}
@@ -453,17 +455,25 @@ def build(catalog_path=CATALOG):
                             statusType=attack['statusType'],
                             parentLinkage=parent_linkage if parent and parent.get('damageInfo')else None,
                             **(status_extra if parent and parent.get('damageInfo')else{})),attack_target))
-        if weapon['backpackDependent']:
-            blocked.append({'field':'backpack storage','reason':
-                'Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent.'})
-        if weapon['linkedAmmoOwned']:
-            blocked.append({'field':'linked backpack ammo','reason':
-                'WeaponLinkedAmmo ownership is classified, but storage semantics are not proven.'})
+        fed=fed_backpacks.get(weapon['name'])
+        if fed:
+            blocked.append({'field':'weapon magazine','reason':
+                'The weapon owns no WeaponMagazineComponent. Its ammunition is the backpack DepositComponent: '
+                'author it through hd2.support_weapon(name):backpack().'})
+        else:
+            if weapon['backpackDependent']:
+                blocked.append({'field':'backpack storage','reason':
+                    'Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent.'})
+            if weapon['linkedAmmoOwned']:
+                blocked.append({'field':'linked backpack ammo','reason':
+                    'WeaponLinkedAmmo ownership is classified, but storage semantics are not proven.'})
         if weapon['ownershipChain']and any(x['kind']=='stratagem_payload'for x in weapon['ownershipChain']):
             blocked.append({'field':'linked stratagem scalars','reason':
                 'Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); '
                 'call-in scalar ownership through the support weapon is not reviewed.'})
-        for reason in weapon['unresolvedLinks']:blocked.append({'field':'unresolved branch','reason':reason})
+        for reason in weapon['unresolvedLinks']:
+            if fed and reason.startswith('backpack entity/package ownership link'):continue
+            blocked.append({'field':'unresolved branch','reason':reason})
 
         runtime_weapons[weapon['name']]={'name':weapon['name'],'resolution':weapon['resolution'],
             'supportWeapon':True,
@@ -504,6 +514,15 @@ def build(catalog_path=CATALOG):
             'sharedScopes':sorted(set(f['writeScope']for f in fields if f['affectsMultipleWeapons'])),
             'blockedFields':blocked,'backpackDependency':weapon['backpackDependent'],
             'linkedAmmoOwnership':weapon['linkedAmmoOwned'],
+            'ammoBackpack':None if not fed else {'backpack':weapon['name']+' Backpack',
+                'semanticId':'backpack/v1/'+re.sub(r'[^a-z0-9]+','-',(weapon['name']+' Backpack').lower()).strip('-')
+                    +'/'+hashlib.sha256(json.dumps(weapon['name']+' Backpack',sort_keys=True,separators=(',',':'))
+                    .encode()).hexdigest()[:16],
+                'accessor':'hd2.support_weapon(name):backpack()','owner':'backpack DepositComponent',
+                'weaponOwnsMagazine':False,'fields':['deposit.capacity','deposit.start_amount','deposit.refill_amount'],
+                'baseline':{'capacity':fed['deposit']['values']['0'],'startAmount':fed['deposit']['values']['4'],
+                    'refillAmount':fed['deposit']['values']['8']},
+                'catalog':'sdk/BackpackAuthoringCapabilities.json'},
             'linkedStratagem':call_in_linkage['supportWeapons'][weapon['name']],
             'writable':unique and bool(fields),'writableFieldCount':len(fields)if unique else 0})
 

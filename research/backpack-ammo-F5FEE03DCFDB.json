@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "pinnedReferences": {
+    "entities": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+    "typelib": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4"
+  },
+  "liveEquality": {
+    "WeaponLinkedAmmoComponentData": true,
+    "DepositComponentData": true,
+    "TagComponentData": true,
+    "HellpodRackComponentData": true
+  },
+  "typeLibrary": {
+    "DepositComponent": [
+      {
+        "offset": 0,
+        "member": "capacity",
+        "storage": "UINT32",
+        "nameLength": 8
+      },
+      {
+        "offset": 4,
+        "member": "start_amount",
+        "storage": "INT32",
+        "nameLength": 12
+      },
+      {
+        "offset": 8,
+        "member": "refill_amount",
+        "storage": "UINT32",
+        "nameLength": 13
+      },
+      {
+        "offset": 128,
+        "member": "refill_style",
+        "storage": "ENUM_UINT32",
+        "nameLength": 12
+      },
+      {
+        "offset": 136,
+        "member": "assisted_reload_weapon_path",
+        "storage": "UINT64",
+        "nameLength": 27
+      }
+    ],
+    "WeaponLinkedAmmoComponent": [
+      {
+        "offset": 0,
+        "member": "tag",
+        "storage": "ENUM_UINT64",
+        "nameLength": 19
+      },
+      {
+        "offset": 8,
+        "member": "ammo_mode",
+        "storage": "ENUM_UINT32",
+        "nameLength": 9
+      },
+      {
+        "offset": 12,
+        "member": "inventory_slot",
+        "storage": "ENUM_UINT32",
+        "nameLength": 14
+      }
+    ],
+    "tagEnumShared": true,
+    "inventorySlotBackpack": 6,
+    "inventorySlotAliasLengths": {
+      "0": 18,
+      "1": 21,
+      "2": 21,
+      "3": 21,
+      "4": 21,
+      "5": 27,
+      "6": 22,
+      "7": 18,
+      "8": 19
+    },
+    "depositRefill": {
+      "0": "None",
+      "1": "Ammo",
+      "2": "Medic",
+      "3": "Supplies"
+    },
+    "depositRefillAliasLengths": {
+      "0": 18,
+      "1": 18,
+      "2": 19,
+      "3": 22,
+      "4": 29,
+      "5": 19
+    },
+    "depositRefillBasis": "Values 0 and 1 share an alias length; Ammo = 1 follows Filediver order and the medic (2) and supply (3) backpacks. Corroboration only."
+  },
+  "model": [
+    "call-in StratagemDefinition primary payload is a hellpod rack",
+    "the rack attaches the support weapon and its backpack",
+    "the weapon WeaponLinkedAmmoComponent draws from the Backpack inventory slot through a tag",
+    "exactly one entity (the backpack) carries that tag in its TagComponent",
+    "the backpack DepositComponent is the ammunition store; the weapon owns no WeaponMagazineComponent"
+  ],
+  "backpackFedWeapons": [
+    {
+      "weaponResource": "0x88C2D09AD85A7C9F",
+      "weaponPath": "content/fac_helldivers/equipment/support_weapons/belt_fed_grenade_launcher/belt_fed_grenade_launcher",
+      "linkedAmmo": {
+        "recordIndex": 3,
+        "ownerCount": 1,
+        "tag": "0x0000080000000000",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack"
+      },
+      "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+      "backpackResource": "0xBB4B15B588F974FD",
+      "backpackPath": "content/fac_helldivers/equipment/backpacks/belt_fed_grenade_launcher_backpack/belt_fed_grenade_launcher_backpack",
+      "backpackEntityRow": 1277,
+      "weaponEntityRow": 3231,
+      "weaponComponents": [
+        "AbilityComponentData",
+        "AnimationComponentData",
+        "AttachableComponentData",
+        "CollisionEventComponentData",
+        "EncyclopediaEntryComponentData",
+        "EntityBindComponentData",
+        "EquipmentComponentData",
+        "EquipmentShowcaseComponentData",
+        "InteractableComponentData",
+        "LoadoutPackageComponentData",
+        "MeleeAttackComponentData",
+        "NetworkPhysicsComponentData",
+        "PhysicsImpactEffectComponentData",
+        "ProjectileWeaponComponentData",
+        "SpottableComponentData",
+        "TwoPointChainAttachTargetComponentData",
+        "UnitComponentData",
+        "WeaponCustomizationComponentData",
+        "WeaponDataComponentData",
+        "WeaponLinkedAmmoComponentData",
+        "WeaponReloadComponentData",
+        "WieldableComponentData"
+      ],
+      "linkedAmmoIdentity": {
+        "recordIndex": 3,
+        "indexRow": 3,
+        "ownerCount": 1
+      },
+      "backpackTag": {
+        "recordIndex": 313,
+        "indexRow": 147,
+        "slot": 0,
+        "value": "0x0000080000000000"
+      },
+      "weaponOwnsMagazine": false,
+      "weaponReloadHasSharedDeposit": false,
+      "tagCarriers": [
+        "0xBB4B15B588F974FD"
+      ],
+      "callIn": {
+        "stratagem": "GL-28 Belt-Fed Grenade Launcher",
+        "rootId": 512147393,
+        "primaryPayload": "0xB7791DA91F13488C"
+      },
+      "rack": {
+        "resource": "0xB7791DA91F13488C",
+        "recordIndex": 8,
+        "indexRow": 125,
+        "weaponSlot": 0,
+        "backpackSlot": 1,
+        "items": [
+          "0x88C2D09AD85A7C9F",
+          "0xBB4B15B588F974FD",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000"
+        ]
+      },
+      "deposit": {
+        "component": "DepositComponentData",
+        "recordIndex": 8,
+        "indexRow": 1,
+        "recordSize": 152,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "ownerResources": [
+          "0xBB4B15B588F974FD"
+        ],
+        "recordSha256": "4E11B2FF0E85CD4E83A2FE5821D4E1D99F54351C73661580C1634DF5BF18927B",
+        "values": {
+          "0": 120,
+          "4": 120,
+          "8": 60
+        },
+        "refillStyle": "Ammo",
+        "assistedReloadWeapon": null
+      },
+      "fingerprint": {
+        "capacity": {
+          "wiki": 120,
+          "native": 120
+        },
+        "fromSupply": {
+          "wiki": 60,
+          "native": 60
+        },
+        "fromAmmoBox": {
+          "wiki": 30,
+          "native": null,
+          "note": "Equals refill_amount / 2; applied by game code, not a stored member."
+        }
+      },
+      "fingerprintExact": true
+    },
+    {
+      "weaponResource": "0x78A8185F63A70795",
+      "weaponPath": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower",
+      "linkedAmmo": {
+        "recordIndex": 4,
+        "ownerCount": 1,
+        "tag": "0x0000040000000000",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack"
+      },
+      "supportWeapon": "B/FLAM-80 Cremator",
+      "backpackResource": "0x43EB1C3C1A1860E0",
+      "backpackPath": "content/fac_helldivers/equipment/backpacks/heavy_flamethrower_backpack/heavy_flamethrower_backpack",
+      "backpackEntityRow": 226,
+      "weaponEntityRow": 1941,
+      "weaponComponents": [
+        "AbilityComponentData",
+        "AnimationComponentData",
+        "AttachableComponentData",
+        "CollisionEventComponentData",
+        "EncyclopediaEntryComponentData",
+        "EntityBindComponentData",
+        "EquipmentComponentData",
+        "EquipmentShowcaseComponentData",
+        "InteractableComponentData",
+        "LoadoutPackageComponentData",
+        "MeleeAttackComponentData",
+        "NetworkPhysicsComponentData",
+        "PhysicsImpactEffectComponentData",
+        "SpottableComponentData",
+        "SprayWeaponComponentData",
+        "TwoPointChainAttachTargetComponentData",
+        "UnitComponentData",
+        "WeaponCustomizationComponentData",
+        "WeaponDataComponentData",
+        "WeaponLinkedAmmoComponentData",
+        "WeaponReloadComponentData",
+        "WieldableComponentData"
+      ],
+      "linkedAmmoIdentity": {
+        "recordIndex": 4,
+        "indexRow": 1,
+        "ownerCount": 1
+      },
+      "backpackTag": {
+        "recordIndex": 322,
+        "indexRow": 455,
+        "slot": 0,
+        "value": "0x0000040000000000"
+      },
+      "weaponOwnsMagazine": false,
+      "weaponReloadHasSharedDeposit": false,
+      "tagCarriers": [
+        "0x43EB1C3C1A1860E0"
+      ],
+      "callIn": {
+        "stratagem": "B/FLAM-80 Cremator",
+        "rootId": 2271469939,
+        "primaryPayload": "0xCA4F3FC268F449D5"
+      },
+      "rack": {
+        "resource": "0xCA4F3FC268F449D5",
+        "recordIndex": 34,
+        "indexRow": 37,
+        "weaponSlot": 0,
+        "backpackSlot": 1,
+        "items": [
+          "0x78A8185F63A70795",
+          "0x43EB1C3C1A1860E0",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000"
+        ]
+      },
+      "deposit": {
+        "component": "DepositComponentData",
+        "recordIndex": 21,
+        "indexRow": 12,
+        "recordSize": 152,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "ownerResources": [
+          "0x43EB1C3C1A1860E0"
+        ],
+        "recordSha256": "365EDE5377FE830365C39BCA61F60CF4CB868495575F56AC4F6BD7AF86AA52CB",
+        "values": {
+          "0": 500,
+          "4": 500,
+          "8": 250
+        },
+        "refillStyle": "Ammo",
+        "assistedReloadWeapon": null
+      },
+      "fingerprint": {
+        "capacity": {
+          "wiki": 500,
+          "native": 500
+        },
+        "fromSupply": {
+          "wiki": 250,
+          "native": 250
+        },
+        "fromAmmoBox": {
+          "wiki": 125,
+          "native": null,
+          "note": "Equals refill_amount / 2; applied by game code, not a stored member."
+        }
+      },
+      "fingerprintExact": true
+    },
+    {
+      "weaponResource": "0x43A58CB89CFA197C",
+      "weaponPath": "content/fac_helldivers/equipment/support_weapons/minigun/minigun",
+      "linkedAmmo": {
+        "recordIndex": 5,
+        "ownerCount": 1,
+        "tag": "0x0000010000000000",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack"
+      },
+      "supportWeapon": "M-1000 Maxigun",
+      "backpackResource": "0x056DE1C5E21E723E",
+      "backpackPath": "content/fac_helldivers/equipment/backpacks/minigun_backpack/minigun_backpack",
+      "backpackEntityRow": 574,
+      "weaponEntityRow": 2429,
+      "weaponComponents": [
+        "AbilityComponentData",
+        "AnimationComponentData",
+        "AttachableComponentData",
+        "CollisionEventComponentData",
+        "EncyclopediaEntryComponentData",
+        "EntityBindComponentData",
+        "EquipmentComponentData",
+        "EquipmentShowcaseComponentData",
+        "InteractableComponentData",
+        "LoadoutPackageComponentData",
+        "MeleeAttackComponentData",
+        "NetworkPhysicsComponentData",
+        "PhysicsImpactEffectComponentData",
+        "ProjectileWeaponComponentData",
+        "SpottableComponentData",
+        "TwoPointChainAttachTargetComponentData",
+        "UnitComponentData",
+        "WeaponCustomizationComponentData",
+        "WeaponDataComponentData",
+        "WeaponLinkedAmmoComponentData",
+        "WeaponReloadComponentData",
+        "WeaponWindUpComponentData",
+        "WieldableComponentData"
+      ],
+      "linkedAmmoIdentity": {
+        "recordIndex": 5,
+        "indexRow": 5,
+        "ownerCount": 1
+      },
+      "backpackTag": {
+        "recordIndex": 323,
+        "indexRow": 561,
+        "slot": 0,
+        "value": "0x0000010000000000"
+      },
+      "weaponOwnsMagazine": false,
+      "weaponReloadHasSharedDeposit": false,
+      "tagCarriers": [
+        "0x056DE1C5E21E723E"
+      ],
+      "callIn": {
+        "stratagem": "M-1000 Maxigun",
+        "rootId": 3455841218,
+        "primaryPayload": "0x73B63D637973C7A4"
+      },
+      "rack": {
+        "resource": "0x73B63D637973C7A4",
+        "recordIndex": 52,
+        "indexRow": 56,
+        "weaponSlot": 0,
+        "backpackSlot": 1,
+        "items": [
+          "0x43A58CB89CFA197C",
+          "0x056DE1C5E21E723E",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000",
+          "0x0000000000000000"
+        ]
+      },
+      "deposit": {
+        "component": "DepositComponentData",
+        "recordIndex": 23,
+        "indexRow": 24,
+        "recordSize": 152,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "ownerResources": [
+          "0x056DE1C5E21E723E"
+        ],
+        "recordSha256": "4216E29CAA5A91CA9E19CF567DEF2ED38C87BD2AADB0E5A8268FF3E74723E269",
+        "values": {
+          "0": 1000,
+          "4": 1000,
+          "8": 500
+        },
+        "refillStyle": "Ammo",
+        "assistedReloadWeapon": null
+      },
+      "fingerprint": {
+        "capacity": {
+          "wiki": 1000,
+          "native": 1000
+        },
+        "fromSupply": {
+          "wiki": 500,
+          "native": 500
+        },
+        "fromAmmoBox": {
+          "wiki": 250,
+          "native": null,
+          "note": "Equals refill_amount / 2; applied by game code, not a stored member."
+        }
+      },
+      "fingerprintExact": true
+    }
+  ],
+  "otherLinkedAmmo": [
+    {
+      "weaponResource": "0x9E83637BB077E782",
+      "weaponPath": "content/fac_helldivers/vehicles/frv_supply/armaments/frv_supply_rack/frv_supply_rack",
+      "linkedAmmo": {
+        "recordIndex": 0,
+        "ownerCount": 1,
+        "tag": "0x0000000000000000",
+        "ammoMode": 0,
+        "inventorySlot": "Backpack"
+      },
+      "reason": "Does not draw from a tagged backpack (vehicle or objective linked ammo)."
+    },
+    {
+      "weaponResource": "0x9BFC8FCD68B09F28",
+      "weaponPath": "content/objectives/obj_common/seaf_gun/seaf_gun",
+      "linkedAmmo": {
+        "recordIndex": 1,
+        "ownerCount": 1,
+        "tag": "0x0000000000000000",
+        "ammoMode": 2,
+        "inventorySlot": "Backpack"
+      },
+      "reason": "Does not draw from a tagged backpack (vehicle or objective linked ammo)."
+    },
+    {
+      "weaponResource": "0xFFB4A0F6A52719E1",
+      "weaponPath": null,
+      "linkedAmmo": {
+        "recordIndex": 2,
+        "ownerCount": 1,
+        "tag": "0x0000000000000000",
+        "ammoMode": 2,
+        "inventorySlot": "Backpack"
+      },
+      "reason": "Does not draw from a tagged backpack (vehicle or objective linked ammo)."
+    }
+  ],
+  "writes": 0
+}

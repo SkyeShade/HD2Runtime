@@ -143,6 +143,18 @@ operations[#operations+1]=hd2.ensure({patch={id='laser-five-uses',target=hd2.str
 return operations
 '''
 
+# Backpack-owned ammunition for the other two backpack-fed support weapons.
+BACKPACK_AMMO = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+operations[#operations+1]=hd2.ensure({patch={id='cremator-backpack-capacity',
+    target=hd2.support_weapon('B/FLAM-80 Cremator'):backpack(),allow_unverified_effect=true,
+    field=hd2.fields.deposit.capacity,expect=500,value=750}})
+operations[#operations+1]=hd2.ensure({patch={id='gl28-backpack-supply',
+    target=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher'):backpack(),allow_unverified_effect=true,
+    field=hd2.fields.deposit.refill_amount,expect=60,value=90}})
+return operations
+'''
+
 
 BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local operations={}
@@ -336,6 +348,8 @@ SCENARIOS = {
     'vehicle-weapon-patriot': lambda: example('PatriotExosuitBuffs'),
     'stratagem-uses-unlimited': lambda: example('ExosuitUnlimitedUses'),
     'stratagem-uses-finite': lambda: STRATAGEM_USES,
+    'backpack-ammo-maxigun': lambda: example('MaxigunBackpackAmmo'),
+    'backpack-ammo-coverage': lambda: BACKPACK_AMMO,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),

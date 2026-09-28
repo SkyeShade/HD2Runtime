@@ -1,0 +1,1 @@
+{"format":1,"name":"MaxigunBackpackAmmo","resource":"mods/hd2runtime_examples/maxigun_backpack_ammo","guid":"53d61d2e-2432-5559-a3d1-b374e162055a","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

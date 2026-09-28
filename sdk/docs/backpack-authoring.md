@@ -1,7 +1,8 @@
 # Guarded backpack authoring
 
-`hd2.backpack(name)` edits the delivered backpack entity for the 13 wiki backpack stratagems. The
-catalog is `sdk/BackpackAuthoringCapabilities.json`.
+`hd2.backpack(name)` edits the delivered backpack entity for the 13 wiki backpack stratagems and the
+3 weapon-fed backpacks that store support weapon ammunition. The catalog is
+`sdk/BackpackAuthoringCapabilities.json`.
 
 Each backpack is resolved structurally: StratagemDefinition payload, then hellpod rack, then the
 rack's single attached item, which must own `BackpackComponentData`. The runtime re-proves the rack
@@ -19,7 +20,8 @@ Read-only:
 
 - **Deposit charges:** `deposit.capacity`, `deposit.start_amount`, and `deposit.refill_amount` on the
   Supply Pack, Guard Dogs, and Hellbomb. The drone values match the wiki exactly, but no reference mod
-  proved write semantics.
+  proved write semantics. The same fields are writable on the weapon-fed backpacks, where the deposit
+  is the proven weapon ammunition store (see [Backpack ammunition](backpack-ammo.md)).
 - **Hover Pack vertical launch velocity:** the member is proven on the Jump Pack only.
 - **Other launch members:** two further Jumppack launch scalars were only ever experiment profiles,
   and no horizontal impulse member is identified.
