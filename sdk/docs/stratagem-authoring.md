@@ -101,3 +101,31 @@ Each relationship has a reference-only `deliveryGraph`. Its nodes name the ownin
 uses these to select existing `fieldInstances`; no fields are copied. For Solo Silo the graph is
 stratagem call-in (cooldown) -> deployable silo -> missile -> `detonation` and `impact`
 explosions. Edits still persist through the original target types.
+
+## Shield Generator Relay shield and damage zones
+
+Since 0.23.0 the FX-12 Shield Generator Relay exposes its shield projector separately from the
+physical base. Both are components of the same deployed entity. The spawned runtime shield instance
+remains unresolved, so the shield is authored through its typed configuration.
+
+| Target | Field | Constant | Baseline |
+| --- | --- | --- | --- |
+| `deployed_entity():shield()` | `shield.radius` | `hd2.fields.shield.entity_radius` | 15 |
+| `deployed_entity():shield()` | `shield.durability` | `hd2.fields.shield.entity_durability` | 4000 |
+| `deployed_entity()` | `payload.lifetime` | `hd2.fields.payload.entity_lifetime` | 40 |
+| `deployed_entity()` | `entity.health` / `entity.armor` | `hd2.fields.entity.*` | 450 / 2 |
+| `deployed_entity():damage_zone('body_front')` | `zone.health`, `zone.armor`, `zone.affects_main_health` | `hd2.fields.zone.*` | 450 / 2 / 1 |
+
+The `entity_` prefix avoids a clash with the legacy `hd2.fields.shield.radius` constants, which still
+drive the unchanged 0.4 `ShieldRelay` proof. ShieldRelayImprovements proved radius, shield health,
+lifetime, cooldown, and physical health in gameplay. The recharge delay and rate members are not
+promoted, because their labels come only from an external export.
+
+Every deployed entity also exposes its populated damage zones through `damage_zones()` and
+`damage_zone(id)`, using the shared `HealthComponent` zone schema described in
+[vehicle authoring](vehicle-authoring.md).
+
+## Vehicle and backpack call-in definitions
+
+Nine vehicle and 13 backpack StratagemDefinitions are listed with writable cooldowns. Each carries a
+`delivers` link to the `hd2.vehicle` or `hd2.backpack` semantic ID of the entity it delivers.

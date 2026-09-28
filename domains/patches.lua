@@ -5,13 +5,10 @@ local projectile=b.unhex('b10000006faf2f1e08cd3b206952cdf1f5c84b7d5898656a000070
 local damage=b.unhex('99000000130100005a000000030000000300000003000000000000000a000000230000000f000000000000000000000000000000000000000000000000000000000000000000000000000000')
 local function u32(n)return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,math.floor(n/16777216)%256)end
 function M.validate(request)
+    local domains=require('hd2runtime/domains/write_domains')
     if type(request)=='table'and type(request.target)=='table'
-        and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
-        return require('hd2runtime/domains/player_weapon_writes').validate_patch(request)
-    end
-    if type(request)=='table'and type(request.target)=='table'
-        and request.target.resource=='stratagem'then
-        return require('hd2runtime/domains/stratagem_writes').validate_patch(request)
+        and domains.typed_resource(request.target.resource)then
+        return domains.for_resource(request.target.resource).validate_patch(request)
     end
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true}

@@ -18,13 +18,10 @@ local function target_ok(t)
     return true
 end
 function M.validate(request)
+    local domains=require('hd2runtime/domains/write_domains')
     if type(request)=='table'and type(request.target)=='table'
-        and(request.target.resource=='player_weapon'or request.target.resource=='support_weapon')then
-        return require('hd2runtime/domains/player_weapon_writes').validate_transaction(request)
-    end
-    if type(request)=='table'and type(request.target)=='table'
-        and request.target.resource=='stratagem'then
-        return require('hd2runtime/domains/stratagem_writes').validate_transaction(request)
+        and domains.typed_resource(request.target.resource)then
+        return domains.for_resource(request.target.resource).validate_transaction(request)
     end
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true}

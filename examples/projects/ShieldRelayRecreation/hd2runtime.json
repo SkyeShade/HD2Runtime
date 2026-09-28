@@ -1,0 +1,1 @@
+{"format":1,"name":"ShieldRelayRecreation","resource":"mods/hd2runtime_examples/shield_relay_recreation","guid":"01896cbd-e473-50c2-af51-8074b4f77363","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.23.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

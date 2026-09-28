@@ -71,7 +71,7 @@ def main():
                        'WeaponChargeComponentData', 'ExplosiveComponentData',
                        'HellpodRackComponentData', 'WeaponLinkedAmmoComponentData',
                        'BackpackComponentData', 'WeaponLinkerComponentData',
-                       'BombardmentComponentData', 'EagleComponentData']
+                       'BombardmentComponentData', 'EagleComponentData', 'MountComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',

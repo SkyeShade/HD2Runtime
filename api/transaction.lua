@@ -40,9 +40,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         if not worker then worker=coroutine.create(function()
             local reader=Reader.new(runtime)
             local resolved,plan
-            if spec.kind=='player_weapon'or spec.kind=='support_weapon'or spec.kind=='stratagem'then
-                local weapons=require(spec.kind=='stratagem'
-                    and'hd2runtime/domains/stratagem_writes'or'hd2runtime/domains/player_weapon_writes')
+            local domains=require('hd2runtime/domains/write_domains')
+            if domains.typed_kind(spec.kind)then
+                local weapons=domains.for_kind(spec.kind)
                 resolved=weapons.capture(runtime,reader,spec);plan=weapons.prepare(resolved,reader,spec)
             else
                 resolved=resolution.capture(runtime,reader,domain.requests(spec))

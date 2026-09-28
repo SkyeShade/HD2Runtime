@@ -1,0 +1,14 @@
+{
+  "alreadyDesired": 727,
+  "candidateSwapsAtExpectedState": 960,
+  "fieldChecks": 1687,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot",
+  "mountCandidatesResolvedLive": 960,
+  "operations": 1221,
+  "physicalChanges": 1687,
+  "protectionChanges": 0,
+  "researchWrites": 0,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED"
+}

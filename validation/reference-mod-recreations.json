@@ -1,0 +1,68 @@
+{
+  "fixtureFallback": "disabled",
+  "mode": "snapshot",
+  "protectionChanges": 0,
+  "recreations": {
+    "BastionReArmoredRecreation": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 52,
+      "phases": 2,
+      "physicalWrites": 58,
+      "referenceSources": [
+        "BastionReArmored/src/release/validate.lua",
+        "BastionReArmored/src/armor_proof/validate.lua",
+        "BastionReArmored/src/lunchbox_proof/validate.lua"
+      ],
+      "referenceWrites": 58,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    },
+    "FRVWeaponSwapRecreation": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 2,
+      "phases": 1,
+      "physicalWrites": 2,
+      "referenceSources": [
+        "FRVWeaponSwap/src/current_build.json",
+        "FRVWeaponSwap/src/frv_weapon_swap.lua"
+      ],
+      "referenceWrites": 2,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    },
+    "JumpPackRecreation": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 2,
+      "phases": 1,
+      "physicalWrites": 2,
+      "referenceSources": [
+        "JumpPackImprovements/src/jump_pack_improvements.lua",
+        "JumpPackImprovements/src/config.lua"
+      ],
+      "referenceWrites": 2,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    },
+    "ShieldRelayRecreation": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 5,
+      "phases": 1,
+      "physicalWrites": 6,
+      "referenceSources": [
+        "ShieldRelayImprovements/scripts/shield_reference.py",
+        "ShieldRelayImprovements/scripts/research/physical_hp_reference.py",
+        "ShieldRelayImprovements/scripts/research/stratagem_patch.lua"
+      ],
+      "referenceWrites": 6,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    }
+  },
+  "researchWrites": 0,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "EXACT_MATCH"
+}

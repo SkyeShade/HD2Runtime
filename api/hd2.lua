@@ -29,7 +29,9 @@ local function disabled()
     require('hd2runtime/runtime/log').emit('[HD2Runtime] write request rejected: read-only milestone')
     return nil,{code='READ_ONLY_MILESTONE',message='No gameplay writer is included in milestone 1'}
 end
-for name in pairs(require('hd2runtime/domains/metadata').builders)do M[name]=metadata[name]end
+-- Export every typed builder (legacy resources plus support_weapon, backpack, and other
+-- catalog-backed builders), not only the legacy metadata builder list.
+for name in pairs(require('hd2runtime/api/target').new(metadata.describe))do M[name]=metadata[name]end
 M.fields=metadata.fields;M.enums=metadata.enums;M.resources=metadata.resources
 M.version=metadata.version;M.api_version=metadata.api_version
 function M.patch(request)

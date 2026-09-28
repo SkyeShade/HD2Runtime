@@ -41,9 +41,10 @@ local worker=coroutine.create(function()
   for _,field in ipairs(entry.fields)do if field.editable then
    local target=field.target
    if target.path~='eagle_rearm'or not seen_rearm then
-    local key=target.path..':'..tostring(target.attack)..':'..field.operationGroup
+    local key=target.path..':'..tostring(target.attack)..':'..tostring(target.zone)..':'..field.operationGroup
     local group=grouped[key]or{target={resource='stratagem',stratagem=name,path=target.path,
-     attack=target.attack},allow_shared=field.shared,changes={}}
+     entity=target.entity,weapon=target.weapon,attack=target.attack,zone=target.zone},
+     allow_shared=field.shared,changes={}}
     group.allow_shared=group.allow_shared or field.shared
     group.changes[#group.changes+1]={field=field.semanticFieldId,
      expect=field.currentDefault,value=field.currentDefault}
