@@ -143,13 +143,14 @@
   ],
   "fixtureFallback": "disabled",
   "metrics": {
-    "ensure.full_resolutions": 4,
+    "ensure.full_resolutions": 1,
     "ensure.full_resolutions_after_drift": 1,
     "options.bound_resolutions": 15,
     "options.changes": 20,
     "options.noop_changes": 6,
     "options.owned_transitions": 5,
     "options.registered": 8,
+    "options.registration_attempts": 8,
     "options.restores": 2
   },
   "modOptionsMenu": {

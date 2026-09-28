@@ -17,22 +17,65 @@ return hd2.ensure({enabled=enabled,patch={id='liberator-damage',allow_shared=tru
 
 See the `LiberatorDamageOptions` example project.
 
-## Requirements
+## Requirements: an optional dependency
 
-| Component | Version | Needed for |
+| Component | Version | Needed by |
 | --- | --- | --- |
-| HD2Runtime | 0.25.0+ | `hd2.options`, option-bound `hd2.ensure` |
-| Mod Options Menu (CowboyBingus) | v1+ (api 1) | The MODS tab, applying changes, saving values |
-| Bingus Shared Loader | v18+ | Required by Mod Options Menu |
+| HD2Runtime | 0.25.0+ | Mods that call `hd2.options` |
+| Bingus Shared Loader | v15+ / API 1 | HD2Runtime itself (unchanged) |
+| Mod Options Menu (CowboyBingus) | v1+ (api 1) | Only the configurable settings of mods that call `hd2.options` |
+| Bingus Shared Loader | v18+ | Only when Mod Options Menu is installed (it requires v18) |
 
-HD2Runtime itself still requires only Bingus Shared Loader v15+ / API 1. Mod Options Menu is
-a separate addon, and the options are provided by it, not by the loader. Mod Options Menu
-supports Steam build 25480438 only, the same build this HD2Runtime release is pinned to; on
-any other build it does not add the tab.
+Mod Options Menu is an **optional** dependency. It is never required by HD2Runtime, and it is
+never required by mods that do not call `hd2.options`: those behave exactly as before, never
+look for the menu, and never log about it. It supports Steam build 25480438 only, the same
+build this HD2Runtime release is pinned to; on any other build it does not add the tab.
 
-Without Mod Options Menu, or if it is too old, every option keeps its declared default.
-Operations still run with those defaults, and HD2Runtime logs once that the menu is not
-installed. Mods that declare no options behave exactly as before.
+For a mod that does call `hd2.options`:
+
+- **Menu installed and compatible:** options register, persisted values are used, and every
+  bound `hd2.ensure` runs normally with live changes.
+- **Menu missing, incompatible, or rejecting an option:** HD2Runtime logs **one warning per
+  options page**, naming the page and the operations it keeps inactive:
+
+  ```
+  [HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; configurable operation will not be applied (liberator-damage)
+  ```
+
+  Every `hd2.ensure` bound to an unavailable option stays **inactive for the session**.
+  Defaults are never applied silently: its status becomes `unavailable`, it writes nothing,
+  and it leaves the scheduler. Operations in the same mod that are not bound to options run
+  normally, as do other mods.
+
+How availability is decided:
+
+- It is decided **once per session**. A present menu is judged on the first update tick. An
+  absent one gets 5 update seconds, because it may load after your mod; after that the result
+  is final.
+- A missing or incompatible result is **never probed again**. Options declared later inherit
+  it immediately.
+- A menu whose `api` is not 1, or that lacks `register_option`, `get` or `on_change`, is
+  incompatible. The reason names the api it reported.
+- If a registration is **rejected** (for example "option already registered differently"),
+  only that option is unavailable. Other options on the page, and operations bound only to
+  them, still work.
+- A menu that **errors during registration, or disappears after it was found**, makes the
+  affected options unavailable. It is not retried.
+- An option id **declared twice**, by your mod or by another mod using the same ids, is not
+  fatal. The later declaration is unavailable and logged.
+
+Each handle reports this in `:available()` and in `:describe().state`
+(`pending`, `ready` or `unavailable`), with `:describe().reason`.
+
+Declare the optional dependency in your project's `hd2runtime.json` beside the unchanged
+`requires` block:
+
+```json
+"optional": {"mod_options_menu": {"min_version": "1.0.0", "api": 1, "bingus_min_release": 18}}
+```
+
+The SDK and starter builders validate this block and add an "Optional: … Mod Options Menu"
+note to the manager description. It never gates loading.
 
 ## The Mod Options Menu contract
 
@@ -149,6 +192,8 @@ removed. It does nothing until an option changes, then tries again through the s
 The ensure watch reports `status` as one of the following, plus `enabled`, `restores`, and
 `rebinds`:
 
+- `waiting_for_options` — not yet available; nothing applied;
+- `unavailable` — an option it uses is unavailable; inactive for the session;
 - `waiting` — idle, verified;
 - `running` — resolving;
 - `blocked` — rejected; waiting for an option change;
@@ -157,7 +202,7 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
 ## Performance
 
 - Registration runs once on the first update ticks, and its scheduler entry is then removed.
-  Without the menu it stops after 5 update seconds.
+  Without the menu it stops after 5 update seconds. Mods that declare no options add no work.
 - Option callbacks do no memory work. Work starts only when a value actually changes, after
   the debounce.
 - Steady state is unchanged: a byte check of the applied targets, with geometric back-off.
@@ -176,6 +221,10 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
   - disable, restore, re-enable, and a reset while disabled;
   - changes while the target is unavailable, and disable during a pending retry;
   - conflicts, transactions, plans, and every acknowledgement and range guard.
+- The packaged-runtime validator's `options-missing` scenario runs the same mod without the
+  menu, plus an unrelated operation. It checks that the bound operation stays inactive with no
+  writes, that the unrelated operation applies, and that exactly one warning is logged and
+  none follow. Every other scenario checks that mods without options never mention the menu.
 - The packaged-runtime validator's `options-live` scenario runs `LiberatorDamageOptions` from
   the built runtime ZIP. A contract stand-in for Mod Options Menu is installed after the addon
   starts. The scenario applies a live change, a no-op, a disable with restore, a re-enable,

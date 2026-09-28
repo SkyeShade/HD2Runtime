@@ -140,6 +140,26 @@ def zip_files(path,files):
             info.external_attr=0o100644<<16;z.writestr(info,content)
 
 
+# Optional dependencies never gate loading; HD2Runtime degrades the features that need them.
+OPTIONAL_MOD_OPTIONS_MENU={'min_version':'1.0.0','api':1,'bingus_min_release':18}
+OPTIONS_NOTE=(' Optional: CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) for in-game'
+    ' settings; without it the configurable settings stay inactive.')
+
+
+def optional_dependencies(spec):
+    optional=spec.get('optional')
+    if optional is None:return {}
+    if not isinstance(optional,dict) or set(optional)-{'mod_options_menu'}:
+        raise ValueError('Unsupported optional dependency; only mod_options_menu is supported')
+    menu=optional.get('mod_options_menu')
+    if menu is not None and (not isinstance(menu,dict) or menu.get('api')!=1
+            or not re.fullmatch(r'\d+\.\d+\.\d+',str(menu.get('min_version','')))
+            or not isinstance(menu.get('bingus_min_release'),int) or menu['bingus_min_release']<18
+            or set(menu)!={'min_version','api','bingus_min_release'}):
+        raise ValueError('mod_options_menu needs min_version, api 1 and bingus_min_release 18+')
+    return optional
+
+
 def build_project(project):
     from tools.hd2_archive import ARCHIVE_NAME, make_archive, resource_hash, lua_resource
     project=Path(project).resolve();spec=json.loads((project/'hd2runtime.json').read_text())
@@ -152,6 +172,7 @@ def build_project(project):
         raise ValueError('Unsupported dependency contract')
     minimum=required['hd2runtime']['min_version']
     if not re.fullmatch(r'\d+\.\d+\.\d+',minimum):raise ValueError('Invalid minimum runtime version')
+    optional=optional_dependencies(spec)
     # This wrapper checks runtime dependencies; it contains no HD2Runtime implementation.
     wrapper='-- HD2-Addon: '+name+'\n'+'''local loader=rawget(_G,'CowboyBingusModLoader')
 assert(loader and loader.api==1 and type(loader.version)=='number' and loader.version>=16,
@@ -183,10 +204,11 @@ local function start()
     if name not in sources:raise ValueError('Missing src/addon.lua')
     archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})
     description='Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime '+minimum+'+ / API 1; install dependencies separately.'
+    if optional:description+=OPTIONS_NOTE
     manifest={'Version':1,'Guid':str(uuid.UUID(spec['guid'])),'Name':spec['name']+' '+version,'Description':description,
               'Options':[{'Name':spec['name'],'Description':description,'Include':['mod']}]}
     report={'resources':sorted(sources),'runtime_bundled':False,'sdk_stubs_bundled':False,
-            'requires':required,'deployed':False,'game_launched':False}
+            'requires':required,'optional':optional,'deployed':False,'game_launched':False}
     files={'manifest.json':json.dumps(manifest,indent=2).encode(),
            'hd2runtime.json':json.dumps({k:v for k,v in spec.items() if k not in ('sdk','ide_library')},indent=2).encode(),
            'build-report.json':json.dumps(report,indent=2).encode(),'README.md':(project/'README.md').read_bytes(),

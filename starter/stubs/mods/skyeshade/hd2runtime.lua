@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 0d937633e69c003473296235dfd4b1ded9972a814cb5c20b3d3a59f2d5d0f8b8
+-- Schema SHA256 acf80f00deaae51e03083bb79a751e73826d69f3156b37647407296cdbe66943
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -174,6 +174,9 @@
 ---@field get fun(self: HD2Option): number|boolean
 ---@field index fun(self: HD2Option): integer?
 ---@field describe fun(self: HD2Option): table
+---@field state "pending"|"ready"|"unavailable"
+---@field reason? string
+---@field available fun(self: HD2Option): boolean
 
 ---@class HD2Options
 ---@field id string
@@ -1183,14 +1186,14 @@ function hd2.transaction(request) end
 ---@param request HD2PlanRequest
 ---@return HD2Watch
 function hd2.plan(request) end
----Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options: each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards.
+---Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options. It waits until the options are available (status waiting_for_options) and stays inactive (status unavailable) if they are not; each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards.
 ---@param request HD2EnsureRequest
 ---@return HD2EnsureWatch
 function hd2.ensure(request) end
 ---Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits.
 ---@return HD2RuntimeMetrics
 function hd2.metrics() end
----Declare an in-game options page (a MODS tab category in CowboyBingus Mod Options Menu v1+, which needs Bingus Shared Loader v18+). Options bind an hd2.ensure field value or its enabled toggle; without the menu they keep their defaults.
+---Declare an in-game options page (a MODS tab category). CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) is an optional dependency of mods that use this: without it, or if it is incompatible or rejects an option, one warning is logged and every hd2.ensure bound to those options stays inactive for the session. Defaults are never applied silently. Mods that do not call hd2.options are unaffected.
 ---@param spec HD2OptionsRequest
 ---@return HD2Options
 function hd2.options(spec) end

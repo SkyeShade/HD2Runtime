@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 import re
 import sys
 import unittest
@@ -22,6 +23,15 @@ end
 -- The scheduler restores the host's update (nil in this harness) once its last watch finishes.
 local function tick(seconds)for _=1,math.floor(seconds/0.1+0.5)do if update then update(0.1)end end end
 local vitality_target=function()return hd2.booster('Vitality Enhancement'):tuning()end
+local logged={}
+local log_module=require('hd2runtime/runtime/log')
+log_module.emit=function(line)logged[#logged+1]=line end
+local function count(text)local n=0;for _,line in ipairs(logged)do if line:find(text,1,true)then n=n+1 end end;return n end
+local function vitality(id,value,enabled)
+ return scheduler.attach(ensure.start({},function(line)logged[#logged+1]=line end,{enabled=enabled,patch={id=id,
+  allow_unverified_effect=true,target=vitality_target(),field=hd2.fields.booster.damage_taken_scale,
+  expect=0.9,value=value}}))
+end
 '''
 
 
@@ -47,7 +57,7 @@ fails(page.toggle,'label',page,{id='nolabel'})
 fails(page.toggle,'description',page,{id='desc',label='Desc',description=string.rep('d',401)})
 fails(page.toggle,'unsupported toggle option',page,{id='extra',label='Extra',min=1})
 page:toggle({id='dup',label='Dup'})
-fails(page.toggle,'already declared',page,{id='dup',label='Dup'})
+assert(page:toggle({id='dup',label='Dup'}).state=='unavailable')   -- duplicate: unavailable, not fatal
 local many=hd2.options({id='many',title='Many'})
 for index=1,32 do many:toggle({id='t'..index,label='T'..index})end
 fails(many.toggle,'at most 32',many,{id='t33',label='T33'})
@@ -95,11 +105,8 @@ assert(not bad.registered and bad:get()==false)
 callbacks['reg.rate'](30,'reg.rate')
 assert(rate:get()==30 and rate.source=='menu')
 assert(scheduler.active()==0)                                 -- registration watch removed
-rawset(_G,'ModOptionsMenu',nil)
-local other=hd2.options({id='nomenu',title='No Menu'})
-local keep=other:slider({id='keep',label='Keep',min=1,max=3,default=2})
-tick(6)
-assert(not keep.registered and keep:get()==2 and scheduler.active()==0)
+assert(rate.state=='ready'and bad.state=='unavailable'and bad.reason:find('rejected option bad',1,true))
+assert(count('options reg unavailable: Mod Options Menu rejected option bad (refused)')==1)
 return 'ok'
 ''')
 
@@ -143,17 +150,134 @@ for _,call in ipairs({'patch','transaction','plan'})do
 end
 local w=start({enabled=on,patch={id='ok',allow_unverified_effect=true,target=vitality_target(),
  field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vit}})
-assert(w.bound and w.enabled and w.status=='waiting'and w.kind=='patch')
+assert(w.bound and w.status=='waiting_for_options'and w.kind=='patch')
 on:assign(false,'menu')
 local off=start({enabled=on,patch={id='off',allow_unverified_effect=true,target=vitality_target(),
  field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vit}})
-assert(off.status=='disabled'and not off.enabled)
+assert(off.status=='waiting_for_options')
 -- Requests without options take the unchanged ensure path.
 local plain=start({patch={id='plain',allow_unverified_effect=true,target=vitality_target(),
  field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=0.8}})
 assert(plain.bound==nil and plain.enabled==nil)
 return 'ok'
 ''')
+
+    def test_mods_without_options_never_touch_the_dependency(self):
+        self.lua(r"""
+local plain=ensure.start({},function(line)logged[#logged+1]=line end,{patch={id='plain',allow_unverified_effect=true,
+ target=vitality_target(),field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=0.8}})
+assert(plain.bound==nil and scheduler.active()==0)
+tick(10)
+assert(count('Mod Options Menu')==0 and count('options ')==0)
+return 'ok'
+""")
+
+    def test_dependency_present_runs_with_the_applied_values(self):
+        self.lua(r"""
+local page=hd2.options({id='present',title='Present'})
+local value=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
+local on=page:toggle({id='on',label='On',default=true})
+local w=vitality('present',value,on)
+assert(w.status=='waiting_for_options')
+rawset(_G,'ModOptionsMenu',{api=1,register_option=function()return true end,
+ get=function(id)return id=='present.v'and 0.7 or nil end,on_change=function()return true end})
+tick(0.1)
+assert(value.state=='ready'and on.state=='ready'and value:get()==0.7)
+assert(w.status=='waiting'and count('unavailable')==0)
+tick(0.1)
+assert(w.status=='running')                       -- resolving with the saved value, not a default
+return 'ok'
+""")
+
+    def test_missing_dependency_leaves_bound_operations_inactive(self):
+        self.lua(r"""
+local page=hd2.options({id='liberator_damage',title='Liberator Damage'})
+local damage=page:slider({id='damage',label='Damage',min=0.5,max=1,step=0.05,default=0.8})
+local on=page:toggle({id='enabled',label='Enabled',default=true})
+local bound=vitality('liberator-damage',damage,on)
+local plain=ensure.start({},function()end,{patch={id='plain',allow_unverified_effect=true,
+ target=hd2.booster('Stamina Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,expect=1.3,value=1.5}})
+scheduler.attach(plain)
+tick(4)
+assert(bound.status=='waiting_for_options')        -- inside the startup grace: nothing applied
+tick(2)
+assert(bound.status=='unavailable'and bound.runs==0 and bound.result==nil)
+assert(damage.state=='unavailable'and damage:get()==0.8)
+assert(count('[HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; '
+ ..'configurable operation will not be applied (liberator-damage)')==1)
+-- Untouched by option state (it applies against real memory in the packaged options-missing scenario).
+assert(plain.bound==nil and plain.status~='unavailable'and plain.status~='waiting_for_options')
+-- Definitive: no re-probing, no repeated warning, and the bound operation left the scheduler.
+local attempts=require('hd2runtime/runtime/metrics').snapshot().counters['options.registration_attempts']
+rawset(_G,'ModOptionsMenu',{api=1,register_option=function()error('must not be called')end,
+ get=function()end,on_change=function()end})
+tick(30)
+assert(count('Mod Options Menu')==1 and bound.status=='unavailable')
+assert(require('hd2runtime/runtime/metrics').snapshot().counters['options.registration_attempts']==attempts)
+-- A later declaration inherits the result immediately (no second grace period).
+local late=page:slider({id='late',label='Late',min=0.5,max=1,step=0.05,default=0.9})
+local late_op=vitality('late-op',late)
+tick(0.1)
+assert(late.state=='unavailable'and late_op.status=='unavailable')
+assert(count('options liberator_damage unavailable')==2)   -- one new warning for the new option only
+return 'ok'
+""")
+
+    def test_incompatible_rejecting_and_failing_menus(self):
+        self.lua(r"""
+local page=hd2.options({id='old',title='Old'})
+local v=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
+local w=vitality('old-op',v)
+rawset(_G,'ModOptionsMenu',{api=2,register_option=function()error('must not be called')end})
+tick(0.1)
+assert(w.status=='unavailable'and v.reason:find('api 2 is incompatible',1,true))
+assert(count('options old unavailable: Mod Options Menu api 2 is incompatible (HD2Runtime needs api 1)')==1)
+return 'ok'
+""")
+        self.lua(r"""
+local page=hd2.options({id='fail',title='Fail'})
+local ok_option=page:slider({id='ok',label='Ok',min=0.5,max=1,step=0.05,default=0.9})
+local refused=page:slider({id='refused',label='Refused',min=0.5,max=1,step=0.05,default=0.9})
+local broken=page:slider({id='broken',label='Broken',min=0.5,max=1,step=0.05,default=0.9})
+local good_op=vitality('good-op',ok_option)
+local refused_op=ensure.start({},function()end,{patch={id='refused-op',allow_unverified_effect=true,
+ target=hd2.booster('Stamina Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,expect=1.3,
+ value=page:slider({id='stamina',label='Stamina',min=1,max=2,step=0.1,default=1.3})}})
+rawset(_G,'ModOptionsMenu',{api=1,
+ register_option=function(id)
+  if id=='fail.refused'or id=='fail.stamina'then return false,'option already registered differently'end
+  if id=='fail.broken'then error('menu went away')end
+  return true end,
+ get=function()return nil end,on_change=function()return true end})
+tick(0.1)
+assert(ok_option.state=='ready'and good_op.status=='waiting')      -- unaffected option still works
+assert(refused.state=='unavailable'and refused_op.status=='unavailable')
+assert(broken.state=='unavailable'and broken.reason:find('failed during registration',1,true))
+assert(count('options fail unavailable')==1)                       -- one warning for the page
+assert(count('option already registered differently')==1 and count('menu went away')==1)
+-- The menu disappearing after it was found is definitive for later declarations.
+rawset(_G,'ModOptionsMenu',nil)
+local later=page:toggle({id='later',label='Later'})
+tick(0.1)
+assert(later.state=='unavailable'and later.reason=='Mod Options Menu is not installed')
+return 'ok'
+""")
+
+    def test_duplicate_declaration_is_unavailable_not_fatal(self):
+        self.lua(r"""
+local page=hd2.options({id='dup',title='Dup'})
+local first=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
+local second=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
+assert(first~=second and second.state=='unavailable'and second.reason=='option v is declared twice')
+assert(count('options dup unavailable: option v is declared twice')==1)
+local op=vitality('dup-op',second)
+assert(op.status=='unavailable')
+rawset(_G,'ModOptionsMenu',{api=1,register_option=function()return true end,get=function()end,
+ on_change=function()return true end})
+tick(0.1)
+assert(first.state=='ready')
+return 'ok'
+""")
 
     def test_ownership_rule(self):
         self.lua(r'''
@@ -176,7 +300,7 @@ return 'ok'
             self.lua('package.preload["mods/skyeshade/hd2runtime"]=function()return hd2 end\n'
                 'package.preload["hd2runtime/runtime/windows_write"]=function()return{create=function()return{}end}end\n'
                 'local w=assert(loadstring(' + json.dumps(source) + '))()\n'
-                'assert(w.bound and w.status=="waiting")\nreturn "ok"')
+                'assert(w.bound and w.status=="waiting_for_options")\nreturn "ok"')
 
     def test_snapshot_lifecycle_validation(self):
         result = json.loads((ROOT / 'validation/options-binding-snapshot.json').read_text())
@@ -201,6 +325,37 @@ return 'ok'
         self.assertFalse(result['persistence']['writeBackExercised'])
         self.assertGreaterEqual(result['metrics']['options.owned_transitions'], 1)
 
+    def test_optional_dependency_metadata(self):
+        import shutil
+        import tempfile
+        sys.path.insert(0, str(ROOT / 'sdk'))
+        import hd2
+        source = ROOT / 'examples/projects/LiberatorDamageOptions'
+        spec = json.loads((source / 'hd2runtime.json').read_text())
+        # The required contract is unchanged; the menu is declared as optional only.
+        self.assertEqual(spec['requires']['bingus'], {'min_release': 15, 'api': 1})
+        self.assertEqual(spec['optional'], {'mod_options_menu': {'min_version': '1.0.0', 'api': 1,
+            'bingus_min_release': 18}})
+        with tempfile.TemporaryDirectory() as folder:
+            project = Path(folder) / 'Project'
+            shutil.copytree(source, project, ignore=shutil.ignore_patterns('build'))
+            import zipfile
+            with zipfile.ZipFile(hd2.build_project(project)) as package:
+                manifest = json.loads(package.read('manifest.json'))
+                metadata = json.loads(package.read('hd2runtime.json'))
+                report = json.loads(package.read('build-report.json'))
+            self.assertIn('Optional: CowboyBingus Mod Options Menu v1+', manifest['Description'])
+            self.assertEqual(metadata['optional'], spec['optional'])
+            self.assertEqual(report['optional'], spec['optional'])
+            for bad in ({'mod_options_menu': {'min_version': '1.0.0', 'api': 1, 'bingus_min_release': 16}},
+                    {'other': {}}, {'mod_options_menu': {'api': 1}}):
+                (project / 'hd2runtime.json').write_text(json.dumps(dict(spec, optional=bad)))
+                with self.assertRaises(ValueError):
+                    hd2.build_project(project)
+            (project / 'hd2runtime.json').write_text(json.dumps({k: v for k, v in spec.items() if k != 'optional'}))
+            with zipfile.ZipFile(hd2.build_project(project)) as package:
+                self.assertNotIn('Optional', json.loads(package.read('manifest.json'))['Description'])
+
     def test_packaged_runtime_ships_and_exercises_options(self):
         resources = build_release.runtime_resources()
         for name in ('hd2runtime/api/options', 'hd2runtime/core/ownership'):
@@ -208,6 +363,8 @@ return 'ok'
             self.assertIn(json.dumps(name), resources[build_release.PACKAGE_MODULES].decode())
         self.assertIn('options-live', validate_packaged_runtime.SCENARIOS)
         self.assertIn('options-live', validate_packaged_runtime.EXTRAS)
+        self.assertIn('options-missing', validate_packaged_runtime.SCENARIOS)
+        self.assertEqual(validate_packaged_runtime.EXTRAS['options-missing']['unavailable'], ('liberator-damage',))
         # No dynamic module names: every internal require is a literal the static scan can resolve.
         for name in ('api/ensure.lua', 'api/options.lua', 'api/hd2.lua'):
             self.assertNotIn("require('hd2runtime/api/'..", (ROOT / name).read_text())

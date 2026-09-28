@@ -164,7 +164,38 @@ return function(frame,watches,counts)
  return results
 end
 '''
-EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE}}
+OPTIONS_MISSING_ADDON = lambda: (example('LiberatorDamageOptions')
+    .replace('return hd2.ensure(', 'local operations={}\noperations[1]=hd2.ensure(')
+    + '''-- Not bound to any option: runs normally whether or not Mod Options Menu is installed.
+operations[2]=hd2.ensure({patch={id='plain-vitality',allow_unverified_effect=true,
+    target=hd2.booster('Vitality Enhancement'):tuning(),field=hd2.fields.booster.damage_taken_scale,
+    expect=0.9,value=0.8}})
+return operations
+''')
+OPTIONS_MISSING = r'''
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local warning='[HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; '
+  ..'configurable operation will not be applied (liberator-damage)'
+ local function count(text,plain)
+  local n=0
+  for _,line in ipairs(lines)do if line:find(text,1,plain)then n=n+1 end end
+  return n
+ end
+ local bound,plain=watches[1],watches[2]
+ step('bound operation stays inactive',bound.status=='unavailable'and bound.runs==0 and bound.result==nil,
+  bound.status)
+ step('unrelated operation in the same mod applies',plain.status=='waiting'and plain.result.status=='APPLIED')
+ step('one clear warning',count(warning,true)==1,table.concat(lines,' | '))
+ for _=1,3000 do frame()end
+ step('no retries or repeated warnings',count('Mod Options Menu',true)==1 and bound.runs==0
+  and bound.status=='unavailable')
+ return results
+end
+'''
+EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
+    'options-missing': {'after': OPTIONS_MISSING, 'unavailable': ('liberator-damage',)}}
 
 
 def example(name):
@@ -188,6 +219,7 @@ SCENARIOS = {
     'booster-explosion': lambda: example('IncendiaryHellpods'),
     'booster-coverage': lambda: BOOSTER_COVERAGE,
     'options-live': lambda: example('LiberatorDamageOptions'),
+    'options-missing': OPTIONS_MISSING_ADDON,
 }
 
 
@@ -354,7 +386,8 @@ if MENU then assert(loadstring(MENU,'@mods/cowboybingus/mod_options_menu'))()end
 local FRAME=0.1
 local function frame()simulated=simulated+FRAME;if update then update(FRAME)end end
 local function done(watch)
- if watch.runs~=nil then return watch.status=='rejected' or (watch.runs>=1 and watch.status=='waiting')end
+ if watch.runs~=nil then return watch.status=='rejected' or watch.status=='unavailable'
+  or (watch.runs>=1 and watch.status=='waiting')end
  return watch.status=='complete' or watch.status=='rejected' or watch.status=='cancelled'
 end
 local function settled()for _,w in ipairs(watches)do if not done(w)then return false end end;return true end
@@ -369,13 +402,15 @@ local function describe()
  end
  return out
 end
-if AFTER then AFTER_RESULTS=assert(loadstring(AFTER))()(frame,watches,counts)end
+if AFTER then AFTER_RESULTS=assert(loadstring(AFTER))()(frame,watches,counts,lines)end
 local report={scenario=SCENARIO,settled=settled(),startup_seconds=simulated,watches=describe(),
  counts={writes=counts.writes,protection_changes=counts.protection_changes,module_hashes=counts.module_hashes}}
 
 -- Simulated game reset: ensures must detect drift and re-apply with lookups still closed.
 local ensures={}
-for index,w in ipairs(watches)do if w.runs~=nil and w.status~='rejected' then ensures[index]=w.runs end end
+for index,w in ipairs(watches)do
+ if w.runs~=nil and w.status~='rejected' and w.status~='unavailable' then ensures[index]=w.runs end
+end
 if next(ensures)then
  overlay={};protection={}
  local seconds=0
@@ -425,9 +460,17 @@ def check(report):
     if not report.get('settled'):
         failures.append('did not settle')
     for watch in report.get('watches', []):
+        if watch.get('id') in EXTRAS.get(report.get('scenario'), {}).get('unavailable', ()):
+            if watch.get('status') != 'unavailable' or watch.get('writes'):
+                failures.append('%s: expected an inactive operation, got status=%s' % (watch.get('id'),
+                    watch.get('status')))
+            continue
         if watch.get('result') != 'APPLIED' or watch.get('status') == 'rejected':
             failures.append('%s: status=%s result=%s error=%s' % (watch.get('id'), watch.get('status'),
                 watch.get('result'), watch.get('error')))
+    if not str(report.get('scenario', '')).startswith('options-'):
+        if any('Mod Options Menu' in line for line in report.get('log', [])):
+            failures.append('a mod without options logged about Mod Options Menu')
     for step in report.get('after') or []:
         if not step.get('passed'):
             failures.append('live option step failed: %s %s' % (step.get('name'), step.get('detail') or ''))
