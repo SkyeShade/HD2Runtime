@@ -13,8 +13,9 @@ see `docs/player-weapon-composition.md` for the guarded APIs.
 `CompositionPlanCapabilities.json` describes multi-target grouping, ordered
 phase dependencies, `target_from` paths, and per-operation shared scope. Field
 editability remains canonical in `PlayerWeaponAuthoringCapabilities.json`.
-`BoosterAuthoringCapabilities.json` publishes the 20 boosters, their native identity evidence,
-relationships, and the few fields that are backed by native data; see `docs/booster-authoring.md`.
+`BoosterAuthoringCapabilities.json` publishes the 20 boosters (all uniquely identified from game.dll's
+own enum-name table), their implementation mechanism, native relationship graph, 42 writable field
+instances across 19 boosters with value ranges, and exact blocked reasons; see `docs/booster-authoring.md`.
 `SupportWeaponAuthoringCapabilities.json` covers 31 writable support weapons with 970 field
 instances, including `reload.duration`, `projectile.lifetime`, `projectile.penetration_slowdown`,
 and Maxigun `windup.*`, plus `DELIVERY_RESOLVED` identities for MG-43, M-105, MG-206, and CQC-20;
@@ -199,7 +200,8 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 every API your mod calls: vehicles, backpacks, relay shield and damage-zone
 fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1.
 Boosters and the 0.24 support-weapon fields and identities need 0.24.0 (see
-`docs/releases/0.24.0.md`). Mods that use typed writes should require at least
+`docs/releases/0.24.0.md`); the Booster `tuning()`, `explosion()`, `status_damage()`, and
+`granted_stratagem()` targets need the next release. Mods that use typed writes should require at least
 0.23.2; in 0.23.0 and 0.23.1 those writes can fail in game after startup (see
 `docs/releases/0.23.2.md`). HD2Runtime's own declaration requires only Bingus.
 These are HD2Runtime SDK metadata, not new Bingus/Arsenal/HD2MM manifest fields.

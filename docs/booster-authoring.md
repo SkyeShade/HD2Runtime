@@ -2,97 +2,152 @@
 
 Boosters are their own authoring domain: `hd2.booster(name)`. They are not stratagems, and they
 have no component or settings type of their own. The catalog is
-`sdk/BoosterAuthoringCapabilities.json`; the evidence is
+`sdk/BoosterAuthoringCapabilities.json`. The evidence is in
+`research/booster-native-F5FEE03DCFDB.json` (`scripts/research_booster_native.py`) and
 `research/booster-authoring-F5FEE03DCFDB.json` (`scripts/research_booster_authoring.py`).
 
 ## Native model
 
-The game has a native `Booster` enum with 20 boosters. In the pinned type library, only two
-data types reference it:
+The on-disk `game.dll` is packed. The research reads the unpacked image from the retained
+snapshot and traces every booster through the code that implements it.
 
-| Reference | What it does |
-| --- | --- |
-| `StratagemInfo` booster list | Per stratagem: when a booster is active, apply an entity delta to a payload and load a package. In the current build only the Resupply stratagem has an entry. |
-| `StatusEffectSusceptibility` booster gate | Per status susceptibility: while a booster is active, use an override effect. Only the Helldiver avatar has gated susceptibilities. |
+- **One gate for every booster.** `IsBoosterActive(booster)` scans the mission's active-booster
+  list and the players' loadouts. It has 38 direct call sites. 35 pass a literal booster value,
+  and together they cover every booster except Armed Resupply Pods and Surplus EAT Allocation,
+  which are data-driven. Of the other three, one reads the `StratagemInfo` booster list, one reads
+  the susceptibility gate, and one is the UAV radar path.
+- **A native Booster definition table.** `game.dll` holds a static table with one 0x38-byte row
+  per enum value. The row's tuning scalar is at `+8` and a granted `StratagemType` is at `+4`.
+  Game code reads the scalar right after the gate, for example
+  `if IsBoosterActive(Vitality) damage = int(damage * table[Vitality].scalar)`. 25 instructions
+  read the table and none write it. It is byte-identical across three snapshots from two game
+  sessions.
+- **Code-selected settings rows.** Some boosters pick an existing settings row by literal type.
+  The hellpod-impact branch spawns explosion 83 (Firebomb), 335 (Stun Pods), or 400 (smoke).
+  The stim applies status 29 instead of 25 (Experimental Infusion). Dead Sprint applies status 59,
+  whose damage type is DamageInfo 541.
+- **Data references.** The pinned type library references the `Booster` enum only from the
+  `StratagemInfo` booster list (Armed Resupply Pods) and the `StatusEffectSusceptibility` gate
+  (Integrated Extinguishers; the gated override is a particle effect and is cosmetic).
 
-Everything else a booster does (reinforcement budget, extraction time, radar range, stamina,
-sample drops, hellpod payloads, and so on) is applied by game code. No data value backs those
-effects, so they are published as blocked with that reason rather than mapped to a guessed field.
+No executable code is ever written. Code bytes are only read, as proofs.
 
 ## Identity
 
-Each booster's native member name comes from the game's own UI template, which binds a member
-name (for example `DefensiveAmmoPod`) to a booster icon (`BoosterArmedpods`). A reviewed table
-maps wiki names to icon keys, and each key must be a letter subsequence of the wiki name. Names
-are matched to enum values by the type library's hidden alias length:
+All 20 boosters resolve to exactly one enum value. `game.dll` contains its own `Booster` enum-name
+table, `[None, Vitality, …, FreeEAT, Count]`, indexed by value. Every one of its 22 names matches
+the type library's hidden alias length for that value. This agrees with the UI template's
+member-to-icon bindings for the 18 boosters it names. It also resolves the 11 former candidate
+sets and the two boosters the UI template omits:
 
-| Status | Boosters |
+| Booster | Native member | Value | Corroboration |
+| --- | --- | --- | --- |
+| Integrated Extinguishers | `FireExtinguish` | 19 | The only value that gates status susceptibilities |
+| Surplus EAT Allocation | `FreeEAT` | 20 | Its table row grants `StratagemType_LATOneshot_Booster` |
+
+## Targets
+
+Every booster field requires `allow_unverified_effect=true`: the native value and its consumer
+are proven, but no changed value has been gameplay-tested. Fields on settings rows that game code
+selects also require `allow_shared=true`, because the type-library carriers that remain undecoded
+(`DestructionEffect` unions) and dynamically typed call sites cannot be fully excluded.
+
+### `booster:tuning()`: the native definition table scalar
+
+Each field is the booster's own row, so it is booster-local by construction. Every write
+re-proves the following live:
+
+- the `game.dll` fingerprint and `SizeOfImage`;
+- the relocated enum-name pointers and the target's name string;
+- every table row's identity bytes (scalars masked), plus the table-walker bound;
+- the exact bytes of `IsBoosterActive` and of every gate and consumer instruction.
+
+Values are range-checked because consumers divide by, subtract from, or truncate them.
+
+| Booster | Field | Baseline | Consumer | Wiki fingerprint |
+| --- | --- | --- | --- | --- |
+| Vitality Enhancement | `booster.damage_taken_scale` | 0.9 | `int(damage * v)` | exact (90%) |
+| Stamina Enhancement | `booster.stamina_scale` | 1.3 | Stamina efficiency (drain ÷ v) | not comparable |
+| Muscle Enhancement | `booster.terrain_slowdown_scale` | 0.35 | `1 - slowdown * v` | none |
+| UAV Recon Booster | `booster.radar_range_scale` | 1.5 | Radar scan scale | approximate (~50%) |
+| Increased Reinforcement Budget | `booster.reinforcements_per_player` | 1 | `int(v + x)` per player | exact (+1) |
+| Flexible Reinforcement Budget | `booster.reinforcement_cooldown_scale` | 0.75 | Refill cooldown × v | exact (2:00 → 1:30) |
+| Localization Confusion | `booster.encounter_rate_scale` | 0.9 | Spawn rate × v, two timers ÷ v | approximate |
+| Expert Extraction Pilot | `booster.extraction_time_scale` | 0.7 | Extract call-in × v | exact (30%) |
+| Motivational Shocks | `booster.slow_scale` | 0.5 | Applied slow × v | differs (wiki ~25%) |
+| Sample Scanner | `booster.double_sample_chance` | 0.15 | `random < v` | exact (15%) |
+| Dead Sprint | `booster.health_floor` | 0.05 | Drain stops at this health fraction | exact (5%) |
+| Sample Extricator | `booster.sample_drop_cap` | 10 | `count < int(v)` | exact (10) |
+| Integrated Extinguishers | `booster.burn_decay_bonus` | 0.5 | Burn decay × 1/(1-v); range ≤ 0.95 | approximate |
+
+```lua
+local vitality=hd2.booster('Vitality Enhancement'):tuning()
+hd2.ensure({patch={id='vitality',target=vitality,allow_unverified_effect=true,
+    field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=0.75}})
+```
+
+Some values are read only at a specific moment. The reinforcement budget is set when it
+initialises, and a granted stratagem's uses are copied when it is granted. An edit therefore
+applies from the next such point.
+
+### `booster:explosion()`: extra hellpod-impact explosion
+
+The live write proves the pinned gate, the literal selector, and the row identities. The
+`ExplosionSettings` row and its `DamageInfo` row are separate backing objects, so a change that
+touches both needs `hd2.plan`.
+
+| Booster | Explosion | Fields |
+| --- | --- | --- |
+| Firebomb Hellpods | type 83 (exact wiki fingerprint) | radii 2/4/4, 200/200 damage, AP 10, demolition 40, stagger 15, push 20, burn strength 20 |
+| Stun Pods | type 335 (exact wiki fingerprint) | radii 2/4/4, 50/50 damage, AP 10, demolition 40, stagger 50, stun strength 100 |
+| Concealed Insertion | type 400 (smoke, no damage) | radii 5/5 |
+
+Zero-valued members (Stun Pods push, the smoke shockwave radius) stay read-only. The burn and stun
+status definitions are shared by every fire and stun source, so only this explosion's own status
+strength is exposed.
+
+### `booster:status_effect()`: Experimental Infusion
+
+This link is now structural: the stim applies status 29 instead of 25 while the booster is active.
+The fields are `status.strength` 1.1, `status.duration` 10, and `status.incoming_damage_scale` 0.9.
+All of them require `allow_shared`.
+
+### `booster:status_damage()`: Dead Sprint drain
+
+Status 59 is applied, queried, and removed only by Dead Sprint's four code sites. Its DamageInfo
+541 exposes `damage.standard_damage` 5 and `damage.durable_damage` 5. The tick rate that turns this
+into the published ~3.6 %/s is not established.
+
+### `booster:granted_stratagem()`: Surplus EAT Allocation
+
+The table row's `+4` names `LATOneshot_Booster`. At mission start the game looks that type up in
+the `StratagemSettings` runtime table and grants it with the definition's use count. The field is
+`stratagem.max_uses`, baseline 2, an exact match for the wiki's "two free uses".
+
+### `booster:deployed_entity()`: Armed Resupply Pods
+
+`weapon.fire_rate` 640 and `magazine.capacity` 140 on the turret its entity delta attaches. The
+turret's projectile is shared with player weapons. Its payload lifetime is 0, meaning no limit.
+Its turret, targeting and sensor members have hidden names. All three stay blocked.
+
+## Still blocked
+
+| Booster | Reason |
 | --- | --- |
-| `RESOLVED` (unique value) | Muscle Enhancement, Increased/Flexible Reinforcement Budget, Hellpod Space Optimization, Experimental Infusion, Dead Sprint, Armed Resupply Pods |
-| `CANDIDATES` (values share a name length; not guessed) | Vitality Enhancement, UAV Recon Booster, Stamina Enhancement, Localization Confusion, Expert Extraction Pilot, Motivational Shocks, Firebomb Hellpods, Sample Extricator, Sample Scanner, Stun Pods, Concealed Insertion |
-| `EFFECT_CATEGORY` | Integrated Extinguishers: the only value that gates status susceptibilities |
-| `ELIMINATION` | Surplus EAT Allocation |
+| Hellpod Space Optimization | Eight code paths select full capacity instead of the default fill; no scalar participates. Its table scalar (1.5) has no reader. |
 
-No writable field depends on an unresolved value.
-
-## Writable fields
-
-Every booster field requires `allow_unverified_effect=true`. The native value and its link are
-proven, but no booster edit has been gameplay-tested yet.
-
-### Armed Resupply Pods: `booster:deployed_entity()`
-
-The link is structural. The Resupply `StratagemInfo` booster entry names an entity delta; that
-delta rewrites the resupply hellpod rack to four supply boxes plus one turret entity. The turret
-uniquely owns its weapon components. Every write re-proves the whole chain live.
-
-| Field | Baseline | Evidence |
-| --- | --- | --- |
-| `hd2.fields.weapon.fire_rate` | 640 rpm | structural chain; exact scraped match |
-| `hd2.fields.magazine.capacity` | 140 rounds | structural chain; exact scraped match |
-
-The turret's projectile is a definition shared with player weapons. Edit it through the owning
-weapon view with `allow_shared`, not through the booster.
-
-```lua
-local turret=hd2.booster('Armed Resupply Pods'):deployed_entity()
-hd2.ensure({patch={id='armed-pods-rate',target=turret,allow_unverified_effect=true,
-    field=hd2.fields.weapon.fire_rate,expect=640,value=900}})
-```
-
-### Experimental Infusion: `booster:status_effect()`
-
-The stim status effect is the only status row whose values equal both published effects
-exactly: movement ×1.1 (`strength`) and damage taken ×0.9 (`IncomingDamageScale`). The UI names
-the booster `CombatDrugs`. This is a fingerprint link, not a pointer chain. Game code applies the
-effect and no weapon damage references it, but other code paths cannot be excluded, so
-`allow_shared=true` is also required.
-
-| Field | Baseline | Evidence |
-| --- | --- | --- |
-| `hd2.fields.status.strength` | 1.1 | exact match (movement +10%) |
-| `hd2.fields.status.incoming_damage_scale` | 0.9 | exact match (10% damage resistance) |
-| `hd2.fields.status.duration` | 10 s | type-library `duration`; no published value |
-
-`status.incoming_damage_scale` lives in the row's stat-multiplier list. Each write re-proves the
-list pointer, count, and stat type.
-
-```lua
-local stim=hd2.booster('Experimental Infusion'):status_effect()
-hd2.ensure({transaction={id='stim',target=stim,allow_shared=true,allow_unverified_effect=true,
-    changes={{field=hd2.fields.status.incoming_damage_scale,expect=0.9,value=0.8}}}})
-```
-
-## Relationships only
-
-- **Integrated Extinguishers** gates two avatar susceptibilities. The override is a reference to
-  a native effect preset whose semantics are unproven, so nothing is writable.
-- **Resupply** is linked from Armed Resupply Pods by `stratagemSemanticId`. Supply stratagems are
-  not in the stratagem authoring catalog yet.
+Every booster also lists narrower blocked fields in the catalog: base values owned by other
+systems, unnamed members, and table scalars with no reader.
 
 ## Validation
 
-- `scripts/validate_booster_authoring_snapshot.py` resolves every field through the production
-  chain proofs on the retained snapshot and applies it as a guarded no-op.
-- The packaged-runtime validator applies `ArmedResupplyTurret` and `CombatStimBoost` from the
-  built runtime ZIP with real overlay writes and re-application after a simulated reset.
+- `scripts/validate_booster_authoring_snapshot.py` runs every field on a copy-on-write overlay of
+  the retained snapshot:
+  - a guarded no-op, then a changed in-range write with read-back and guarded rollback;
+  - rejection of a conflicting third-party value, missing acknowledgements, and out-of-range values;
+  - per target, rejection of a changed instruction byte, a changed enum name, a changed row
+    identity, a changed `IsBoosterActive`, a relocated `game.dll` base, and a wrong build.
+  
+  Table writes need no page-protection change, because `.data` is read-write.
+- The packaged-runtime validator applies Booster scenarios from the built runtime ZIP with real
+  overlay writes, then re-applies them after a simulated reset.

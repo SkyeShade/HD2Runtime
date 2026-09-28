@@ -214,9 +214,13 @@ hd2.vehicle('M-102 Gunner FRV'):mount('gun')
 -- Backpack
 hd2.backpack('LIFT-850 Jump Pack')
 
--- Booster: fields live on the record the booster links to
-hd2.booster('Armed Resupply Pods'):deployed_entity()   -- the resupply-pod turret
+-- Booster: fields live on the records the booster reaches
+hd2.booster('Vitality Enhancement'):tuning()           -- native Booster definition table scalar
+hd2.booster('Firebomb Hellpods'):explosion()           -- extra hellpod-impact explosion
 hd2.booster('Experimental Infusion'):status_effect()   -- the stim buff
+hd2.booster('Dead Sprint'):status_damage()             -- the health-drain damage
+hd2.booster('Surplus EAT Allocation'):granted_stratagem()  -- the granted EAT stratagem
+hd2.booster('Armed Resupply Pods'):deployed_entity()   -- the resupply-pod turret
 
 -- Magazine attachment (owns the round count on weapons with selectable magazines)
 hd2.weapon('AR-23C Liberator Concussive'):magazine_attachment()

@@ -614,7 +614,7 @@ function HD2Backpack:describe() end
 
 ---@class HD2BoosterTarget
 ---@field resource "booster"
----@field path "status_effect"|"deployed_entity"
+---@field path "tuning"|"explosion"|"status_effect"|"status_damage"|"granted_stratagem"|"deployed_entity"
 ---@field booster string
 local HD2BoosterTarget = {}
 ---@return table
@@ -627,9 +627,21 @@ function HD2BoosterTarget:describe() end
 local HD2Booster = {}
 ---@return table
 function HD2Booster:describe() end
+---Tuning scalar in the native Booster definition table of game.dll (booster-local).
+---@return HD2BoosterTarget
+function HD2Booster:tuning() end
+---Extra hellpod-impact explosion the booster adds (ExplosionSettings and its DamageInfo).
+---@return HD2BoosterTarget
+function HD2Booster:explosion() end
 ---Status effect the booster applies (only where a native record is linked).
 ---@return HD2BoosterTarget
 function HD2Booster:status_effect() end
+---Damage of the status effect the booster applies (Dead Sprint drain).
+---@return HD2BoosterTarget
+function HD2Booster:status_damage() end
+---Stratagem the booster grants (its native use count).
+---@return HD2BoosterTarget
+function HD2Booster:granted_stratagem() end
 ---Entity the booster deploys (only where a native record is linked).
 ---@return HD2BoosterTarget
 function HD2Booster:deployed_entity() end
@@ -964,6 +976,21 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field magazines_from_supply "attachment.magazines_from_supply"
 ---@field spare_magazines "attachment.spare_magazines"
 
+---@class HD2Fields_booster
+---@field damage_taken_scale "booster.damage_taken_scale"
+---@field stamina_scale "booster.stamina_scale"
+---@field terrain_slowdown_scale "booster.terrain_slowdown_scale"
+---@field radar_range_scale "booster.radar_range_scale"
+---@field reinforcements_per_player "booster.reinforcements_per_player"
+---@field reinforcement_cooldown_scale "booster.reinforcement_cooldown_scale"
+---@field encounter_rate_scale "booster.encounter_rate_scale"
+---@field extraction_time_scale "booster.extraction_time_scale"
+---@field slow_scale "booster.slow_scale"
+---@field double_sample_chance "booster.double_sample_chance"
+---@field health_floor "booster.health_floor"
+---@field sample_drop_cap "booster.sample_drop_cap"
+---@field burn_decay_bonus "booster.burn_decay_bonus"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -997,6 +1024,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field deposit HD2Fields_deposit
 ---@field mount HD2Fields_mount
 ---@field attachment HD2Fields_attachment
+---@field booster HD2Fields_booster
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177

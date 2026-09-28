@@ -135,7 +135,7 @@ def main():
         'AntiTankEmplacementProof','ConventionalSentryProof','ExplosiveSentryProof',
         'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
-        'ArmedResupplyTurret','CombatStimBoost']
+        'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

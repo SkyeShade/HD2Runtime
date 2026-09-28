@@ -1,45 +1,69 @@
 {
-  "contract": "hd2runtime.booster.guarded_authoring.v1",
-  "schemaVersion": 1,
+  "contract": "hd2runtime.booster.guarded_authoring.v2",
+  "schemaVersion": 2,
   "hd2RuntimeVersion": "0.24.0",
   "canonicalCollection": "fieldInstances",
   "nativeModel": {
-    "identity": "Native Booster enum member, named by the game UI template and matched to enum values by type-library alias length. Shared lengths stay candidate sets.",
+    "identity": "game.dll's own Booster enum-name table (value-indexed, None..Count), validated against the type library's alias length for every value.",
+    "boosterSystem": "IsBoosterActive(booster) gates every booster effect in game code. Tuning scalars live in a native Booster definition table in game.dll's writable data section: one row per enum value, scalar at +8, granted StratagemType at +4. The table is static: no code writes it.",
     "typeLibraryReferences": [
       "StratagemInfo booster list",
       "StatusEffectSusceptibility booster gate"
     ],
-    "ownership": "Boosters have no component or settings type; effects live on the records they reference."
+    "targets": {
+      "tuning": "Native Booster definition table scalar; booster-local by construction.",
+      "explosion": "ExplosionSettings / DamageInfo rows selected by a literal in the hellpod-impact branch.",
+      "status_effect": "StatusEffectSettings row the stim applies while the booster is active.",
+      "status_damage": "DamageInfo row of the status Dead Sprint applies.",
+      "granted_stratagem": "StratagemSettings row the booster grants.",
+      "deployed_entity": "Turret entity attached by the booster's entity delta."
+    },
+    "codeConstantPatching": "none: every writable value is data; code bytes are only read as proofs."
   },
   "acknowledgements": {
-    "allow_unverified_effect": "Required for every booster field. No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
-    "allow_shared": "Required where the owning record is applied by game code with an open consumer scope."
+    "allow_unverified_effect": "Required for every booster field. No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+    "allow_shared": "Required where the owning settings row is selected by game code and other consumers cannot be fully excluded."
   },
   "boosters": [
     {
       "name": "Hellpod Space Optimization",
       "semanticId": "booster/v1/hellpod-space-optimization/7d9f3f69c2e34c24",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "HellpodSpaceOptimization",
         "uiIcon": "BoosterHellpodopt",
         "enumValue": 7,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           7
         ],
         "evidence": [
-          "game UI template binds native member HellpodSpaceOptimization to BoosterHellpodopt",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member HellpodSpaceOptimization at value 7",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member HellpodSpaceOptimization to BoosterHellpodopt"
+        ]
       },
+      "implementation": "code_behavior",
       "relationships": [],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 10
+        }
+      ],
       "writable": false,
       "targets": [],
       "fieldInstanceKeys": [],
       "blockedFields": [
         {
+          "field": "native table scalar (1.5)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
           "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "reason": "Eight code paths select the item's full capacity instead of the default fill when the booster is active (a conditional select); no scalar participates."
         }
       ]
     },
@@ -47,57 +71,102 @@
       "name": "Vitality Enhancement",
       "semanticId": "booster/v1/vitality-enhancement/caec9d2589e2a235",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "Vitality",
         "uiIcon": "BoosterVitality",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 1,
+        "aliasLengthCandidates": [
           1,
           4
         ],
         "evidence": [
-          "game UI template binds native member Vitality to BoosterVitality",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member Vitality at value 1",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member Vitality to BoosterVitality"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
-      "blockedFields": [
+      "implementation": "native_table",
+      "relationships": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "kind": "native_booster_table",
+          "effect": "Incoming damage to a Helldiver is multiplied by the value and truncated to an integer (int(damage * value))."
         }
-      ]
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:vitality-enhancement:tuning:booster.damage_taken_scale"
+      ],
+      "blockedFields": []
     },
     {
       "name": "UAV Recon Booster",
       "semanticId": "booster/v1/uav-recon-booster/a6a3f1f6d437ba4d",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "UAVRecon",
         "uiIcon": "BoosterRecon",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 4,
+        "aliasLengthCandidates": [
           1,
           4
         ],
         "evidence": [
-          "game UI template binds native member UAVRecon to BoosterRecon",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member UAVRecon at value 4",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member UAVRecon to BoosterRecon"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Multiplies the radar scan scale (base 0.025)."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 2
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:uav-recon-booster:tuning:booster.radar_range_scale"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "base radar scale",
+          "reason": "The 0.025 base scale is a pooled literal shared by unrelated code."
         }
       ]
     },
@@ -105,28 +174,53 @@
       "name": "Stamina Enhancement",
       "semanticId": "booster/v1/stamina-enhancement/15f9ce6b6f1cdbae",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "Stamina",
         "uiIcon": "BoosterStamina",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 2,
+        "aliasLengthCandidates": [
           2,
           20
         ],
         "evidence": [
-          "game UI template binds native member Stamina to BoosterStamina",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member Stamina at value 2",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member Stamina to BoosterStamina"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Multiplies the stamina efficiency factor; sprint stamina drain is divided by it and the regeneration input is multiplied by it."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 2
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 2
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:stamina-enhancement:tuning:booster.stamina_scale"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "stamina capacity / regeneration split",
+          "reason": "The booster contributes one efficiency factor; the published +22.5%/+40% split is derived inside the stamina model, not stored."
         }
       ]
     },
@@ -134,26 +228,52 @@
       "name": "Muscle Enhancement",
       "semanticId": "booster/v1/muscle-enhancement/132b26ad07a898d8",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "MuscleEnhancement",
         "uiIcon": "BoosterMuscle",
         "enumValue": 3,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           3
         ],
         "evidence": [
-          "game UI template binds native member MuscleEnhancement to BoosterMuscle",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member MuscleEnhancement at value 3",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member MuscleEnhancement to BoosterMuscle"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Multiplies the terrain slowdown fraction; movement factor becomes 1 - slowdown * value."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:muscle-enhancement:tuning:booster.terrain_slowdown_scale"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "terrain slowdown values",
+          "reason": "The base slowdown fractions belong to terrain data used without the booster; only the booster multiplier is exposed."
         }
       ]
     },
@@ -161,82 +281,149 @@
       "name": "Increased Reinforcement Budget",
       "semanticId": "booster/v1/increased-reinforcement-budget/984d134f8ced7a96",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "IncreasedReinforcementBudget",
         "uiIcon": "BoosterIncreasedbudget",
         "enumValue": 5,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           5
         ],
         "evidence": [
-          "game UI template binds native member IncreasedReinforcementBudget to BoosterIncreasedbudget",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member IncreasedReinforcementBudget at value 5",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member IncreasedReinforcementBudget to BoosterIncreasedbudget"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
-      "blockedFields": [
+      "implementation": "native_table",
+      "relationships": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "kind": "native_booster_table",
+          "effect": "Added to each player's reinforcement budget and truncated to an integer when the budget is initialised."
         }
-      ]
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 4
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 4
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:increased-reinforcement-budget:tuning:booster.reinforcements_per_player"
+      ],
+      "blockedFields": []
     },
     {
       "name": "Flexible Reinforcement Budget",
       "semanticId": "booster/v1/flexible-reinforcement-budget/61cabf5da1dabd59",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "FlexibleReinforcementBudget",
         "uiIcon": "BoosterFlexiblebudget",
         "enumValue": 6,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           6
         ],
         "evidence": [
-          "game UI template binds native member FlexibleReinforcementBudget to BoosterFlexiblebudget",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member FlexibleReinforcementBudget at value 6",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member FlexibleReinforcementBudget to BoosterFlexiblebudget"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
-      "blockedFields": [
+      "implementation": "native_table",
+      "relationships": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "kind": "native_booster_table",
+          "effect": "Multiplies the reinforcement refill cooldown read from the mission settings before it is scheduled."
         }
-      ]
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 2
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 2
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:flexible-reinforcement-budget:tuning:booster.reinforcement_cooldown_scale"
+      ],
+      "blockedFields": []
     },
     {
       "name": "Localization Confusion",
       "semanticId": "booster/v1/localization-confusion/6c8fbcaca31db83b",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "LocalizationConfusion",
         "uiIcon": "BoosterLocalization",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 8,
+        "aliasLengthCandidates": [
           8,
           16
         ],
         "evidence": [
-          "game UI template binds native member LocalizationConfusion to BoosterLocalization",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member LocalizationConfusion at value 8",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member LocalizationConfusion to BoosterLocalization"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Multiplies the encounter spawn rate; the two encounter/reinforcement timers are divided by it."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 3
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 3
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:localization-confusion:tuning:booster.encounter_rate_scale"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "base encounter timers",
+          "reason": "Mission settings used without the booster."
         }
       ]
     },
@@ -244,28 +431,53 @@
       "name": "Expert Extraction Pilot",
       "semanticId": "booster/v1/expert-extraction-pilot/80eb5837348c63f3",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "FastExtraction",
         "uiIcon": "BoosterExpert",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 9,
+        "aliasLengthCandidates": [
           9,
           19
         ],
         "evidence": [
-          "game UI template binds native member FastExtraction to BoosterExpert",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member FastExtraction at value 9",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member FastExtraction to BoosterExpert"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Multiplies the call-in time of the Extract stratagem (StratagemType 148)."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:expert-extraction-pilot:tuning:booster.extraction_time_scale"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "base extraction time",
+          "reason": "Owned by the Extract stratagem; only the booster multiplier is exposed."
         }
       ]
     },
@@ -273,53 +485,87 @@
       "name": "Motivational Shocks",
       "semanticId": "booster/v1/motivational-shocks/3d33317675dd9dc6",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "SlowStunResistance",
         "uiIcon": "BoosterShocks",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 10,
+        "aliasLengthCandidates": [
           10,
           13
         ],
         "evidence": [
-          "game UI template binds native member SlowStunResistance to BoosterShocks",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member SlowStunResistance at value 10",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member SlowStunResistance to BoosterShocks"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
-      "blockedFields": [
+      "implementation": "native_table",
+      "relationships": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "kind": "native_booster_table",
+          "effect": "Multiplies the slow/stun amount applied to a Helldiver."
         }
-      ]
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:motivational-shocks:tuning:booster.slow_scale"
+      ],
+      "blockedFields": []
     },
     {
       "name": "Experimental Infusion",
       "semanticId": "booster/v1/experimental-infusion/35cf8142ae307311",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "CombatDrugs",
         "uiIcon": "BoosterInfusion",
         "enumValue": 11,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           11
         ],
         "evidence": [
-          "game UI template binds native member CombatDrugs to BoosterInfusion",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member CombatDrugs at value 11",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member CombatDrugs to BoosterInfusion"
+        ]
       },
+      "implementation": "code_selected_settings",
       "relationships": [
         {
-          "kind": "status_effect_fingerprint",
-          "effect": "Stim-applied status effect: movement speed multiplier, duration, incoming damage scale.",
-          "evidence": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
-          "sharedScope": "applied by game code only"
+          "kind": "status_effect",
+          "effect": "Stims apply this status effect instead of the normal stim status: movement speed multiplier, duration, incoming damage scale."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "StatusEffectSettings",
+          "kind": "code_literal_selector"
         }
       ],
       "writable": true,
@@ -331,35 +577,85 @@
         "booster:experimental-infusion:status_effect:status.duration",
         "booster:experimental-infusion:status_effect:status.incoming_damage_scale"
       ],
-      "blockedFields": []
+      "blockedFields": [
+        {
+          "field": "native table scalar (1.0)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
+          "field": "status row +32 scalar (3.5)",
+          "reason": "The type library hides this member's name and no fingerprint identifies it."
+        },
+        {
+          "field": "reticle sway",
+          "reason": "The published +25% sway has no native value in the stim status row."
+        }
+      ]
     },
     {
       "name": "Firebomb Hellpods",
       "semanticId": "booster/v1/firebomb-hellpods/7ee24ab5cca7028c",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "FieryDrop",
         "uiIcon": "BoosterFirebomb",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 12,
+        "aliasLengthCandidates": [
           12,
           17,
           18
         ],
         "evidence": [
-          "game UI template binds native member FieryDrop to BoosterFirebomb",
-          "type-library alias length resolves a candidate set of 3",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member FieryDrop at value 12",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member FieryDrop to BoosterFirebomb"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "code_selected_settings",
+      "relationships": [
+        {
+          "kind": "hellpod_impact_explosion",
+          "effect": "When the booster is active, every hellpod impact spawns this extra explosion."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "ExplosionSettings",
+          "kind": "code_literal_selector"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "explosion"
+      ],
+      "fieldInstanceKeys": [
+        "booster:firebomb-hellpods:explosion:explosion.inner_radius",
+        "booster:firebomb-hellpods:explosion:explosion.outer_radius",
+        "booster:firebomb-hellpods:explosion:explosion.shockwave_radius",
+        "booster:firebomb-hellpods:explosion:explosion.damage.standard_damage",
+        "booster:firebomb-hellpods:explosion:explosion.damage.durable_damage",
+        "booster:firebomb-hellpods:explosion:explosion.damage.ap_direct",
+        "booster:firebomb-hellpods:explosion:explosion.damage.demolition",
+        "booster:firebomb-hellpods:explosion:explosion.damage.stagger",
+        "booster:firebomb-hellpods:explosion:explosion.damage.push_force",
+        "booster:firebomb-hellpods:explosion:status.strength"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "native table scalar (1.0)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
+          "field": "burn status definition",
+          "reason": "Status type 5 is shared by every fire source; only this explosion's status strength is exposed."
         }
       ]
     },
@@ -367,26 +663,69 @@
       "name": "Dead Sprint",
       "semanticId": "booster/v1/dead-sprint/4a6e9cedb6925630",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "DeathMarch",
         "uiIcon": "BoosterDeadsprint",
         "enumValue": 14,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           14
         ],
         "evidence": [
-          "game UI template binds native member DeathMarch to BoosterDeadsprint",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member DeathMarch at value 14",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member DeathMarch to BoosterDeadsprint"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Health fraction below which Dead Sprint stops draining health and stops allowing exhausted sprinting."
+        },
+        {
+          "kind": "status_damage",
+          "effect": "While sprinting exhausted, Dead Sprint applies a status whose damage drains the Helldiver's health."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "StatusEffectSettings",
+          "kind": "code_literal_selector"
+        },
+        {
+          "from": "StatusEffectSettings",
+          "to": "DamageInfo",
+          "kind": "settings_reference"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "status_damage",
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:dead-sprint:tuning:booster.health_floor",
+        "booster:dead-sprint:status_damage:damage.standard_damage",
+        "booster:dead-sprint:status_damage:damage.durable_damage"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "exhausted sprint movement",
+          "reason": "Selected by the presence of the Dead Sprint status, not a scalar."
         }
       ]
     },
@@ -394,18 +733,21 @@
       "name": "Armed Resupply Pods",
       "semanticId": "booster/v1/armed-resupply-pods/83bb1f9c4b71e1f6",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "DefensiveAmmoPod",
         "uiIcon": "BoosterArmedpods",
         "enumValue": 15,
-        "enumValueCandidates": [
+        "aliasLengthCandidates": [
           15
         ],
         "evidence": [
-          "game UI template binds native member DefensiveAmmoPod to BoosterArmedpods",
-          "type-library alias length resolves a unique value"
-        ],
-        "status": "RESOLVED"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member DefensiveAmmoPod at value 15",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member DefensiveAmmoPod to BoosterArmedpods"
+        ]
       },
+      "implementation": "data_reference",
       "relationships": [
         {
           "kind": "stratagem_booster_entry",
@@ -416,6 +758,19 @@
           "deployedEntity": "deployed_entity",
           "turretProjectileShared": true,
           "evidence": "structural: StratagemInfo booster list -> entity delta -> HellpodRackComponent item"
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 0
+        },
+        {
+          "from": "StratagemInfo.boosterList",
+          "to": "entity delta",
+          "kind": "data_reference"
         }
       ],
       "writable": true,
@@ -430,6 +785,14 @@
         {
           "field": "turret projectile / damage",
           "reason": "The turret fires a projectile definition shared with player weapons; edit it through the owning weapon view with allow_shared instead."
+        },
+        {
+          "field": "turret payload lifetime",
+          "reason": "The native value is 0 (no explicit limit); writing it would change behavior."
+        },
+        {
+          "field": "turret targeting / sensor / rotation",
+          "reason": "The type library hides the member names and no fingerprint identifies them."
         }
       ]
     },
@@ -437,28 +800,53 @@
       "name": "Sample Extricator",
       "semanticId": "booster/v1/sample-extricator/e569d43463c9676f",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "BigEnemiesDropSamples",
         "uiIcon": "BoosterSampleextricator",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 16,
+        "aliasLengthCandidates": [
           8,
           16
         ],
         "evidence": [
-          "game UI template binds native member BigEnemiesDropSamples to BoosterSampleextricator",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member BigEnemiesDropSamples at value 16",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member BigEnemiesDropSamples to BoosterSampleextricator"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "native_table",
+      "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Mission cap on samples dropped by large enemies (truncated to an integer)."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 2
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 2
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:sample-extricator:tuning:booster.sample_drop_cap"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "per-enemy drop chance",
+          "reason": "Read from a runtime loot hashmap filled from enemy data, not from booster data."
         }
       ]
     },
@@ -466,58 +854,118 @@
       "name": "Sample Scanner",
       "semanticId": "booster/v1/sample-scanner/00954fb7a554d95e",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "DoubleSampleChance",
         "uiIcon": "BoosterSamplescanner",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 13,
+        "aliasLengthCandidates": [
           10,
           13
         ],
         "evidence": [
-          "game UI template binds native member DoubleSampleChance to BoosterSamplescanner",
-          "type-library alias length resolves a candidate set of 2",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member DoubleSampleChance at value 13",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member DoubleSampleChance to BoosterSamplescanner"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
-      "blockedFields": [
+      "implementation": "native_table",
+      "relationships": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "kind": "native_booster_table",
+          "effect": "Probability that a picked-up sample counts twice."
         }
-      ]
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:sample-scanner:tuning:booster.double_sample_chance"
+      ],
+      "blockedFields": []
     },
     {
       "name": "Stun Pods",
       "semanticId": "booster/v1/stun-pods/728b06c223c7690f",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "ShockPods",
         "uiIcon": "BoosterStunpods",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 17,
+        "aliasLengthCandidates": [
           12,
           17,
           18
         ],
         "evidence": [
-          "game UI template binds native member ShockPods to BoosterStunpods",
-          "type-library alias length resolves a candidate set of 3",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member ShockPods at value 17",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member ShockPods to BoosterStunpods"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "code_selected_settings",
+      "relationships": [
+        {
+          "kind": "hellpod_impact_explosion",
+          "effect": "When the booster is active, every hellpod impact spawns this extra explosion."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "ExplosionSettings",
+          "kind": "code_literal_selector"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "explosion"
+      ],
+      "fieldInstanceKeys": [
+        "booster:stun-pods:explosion:explosion.inner_radius",
+        "booster:stun-pods:explosion:explosion.outer_radius",
+        "booster:stun-pods:explosion:explosion.shockwave_radius",
+        "booster:stun-pods:explosion:explosion.damage.standard_damage",
+        "booster:stun-pods:explosion:explosion.damage.durable_damage",
+        "booster:stun-pods:explosion:explosion.damage.ap_direct",
+        "booster:stun-pods:explosion:explosion.damage.demolition",
+        "booster:stun-pods:explosion:explosion.damage.stagger",
+        "booster:stun-pods:explosion:status.strength"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "native table scalar (1.0)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
+          "field": "explosion.damage.push_force",
+          "reason": "Native value is 0; enabling it would change behavior rather than tune it."
+        },
+        {
+          "field": "stun status definition",
+          "reason": "Status type 40 is shared by every stun source; only this explosion's status strength is exposed."
         }
       ]
     },
@@ -525,29 +973,58 @@
       "name": "Concealed Insertion",
       "semanticId": "booster/v1/concealed-insertion/b5b751b967a5f98c",
       "identity": {
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
         "nativeName": "SmokePods",
         "uiIcon": "BoosterConcealedinsertion",
-        "enumValue": null,
-        "enumValueCandidates": [
+        "enumValue": 18,
+        "aliasLengthCandidates": [
           12,
           17,
           18
         ],
         "evidence": [
-          "game UI template binds native member SmokePods to BoosterConcealedinsertion",
-          "type-library alias length resolves a candidate set of 3",
-          "Several enum values share this alias length; the value is not guessed."
-        ],
-        "status": "CANDIDATES"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member SmokePods at value 18",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "game UI template binds native member SmokePods to BoosterConcealedinsertion"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "code_selected_settings",
+      "relationships": [
+        {
+          "kind": "hellpod_impact_explosion",
+          "effect": "When the booster is active, every hellpod impact spawns this extra explosion."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "ExplosionSettings",
+          "kind": "code_literal_selector"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "explosion"
+      ],
+      "fieldInstanceKeys": [
+        "booster:concealed-insertion:explosion:explosion.inner_radius",
+        "booster:concealed-insertion:explosion:explosion.outer_radius"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "native table scalar (1.0)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
+          "field": "explosion.shockwave_radius",
+          "reason": "Native value is 0; enabling it would change behavior rather than tune it."
         }
       ]
     },
@@ -555,23 +1032,55 @@
       "name": "Surplus EAT Allocation",
       "semanticId": "booster/v1/surplus-eat-allocation/cb1271359bd85dbd",
       "identity": {
-        "nativeName": null,
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
+        "nativeName": "FreeEAT",
         "uiIcon": null,
-        "enumValue": null,
-        "enumValueCandidates": [],
+        "enumValue": 20,
+        "aliasLengthCandidates": [],
         "evidence": [
-          "Remaining booster after every UI-template name and the susceptibility-gating value are assigned."
-        ],
-        "status": "ELIMINATION"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member FreeEAT at value 20",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "corroborated: its native table row grants StratagemType LATOneshot_Booster"
+        ]
       },
-      "relationships": [],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "implementation": "data_reference",
+      "relationships": [
+        {
+          "kind": "granted_stratagem",
+          "stratagemTypeName": "LATOneshot_Booster",
+          "effect": "Grants a dedicated one-shot EAT stratagem with its own use count."
+        }
+      ],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 0
+        },
+        {
+          "from": "BoosterDefinitionTable.grantedStratagem",
+          "to": "StratagemSettings",
+          "kind": "structural_pointer_table",
+          "stratagem": "LATOneshot_Booster"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "granted_stratagem"
+      ],
+      "fieldInstanceKeys": [
+        "booster:surplus-eat-allocation:granted_stratagem:stratagem.max_uses"
+      ],
       "blockedFields": [
         {
-          "field": "booster effect",
-          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+          "field": "native table scalar (1.0)",
+          "reason": "The native Booster definition table holds a scalar for this booster, but no game code reads it; writing it would change nothing."
+        },
+        {
+          "field": "granted stratagem cooldown",
+          "reason": "The native cooldown is 0 with the no-cooldown type; not a tunable."
         }
       ]
     },
@@ -579,35 +1088,606 @@
       "name": "Integrated Extinguishers",
       "semanticId": "booster/v1/integrated-extinguishers/e28b068e7da39f57",
       "identity": {
-        "nativeName": null,
+        "status": "RESOLVED",
+        "method": "native_enum_name_table",
+        "nativeName": "FireExtinguish",
         "uiIcon": null,
         "enumValue": 19,
-        "enumValueCandidates": [],
+        "aliasLengthCandidates": [],
         "evidence": [
-          "The only native booster value that gates status susceptibilities (two avatar susceptibilities); the other unnamed booster is Surplus EAT Allocation."
-        ],
-        "status": "EFFECT_CATEGORY"
+          "game.dll enum-name table (value-indexed None..Count, 22 entries) names member FireExtinguish at value 19",
+          "type-library alias lengths agree with the name table for all 22 values",
+          "corroborated: the only value that gates status susceptibilities"
+        ]
       },
+      "implementation": "native_table",
       "relationships": [
+        {
+          "kind": "native_booster_table",
+          "effect": "Burn decay is multiplied by 1 / (1 - value) while the booster is active; values at or above 1 divide by zero."
+        },
         {
           "kind": "susceptibility_gate",
           "owner": "Helldiver avatar",
           "gatedSusceptibilities": 2,
-          "effect": "Replaces the status effect applied by two avatar susceptibilities while active."
+          "effect": "While active, two avatar susceptibilities swap their effect reference for a particle effect (cosmetic)."
         }
       ],
-      "writable": false,
-      "targets": [],
-      "fieldInstanceKeys": [],
+      "nativeGraph": [
+        {
+          "from": "booster",
+          "to": "IsBoosterActive",
+          "kind": "code_gate",
+          "sites": 1
+        },
+        {
+          "from": "IsBoosterActive",
+          "to": "BoosterDefinitionTable.scalar",
+          "kind": "gated_read",
+          "sites": 1
+        },
+        {
+          "from": "StatusEffectSusceptibility.boosterGate",
+          "to": "particle effect override",
+          "kind": "data_reference"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "tuning"
+      ],
+      "fieldInstanceKeys": [
+        "booster:integrated-extinguishers:tuning:booster.burn_decay_bonus"
+      ],
       "blockedFields": [
         {
           "field": "susceptibility override",
-          "reason": "The override is a reference to a native effect preset whose semantics are not proven; no scalar is exposed."
+          "reason": "The two gated avatar susceptibilities swap in a particle-effect reference (spawned with an identity transform); it is cosmetic, and no scalar is exposed."
         }
       ]
     }
   ],
   "fieldInstances": [
+    {
+      "instanceKey": "booster:vitality-enhancement:tuning:booster.damage_taken_scale",
+      "booster": "Vitality Enhancement",
+      "semanticFieldId": "booster.damage_taken_scale",
+      "apiFieldConstant": "hd2.fields.booster.damage_taken_scale",
+      "displayName": "Damage taken multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.9,
+        "expected": 0.9,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/cff37d407523654f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Incoming damage to a Helldiver is multiplied by the value and truncated to an integer (int(damage * value)).",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki armor table lists the Vitality Booster damage factor as 90%."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 4,
+        "integer": false,
+        "reason": "Multiplies incoming damage; negative values would heal."
+      }
+    },
+    {
+      "instanceKey": "booster:uav-recon-booster:tuning:booster.radar_range_scale",
+      "booster": "UAV Recon Booster",
+      "semanticFieldId": "booster.radar_range_scale",
+      "apiFieldConstant": "hd2.fields.booster.radar_range_scale",
+      "displayName": "Radar range multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 1.5,
+        "expected": 1.5,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/769391400c9ee444",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 2,
+        "effect": "Multiplies the radar scan scale (base 0.025).",
+        "fingerprint": {
+          "status": "approximate",
+          "note": "Wiki: radar range increased by approximately 50%."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0.1,
+        "max": 10,
+        "integer": false,
+        "reason": "Scales the radar scan; zero disables it."
+      }
+    },
+    {
+      "instanceKey": "booster:stamina-enhancement:tuning:booster.stamina_scale",
+      "booster": "Stamina Enhancement",
+      "semanticFieldId": "booster.stamina_scale",
+      "apiFieldConstant": "hd2.fields.booster.stamina_scale",
+      "displayName": "Stamina efficiency multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 1.3,
+        "expected": 1.3,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/d44b521c79c3f637",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 2,
+        "effect": "Multiplies the stamina efficiency factor; sprint stamina drain is divided by it and the regeneration input is multiplied by it.",
+        "fingerprint": {
+          "status": "not_comparable",
+          "note": "Wiki reports +22.5% max stamina and +40% regeneration; the native value is a single 1.3 efficiency factor applied inside the stamina model."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0.1,
+        "max": 10,
+        "integer": false,
+        "reason": "Stamina drain is divided by this value."
+      }
+    },
+    {
+      "instanceKey": "booster:muscle-enhancement:tuning:booster.terrain_slowdown_scale",
+      "booster": "Muscle Enhancement",
+      "semanticFieldId": "booster.terrain_slowdown_scale",
+      "apiFieldConstant": "hd2.fields.booster.terrain_slowdown_scale",
+      "displayName": "Terrain slowdown multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.35,
+        "expected": 0.35,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/fbef9d6881734191",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Multiplies the terrain slowdown fraction; movement factor becomes 1 - slowdown * value.",
+        "fingerprint": {
+          "status": "none",
+          "note": "No published numeric value."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1,
+        "integer": false,
+        "reason": "Movement factor is 1 - slowdown * value; above 1 it can go negative."
+      }
+    },
+    {
+      "instanceKey": "booster:increased-reinforcement-budget:tuning:booster.reinforcements_per_player",
+      "booster": "Increased Reinforcement Budget",
+      "semanticFieldId": "booster.reinforcements_per_player",
+      "apiFieldConstant": "hd2.fields.booster.reinforcements_per_player",
+      "displayName": "Extra reinforcements per player",
+      "type": "integer",
+      "unit": "reinforcements",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 1.0,
+        "expected": 1.0,
+        "unit": "reinforcements"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/ba1d472226e01d86",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 4,
+        "effect": "Added to each player's reinforcement budget and truncated to an integer when the budget is initialised.",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: +1 reinforcement per Helldiver (5 to 6 solo)."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 20,
+        "integer": true,
+        "reason": "Truncated to an integer by the game."
+      }
+    },
+    {
+      "instanceKey": "booster:flexible-reinforcement-budget:tuning:booster.reinforcement_cooldown_scale",
+      "booster": "Flexible Reinforcement Budget",
+      "semanticFieldId": "booster.reinforcement_cooldown_scale",
+      "apiFieldConstant": "hd2.fields.booster.reinforcement_cooldown_scale",
+      "displayName": "Reinforcement refill cooldown multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.75,
+        "expected": 0.75,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/88d5d3caf510bc2e",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 2,
+        "effect": "Multiplies the reinforcement refill cooldown read from the mission settings before it is scheduled.",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: 25% shorter (2:00 to 1:30)."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0.05,
+        "max": 10,
+        "integer": false,
+        "reason": "Scales a scheduled cooldown."
+      }
+    },
+    {
+      "instanceKey": "booster:localization-confusion:tuning:booster.encounter_rate_scale",
+      "booster": "Localization Confusion",
+      "semanticFieldId": "booster.encounter_rate_scale",
+      "apiFieldConstant": "hd2.fields.booster.encounter_rate_scale",
+      "displayName": "Encounter rate multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.9,
+        "expected": 0.9,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/cd7d787632aaf64d",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 3,
+        "effect": "Multiplies the encounter spawn rate; the two encounter/reinforcement timers are divided by it.",
+        "fingerprint": {
+          "status": "approximate",
+          "note": "Wiki: encounter timer threshold ~15% longer; the native timers are divided by 0.9 (+11.1%) and the spawn rate multiplied by 0.9."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0.1,
+        "max": 10,
+        "integer": false,
+        "reason": "Two encounter timers are divided by this value."
+      }
+    },
+    {
+      "instanceKey": "booster:expert-extraction-pilot:tuning:booster.extraction_time_scale",
+      "booster": "Expert Extraction Pilot",
+      "semanticFieldId": "booster.extraction_time_scale",
+      "apiFieldConstant": "hd2.fields.booster.extraction_time_scale",
+      "displayName": "Extraction call-in time multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.7,
+        "expected": 0.7,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/16746c6aef759cc3",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Multiplies the call-in time of the Extract stratagem (StratagemType 148).",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: 30% faster (2:00 to 1:24)."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0.05,
+        "max": 10,
+        "integer": false,
+        "reason": "Scales the extraction call-in time."
+      }
+    },
+    {
+      "instanceKey": "booster:motivational-shocks:tuning:booster.slow_scale",
+      "booster": "Motivational Shocks",
+      "semanticFieldId": "booster.slow_scale",
+      "apiFieldConstant": "hd2.fields.booster.slow_scale",
+      "displayName": "Slow and stun multiplier",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.5,
+        "expected": 0.5,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/6dcdf58139937b6e",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Multiplies the slow/stun amount applied to a Helldiver.",
+        "fingerprint": {
+          "status": "differs",
+          "note": "Wiki reports ~25% shorter slows; the native multiplier is 0.5 on the applied slow amount, whose relation to the observed duration is not established."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 4,
+        "integer": false,
+        "reason": "Scales an applied slow/stun amount."
+      }
+    },
     {
       "instanceKey": "booster:experimental-infusion:status_effect:status.strength",
       "booster": "Experimental Infusion",
@@ -634,12 +1714,12 @@
         "allow_shared",
         "allow_unverified_effect"
       ],
-      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
       "sharedScope": {
         "shared": true,
         "requiresAcknowledgement": true,
         "reviewedScopeComplete": false,
-        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
       },
       "operation": {
         "patchSupported": true,
@@ -647,9 +1727,16 @@
         "planSupported": true
       },
       "evidence": {
-        "tier": "unique_exact_multi_value_fingerprint",
-        "fingerprint": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
-        "nativeName": "UI booster member CombatDrugs",
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "stim status apply with literal StatusEffectType (29 instead of 25)",
+          "StatusEffectSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match"
+        },
         "gameplayWriteEffect": "unproven"
       }
     },
@@ -679,12 +1766,12 @@
         "allow_shared",
         "allow_unverified_effect"
       ],
-      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
       "sharedScope": {
         "shared": true,
         "requiresAcknowledgement": true,
         "reviewedScopeComplete": false,
-        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
       },
       "operation": {
         "patchSupported": true,
@@ -692,9 +1779,16 @@
         "planSupported": true
       },
       "evidence": {
-        "tier": "unique_exact_multi_value_fingerprint",
-        "fingerprint": "schema-labelled duration; no published value",
-        "nativeName": "UI booster member CombatDrugs",
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "stim status apply with literal StatusEffectType (29 instead of 25)",
+          "StatusEffectSettings row"
+        ],
+        "fingerprint": {
+          "status": "none",
+          "note": "schema-labelled duration; no published value"
+        },
         "gameplayWriteEffect": "unproven"
       }
     },
@@ -724,12 +1818,12 @@
         "allow_shared",
         "allow_unverified_effect"
       ],
-      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
       "sharedScope": {
         "shared": true,
         "requiresAcknowledgement": true,
         "reviewedScopeComplete": false,
-        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
       },
       "operation": {
         "patchSupported": true,
@@ -737,10 +1831,775 @@
         "planSupported": true
       },
       "evidence": {
-        "tier": "unique_exact_multi_value_fingerprint",
-        "fingerprint": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
-        "nativeName": "UI booster member CombatDrugs",
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "stim status apply with literal StatusEffectType (29 instead of 25)",
+          "StatusEffectSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match"
+        },
         "gameplayWriteEffect": "unproven"
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.inner_radius",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.inner_radius",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 2.0,
+        "expected": 2.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/056f98551c1bf2a9",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.outer_radius",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.outer_radius",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 4.0,
+        "expected": 4.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/056f98551c1bf2a9",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.shockwave_radius",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 4.0,
+        "expected": 4.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/056f98551c1bf2a9",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.standard_damage",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 200,
+        "expected": 200,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.durable_damage",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 200,
+        "expected": 200,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.ap_direct",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "displayName": "Explosion armor penetration",
+      "type": "integer",
+      "unit": "armor_class",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 10,
+        "expected": 10,
+        "unit": "armor_class"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.demolition",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.demolition",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "displayName": "Explosion demolition force",
+      "type": "integer",
+      "unit": "force",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 40,
+        "expected": 40,
+        "unit": "force"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.stagger",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.stagger",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "displayName": "Explosion stagger force",
+      "type": "integer",
+      "unit": "force",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 15,
+        "expected": 15,
+        "unit": "force"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:explosion.damage.push_force",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "explosion.damage.push_force",
+      "apiFieldConstant": "hd2.fields.explosion.damage_push_force",
+      "displayName": "Explosion push force",
+      "type": "integer",
+      "unit": "force",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 20,
+        "expected": 20,
+        "unit": "force"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:firebomb-hellpods:explosion:status.strength",
+      "booster": "Firebomb Hellpods",
+      "semanticFieldId": "status.strength",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 20.0,
+        "expected": 20.0,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/be6e165121cd2f28",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"HellpodImpact Fiery Drop\": 200/200 fire, AP 10, demolition 40, stagger 15, push 20, status 20, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 10000,
+        "integer": false,
+        "reason": "Status strength applied by this explosion."
+      }
+    },
+    {
+      "instanceKey": "booster:dead-sprint:tuning:booster.health_floor",
+      "booster": "Dead Sprint",
+      "semanticFieldId": "booster.health_floor",
+      "apiFieldConstant": "hd2.fields.booster.health_floor",
+      "displayName": "Health floor",
+      "type": "number",
+      "unit": "fraction",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.05,
+        "expected": 0.05,
+        "unit": "fraction"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/80b25cc6d3d0d565",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Health fraction below which Dead Sprint stops draining health and stops allowing exhausted sprinting.",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: stops once health reaches 5%."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1,
+        "integer": false,
+        "reason": "Health fraction."
+      }
+    },
+    {
+      "instanceKey": "booster:dead-sprint:status_damage:damage.standard_damage",
+      "booster": "Dead Sprint",
+      "semanticFieldId": "damage.standard_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_standard_damage",
+      "displayName": "Standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "status_damage",
+        "accessor": [
+          "booster",
+          "status_damage"
+        ]
+      },
+      "value": {
+        "baseline": 5,
+        "expected": 5,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/6017796ab30286dd",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector",
+        "chain": [
+          "IsBoosterActive gate",
+          "Dead Sprint status apply with literal StatusEffectType",
+          "StatusEffectSettings damage type",
+          "DamageInfo row"
+        ],
+        "fingerprint": {
+          "status": "none",
+          "note": "Wiki reports ~3.6% health per second; the tick rate that turns this damage into a rate is not established."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1000,
+        "integer": true,
+        "reason": "Integer damage per status tick."
+      }
+    },
+    {
+      "instanceKey": "booster:dead-sprint:status_damage:damage.durable_damage",
+      "booster": "Dead Sprint",
+      "semanticFieldId": "damage.durable_damage",
+      "apiFieldConstant": "hd2.fields.damage.player_durable_damage",
+      "displayName": "Durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "status_damage",
+        "accessor": [
+          "booster",
+          "status_damage"
+        ]
+      },
+      "value": {
+        "baseline": 5,
+        "expected": 5,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/6017796ab30286dd",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector",
+        "chain": [
+          "IsBoosterActive gate",
+          "Dead Sprint status apply with literal StatusEffectType",
+          "StatusEffectSettings damage type",
+          "DamageInfo row"
+        ],
+        "fingerprint": {
+          "status": "none",
+          "note": "Wiki reports ~3.6% health per second; the tick rate that turns this damage into a rate is not established."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1000,
+        "integer": true,
+        "reason": "Integer damage per status tick."
       }
     },
     {
@@ -768,7 +2627,7 @@
       "acknowledgements": [
         "allow_unverified_effect"
       ],
-      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
       "sharedScope": {
         "shared": false,
         "requiresAcknowledgement": false,
@@ -789,7 +2648,10 @@
           "turret entity"
         ],
         "gameplayWriteEffect": "unproven",
-        "fingerprint": "640 rpm"
+        "fingerprint": {
+          "status": "exact",
+          "note": "640 rpm"
+        }
       }
     },
     {
@@ -817,7 +2679,7 @@
       "acknowledgements": [
         "allow_unverified_effect"
       ],
-      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
       "sharedScope": {
         "shared": false,
         "requiresAcknowledgement": false,
@@ -838,22 +2700,915 @@
           "turret entity"
         ],
         "gameplayWriteEffect": "unproven",
-        "fingerprint": "140 rounds"
+        "fingerprint": {
+          "status": "exact",
+          "note": "140 rounds"
+        }
+      }
+    },
+    {
+      "instanceKey": "booster:sample-extricator:tuning:booster.sample_drop_cap",
+      "booster": "Sample Extricator",
+      "semanticFieldId": "booster.sample_drop_cap",
+      "apiFieldConstant": "hd2.fields.booster.sample_drop_cap",
+      "displayName": "Sample drop cap",
+      "type": "integer",
+      "unit": "samples",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 10.0,
+        "expected": 10.0,
+        "unit": "samples"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/310a0b6f5ad4a708",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 2,
+        "effect": "Mission cap on samples dropped by large enemies (truncated to an integer).",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: capped at 10 drops per mission."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1000,
+        "integer": true,
+        "reason": "Truncated to an integer by the game."
+      }
+    },
+    {
+      "instanceKey": "booster:sample-scanner:tuning:booster.double_sample_chance",
+      "booster": "Sample Scanner",
+      "semanticFieldId": "booster.double_sample_chance",
+      "apiFieldConstant": "hd2.fields.booster.double_sample_chance",
+      "displayName": "Double sample chance",
+      "type": "number",
+      "unit": "probability",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.15,
+        "expected": 0.15,
+        "unit": "probability"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/29ce717825971942",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer_exact_fingerprint",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Probability that a picked-up sample counts twice.",
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: 15% chance to receive twice the samples."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 1,
+        "integer": false,
+        "reason": "Probability."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.inner_radius",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.inner_radius",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 2.0,
+        "expected": 2.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/c2800271cdd88480",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.outer_radius",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.outer_radius",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 4.0,
+        "expected": 4.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/c2800271cdd88480",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.shockwave_radius",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.shockwave_radius",
+      "apiFieldConstant": "hd2.fields.explosion.shockwave_radius",
+      "displayName": "Explosion shockwave radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 4.0,
+        "expected": 4.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/c2800271cdd88480",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.damage.standard_damage",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.damage.standard_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_standard_damage",
+      "displayName": "Explosion standard damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 50,
+        "expected": 50,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.damage.durable_damage",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.damage.durable_damage",
+      "apiFieldConstant": "hd2.fields.explosion.damage_durable_damage",
+      "displayName": "Explosion durable damage",
+      "type": "integer",
+      "unit": "damage",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 50,
+        "expected": 50,
+        "unit": "damage"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.damage.ap_direct",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.damage.ap_direct",
+      "apiFieldConstant": "hd2.fields.explosion.damage_ap_direct",
+      "displayName": "Explosion armor penetration",
+      "type": "integer",
+      "unit": "armor_class",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 10,
+        "expected": 10,
+        "unit": "armor_class"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.damage.demolition",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.damage.demolition",
+      "apiFieldConstant": "hd2.fields.explosion.damage_demolition",
+      "displayName": "Explosion demolition force",
+      "type": "integer",
+      "unit": "force",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 40,
+        "expected": 40,
+        "unit": "force"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:explosion.damage.stagger",
+      "booster": "Stun Pods",
+      "semanticFieldId": "explosion.damage.stagger",
+      "apiFieldConstant": "hd2.fields.explosion.damage_stagger",
+      "displayName": "Explosion stagger force",
+      "type": "integer",
+      "unit": "force",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 50,
+        "expected": 50,
+        "unit": "force"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100000,
+        "integer": true,
+        "reason": "Integer damage value."
+      }
+    },
+    {
+      "instanceKey": "booster:stun-pods:explosion:status.strength",
+      "booster": "Stun Pods",
+      "semanticFieldId": "status.strength",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 100.0,
+        "expected": 100.0,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/8f22cd579d27ea8f",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector_exact_fingerprint",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki \"Explosion Hellpod Stun\": 50/50 arc, AP 10, demolition 40, stagger 50, status 100, radii 2/4/4 m."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 10000,
+        "integer": false,
+        "reason": "Status strength applied by this explosion."
+      }
+    },
+    {
+      "instanceKey": "booster:concealed-insertion:explosion:explosion.inner_radius",
+      "booster": "Concealed Insertion",
+      "semanticFieldId": "explosion.inner_radius",
+      "apiFieldConstant": "hd2.fields.explosion.inner_radius",
+      "displayName": "Explosion inner radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 5.0,
+        "expected": 5.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/11562b6889230545",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "none",
+          "note": "No published numeric value; the row has no damage."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:concealed-insertion:explosion:explosion.outer_radius",
+      "booster": "Concealed Insertion",
+      "semanticFieldId": "explosion.outer_radius",
+      "apiFieldConstant": "hd2.fields.explosion.outer_radius",
+      "displayName": "Explosion outer radius",
+      "type": "number",
+      "unit": "meters",
+      "target": {
+        "resource": "booster",
+        "path": "explosion",
+        "accessor": [
+          "booster",
+          "explosion"
+        ]
+      },
+      "value": {
+        "baseline": 5.0,
+        "expected": 5.0,
+        "unit": "meters"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Selected by a literal in the booster branch of game code. No other literal call site and none of the decoded data carriers reference this native type, but DestructionEffect unions and dynamically typed call sites are not excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/11562b6889230545",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_selector",
+        "chain": [
+          "IsBoosterActive gate",
+          "hellpod-impact spawn with literal ExplosionType",
+          "ExplosionSettings row"
+        ],
+        "fingerprint": {
+          "status": "none",
+          "note": "No published numeric value; the row has no damage."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": false,
+        "reason": "Explosion radius in meters."
+      }
+    },
+    {
+      "instanceKey": "booster:surplus-eat-allocation:granted_stratagem:stratagem.max_uses",
+      "booster": "Surplus EAT Allocation",
+      "semanticFieldId": "stratagem.max_uses",
+      "apiFieldConstant": "hd2.fields.stratagem.max_uses",
+      "displayName": "Mission uses",
+      "type": "integer",
+      "unit": "uses",
+      "target": {
+        "resource": "booster",
+        "path": "granted_stratagem",
+        "accessor": [
+          "booster",
+          "granted_stratagem"
+        ]
+      },
+      "value": {
+        "baseline": 2,
+        "expected": 2,
+        "unit": "uses"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/20c5244e4cb15225",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_code_chain_exact_fingerprint",
+        "chain": [
+          "native Booster definition table +4 (granted StratagemType)",
+          "StratagemSettings runtime table",
+          "use count read at grant time"
+        ],
+        "fingerprint": {
+          "status": "exact",
+          "note": "Wiki: two free uses of the EAT stratagem per mission."
+        },
+        "effect": "Number of uses of the booster-granted EAT stratagem; read when the stratagem is granted at mission start, so an edit applies to the next grant.",
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 100,
+        "integer": true,
+        "reason": "Stratagem use count."
+      }
+    },
+    {
+      "instanceKey": "booster:integrated-extinguishers:tuning:booster.burn_decay_bonus",
+      "booster": "Integrated Extinguishers",
+      "semanticFieldId": "booster.burn_decay_bonus",
+      "apiFieldConstant": "hd2.fields.booster.burn_decay_bonus",
+      "displayName": "Burn decay bonus",
+      "type": "number",
+      "unit": "fraction",
+      "target": {
+        "resource": "booster",
+        "path": "tuning",
+        "accessor": [
+          "booster",
+          "tuning"
+        ]
+      },
+      "value": {
+        "baseline": 0.5,
+        "expected": 0.5,
+        "unit": "fraction"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Owned by this booster only."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/446ffcdd0a478a25",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "native_table_code_consumer",
+        "chain": [
+          "Booster enum value",
+          "IsBoosterActive gate",
+          "native Booster definition table scalar",
+          "gated consumer"
+        ],
+        "consumerSites": 1,
+        "effect": "Burn decay is multiplied by 1 / (1 - value) while the booster is active; values at or above 1 divide by zero.",
+        "fingerprint": {
+          "status": "approximate",
+          "note": "Wiki: burning shortened from 3 s to ~1 s; the native bonus doubles the burn decay rate."
+        },
+        "gameplayWriteEffect": "unproven"
+      },
+      "range": {
+        "min": 0,
+        "max": 0.95,
+        "integer": false,
+        "reason": "Burn decay is multiplied by 1 / (1 - value); 1 divides by zero."
       }
     }
   ],
   "summary": {
     "boosters": 20,
-    "writableBoosters": 2,
-    "fieldInstances": 5,
+    "writableBoosters": 19,
+    "fieldInstances": 42,
     "identityStatus": {
-      "RESOLVED": 7,
-      "CANDIDATES": 11,
-      "EFFECT_CATEGORY": 1,
-      "ELIMINATION": 1,
+      "RESOLVED": 20,
+      "CANDIDATES": 0,
+      "EFFECT_CATEGORY": 0,
+      "ELIMINATION": 0,
       "UNRESOLVED": 0
     },
+    "fieldsByTarget": {
+      "tuning": 13,
+      "explosion": 21,
+      "status_effect": 3,
+      "status_damage": 2,
+      "granted_stratagem": 1,
+      "deployed_entity": 2
+    },
+    "sharedFieldInstances": 26,
     "nativeEnumValues": 20,
+    "isBoosterActiveCallSites": 38,
+    "boosterTableRows": 21,
+    "boosterTableReaders": 25,
+    "boosterTableStores": 0,
+    "codeWrites": 0,
     "researchWrites": 0,
     "protectionChanges": 0,
     "fixtureFallback": "disabled"

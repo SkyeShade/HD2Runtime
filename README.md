@@ -21,7 +21,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Projectile, damage and explosion editing
 - Ammo, heat, charge, beam, arc and status fields
 - Shared-object detection and acknowledgement
-- Booster authoring where a booster links to native data (Armed Resupply Pods turret, Experimental Infusion stim buff)
+- Booster authoring for 19 of 20 boosters: native Booster definition table scalars, hellpod-impact explosions,
+  stim and Dead Sprint statuses, the Surplus EAT stratagem, and the Armed Resupply Pods turret
 - Guarded patches, transactions and multi-object plans
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
