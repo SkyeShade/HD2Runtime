@@ -47,9 +47,16 @@ return hd2.ensure({patch={id='my-hd2-mod-fire-rate',target=hd2.weapon('AR-23C Li
     field=hd2.fields.weapon.fire_rate,expect=400,value=rate}})
 ```
 
-This needs HD2Runtime 0.25.0+ (raise `min_version`). Players also need CowboyBingus
-Mod Options Menu v1+ with Bingus Shared Loader v18+; without them the option keeps its
-default. `expect` stays the vanilla value, and safety flags are still required. See
+This needs HD2Runtime 0.25.0+ (raise `min_version`). CowboyBingus Mod Options Menu v1+
+(which needs Bingus Shared Loader v18+) is an optional dependency. Add
+
+```json
+"optional": {"mod_options_menu": {"min_version": "1.0.0", "api": 1, "bingus_min_release": 18}}
+```
+
+to `hd2runtime.json` and leave `requires` unchanged. Players without the menu get one
+warning, and the operation bound to the option stays inactive; operations without options
+still run. `expect` stays the vanilla value, and safety flags are still required. See
 `docs/options.md` in the SDK ZIP.
 
 ## Open in Rider

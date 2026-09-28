@@ -264,8 +264,9 @@ return hd2.ensure({patch={id='my-hd2-mod-fire-rate',target=hd2.weapon('AR-23C Li
 
 When the player presses APPLY, the same ensure re-runs the full guarded path with the new
 value. `expect` stays the reviewed baseline, and every safety flag is still required.
-Turning an `enabled` toggle off restores the baseline. Without the menu, options keep their
-defaults. See `docs/options.md`.
+Turning an `enabled` toggle off restores the baseline. The menu is an optional dependency of
+your mod only: without it, the bound operation stays inactive for the session with one warning,
+while your other operations still run. See `docs/options.md`.
 
 ## 9. Safety flags
 

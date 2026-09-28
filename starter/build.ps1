@@ -94,6 +94,17 @@ if ($Utf8.GetByteCount("-- HD2-Addon: $Resource`n") -gt 256) { Fail 'resource de
 if ($Config.requires.bingus.min_release -ne 15 -or $Config.requires.bingus.api -ne 1) { Fail 'requires Bingus release 15+ / API 1' }
 if ($Config.requires.hd2runtime.module -ne $RuntimeModule -or $Config.requires.hd2runtime.api -ne 1) { Fail 'requires external HD2Runtime API 1' }
 $Minimum = [string]$Config.requires.hd2runtime.min_version
+# Optional dependencies never gate loading; HD2Runtime degrades the features that need them.
+$Optional = $null
+if ($Config.PSObject.Properties.Name -contains 'optional') { $Optional = $Config.optional }
+if ($null -ne $Optional) {
+    $Names = @($Optional.PSObject.Properties.Name)
+    if ($Names.Count -ne 1 -or $Names[0] -ne 'mod_options_menu') { Fail 'only the mod_options_menu optional dependency is supported' }
+    $Menu = $Optional.mod_options_menu
+    if ($Menu.api -ne 1 -or [int]$Menu.bingus_min_release -lt 18 -or ([string]$Menu.min_version) -notmatch '^\d+\.\d+\.\d+$') {
+        Fail 'mod_options_menu needs min_version, api 1 and bingus_min_release 18+'
+    }
+}
 if ($Minimum -notmatch '^\d+\.\d+\.\d+$') { Fail 'HD2Runtime minimum version must contain major.minor.patch' }
 
 $GuidText = [string]$Config.guid
@@ -148,6 +159,9 @@ $Body = $Utf8.GetBytes($Prefix.Replace("`r`n", "`n") + $Source + $Suffix.Replace
 $Archive = [HD2StarterArchive]::Build($Resource, $Body)
 
 $Description = "Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime $Minimum+ / API 1; install dependencies separately."
+if ($null -ne $Optional) {
+    $Description += ' Optional: CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) for in-game settings; without it the configurable settings stay inactive.'
+}
 $Manifest = [ordered]@{
     Version = 1
     Guid = $GuidText
@@ -162,11 +176,13 @@ $DependencyMetadata = [ordered]@{
     guid = $GuidText
     requires = $Config.requires
 }
+if ($null -ne $Optional) { $DependencyMetadata['optional'] = $Optional }
 $Report = [ordered]@{
     resource = $Resource
     runtime_bundled = $false
     sdk_stubs_bundled = $false
     requires = $Config.requires
+    optional = $Optional
     builder = 'Windows PowerShell/.NET; Python not required'
     deployed = $false
     game_launched = $false

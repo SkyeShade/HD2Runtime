@@ -54,12 +54,17 @@ function Handle:get()
     if self.kind=='choice'then return self.values[self.selected]end
     return self.current
 end
+-- Settled by Mod Options Menu: 'pending', 'ready' or 'unavailable' (see :describe().reason).
+function Handle:available()return self.state=='ready'end
+-- Internal: availability listeners for bound operations.
+function Handle:on_state(listener)self.state_listeners[#self.state_listeners+1]=listener end
 function Handle:index()return self.kind=='choice'and self.selected or nil end
 function Handle:describe()
     return {id=self.id,option=self.option,kind=self.kind,label=self.label,description=self.description,
         default=self.kind=='choice'and self.values[self.default]or self.default,
         value=self:get(),min=self.min,max=self.max,step=self.step,integer=self.integer,
-        choices=self.choices,values=self.values,registered=self.registered,source=self.source}
+        choices=self.choices,values=self.values,registered=self.registered,source=self.source,
+        state=self.state,reason=self.reason}
 end
 -- Internal: listeners run only when the value actually changes.
 function Handle:subscribe(listener)self.listeners[#self.listeners+1]=listener end
@@ -105,21 +110,89 @@ local function menu_spec(handle)
     else spec.min=handle.min;spec.max=handle.max;spec.step=handle.step;spec.default=handle.default end
     return spec
 end
+-- Mod Options Menu is an optional dependency, resolved once per session. The result is
+-- definitive: nil while unknown, true when a compatible menu is present, otherwise the reason
+-- it is unusable. A missing or incompatible menu is never probed again.
+local menu_result
+local function compatible(menu)
+    if type(menu)~='table'then return nil,'Mod Options Menu is not installed'end
+    if menu.api~=1 then
+        return nil,'Mod Options Menu api '..tostring(menu.api)..' is incompatible (HD2Runtime needs api 1)'
+    end
+    for _,name in ipairs({'register_option','get','on_change'})do
+        if type(menu[name])~='function'then
+            return nil,'Mod Options Menu is incompatible (missing '..name..')'
+        end
+    end
+    return menu
+end
+-- Settle a handle's availability exactly once and tell the operations bound to it.
+local function resolve(handle,state,reason)
+    if handle.state~='pending'then return end
+    handle.state,handle.reason=state,reason
+    if state=='unavailable'then
+        metrics.count('options.unavailable')
+        handle.page.unavailable[#handle.page.unavailable+1]=handle
+    end
+    for _,listener in ipairs(handle.state_listeners)do
+        local ok,why=pcall(listener,handle)
+        if not ok then emit('option '..handle.id..' state listener failed: '..tostring(why))end
+    end
+end
+-- One warning per options page, naming the operations its missing settings keep inactive.
+local function warn_pages()
+    for _,page in pairs(pages)do
+        if #page.unavailable>page.warned then
+            page.warned=#page.unavailable
+            local reasons,seen={},{}
+            for _,handle in ipairs(page.unavailable)do
+                if not seen[handle.reason]then seen[handle.reason]=true;reasons[#reasons+1]=handle.reason end
+            end
+            local operations={}
+            for id in pairs(page.operations)do operations[#operations+1]=id end
+            table.sort(operations)
+            emit('options '..page.id..' unavailable: '..table.concat(reasons,'; ')
+                ..'; configurable operation will not be applied'
+                ..(#operations>0 and' ('..table.concat(operations,', ')..')'or''))
+        end
+    end
+end
 local function register(menu)
-    for _,handle in ipairs(unregistered)do
+    local batch=unregistered;unregistered={}
+    for _,handle in ipairs(batch)do
+        metrics.count('options.registration_attempts')
         local ok,registered,why=pcall(menu.register_option,handle.id,menu_spec(handle))
-        if ok and registered then
+        if not ok then
+            resolve(handle,'unavailable','Mod Options Menu failed during registration ('..tostring(registered)..')')
+        elseif not registered then
+            resolve(handle,'unavailable','Mod Options Menu rejected option '..handle.option
+                ..' ('..tostring(why)..')')
+        else
             handle.registered=true;metrics.count('options.registered')
             -- The applied value: the saved one if valid, else the default (validated by the menu).
             local got,value=pcall(menu.get,handle.id)
             if got and value~=nil then handle:assign(value,'saved')end
-            pcall(menu.on_change,handle.id,function(new)handle:assign(new,'menu')end)
-        else
-            emit('option '..handle.id..' not registered: '..tostring(ok and why or registered)
-                ..'; it keeps value '..tostring(handle:get()))
+            local hooked,accepted=pcall(menu.on_change,handle.id,function(new)handle:assign(new,'menu')end)
+            if hooked and accepted~=false then resolve(handle,'ready')
+            else resolve(handle,'unavailable','Mod Options Menu did not accept a change callback for '..handle.option)end
         end
     end
-    unregistered={}
+end
+local function settle_pending()
+    if menu_result==true then
+        -- A compatible menu found earlier: register late declarations right away.
+        local menu,why=compatible(rawget(_G,'ModOptionsMenu'))
+        if menu then register(menu)
+        else
+            -- The menu went away after it was found: definitive for the rest of the session.
+            menu_result=why;for _,handle in ipairs(unregistered)do resolve(handle,'unavailable',why)end
+            unregistered={}
+        end
+    elseif menu_result then
+        for _,handle in ipairs(unregistered)do resolve(handle,'unavailable',menu_result)end
+        unregistered={}
+    end
+    warn_pages()
 end
 local function ensure_watch()
     if watch then return end
@@ -127,20 +200,18 @@ local function ensure_watch()
     watch={status='waiting'}
     function watch.cancel()watch.status='cancelled'end
     function watch.tick(dt)
-        local menu=rawget(_G,'ModOptionsMenu')
-        if type(menu)=='table'and menu.api==1 and type(menu.register_option)=='function'then
-            register(menu)
-            local ready=type(menu.ready)=='function'and menu.ready()
-            emit('Mod Options Menu found; options registered'..(ready and''or
-                ' (menu integration inactive on this game build; values stay at saved/defaults)'))
-            watch.status='complete';watch=nil;return
+        if menu_result==nil then
+            local present=rawget(_G,'ModOptionsMenu')
+            local menu,why=compatible(present)
+            waited=waited+dt
+            -- A present menu is judged at once; an absent one gets the startup grace period,
+            -- because it may load after the declaring mod.
+            if menu then menu_result=true
+            elseif present~=nil or waited>=REGISTRATION_GRACE then menu_result=why
+            else return end
         end
-        waited=waited+dt
-        if waited>=REGISTRATION_GRACE then
-            emit('Mod Options Menu not installed (needs Mod Options Menu v1+ and Bingus Shared Loader v18+); '
-                ..#unregistered..' option(s) keep their defaults')
-            unregistered={};watch.status='complete';watch=nil
-        end
+        settle_pending()
+        watch.status='complete';watch=nil
     end
     scheduler.attach(watch)
 end
@@ -155,13 +226,14 @@ local function option(page,kind,spec)
     assert(type(spec.id)=='string'and spec.id:match('^[%w_%-]+$'),'option id must use letters, digits, _ or -')
     local id=page.id..'.'..spec.id
     assert(#id<=LIMITS.id,'option id too long')
-    assert(not handles[id],'option already declared: '..id)
+    local duplicate=handles[id]~=nil
     plain(spec.label,LIMITS.label,'label')
     if spec.description~=nil then plain(spec.description,LIMITS.description,'description')end
     assert(spec.gap==nil or type(spec.gap)=='boolean','option gap must be a boolean')
     assert(page.count<LIMITS.options,'Mod Options Menu shows at most '..LIMITS.options..' options per mod')
     local handle=setmetatable({id=id,option=spec.id,page=page,kind=kind,label=spec.label,
-        description=spec.description,gap=spec.gap==true,listeners={},registered=false,source='default'},Handle)
+        description=spec.description,gap=spec.gap==true,listeners={},state_listeners={},state='pending',
+        registered=false,source='default'},Handle)
     if kind=='toggle'then
         assert(spec.default==nil or type(spec.default)=='boolean','toggle default must be a boolean')
         handle.default=spec.default==true;handle.current=handle.default
@@ -199,6 +271,13 @@ local function option(page,kind,spec)
         handle.choices,handle.values,handle.default,handle.selected={},{},default,default
         for index=1,#choices do handle.choices[index]=choices[index];handle.values[index]=values[index]end
     end
+    if duplicate then
+        -- Declared twice (in this mod or by another mod using the same ids): the menu can hold
+        -- only one row per id, so the later declaration is unavailable rather than fatal.
+        resolve(handle,'unavailable','option '..spec.id..' is declared twice')
+        warn_pages()
+        return handle
+    end
     page.count=page.count+1;page.order[#page.order+1]=handle
     handles[id]=handle;unregistered[#unregistered+1]=handle
     ensure_watch()
@@ -225,7 +304,7 @@ function M.page(spec)
         assert(existing.title==spec.title,'options page already declared with another title: '..spec.id)
         return existing
     end
-    local page=setmetatable({id=spec.id,title=spec.title,count=0,order={}},Page)
+    local page=setmetatable({id=spec.id,title=spec.title,count=0,order={},unavailable={},warned=0,operations={}},Page)
     pages[spec.id]=page
     return page
 end
@@ -233,6 +312,6 @@ end
 -- Test/audit hook: forget every declaration.
 function M.reset()
     if watch then watch.cancel()end
-    pages,handles,unregistered,watch={}, {},{},nil
+    pages,handles,unregistered,watch,menu_result={}, {},{},nil,nil
 end
 return M

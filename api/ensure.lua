@@ -111,6 +111,8 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         end
     end
     local function listener()
+        -- Values seen before the options are available are picked up when they become available.
+        if watch.status=='waiting_for_options'or watch.status=='unavailable'then return end
         -- A child never sits between a write and its completion across ticks (guarded writes
         -- do not yield), so cancelling it here changes no bytes and frees the operation gate.
         dirty,debounce=true,DEBOUNCE
@@ -126,7 +128,8 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         log('ensure '..id..' cancelled')
     end
     function watch.tick(dt)
-        if watch.status=='cancelled'then return end
+        if watch.status=='cancelled'or watch.status=='unavailable'
+            or watch.status=='waiting_for_options'then return end
         assert(type(dt)=='number'and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt
         if dirty then
@@ -174,15 +177,44 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         log('ensure '..id..' verified status='..watch.result.status..' cycle='..watch.runs
             ..' next='..watch.current_interval..(verification and' steady=byte-check'or' steady=full'))
     end
-    -- Initial state follows the options as they stand at declaration.
-    if enabled_handle and enabled_handle:get()~=true then
-        watch.enabled=false;watch.status='disabled';applied_signature=signature(kind,spec,false)
-        log('ensure '..id..' starts disabled by option '..enabled_handle.id)
-    else
-        target={spec=spec,signature=signature(kind,spec,true)}
-        next_at=startup
+    -- Mod Options Menu is an optional dependency. Nothing runs until every option this operation
+    -- uses is available; defaults are never applied silently. If one is unavailable, the
+    -- operation stays inactive for the session and leaves the scheduler.
+    local required={}
+    for _,handle in ipairs(bound)do required[#required+1]=handle end
+    if enabled_handle then required[#required+1]=enabled_handle end
+    local function availability()
+        local reasons,pending={},false
+        for _,handle in ipairs(required)do
+            if handle.state=='unavailable'then reasons[#reasons+1]=handle.id..': '..tostring(handle.reason)
+            elseif handle.state~='ready'then pending=true end
+        end
+        if #reasons>0 then return 'unavailable',reasons end
+        return pending and'pending'or'ready'
     end
-    log('ensure '..id..' bound to '..#bound..' option(s)'..(enabled_handle and' and an enable toggle'or''))
+    local function on_state()
+        if watch.status~='waiting_for_options'then return end
+        local state,reasons=availability()
+        if state=='unavailable'then
+            watch.status='unavailable';watch.error='options unavailable: '..table.concat(reasons,'; ')
+            metrics.count('options.inactive_operations')
+        elseif state=='ready'then
+            -- Resolve once with the applied (saved or default) values, after the startup delay.
+            watch.status='waiting';dirty,debounce=true,0
+        end
+    end
+    local late={}
+    for _,handle in ipairs(required)do
+        handle.page.operations[id]=true
+        if handle.state=='unavailable'and handle.page.warned>0 then late[handle.page.id]=true end
+        handle:on_state(on_state)
+    end
+    watch.status='waiting_for_options'
+    on_state()
+    if watch.status=='unavailable'and next(late)then
+        -- The page warning was logged before this operation was declared.
+        log('ensure '..id..' inactive: '..watch.error)
+    end
     return watch
 end
 

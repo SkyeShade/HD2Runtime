@@ -200,8 +200,10 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 every API your mod calls: vehicles, backpacks, relay shield and damage-zone
 fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1.
 In-game options (`hd2.options`, option-bound `hd2.ensure`; see `docs/options.md`) need the next
-release, plus CowboyBingus Mod Options Menu v1+ and Bingus Shared Loader v18+ in the player's
-installation. Without the menu, options keep their defaults.
+release. CowboyBingus Mod Options Menu v1+ (with Bingus Shared Loader v18+) is an optional
+dependency of such mods only; declare it under `optional.mod_options_menu` in `hd2runtime.json`.
+Without the menu, the operations bound to options stay inactive for the session, with one
+warning. Other operations, and mods without options, are unaffected.
 Boosters and the 0.24 support-weapon fields and identities need 0.24.0 (see
 `docs/releases/0.24.0.md`); the Booster `tuning()`, `explosion()`, `status_damage()`, and
 `granted_stratagem()` targets need the next release. Mods that use typed writes should require at least

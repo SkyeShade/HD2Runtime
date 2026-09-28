@@ -54,7 +54,8 @@ catalogs. Runtime write semantics are unchanged; see `docs/releases/0.22.1.md`.
 
 - Helldivers 2
 - Bingus Shared Loader v15+
-- For in-game options only: CowboyBingus Mod Options Menu v1+ and Bingus Shared Loader v18+
+- Optional, only for mods that use in-game options: CowboyBingus Mod Options Menu v1+ (with Bingus
+  Shared Loader v18+)
 
 ## Installation
 
