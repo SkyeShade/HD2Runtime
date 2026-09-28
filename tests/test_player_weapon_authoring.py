@@ -30,7 +30,10 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                             'semanticTarget','canonical','preferred','deprecated','aliasOf',
                             'acceptedForWrites'):
                     self.assertIn(key,field)
-                self.assertIsNone(field['min']);self.assertIsNone(field['max'])
+                if field['semanticFieldId']=='fire_mode.burst_rounds':
+                    self.assertEqual((field['min'],field['max']),(1,10))
+                else:
+                    self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 if field['semanticFieldId']=='weapon.default_fire_mode':
                     self.assertEqual(field['enumValues'],{'full_auto':1,'semi_auto':2})
                 else:self.assertIsNone(field['enumValues'])
@@ -43,7 +46,7 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         for name in ('P-2 Peacemaker','P-19 Redeemer'):
             editable=[f['semanticFieldId'] for f in by_name[name]['fields'] if f['editable']]
             self.assertTrue(editable)
-            self.assertTrue(all(field.startswith('weapon.') for field in editable))
+            self.assertTrue(all(field.startswith(('weapon.','fire_mode.')) for field in editable))
 
     def test_derived_and_shared_metadata_are_explicit(self):
         fields=[field for weapon in CAPABILITIES['weapons'] for field in weapon['fields']]
@@ -54,7 +57,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         for field in fields:
             if field['editable']:
                 self.assertIn('backing',field)
-                self.assertIn(field['backing']['width'],(1,4))
+                # fire_mode.modes spans the four packed FireMode slots.
+                self.assertIn(field['backing']['width'],(16,) if field['type']=='fire_mode_set' else (1,4))
 
     def test_ammo_capability_matrix_covers_all_player_weapons(self):
         summary=AMMO_CAPABILITIES['summary']

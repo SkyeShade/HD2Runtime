@@ -1,0 +1,722 @@
+{
+  "acknowledgementRejections": 122,
+  "addedAutomatic": 11,
+  "blockedRejections": 5,
+  "burstChecks": 61,
+  "changedWrites": 122,
+  "conflictRejections": 122,
+  "fixtureFallback": "disabled",
+  "jar5": {
+    "after": "01000000",
+    "before": "00000000",
+    "bytesWritten": 4,
+    "changedSlot": "tertiary_fire_mode (+152)",
+    "fieldOffset": 152,
+    "owner": "WeaponDataComponentData",
+    "record": 290,
+    "uniqueOwner": true
+  },
+  "mode": "snapshot-overlay",
+  "modeSetChecks": 61,
+  "overlapRejected": true,
+  "removedModes": 12,
+  "replacedSingleMode": 28,
+  "rollbacks": 122,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "weapons": [
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "AR-2 Coyote"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-23 Liberator"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-23A Liberator Carbine"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "AR-23C Liberator Concussive"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-23P Liberator Penetrator"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-32 Pacifier"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-59 Suppressor"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "AR-61 Tenderizer"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "BR-14 Adjudicator"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "GL-15 Evictor"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "GP-20 Ultimatum"
+    },
+    {
+      "from": [
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "burst",
+        "automatic"
+      ],
+      "weapon": "JAR-5 Dominator"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "LAS-12 Sai"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "LAS-16 Sickle"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "LAS-17 Double-Edge Sickle"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "LAS-58 Talon"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "M6C/SOCOM Pistol"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "M7S SMG"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "MA5C Assault Rifle"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "MP-98 Knight"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-11 Stim Pistol"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-113 Verdict"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "P-19 Redeemer"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-2 Peacemaker"
+    },
+    {
+      "from": [
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-34 Breacher"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-35 Re-Educator"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-4 Senator"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "P-69 Veto"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+      "from": [
+        "single",
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic",
+        "burst"
+      ],
+      "weapon": "PLAS-1 Scorcher"
+    },
+    {
+      "from": [
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "burst",
+        "automatic"
+      ],
+      "weapon": "R-2 Amendment"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "R-2124 Constitution"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "R-36 Eruptor"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "R-4 Hyena"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "R-63 Diligence"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "R-63CS Diligence Counter Sniper"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "R-72 Censor"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "R/40-K Hot-Shot Marksman Rifle"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "SG-225 Breaker"
+    },
+    {
+      "from": [
+        "burst",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "burst",
+        "single",
+        "automatic"
+      ],
+      "weapon": "SG-225IE Breaker Incendiary"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "SG-225SP Breaker Spray&Pray"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "SG-451 Cookout"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "SG-8P Punisher Plasma"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "SMG-203 Gallant"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "from": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single"
+      ],
+      "weapon": "SMG-72 Pummeler"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "StA-11 SMG"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "player_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "StA-52 Assault Rifle"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "APW-1 Anti-Materiel Rifle"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "EAT-411 Leveller"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "EAT-700 Expendable Napalm"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "FAF-14 Spear"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "GL-21 Grenade Launcher"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "GL-28 Belt-Fed Grenade Launcher"
+    },
+    {
+      "from": [
+        "automatic",
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic",
+        "single",
+        "burst"
+      ],
+      "weapon": "GL-52 De-Escalator"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "automatic"
+      ],
+      "weapon": "LAS-99 Quasar Cannon"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "M-105 Stalwart"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "MG-206 Heavy Machine Gun"
+    },
+    {
+      "from": [
+        "automatic"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "single"
+      ],
+      "weapon": "MG-43 Machine Gun"
+    },
+    {
+      "from": [
+        "single"
+      ],
+      "kind": "support_weapon",
+      "to": [
+        "single",
+        "automatic"
+      ],
+      "weapon": "S-11 Speargun"
+    }
+  ]
+}

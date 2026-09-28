@@ -20,13 +20,14 @@
       "LAS-98 Laser Cannon"
     ],
     "writableSupportWeapons": 31,
-    "writableFieldInstances": 984,
+    "writableFieldInstances": 1008,
     "fieldInstancesByDomain": {
       "arc": 6,
       "beam": 2,
       "charge": 20,
       "damage": 234,
       "explosion": 204,
+      "fire_mode": 24,
       "heat": 4,
       "heatsink": 3,
       "magazine": 60,
@@ -43,6 +44,7 @@
       "charge": 4,
       "damage": 26,
       "explosion": 16,
+      "fire_mode": 12,
       "heat": 1,
       "heatsink": 1,
       "magazine": 20,
@@ -100,9 +102,9 @@
       ]
     },
     "sharedFieldInstances": 581,
-    "internalSupportAuthoringInstances": 984,
-    "publishedSupportFieldInstances": 984,
-    "legacyFlattenedFieldEntries": 968,
+    "internalSupportAuthoringInstances": 1008,
+    "publishedSupportFieldInstances": 1008,
+    "legacyFlattenedFieldEntries": 992,
     "branchSpecificFieldInstances": 581,
     "backingObjectCount": 179,
     "operationGroupingCount": 188,
@@ -113,7 +115,7 @@
     "deduplicationLossPrevented": 16,
     "referenceFieldInstances": 0,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 100,
+    "blockedFieldDeclarations": 134,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -212,6 +214,14 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -418,6 +428,14 @@
       ],
       "blockedFields": [
         {
+          "field": "fire_mode.modes",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
         },
@@ -551,6 +569,10 @@
           "damage.stagger",
           "damage.standard_damage"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -626,7 +648,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 32,
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-ergonomics/7f27bb228f8a6b8c",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sway/b2301dc06e747fa6",
@@ -636,6 +658,8 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-modes/e43db9cb3822f5a5",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-burst-rounds/24766d0338fca6be",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-capacity/202e65f1a6684b89",
@@ -739,6 +763,14 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+        },
         {
           "field": "weapon.fire_rate",
           "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
@@ -1075,7 +1107,16 @@
       "sharedScopes": [
         "shared_damage"
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        }
+      ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
@@ -1204,6 +1245,14 @@
         "shared_damage"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
         {
           "field": "reload.duration",
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
@@ -1401,7 +1450,16 @@
       "sharedScopes": [
         "shared_damage"
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee."
+        }
+      ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
@@ -1615,6 +1673,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -1696,7 +1758,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 40,
+      "writableFieldCount": 42,
       "fieldInstanceKeys": [
         "support-field/v1/eat-411-leveller/weapon/root/weapon-ergonomics/e622b28f61a1f746",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-sway/0184438576493568",
@@ -1706,6 +1768,8 @@
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-drift-vertical/f98db6e672700c7f",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-horizontal/043f567725730bf6",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-vertical/bf5bd6ea0053eaae",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-modes/8a0e9d370c7f1772",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-burst-rounds/81e5536c7e6e940e",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-capacity/9a83055f5849371c",
         "support-field/v1/eat-411-leveller/weapon/root/magazine-starting-magazines/c0d4f3e6b3675c77",
@@ -1842,6 +1906,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -1936,7 +2004,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 42,
+      "writableFieldCount": 44,
       "fieldInstanceKeys": [
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-ergonomics/f072a3aab6d8e324",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-sway/73f0758c035b2937",
@@ -1946,6 +2014,8 @@
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-drift-vertical/1a66b560878e3051",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-horizontal/556543243a8cb826",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-vertical/46339ee1cecbdb1c",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-modes/714d01df7c957a4a",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-burst-rounds/4682bedf294aac11",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-fire-rate/7e773944ca00d465",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-capacity/fbb7cefacea294e8",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/magazine-starting-magazines/0aaa9f7a0ef8d862",
@@ -2027,6 +2097,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -2097,7 +2171,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 27,
+      "writableFieldCount": 29,
       "fieldInstanceKeys": [
         "support-field/v1/faf-14-spear/weapon/root/weapon-ergonomics/8937dce52fbef345",
         "support-field/v1/faf-14-spear/weapon/root/weapon-sway/4cabd17310c7bd7a",
@@ -2107,6 +2181,8 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-modes/fa88fb6d81149d56",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-burst-rounds/7ce6b7340a1b0b3b",
         "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799",
         "support-field/v1/faf-14-spear/weapon/root/weapon-fire-rate/d91fbdb6b422afcf",
         "support-field/v1/faf-14-spear/weapon/root/weapon-capacity/154afabbeef18c11",
@@ -2214,6 +2290,14 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -2348,6 +2432,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -2428,7 +2516,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 41,
+      "writableFieldCount": 43,
       "fieldInstanceKeys": [
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-ergonomics/5617bbc106d35682",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-sway/2e069825ee5ae87d",
@@ -2438,6 +2526,8 @@
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/dc232543458bcf18",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/cb93539758d0f9f2",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/976f60486f48cd23",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-modes/ba3e6d9404a1f325",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-burst-rounds/cd22c08a70f40a99",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-capacity/9d7d35ce187d103e",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/magazine-starting-magazines/41743931518e447b",
@@ -2529,6 +2619,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "projectile": [
           "projectile.drag",
           "projectile.gravity",
@@ -2615,7 +2709,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 37,
+      "writableFieldCount": 39,
       "fieldInstanceKeys": [
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-ergonomics/98f2f176d23eefd6",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sway/d5e697cbfe5ad432",
@@ -2625,6 +2719,8 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-modes/e368aa579303182e",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-burst-rounds/1935d626dd2526d4",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/reload-duration/5499cbc3d80f7633",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/projectile-reference/primary/projectile-velocity/03e0ae72e2c0750c",
@@ -2732,6 +2828,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "projectile": [
           "projectile.drag",
           "projectile.gravity",
@@ -2821,7 +2921,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 42,
+      "writableFieldCount": 44,
       "fieldInstanceKeys": [
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-ergonomics/1bdd7f7e7e6d89fb",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-sway/afac4ab0d3813330",
@@ -2831,6 +2931,8 @@
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-drift-vertical/d95075ba6c517297",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-horizontal/87e6693b3db0ba08",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-vertical/0f79fbc239281ef1",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-modes/07989d0a41673f59",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-burst-rounds/486d052f091ad0c1",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-fire-rate/28e20145bda63c99",
         "support-field/v1/gl-52-de-escalator/weapon/root/rounds-feed-capacity-1/34b3d3cb399d5e07",
         "support-field/v1/gl-52-de-escalator/weapon/root/rounds-feed-capacity-2/2bc59885ee03bc19",
@@ -2986,6 +3088,14 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -3234,6 +3344,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "heat": [
           "heat.capacity",
           "heat.cool_per_second",
@@ -3308,7 +3422,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 45,
+      "writableFieldCount": 47,
       "fieldInstanceKeys": [
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-ergonomics/e76385bed42a009f",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sway/258e397d3054ee09",
@@ -3318,6 +3432,8 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-modes/b0deb525eaa08700",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-burst-rounds/403ad03bee50659d",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-fire-rate/9360ebacf49eaab2",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heat-capacity/39a93a99204a786c",
@@ -3422,6 +3538,14 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up."
+        },
         {
           "attack": "primary",
           "field": "projectile.lifetime",
@@ -3548,6 +3672,10 @@
           "damage.stagger",
           "damage.standard_damage"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -3631,7 +3759,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 28,
+      "writableFieldCount": 30,
       "fieldInstanceKeys": [
         "support-field/v1/m-105-stalwart/weapon/root/weapon-ergonomics/0eb2bad3111c2878",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-sway/ebabce5587299ed5",
@@ -3641,6 +3769,8 @@
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-drift-vertical/4c1cbdb73cc9ddb7",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-horizontal/ae84ccc89a54f5ac",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-vertical/4aadc75d6d825711",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-modes/996f4060f4e388b7",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-burst-rounds/7930144b18854049",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-capacity/faea22af4228942a",
         "support-field/v1/m-105-stalwart/weapon/root/magazine-starting-magazines/d8fd0a98b64f40c5",
@@ -3704,6 +3834,10 @@
           "damage.push_force",
           "damage.stagger",
           "damage.standard_damage"
+        ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
         ],
         "magazine": [
           "magazine.magazines_from_supply",
@@ -3784,7 +3918,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 32,
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-ergonomics/9615e56e6b38b605",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sway/630d9cfe2b6f3ec6",
@@ -3794,6 +3928,8 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-modes/3d5b3170f276ef4a",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-burst-rounds/5d6e62a0efa99e43",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-capacity/daaf21a8584020e6",
@@ -3859,6 +3995,10 @@
           "damage.push_force",
           "damage.stagger",
           "damage.standard_damage"
+        ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
         ],
         "magazine": [
           "magazine.magazines_from_supply",
@@ -3939,7 +4079,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 32,
       "fieldInstanceKeys": [
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-ergonomics/e4ff055e07d55a7e",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sway/6f10e56a3f8acf3a",
@@ -3949,6 +4089,8 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-fire-rate/c56edd011708d9b9",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-capacity/2d14d4df96eae6a5",
@@ -4036,6 +4178,14 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -4189,6 +4339,14 @@
         "shared_explosion_damage"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -4502,6 +4660,14 @@
       ],
       "blockedFields": [
         {
+          "field": "fire_mode.modes",
+          "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven."
+        },
+        {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped."
         },
@@ -4751,6 +4917,14 @@
       ],
       "blockedFields": [
         {
+          "field": "fire_mode.modes",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
         },
@@ -4945,6 +5119,14 @@
       ],
       "blockedFields": [
         {
+          "field": "fire_mode.modes",
+          "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+        },
+        {
           "field": "weapon.fire_rate",
           "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
         },
@@ -5105,6 +5287,10 @@
           "explosion.outer_radius",
           "explosion.shockwave_radius"
         ],
+        "fire_mode": [
+          "fire_mode.burst_rounds",
+          "fire_mode.modes"
+        ],
         "magazine": [
           "magazine.magazines_from_supply",
           "magazine.spare_magazines",
@@ -5186,7 +5372,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 46,
+      "writableFieldCount": 48,
       "fieldInstanceKeys": [
         "support-field/v1/s-11-speargun/weapon/root/weapon-ergonomics/b39e2f8134105e69",
         "support-field/v1/s-11-speargun/weapon/root/weapon-sway/ac768d0416c97b58",
@@ -5196,6 +5382,8 @@
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-drift-vertical/bc1ea4a235cae228",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-horizontal/735ddddf332967a3",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-vertical/5a963f5d9beba7f5",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-modes/174129f1f03afe2f",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-burst-rounds/bfd4d0d07410fb93",
         "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096",
         "support-field/v1/s-11-speargun/weapon/root/weapon-capacity/d207e9934e2c77e0",
         "support-field/v1/s-11-speargun/weapon/root/magazine-starting-magazines/cfc03a0727905f7a",
@@ -5304,6 +5492,14 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+        },
         {
           "attack": "feed_primary",
           "field": "projectile.lifetime",
@@ -5478,6 +5674,14 @@
       ],
       "blockedFields": [
         {
+          "field": "fire_mode.modes",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+        },
+        {
           "field": "reload.duration",
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
         },
@@ -5635,6 +5839,14 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "fire_mode.modes",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
+        {
+          "field": "fire_mode.burst_rounds",
+          "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray."
+        },
         {
           "field": "weapon.third_person_reticle",
           "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
@@ -15694,6 +15906,247 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-modes/e43db9cb3822f5a5",
+      "supportWeapon": "APW-1 Anti-Materiel Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "name": "APW-1 Anti-Materiel Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/918c0e92ff94f64bd904",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/40b5304b334759d9f237",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/weapon/root/938c9960eb7e8811"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "None"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-burst-rounds/24766d0338fca6be",
+      "supportWeapon": "APW-1 Anti-Materiel Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "name": "APW-1 Anti-Materiel Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 1,
+        "expected": 1,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/918c0e92ff94f64bd904",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/40b5304b334759d9f237",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/weapon/root/938c9960eb7e8811"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -31492,6 +31945,247 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/eat-411-leveller/weapon/root/fire-mode-modes/8a0e9d370c7f1772",
+      "supportWeapon": "EAT-411 Leveller",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "name": "EAT-411 Leveller",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/2752915843097f442e6e",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/ac4c6ff5ebd1f4500dcd",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/7071cc777cbb9dc172f5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/weapon/root/baaef546e7448c9e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/ac4c6ff5ebd1f4500dcd",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "None"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-411-leveller/weapon/root/fire-mode-burst-rounds/81e5536c7e6e940e",
+      "supportWeapon": "EAT-411 Leveller",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "name": "EAT-411 Leveller",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/2752915843097f442e6e",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/ac4c6ff5ebd1f4500dcd",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/7071cc777cbb9dc172f5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-411 Leveller",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-411-leveller/weapon/root/baaef546e7448c9e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/ac4c6ff5ebd1f4500dcd",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-411-leveller/77b0b0e293ad",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/eat-411-leveller/weapon/root/weapon-fire-rate/11ee84a8d8f6a792",
       "supportWeapon": "EAT-411 Leveller",
       "supportWeaponIdentity": {
@@ -36451,6 +37145,247 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-modes/714d01df7c957a4a",
+      "supportWeapon": "EAT-700 Expendable Napalm",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "name": "EAT-700 Expendable Napalm",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/a99e3adbc466d75cec93",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/db83d38e4c8e0a2bed86",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/446c4681217a7df32afe",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/weapon/root/3e211edf9ebb2b2c"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/db83d38e4c8e0a2bed86",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "None"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-burst-rounds/4682bedf294aac11",
+      "supportWeapon": "EAT-700 Expendable Napalm",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "name": "EAT-700 Expendable Napalm",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/a99e3adbc466d75cec93",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/db83d38e4c8e0a2bed86",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/446c4681217a7df32afe",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "EAT-700 Expendable Napalm",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/eat-700-expendable-napalm/weapon/root/3e211edf9ebb2b2c"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/db83d38e4c8e0a2bed86",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/eat-700-expendable-napalm/287dc53d1723",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -42201,6 +43136,247 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/faf-14-spear/weapon/root/fire-mode-modes/fa88fb6d81149d56",
+      "supportWeapon": "FAF-14 Spear",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "name": "FAF-14 Spear",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/03deeab43bb91d0203a6",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6bfb422381a792bf1b6e",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "FAF-14 Spear",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/faf-14-spear/weapon/root/4d482aafa900556f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/faf-14-spear/0b5ea028958b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "None"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/faf-14-spear/weapon/root/fire-mode-burst-rounds/7ce6b7340a1b0b3b",
+      "supportWeapon": "FAF-14 Spear",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "name": "FAF-14 Spear",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/03deeab43bb91d0203a6",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6bfb422381a792bf1b6e",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "FAF-14 Spear",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/faf-14-spear/weapon/root/4d482aafa900556f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/faf-14-spear/0b5ea028958b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -48434,6 +49610,249 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-modes/ba3e6d9404a1f325",
+      "supportWeapon": "GL-21 Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "name": "GL-21 Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic",
+          "single"
+        ],
+        "expected": [
+          "automatic",
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/0781518303bd3131f020",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/b34de4f39a80bfd42423",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d8265bced8c214704012",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/weapon/root/10ce2289d513863e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/b34de4f39a80bfd42423",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "selectable",
+        "nativeSlots": [
+          1,
+          2,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 4,
+        "selector": {
+          "left": "None",
+          "right": "Firemode"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-burst-rounds/cd22c08a70f40a99",
+      "supportWeapon": "GL-21 Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "name": "GL-21 Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/0781518303bd3131f020",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/b34de4f39a80bfd42423",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d8265bced8c214704012",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-21 Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-21-grenade-launcher/weapon/root/10ce2289d513863e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/b34de4f39a80bfd42423",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-21-grenade-launcher/8ab581c0aebb",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-fire-rate/655c48edb5d8f9f9",
       "supportWeapon": "GL-21 Grenade Launcher",
       "supportWeaponIdentity": {
@@ -53598,6 +55017,247 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-modes/e368aa579303182e",
+      "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "name": "GL-28 Belt-Fed Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic"
+        ],
+        "expected": [
+          "automatic"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/c31484ab9ea27750d269",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/0b6fc9230e54419b70d4",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-28 Belt-Fed Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-28-belt-fed-grenade-launcher/weapon/root/de45ccb8a387eed8"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "ROF"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-burst-rounds/1935d626dd2526d4",
+      "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "name": "GL-28 Belt-Fed Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/c31484ab9ea27750d269",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/0b6fc9230e54419b70d4",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-28 Belt-Fed Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-28-belt-fed-grenade-launcher/weapon/root/de45ccb8a387eed8"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79",
       "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
       "supportWeaponIdentity": {
@@ -58140,6 +59800,249 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-modes/07989d0a41673f59",
+      "supportWeapon": "GL-52 De-Escalator",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "name": "GL-52 De-Escalator",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic",
+          "single"
+        ],
+        "expected": [
+          "automatic",
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/6cf82f1373022904281a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/a97f1252bad6754fb034",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/784d157622ab916ef22d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-52 De-Escalator",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-52-de-escalator/weapon/root/bb1a9113a814d4f7"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a97f1252bad6754fb034",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-52-de-escalator/5bcc344828cd",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "selectable",
+        "nativeSlots": [
+          1,
+          2,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 4,
+        "selector": {
+          "left": "None",
+          "right": "Firemode"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-burst-rounds/486d052f091ad0c1",
+      "supportWeapon": "GL-52 De-Escalator",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "name": "GL-52 De-Escalator",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/6cf82f1373022904281a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/a97f1252bad6754fb034",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/784d157622ab916ef22d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-52 De-Escalator",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-52-de-escalator/weapon/root/bb1a9113a814d4f7"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/a97f1252bad6754fb034",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-52-de-escalator/5bcc344828cd",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -68787,6 +70690,247 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-modes/b0deb525eaa08700",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/da30dcd388dac1237934",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ce3ab3ece9207ec3d86b",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "None"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-burst-rounds/403ad03bee50659d",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/da30dcd388dac1237934",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ce3ab3ece9207ec3d86b",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c",
       "supportWeapon": "LAS-99 Quasar Cannon",
       "supportWeaponIdentity": {
@@ -77543,6 +79687,251 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/m-105-stalwart/weapon/root/fire-mode-modes/996f4060f4e388b7",
+      "supportWeapon": "M-105 Stalwart",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "name": "M-105 Stalwart",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic"
+        ],
+        "expected": [
+          "automatic"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/80d4afa29d05a6346125",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/e96b0c8040dd88c63b84",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d170c39583a65aa3d4ec",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/weapon/root/7bab28c9dc1373b2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e96b0c8040dd88c63b84",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "ROF"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-105-stalwart/weapon/root/fire-mode-burst-rounds/7930144b18854049",
+      "supportWeapon": "M-105 Stalwart",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "name": "M-105 Stalwart",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/80d4afa29d05a6346125",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/e96b0c8040dd88c63b84",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/d170c39583a65aa3d4ec",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-105 Stalwart",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-105-stalwart/weapon/root/7bab28c9dc1373b2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e96b0c8040dd88c63b84",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-105-stalwart/5af15aa5bcc3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/m-105-stalwart/weapon/root/weapon-fire-rate/7175d73e569cd545",
       "supportWeapon": "M-105 Stalwart",
       "supportWeaponIdentity": {
@@ -80876,6 +83265,251 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-modes/3d5b3170f276ef4a",
+      "supportWeapon": "MG-206 Heavy Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "name": "MG-206 Heavy Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic"
+        ],
+        "expected": [
+          "automatic"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/b69e64efdbcb02022f03",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/066686adcfeaefd7c4e5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/weapon/root/822a547f405e678e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "ROF"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-burst-rounds/5d6e62a0efa99e43",
+      "supportWeapon": "MG-206 Heavy Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "name": "MG-206 Heavy Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/b69e64efdbcb02022f03",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/066686adcfeaefd7c4e5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/weapon/root/822a547f405e678e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -84461,6 +87095,251 @@
         "allowSharedRequired": false,
         "acknowledgement": null,
         "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
+      "supportWeapon": "MG-43 Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "name": "MG-43 Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "automatic"
+        ],
+        "expected": [
+          "automatic"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/3dc7793c500ccae6998a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/2fa4117ec90c0e5f886d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-43 Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-43-machine-gun/weapon/root/3e82e1d7fcd9e90a"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "single_mode",
+        "nativeSlots": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 1,
+        "selector": {
+          "left": "None",
+          "right": "ROF"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
+      "supportWeapon": "MG-43 Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "name": "MG-43 Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 3,
+        "expected": 3,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/3dc7793c500ccae6998a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/2fa4117ec90c0e5f886d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-43 Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-43-machine-gun/weapon/root/3e82e1d7fcd9e90a"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
       },
       "resolution": {
         "rootChain": [
@@ -113652,6 +116531,247 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/s-11-speargun/weapon/root/fire-mode-modes/174129f1f03afe2f",
+      "supportWeapon": "S-11 Speargun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "name": "S-11 Speargun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.modes",
+      "qualifiedSemanticFieldId": "fire_mode.modes",
+      "apiFieldConstant": "hd2.fields.fire_mode.modes",
+      "display": {
+        "name": "Fire modes",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "fire_mode_set",
+        "baseline": [
+          "single"
+        ],
+        "expected": [
+          "single"
+        ],
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/a7ec0cbaace60068afcb",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/32aca19222b635c6f20e",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/73fd984717059b088a85",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/s-11-speargun/weapon/root/b519ed0541359b5e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/32aca19222b635c6f20e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "fireMode": {
+        "fireModeState": "selectable",
+        "nativeSlots": [
+          2,
+          0,
+          0,
+          0
+        ],
+        "allowedModes": [
+          "automatic",
+          "single",
+          "burst"
+        ],
+        "modeValues": {
+          "automatic": 1,
+          "single": 2,
+          "burst": 3
+        },
+        "maxModes": 4,
+        "selector": {
+          "left": "None",
+          "right": "Firemode"
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent primary..quaternary_fire_mode (+144, four FireMode slots)",
+          "source": "research/weapon-fire-modes-F5FEE03DCFDB.json",
+          "gameplayProven": false
+        }
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/s-11-speargun/weapon/root/fire-mode-burst-rounds/bfd4d0d07410fb93",
+      "supportWeapon": "S-11 Speargun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "name": "S-11 Speargun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "fire_mode.burst_rounds",
+      "qualifiedSemanticFieldId": "fire_mode.burst_rounds",
+      "apiFieldConstant": "hd2.fields.fire_mode.burst_rounds",
+      "display": {
+        "name": "Burst rounds",
+        "domain": "fire_mode",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "integer",
+        "baseline": 1,
+        "expected": 1,
+        "unit": "rounds",
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/a7ec0cbaace60068afcb",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/32aca19222b635c6f20e",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/73fd984717059b088a85",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "S-11 Speargun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/s-11-speargun/weapon/root/b519ed0541359b5e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/32aca19222b635c6f20e",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/s-11-speargun/12230537964a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The four native fire-mode slots, their enum values and the fire-mode selector are proven, but adding, removing or reordering modes on this weapon has not been gameplay-tested."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
       "instanceKey": "support-field/v1/s-11-speargun/weapon/root/weapon-fire-rate/6dc25c29c68a2096",
       "supportWeapon": "S-11 Speargun",
       "supportWeaponIdentity": {
@@ -134524,6 +137644,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134553,6 +137674,8 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-modes/fa88fb6d81149d56",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-burst-rounds/7ce6b7340a1b0b3b",
         "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799"
       ]
     },
@@ -134561,6 +137684,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134589,7 +137713,9 @@
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-drift-horizontal/e4095bdd43213a6e",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/dc232543458bcf18",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/cb93539758d0f9f2",
-        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/976f60486f48cd23"
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/976f60486f48cd23",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-modes/ba3e6d9404a1f325",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-burst-rounds/cd22c08a70f40a99"
       ]
     },
     {
@@ -134669,6 +137795,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134697,7 +137824,9 @@
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-drift-horizontal/b870c8228d4c03df",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-drift-vertical/f98db6e672700c7f",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-horizontal/043f567725730bf6",
-        "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-vertical/bf5bd6ea0053eaae"
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-vertical/bf5bd6ea0053eaae",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-modes/8a0e9d370c7f1772",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-burst-rounds/81e5536c7e6e940e"
       ]
     },
     {
@@ -134777,6 +137906,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134806,6 +137936,8 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532"
       ]
     },
@@ -134887,6 +138019,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134915,7 +138048,9 @@
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-drift-horizontal/b38b24de22a0e443",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-drift-vertical/d95075ba6c517297",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-horizontal/87e6693b3db0ba08",
-        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-vertical/0f79fbc239281ef1"
+        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-vertical/0f79fbc239281ef1",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-modes/07989d0a41673f59",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-burst-rounds/486d052f091ad0c1"
       ]
     },
     {
@@ -134923,6 +138058,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -134951,7 +138087,9 @@
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-drift-horizontal/d47c3d6a243bba01",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-drift-vertical/4c1cbdb73cc9ddb7",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-horizontal/ae84ccc89a54f5ac",
-        "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-vertical/4aadc75d6d825711"
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-vertical/4aadc75d6d825711",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-modes/996f4060f4e388b7",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-burst-rounds/7930144b18854049"
       ]
     },
     {
@@ -134996,6 +138134,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135025,6 +138164,8 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-modes/e43db9cb3822f5a5",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-burst-rounds/24766d0338fca6be",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf"
       ]
     },
@@ -135106,6 +138247,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135134,7 +138276,9 @@
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-drift-horizontal/d75bb16fc773f864",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-drift-vertical/bc1ea4a235cae228",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-horizontal/735ddddf332967a3",
-        "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-vertical/5a963f5d9beba7f5"
+        "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-vertical/5a963f5d9beba7f5",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-modes/174129f1f03afe2f",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-burst-rounds/bfd4d0d07410fb93"
       ]
     },
     {
@@ -135142,6 +138286,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135170,7 +138315,9 @@
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-drift-horizontal/37cd16c1b1503b7d",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-drift-vertical/1a66b560878e3051",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-horizontal/556543243a8cb826",
-        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-vertical/46339ee1cecbdb1c"
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-vertical/46339ee1cecbdb1c",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-modes/714d01df7c957a4a",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-burst-rounds/4682bedf294aac11"
       ]
     },
     {
@@ -135251,6 +138398,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135280,6 +138428,8 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-modes/3d5b3170f276ef4a",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-burst-rounds/5d6e62a0efa99e43",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d"
       ]
     },
@@ -135324,6 +138474,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135353,6 +138504,8 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-modes/e368aa579303182e",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-burst-rounds/1935d626dd2526d4",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79"
       ]
     },
@@ -135398,6 +138551,7 @@
       "kind": "component",
       "semanticType": "WeaponDataComponentData",
       "domains": [
+        "fire_mode",
         "weapon"
       ],
       "shared": false,
@@ -135427,6 +138581,8 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-modes/b0deb525eaa08700",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-burst-rounds/403ad03bee50659d",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c"
       ]
     },
@@ -138497,7 +141653,9 @@
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-drift-horizontal/d75bb16fc773f864",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-drift-vertical/bc1ea4a235cae228",
         "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-horizontal/735ddddf332967a3",
-        "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-vertical/5a963f5d9beba7f5"
+        "support-field/v1/s-11-speargun/weapon/root/weapon-recoil-climb-vertical/5a963f5d9beba7f5",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-modes/174129f1f03afe2f",
+        "support-field/v1/s-11-speargun/weapon/root/fire-mode-burst-rounds/bfd4d0d07410fb93"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -140594,6 +143752,8 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-modes/e368aa579303182e",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/fire-mode-burst-rounds/1935d626dd2526d4",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79"
       ],
       "recommendedApi": "hd2.transaction",
@@ -140975,6 +144135,8 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-modes/272867d435eafb9e",
+        "support-field/v1/mg-43-machine-gun/weapon/root/fire-mode-burst-rounds/a2efdad197e6f2e8",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532"
       ],
       "recommendedApi": "hd2.transaction",
@@ -141467,7 +144629,9 @@
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-drift-horizontal/b38b24de22a0e443",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-drift-vertical/d95075ba6c517297",
         "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-horizontal/87e6693b3db0ba08",
-        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-vertical/0f79fbc239281ef1"
+        "support-field/v1/gl-52-de-escalator/weapon/root/weapon-recoil-climb-vertical/0f79fbc239281ef1",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-modes/07989d0a41673f59",
+        "support-field/v1/gl-52-de-escalator/weapon/root/fire-mode-burst-rounds/486d052f091ad0c1"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -141527,7 +144691,9 @@
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-drift-horizontal/b870c8228d4c03df",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-drift-vertical/f98db6e672700c7f",
         "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-horizontal/043f567725730bf6",
-        "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-vertical/bf5bd6ea0053eaae"
+        "support-field/v1/eat-411-leveller/weapon/root/weapon-recoil-climb-vertical/bf5bd6ea0053eaae",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-modes/8a0e9d370c7f1772",
+        "support-field/v1/eat-411-leveller/weapon/root/fire-mode-burst-rounds/81e5536c7e6e940e"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -141731,7 +144897,9 @@
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-drift-horizontal/e4095bdd43213a6e",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/dc232543458bcf18",
         "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/cb93539758d0f9f2",
-        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/976f60486f48cd23"
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/976f60486f48cd23",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-modes/ba3e6d9404a1f325",
+        "support-field/v1/gl-21-grenade-launcher/weapon/root/fire-mode-burst-rounds/cd22c08a70f40a99"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -142323,6 +145491,8 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-modes/b0deb525eaa08700",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/fire-mode-burst-rounds/403ad03bee50659d",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c"
       ],
       "recommendedApi": "hd2.transaction",
@@ -142408,6 +145578,8 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-modes/3d5b3170f276ef4a",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/fire-mode-burst-rounds/5d6e62a0efa99e43",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d"
       ],
       "recommendedApi": "hd2.transaction",
@@ -142441,6 +145613,8 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-modes/fa88fb6d81149d56",
+        "support-field/v1/faf-14-spear/weapon/root/fire-mode-burst-rounds/7ce6b7340a1b0b3b",
         "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799"
       ],
       "recommendedApi": "hd2.transaction",
@@ -142864,7 +146038,9 @@
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-drift-horizontal/37cd16c1b1503b7d",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-drift-vertical/1a66b560878e3051",
         "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-horizontal/556543243a8cb826",
-        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-vertical/46339ee1cecbdb1c"
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/weapon-recoil-climb-vertical/46339ee1cecbdb1c",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-modes/714d01df7c957a4a",
+        "support-field/v1/eat-700-expendable-napalm/weapon/root/fire-mode-burst-rounds/4682bedf294aac11"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -142985,6 +146161,8 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-modes/e43db9cb3822f5a5",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/fire-mode-burst-rounds/24766d0338fca6be",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf"
       ],
       "recommendedApi": "hd2.transaction",
@@ -143253,7 +146431,9 @@
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-drift-horizontal/d47c3d6a243bba01",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-drift-vertical/4c1cbdb73cc9ddb7",
         "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-horizontal/ae84ccc89a54f5ac",
-        "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-vertical/4aadc75d6d825711"
+        "support-field/v1/m-105-stalwart/weapon/root/weapon-recoil-climb-vertical/4aadc75d6d825711",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-modes/996f4060f4e388b7",
+        "support-field/v1/m-105-stalwart/weapon/root/fire-mode-burst-rounds/7930144b18854049"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -147398,8 +150578,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 984,
-    "publishedInstances": 984,
+    "internalInstances": 1008,
+    "publishedInstances": 1008,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

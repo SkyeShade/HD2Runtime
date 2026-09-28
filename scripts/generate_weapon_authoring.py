@@ -11,6 +11,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import reticle_fields
+import fire_mode_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -199,6 +200,7 @@ def build(catalog_path=CATALOG):
                 if record.get('projectileConsumerCount')is not None else{})}
 
     reticle_rows,reticle_research=reticle_fields.load()
+    fire_mode_rows,_=fire_mode_fields.load()
     weapons=[]
     for name in sorted(identities):
         identity=identities[name];candidate=candidates[identity['bestCandidate']['resourceHash']]
@@ -232,6 +234,14 @@ def build(catalog_path=CATALOG):
             fields.append(reticle_fields.apply(make_field(reticle_fields.FIELD,None,
                 component_backend(candidate,'WeaponDataComponentData',reticle_fields.OFFSET,reticle_fields.STORAGE)),
                 reticle,reticle_research,unique))
+        fire=fire_mode_rows.get(('player',name))
+        if fire and fire['state']!='absent':
+            fields.append(fire_mode_fields.apply_modes(make_field(fire_mode_fields.MODES_FIELD,None,
+                component_backend(candidate,'WeaponDataComponentData',fire_mode_fields.MODES_OFFSET,'fire_mode_set')),
+                fire,unique))
+            fields.append(fire_mode_fields.apply_burst(make_field(fire_mode_fields.BURST_FIELD,None,
+                component_backend(candidate,'WeaponDataComponentData',fire_mode_fields.BURST_OFFSET,'u32')),
+                fire,unique))
         fields.append(make_field('weapon.primary_fire_mode',resolved.get('primary_fire_mode'),
             component_backend(candidate,'WeaponDataComponentData',144,'u32'),editable=False,
             reason=definitions['weapon.primary_fire_mode']['reason']))

@@ -952,6 +952,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field shrapnel_count "explosion.shrapnel_count"
 ---@field shrapnel_projectile "explosion.shrapnel_projectile"
 
+---@class HD2Fields_fire_mode
+---@field burst_rounds "fire_mode.burst_rounds"
+---@field modes "fire_mode.modes"
+
 ---@class HD2Fields_heat
 ---@field capacity "heat.capacity"
 ---@field cool_per_second "heat.cool_per_second"
@@ -1070,6 +1074,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field beam HD2Fields_beam
 ---@field charge HD2Fields_charge
 ---@field explosion HD2Fields_explosion
+---@field fire_mode HD2Fields_fire_mode
 ---@field heat HD2Fields_heat
 ---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine

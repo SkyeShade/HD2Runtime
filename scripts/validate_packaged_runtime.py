@@ -106,6 +106,18 @@ return hd2.ensure({patch={id='diligence-reticle-off',target=hd2.weapon('R-63 Dil
     field=hd2.fields.weapon.third_person_reticle,expect=true,value=false,allow_unverified_effect=true}})
 '''
 
+# Fire modes: a burst weapon's burst length and mode set, and an automatic weapon made single-shot.
+FIRE_MODES = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+operations[#operations+1]=hd2.ensure({transaction={id='liberator-burst',target=hd2.weapon('AR-23 Liberator'),
+    allow_unverified_effect=true,changes={
+        {field=hd2.fields.fire_mode.burst_rounds,expect=3,value=5},
+        {field=hd2.fields.fire_mode.modes,expect={'automatic','single','burst'},value={'burst','single'}}}}})
+operations[#operations+1]=hd2.ensure({patch={id='mg43-single',target=hd2.support_weapon('MG-43 Machine Gun'),
+    field=hd2.fields.fire_mode.modes,expect={'automatic'},value={'single'},allow_unverified_effect=true}})
+return operations
+'''
+
 
 BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local operations={}
@@ -290,6 +302,8 @@ SCENARIOS = {
     'booster-coverage': lambda: BOOSTER_COVERAGE,
     'support-weapon-reticle': lambda: example('ReticleAmrRecreation'),
     'player-weapon-reticle': lambda: PLAYER_RETICLE,
+    'fire-mode-jar5-full-auto': lambda: example('JAR5FullAuto'),
+    'fire-mode-burst-and-automatic': lambda: FIRE_MODES,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),
