@@ -376,6 +376,14 @@ SCENARIOS = {
     'options-test-mod-missing': lambda: OPTIONS_MISSING_ADDON('HD2RuntimeOptionsTest', 'live'),
 }
 
+# Every other shipped example project runs from the built ZIP too, so no example can rot unnoticed.
+# Examples bound to Mod Options Menu keep their dedicated options-* scenarios.
+_COVERED = set(re.findall(r"example\('(\w+)'", Path(__file__).read_text(encoding='utf-8')))
+for _project in sorted((ROOT / 'examples/projects').iterdir()):
+    if (_project / 'src/addon.lua').is_file() and _project.name not in _COVERED:
+        SCENARIOS['example-' + re.sub(r'(?<=[a-z0-9])(?=[A-Z])', '-', _project.name).lower()] = (
+            lambda name=_project.name: example(name))
+
 
 def archive_resources(path):
     """Map resource-name hash to Lua source for the runtime archive inside a ZIP."""

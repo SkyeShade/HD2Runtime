@@ -3,7 +3,17 @@
   "name": "ExplosiveProjectileSwap",
   "resource": "mods/hd2runtime_examples/explosive_projectile_swap",
   "guid": "81bfdcd0-2352-5b98-ab7b-5b2f72524de7",
-  "requires": {"bingus": {"min_release": 15, "api": 1}, "hd2runtime": {"min_version": "0.16.0", "api": 1, "module": "mods/skyeshade/hd2runtime"}},
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.23.2",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
   "sdk": "../../../sdk",
   "ide_library": "../../../sdk/stubs"
 }

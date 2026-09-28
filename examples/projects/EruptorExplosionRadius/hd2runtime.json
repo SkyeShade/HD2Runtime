@@ -3,7 +3,17 @@
   "name": "EruptorExplosionRadius",
   "resource": "mods/hd2runtime_examples/eruptor_explosion_radius",
   "guid": "7aa0705c-f9ad-545a-b2d3-b31c4436aa6b",
-  "requires": {"bingus": {"min_release": 15, "api": 1}, "hd2runtime": {"min_version": "0.16.0", "api": 1, "module": "mods/skyeshade/hd2runtime"}},
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.23.2",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
   "sdk": "../../../sdk",
   "ide_library": "../../../sdk/stubs"
 }

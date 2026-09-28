@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.weapon_attachment.catalog.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.26.0",
+  "hd2RuntimeVersion": "0.26.1",
   "scope": "Read-only metadata for every weapon customization item. Writable magazine effects are in MagazineAttachmentCapabilities.json; selection (which attachment is equipped) is not writable.",
   "consumerSources": {
     "nativeDefaultOf": "weapon resource DefaultCustomizations (pinned entity library)",

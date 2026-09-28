@@ -89,6 +89,50 @@ return hd2.patch({
 Some values live on a sub-object. For example, a bullet lives under
 `weapon:attack('primary'):projectile()`, not on the gun.
 
+### Who owns what
+
+The game stores each value on the object that uses it, and HD2Runtime writes it there. Pick the target
+by ownership, not by what the value affects:
+
+```
+hd2.weapon(name)                       weapon-local: fire rate, spread, recoil, sway, reticle, fire modes
+  :attack('primary')                   one of the weapon's attacks
+    :projectile()                      the projectile: velocity, mass, drag, pellets
+                                       AND its damage: standard, durable, armor penetration, stagger, ...
+      :terminal_action('impact')
+        :explosion()                   an explosion the projectile causes: radii, explosion damage
+  :magazine_attachment(option)         a magazine option: capacity, magazines, reload, ergonomics
+                                       (weapons with selectable magazines)
+hd2.support_weapon(name)               the same tree for support weapons
+  :backpack()                          backpack-owned ammunition (Maxigun, Cremator, GL-28)
+hd2.vehicle(name):weapon(mount)        a vehicle or Exosuit mounted weapon
+hd2.stratagem(name)                    call-in cooldown and mission uses
+  :payload()                           the drop pod's item slots
+```
+
+So damage is **not** on the weapon: it belongs to `weapon:attack('primary'):projectile()`. Many
+projectiles and damage records are shared by several weapons (`sharedWithWeapons` in the capability
+file); editing one changes all of them and needs `allow_shared=true`.
+
+### Armor penetration
+
+Player and support weapon armor penetration is four fields, one per impact angle:
+
+| Constant | Meaning |
+| --- | --- |
+| `hd2.fields.damage.ap_direct` | Head-on hits |
+| `hd2.fields.damage.ap_slight` | Slightly angled hits |
+| `hd2.fields.damage.ap_large` | Steeply angled hits |
+| `hd2.fields.damage.ap_extreme` | Near-glancing hits |
+
+Standard and durable damage are `hd2.fields.damage.player_standard_damage` and
+`hd2.fields.damage.player_durable_damage`. `hd2.fields.damage.armor_penetration`, `standard_damage`
+and `durable_damage` (without `player_`) belong to the original fixed JAR-5 patch and do not work on
+typed targets; the runtime says so if you use them.
+
+Baselines differ between weapons: the AR-23 Liberator is 2 / 2 / 2 / 0, the AR-23C Liberator
+Concussive is 2 / 2 / 2 / 2. Never copy `expect` values from a similar weapon.
+
 ## 5. Finding what you can edit
 
 | Question | Look in |
@@ -103,6 +147,17 @@ Some values live on a sub-object. For example, a bullet lives under
 | The Lua name of a field | `stubs/mods/skyeshade/hd2runtime.lua`, the `---@class HD2Fields_<domain>` blocks |
 | Explanations | the other files in `docs/` |
 | Working code | `examples/projects/*/src/addon.lua` in the example-projects ZIP |
+
+**Do not guess, and do not copy.** Take the target, field constant and `expect` for *this* weapon
+from one of:
+
+- the capability JSON (`currentDefault`, `apiFieldConstant`, `sharedWithWeapons`, `acknowledgement`);
+- the Lua stubs (completion lists every constant; legacy constants are labelled as legacy);
+- the example projects, which are validated against the current SDK on every release;
+- ModBuilder's Lua Preview, which writes the request from the catalog;
+- `:describe()` on a target in your addon, which returns its fields, baselines and flags.
+
+Two weapons that look alike rarely share every value.
 
 ### Worked trace
 
@@ -145,18 +200,18 @@ When two catalogs use the same name, the newer constant gets a prefix:
 | `shield.radius` (relay entity) | `hd2.fields.shield.entity_radius` |
 | `payload.lifetime` (relay entity) | `hd2.fields.payload.entity_lifetime` |
 
-The stratagem, support-weapon, vehicle, backpack, and magazine-attachment files
-list the exact constant in `apiFieldConstant`. The player-weapon file does not;
-search the stub file for the quoted field ID instead. Constants marked
+Every capability file, including `PlayerWeaponAuthoringCapabilities.json`, lists the exact
+constant for each field in `apiFieldConstant`; copy it from there. Constants marked
 "Deprecated compatibility alias" in the stub (for example
 `hd2.fields.weapon.capacity`) point to a preferred constant; use that one.
 
 ### Two naming systems
 
-HD2Runtime keeps a small original catalog with short names and fixed changes:
-`'Bastion'`, `'Shield Relay'`, `'JAR-5 Dominator'`'s projectile damage,
-`hd2.equipment('Jump Pack')`, `hd2.fields.shield.radius`. It still works, but it
-only allows a few exact, reviewed changes.
+HD2Runtime still contains a small original catalog with short names and fixed changes:
+`'Bastion'`, `'Shield Relay'`, the JAR-5 `:projectile():damage()` path with
+`hd2.fields.damage.armor_penetration`, `hd2.equipment('Jump Pack')`, `hd2.fields.shield.radius`,
+and the read-only `hd2.observe`. It is kept so old mods keep working, but it allows only a few exact
+changes. **Do not use it for new mods**, and no example teaches it any more.
 
 For new mods, use the full catalog names from the capability files:
 `'TD-220 Bastion MK XVI'`, `'FX-12 Shield Generator Relay'`,
@@ -231,10 +286,35 @@ hd2.weapon_attachment('Rifle 5,5x50mm. Drum')
 
 | Call | Use it for | Not for |
 | --- | --- | --- |
-| `hd2.patch{...}` | One change. | Several values, or values the game may reset. |
-| `hd2.transaction{target=...,changes={...}}` | Several fields on the same object, all or nothing. | Fields on different objects (it tells you to use a plan). |
-| `hd2.plan{operations={...}}` | Changes across several objects, all or nothing. Up to 64 operations. | A single simple change. |
+| `hd2.patch{...}` | One field. | Several values, or values the game may reset. |
+| `hd2.transaction{target=...,changes={...}}` | Several fields on the same backing object, all or nothing. Example: a projectile's standard damage, durable damage and all four AP fields. | Fields on different objects (it tells you to use a plan). |
+| `hd2.plan{operations={...}}` | Changes across several objects, all or nothing. | Several fields of one object: use one transaction instead of one plan operation per field. |
 | `hd2.ensure{patch=...}` (or `transaction=`, `plan=`) | Keeping a change applied if the game resets it. The usual choice for a released mod. | One-off experiments. |
+
+A transaction on one projectile's damage (`LiberatorDamageTransaction`):
+
+```lua
+local projectile=hd2.weapon('AR-23 Liberator'):attack('primary'):projectile()
+return hd2.ensure({transaction={id='liberator-damage',target=projectile,allow_shared=true,changes={
+    {field=hd2.fields.damage.player_standard_damage,expect=90,value=120},
+    {field=hd2.fields.damage.player_durable_damage,expect=22,value=35},
+    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+    {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+    {field=hd2.fields.damage.ap_large,expect=2,value=3},
+    {field=hd2.fields.damage.ap_extreme,expect=0,value=2},
+}}})
+```
+
+Plan rules (the runtime rejects anything else, with a message saying which rule):
+
+- A plan has `operations={...}` or `phases={...}` (1 to 8 phases), and at most 64 operations.
+- Each operation is one patch or one transaction on **one backing object**. An operation whose
+  changes span several objects is rejected; split it.
+- **One phase cannot mix target families**: stratagems; vehicles and backpacks; weapons (player,
+  support, vehicle-mounted); magazine attachments; boosters; drop pods. Put each family in its own
+  phase (`phases={{id=...,operations={...}},...}`).
+- `target_from` (use an object resolved by an earlier operation) needs that operation in an earlier phase.
+- At most 128 writes per phase, and two operations may only touch the same bytes if they write the same value.
 
 How they run:
 
@@ -321,6 +401,38 @@ your value.
 | `requires allow_shared=true` (or another flag) | See section 9. | Decide deliberately. |
 | Missing or broken vehicle weapon after a mount swap | The swapped weapon's assets were not loaded. | A known risk of `allow_unverified_reference`; revert the swap. |
 | Nothing happens | Check `BingusSharedLoader.log`: mod not found, a script error, or a dependency/version check failure. | Enable Bingus and HD2Runtime; check `min_version`. |
+| `projectile objects only accept...`, or "legacy fixed-resource field" | A damage field was used on the wrong target, or a legacy constant. | Damage goes on `weapon:attack('primary'):projectile()`, with `player_standard_damage`, `player_durable_damage` and `ap_*`. |
+| `transaction spans multiple backing objects` | The changes belong to different objects. | Use a plan: one operation per object. |
+| `one plan phase cannot mix ...` | One phase holds, for example, a stratagem and a weapon. | Split them into phases. |
+
+### Lua table pitfalls
+
+Lua reports these only as a script error, before HD2Runtime is ever called. They appear in
+`BingusSharedLoader.log`, and `HD2Runtime.log` stays unchanged.
+
+A table keeps only the **last** value of a repeated key. This change silently loses `field_a`:
+
+```lua
+{
+    field = field_a,
+    value = 1,
+    field = field_b,   -- replaces field_a
+    value = 2,         -- replaces 1
+}
+```
+
+Write one table per change instead: `changes={{field=field_a,...},{field=field_b,...}}`.
+
+Tables in a list need a comma between them:
+
+```lua
+changes={
+    {field=hd2.fields.damage.ap_direct,expect=2,value=3},   -- this comma is required
+    {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+}
+```
+
+`},` followed by `{` is correct; `}` followed directly by `{` is a syntax error.
 
 ## 12. Example mods
 
@@ -343,7 +455,9 @@ return hd2.ensure({plan={id='jump-pack-buff',operations={
 }}})
 ```
 
-C. With acknowledgement flags (`ConcussiveDrumMagazine`):
+C. Several fields of one projectile, as one transaction (`LiberatorDamageTransaction`); see section 8.
+
+D. With acknowledgement flags (`ConcussiveDrumMagazine`):
 
 ```lua
 local hd2=require('mods/skyeshade/hd2runtime')
@@ -374,7 +488,8 @@ runtime update, not memory access from your mod.
 - [ ] Bingus Shared Loader v15+ and HD2Runtime imported and enabled.
 - [ ] Template extracted outside the game and opened in your editor.
 - [ ] `name`, unique `resource`, and `VERSION` set.
-- [ ] Names, field constants, and `expect` copied from capability files.
+- [ ] Target chosen by ownership (damage on the projectile, not the weapon).
+- [ ] Names, field constants, and `expect` copied from capability files for this exact weapon.
 - [ ] Safety flags added only where required.
 - [ ] Built, imported, purged and redeployed, game restarted.
 - [ ] `HD2Runtime.log` shows `APPLIED` or `ALREADY_DESIRED`.

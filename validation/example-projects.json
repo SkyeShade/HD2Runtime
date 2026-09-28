@@ -1,0 +1,2125 @@
+{
+  "examples": 46,
+  "failed": [],
+  "mode": "snapshot",
+  "results": {
+    "AntiTankEmplacementProof": {
+      "baselineChanges": 4,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "health",
+          "mode": "patch",
+          "path": "deployed_entity",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "projectile",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "explosion",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ArcThrowerProof": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "arc-thrower-proof",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "ARC-3 Arc Thrower"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ArmedResupplyTurret": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.24.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "rate",
+          "mode": "patch",
+          "path": "deployed_entity",
+          "resource": "booster"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "magazine",
+          "mode": "patch",
+          "path": "deployed_entity",
+          "resource": "booster"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.24.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "booster target -> 0.24.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "BastionReArmoredRecreation": {
+      "baselineChanges": 58,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-main",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_0",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_1",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_2",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_3",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_4",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_5",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_12",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_13",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_14",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_15",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_16",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_17",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_18",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_19",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_20",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_21",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_22",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_23",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_24",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_25",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_26",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_27",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_28",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_29",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "bastion-zone_30",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-main",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_0",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_1",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_2",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_3",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_4",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_5",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_12",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_13",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_14",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_15",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_16",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_17",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_18",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_19",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_20",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_21",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_22",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_23",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_24",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_25",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_26",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_27",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_28",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_29",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "maelstrom-zone_30",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "BoosterTuning": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.25.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "vitality",
+          "mode": "patch",
+          "path": "tuning",
+          "resource": "booster"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "extraction",
+          "mode": "patch",
+          "path": "tuning",
+          "resource": "booster"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "scanner",
+          "mode": "patch",
+          "path": "tuning",
+          "resource": "booster"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "eat-uses",
+          "mode": "patch",
+          "path": "granted_stratagem",
+          "resource": "booster"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "booster granted_stratagem() -> 0.25.0",
+        "booster target -> 0.24.0",
+        "booster tuning() -> 0.25.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "C4Proof": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "radius",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "B/MD C4 Pack"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "B/MD C4 Pack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "CombatStimBoost": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.24.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "combat-stim-boost",
+          "mode": "transaction",
+          "path": "status_effect",
+          "resource": "booster"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.24.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "booster target -> 0.24.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "Concussive1100": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "concussive-1100-rpm",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ConcussiveComposition": {
+      "baselineChanges": 7,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "impact",
+          "mode": "patch",
+          "path": "terminal_action",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "expiry",
+          "mode": "patch",
+          "path": "terminal_action",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ConcussiveDrumMagazine": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "concussive-drum-magazine",
+          "mode": "patch",
+          "path": "magazine",
+          "resource": "weapon_attachment"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ConventionalSentryProof": {
+      "baselineChanges": 4,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "ammo",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "fire-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "damage",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "EagleProof": {
+      "baselineChanges": 4,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "definition",
+          "mode": "transaction",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "rearm",
+          "mode": "patch",
+          "path": "eagle_rearm",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "payload",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "EmancipatorAmmo": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "left",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-49 Emancipator Exosuit / left_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "right",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-49 Emancipator Exosuit / right_gun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "EruptorExplosionRadius": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "eruptor-radius-5m",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "player_weapon",
+          "weapon": "R-36 Eruptor"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ExosuitUnlimitedUses": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "exo-45",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "exo-49",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "exo-55",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "exo-51",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "stratagem stratagem.max_uses -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ExplosiveProjectileSwap": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "evictor-missile-projectile",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "GL-15 Evictor"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ExplosiveSentryProof": {
+      "baselineChanges": 3,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "radius",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "damage",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "FRVWeaponSwapRecreation": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "frv",
+          "mode": "patch",
+          "path": "mount",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "frv-super-earth",
+          "mode": "patch",
+          "path": "mount",
+          "resource": "vehicle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "FireModeSelect": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "concussive-semi-auto",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "fire_mode.modes -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "HD2RuntimeOptionsTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.25.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "options-test-liberator-damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "IncendiaryHellpods": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.25.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "radius",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "booster"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "transaction",
+          "path": "explosion",
+          "resource": "booster"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "booster explosion() -> 0.25.0",
+        "booster target -> 0.24.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "JAR5FullAuto": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "jar5-full-auto",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "JAR-5 Dominator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "fire_mode.modes -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "Jar5AP4": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "jar5-ap4",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "JAR-5 Dominator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "JumpPackRecreation": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "recharge",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "launch",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "LiberatorDamageOptions": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.25.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "LiberatorDamageTransaction": {
+      "baselineChanges": 6,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-damage",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "LumbererAmmo": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "flamer",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-51 Lumberer Exosuit / left_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "cannon",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-51 Lumberer Exosuit / right_gun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "M103TurretMagazine": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "m103-turret-magazine",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "M-103 Supply FRV / gun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "MaxigunBackpackAmmo": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "maxigun-backpack-ammo",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "deposit.capacity -> 0.26.0",
+        "deposit.refill_amount -> 0.26.0",
+        "deposit.start_amount -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ModTemplate": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.25.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "my-hd2-mod-fire-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "OrbitalBarrageProof": {
+      "baselineChanges": 2,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "radius",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "damage",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "OrbitalLaserProof": {
+      "baselineChanges": 1,
+      "calls": [
+        "patch"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "patch",
+          "id": "orbital-laser-proof",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "OrbitalPrecisionProof": {
+      "baselineChanges": 2,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "radius",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "PatriotExosuitBuffs": {
+      "baselineChanges": 36,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_0",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_1",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_2",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_3",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_4",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_5",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_6",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "zone-zone_7",
+          "mode": "transaction",
+          "path": "damage_zone",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "hull",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "vehicle"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "missile-magazine",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / left_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "missile-arm",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / left_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "hmg-magazine",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / right_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "hmg-arm",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / right_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "hmg-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / right_gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "missile-damage",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / left_gun"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "hmg-damage",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "vehicle_weapon",
+          "weapon": "EXO-45 Patriot Exosuit / right_gun"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "RecoillessProof": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "velocity",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "GR-8 Recoilless Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "radius",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "GR-8 Recoilless Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "GR-8 Recoilless Rifle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ReticleAmrRecreation": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "reticle-amr",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "APW-1 Anti-Materiel Rifle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "weapon.third_person_reticle -> 0.26.0"
+      ]
+    },
+    "ShieldRelayRecreation": {
+      "baselineChanges": 6,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "shield",
+          "mode": "transaction",
+          "path": "shield",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "lifetime",
+          "mode": "patch",
+          "path": "deployed_entity",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "base-health",
+          "mode": "patch",
+          "path": "deployed_entity",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "body-zone-health",
+          "mode": "patch",
+          "path": "damage_zone",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "SickleHeat": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "sickle-heat-validation",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-16 Sickle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "SupportAMRProof": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "fire-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "APW-1 Anti-Materiel Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "velocity",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "APW-1 Anti-Materiel Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "APW-1 Anti-Materiel Rifle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "SupportStratagemCooldownProof": {
+      "baselineChanges": 1,
+      "calls": [
+        "patch"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "patch",
+          "id": "support-stratagem-cooldown-proof",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "SurplusEatPodSwap": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-1",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-2",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "payload.entity -> 0.26.0",
+        "pod_rack target -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "TerminalExplosionRemove": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "crossbow-remove-impact-explosion",
+          "mode": "patch",
+          "path": "terminal_action",
+          "resource": "player_weapon",
+          "weapon": "CB-9 Exploding Crossbow"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "TerminalExplosionSwap": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "crossbow-purifier-impact",
+          "mode": "patch",
+          "path": "terminal_action",
+          "resource": "player_weapon",
+          "weapon": "CB-9 Exploding Crossbow"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "UnusualSentryProof": {
+      "baselineChanges": 3,
+      "calls": [
+        "plan"
+      ],
+      "minVersion": "0.23.2",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "plan",
+          "id": "beam",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "primary"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "plan",
+          "id": "heat",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "stratagem",
+          "weapon": "primary"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "sdk-template-fire_rate": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "my-hd2-mod-fire-rate",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "sdk-template-projectile_damage": {
+      "baselineChanges": 6,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-damage",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    }
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "writes": 0
+}

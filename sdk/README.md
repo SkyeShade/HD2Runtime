@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.26.0.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.26.1.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -33,6 +33,11 @@ ammo values are writable on the magazine attachment definitions themselves, with
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
 
+0.26.1 corrects the examples and templates to the current typed API and validates every shipped example against
+this SDK on each release (see `docs/releases/0.26.1.md`). Damage and armor penetration belong to
+`weapon:attack('primary'):projectile()`; `PlayerWeaponAuthoringCapabilities.json` now lists each field's Lua
+constant in `apiFieldConstant`.
+
 New in 0.26.0 (see `docs/releases/0.26.0.md`):
 
 - **Attachment catalog.** `WeaponAttachmentCatalog.json` holds read-only metadata for all 241 customization
@@ -50,7 +55,7 @@ New in 0.26.0 (see `docs/releases/0.26.0.md`):
   replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.26.0-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.26.1-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -70,27 +75,26 @@ python build.py
 python -m unittest discover -s tests -v
 ```
 
-Use `--template shield` for the proven four-field Shield Relay transaction or
-`--template observer` for read-only Bastion/AMR observations. The default is the
-JAR-5 AP4 ensured patch. These CLI templates use the original fixed-resource
-catalog (short names such as `Bastion` and `Shield Relay`, and single reviewed
-transitions). For other changes, use the full names and field constants from the
-typed capability files, as the ModTemplate and example projects do. The generated entrypoint contains only public API calls;
+The default template (`--template fire_rate`) is the ModTemplate's weapon fire-rate patch. Use
+`--template projectile_damage` for the AR-23 Liberator projectile damage and armor-penetration
+transaction. Both use the typed catalogs (full names and field constants from the capability files) and
+are validated against the current SDK on every release, like the example projects. The generated entrypoint contains only public API calls;
 the runtime owns all timers, resolution, memory access and protection changes.
 Reusing a resource name intentionally reuses its stable mod GUID. Choose a unique
 author/mod path for each independently distributed mod.
 
 ```lua
 local hd2=require('mods/skyeshade/hd2runtime')
-return hd2.ensure({
-    patch={
-        id='jar5-ap4',
-        target=hd2.weapon('JAR-5 Dominator'):projectile():damage(),
-        field=hd2.fields.damage.armor_penetration,
-        expect=3,
-        value=4,
-    },
-})
+-- Damage is owned by the projectile: weapon -> attack('primary') -> projectile().
+local projectile=hd2.weapon('AR-23 Liberator'):attack('primary'):projectile()
+return hd2.ensure({transaction={id='liberator-damage',target=projectile,allow_shared=true,changes={
+    {field=hd2.fields.damage.player_standard_damage,expect=90,value=120},
+    {field=hd2.fields.damage.player_durable_damage,expect=22,value=35},
+    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+    {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+    {field=hd2.fields.damage.ap_large,expect=2,value=3},
+    {field=hd2.fields.damage.ap_extreme,expect=0,value=2},
+}}})
 ```
 
 Builds read Lua files only from that project's `src/`. The gameplay ZIP contains

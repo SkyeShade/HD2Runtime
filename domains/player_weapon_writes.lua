@@ -155,10 +155,21 @@ local function explosion_selector(value,label)
     return {weapon=value.weapon,attack=value.attack,phase=value.phase,
         is_null=value.path=='no_explosion'}
 end
+-- Fields of the original fixed JAR-5 resource. Typed weapon targets use per-angle AP and the
+-- player_* damage constants; say so instead of a generic rejection.
+local LEGACY_DAMAGE={armor_penetration='hd2.fields.damage.ap_direct, ap_slight, ap_large and ap_extreme '
+    ..'(one field per impact angle)',standard_damage='hd2.fields.damage.player_standard_damage',
+    durable_damage='hd2.fields.damage.player_durable_damage'}
 local function validate_change(weapon,item,allow_shared,role,path,phase,allow_unverified_effect)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
+    local legacy=type(item.field)=='string'and(LEGACY_DAMAGE[item.field]
+        or item.field:match('^armor_penetration_lanes')and LEGACY_DAMAGE.armor_penetration)
+    if legacy then
+        error('field '..item.field..' is a legacy fixed-resource field (the original JAR-5 patch) and does not apply to '
+            ..'typed weapon targets; use '..legacy..' on weapon:attack(role):projectile()',0)
+    end
     if path=='attack'and weapon.supportWeapon then
         assert(item.field:match('^damage%.')or item.field:match('^arc%.')
             or item.field:match('^beam%.')or item.field:match('^status%.'),

@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.vehicle.guarded_authoring.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.26.0",
+  "hd2RuntimeVersion": "0.26.1",
   "canonicalCollection": "fieldInstances",
   "vehicles": [
     {

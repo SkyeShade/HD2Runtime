@@ -34,6 +34,11 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.26.1 is a documentation and example correctness release. The examples, ModTemplate, SDK project
+templates and getting-started guide now teach the current typed API (damage on the projectile, per-angle armor
+penetration, patch vs transaction vs plan), and every shipped example is validated against the current SDK on
+each release. See `docs/releases/0.26.1.md`.
+
 Version 0.26.0 adds every magazine option (reload and ergonomics too), third-person reticles, native
 fire-mode sets, vehicle and Exosuit mounted weapons, stratagem mission uses (including unlimited),
 backpack-fed support-weapon ammo, and drop-pod payload slots. Most new fields are natively proven but
@@ -99,11 +104,30 @@ Example:
 ```lua
 local hd2 = require('mods/skyeshade/hd2runtime')
 
-local weapon = hd2.weapon('JAR-5 Dominator')
+-- Damage belongs to the projectile the weapon fires, not to the weapon itself.
+local projectile = hd2.weapon('AR-23 Liberator'):attack('primary'):projectile()
 
-hd2.patch({
-    target = weapon:projectile():damage(),
-    field = hd2.fields.damage.armor_penetration,
-    expect = 3,
-    value = 4,
+-- Six fields of one DamageInfo record: one transaction. expect values are this weapon's
+-- baselines from PlayerWeaponAuthoringCapabilities.json; the record is shared with the
+-- AR-23A Liberator Carbine and StA-52, so allow_shared is required.
+return hd2.ensure({
+    transaction = {
+        id = 'liberator-damage',
+        target = projectile,
+        allow_shared = true,
+        changes = {
+            {field = hd2.fields.damage.player_standard_damage, expect = 90, value = 120},
+            {field = hd2.fields.damage.player_durable_damage,  expect = 22, value = 35},
+            {field = hd2.fields.damage.ap_direct,  expect = 2, value = 3},
+            {field = hd2.fields.damage.ap_slight,  expect = 2, value = 3},
+            {field = hd2.fields.damage.ap_large,   expect = 2, value = 3},
+            {field = hd2.fields.damage.ap_extreme, expect = 0, value = 2},
+        },
+    },
 })
+```
+
+Weapon-local values such as fire rate are on the weapon itself (`hd2.weapon('AR-23 Liberator')`,
+`hd2.fields.weapon.fire_rate`). Armor penetration is four per-angle fields, and baselines differ
+between weapons: always take `expect` from the SDK for the exact weapon. See `docs/getting-started.md`
+and the `LiberatorDamageTransaction` example project.

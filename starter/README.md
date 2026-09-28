@@ -28,7 +28,7 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.26.0. Raise it to `0.25.1` for
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.26.1. Raise it to `0.25.1` for
 in-game options (see below), and to `0.26.0` for anything new in 0.26.0: magazine reload and ergonomics,
 reticles, fire modes, vehicle weapons, stratagem mission uses, backpack ammo and pod payloads. In-game options (`hd2.options`) and the Booster `tuning()`, `explosion()`,
 `status_damage()` and `granted_stratagem()` targets need 0.25.0. Boosters
@@ -108,7 +108,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.25.0 or newer / API 1 (0.26.0 recommended), installed once.
+2. HD2Runtime 0.25.0 or newer / API 1 (0.26.1 recommended), installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.

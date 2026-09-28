@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.stratagem.guarded_authoring.v2",
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.26.0",
+  "hd2RuntimeVersion": "0.26.1",
   "canonicalCollection": "fieldInstances",
   "source": {
     "wikiCommit": "41f01f9b2ca2ea2ca2b9f3adde7c75663582a44a",

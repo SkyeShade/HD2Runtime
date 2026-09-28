@@ -1,5 +1,9 @@
 # Guarded transactions and ensure
 
+> **Historical document.** This describes the original fixed-resource Shield Relay transaction from HD2Runtime 0.4.0. The runtime still accepts it so old mods keep working, but it is not how new mods are written. For the current typed API see `getting-started.md` (ownership, patch/transaction/plan) and the `ShieldRelayRecreation` example project.
+
+The typed equivalent targets `hd2.stratagem('FX-12 Shield Generator Relay'):deployed_entity():shield()` and the relay's other owners separately, one transaction or plan operation per owning object.
+
 Version 0.4.0 adds `hd2.transaction()` and `hd2.ensure()` on top of the same
 fresh resolver and guarded write engine used by `hd2.patch()`.
 
