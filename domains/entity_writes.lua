@@ -1,6 +1,7 @@
 -- Guarded vehicle and backpack entity authoring. Field identities come from the
 -- generated entity catalog; mount references accept only discovered semantic
 -- weapon identities and never caller-supplied native identifiers.
+local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
@@ -182,8 +183,7 @@ function M.prepare(resolved,reader,spec)
             and record.identity.uniqueOwner==backing.uniqueOwner,'entity component consumer scope changed')
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
         local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
-        assert(current==change.expected or current==change.desired,
-            'CONFLICT: '..change.field..' is neither expected nor desired')
+        local expected=ownership.expected(change,current)
         local offset=record.offset+backing.offset
         local key=tostring(record.owner.base)..':'..tostring(offset)..':'..backing.width
         local prior=physical[key]
@@ -193,7 +193,7 @@ function M.prepare(resolved,reader,spec)
         else
             local item={label=change.field,canonical_field=change.canonical_field,
                 semantic_aliases={change.field},owner=record.owner,offset=offset,field_offset=backing.offset,
-                expected=change.expected,desired=change.desired,before=current,
+                expected=expected,desired=change.desired,before=current,
                 already_desired=current==change.desired,expect=change.expect,value=change.value,
                 identity={component=backing.component,component_type='semantic',
                     record_index=backing.recordIndex,unique_owner=backing.uniqueOwner,

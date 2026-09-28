@@ -9,6 +9,7 @@
 --   deployed_entity:   StratagemInfo booster entry -> entity delta -> rack item -> turret entity
 -- Code bytes are only ever read, never written. No booster edit is gameplay-proven, so
 -- allow_unverified_effect is always required.
+local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
@@ -364,13 +365,12 @@ function M.prepare(resolved,reader,spec)
             end
             identity=settings_identity('StatusEffectSettings',resolved.row.row)
         end
-        assert(current==change.expected or current==change.desired,
-            'CONFLICT: '..change.field..' is neither expected nor desired')
+        local expected=ownership.expected(change,current)
         local key=tostring(owner.base)..':'..tostring(offset)
         assert(not physical[key],'overlapping booster fields');physical[key]=true
         plan.changes[#plan.changes+1]={label=change.field,canonical_field=change.canonical_field,
             semantic_aliases={change.field},owner=owner,offset=offset,field_offset=field_offset,
-            expected=change.expected,desired=change.desired,before=current,
+            expected=expected,desired=change.desired,before=current,
             already_desired=current==change.desired,expect=change.expect,value=change.value,
             identity=identity,chain={}}
     end

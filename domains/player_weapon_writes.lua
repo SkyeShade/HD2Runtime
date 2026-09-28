@@ -1,4 +1,5 @@
 -- Reviewed semantic player-weapon writes. Runtime addresses never enter this database or public API.
+local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
 local entities=require('hd2runtime/core/entity_catalog')
@@ -617,8 +618,7 @@ function M.prepare(resolved,reader,spec)
             end
             change.expected=expected;change.desired=b.encode(source_type,'u32')
         end
-        assert(current==change.expected or current==change.desired,
-            'CONFLICT: '..change.field..' is neither expected nor desired')
+        local expected=ownership.expected(change,current)
         local identity
         if backing.kind=='component'then
             identity={component=backing.component,component_type=record.identity.componentType,
@@ -650,7 +650,7 @@ function M.prepare(resolved,reader,spec)
         else
             local item={label=change.field,canonical_field=change.canonical_field,
             semantic_aliases=change.semantic_aliases,owner=owner,offset=offset,
-            expected=change.expected,desired=change.desired,before=current,
+            expected=expected,desired=change.desired,before=current,
             already_desired=current==change.desired,identity=identity,chain={identity},
             expect=change.expect,value=change.value}
             if source_identity then item.chain[#item.chain+1]=source_identity end

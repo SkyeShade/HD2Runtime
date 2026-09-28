@@ -405,6 +405,7 @@ def outputs():
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(),
+            'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

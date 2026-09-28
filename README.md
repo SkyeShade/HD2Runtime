@@ -24,6 +24,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Booster authoring for 19 of 20 boosters: native Booster definition table scalars, hellpod-impact explosions,
   stim and Dead Sprint statuses, the Surplus EAT stratagem, and the Armed Resupply Pods turret
 - Guarded patches, transactions and multi-object plans
+- In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
+  that drive one ensured operation live, with the same guards
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
@@ -52,6 +54,7 @@ catalogs. Runtime write semantics are unchanged; see `docs/releases/0.22.1.md`.
 
 - Helldivers 2
 - Bingus Shared Loader v15+
+- For in-game options only: CowboyBingus Mod Options Menu v1+ and Bingus Shared Loader v18+
 
 ## Installation
 

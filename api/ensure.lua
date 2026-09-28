@@ -4,10 +4,192 @@ local transactions=require('hd2runtime/domains/transactions')
 local plans=require('hd2runtime/domains/composition_plans')
 local steady=require('hd2runtime/core/steady_state')
 local metrics=require('hd2runtime/runtime/metrics')
+local options=require('hd2runtime/api/options')
 local M={}
+local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
+
+-- Copy a request with every option handle replaced by its current value (or an override).
+-- Handles may bind only a field `value`; target objects (tables with a metatable) are kept.
+local function materialize(value,key,found,override,baseline)
+    if options.is_handle(value)then
+        assert(key=='value','an option may only bind a field value, not '..tostring(key))
+        if found then found[#found+1]=value end
+        if override and override.handle==value then return override.value end
+        return value:get()
+    end
+    if type(value)~='table'or getmetatable(value)~=nil then return value end
+    local copy={}
+    for k,v in pairs(value)do copy[k]=materialize(v,k,found,override,baseline)end
+    -- Restore request: every change goes back to its reviewed baseline.
+    if baseline and value.expect~=nil and value.value~=nil then copy.value=copy.expect end
+    return copy
+end
+local function each_change(kind,spec,fn)
+    if kind=='plan'then
+        for _,operation in ipairs(spec.operations)do
+            for index,change in ipairs(operation.spec.changes or{})do fn(operation.id..'#'..index,change)end
+        end
+    else
+        for index,change in ipairs(spec.changes or{})do fn('#'..index,change)end
+    end
+end
+local function signature(kind,spec,enabled)
+    local parts={enabled and'on'or'off'}
+    each_change(kind,spec,function(key,change)parts[#parts+1]=key..'='..tostring(change.desired)end)
+    return table.concat(parts,'\n')
+end
+
+-- One logical operation whose field values and enabled state follow option handles.
+local function start_bound(runtime,emit,request,kind,validate,module,interval,startup,max_interval)
+    local body=request[kind]
+    local enabled_handle=request.enabled
+    assert(enabled_handle==nil or(options.is_handle(enabled_handle)and enabled_handle.kind=='toggle'),
+        'ensure enabled must be a toggle option')
+    local bound={}
+    local function build(override,baseline)return validate(materialize(body,nil,nil,override,baseline))end
+    local current=materialize(body,nil,bound)
+    for _,handle in ipairs(bound)do
+        assert(handle.kind~='toggle','a toggle option can only control ensure enabled')
+    end
+    local spec=validate(current)
+    local id=spec.id
+    -- Bind-time proof: the whole option domain passes the normal guarded validation
+    -- (acknowledgements, reviewed ranges, integer storage, known values), and so does restore.
+    for _,handle in ipairs(bound)do
+        for _,sample in ipairs(handle:samples())do
+            local ok,why=pcall(build,{handle=handle,value=sample})
+            if not ok then error('option '..handle.id..' value '..tostring(sample)
+                ..' is not accepted by '..id..': '..tostring(why),0)end
+        end
+    end
+    local restore=build(nil,true)
+    local function log(message)pcall(emit,'[HD2Runtime] '..message)end
+    local watch={status='waiting',runs=0,kind=kind,id=id,interval=interval,max_interval=max_interval,
+        current_interval=interval,verifications=0,drifts=0,bound=true,enabled=true,restores=0,rebinds=0}
+    local elapsed,next_at=0,0
+    local child,mode,target,verification
+    local owned,applied_signature={},nil
+    local dirty,debounce=false,0
+
+    local function launch(next_mode,next_spec,next_signature)
+        -- Bytes this operation verified live last time are its own, not a conflict.
+        each_change(kind,next_spec,function(key,change)
+            local mine=owned[key]
+            if mine and mine~=change.desired and mine~=change.expected then change.owned=mine end
+        end)
+        if child then child.cancel()end
+        child=module.start_spec(runtime,emit,next_spec,math.max(0,startup-elapsed))
+        mode,target,verification=next_mode,{spec=next_spec,signature=next_signature},nil
+        watch.status='running'
+        metrics.count(next_mode=='restore'and'options.restores'or'options.bound_resolutions')
+    end
+    local function settle()
+        dirty=false
+        local ok,next_spec=pcall(build)
+        if not ok then
+            if child then child.cancel();child=nil end
+            watch.status='blocked';watch.error=tostring(next_spec)
+            log('ensure '..id..' blocked: '..watch.error);return
+        end
+        local enabled=enabled_handle==nil or enabled_handle:get()==true
+        watch.enabled=enabled
+        local next_signature=signature(kind,next_spec,enabled)
+        if target and target.signature==next_signature and child then return end
+        if not child and applied_signature==next_signature and watch.status~='blocked'then
+            metrics.count('options.noop_settles');return
+        end
+        watch.rebinds=watch.rebinds+1
+        if enabled then
+            launch('apply',next_spec,next_signature)
+        elseif next(owned)then
+            -- Restore through the same guards: only bytes this operation owns go back.
+            launch('restore',build(nil,true),next_signature)
+        else
+            if child then child.cancel();child=nil end
+            applied_signature,verification,target=next_signature,nil,nil
+            watch.status='disabled';log('ensure '..id..' disabled; nothing applied to restore')
+        end
+    end
+    local function listener()
+        -- A child never sits between a write and its completion across ticks (guarded writes
+        -- do not yield), so cancelling it here changes no bytes and frees the operation gate.
+        dirty,debounce=true,DEBOUNCE
+        if child then child.cancel();child=nil end
+        if watch.status=='blocked'or watch.status=='running'then watch.status='waiting'end
+    end
+    for _,handle in ipairs(bound)do handle:subscribe(listener)end
+    if enabled_handle then enabled_handle:subscribe(listener)end
+
+    function watch.cancel()
+        if child then child.cancel()end
+        child=nil;watch.status='cancelled'
+        log('ensure '..id..' cancelled')
+    end
+    function watch.tick(dt)
+        if watch.status=='cancelled'then return end
+        assert(type(dt)=='number'and dt>=0 and dt<math.huge,'invalid elapsed time')
+        elapsed=elapsed+dt
+        if dirty then
+            debounce=debounce-dt
+            if debounce>0 then return end
+            settle()
+        end
+        if watch.status=='blocked'or watch.status=='disabled'then return end
+        if not child then
+            if elapsed<next_at then return end
+            if verification then
+                local stable,reason=steady.verify(runtime,verification)
+                watch.verifications=watch.verifications+1
+                if stable then
+                    watch.current_interval=math.min(watch.current_interval*2,max_interval)
+                    next_at=elapsed+watch.current_interval;return
+                end
+                watch.drifts=watch.drifts+1;watch.current_interval=interval
+                metrics.count('ensure.full_resolutions_after_drift')
+                log('ensure '..id..' drift detected ('..tostring(reason)..'); full guarded resolution')
+            end
+            metrics.count('ensure.full_resolutions')
+            launch('apply',target and target.spec or spec,target and target.signature
+                or signature(kind,spec,true))
+        end
+        child.tick(dt)
+        if child.status=='rejected'or child.status=='cancelled'then
+            watch.result=child.result;watch.error=child.error or'ensured operation cancelled unexpectedly'
+            child=nil;watch.status='blocked'
+            log('ensure '..id..' blocked until an option changes: '..tostring(watch.error))
+            return
+        end
+        if child.status~='complete'then watch.status='running';return end
+        watch.result=child.result
+        if mode=='restore'then
+            owned,verification={},nil;applied_signature=target.signature;watch.restores=watch.restores+1
+            watch.status='disabled';child=nil
+            log('ensure '..id..' restored the reviewed baseline and is disabled')
+            return
+        end
+        owned={}
+        each_change(kind,target.spec,function(key,change)owned[key]=change.desired end)
+        applied_signature=target.signature;verification=child.verification;child=nil
+        watch.runs=watch.runs+1;next_at=elapsed+watch.current_interval;watch.status='waiting'
+        log('ensure '..id..' verified status='..watch.result.status..' cycle='..watch.runs
+            ..' next='..watch.current_interval..(verification and' steady=byte-check'or' steady=full'))
+    end
+    -- Initial state follows the options as they stand at declaration.
+    if enabled_handle and enabled_handle:get()~=true then
+        watch.enabled=false;watch.status='disabled';applied_signature=signature(kind,spec,false)
+        log('ensure '..id..' starts disabled by option '..enabled_handle.id)
+    else
+        target={spec=spec,signature=signature(kind,spec,true)}
+        next_at=startup
+    end
+    log('ensure '..id..' bound to '..#bound..' option(s)'..(enabled_handle and' and an enable toggle'or''))
+    return watch
+end
+
 function M.start(runtime,emit,request)
     assert(type(request)=='table','ensure requires a descriptor')
-    local allowed={patch=true,transaction=true,plan=true,interval=true,startup_delay=true,max_interval=true}
+    local allowed={patch=true,transaction=true,plan=true,interval=true,startup_delay=true,max_interval=true,
+        enabled=true}
     for key in pairs(request)do assert(allowed[key],'unsupported ensure option: '..tostring(key))end
     local count=(request.patch and 1 or 0)+(request.transaction and 1 or 0)+(request.plan and 1 or 0)
     assert(count==1,'ensure requires exactly one patch, transaction or plan')
@@ -19,6 +201,16 @@ function M.start(runtime,emit,request)
     local max_interval=request.max_interval or math.max(interval,600)
     assert(type(max_interval)=='number' and max_interval>=interval and max_interval<math.huge,
         'invalid ensure max_interval')
+    local body_kind=request.patch and'patch'or request.transaction and'transaction'or'plan'
+    if request.enabled~=nil or options.contains(request[body_kind])then
+        -- Option-bound ensure; requests without options keep the exact path below.
+        local validators={patch=patches.validate,transaction=transactions.validate,plan=plans.validate}
+        local modules={patch='hd2runtime/api/patch',transaction='hd2runtime/api/transaction',
+            plan='hd2runtime/api/plan'}
+        local watch=start_bound(runtime,emit,request,body_kind,validators[body_kind],
+            require(modules[body_kind]),interval,startup,max_interval)
+        return watch
+    end
     local kind,spec,module
     if request.patch then
         kind='patch';spec=patches.validate(request.patch);module=require('hd2runtime/api/patch')

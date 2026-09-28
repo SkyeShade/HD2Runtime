@@ -115,6 +115,58 @@ operations[#operations+1]=hd2.ensure({patch={id='smoke-pods-radius',
 return operations
 '''
 
+# Stand-in for CowboyBingus Mod Options Menu api 1 (the release build cannot depend on a local
+# checkout of the third-party addon). It follows the addon's contract: register_option validates
+# and returns true or false, get returns the applied value (saved if valid, else the default),
+# set replaces it without callbacks, and on_change callbacks run once per applied change.
+# scripts/validate_options_binding_snapshot.py runs the real addon source instead.
+MENU_STUB = r'''
+local menu={api=1,version=1,max_mods=8,max_options=32,values={},callbacks={},saved={['liberator_damage.damage']='200'}}
+function menu.register_option(id,spec)
+ if type(id)~='string'or type(spec)~='table'or type(spec.label)~='string'then return false,'invalid option registration'end
+ local value=menu.saved[id]and tonumber(menu.saved[id])
+ if spec.type=='slider'then
+  if not(value and value>=spec.min and value<=spec.max)then value=spec.default end
+ elseif spec.type=='toggle'then value=spec.default==true
+ else value=spec.default or 1 end
+ menu.values[id]=value;return true
+end
+function menu.get(id)return menu.values[id]end
+function menu.set(id,value)menu.values[id]=value;return true end
+function menu.on_change(id,fn)menu.callbacks[id]=menu.callbacks[id]or{};table.insert(menu.callbacks[id],fn);return true end
+function menu.ready()return true end
+function menu.apply(id,value)menu.values[id]=value;for _,fn in ipairs(menu.callbacks[id]or{})do fn(value,id)end end
+rawset(_G,'ModOptionsMenu',menu)
+'''
+OPTIONS_LIVE = r'''
+return function(frame,watches,counts)
+ local menu=rawget(_G,'ModOptionsMenu');local w=watches[1];local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function run(seconds)for _=1,math.floor(seconds/0.1+0.5)do frame()end end
+ -- Wait out the debounce, then until the operation is idle again (resolution spans many ticks).
+ local function settle()
+  run(1)
+  local spent=0
+  while(w.status=='running'or w.status=='waiting'and w.runs==0)and spent<6000 do frame();spent=spent+1 end
+ end
+ step('saved value applied first',w.status=='waiting'and w.runs==1 and w.result.status=='APPLIED')
+ local writes=counts.writes
+ menu.apply('liberator_damage.damage',300);settle()
+ step('live change applies through the same ensure',w.runs==2 and w.result.status=='APPLIED'
+  and counts.writes==writes+1,w.error)
+ writes=counts.writes
+ menu.apply('liberator_damage.damage',300);settle()
+ step('no-op change does no work',w.runs==2 and counts.writes==writes)
+ menu.apply('liberator_damage.enabled',false);settle()
+ step('disable restores the baseline',w.status=='disabled'and w.restores==1 and counts.writes==writes+1,w.error)
+ menu.apply('liberator_damage.enabled',true);settle()
+ step('re-enable applies the slider value',w.status=='waiting'and w.runs==3 and counts.writes==writes+2,w.error)
+ return results
+end
+'''
+EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE}}
+
+
 def example(name):
     return (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
 
@@ -135,6 +187,7 @@ SCENARIOS = {
     'booster-tuning': lambda: example('BoosterTuning'),
     'booster-explosion': lambda: example('IncendiaryHellpods'),
     'booster-coverage': lambda: BOOSTER_COVERAGE,
+    'options-live': lambda: example('LiberatorDamageOptions'),
 }
 
 
@@ -296,6 +349,7 @@ if type(returned)=='table' and returned.status==nil then
  for _,watch in ipairs(returned)do watches[#watches+1]=watch end
 else watches[#watches+1]=returned end
 startup_open=false
+if MENU then assert(loadstring(MENU,'@mods/cowboybingus/mod_options_menu'))()end
 
 local FRAME=0.1
 local function frame()simulated=simulated+FRAME;if update then update(FRAME)end end
@@ -315,6 +369,7 @@ local function describe()
  end
  return out
 end
+if AFTER then AFTER_RESULTS=assert(loadstring(AFTER))()(frame,watches,counts)end
 local report={scenario=SCENARIO,settled=settled(),startup_seconds=simulated,watches=describe(),
  counts={writes=counts.writes,protection_changes=counts.protection_changes,module_hashes=counts.module_hashes}}
 
@@ -335,6 +390,7 @@ if next(ensures)then
  report.reset={reapplied=reapplied(),seconds=seconds,watches=describe()}
 end
 report.lookups={startup=lookups.startup,late_missing=lookups.late_missing}
+report.after=AFTER_RESULTS
 report.log=lines
 source.close()
 return json.encode(report)
@@ -352,7 +408,10 @@ def run_scenario(resources, names, scenario, addon, snapshot):
         + 'local HARNESS={' + ','.join('[' + lua(k) + ']=' + lua_bytes(v) for k, v in harness_sources().items()) + '}\n'
         + 'local SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal EXE_SHA=' + lua(exe_sha)
         + '\nlocal DLL_SHA=' + lua(dll_sha) + '\nlocal ENTRY=' + lua(ENTRY) + '\nlocal WRITE_ADAPTER=' + lua(WRITE_ADAPTER)
-        + '\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon) + '\n' + PROGRAM)
+        + '\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon)
+        + '\nlocal MENU=' + (lua(EXTRAS.get(scenario, {}).get('menu')) if EXTRAS.get(scenario, {}).get('menu') else 'nil')
+        + '\nlocal AFTER=' + (lua(EXTRAS.get(scenario, {}).get('after')) if EXTRAS.get(scenario, {}).get('after') else 'nil')
+        + '\nlocal AFTER_RESULTS\n' + PROGRAM)
     return json.loads(execute(program.encode()))
 
 
@@ -369,6 +428,9 @@ def check(report):
         if watch.get('result') != 'APPLIED' or watch.get('status') == 'rejected':
             failures.append('%s: status=%s result=%s error=%s' % (watch.get('id'), watch.get('status'),
                 watch.get('result'), watch.get('error')))
+    for step in report.get('after') or []:
+        if not step.get('passed'):
+            failures.append('live option step failed: %s %s' % (step.get('name'), step.get('detail') or ''))
     reset = report.get('reset')
     if reset is not None and not reset['reapplied']:
         failures.append('ensure did not re-apply after reset')
