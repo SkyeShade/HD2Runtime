@@ -73,6 +73,7 @@ for _,weapon in ipairs(audit)do
   for _,batch in ipairs(weapon.batches)do
    local worker=coroutine.create(function()
     local spec=domain.validate_transaction{id='support-snapshot-audit',allow_shared=true,
+     allow_unverified_effect=true,
      target=batch.target,changes=batch.changes}
     local reader=Reader.new(source);local resolved=domain.capture(source,reader,spec)
     local plan=domain.prepare(resolved,reader,spec);reader.verify()

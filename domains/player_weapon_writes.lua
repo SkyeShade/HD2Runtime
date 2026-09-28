@@ -10,7 +10,8 @@ local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData'
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
-    'HellpodRackComponentData','WeaponLinkedAmmoComponentData'}
+    'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
+    'WeaponWindUpComponentData'}
 
 local function equal(a,c,kind)
     if kind=='f32'then return type(a)=='number'and type(c)=='number'
@@ -120,7 +121,7 @@ local function explosion_selector(value,label)
     return {weapon=value.weapon,attack=value.attack,phase=value.phase,
         is_null=value.path=='no_explosion'}
 end
-local function validate_change(weapon,item,allow_shared,role,path,phase)
+local function validate_change(weapon,item,allow_shared,role,path,phase,allow_unverified_effect)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
@@ -156,6 +157,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase)
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.affectsMultipleWeapons or allow_shared,
         'shared field requires allow_shared=true: '..item.field)
+    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect,
+        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     if path=='projectile_reference'and field.backing.settings then
         assert(allow_shared,'projectile object edits require allow_shared=true because definitions are shared')
     end
@@ -232,14 +235,15 @@ end
 
 function M.validate_patch(request)
     assert(type(request)=='table','patch requires a descriptor')
-    local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true}
+    local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true,
+        allow_unverified_effect=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
     local selected=kind=='support_weapon'and support_database or database
     local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
-        request.allow_shared==true,role,path,phase)
+        request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true)
     return {kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
         ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,
@@ -249,7 +253,8 @@ function M.validate_patch(request)
 end
 function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
-    local allowed={id=true,target=true,changes=true,diagnostic=true,allow_shared=true}
+    local allowed={id=true,target=true,changes=true,diagnostic=true,allow_shared=true,
+        allow_unverified_effect=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
     local selected=kind=='support_weapon'and support_database or database
@@ -265,7 +270,8 @@ function M.validate_transaction(request)
     local seen,canonical_seen={},{ }
     for _,item in ipairs(request.changes)do
         assert(not seen[item.field],'duplicate transaction field: '..tostring(item.field));seen[item.field]=true
-        local change=validate_change(weapon,item,result.allow_shared,role,path,phase)
+        local change=validate_change(weapon,item,result.allow_shared,role,path,phase,
+            request.allow_unverified_effect==true)
         local prior=canonical_seen[change.canonical_field]
         if prior then
             local same_desired=prior.desired==change.desired

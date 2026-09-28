@@ -12,8 +12,8 @@ import generate_support_weapon_authoring
 import support_callin_linkage
 
 
-AMBIGUOUS={'B/FLAM-80 Cremator','CQC-20 Breaching Hammer','EAT-17 Expendable Anti-Tank',
-    'LAS-98 Laser Cannon','M-105 Stalwart','MG-206 Heavy Machine Gun','MG-43 Machine Gun'}
+AMBIGUOUS={'B/FLAM-80 Cremator','EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon'}
+DELIVERY_RESOLVED={'CQC-20 Breaching Hammer','M-105 Stalwart','MG-206 Heavy Machine Gun','MG-43 Machine Gun'}
 
 
 class SupportCallInLinkageTests(unittest.TestCase):
@@ -151,7 +151,7 @@ class SupportCallInLinkageTests(unittest.TestCase):
 
     def test_ambiguous_weapon_identity_keeps_link_and_write_blocking(self):
         ambiguous={name for name,weapon in self.weapons.items()
-            if weapon['identityStatus']!='UNIQUE'and weapon['linkedStratagem']['known']}
+            if weapon['identityStatus']=='DUPLICATE'and weapon['linkedStratagem']['known']}
         self.assertEqual(ambiguous,AMBIGUOUS)
         self.assertEqual(set(self.support['supportCallInLinks']['audit']['ambiguousWeaponIdentityNames']),
             AMBIGUOUS)
@@ -170,8 +170,16 @@ class SupportCallInLinkageTests(unittest.TestCase):
             root=self.support_roots[name]
             self.assertEqual(root['rootResolution'],'UNIQUE')
             self.assertTrue(root['cooldownCapability']['writable'])
-        self.assertIn('never lifts support-weapon write blocking',
+        self.assertIn('alone never lifts support-weapon write blocking',
             self.support['supportCallInLinks']['joinContract']['writeGuardsUnchanged'])
+        for name in DELIVERY_RESOLVED:
+            weapon=self.weapons[name]
+            self.assertEqual(weapon['identityStatus'],'DELIVERY_RESOLVED')
+            self.assertTrue(weapon['writable'],name)
+            self.assertFalse(runtime['weapons'][name]['ordinaryWritesBlocked'],name)
+            relationship=next(item for item in self.support['supportCallInLinks']['relationships']
+                if item['supportWeaponName']==name)
+            self.assertEqual(relationship['weaponIdentityStatus'],'DELIVERY_RESOLVED')
 
     def test_unresolved_call_ins_remain_explicit(self):
         for name in ('SG-88 Break-Action Shotgun','CQC-72 Entrenchment Tool'):

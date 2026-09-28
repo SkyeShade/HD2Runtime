@@ -19,6 +19,8 @@ import re
 ROOT=Path(__file__).resolve().parents[1]
 STRATAGEM_RESEARCH=ROOT/'research/offensive-stratagem-runtime-F5FEE03DCFDB.json'
 SUPPORT_RESEARCH=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
+COVERAGE_RESEARCH=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
+RESOLVED_STATES=('UNIQUE','DELIVERY_RESOLVED')
 CONTRACT='hd2runtime.support_callin_linkage.v1'
 SCHEMA_VERSION=1
 
@@ -142,6 +144,15 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
             'primaryIsSupportRoot':any('stratagem_payload_is_support_root'in value
                 for value in matches.values())}
 
+    delivered={name for name,item in json.loads(COVERAGE_RESEARCH.read_text())['deliveryResolution'].items()
+        if item['decision']=='RESOLVED'}
+
+    def identity_status(weapon):
+        # Research-proven call-in delivery plus an exact scraped fingerprint resolves a duplicate group.
+        if weapon['identityResolution']=='DUPLICATE'and weapon['catalogIdentity']in delivered:
+            return 'DELIVERY_RESOLVED'
+        return weapon['identityResolution']
+
     links=[];weapon_links={};stratagem_links={}
     unresolved_roots={root['name']:root.get('reason')for root in support_roots
         if root['resolution']!='UNIQUE'}
@@ -187,7 +198,7 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
             'stratagemName':stratagem,'supportWeapon':support_weapon_key(name),
             'supportWeaponName':name,'deliveryObject':delivery_object,
             'companionDeliveries':companions,'special':special,
-            'weaponIdentityStatus':weapon['identityResolution'],
+            'weaponIdentityStatus':identity_status(weapon),
             'deliveryGraph':delivery_graph(stratagem,weapon,delivery_object),
             'confidence':'reviewed','provenance':provenance}
         links.append(link)
@@ -232,7 +243,9 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
             'displayNameMatchingRequired':False,
             'rawNativeIdentifiersPublished':False,
             'writeTargetsRemainSeparate':True,
-            'writeGuardsUnchanged':('A known relationship never lifts support-weapon write blocking; '
+            'writeGuardsUnchanged':('A known relationship alone never lifts support-weapon write blocking. '
+                'A duplicate group is resolved only when its call-in rack attaches exactly one candidate root '
+                'and scraped magazine values independently identify that root (DELIVERY_RESOLVED); '
                 'ambiguous runtime weapon roots stay blocked.')},
         'relationships':links,'supportWeapons':dict(sorted(weapon_links.items())),
         'stratagems':dict(sorted(stratagem_links.items())),'audit':audit}
@@ -258,7 +271,7 @@ def audit_links(links,weapon_links,stratagem_links):
     if len(by_weapon)!=len(links)or len(by_stratagem)!=len(links):
         mismatches.append({'direction':'relationship','reason':'non one-to-one relationship'})
     if mismatches:raise ValueError('support call-in linkage is not bidirectional: '+json.dumps(mismatches))
-    ambiguous=[link['supportWeaponName']for link in links if link['weaponIdentityStatus']!='UNIQUE']
+    ambiguous=[link['supportWeaponName']for link in links if link['weaponIdentityStatus']not in RESOLVED_STATES]
     return {'supportWeapons':len(weapon_links),
         'knownLinks':sum(value['known']for value in weapon_links.values()),
         'unresolvedLinks':sum(not value['known']for value in weapon_links.values()),

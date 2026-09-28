@@ -660,8 +660,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field alternate_velocity "projectile.alternate.velocity"
 ---@field drag "projectile.drag"
 ---@field gravity "projectile.gravity"
+---@field lifetime "projectile.lifetime"
 ---@field mass "projectile.mass"
 ---@field pellet_count "projectile.pellet_count"
+---@field penetration_slowdown "projectile.penetration_slowdown"
 ---@field primary_drag "projectile.primary.drag"
 ---@field primary_gravity "projectile.primary.gravity"
 ---@field primary_mass "projectile.primary.mass"
@@ -879,6 +881,9 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field spare_magazines "magazine.spare_magazines"
 ---@field starting_magazines "magazine.starting_magazines"
 
+---@class HD2Fields_reload
+---@field duration "reload.duration"
+
 ---@class HD2Fields_rounds
 ---@field capacity "rounds.capacity"
 ---@field feed_capacity_1 "rounds.feed_capacity_1"
@@ -900,6 +905,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field feed_primary_impact_explosion "terminal.feed_primary.impact.explosion"
 ---@field primary_expiry_explosion "terminal.primary.expiry.explosion"
 ---@field primary_impact_explosion "terminal.primary.impact.explosion"
+
+---@class HD2Fields_windup
+---@field wind_down_seconds "windup.wind_down_seconds"
+---@field wind_up_seconds "windup.wind_up_seconds"
 
 ---@class HD2Fields_entity
 ---@field health "entity.health"
@@ -952,9 +961,11 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field heat HD2Fields_heat
 ---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine
+---@field reload HD2Fields_reload
 ---@field rounds HD2Fields_rounds
 ---@field status HD2Fields_status
 ---@field terminal HD2Fields_terminal
+---@field windup HD2Fields_windup
 ---@field entity HD2Fields_entity
 ---@field eagle HD2Fields_eagle
 ---@field zone HD2Fields_zone
