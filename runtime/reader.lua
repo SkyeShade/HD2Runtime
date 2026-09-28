@@ -1,4 +1,5 @@
 -- Internal capability: reads only. Every read checks allocation ownership again.
+local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local function safe(n)return type(n)=='number' and n>=0 and n%1==0 and n<=9007199254740991 end
 function M.new(runtime)
@@ -13,6 +14,7 @@ function M.new(runtime)
     local function query(at)
         assert(safe(at),'invalid query address')
         self.queries=self.queries+1
+        metrics.count('reader.queries')
         assert(self.queries<=100000,'metadata query budget exceeded')
         local r=assert(runtime.query(at),'memory query failed')
         assert(safe(r.base) and safe(r.size) and safe(r.base+r.size) and r.size>0
@@ -39,6 +41,7 @@ function M.new(runtime)
                     or r.protect==0x40 or r.protect==0x80),'read ownership/protection changed')
             local n=math.min(remaining,65536,r.base+r.size-at)
             self.bytes=self.bytes+n
+            metrics.count('reader.bytes',n)
             assert(self.bytes<=16*1024*1024,'read byte budget exceeded')
             local bytes=assert(runtime.read(at,n),'memory read failed')
             assert(#bytes==n,'short memory read')

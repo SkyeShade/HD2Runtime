@@ -1,8 +1,55 @@
 local b=require('hd2runtime/core/bytes')
 local settings=require('hd2runtime/core/settings')
+local metrics=require('hd2runtime/runtime/metrics')
 local M={}
+-- Short-lived sharing of a completed walk between back-to-back operations (guarded
+-- operations run one at a time). Reuse re-validates every allocation's identity,
+-- extent, protection, and header and re-parses settings; any difference or missing
+-- key falls back to a full walk. Adapters without a clock never share.
+local SHARE_SECONDS=15
+local shared
+local function reuse(runtime,reader,profile,needed,now)
+    if not(shared and shared.profile==profile and now<=shared.expires)then return nil end
+    -- Pass 1: validate every key with uncaptured reads only, so a fallback to the
+    -- full walk never leaves partial snapshots behind in the reader.
+    local regions={}
+    for key in pairs(needed)do
+        local cached=shared.regions[key]
+        if not cached then return nil end
+        reader.stage='runtime/discover:shared:'..key
+        local r=reader.query(cached.base)
+        if not(r.base==cached.base and r.allocation_base==cached.base and r.size==cached.size
+            and r.state==0x1000 and r.type==0x20000 and(r.protect==2 or r.protect==4))then return nil end
+        local h=reader.read(r,0,28)
+        if key=='entity'then
+            if h~=b.unhex(profile.map_header)then return nil end
+        else
+            local d=profile.settings[key]
+            if not(b.u32(h,0)==#d.groups and h:sub(5,28)==b.unhex(d.groups[1].header))then return nil end
+        end
+        regions[key]=r
+    end
+    -- Pass 2: capture and parse exactly as the walk does.
+    local result={}
+    for key,r in pairs(regions)do
+        if key=='entity'then result.entity=r
+        else
+            local d=profile.settings[key]
+            local bytes=reader.read(r,0,d.size,true)
+            reader.stage='core/settings:'..key
+            result[key]={owner=r,records=settings.parse(bytes,r.base,d)}
+        end
+    end
+    return result
+end
 function M.locate(runtime,reader,profile,needed)
+    local now=runtime.monotonic_time and runtime.monotonic_time()
+    if now then
+        local result=reuse(runtime,reader,profile,needed,now)
+        if result then metrics.count('discover.shared_reuses');return result end
+    end
     reader.stage='runtime/discover:allocation_map'
+    metrics.count('discover.walks')
     local page,finish=runtime.system_info()
     assert(page==4096 and finish>65536 and finish<=9007199254740991,'unsupported address space')
     local matches={entity={}}
@@ -10,6 +57,7 @@ function M.locate(runtime,reader,profile,needed)
     local cursor=65536
     while cursor<finish do
         local r=reader.query(cursor);cursor=r.base+r.size
+        metrics.count('discover.regions')
         if (r.capture_status==nil or r.capture_status==1)
             and r.base==r.allocation_base and r.state==0x1000 and r.type==0x20000
             and (r.protect==2 or r.protect==4) then
@@ -40,6 +88,16 @@ function M.locate(runtime,reader,profile,needed)
             assert(#matches[key]==1,'expected unique '..key..' allocation; found '..#matches[key])
             result[key]=matches[key][1]
         end
+    end
+    if now then
+        -- Record only allocations whose uniqueness this walk just proved.
+        local regions={}
+        for key in pairs(needed)do
+            local item=result[key]
+            local r=item and(item.owner or item)
+            if r then regions[key]={base=r.base,size=r.size}end
+        end
+        shared={profile=profile,expires=now+SHARE_SECONDS,regions=regions}
     end
     return result
 end

@@ -1,4 +1,5 @@
 -- Failure-atomic where guarded rollback succeeds. No yields or callbacks occur here.
+local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local PAGE=4096
 local function safe(n)return type(n)=='number' and n>=0 and n%1==0 and n<=9007199254740991 end
@@ -97,7 +98,8 @@ function M.apply(runtime,plan)
             and type(change.expected)=='string' and type(change.desired)=='string'
             and type(change.before)=='string' and #change.expected==#change.desired
             and #change.before==#change.desired
-            and (#change.desired==1 or #change.desired==4 or #change.desired==12),
+            and (#change.desired==1 or #change.desired==4 or #change.desired==8
+                or #change.desired==12),
             'invalid transaction change')
         assert(change.before==change.expected or change.before==change.desired,
             'transaction change is neither expected nor desired')
@@ -145,7 +147,8 @@ function M.apply(runtime,plan)
                     'target differs from captured context')
             end
         end
-        assert(contained==1,'transaction target context absent/ambiguous')
+        assert(contained==1,'transaction target context absent/ambiguous: '..tostring(change.label)
+            ..' contexts='..contained)
     end
     for _,context in ipairs(contexts)do
         table.sort(context.targets,function(a,b)return a.offset<b.offset end)
@@ -268,6 +271,13 @@ function M.apply(runtime,plan)
         report.protection_restored=restore_pages();report.status='REJECTED'
     end
     report.guard_queries=queries;report.guard_bytes=bytes_read
+    metrics.count('transaction.applies')
+    metrics.count('transaction.writes',report.writes)
+    metrics.count('transaction.protection_changes',report.protection_changes)
+    metrics.count('transaction.guard_bytes',bytes_read)
+    for _,field in ipairs(report.fields)do
+        if field.state=='ALREADY_DESIRED'then metrics.count('transaction.already_desired_fields')end
+    end
     return report
 end
 return M

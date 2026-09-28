@@ -34,6 +34,8 @@ end
 for name in pairs(require('hd2runtime/api/target').new(metadata.describe))do M[name]=metadata[name]end
 M.fields=metadata.fields;M.enums=metadata.enums;M.resources=metadata.resources
 M.version=metadata.version;M.api_version=metadata.api_version
+-- Process-wide work counters and worst durations for performance audits.
+function M.metrics()return require('hd2runtime/runtime/metrics').snapshot()end
 function M.patch(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end

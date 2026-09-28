@@ -1,4 +1,5 @@
 local Reader=require('hd2runtime/runtime/reader')
+local exclusive=require('hd2runtime/runtime/exclusive')
 local resolution=require('hd2runtime/core/resolution')
 local domain=require('hd2runtime/domains/transactions')
 local writer=require('hd2runtime/core/guarded_transaction')
@@ -9,7 +10,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     assert(type(startup_delay)=='number' and startup_delay>=0 and startup_delay<math.huge,
         'invalid transaction startup delay')
     local watch={status='waiting'}
-    local elapsed,steps,worker=0,0,nil
+    local elapsed,steps,worker=0,0,nil;local waited=0
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local function value_text(value)
         if type(value)=='table'and value.weapon and value.attack then
@@ -18,6 +19,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         return tostring(value)
     end
     local function reject(reason)
+        exclusive.release(watch)
         watch.status='rejected';watch.error=tostring(reason)
         watch.result=watch.result or {status='REJECTED',writes=0,protection_changes=0,
             protection_restored=true,rollback='not_needed'}
@@ -26,15 +28,16 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         log('transaction '..spec.id..' REJECTED code='..watch.result.code..' reason='..watch.error)
     end
     function watch.cancel()
-        if watch.status~='complete' and watch.status~='rejected' then watch.status='cancelled';worker=nil end
+        if watch.status~='complete' and watch.status~='rejected' then watch.status='cancelled';worker=nil;exclusive.release(watch) end
     end
     function watch.tick(dt)
         if watch.status=='complete' or watch.status=='rejected' or watch.status=='cancelled' then return end
         assert(type(dt)=='number' and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt
         if elapsed<startup_delay then return end
+        if not exclusive.acquire(watch)then watch.status='queued';waited=waited+dt;return end
         steps=steps+1
-        if elapsed>startup_delay+180 or steps>10000 then
+        if elapsed-waited>startup_delay+180 or steps>10000 then
             return reject('transaction resolution budget exhausted')
         end
         if not worker then worker=coroutine.create(function()
@@ -62,10 +65,14 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                         ..' unique_owner='..tostring(change.identity.unique_owner))
                 end
             end
-            local exe,dll=runtime.module(nil),runtime.module('game.dll')
-            assert(exe and dll and runtime.module_hash(exe)==profile.exe_sha
-                and runtime.module_hash(dll)==profile.dll_sha,'application fingerprint mismatch')
-            return writer.apply(runtime,plan)
+            assert(require('hd2runtime/core/fingerprint').matches(runtime),'application fingerprint mismatch')
+            local applied=writer.apply(runtime,plan)
+            if applied.status=='APPLIED' or applied.status=='ALREADY_DESIRED' then
+                -- Retain only what ensure needs for cheap steady-state checks.
+                watch.verification=require('hd2runtime/core/steady_state').capture(runtime,
+                    plan.changes or{{owner=plan.owner,offset=plan.offset,desired=plan.new}})
+            end
+            return applied
         end)end
         watch.status='resolving'
         local ok,result=coroutine.resume(worker)
@@ -97,7 +104,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 ..(result.rollback_error and ' rollback_reason='..result.rollback_error or ''))
             return reject(result.reason)
         end
-        watch.status='complete'
+        watch.status='complete';exclusive.release(watch)
         log('transaction '..spec.id..' '..result.status)
     end
     return watch

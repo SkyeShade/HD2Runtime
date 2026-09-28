@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 f50e10e4218b6b401701b3986ea3dc4cec19b3dc44b8760b873ed5dd11a3eb4a
+-- Schema SHA256 95ab0e6976bb015f390c95f3e5f5c2498ea632c6d80ff37bc412488ff664398f
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -34,6 +34,10 @@
 ---@field interval number
 ---@field id string
 ---@field kind string
+---@field current_interval number
+---@field max_interval number
+---@field verifications integer
+---@field drifts integer
 
 ---@class HD2ObserveRequest
 ---@field targets HD2ReadTarget[]
@@ -109,6 +113,13 @@
 ---@field plan? HD2PlanRequest
 ---@field interval? number
 ---@field startup_delay? number
+---@field max_interval? number
+
+---@class HD2RuntimeMetrics
+---@field counters table<string, number>
+---@field worst_seconds table<string, number>
+---@field total_seconds table<string, number>
+---@field timed boolean
 
 ---@class HD2Weapon
 ---@field resource HD2Resource
@@ -1019,10 +1030,13 @@ function hd2.transaction(request) end
 ---@param request HD2PlanRequest
 ---@return HD2Watch
 function hd2.plan(request) end
----Wrap exactly one patch, transaction, or composition plan. Default 60 update seconds, three-second startup, terminal conflict rejection.
+---Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal.
 ---@param request HD2EnsureRequest
 ---@return HD2EnsureWatch
 function hd2.ensure(request) end
+---Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits.
+---@return HD2RuntimeMetrics
+function hd2.metrics() end
 
 if rawget(_G,'CowboyBingusModLoader') then
     error("HD2Runtime SDK stubs are authoring-only; install the runtime package in-game")

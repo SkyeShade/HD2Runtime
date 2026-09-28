@@ -13,7 +13,7 @@ function M.create()
     end
     function runtime.write(address,bytes)
         assert(type(address)=='number' and address>0 and address<=9007199254740991
-            and type(bytes)=='string' and (#bytes==1 or #bytes==4 or #bytes==12)
+            and type(bytes)=='string' and (#bytes==1 or #bytes==4 or #bytes==8 or #bytes==12)
             and (#bytes==1 or address%4==0),
             'unsupported native write extent')
         local count=ffi.new('size_t[1]')

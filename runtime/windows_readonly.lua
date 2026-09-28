@@ -92,6 +92,14 @@ local function create_runtime()
             tonumber(ffi.cast('uintptr_t',info[0].maximum_address))+1
     end
     function runtime.monotonic_time() return tonumber(kernel.GetTickCount64())/1000 end
+    local counter,frequency=ffi.new('int64_t[1]'),ffi.new('int64_t[1]')
+    kernel.QueryPerformanceFrequency(frequency)
+    local ticks_per_second=tonumber(frequency[0])
+    function runtime.precise_time()
+        kernel.QueryPerformanceCounter(counter)
+        return tonumber(counter[0])/ticks_per_second
+    end
+    require('hd2runtime/runtime/metrics').set_clock(runtime.precise_time)
     function runtime.ensure_directory(path)
         assert(type(path)=='string'and#path>0,'directory path required')
         local normalized=path:gsub('/','\\'):gsub('\\+$','')

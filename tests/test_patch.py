@@ -157,8 +157,27 @@ r=request();r.target.address=123;assert(not pcall(hd2.patch,r))
     def test_application_fingerprint_rechecked(self):
         check('''
 local hash=runtime.module_hash;local calls=0
-runtime.module_hash=function(name)calls=calls+1;if calls>2 then return 'changed'end;return hash(name)end
-local w=patch();assert(w.status=='rejected' and #writes==0 and #protections==0)
+runtime.module_hash=function(name)calls=calls+1;return hash(name)end
+-- A verified build is hashed once per loaded-module identity, not per operation.
+local w=patch();assert(w.status=='complete',w.error);assert(calls==2,'hashed '..calls)
+replace(target_address,old);w=patch();assert(w.status=='complete');assert(calls==2,'rehashed '..calls)
+-- A different loaded module at application time is re-hashed and still rejected.
+replace(target_address,old)
+local module=runtime.module;local swapped=false
+runtime.module=function(name)
+    if swapped and name=='game.dll'then return 'reloaded.dll'end
+    return module(name)
+end
+runtime.module_hash=function(name)calls=calls+1
+    if name=='reloaded.dll'then return 'changed'end;return hash(name)end
+local n=#writes
+local fingerprint=require('hd2runtime/core/fingerprint')
+local matches=fingerprint.matches
+fingerprint.matches=function(r)
+    local result=matches(r);swapped=true;return result
+end
+w=patch();assert(w.status=='rejected' and #writes==n,'status='..w.status)
+assert(w.error:find('application fingerprint mismatch',1,true),w.error)
 ''')
 
     def test_cancellation_and_request_copy(self):
@@ -221,7 +240,10 @@ local ok,why=pcall(function()
     assert(r.protect(address,4096,4)==2 and r.query(address).protect==4)
     local four=string.char(0,0,0,65)
     assert(r.write(address,four) and r.read(address,4)==four)
-    assert(not pcall(r.write,address,string.rep('x',8)))
+    -- 8-byte typed references (vehicle mount slots) are 4-byte aligned in native records.
+    local reference=string.char(0xFD,0x88,0x5F,0x1A,0xB3,0xEE,0x72,0x98)
+    assert(r.write(address+4,reference) and r.read(address+4,8)==reference)
+    assert(not pcall(r.write,address+2,reference))
     assert(not pcall(r.write,address,string.rep('x',16)))
     assert(not pcall(r.protect,address,8192,4))
 end)

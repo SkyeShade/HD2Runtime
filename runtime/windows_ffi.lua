@@ -14,6 +14,8 @@ ffi.cdef [[
                           size_t size, size_t *read);
     uint32_t GetLastError(void);
     uint64_t GetTickCount64(void);
+    int QueryPerformanceCounter(int64_t *count);
+    int QueryPerformanceFrequency(int64_t *frequency);
     int CreateDirectoryA(const char *path, void *security);
     typedef struct HD2RuntimeMemoryRegion {
         void *base; void *allocation_base; uint32_t allocation_protection;

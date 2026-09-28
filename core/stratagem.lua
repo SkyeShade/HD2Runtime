@@ -145,6 +145,7 @@ function M.parse(bytes,base,pointers,s,target)
     return selected
 end
 function M.capture(runtime,reader,profile)
+    require('hd2runtime/runtime/metrics').count('stratagem.table_captures')
     reader.stage='core/stratagem:module_root'
     local s=profile.stratagem
     local dll=runtime.address(assert(runtime.module('game.dll')))
@@ -170,6 +171,7 @@ function M.capture(runtime,reader,profile)
     return result
 end
 function M.capture_all(runtime,reader,profile)
+    require('hd2runtime/runtime/metrics').count('stratagem.table_captures')
     reader.stage='core/stratagem:module_root'
     local s=profile.stratagem
     local dll=runtime.address(assert(runtime.module('game.dll')))

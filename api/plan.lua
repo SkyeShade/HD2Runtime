@@ -1,4 +1,5 @@
 local Reader=require('hd2runtime/runtime/reader')
+local exclusive=require('hd2runtime/runtime/exclusive')
 local plans=require('hd2runtime/domains/composition_plans')
 local domains=require('hd2runtime/domains/write_domains')
 local writer=require('hd2runtime/core/guarded_transaction')
@@ -6,9 +7,7 @@ local profile=require('hd2runtime/schemas/current')
 local M={}
 
 local function fingerprint(runtime)
-    local exe,dll=runtime.module(nil),runtime.module('game.dll')
-    return exe and dll and runtime.module_hash(exe)==profile.exe_sha
-        and runtime.module_hash(dll)==profile.dll_sha
+    return require('hd2runtime/core/fingerprint').matches(runtime)==true
 end
 local function run_nested(worker)
     while true do
@@ -44,9 +43,10 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     startup_delay=startup_delay==nil and 3 or startup_delay
     assert(type(startup_delay)=='number'and startup_delay>=0 and startup_delay<math.huge,
         'invalid plan startup delay')
-    local watch={status='waiting'};local elapsed,steps,worker=0,0,nil
+    local watch={status='waiting'};local elapsed,steps,worker=0,0,nil;local waited=0
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local function reject(reason,result)
+        exclusive.release(watch)
         watch.status='rejected';watch.error=tostring(reason)
         watch.result=result or watch.result or{status='REJECTED',writes=0,bytes_written=0,
             protection_changes=0,protection_restored=true,rollback='not_needed',phases={}}
@@ -55,13 +55,14 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         log('plan '..spec.id..' REJECTED code='..watch.result.code..' reason='..watch.error)
     end
     function watch.cancel()
-        if watch.status~='complete'and watch.status~='rejected'then watch.status='cancelled';worker=nil end
+        if watch.status~='complete'and watch.status~='rejected'then watch.status='cancelled';worker=nil;exclusive.release(watch) end
     end
     function watch.tick(dt)
         if watch.status=='complete'or watch.status=='rejected'or watch.status=='cancelled'then return end
         assert(type(dt)=='number'and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt;if elapsed<startup_delay then return end
-        steps=steps+1;if elapsed>startup_delay+300 or steps>20000 then
+        if not exclusive.acquire(watch)then watch.status='queued';waited=waited+dt;return end
+        steps=steps+1;if elapsed-waited>startup_delay+300 or steps>20000 then
             return reject('plan resolution budget exhausted')end
         if not worker then worker=coroutine.create(function()
             local report={status='ALREADY_DESIRED',writes=0,bytes_written=0,
@@ -122,6 +123,11 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 history[#history+1]={phase=phase,plan=plan,result=result,inverse=writer.inverse(plan)}
             end
             report.status=any_applied and'APPLIED'or'ALREADY_DESIRED'
+            local changes={}
+            for _,entry in ipairs(history)do
+                for _,change in ipairs(entry.plan.changes)do changes[#changes+1]=change end
+            end
+            watch.verification=require('hd2runtime/core/steady_state').capture(runtime,changes)
             return report
         end)end
         watch.status='resolving';local ok,result=coroutine.resume(worker)
@@ -130,7 +136,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         watch.result=result;result.id=spec.id;result.mode=runtime.mode
         result.fixture_fallback='disabled'
         if result.status=='REJECTED'then return reject(result.reason,result)end
-        watch.status='complete'
+        watch.status='complete';exclusive.release(watch)
         log('plan '..spec.id..' '..result.status..' phases='..#result.phases
             ..' writes='..result.writes..' protection_changes='..result.protection_changes)
         log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))

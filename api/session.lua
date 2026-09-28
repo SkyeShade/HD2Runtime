@@ -208,6 +208,8 @@ function M.new(runtime,emit)
     end
     local metadata=require('hd2runtime/domains/metadata')
     self.version=metadata.version;self.api_version=metadata.api_version
+    if runtime.precise_time then require('hd2runtime/runtime/metrics').set_clock(runtime.precise_time)end
+    function self.metrics()return require('hd2runtime/runtime/metrics').snapshot()end
     function self.patch(request)
         if not runtime.write or not runtime.protect then return disabled()end
         return require('hd2runtime/api/patch').start(runtime,emit,request)
