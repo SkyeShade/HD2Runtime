@@ -131,7 +131,10 @@ for _,weapon in ipairs(audit)do
                             'fire mode plan count='..#plan.changes..' already='..tostring(plan.changes[1].already_desired)
                             ..' labels='..table.concat(labels,','))
                     else
-                        assert(#plan.changes==#changes)
+                        -- fire_mode.modes prepares as its four FireMode slots.
+                        local expected=#changes
+                        for _,change in ipairs(changes)do if change.field=='fire_mode.modes'then expected=expected+3 end end
+                        assert(#plan.changes==expected)
                         local guarded_result=guarded.apply(source,plan)
                         assert(guarded_result.status=='ALREADY_DESIRED'and guarded_result.writes==0
                             and guarded_result.protection_changes==0 and guarded_result.protection_restored)

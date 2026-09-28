@@ -103,6 +103,8 @@ function M.new(describe)
         end
     end
     local attachment_authoring=require('hd2runtime/domains/attachment_authoring')
+    -- Native fire-mode sets (four packed FireMode slots); written through hd2.fields.fire_mode.*.
+    local fire_mode_table=require('hd2runtime/domains/weapon_fire_modes')
     local function magazine_attachment_target(identity,relationship,option_name)
         local entry=assert(attachment_authoring.attachments[identity],'unknown reviewed magazine attachment')
         local methods={}
@@ -140,7 +142,11 @@ function M.new(describe)
             return result
         end
         function methods.attack(_,role)return attack_target(name,role)end
-        function methods.fire_modes()return copy(graph.fire_mode)end
+        function methods.fire_modes()
+            local result=copy(graph.fire_mode)
+            result.modeSet=copy(fire_mode_table.weapons['player:'..name])
+            return result
+        end
         function methods.magazine_options()
             local result={};local category=attachment_category(graph,'Magazine')
             for _,option in ipairs(category and category.options or graph.magazine.observed_options)do
@@ -309,6 +315,7 @@ function M.new(describe)
         end
         function methods.projectile(_,identity)return methods.attack(nil,identity):projectile()end
         function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
+        function methods.fire_modes()return {modeSet=copy(fire_mode_table.weapons['support:'..name])}end
         return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end
     local legacy_stratagem=builders.stratagem

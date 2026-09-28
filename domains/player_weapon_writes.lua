@@ -107,6 +107,28 @@ local function scalar(field,value,label)
     if field.type=='integer'then assert(value%1==0,label..' must be integer')end
     return value
 end
+-- An ordered fire-mode list (first = default) as the four packed native FireMode slots.
+local function mode_set(field,value,label)
+    assert(type(value)=='table'and getmetatable(value)==nil,label..' must be a list of fire mode names')
+    local count=0;for _ in pairs(value)do count=count+1 end
+    assert(count==#value and#value>=1,label..' must list at least one fire mode')
+    assert(#value<=field.maxModes,label..' lists '..#value..' modes; this weapon allows '..field.maxModes
+        ..(field.maxModes==1 and' (no fire-mode selector is bound)'or''))
+    local seen,bytes={},{}
+    for index,name in ipairs(value)do
+        local native=field.modeValues[name]
+        assert(native,label..' names an unsupported fire mode: '..tostring(name))
+        assert(not seen[name],label..' lists '..name..' twice');seen[name]=true
+        bytes[index]=b.encode(native,'u32')
+    end
+    for index=#value+1,4 do bytes[index]=b.encode(0,'u32')end
+    return table.concat(bytes)
+end
+local function same_list(a,c)
+    if type(a)~='table'or type(c)~='table'or#a~=#c then return false end
+    for index=1,#a do if a[index]~=c[index]then return false end end
+    return true
+end
 local function reference_selector(value,label)
     assert(type(value)=='table',label..' must be a projectile reference handle')
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
@@ -218,7 +240,15 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected_selector=expected,desired_selector=desired,source_descriptor=source}
     end
+    if field.type=='fire_mode_set'then
+        local expected=mode_set(field,item.expect,'expect');local desired=mode_set(field,item.value,'value')
+        assert(same_list(item.expect,field.currentDefault),'expect differs from reviewed fire modes for '..item.field)
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,expected=expected,desired=desired}
+    end
     local expected=scalar(field,item.expect,'expect');local desired=scalar(field,item.value,'value')
+    if field.min~=nil then assert(desired>=field.min,'value is below the reviewed minimum '..field.min..' for '..item.field)end
+    if field.max~=nil then assert(desired<=field.max,'value is above the reviewed maximum '..field.max..' for '..item.field)end
     if field.writeKind=='reorder_native_mode_vector'then
         assert((expected==1 or expected==2)and(expected==field.currentDefault),
             'expect differs from reviewed default fire mode')
@@ -639,6 +669,15 @@ function M.prepare(resolved,reader,spec)
         end
         local offset=record.offset+backing.offset
         local key=tostring(owner.base)..':'..tostring(offset)..':'..tostring(backing.width)
+        -- Differently sized fields over the same bytes (fire_mode.modes and the older fire-mode views)
+        -- are never combined in one plan.
+        for _,other in ipairs(plan.changes)do
+            local other_field=other.canonical_field:gsub('%[%d+%]$','')
+            if other.owner.base==owner.base and other_field~=change.canonical_field
+                and other.offset<offset+backing.width and offset<other.offset+#other.desired then
+                error('overlapping semantic fields are not proven aliases: '..other.label..' and '..change.field,0)
+            end
+        end
         local prior=physical[key]
         if prior then
             if prior.canonical_field==change.canonical_field then
@@ -660,7 +699,25 @@ function M.prepare(resolved,reader,spec)
             already_desired=current==change.desired,identity=identity,chain={identity},
             expect=change.expect,value=change.value}
             if source_identity then item.chain[#item.chain+1]=source_identity end
-            plan.changes[#plan.changes+1]=item;physical[key]=item
+            if change.descriptor.type=='fire_mode_set'then
+                -- The four FireMode slots are written as four aligned 4-byte changes in one atomic
+                -- transaction: every slot is conflict-checked, only changed slots are written, and no
+                -- write crosses a page.
+                for slot=0,3 do
+                    local at=slot*4+1
+                    local part={label=change.field..'['..(slot+1)..']',
+                        canonical_field=change.canonical_field..'['..(slot+1)..']',
+                        semantic_aliases=change.semantic_aliases,owner=owner,offset=offset+slot*4,
+                        field_offset=backing.offset+slot*4,expected=expected:sub(at,at+3),
+                        desired=change.desired:sub(at,at+3),before=current:sub(at,at+3),
+                        identity=identity,chain={identity},expect=change.expect,value=change.value}
+                    part.already_desired=part.before==part.desired
+                    plan.changes[#plan.changes+1]=part
+                end
+                physical[key]=item
+            else
+                plan.changes[#plan.changes+1]=item;physical[key]=item
+            end
             if change.descriptor.writeKind=='reorder_native_mode_vector'then
                 local vector=change.descriptor.nativeModeVector
                 assert(#vector==3 and(b.u32(record.bytes,144)==change.expect

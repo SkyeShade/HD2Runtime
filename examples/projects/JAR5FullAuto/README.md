@@ -1,0 +1,3 @@
+# JAR5FullAuto
+
+Gives the JAR-5 Dominator a full-auto mode through `hd2.fields.fire_mode.modes`. The weapon's native fire modes are four packed `FireMode` slots in its own `WeaponDataComponentData` record (+144); the JAR-5 has Single, Burst and two empty slots, and binds the fire-mode selector. The patch writes Automatic into the third slot (`tertiary_fire_mode`, +152, 0 -> 1) and nothing else; the default mode stays Single. The record is weapon-local, so no `allow_shared` is needed; `allow_unverified_effect` is required because the in-game effect of adding a mode has not been gameplay-tested. Built only; never deployed or launched.

@@ -1,0 +1,4277 @@
+{
+ "schemaVersion": 1,
+ "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+ "layout": {
+  "140": "num_burst_rounds",
+  "144": "primary",
+  "148": "secondary",
+  "152": "tertiary",
+  "156": "quaternary",
+  "184": "function_info"
+ },
+ "fireMode": {
+  "0": "None",
+  "1": "Automatic",
+  "2": "Single",
+  "3": "Burst",
+  "4": "Safety_Off",
+  "5": null,
+  "6": null,
+  "7": null,
+  "8": null,
+  "9": null
+ },
+ "weaponFunction": {
+  "0": "None",
+  "1": "Zeroing",
+  "2": "ROF",
+  "3": "Firemode",
+  "4": "Magazine",
+  "5": "LightMode",
+  "6": "LaserGuide",
+  "7": "MuzzleVelocity",
+  "8": "ProgrammableAmmo",
+  "9": null,
+  "10": null,
+  "11": null,
+  "12": null
+ },
+ "semanticModes": {
+  "1": "automatic",
+  "2": "single",
+  "3": "burst"
+ },
+ "model": {
+  "modeSet": "four packed FireMode slots at +144; slot 1 is the default mode",
+  "burst": "num_burst_rounds (+140), weapon-wide",
+  "fireRate": "one ProjectileWeaponComponentData rpm shared by every mode",
+  "selector": "function_info binds WeaponFunctionType Firemode (3) to the left or right input"
+ },
+ "weapons": [
+  {
+   "kind": "player",
+   "weapon": "AR-11 Arbitrator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    3,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": 11,
+    "right": "Firemode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": true,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-2 Coyote",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23 Liberator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23A Liberator Carbine",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23C Liberator Concussive",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23P Liberator Penetrator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-32 Pacifier",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-59 Suppressor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-61 Tenderizer",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ROF",
+    "right": "Firemode",
+    "leftValue": 2,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "AR/GL-21 One-Two",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": 11,
+    "right": "Firemode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": true,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "ARC-12 Blitzer",
+   "families": [
+    "arc"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through arc.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "BR-14 Adjudicator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "CB-9 Exploding Crossbow",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-19 Stun Lance",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-2 Saber",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-30 Stun Baton",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-42 Machete",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-5 Combat Hatchet",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-73 Entrenchment Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "DBS-2 Double Freedom",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    4,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "Safety_Off"
+   ],
+   "modeValues": [
+    2,
+    4
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "Firemode",
+    "right": "None",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "FLAM-66 Torcher",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "GL-15 Evictor",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-20 Ultimatum",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-31 Grenade Pistol",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 2,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "JAR-5 Dominator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    3,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    2,
+    3
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-12 Sai",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-13 Trident",
+   "families": [
+    "beam"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-16 Sickle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-5 Scythe",
+   "families": [
+    "beam"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-58 Talon",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-7 Dagger",
+   "families": [
+    "beam"
+   ],
+   "roots": 2,
+   "state": "blocked",
+   "reason": "The weapon roots disagree on their fire-mode configuration."
+  },
+  {
+   "kind": "player",
+   "weapon": "M6C/SOCOM Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "M7S SMG",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "M90A Shotgun",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "MA5C Assault Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "MP-98 Knight",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "P-11 Stim Pistol",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-113 Verdict",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-19 Redeemer",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "P-2 Peacemaker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-33 Missile Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    3,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "burst"
+   ],
+   "modeValues": [
+    3
+   ],
+   "defaultMode": "burst",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "None",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-34 Breacher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    3,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "burst"
+   ],
+   "modeValues": [
+    3
+   ],
+   "defaultMode": "burst",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-35 Re-Educator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-4 Senator",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-69 Veto",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "P-72 Crisper",
+   "families": [
+    "spray"
+   ],
+   "roots": 2,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-92 Warrant",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    3,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "burst"
+   ],
+   "modeValues": [
+    3
+   ],
+   "defaultMode": "burst",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "None",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P/40-K Bolt Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-1 Scorcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "automatic"
+   ],
+   "modeValues": [
+    2,
+    1
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-101 Purifier",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-15 Loyalist",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    5,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    5
+   ],
+   "modeValues": [
+    5
+   ],
+   "defaultMode": null,
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2 Amendment",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    3,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    2,
+    3
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2124 Constitution",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "R-36 Eruptor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R-4 Hyena",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R-6 Deadeye",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63 Diligence",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R-72 Censor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 2,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-20 Halt",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "Magazine",
+    "right": "None",
+    "leftValue": 4,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-22 Bushwhacker",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    4,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "Safety_Off"
+   ],
+   "modeValues": [
+    2,
+    4
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "Firemode",
+    "right": "None",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225 Breaker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225IE Breaker Incendiary",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    3,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "burst",
+    "single"
+   ],
+   "modeValues": [
+    3,
+    2
+   ],
+   "defaultMode": "burst",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-451 Cookout",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8 Punisher",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8P Punisher Plasma",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8S Slugger",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-97 Sweeper",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "Magazine",
+     "fireMode": 0
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-203 Gallant",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-32 Reprimand",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-37 Defender",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-72 Pummeler",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    3,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single",
+    "burst"
+   ],
+   "modeValues": [
+    1,
+    2,
+    3
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG/FLAM-34 Stoker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": 11,
+    "right": "Firemode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": true,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "maxModes": null
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-11 SMG",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-52 Assault Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "player",
+   "weapon": "VG-70 Variable",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    4,
+    7,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "Safety_Off",
+    7
+   ],
+   "modeValues": [
+    1,
+    4,
+    7
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 7,
+   "selector": {
+    "left": "Firemode",
+    "right": "ROF",
+    "leftValue": 3,
+    "rightValue": 2
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": true,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "40-K Meltagun",
+   "families": [
+    "beam",
+    "charge"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "AC-8 Autocannon",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    1,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "automatic"
+   ],
+   "modeValues": [
+    2,
+    1
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "Firemode",
+    "leftValue": 8,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "ARC-3 Arc Thrower",
+   "families": [
+    "arc",
+    "charge"
+   ],
+   "roots": 1,
+   "slots": [
+    5,
+    6,
+    0,
+    0
+   ],
+   "modes": [
+    5,
+    6
+   ],
+   "modeValues": [
+    5,
+    6
+   ],
+   "defaultMode": null,
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/FLAM-80 Cremator",
+   "families": [
+    "spray"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/MD C4 Pack",
+   "families": [],
+   "roots": 0,
+   "state": "absent",
+   "reason": "The weapon owns no WeaponDataComponentData record."
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-1 One True Flag",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-20 Breaching Hammer",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-72 Entrenchment Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-9 Defoliation Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-411 Leveller",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-700 Expendable Napalm",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "FAF-14 Spear",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "FLAM-40 Flamethrower",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-21 Grenade Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "ROF",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-52 De-Escalator",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    2,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "single"
+   ],
+   "modeValues": [
+    1,
+    2
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "support",
+   "weapon": "GR-8 Recoilless Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "None",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-98 Laser Cannon",
+   "families": [
+    "beam"
+   ],
+   "roots": 3,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-99 Quasar Cannon",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "M-1000 Maxigun",
+   "families": [
+    "conventional_projectile",
+    "wind_up"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "M-105 Stalwart",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 4,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "ROF",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-206 Heavy Machine Gun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 3,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "ROF",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-43 Machine Gun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "ROF",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "single_mode",
+   "reason": null,
+   "maxModes": 1
+  },
+  {
+   "kind": "support",
+   "weapon": "MGX-42 Bullet Storm",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    4,
+    7,
+    0
+   ],
+   "modes": [
+    "automatic",
+    "Safety_Off",
+    7
+   ],
+   "modeValues": [
+    1,
+    4,
+    7
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 7,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MLS-4X Commando",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "LaserGuide",
+    "right": "None",
+    "leftValue": 6,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MS-11 Solo Silo",
+   "families": [],
+   "roots": 0,
+   "state": "absent",
+   "reason": "The weapon owns no WeaponDataComponentData record."
+  },
+  {
+   "kind": "support",
+   "weapon": "PLAS-45 Epoch",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    6,
+    6,
+    0,
+    0
+   ],
+   "modes": [
+    6,
+    6
+   ],
+   "modeValues": [
+    6,
+    6
+   ],
+   "defaultMode": null,
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "None",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "RS-422 Railgun",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    5,
+    6,
+    0,
+    0
+   ],
+   "modes": [
+    5,
+    6
+   ],
+   "modeValues": [
+    5,
+    6
+   ],
+   "defaultMode": null,
+   "burstRounds": 1,
+   "selector": {
+    "left": "Firemode",
+    "right": "None",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "S-11 Speargun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "single"
+   ],
+   "modeValues": [
+    2
+   ],
+   "defaultMode": "single",
+   "burstRounds": 1,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "selectable",
+   "reason": null,
+   "maxModes": 4
+  },
+  {
+   "kind": "support",
+   "weapon": "SG-88 Break-Action Shotgun",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "slots": [
+    2,
+    4,
+    0,
+    0
+   ],
+   "modes": [
+    "single",
+    "Safety_Off"
+   ],
+   "modeValues": [
+    2,
+    4
+   ],
+   "defaultMode": "single",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "Firemode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "selectorBound": true,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "ProgrammableAmmo",
+    "right": "None",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [
+    {
+     "function": "ProgrammableAmmo",
+     "fireMode": 4
+    }
+   ],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "maxModes": null
+  },
+  {
+   "kind": "support",
+   "weapon": "TX-41 Sterilizer",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "slots": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "modes": [
+    "automatic"
+   ],
+   "modeValues": [
+    1
+   ],
+   "defaultMode": "automatic",
+   "burstRounds": 3,
+   "selector": {
+    "left": "None",
+    "right": "None",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "selectorBound": false,
+   "functionTable": [],
+   "specialStruct": false,
+   "ownerUnique": true,
+   "snapshotPrimaryMatches": null,
+   "state": "blocked",
+   "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "maxModes": null
+  }
+ ]
+}

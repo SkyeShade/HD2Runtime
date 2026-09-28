@@ -11,6 +11,7 @@ import sys
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import reticle_fields
+import fire_mode_fields
 import support_callin_linkage
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -229,6 +230,7 @@ def build(catalog_path=CATALOG):
                     offset,storage,role,linkage,**extra),target))
 
     reticle_rows,reticle_research=reticle_fields.load()
+    fire_mode_rows,_=fire_mode_fields.load()
     runtime_weapons={};public_weapons=[]
     # A duplicate group is resolved only by research-proven call-in delivery plus an
     # exact scraped fingerprint. The call-in rack becomes the identity root and the
@@ -279,6 +281,21 @@ def build(catalog_path=CATALOG):
                 if key in resolved and'WeaponDataComponentData'in ownership:
                     fields.append(make_field(field_id,resolved[key],
                         component(candidate,'WeaponDataComponentData',offset,storage),target))
+            fire=fire_mode_rows.get(('support',weapon['name']))
+            if fire and fire['state']!='absent'and'WeaponDataComponentData'in ownership:
+                if fire_mode_fields.writable(fire):
+                    modes=fire_mode_fields.apply_modes(make_field(fire_mode_fields.MODES_FIELD,None,
+                        component(candidate,'WeaponDataComponentData',fire_mode_fields.MODES_OFFSET,'fire_mode_set'),
+                        target),fire,True)
+                    burst=fire_mode_fields.apply_burst(make_field(fire_mode_fields.BURST_FIELD,None,
+                        component(candidate,'WeaponDataComponentData',fire_mode_fields.BURST_OFFSET,'u32'),
+                        target),fire,True)
+                    for item in (modes,burst):
+                        item['acknowledgementReason']=fire_mode_fields.UNVERIFIED
+                        fields.append(item)
+                else:
+                    for field_id in (fire_mode_fields.MODES_FIELD,fire_mode_fields.BURST_FIELD):
+                        blocked.append({'field':field_id,'reason':fire['reason']})
             reticle=reticle_rows.get(('support',weapon['name']))
             if reticle and reticle['reticle']!='absent'and'WeaponDataComponentData'in ownership:
                 field=reticle_fields.apply(make_field(reticle_fields.FIELD,None,
@@ -701,6 +718,9 @@ def build(catalog_path=CATALOG):
                     'baseline':'exact retained-snapshot value',
                     'validation':'production resolver guarded ALREADY_DESIRED no-op',
                     'evidenceArtifact':'support-weapon-authoring-validation-F5FEE03DCFDB.json'}}
+            if field_id==fire_mode_fields.MODES_FIELD:
+                instance['fireMode']={key:field.get(key) for key in ('fireModeState','nativeSlots','allowedModes',
+                    'modeValues','maxModes','selector','evidence')}
             if field_id==reticle_fields.FIELD:
                 instance['reticle']={key:field.get(key) for key in
                     ('reticleState','nativeValue','nativeName','encoding','evidence')}

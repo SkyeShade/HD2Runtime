@@ -17,6 +17,7 @@ import generate_entity_authoring
 import generate_attachment_authoring
 import generate_booster_authoring
 import generate_weapon_composition
+import generate_fire_mode_authoring
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
@@ -79,6 +80,7 @@ def main():
     generate_booster_authoring.generate(check=True)
     generate_stratagem_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
+    generate_fire_mode_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
@@ -123,6 +125,9 @@ def main():
         (ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())['summary']
     report['reticle_authoring_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/reticle-authoring-snapshot.json').read_text()).items() if key!='weapons'}
+    report['fire_mode_authoring_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/fire-mode-authoring-snapshot.json').read_text()).items() if key!='weapons'}
+    report['weapon_fire_modes']=json.loads((ROOT/'sdk/WeaponFireModeCapabilities.json').read_text())['summary']
     report['weapon_attachment_catalog']=json.loads(
         (ROOT/'sdk/WeaponAttachmentCatalog.json').read_text())['summary']
     report['magazine_attachment_authoring']=json.loads(
@@ -144,7 +149,7 @@ def main():
         'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
-        'LiberatorDamageOptions','ReticleAmrRecreation']
+        'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

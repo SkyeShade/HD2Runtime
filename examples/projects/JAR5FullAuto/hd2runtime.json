@@ -1,0 +1,1 @@
+{"format":1,"name":"JAR5FullAuto","resource":"mods/hd2runtime_examples/jar5_full_auto","guid":"5cf73f6d-9eff-5e48-8d0c-f77b336e055d","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

@@ -78,7 +78,10 @@ for _,weapon in ipairs(audit)do
      target=batch.target,changes=batch.changes}
     local reader=Reader.new(source);local resolved=domain.capture(source,reader,spec)
     local plan=domain.prepare(resolved,reader,spec);reader.verify()
-    assert(#plan.changes==#batch.changes,'physical support field count changed')
+    -- fire_mode.modes prepares as its four FireMode slots.
+    local expected=#batch.changes
+    for _,change in ipairs(batch.changes)do if change.field=='fire_mode.modes'then expected=expected+3 end end
+    assert(#plan.changes==expected,'physical support field count changed')
     local checked=guarded.apply(source,plan)
     assert(checked.status=='ALREADY_DESIRED'and checked.writes==0
      and checked.protection_changes==0 and checked.protection_restored)
