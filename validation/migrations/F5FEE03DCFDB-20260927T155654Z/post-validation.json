@@ -1,0 +1,198 @@
+{
+ "migration": "validation/migrations/F5FEE03DCFDB-20260927T155654Z",
+ "target": "F5FEE03DCFDB",
+ "ok": true,
+ "checks": [
+  {
+   "name": "migration safety",
+   "ok": true,
+   "unsafeStaleWrites": 0,
+   "writableDespiteBrokenRelationship": [],
+   "overlayApplied": false,
+   "generatedTablesChecked": true
+  },
+  {
+   "name": "overlay targets the active build",
+   "ok": true,
+   "overlay": false,
+   "activeBuild": "F5FEE03DCFDB"
+  },
+  {
+   "name": "generator freshness",
+   "ok": true,
+   "tail": [
+    "checked generate_vehicle_weapon_authoring",
+    "checked generate_pod_payload_authoring",
+    "checked generate_sdk"
+   ]
+  },
+  {
+   "name": "validate_entity_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"snapshot\": \"F5FEE03DCFDB-20260926T222226Z.hd2snap\",",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_stratagem_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"snapshot\": \"F5FEE03DCFDB-20260926T222226Z.hd2snap\",",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_attachment_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"unalignedPackedFields\": 70,",
+    "  \"writes\": 469",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_backpack_ammo_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"staleExpectRejections\": 9,",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_booster_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"targets\": 20,",
+    "  \"writes\": 84",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_fire_mode_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"snapshot\": \"F5FEE03DCFDB-20260926T222226Z.hd2snap\",",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_options_binding_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"status\": \"VALIDATED\",",
+    "  \"writes\": 14",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_pod_payload_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"spawnCounts\": 48,",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_reticle_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"snapshot\": \"F5FEE03DCFDB-20260926T222226Z.hd2snap\",",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_vehicle_weapon_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"vehicleFields\": 480,",
+    "  \"vehicleWeapons\": 18",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_support_weapon_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"weapons\": 31,",
+    "  \"writes\": 0",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_weapon_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"weapons\": 73,",
+    "  \"writes\": 0",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_reference_recreations",
+   "ok": true,
+   "tail": [
+    "    \"unexpected\": []",
+    "  }",
+    "}"
+   ]
+  },
+  {
+   "name": "examples",
+   "ok": true,
+   "tail": [
+    "ok   sdk-template-fire_rate min=0.26.1 need=0.23.2",
+    "ok   sdk-template-projectile_damage min=0.26.1 need=0.23.2",
+    "VALIDATED 0 failed of 46"
+   ]
+  },
+  {
+   "name": "SDK tests",
+   "ok": true,
+   "tail": [
+    "Ran 16 tests in 9.024s",
+    "",
+    "OK"
+   ]
+  },
+  {
+   "name": "migration tests",
+   "ok": true,
+   "tail": [
+    "Ran 29 tests in 5.858s",
+    "",
+    "OK"
+   ]
+  },
+  {
+   "name": "full test suite",
+   "ok": true,
+   "tail": [
+    "Ran 411 tests in 224.424s",
+    "",
+    "OK"
+   ]
+  },
+  {
+   "name": "packaged runtime",
+   "ok": true,
+   "tail": [
+    "[HD2Runtime] plan unusual-sentry-proof APPLIED phases=1 writes=3 protection_changes=2",
+    "[HD2Runtime] non_target_bytes_unchanged=true",
+    "[HD2Runtime] protection_restored=true"
+   ]
+  }
+ ],
+ "confidence": {
+  "recoveredAutomaticallyPercent": 100.0,
+  "downgradedPercent": 0.0,
+  "manualReviewPercent": 0.0,
+  "unsafeStaleWritesCarriedForward": 0
+ }
+}

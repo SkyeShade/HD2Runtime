@@ -1,0 +1,62 @@
+{
+ "migration": "validation/migrations/D8E23968D141",
+ "target": "D8E23968D141",
+ "ok": true,
+ "checks": [
+  {
+   "name": "migration safety",
+   "ok": true,
+   "unsafeStaleWrites": 0,
+   "writableDespiteBrokenRelationship": [],
+   "overlayApplied": false
+  },
+  {
+   "name": "overlay targets the active build",
+   "ok": true,
+   "overlay": false,
+   "activeBuild": "F5FEE03DCFDB"
+  },
+  {
+   "name": "generator freshness",
+   "ok": true,
+   "tail": [
+    "checked generate_vehicle_weapon_authoring",
+    "checked generate_pod_payload_authoring",
+    "checked generate_sdk"
+   ]
+  },
+  {
+   "name": "examples",
+   "ok": true,
+   "tail": [
+    "ok   sdk-template-fire_rate min=0.26.1 need=0.23.2",
+    "ok   sdk-template-projectile_damage min=0.26.1 need=0.23.2",
+    "VALIDATED 0 failed of 46"
+   ]
+  },
+  {
+   "name": "SDK tests",
+   "ok": true,
+   "tail": [
+    "Ran 16 tests in 10.435s",
+    "",
+    "OK"
+   ]
+  },
+  {
+   "name": "migration tests",
+   "ok": true,
+   "tail": [
+    "Ran 29 tests in 6.030s",
+    "",
+    "OK"
+   ]
+  }
+ ],
+ "confidence": {
+  "recoveredAutomaticallyPercent": 78.64,
+  "downgradedPercent": 21.36,
+  "manualReviewPercent": 15.8,
+  "unsafeStaleWritesCarriedForward": 0
+ }
+}

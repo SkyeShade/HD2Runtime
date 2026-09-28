@@ -7,7 +7,9 @@ from pathlib import Path
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
-SNAPSHOT=Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+SNAPSHOT = build_profile.SNAPSHOT
 OUTPUT=ROOT/'validation/entity-authoring-snapshot.json'
 
 def lua(value): return json.dumps(str(value),ensure_ascii=False)
@@ -77,7 +79,7 @@ local worker=coroutine.create(function()
  return {status='VALIDATED',operations=#specs,fieldChecks=fields,physicalChanges=changes,
   alreadyDesired=already,mountCandidatesResolvedLive=candidates,candidateSwapsAtExpectedState=expected,
   researchWrites=0,protectionChanges=0,fixtureFallback='disabled',mode='snapshot',
-  snapshot='F5FEE03DCFDB-20260926T222226Z.hd2snap'}
+  snapshot='''+lua(build_profile.SNAPSHOT_NAME)+r'''}
 end)
 local ok,result
 repeat ok,result=coroutine.resume(worker)until not ok or coroutine.status(worker)=='dead'

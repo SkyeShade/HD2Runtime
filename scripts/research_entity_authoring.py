@@ -22,16 +22,18 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SIBLINGS = ROOT.parent
-SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+SNAPSHOT = build_profile.SNAPSHOT
 WIKI_VEHICLES = SIBLINGS / 'HD2WikiImporter/output/wiki_vehicle_stratagems.json'
 WIKI_NON_OFFENSIVE = SIBLINGS / 'HD2WikiImporter/output/wiki_non_offensive_stratagems.json'
 NAMED_REFERENCE = SIBLINGS / 'StrongerOrbitalLaser/local_research/external_audit/generated_stratagem_settings.json'
-FILEDIVER = SIBLINGS / 'StrongerOrbitalLaser/local_research/dependencies/filediver-reference'
+FILEDIVER = build_profile.FILEDIVER
 HELPERS = SIBLINGS / 'StrongerOrbitalLaser/scripts/research'
 OUTPUT = ROOT / 'build/entity-authoring-research.json'
 RETAINED_OUTPUT = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
-ENTITY_SHA256 = '21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E'
-TYPELIB_SHA256 = '4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4'
+ENTITY_SHA256 = build_profile.ENTITY_SHA256
+TYPELIB_SHA256 = build_profile.TYPELIB_SHA256
 
 # Reviewed wiki catalog name -> historical StratagemDefinition debug name.
 VEHICLE_DEBUG_NAMES = {

@@ -10,6 +10,8 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import reticle_fields
 import fire_mode_fields
 
@@ -39,7 +41,7 @@ def lua(value):
 def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIES,catalog_path=CATALOG):
     report=json.loads(Path(report_path).read_text());identities=json.loads(Path(identities_path).read_text())
     candidates={item['resourceHash']:item for item in report['runtimeCandidates']}
-    value={'schemaVersion':1,'sourceSnapshot':'F5FEE03DCFDB-20260926T222226Z.hd2snap',
+    value={'schemaVersion':1,'sourceSnapshot':build_profile.SNAPSHOT_NAME,
         'gameFingerprints':report['gameFingerprints'],'candidates':{},'weapons':[]}
     for name in sorted(identities):
         identity=identities[name];resources=[]
@@ -554,7 +556,7 @@ def build(catalog_path=CATALOG):
     summary['composition']=composition_source['summary']
     return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':VERSION_FILE.read_text().strip(),
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
-            'F5FEE03DCFDB-20260926T222226Z.hd2snap','summary':summary,
+            build_profile.SNAPSHOT_NAME,'summary':summary,
         'fieldDefinitions':schema['fields'],'semanticAliases':semantic_aliases,
         'backingCollisionAudit':collision_audit,'weapons':weapons,
         'safety':{'addressesInPublicMetadata':False,'writes':0,'protectionChanges':0,
@@ -606,7 +608,7 @@ def outputs(catalog_path=CATALOG):
         'safety':value['safety']}
     return {JSON_OUTPUT:json.dumps(value,indent=2)+'\n',
         AMMO_JSON_OUTPUT:json.dumps(ammo,indent=2)+'\n',
-        LUA_OUTPUT:'-- Generated from schemas/player_weapon_fields.json and reviewed snapshot output; do not edit.\nreturn '+lua(runtime)+'\n'}
+        LUA_OUTPUT:'-- Generated from schemas/player_weapon_fields.json and reviewed snapshot output; do not edit.\nreturn '+lua(migration_overlay.apply('player_weapon_authoring', runtime))+'\n'}
 
 
 def generate(check=False,catalog_path=CATALOG):

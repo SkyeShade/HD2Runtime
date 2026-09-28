@@ -12,12 +12,13 @@ import json
 from pathlib import Path
 import struct
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 
 
 ROOT = Path(__file__).resolve().parents[1]
 WIKI = ROOT.parent / 'HD2WikiImporter/output/wiki_offensive_stratagems.json'
-SNAPSHOT = Path(
-    r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+SNAPSHOT = build_profile.SNAPSHOT
 LASER = ROOT.parent / 'StrongerOrbitalLaser'
 NAMED_REFERENCE = LASER / 'local_research/external_audit/generated_stratagem_settings.json'
 FILEDIVER = LASER / 'local_research/dependencies/filediver-reference'

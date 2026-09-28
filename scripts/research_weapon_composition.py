@@ -14,12 +14,14 @@ import struct
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'sdk'))
 from tools.lua_runner import execute
 
-SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+SNAPSHOT = build_profile.SNAPSHOT
 AUTHORING = ROOT / 'schemas/player_weapon_authoring_catalog.json'
 AMMO = ROOT / 'schemas/player_weapon_ammo_catalog.json'
 ATTACHMENTS_SOURCE = ROOT.parent / 'HD2WikiImporter/output/wiki_primary_weapon_attachments.json'
