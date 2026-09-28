@@ -31,7 +31,11 @@ class MagazineAttachmentTests(unittest.TestCase):
         self.assertEqual(table['live']['protect'], 2)
         self.assertFalse(table['dataOffsetsShared'])
         self.assertEqual(self.catalog['summary']['magazineAttachments'], 43)
-        self.assertEqual(self.catalog['summary']['fieldInstances'], 172)
+        self.assertEqual(self.catalog['summary']['fieldInstances'], 233)
+        self.assertEqual(self.catalog['summary']['fieldInstancesByField'], {
+            'attachment.ergonomics_modifier': 24, 'attachment.magazine_capacity': 43,
+            'attachment.magazines_from_supply': 43, 'attachment.reload_duration': 37,
+            'attachment.spare_magazines': 43, 'attachment.starting_magazines': 43})
 
     def test_concussive_drum_is_the_native_owner_of_60_rounds(self):
         weapon = self.weapons['AR-23C Liberator Concussive']['magazineSlot']
@@ -44,9 +48,11 @@ class MagazineAttachmentTests(unittest.TestCase):
         self.assertIn('AR-23C Liberator Concussive', drum['consumers']['nativeDefaultOf'])
         self.assertFalse(drum['consumers']['scopeComplete'])
         options = {option['name']: option for option in weapon['options']}
-        self.assertIsNone(options['Short Magazine']['attachment'])
-        self.assertEqual(len(options['Short Magazine']['candidates']), 2)
-        self.assertIn('not guessed', options['Short Magazine']['blocker'])
+        # Reload and ergonomics separate Standard from Standard Fastreload (2.5 s vs 2.0 s).
+        short = options['Short Magazine']
+        self.assertEqual(short['relationship'], 'catalog_effects_unique')
+        self.assertEqual(short['attachment'], self.attachments['Rifle 5,5x50mm. Standard']['semanticId'])
+        self.assertEqual(short['candidates'], [short['attachment']])
 
     def test_effect_consistency_across_weapons(self):
         consistent = [item for item in self.weapons.values()
@@ -77,9 +83,17 @@ local patches=require('hd2runtime/domains/patches')
 local transactions=require('hd2runtime/domains/transactions')
 local w=hd2.weapon('AR-23C Liberator Concussive')
 local drum=w:magazine_attachment()
-assert(drum:describe().name=='Rifle 5,5x50mm. Drum' and #drum:describe().fields==4)
-assert(#w:magazine_attachments()==1)
-assert(not pcall(function()w:magazine_attachment('Short Magazine')end))
+assert(drum:describe().name=='Rifle 5,5x50mm. Drum' and #drum:describe().fields==6)
+assert(#w:magazine_attachments()==3)
+local short=w:magazine_attachment('Short Magazine')
+assert(short:describe().name=='Rifle 5,5x50mm. Standard' and short.attachment~=drum.attachment)
+assert(not pcall(function()w:magazine_attachment('Missing Magazine')end))
+patches.validate{id='drum-reload',target=drum,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.attachment.reload_duration,expect=3.5,value=3}
+assert(not pcall(function()patches.validate{id='drum-reload',target=drum,allow_shared=true,
+ allow_unverified_effect=true,field=hd2.fields.attachment.reload_duration,expect=3.5,value=0}end))
+assert(not pcall(function()patches.validate{id='drum-ergo',target=drum,allow_shared=true,
+ allow_unverified_effect=true,field=hd2.fields.attachment.ergonomics_modifier,expect=-15,value=500}end))
 local request={id='drum',target=drum,field=hd2.fields.attachment.magazine_capacity,expect=60,value=90}
 assert(not pcall(function()patches.validate(request)end))
 request.allow_shared=true
@@ -99,8 +113,13 @@ return 'ok'
     def test_snapshot_validation_and_recreation(self):
         snapshot = json.loads((ROOT / 'validation/magazine-attachment-snapshot.json').read_text())
         self.assertEqual(snapshot['status'], 'VALIDATED')
-        self.assertEqual((snapshot['fieldChecks'], snapshot['alreadyDesired']), (172, 172))
-        self.assertEqual(snapshot['unalignedPackedFields'], 52)
+        self.assertEqual((snapshot['fieldChecks'], snapshot['alreadyDesired']), (233, 233))
+        for key in ('changedWrites', 'rollbacks', 'isolationChecks', 'conflictRejections'):
+            self.assertEqual(snapshot[key], 233, key)
+        self.assertEqual(snapshot['guardRejections'], 24)
+        self.assertEqual(snapshot['unalignedPackedFields'], 70)
+        self.assertEqual(snapshot['multiVariant'], {'weapon': 'AR-23 Liberator', 'options': 3,
+            'distinctRecords': 3, 'independentEdits': True})
         recreations = json.loads((ROOT / 'validation/reference-mod-recreations.json').read_text())
         drum = recreations['recreations']['ConcussiveDrumMagazine']
         self.assertEqual((drum['status'], drum['physicalWrites']), ('EXACT_MATCH', 1))

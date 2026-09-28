@@ -1,12 +1,33 @@
 {
-  "alreadyDesired": 172,
+  "acknowledgementRejections": 466,
+  "alreadyDesired": 233,
   "attachments": 43,
-  "fieldChecks": 172,
+  "byField": {
+    "attachment.ergonomics_modifier": 24,
+    "attachment.magazine_capacity": 43,
+    "attachment.magazines_from_supply": 43,
+    "attachment.reload_duration": 37,
+    "attachment.spare_magazines": 43,
+    "attachment.starting_magazines": 43
+  },
+  "changedWrites": 233,
+  "conflictRejections": 233,
+  "fieldChecks": 233,
   "fixtureFallback": "disabled",
-  "mode": "snapshot",
-  "protectionChanges": 0,
-  "researchWrites": 0,
+  "guardRejections": 24,
+  "isolationChecks": 233,
+  "mode": "snapshot-overlay",
+  "multiVariant": {
+    "distinctRecords": 3,
+    "independentEdits": true,
+    "options": 3,
+    "weapon": "AR-23 Liberator"
+  },
+  "protectionChanges": 938,
+  "rangeRejections": 122,
+  "rollbacks": 233,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
-  "unalignedPackedFields": 52
+  "unalignedPackedFields": 70,
+  "writes": 469
 }

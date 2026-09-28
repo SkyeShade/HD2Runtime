@@ -86,6 +86,27 @@ return operations
 '''
 
 
+# Several magazine definitions of one weapon, edited independently (separate delta records).
+MAGAZINE_OPTIONS = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local liberator=hd2.weapon('AR-23 Liberator')
+local short=liberator:magazine_attachment('Short Magazine')
+local drum=liberator:magazine_attachment('Drum Magazine')
+local operations={}
+operations[#operations+1]=hd2.ensure({patch={id='liberator-short-capacity',target=short,
+    allow_shared=true,allow_unverified_effect=true,field=hd2.fields.attachment.magazine_capacity,expect=30,value=40}})
+operations[#operations+1]=hd2.ensure({transaction={id='liberator-drum-handling',target=drum,
+    allow_shared=true,allow_unverified_effect=true,changes={
+        {field=hd2.fields.attachment.reload_duration,expect=3.5,value=3},
+        {field=hd2.fields.attachment.ergonomics_modifier,expect=-15,value=-5}}}})
+return operations
+'''
+# A player weapon's crosshair policy (the schema is shared with support weapons).
+PLAYER_RETICLE = r'''local hd2=require('mods/skyeshade/hd2runtime')
+return hd2.ensure({patch={id='diligence-reticle-off',target=hd2.weapon('R-63 Diligence'),
+    field=hd2.fields.weapon.third_person_reticle,expect=true,value=false,allow_unverified_effect=true}})
+'''
+
+
 BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local operations={}
 -- Remaining tuning scalars in one plan; every row is re-proven live from game.dll.
@@ -261,11 +282,14 @@ SCENARIOS = {
     'backpack': lambda: example('JumpPackRecreation'),
     'shield-relay': lambda: example('ShieldRelayRecreation'),
     'magazine-attachment': lambda: example('ConcussiveDrumMagazine'),
+    'magazine-attachment-options': lambda: MAGAZINE_OPTIONS,
     'booster-deployed-entity': lambda: example('ArmedResupplyTurret'),
     'booster-status-effect': lambda: example('CombatStimBoost'),
     'booster-tuning': lambda: example('BoosterTuning'),
     'booster-explosion': lambda: example('IncendiaryHellpods'),
     'booster-coverage': lambda: BOOSTER_COVERAGE,
+    'support-weapon-reticle': lambda: example('ReticleAmrRecreation'),
+    'player-weapon-reticle': lambda: PLAYER_RETICLE,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),

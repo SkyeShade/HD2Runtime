@@ -59,6 +59,20 @@
       "status": "EXACT_MATCH",
       "unexpected": []
     },
+    "ReticleAmrRecreation": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 1,
+      "phases": 1,
+      "physicalWrites": 1,
+      "referenceSources": [
+        "ReticleAmr/src/gameplay/patch.lua",
+        "ReticleAmr/research/reticle-policy.md"
+      ],
+      "referenceWrites": 1,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    },
     "ShieldRelayRecreation": {
       "allAtVanillaBaseline": true,
       "missing": [],

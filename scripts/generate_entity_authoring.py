@@ -550,7 +550,7 @@ def generate(check=False, research_path=RESEARCH):
         if not path.exists() or path.read_text() != body:
             stale.append(path)
             if not check:
-                path.write_text(body)
+                path.write_text(body, newline='\n')
     if check and stale:
         raise RuntimeError('Stale entity authoring outputs: ' + ', '.join(map(str, stale)))
     return stale

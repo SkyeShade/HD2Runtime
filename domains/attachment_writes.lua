@@ -1,14 +1,15 @@
--- Guarded magazine-attachment authoring. An attachment's ammo values live in the
--- entity delta keyed by its AddPath (patches onto WeaponMagazineComponentData).
--- Every write re-proves the complete delta chain inside the live, uniquely owned
--- delta allocation before touching the reviewed data bytes.
+-- Guarded magazine-attachment authoring. An attachment's effects live in the entity delta
+-- keyed by its AddPath: ammo values patch WeaponMagazineComponentData, reload duration patches
+-- WeaponReloadComponentData, and its ergonomics is an Add_Ergonomics stat modifier patched onto
+-- WeaponDataComponentData. Every write re-proves the complete delta chain inside the live,
+-- uniquely owned delta allocation before touching the reviewed data bytes.
 local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
 local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/attachment_authoring')
 local M={}
-local MAGAZINE_COMPONENT=5
+local MAX_CHANGES=6
 
 local function valid_id(value)
     assert(type(value)=='string'and#value>0 and#value<=64
@@ -22,6 +23,19 @@ local function entry_for(target)
     return assert(type(target.attachment)=='string'and database.attachments[target.attachment],
         'unknown reviewed magazine attachment: '..tostring(target.attachment))
 end
+local function same(a,c,storage)
+    if storage=='f32'then return math.abs(a-c)<=math.max(0.000001,math.abs(c)*0.000001)end
+    return a==c
+end
+local function validate_value(field,value,label)
+    assert(type(value)=='number'and value==value and value>-math.huge and value<math.huge,
+        label..' must be a finite number')
+    if field.storage=='u32'then
+        assert(value%1==0 and value>=0 and value<=4294967295,'magazine attachment ammo values must be non-negative integers')
+    end
+    if field.min then assert(value>=field.min,label..' is below the reviewed minimum '..field.min)end
+    if field.max then assert(value<=field.max,label..' is above the reviewed maximum '..field.max)end
+end
 local function validate_change(entry,item,request)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
@@ -31,13 +45,11 @@ local function validate_change(entry,item,request)
         'magazine attachments apply to every weapon that equips them; allow_shared=true is required')
     assert(request.allow_unverified_effect==true,
         'magazine attachment writes require allow_unverified_effect=true (re-application is not gameplay-proven)')
-    for _,value in ipairs({item.expect,item.value})do
-        assert(type(value)=='number'and value%1==0 and value>=0 and value<=4294967295,
-            'magazine attachment values must be non-negative integers')
-    end
-    assert(item.expect==field.currentDefault,'expect differs from reviewed current value for '..item.field)
+    validate_value(field,item.expect,'expect');validate_value(field,item.value,'value')
+    assert(same(item.expect,field.currentDefault,field.storage),'expect differs from reviewed current value for '..item.field)
     return {field=item.field,canonical_field=item.field,descriptor=field,
-        expected=b.encode(item.expect,'u32'),desired=b.encode(item.value,'u32'),expect=item.expect,value=item.value}
+        expected=b.encode(field.currentDefault,field.storage),desired=b.encode(item.value,field.storage),
+        expect=item.expect,value=item.value}
 end
 local function validate(request,multiple)
     assert(type(request)=='table',(multiple and'transaction'or'patch')..' requires a descriptor')
@@ -47,7 +59,8 @@ local function validate(request,multiple)
     valid_id(request.id)
     local entry=entry_for(request.target)
     local items=multiple and request.changes or{{field=request.field,expect=request.expect,value=request.value}}
-    assert(type(items)=='table'and#items>=1 and#items<=4,'transaction requires one to four changes')
+    assert(type(items)=='table'and#items>=1 and#items<=MAX_CHANGES,
+        'transaction requires one to '..MAX_CHANGES..' changes')
     local result={kind='attachment',id=request.id,attachment=entry.semanticId,target_path='magazine',
         diagnostic=request.diagnostic==true,allow_shared=true,changes={}}
     local seen={}
@@ -62,7 +75,8 @@ end
 function M.validate_patch(request)return validate(request,false)end
 function M.validate_transaction(request)return validate(request,true)end
 
--- Re-prove the delta chain for one attachment; returns reviewed data offsets by field.
+-- Re-prove the delta chain for one attachment; returns reviewed 4-byte data offsets by
+-- component and component offset.
 local function prove(reader,region,entry)
     local d=profile.entity_deltas
     local base=d.header_offset
@@ -79,23 +93,31 @@ local function prove(reader,region,entry)
     local count,first=b.u32(settings,0),b.u32(settings,4)
     assert(count>0 and count<=64 and first+count<=d.component_count,'attachment delta settings bounds')
     local components=reader.read(region,base+d.component_offset+first*12,count*12,true)
-    local found
-    for i=0,count-1 do
-        if b.u32(components,i*12)==MAGAZINE_COMPONENT then
-            assert(not found,'magazine component patched twice');found=i
-        end
-    end
-    assert(found,'attachment delta no longer patches WeaponMagazineComponentData')
-    local first_delta,deltas=b.u32(components,found*12+4),b.u32(components,found*12+8)
-    assert(deltas>0 and deltas<=64 and first_delta+deltas<=d.delta_count,'attachment delta bounds')
-    local rows=reader.read(region,base+d.delta_offset+first_delta*12,deltas*12,true)
     local offsets={}
-    for i=0,deltas-1 do
-        local offset,size,raw=b.u32(rows,i*12),b.u32(rows,i*12+4),b.u32(rows,i*12+8)
-        assert(raw+size<=d.data_count,'attachment delta data bounds')
-        if size==4 then offsets[offset]=base+d.data_offset+raw end
+    for i=0,count-1 do
+        local component=b.u32(components,i*12)
+        assert(not offsets[component],'attachment delta patches a component twice')
+        local first_delta,deltas=b.u32(components,i*12+4),b.u32(components,i*12+8)
+        assert(deltas>0 and deltas<=64 and first_delta+deltas<=d.delta_count,'attachment delta bounds')
+        local rows=reader.read(region,base+d.delta_offset+first_delta*12,deltas*12,true)
+        local by_offset={}
+        for k=0,deltas-1 do
+            local offset,size,raw=b.u32(rows,k*12),b.u32(rows,k*12+4),b.u32(rows,k*12+8)
+            assert(raw+size<=d.data_count,'attachment delta data bounds')
+            if size==4 then by_offset[offset]=base+d.data_offset+raw end
+        end
+        offsets[component]=by_offset
     end
     return offsets
+end
+local function check_field(reader,region,offsets,field,label)
+    local rows=assert(offsets[field.component],'attachment delta no longer patches the reviewed component: '..label)
+    assert(rows[field.componentOffset]==field.dataOffset,'reviewed attachment delta data offset changed: '..label)
+    if field.guard then
+        assert(rows[field.guard.componentOffset]==field.guard.dataOffset,'attachment stat modifier layout changed: '..label)
+        local kind=reader.read(region,field.guard.dataOffset,4,true)
+        assert(b.u32(kind,0)==field.guard.u32,'attachment stat modifier is no longer Add_Ergonomics: '..label)
+    end
 end
 function M.capture_many(runtime,reader,specs)
     reader.stage='runtime/windows_readonly:fingerprint'
@@ -107,17 +129,15 @@ function M.capture_many(runtime,reader,specs)
         local entry=assert(database.attachments[spec.attachment])
         reader.stage='domains/attachment_writes:delta_chain'
         local offsets=prove(reader,region,entry)
-        for _,change in ipairs(spec.changes)do
-            local field=change.descriptor
-            assert(offsets[field.componentOffset]==field.dataOffset,
-                'reviewed attachment delta data offset changed: '..change.field)
-        end
+        for _,change in ipairs(spec.changes)do check_field(reader,region,offsets,change.descriptor,change.field)end
         results[index]={entry=entry,region=region}
     end
     return results
 end
 function M.capture(runtime,reader,spec)return M.capture_many(runtime,reader,{spec})[1]end
 
+local COMPONENT_NAMES={[5]='WeaponMagazineComponentData',[113]='WeaponReloadComponentData',
+    [236]='WeaponDataComponentData'}
 function M.prepare(resolved,reader,spec)
     local plan={changes={},snapshots=reader.snapshots}
     for _,change in ipairs(spec.changes)do
@@ -128,7 +148,7 @@ function M.prepare(resolved,reader,spec)
             semantic_aliases={change.field},owner=resolved.region,offset=field.dataOffset,
             field_offset=field.componentOffset,packed=true,expected=expected,desired=change.desired,
             before=current,already_desired=current==change.desired,expect=change.expect,value=change.value,
-            identity={component='EntityDelta:WeaponMagazineComponentData',component_type='semantic',
+            identity={component='EntityDelta:'..assert(COMPONENT_NAMES[field.component]),component_type='semantic',
                 record_index=resolved.entry.settingsIndex,unique_owner=false,owner_count=0,
                 scope=field.operationGroup},chain={}}
     end

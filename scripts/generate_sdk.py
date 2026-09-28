@@ -406,6 +406,7 @@ def outputs():
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-reticles.md':(ROOT/'docs/weapon-reticles.md').read_text(encoding='utf-8'),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}
 
 

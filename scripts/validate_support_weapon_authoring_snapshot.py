@@ -43,6 +43,7 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
             audit.append({'name':weapon['name'],'blocked':True,'batches':[]});continue
         grouped={}
         for field in weapon['fields']:
+            if not field['acceptedForWrites']:continue
             target=field['target'];key=json.dumps(target,sort_keys=True)
             grouped.setdefault(key,{'target':target,'changes':[]})['changes'].append({
                 'field':public_field(field),'expect':field['currentDefault'],

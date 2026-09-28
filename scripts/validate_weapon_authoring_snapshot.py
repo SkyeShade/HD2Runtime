@@ -120,7 +120,7 @@ for _,weapon in ipairs(audit)do
                     local validation_only=changes[1].validationOnly
                     for _,change in ipairs(changes)do change.validationOnly=nil end
                     local spec=domain.validate_transaction({id='snapshot-write-audit',allow_shared=true,
-                        target=batch.target,changes=changes})
+                        allow_unverified_effect=true,target=batch.target,changes=changes})
                     local reader=Reader.new(source)
                     local resolved=domain.capture(source,reader,spec)
                     local plan=domain.prepare(resolved,reader,spec)

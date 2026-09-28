@@ -7,6 +7,10 @@ import re
 from collections import Counter
 from itertools import combinations
 from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import reticle_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -50,7 +54,7 @@ def refresh_catalog(report_path=DEFAULT_REPORT,identities_path=DEFAULT_IDENTITIE
                     'implementationFamilies':candidate.get('implementationFamilies')}
         value['weapons'].append({'name':name,'slot':identity.get('slot'),'category':identity.get('category'),
             'resolution':identity['resolution'],'resources':resources})
-    Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n')
+    Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n',newline='\n')
 
 
 def build(catalog_path=CATALOG):
@@ -194,6 +198,7 @@ def build(catalog_path=CATALOG):
             **({'consumerCount':record['projectileConsumerCount']}
                 if record.get('projectileConsumerCount')is not None else{})}
 
+    reticle_rows,reticle_research=reticle_fields.load()
     weapons=[]
     for name in sorted(identities):
         identity=identities[name];candidate=candidates[identity['bestCandidate']['resourceHash']]
@@ -222,6 +227,11 @@ def build(catalog_path=CATALOG):
         fields.append(make_field('weapon.crosshair_type',resolved.get('crosshair_type'),
             component_backend(candidate,'WeaponDataComponentData',400,'u32'),editable=False,
             reason=definitions['weapon.crosshair_type']['reason']))
+        reticle=reticle_rows.get(('player',name))
+        if reticle and reticle['reticle']!='absent':
+            fields.append(reticle_fields.apply(make_field(reticle_fields.FIELD,None,
+                component_backend(candidate,'WeaponDataComponentData',reticle_fields.OFFSET,reticle_fields.STORAGE)),
+                reticle,reticle_research,unique))
         fields.append(make_field('weapon.primary_fire_mode',resolved.get('primary_fire_mode'),
             component_backend(candidate,'WeaponDataComponentData',144,'u32'),editable=False,
             reason=definitions['weapon.primary_fire_mode']['reason']))
@@ -578,7 +588,7 @@ def generate(check=False,catalog_path=CATALOG):
     for path,body in outputs(catalog_path).items():
         if not path.exists() or path.read_text()!=body:
             stale.append(path)
-            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body)
+            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body,newline='\n')
     if check and stale:raise RuntimeError('Stale weapon authoring outputs: '+', '.join(str(p) for p in stale))
     return stale
 
