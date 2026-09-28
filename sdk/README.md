@@ -74,6 +74,9 @@ Builds read Lua files only from that project's `src/`. The gameplay ZIP contains
 only its own resource namespace, manager manifest, dependency metadata and docs.
 No runtime implementation or SDK stubs are embedded. `src/addon.lua` is the entry;
 other files become `mods/author/mod_name/<relative-path-without-extension>`.
+Require your own extra files at the top of `addon.lua`: the game resolves mod
+resources only during startup, so a first `require` from inside a callback that
+runs later fails with "module not found".
 The builder adds a small dependency check and duplicate-initialization guard.
 Keep the source entry free of discovery headers; the builder adds the correct one.
 

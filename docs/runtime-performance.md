@@ -12,6 +12,26 @@ applied targets, and that check backs off over time.
 | Guarded transaction (context rereads, page protection, write, verify) | Only when an operation runs: startup, or after drift |
 | Steady-state check | Every `interval` (default 60 s), doubling to `max_interval` (default 600 s): a few `VirtualQuery` calls and reads of the target bytes only |
 
+## Fingerprint cache
+
+The cache is an in-memory table of verified keys, one short string per
+successful match: run mode plus the base address and handle of the exe and of
+game.dll. No file contents, digests of other files, snapshot data, or disk cache
+are kept. Hashing streams each module file through one 1 MiB buffer, which is
+freed after the hash, and does not hold the ~30 MB of file data. Mismatches are
+never cached. Windows keeps a loaded module's image file locked, so a key stays
+valid for the life of the process.
+
+## Module loading
+
+The engine resolves archived Lua resources only while its startup package is
+loaded; later, `require` of a module that was never loaded fails with "module
+not found". At startup the packaged entry captures the loader of every shipped
+module into `package.preload`, without running it, so modules first needed at
+apply time or on drift still load. `scripts/validate_packaged_runtime.py` runs
+the built ZIP with late lookups disabled and fails the release if any module is
+required after startup and not captured.
+
 ## `hd2.ensure`
 
 The first run is the complete guarded operation. After that, ensure keeps only the
