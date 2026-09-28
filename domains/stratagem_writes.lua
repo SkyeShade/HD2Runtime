@@ -10,7 +10,10 @@ local component_names={'BombardmentComponentData','EagleComponentData',
     'ProjectileWeaponComponentData','OrbitalAbilityComponentData',
     'HealthComponentData','WeaponDataComponentData','WeaponMagazineComponentData',
     'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
-    'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData'}
+    'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
+    'ShieldComponentData','HellpodPayloadComponentData'}
+local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true}
+local GRAPH_PATHS={deployed_entity=true,weapon=true,attack=true}
 
 local function equal(a,c,storage)
     if storage=='f32'then return type(a)=='number'and type(c)=='number'
@@ -26,7 +29,7 @@ local function find_field(entry,target,id)
         local t=field.target
         if field.semanticFieldId==id and t.path==target.path
             and t.entity==rawget(target,'entity') and t.weapon==rawget(target,'weapon')
-            and t.attack==rawget(target,'attack') then return field end
+            and t.attack==rawget(target,'attack') and t.zone==rawget(target,'zone') then return field end
     end
     error('field is not exposed for '..entry.name..': '..tostring(id),0)
 end
@@ -44,11 +47,14 @@ local function validate_target(target)
     elseif target.path=='weapon'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
         assert(type(rawget(target,'weapon'))=='string','mounted weapon required')
-    elseif target.path=='deployed_entity'then
+    elseif target.path=='deployed_entity' or target.path=='shield'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
+    elseif target.path=='damage_zone'then
+        assert(type(rawget(target,'entity'))=='string','deployed entity required')
+        assert(type(rawget(target,'zone'))=='string','damage zone identity required')
     else assert(target.path=='stratagem'or target.path=='eagle_rearm','unsupported stratagem target')end
     for key in pairs(target)do assert(key=='resource'or key=='stratagem'or key=='path'or key=='entity'
-        or key=='weapon'or key=='attack',
+        or key=='weapon'or key=='attack'or key=='zone',
         'unsupported stratagem target identity')end
     return entry
 end
@@ -193,10 +199,11 @@ local function collect_needs(spec)
             or kind=='WeaponMagazineComponentData' or kind=='WeaponRoundsComponentData'
             or kind=='WeaponHeatComponentData' or kind=='WeaponChargeComponentData'
             or kind=='ArcWeaponComponentData' or kind=='BeamWeaponComponentData'
-            or kind=='SprayWeaponComponentData' then needed.entity=true end
+            or kind=='SprayWeaponComponentData' or kind=='ShieldComponentData'
+            or kind=='HellpodPayloadComponentData' then needed.entity=true end
     end
-    if spec.target_path=='deployed_entity' or spec.target_path=='weapon'
-        or spec.target_path=='attack'then
+    if spec.target_path=='shield' or spec.target_path=='damage_zone'then needed.entity=true end
+    if GRAPH_PATHS[spec.target_path]then
         needed.entity=true;needed.projectile=true;needed.damage=true
         needed.explosion=true;needed.status='optional';needed.arc='optional';needed.beam='optional'
     end
@@ -217,8 +224,7 @@ function M.capture_many(runtime,reader,specs)
     for index,spec in ipairs(specs)do
         local entry=assert(database.stratagems[spec.stratagem]);local root=find_root(records,entry.root)
         local component,candidate
-        if spec.target_path=='deployed_entity' or spec.target_path=='weapon'
-            or spec.target_path=='attack'then
+        if ENTITY_PATHS[spec.target_path]then
             candidate=find_candidate(catalog,entry.rootLink and entry.rootLink.payload
                 or entry.deployedEntity.resource)
             if entry.rootLink then
@@ -227,7 +233,8 @@ function M.capture_many(runtime,reader,specs)
                     and component.identity.indexRow==entry.rootLink.indexRow,
                     'payload component ownership changed')
             end
-            if entry.graph and #entry.graph>0 then validate_graph(entry,roots,component)end
+            if GRAPH_PATHS[spec.target_path] and entry.graph and #entry.graph>0 then
+                validate_graph(entry,roots,component)end
         end
         results[index]={entry=entry,root=root,stratagem_owner=stratagem_owner,roots=roots,
             catalog=catalog,candidate=candidate,component=component,records=records}
@@ -292,10 +299,10 @@ function M.prepare(resolved,reader,spec)
                 'overlapping stratagem fields conflict')
         else
             local item={label=change.field,canonical_field=change.canonical_field,
-                semantic_aliases={change.field},owner=owner,offset=offset,
+                semantic_aliases={change.field},owner=owner,offset=offset,field_offset=backing.offset,
                 expected=change.expected,desired=change.desired,before=current,
                 already_desired=current==change.desired,expect=change.expect,value=change.value,
-                identity={component=backing.kind,component_type='semantic',record_index=backing.row,
+                identity={component=backing.kind,component_type='semantic',record_index=backing.recordIndex or backing.row,
                     unique_owner=backing.uniqueOwner~=nil and backing.uniqueOwner
                         or not change.descriptor.shared,
                     owner_count=backing.ownerCount or#change.descriptor.sharedConsumers,

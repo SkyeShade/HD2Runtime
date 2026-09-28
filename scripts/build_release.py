@@ -12,6 +12,7 @@ import generate_weapon_authoring
 import generate_support_weapon_sdk
 import generate_support_weapon_authoring
 import generate_stratagem_authoring
+import generate_entity_authoring
 import generate_weapon_composition
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -47,6 +48,7 @@ def main():
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
     generate_support_weapon_authoring.generate(check=True)
+    generate_entity_authoring.generate(check=True)
     generate_stratagem_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
@@ -81,10 +83,22 @@ def main():
     assert call_in_links==stratagem_capabilities['supportCallInLinks'],'Support call-in linkage diverged'
     assert call_in_links['audit']['bidirectionalMismatches']==0,'Support call-in linkage is one-way'
     report['support_call_in_linkage']=call_in_links['audit']
+    vehicle_capabilities=json.loads((ROOT/'sdk/VehicleAuthoringCapabilities.json').read_text())
+    backpack_capabilities=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
+    report['vehicle_authoring']=vehicle_capabilities['summary']
+    report['backpack_authoring']=backpack_capabilities['summary']
+    report['entity_snapshot_validation']=json.loads(
+        (ROOT/'validation/entity-authoring-snapshot.json').read_text())
+    recreations=json.loads((ROOT/'validation/reference-mod-recreations.json').read_text())
+    assert recreations['status']=='EXACT_MATCH','Reference mod recreation is not exact'
+    report['reference_mod_recreations']={name:{key:item[key] for key in
+        ('status','physicalWrites','referenceWrites','referenceSources')}
+        for name,item in recreations['recreations'].items()}
     report['stratagem_proof_packages']=['OrbitalLaserProof','OrbitalPrecisionProof',
         'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof',
         'AntiTankEmplacementProof','ConventionalSentryProof','ExplosiveSentryProof',
-        'UnusualSentryProof']
+        'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
+        'FRVWeaponSwapRecreation','JumpPackRecreation']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

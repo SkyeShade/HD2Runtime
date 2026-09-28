@@ -1,0 +1,2344 @@
+{
+  "contract": "hd2runtime.backpack.guarded_authoring.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.23.0",
+  "canonicalCollection": "fieldInstances",
+  "backpacks": [
+    {
+      "name": "B-1 Supply Pack",
+      "semanticId": "backpack/v1/b-1-supply-pack/549519682c61acd9",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/b-1-supply-pack/549519682c61acd9",
+        "name": "B-1 Supply Pack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+            "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+            "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "LIFT-850 Jump Pack",
+      "semanticId": "backpack/v1/lift-850-jump-pack/ec792e5b65ccdbd5",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/lift-850-jump-pack/ec792e5b65ccdbd5",
+        "name": "LIFT-850 Jump Pack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack",
+        "Jumppack",
+        "Recharge"
+      ],
+      "settingGroups": [
+        {
+          "group": "recharge",
+          "fieldInstanceKeys": [
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time"
+          ]
+        },
+        {
+          "group": "movement",
+          "fieldInstanceKeys": [
+            "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "unlabelled launch members",
+          "reason": "Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported."
+        },
+        {
+          "field": "horizontal impulse",
+          "reason": "No horizontal or forward impulse member has been identified."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time",
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+      ]
+    },
+    {
+      "name": "SH-20 Ballistic Shield Backpack",
+      "semanticId": "backpack/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c",
+        "name": "SH-20 Ballistic Shield Backpack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "mainHealth": true,
+        "mainArmor": true
+      },
+      "components": [
+        "Backpack",
+        "Health"
+      ],
+      "settingGroups": [
+        {
+          "group": "durability",
+          "fieldInstanceKeys": [
+            "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+            "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+          ]
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+      ]
+    },
+    {
+      "name": "AX/AR-23 Guard Dog",
+      "semanticId": "backpack/v1/ax-ar-23-guard-dog/75cb6b67ea0a1435",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ax-ar-23-guard-dog/75cb6b67ea0a1435",
+        "name": "AX/AR-23 Guard Dog",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "depositCapacity": true,
+        "depositStart": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+            "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "AX/LAS-5 Rover",
+      "semanticId": "backpack/v1/ax-las-5-rover/f4753aa301a6487c",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ax-las-5-rover/f4753aa301a6487c",
+        "name": "AX/LAS-5 Rover",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "depositCapacity": true,
+        "depositStart": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+            "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+            "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "SH-32 Shield Generator Pack",
+      "semanticId": "backpack/v1/sh-32-shield-generator-pack/6813d062793b63a0",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/sh-32-shield-generator-pack/6813d062793b63a0",
+        "name": "SH-32 Shield Generator Pack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack",
+        "Shield"
+      ],
+      "settingGroups": [
+        {
+          "group": "shield",
+          "fieldInstanceKeys": [
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
+            "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "shield recharge delay/rate",
+          "reason": "Labels come from an external export only; no reference mod wrote them."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+      ]
+    },
+    {
+      "name": "SH-51 Directional Shield",
+      "semanticId": "backpack/v1/sh-51-directional-shield/400f906ca1d05117",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/sh-51-directional-shield/400f906ca1d05117",
+        "name": "SH-51 Directional Shield",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "mainHealth": true,
+        "mainArmor": true
+      },
+      "components": [
+        "Backpack",
+        "Health"
+      ],
+      "settingGroups": [
+        {
+          "group": "durability",
+          "fieldInstanceKeys": [
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
+            "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
+          ]
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
+      ]
+    },
+    {
+      "name": "AX/FLAM-75 Hot Dog",
+      "semanticId": "backpack/v1/ax-flam-75-hot-dog/d45f83e90a1ea647",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ax-flam-75-hot-dog/d45f83e90a1ea647",
+        "name": "AX/FLAM-75 Hot Dog",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "depositCapacity": true,
+        "depositStart": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+            "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "B-100 Portable Hellbomb",
+      "semanticId": "backpack/v1/b-100-portable-hellbomb/06da68b47c85f8b0",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/b-100-portable-hellbomb/06da68b47c85f8b0",
+        "name": "B-100 Portable Hellbomb",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+            "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+            "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "AX/ARC-3 K-9",
+      "semanticId": "backpack/v1/ax-arc-3-k-9/52daba9b9e3d913d",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ax-arc-3-k-9/52daba9b9e3d913d",
+        "name": "AX/ARC-3 K-9",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "depositCapacity": true,
+        "depositStart": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+            "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "LIFT-860 Hover Pack",
+      "semanticId": "backpack/v1/lift-860-hover-pack/fec85baedc5b2c31",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/lift-860-hover-pack/fec85baedc5b2c31",
+        "name": "LIFT-860 Hover Pack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack",
+        "Jumppack",
+        "Recharge"
+      ],
+      "settingGroups": [
+        {
+          "group": "recharge",
+          "fieldInstanceKeys": [
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time"
+          ]
+        },
+        {
+          "group": "movement",
+          "fieldInstanceKeys": [
+            "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "unlabelled launch members",
+          "reason": "Two further Jumppack launch scalars were tested only as experiment profiles that were never gameplay-reported."
+        },
+        {
+          "field": "horizontal impulse",
+          "reason": "No horizontal or forward impulse member has been identified."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time",
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+      ]
+    },
+    {
+      "name": "AX/TX-13 Dog Breath",
+      "semanticId": "backpack/v1/ax-tx-13-dog-breath/49fac869308cc6dd",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/ax-tx-13-dog-breath/49fac869308cc6dd",
+        "name": "AX/TX-13 Dog Breath",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true,
+        "depositCapacity": true,
+        "depositStart": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit"
+      ],
+      "settingGroups": [
+        {
+          "group": "charges",
+          "fieldInstanceKeys": [
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+            "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+          ],
+          "readOnly": true
+        }
+      ],
+      "blockedFields": [],
+      "fieldInstanceKeys": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "LIFT-182 Warp Pack",
+      "semanticId": "backpack/v1/lift-182-warp-pack/7a55e98ddf9efd70",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/lift-182-warp-pack/7a55e98ddf9efd70",
+        "name": "LIFT-182 Warp Pack",
+        "relationship": "call_in",
+        "known": true,
+        "provenance": "historical debug-name identity"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "correlation": {
+        "cooldown": true
+      },
+      "components": [
+        "Backpack"
+      ],
+      "settingGroups": [],
+      "blockedFields": [
+        {
+          "field": "backpack behavior",
+          "reason": "No typed backpack behavior component with reviewed semantics is owned by this entity."
+        }
+      ],
+      "fieldInstanceKeys": []
+    }
+  ],
+  "fieldInstances": [
+    {
+      "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 4,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-1 Supply Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6237e27f8bb5d4fa",
+      "operationGroup": "operation:715a275d51efebf6",
+      "planGroup": "plan:backpack:b-1-supply-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-1 Supply Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:65759033643b495f",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 4,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-1 Supply Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6237e27f8bb5d4fa",
+      "operationGroup": "operation:715a275d51efebf6",
+      "planGroup": "plan:backpack:b-1-supply-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-1 Supply Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:65759033643b495f",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-1 Supply Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6237e27f8bb5d4fa",
+      "operationGroup": "operation:715a275d51efebf6",
+      "planGroup": "plan:backpack:b-1-supply-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-1 Supply Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:65759033643b495f",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time",
+      "semanticFieldId": "recharge.time",
+      "displayName": "Recharge time",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 15.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:49ff379dcbee452f",
+      "operationGroup": "operation:f7101b4ee213f68e",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:cc4ec8dd57ae1db0",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RechargeComponentData",
+      "domain": "recharge",
+      "apiFieldConstant": "hd2.fields.recharge.time",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "gameplay_proven",
+        "referenceMod": "JumpPackImprovements",
+        "proof": "research/README.md: the user confirmed the recharge effect in dev-0.8",
+        "provenOn": [
+          "LIFT-850 Jump Pack"
+        ],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity",
+      "semanticFieldId": "jump.vertical_launch_velocity",
+      "displayName": "Vertical launch velocity",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 40.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "operationGroup": "operation:84ab40f0f568f390",
+      "planGroup": "plan:backpack:lift-850-jump-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.vertical_launch_velocity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "gameplay_proven",
+        "referenceMod": "JumpPackImprovements",
+        "proof": "releases/JumpPackImprovements-0.3.4-build-report.json: vertical_launch_gameplay_proven_by_user",
+        "provenOn": [
+          "LIFT-850 Jump Pack"
+        ],
+        "sharedTypedSchema": false
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 1000,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-20 Ballistic Shield Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:685da4954088acc2",
+      "operationGroup": "operation:69b3f0bb7d84c552",
+      "planGroup": "plan:backpack:sh-20-ballistic-shield-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-20 Ballistic Shield Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a926c84a2571adf4",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 4,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-20 Ballistic Shield Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:685da4954088acc2",
+      "operationGroup": "operation:69b3f0bb7d84c552",
+      "planGroup": "plan:backpack:sh-20-ballistic-shield-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-20 Ballistic Shield Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a926c84a2571adf4",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 8,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:afff02a887451eab",
+      "operationGroup": "operation:b539dca1f8f01109",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:68b0a0b51d140e23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 8,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:afff02a887451eab",
+      "operationGroup": "operation:b539dca1f8f01109",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:68b0a0b51d140e23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 8,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:afff02a887451eab",
+      "operationGroup": "operation:b539dca1f8f01109",
+      "planGroup": "plan:backpack:ax-ar-23-guard-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:68b0a0b51d140e23",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 4,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:de444380e0f5afe4",
+      "operationGroup": "operation:42e7225d601d44bb",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:d38635cad7ee0113",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 4,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:de444380e0f5afe4",
+      "operationGroup": "operation:42e7225d601d44bb",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:d38635cad7ee0113",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 2,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:de444380e0f5afe4",
+      "operationGroup": "operation:42e7225d601d44bb",
+      "planGroup": "plan:backpack:ax-las-5-rover",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:d38635cad7ee0113",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
+      "semanticFieldId": "shield.radius",
+      "displayName": "Shield radius",
+      "type": "number",
+      "unit": "meters",
+      "currentDefault": 1.3,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "planGroup": "plan:backpack:sh-32-shield-generator-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.entity_radius",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "research/gameplay-confirmation-0.1.4.json: shield_radius_15_to_8_functional",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability",
+      "semanticFieldId": "shield.durability",
+      "displayName": "Shield health",
+      "type": "number",
+      "unit": "health",
+      "currentDefault": 150.0,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "planGroup": "plan:backpack:sh-32-shield-generator-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "ShieldComponentData",
+      "domain": "shield",
+      "apiFieldConstant": "hd2.fields.shield.entity_durability",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "ShieldRelayImprovements",
+        "proof": "research/durability-confirmation.json: 4000 -> 40000 confirmed in gameplay",
+        "provenOn": [
+          "FX-12 Shield Generator Relay"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
+      "semanticFieldId": "entity.health",
+      "displayName": "Main health",
+      "type": "integer",
+      "unit": "health",
+      "currentDefault": 400,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:b84eba163647a01f",
+      "operationGroup": "operation:068d57b5b7cb14ee",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:1a2fd4afcef44a6d",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.health",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/main-hp-proof.md: 100,000 main HP is live (Bastion)",
+        "provenOn": [
+          "FX-12 Shield Generator Relay",
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor",
+      "semanticFieldId": "entity.armor",
+      "displayName": "Main armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 4,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:b84eba163647a01f",
+      "operationGroup": "operation:068d57b5b7cb14ee",
+      "planGroup": "plan:backpack:sh-51-directional-shield",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:1a2fd4afcef44a6d",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "entity",
+      "apiFieldConstant": "hd2.fields.entity.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: default-zone AP was part of the AP9 gameplay proof (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:7aad90087847d0c0",
+      "operationGroup": "operation:77e6bc95ac968e04",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5215435c3485b11b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:7aad90087847d0c0",
+      "operationGroup": "operation:77e6bc95ac968e04",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5215435c3485b11b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:7aad90087847d0c0",
+      "operationGroup": "operation:77e6bc95ac968e04",
+      "planGroup": "plan:backpack:ax-flam-75-hot-dog",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5215435c3485b11b",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-100 Portable Hellbomb",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2e3f4a7cc7d2e5cc",
+      "operationGroup": "operation:59a3326a0e4746e6",
+      "planGroup": "plan:backpack:b-100-portable-hellbomb",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-100 Portable Hellbomb"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ee401e7773cd5ed9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 1,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-100 Portable Hellbomb",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2e3f4a7cc7d2e5cc",
+      "operationGroup": "operation:59a3326a0e4746e6",
+      "planGroup": "plan:backpack:b-100-portable-hellbomb",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-100 Portable Hellbomb"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ee401e7773cd5ed9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 0,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-100 Portable Hellbomb",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:2e3f4a7cc7d2e5cc",
+      "operationGroup": "operation:59a3326a0e4746e6",
+      "planGroup": "plan:backpack:b-100-portable-hellbomb",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-100 Portable Hellbomb"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ee401e7773cd5ed9",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:75415211062fe8e4",
+      "operationGroup": "operation:42d269c92bac1263",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:82e7b2a71b51ee82",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:75415211062fe8e4",
+      "operationGroup": "operation:42d269c92bac1263",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:82e7b2a71b51ee82",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:75415211062fe8e4",
+      "operationGroup": "operation:42d269c92bac1263",
+      "planGroup": "plan:backpack:ax-arc-3-k-9",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:82e7b2a71b51ee82",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time",
+      "semanticFieldId": "recharge.time",
+      "displayName": "Recharge time",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 11.5,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:8bd6413bf6cc877e",
+      "operationGroup": "operation:93dfd3f6dbc347b2",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2b591df0d5981af8",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "RechargeComponentData",
+      "domain": "recharge",
+      "apiFieldConstant": "hd2.fields.recharge.time",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "JumpPackImprovements",
+        "proof": "research/README.md: the user confirmed the recharge effect in dev-0.8",
+        "provenOn": [
+          "LIFT-850 Jump Pack"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity",
+      "semanticFieldId": "jump.vertical_launch_velocity",
+      "displayName": "Vertical launch velocity",
+      "type": "number",
+      "unit": "meters_per_second",
+      "currentDefault": 40.0,
+      "editable": false,
+      "reason": "The member is proven on the Jump Pack only; the Hover Pack consumer uses distinct hover members and its launch semantics are unproven.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:f893e32732cc4072",
+      "operationGroup": "operation:e3301bd3584a2090",
+      "planGroup": "plan:backpack:lift-860-hover-pack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "JumppackComponentData",
+      "domain": "jump",
+      "apiFieldConstant": "hd2.fields.jump.vertical_launch_velocity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "JumpPackImprovements",
+        "proof": "releases/JumpPackImprovements-0.3.4-build-report.json: vertical_launch_gameplay_proven_by_user",
+        "provenOn": [
+          "LIFT-850 Jump Pack"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Charge capacity",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:06153993e1035bae",
+      "operationGroup": "operation:0fedbdb6031c0e00",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80c5c45d8b7e7f44",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting charges",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Exact wiki correlation for drone backpacks and a typed schema member, but no reference mod has proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:06153993e1035bae",
+      "operationGroup": "operation:0fedbdb6031c0e00",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80c5c45d8b7e7f44",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Charges per resupply",
+      "type": "integer",
+      "unit": "charges",
+      "currentDefault": 6,
+      "editable": false,
+      "reason": "Typed schema member without wiki correlation or proven write semantics.",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:06153993e1035bae",
+      "operationGroup": "operation:0fedbdb6031c0e00",
+      "planGroup": "plan:backpack:ax-tx-13-dog-breath",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80c5c45d8b7e7f44",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    }
+  ],
+  "backingObjects": [
+    {
+      "backingObjectId": "backing:6237e27f8bb5d4fa",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-1 Supply Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:65759033643b495f",
+      "fieldInstances": [
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:49ff379dcbee452f",
+      "kind": "RechargeComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:cc4ec8dd57ae1db0",
+      "fieldInstances": [
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time"
+      ]
+    },
+    {
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "kind": "JumppackComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-850 Jump Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5e66e478974e02a9",
+      "fieldInstances": [
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+      ]
+    },
+    {
+      "backingObjectId": "backing:685da4954088acc2",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-20 Ballistic Shield Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a926c84a2571adf4",
+      "fieldInstances": [
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+      ]
+    },
+    {
+      "backingObjectId": "backing:afff02a887451eab",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/AR-23 Guard Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:68b0a0b51d140e23",
+      "fieldInstances": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:de444380e0f5afe4",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/LAS-5 Rover"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:d38635cad7ee0113",
+      "fieldInstances": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "kind": "ShieldComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-32 Shield Generator Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a5423330f8e5d464",
+      "fieldInstances": [
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+      ]
+    },
+    {
+      "backingObjectId": "backing:b84eba163647a01f",
+      "kind": "HealthComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-51 Directional Shield"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:1a2fd4afcef44a6d",
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
+      ]
+    },
+    {
+      "backingObjectId": "backing:7aad90087847d0c0",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/FLAM-75 Hot Dog"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:5215435c3485b11b",
+      "fieldInstances": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:2e3f4a7cc7d2e5cc",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B-100 Portable Hellbomb"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:ee401e7773cd5ed9",
+      "fieldInstances": [
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:75415211062fe8e4",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/ARC-3 K-9"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:82e7b2a71b51ee82",
+      "fieldInstances": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:8bd6413bf6cc877e",
+      "kind": "RechargeComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2b591df0d5981af8",
+      "fieldInstances": [
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time"
+      ]
+    },
+    {
+      "backingObjectId": "backing:f893e32732cc4072",
+      "kind": "JumppackComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "LIFT-860 Hover Pack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:dfd9389efe19b666",
+      "fieldInstances": [
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+      ]
+    },
+    {
+      "backingObjectId": "backing:06153993e1035bae",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "AX/TX-13 Dog Breath"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:80c5c45d8b7e7f44",
+      "fieldInstances": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ]
+    }
+  ],
+  "operationGroups": [
+    {
+      "operationGroup": "operation:715a275d51efebf6",
+      "backingObjectId": "backing:6237e27f8bb5d4fa",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-1 Supply Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+        "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:f7101b4ee213f68e",
+      "backingObjectId": "backing:49ff379dcbee452f",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:recharge.time"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:84ab40f0f568f390",
+      "backingObjectId": "backing:54fc4a99ce6ef88a",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-850 Jump Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:lift-850-jump-pack:lift-850-jump-pack-backpack:jump.vertical_launch_velocity"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:69b3f0bb7d84c552",
+      "backingObjectId": "backing:685da4954088acc2",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-20 Ballistic Shield Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:b539dca1f8f01109",
+      "backingObjectId": "backing:afff02a887451eab",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/AR-23 Guard Dog",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+        "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:42e7225d601d44bb",
+      "backingObjectId": "backing:de444380e0f5afe4",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/LAS-5 Rover",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+        "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:b0ccd56873ca789c",
+      "backingObjectId": "backing:2cdf37b6c8ba5159",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-32 Shield Generator Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.radius",
+        "backpack:sh-32-shield-generator-pack:sh-32-shield-generator-pack-backpack:shield.durability"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:068d57b5b7cb14ee",
+      "backingObjectId": "backing:b84eba163647a01f",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-51 Directional Shield",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.health",
+        "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:77e6bc95ac968e04",
+      "backingObjectId": "backing:7aad90087847d0c0",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/FLAM-75 Hot Dog",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+        "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:59a3326a0e4746e6",
+      "backingObjectId": "backing:2e3f4a7cc7d2e5cc",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B-100 Portable Hellbomb",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+        "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:42d269c92bac1263",
+      "backingObjectId": "backing:75415211062fe8e4",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/ARC-3 K-9",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+        "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:93dfd3f6dbc347b2",
+      "backingObjectId": "backing:8bd6413bf6cc877e",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:recharge.time"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:e3301bd3584a2090",
+      "backingObjectId": "backing:f893e32732cc4072",
+      "target": {
+        "resource": "backpack",
+        "backpack": "LIFT-860 Hover Pack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:lift-860-hover-pack:lift-860-hover-pack-backpack:jump.vertical_launch_velocity"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:0fedbdb6031c0e00",
+      "backingObjectId": "backing:06153993e1035bae",
+      "target": {
+        "resource": "backpack",
+        "backpack": "AX/TX-13 Dog Breath",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+        "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    }
+  ],
+  "evidenceTiers": {
+    "gameplay_proven": "Reference mod confirmed this field on this entity in gameplay.",
+    "gameplay_proven_combined": "Written as part of a gameplay-confirmed edit; its individual effect is not isolated.",
+    "schema_proven": "Same typed native member was gameplay-proven on another entity of this record type.",
+    "live_write_verified": "Reference mod committed this write live; gameplay effect is unconfirmed.",
+    "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
+  },
+  "summary": {
+    "backpacks": 13,
+    "fieldInstances": 31,
+    "writableFieldInstances": 9,
+    "readOnlyFieldInstances": 22,
+    "backpacksWithWritableFields": 5,
+    "writableByTier": {
+      "gameplay_proven": 2,
+      "schema_proven": 7
+    },
+    "rackChainsResolved": 13,
+    "researchWrites": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled"
+  },
+  "instanceAudit": {
+    "internalInstances": 31,
+    "publishedInstances": 31,
+    "missingInstances": 0,
+    "unexpectedInstances": 0,
+    "exactMatch": true
+  },
+  "safety": {
+    "runtimeAddresses": false,
+    "rawResourceIdentifiers": false,
+    "writesDuringGeneration": 0,
+    "protectionChangesDuringGeneration": 0,
+    "fixtureFallback": "disabled"
+  }
+}

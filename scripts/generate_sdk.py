@@ -30,6 +30,9 @@ def outputs():
     support_authoring=json.loads((ROOT/'sdk/SupportWeaponAuthoringCapabilities.json').read_text())
     stratagem_authoring=json.loads((ROOT/'sdk/StratagemAuthoringCapabilities.json').read_text())
     stratagem_fields=json.loads((ROOT/'schemas/stratagem_fields.json').read_text())
+    entity_fields=json.loads((ROOT/'schemas/entity_fields.json').read_text())
+    vehicle_authoring=json.loads((ROOT/'sdk/VehicleAuthoringCapabilities.json').read_text())
+    backpack_authoring=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
@@ -63,6 +66,12 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='definition_'+constant
         fields[domain][constant]=field_id
+    for definition in entity_fields['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        constant=ident(name)
+        if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
+            constant='entity_'+constant
+        fields[domain][constant]=field_id
     header='-- Generated from schemas/sdk.json; do not edit. SHA256 '+digest+'\n'
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
@@ -73,6 +82,10 @@ def outputs():
               'support_weapon_summary':support_authoring['summary'],
               'stratagem_authoring_contract':stratagem_authoring['contract'],
               'stratagem_authoring_summary':stratagem_authoring['summary'],
+              'vehicle_authoring_contract':vehicle_authoring['contract'],
+              'vehicle_authoring_summary':vehicle_authoring['summary'],
+              'backpack_authoring_contract':backpack_authoring['contract'],
+              'backpack_authoring_summary':backpack_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
@@ -138,7 +151,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2Backpack','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end','---@return HD2PlayerAttack[]',
         'function HD2Weapon:attacks() end','---@return table',
@@ -220,7 +233,44 @@ def outputs():
         'function HD2Stratagem:attack(role) end','---@return HD2StratagemAttack[]',
         'function HD2Stratagem:attacks() end','---@return HD2EagleRearm',
         'function HD2Stratagem:eagle_rearm() end','---@return HD2DeployedEntity',
-        'function HD2Stratagem:deployed_entity() end']
+        'function HD2Stratagem:deployed_entity() end',
+        '','---@class HD2DeployedShield','---@field resource "stratagem"','---@field path "shield"',
+        '---@field stratagem HD2StratagemAuthoringName','---@field entity string',
+        'local HD2DeployedShield = {}','---@return table','function HD2DeployedShield:describe() end',
+        '','---@class HD2DeployedZone','---@field resource "stratagem"','---@field path "damage_zone"',
+        '---@field stratagem HD2StratagemAuthoringName','---@field entity string','---@field zone string',
+        'local HD2DeployedZone = {}','---@return table','function HD2DeployedZone:describe() end',
+        '---@return HD2DeployedShield','function HD2DeployedEntity:shield() end',
+        '---@return HD2DeployedZone[]','function HD2DeployedEntity:damage_zones() end',
+        '---@param zone string','---@return HD2DeployedZone','function HD2DeployedEntity:damage_zone(zone) end']
+    vehicle_names=[item['name'] for item in vehicle_authoring['vehicles']]
+    backpack_names=[item['name'] for item in backpack_authoring['backpacks']]
+    alias('HD2VehicleAuthoringName',vehicle_names)
+    alias('HD2BackpackName',backpack_names)
+    alias('HD2MountedWeaponId',[item['semanticId'] for item in vehicle_authoring['mountedWeapons']])
+    stub+=['','---@class HD2VehicleEntity','---@field resource "vehicle"','---@field path "entity"',
+        '---@field vehicle HD2VehicleAuthoringName','local HD2VehicleEntity = {}',
+        '---@return table','function HD2VehicleEntity:describe() end',
+        '','---@class HD2VehicleZone','---@field resource "vehicle"','---@field path "damage_zone"',
+        '---@field vehicle HD2VehicleAuthoringName','---@field zone string','local HD2VehicleZone = {}',
+        '---@return table','function HD2VehicleZone:describe() end',
+        '','---@class HD2MountedWeaponIdentity','---@field semanticId HD2MountedWeaponId',
+        '---@field displayName string','---@field attackFamily string',
+        '','---@class HD2VehicleMount','---@field resource "vehicle"','---@field path "mount"',
+        '---@field vehicle HD2VehicleAuthoringName','---@field mount string','local HD2VehicleMount = {}',
+        '---@return table','function HD2VehicleMount:describe() end',
+        '---@return HD2MountedWeaponIdentity?','function HD2VehicleMount:current() end',
+        '---@return HD2MountedWeaponIdentity[]','function HD2VehicleMount:candidates() end',
+        '---@param identity HD2MountedWeaponId|string','---@return HD2MountedWeaponIdentity',
+        'function HD2VehicleMount:candidate(identity) end',
+        '---@return HD2VehicleEntity','function HD2Vehicle:entity() end',
+        '---@return HD2VehicleZone[]','function HD2Vehicle:damage_zones() end',
+        '---@param zone string','---@return HD2VehicleZone','function HD2Vehicle:damage_zone(zone) end',
+        '---@return HD2VehicleMount[]','function HD2Vehicle:mounts() end',
+        '---@param mount string','---@return HD2VehicleMount','function HD2Vehicle:mount(mount) end',
+        '','---@class HD2Backpack','---@field resource "backpack"','---@field path "backpack"',
+        '---@field backpack HD2BackpackName','local HD2Backpack = {}','---@return table',
+        'function HD2Backpack:describe() end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():
@@ -245,11 +295,13 @@ def outputs():
         names=[n for r in resources.values() if r['kind']==domain for n in r['aliases']]
         if domain=='weapon':names+= [w['name'] for w in player_capabilities['weapons']]
         if domain=='stratagem':names+=stratagem_names
+        if domain=='vehicle':names+=vehicle_names
         alias('HD2'+method.title()+'Name',names)
         stub+=['---@param name HD2'+method.title()+'Name','---@return '+types[domain]['class'],
                'function hd2.'+method+'(name) end']
     stub+=['---@param name HD2SupportWeaponName','---@return HD2SupportWeapon',
-        'function hd2.support_weapon(name) end']
+        'function hd2.support_weapon(name) end',
+        '---@param name HD2BackpackName','---@return HD2Backpack','function hd2.backpack(name) end']
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
         for name,kind in spec['params']:stub.append('---@param '+name+' '+kind)
@@ -291,6 +343,8 @@ def outputs():
             'sdk/docs/attachment-preset-research.md':(ROOT/'docs/attachment-preset-research.md').read_text(),
             'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(),
             'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(),
+            'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(),
+            'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

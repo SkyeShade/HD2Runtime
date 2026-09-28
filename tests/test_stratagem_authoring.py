@@ -37,7 +37,10 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['orbitalRootsResolved'], 12)
         self.assertEqual(summary['eagleRootsResolved'], 8)
         self.assertEqual(summary['supportRootsResolved'], 33)
-        self.assertEqual(summary['cooldownWritable'], 71)
+        # 53 offensive/support + 18 defensive + 9 vehicle + 13 backpack call-in definitions.
+        self.assertEqual(summary['cooldownWritable'], 93)
+        self.assertEqual(summary['vehicleRootsResolved'], 9)
+        self.assertEqual(summary['backpackRootsResolved'], 13)
         self.assertEqual(summary['maxUsesWritable'], 0)
         self.assertEqual(summary['eagleUsesPerRearmWritable'], 8)
         self.assertEqual(summary['eagleRearmTimeWritable'], 8)
@@ -112,7 +115,10 @@ class StratagemAuthoringTests(unittest.TestCase):
             self.assertEqual(proof['nativeArmor'], proof['importedArmor'])
             fields = {field['semanticFieldId']: field for field in entry['fields']
                 if field['target']['path'] == 'deployed_entity'}
-            self.assertEqual(set(fields), {'entity.health', 'entity.armor'})
+            expected = {'entity.health', 'entity.armor'}
+            if entry['name'] == 'FX-12 Shield Generator Relay':
+                expected.add('payload.lifetime')
+            self.assertEqual(set(fields), expected)
             self.assertEqual(fields['entity.health']['currentDefault'], proof['nativeHealth'])
             self.assertEqual(fields['entity.armor']['currentDefault'], proof['nativeArmor'])
             for field in fields.values():

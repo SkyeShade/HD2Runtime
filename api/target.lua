@@ -311,9 +311,11 @@ function M.new(describe)
         local methods={}
         function methods.describe()
             local result=copy(entry.deployedEntity);result.name=entry.name;result.fields={};result.weapons={}
+            result.damageZones=copy(entry.damageZones or{});result.shield=copy(entry.shield)
             for _,field in ipairs(entry.fields)do
-                if field.target.path=='deployed_entity' or field.target.path=='weapon'
-                    or field.target.path=='attack' then result.fields[#result.fields+1]=public_field(field)end
+                local path=field.target.path
+                if path=='deployed_entity' or path=='weapon' or path=='attack' or path=='shield'
+                    or path=='damage_zone' then result.fields[#result.fields+1]=public_field(field)end
             end
             for role,attack in pairs(entry.attacks)do
                 local weapon=attack.weapon or 'primary'
@@ -363,8 +365,152 @@ function M.new(describe)
             table.sort(result,function(a,b)return a.weapon<b.weapon end);return result
         end
         function methods.attack(_,role)return stratagem_attack(name,role)end
+        local function sub_target(path,zone)
+            local target={resource='stratagem',stratagem=name,path=path,entity='main',zone=zone}
+            local sub={}
+            function sub.describe()
+                local result={name=name,path=path,zone=zone,fields={}}
+                for _,field in ipairs(entry.fields)do
+                    if field.target.path==path and field.target.zone==zone then
+                        result.fields[#result.fields+1]=public_field(field)end
+                end
+                if path=='shield'then result.shield=copy(entry.shield)end
+                return result
+            end
+            return setmetatable(target,{__index=sub})
+        end
+        function methods.shield()
+            assert(entry.shield,'deployed entity has no reviewed shield configuration')
+            return sub_target('shield')
+        end
+        local function zone_identity(identity)
+            for _,zone in ipairs(entry.damageZones or{})do
+                if identity==zone.zoneId or identity==zone.name
+                    or type(identity)=='number'and zone.zoneId=='zone_'..identity then return zone.zoneId end
+            end
+            error('unknown reviewed damage zone for '..name..': '..tostring(identity),0)
+        end
+        function methods.damage_zones()
+            local result={}
+            for _,zone in ipairs(entry.damageZones or{})do result[#result+1]=sub_target('damage_zone',zone.zoneId)end
+            return result
+        end
+        function methods.damage_zone(_,identity)return sub_target('damage_zone',zone_identity(identity))end
         return setmetatable({resource='stratagem',stratagem=name,path='deployed_entity',entity='main'},
             {__index=methods})
+    end
+    local entity_authoring=require('hd2runtime/domains/entity_authoring')
+    local function entity_public(field)
+        local result=public_field(field)
+        result.target=copy(field.target);result.allowedValues=copy(field.allowedValues)
+        result.acknowledgement=field.acknowledgement
+        return result
+    end
+    local function fields_for(entry,path,key,value)
+        local result={}
+        for _,field in ipairs(entry.fields)do
+            if field.target.path==path and(key==nil or field.target[key]==value)then
+                result[#result+1]=entity_public(field)end
+        end
+        return result
+    end
+    local function weapon_view(identity)
+        local weapon=assert(entity_authoring.mountedWeapons[identity],'unknown discovered mounted weapon')
+        return {semanticId=weapon.semanticId,displayName=weapon.displayName,attackFamily=weapon.attackFamily}
+    end
+    local legacy_vehicle=builders.vehicle
+    function builders.vehicle(name)
+        local entry=entity_authoring.vehicles[name]
+        if not entry then return legacy_vehicle(name)end
+        local methods={}
+        local function zone_target(zone)
+            local zone_methods={}
+            function zone_methods.describe()
+                local info=entry.zones[zone]
+                return {vehicle=name,zone=zone,index=info.index,name=info.name,
+                    fields=fields_for(entry,'damage_zone','zone',zone)}
+            end
+            return setmetatable({resource='vehicle',vehicle=name,path='damage_zone',zone=zone},
+                {__index=zone_methods})
+        end
+        local function zone_identity(identity)
+            for zone,info in pairs(entry.zones)do
+                if identity==zone or identity==info.name or identity==info.index then return zone end
+            end
+            error('unknown reviewed damage zone for '..name..': '..tostring(identity),0)
+        end
+        local function mount_target(mount)
+            local info=entry.mounts[mount]
+            local field
+            for _,item in ipairs(entry.fields)do
+                if item.target.path=='mount'and item.target.mount==mount then field=item end
+            end
+            local mount_methods={}
+            function mount_methods.describe()
+                return {vehicle=name,mount=mount,slot=info.slot,role=info.role,
+                    current=weapon_view(info.current),fields=fields_for(entry,'mount','mount',mount)}
+            end
+            function mount_methods.current()return weapon_view(info.current)end
+            function mount_methods.candidates()
+                local result={}
+                for _,identity in ipairs(field and field.allowedValues or{})do result[#result+1]=weapon_view(identity)end
+                return result
+            end
+            function mount_methods.candidate(_,identity)
+                local found
+                for _,candidate in ipairs(mount_methods.candidates())do
+                    if candidate.semanticId==identity or candidate.displayName==identity then
+                        assert(not found,'mounted weapon display name is ambiguous; use its semanticId')
+                        found=candidate
+                    end
+                end
+                return assert(found,'not a compatible discovered mounted weapon: '..tostring(identity))
+            end
+            return setmetatable({resource='vehicle',vehicle=name,path='mount',mount=mount},
+                {__index=mount_methods})
+        end
+        local function mount_identity(identity)
+            for mount,info in pairs(entry.mounts)do
+                if identity==mount or identity==info.role or identity==info.slot then return mount end
+            end
+            error('unknown swappable mount for '..name..': '..tostring(identity),0)
+        end
+        function methods.describe()
+            local zones,mounts={},{}
+            for zone,info in pairs(entry.zones)do zones[#zones+1]={zone=zone,index=info.index,name=info.name}end
+            table.sort(zones,function(a,b)return a.index<b.index end)
+            for mount,info in pairs(entry.mounts)do
+                mounts[#mounts+1]={mount=mount,slot=info.slot,role=info.role,current=weapon_view(info.current)}
+            end
+            table.sort(mounts,function(a,b)return a.slot<b.slot end)
+            return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'entity'),
+                damageZones=zones,mounts=mounts}
+        end
+        function methods.entity(self)return self end
+        function methods.health(self)return self end
+        function methods.damage_zones()
+            local ids={};for zone,info in pairs(entry.zones)do ids[#ids+1]={zone,info.index}end
+            table.sort(ids,function(a,b)return a[2]<b[2]end)
+            local result={};for index,item in ipairs(ids)do result[index]=zone_target(item[1])end
+            return result
+        end
+        function methods.damage_zone(_,identity)return zone_target(zone_identity(identity))end
+        function methods.mounts()
+            local ids={};for mount,info in pairs(entry.mounts)do ids[#ids+1]={mount,info.slot}end
+            table.sort(ids,function(a,b)return a[2]<b[2]end)
+            local result={};for index,item in ipairs(ids)do result[index]=mount_target(item[1])end
+            return result
+        end
+        function methods.mount(_,identity)return mount_target(mount_identity(identity))end
+        return setmetatable({resource='vehicle',vehicle=name,path='entity'},{__index=methods})
+    end
+    function builders.backpack(name)
+        local entry=assert(entity_authoring.backpacks[name],'unknown reviewed backpack: '..tostring(name))
+        local methods={}
+        function methods.describe()
+            return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack')}
+        end
+        return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end
     function builders.stratagem(name)
         local entry=stratagem_authoring.stratagems[name]

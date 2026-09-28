@@ -10,6 +10,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import support_callin_linkage
+import generate_entity_authoring
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / 'build/offensive-stratagem-research.json'
@@ -22,6 +23,9 @@ RESEARCH = ROOT / 'research/offensive-stratagem-runtime-F5FEE03DCFDB.json'
 DEFENSIVE_INPUT = ROOT / 'build/non-offensive-stratagem-research.json'
 DEFENSIVE_RESEARCH = ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json'
 DEFENSIVE_FIELDS = ROOT / 'schemas/stratagem_fields.json'
+ENTITY_FIELDS = ROOT / 'schemas/entity_fields.json'
+ENTITY_RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
+ZONE_BASE, ZONE_STRIDE = 520, 552
 
 
 def lua(value):
@@ -52,17 +56,21 @@ def backing_identity(backing):
         'nativeIdentity': backing['nativeIdentity']}
 
 
+_CONSTANTS = None
+
+
 def api_constant(field_id):
-    domain,name=field_id.split('.',1);constant=name.replace('.','_')
-    if field_id=='stratagem.cooldown': constant='definition_cooldown'
-    if field_id in ('damage.standard_damage','damage.durable_damage'):
-        constant='player_'+constant
-    return f'hd2.fields.{domain}.{constant}'
+    # Same allocation as generate_sdk, including definition_/player_/entity_ collision prefixes.
+    global _CONSTANTS
+    if _CONSTANTS is None:
+        _CONSTANTS = {value: f'hd2.fields.{domain}.{constant}' for domain, items in
+            generate_entity_authoring.api_constants().items() for constant, value in items.items()}
+    return _CONSTANTS[field_id]
 
 
 def build():
     source = json.loads((INPUT if INPUT.exists() else RESEARCH).read_text())
-    defs = {x['id']: x for path in (FIELDS, PLAYER_FIELDS)
+    defs = {x['id']: x for path in (FIELDS, PLAYER_FIELDS, ENTITY_FIELDS)
             for x in json.loads(path.read_text())['fields']}
     defensive_path = DEFENSIVE_INPUT if DEFENSIVE_INPUT.exists() else DEFENSIVE_RESEARCH
     defensive_source = json.loads(defensive_path.read_text()) if defensive_path.exists() else None
@@ -96,6 +104,9 @@ def build():
         definition = defs[field_id]
         target_identity = ':'.join(str(target.get(key, '')) for key in
             ('stratagem', 'path', 'entity', 'weapon', 'attack'))
+        if target.get('zone') is not None:
+            # Appended only for zone targets so every pre-existing instance key is unchanged.
+            target_identity += ':' + str(target['zone'])
         instance_key = f"stratagem:{slug(entry['name'])}:{slug(target_identity)}:{field_id}"
         object_key = opaque('backing', json.dumps(backing_identity(backing), sort_keys=True))
         operation_key = opaque('operation', json.dumps(
@@ -268,6 +279,42 @@ def build():
             'callInTime':{'value':None,'writable':False,
                 'reason':'No call-in-time owner is proven for this definition.'}})
 
+    # Vehicle and backpack call-in definitions. The delivered entities are authored
+    # through hd2.vehicle/hd2.backpack; the definition keeps only its cooldown.
+    entity_research = json.loads(ENTITY_RESEARCH.read_text())
+    delivered = [(item, 'vehicle', generate_entity_authoring.vehicle_key(item['name']), 'vehicle_entity')
+        for item in entity_research['vehicles'] if item['stratagemRoot']]
+    delivered += [(item, 'backpack', generate_entity_authoring.backpack_key(item['name']), 'backpack_entity')
+        for item in entity_research['backpacks']]
+    for item, family, semantic_id, delivery_object in delivered:
+        root = item['stratagemRoot']; name = item['name']
+        entry = {'name':name,'family':family,'rootResolution':'UNIQUE',
+            'root':{'id':root['id'],'package':root['package'],'payloads':root['payloads'],
+                'group':root['group'],'row':root['row']},'fields':[],'attacks':{}}
+        root_scope = [{'stratagem':name,'path':'stratagem'}]
+        add_field(entry,'stratagem.cooldown',root['cooldown'],
+            {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,'storage':'f32',
+             'width':4,'consumers':root_scope},
+            {'resource':'stratagem','stratagem':name,'path':'stratagem'})
+        max_value = None if root['use_count'] == 4294967295 else root['use_count']
+        add_field(entry,'stratagem.max_uses',max_value,
+            {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
+             'width':4,'consumers':root_scope},
+            {'resource':'stratagem','stratagem':name,'path':'stratagem'},False)
+        internal['stratagems'][name]=entry
+        public_stratagems.append({'name':name,'family':family,'rootResolution':'UNIQUE',
+            'attackRoles':[],'cooldown':root['cooldown'],
+            'cooldownCapability':{'value':root['cooldown'],'writable':True,
+                'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
+            'maxUses':{'value':max_value,'writable':False,'reason':defs['stratagem.max_uses']['reason']},
+            'callInTime':{'value':None,'writable':False,
+                'reason':'No call-in-time owner is proven for this definition.'},
+            'delivers':{'kind':family,'known':True,'state':'linked','semanticId':semantic_id,
+                'relationship':'call_in','deliveryObject':delivery_object,
+                'deliveryChain':['stratagem_definition','hellpod_rack','backpack_entity']
+                    if family == 'backpack' else ['stratagem_definition','vehicle_entity'],
+                'provenance':root['identityBasis'],'blocker':None}})
+
     # Defensive stratagems keep the deployed entity, mounted weapon, and attack
     # branches as separate semantic instances. Native entity components and
     # settings records are still resolved by the guarded stratagem writer.
@@ -372,6 +419,64 @@ def build():
                             'consumers':defensive_consumers[('HealthComponentData', health['record_index'])]}
                         add_field(entry, field_id, baseline, backing, entity_target,
                             provenance='exact importer correlation plus reviewed HealthComponentData main-health/default-armor layout')
+                health_consumers = defensive_consumers[('HealthComponentData', health['record_index'])]
+                zone_evidence = entity_research['deployedHealth'][item['name']]
+                if zone_evidence['ownership']['recordIndex'] != health['record_index']:
+                    raise ValueError('deployed zone evidence disagrees with health ownership: ' + item['name'])
+                entry['damageZones'] = []
+                for zone in zone_evidence['zones']:
+                    if not zone['populated']:
+                        continue
+                    zone_id = 'zone_' + str(zone['index'])
+                    zone_target = dict(entity_target, path='damage_zone', zone=zone_id)
+                    base = ZONE_BASE + zone['index'] * ZONE_STRIDE
+                    for field_id, key, offset, storage in (('zone.armor', 'armor', 216, 'u32'),
+                            ('zone.health', 'health', 232, 'i32'),
+                            ('zone.affects_main_health', 'affectsMainHealth', 248, 'f32')):
+                        combined = item['name'] == 'FX-12 Shield Generator Relay' and field_id == 'zone.health'
+                        add_field(entry, field_id, zone[key],
+                            {'kind':'HealthComponentData','component':'HealthComponentData',
+                             'nativeIdentity':entity['resource'],'recordIndex':health['record_index'],
+                             'indexRow':health['index_row'],'offset':base + offset,'storage':storage,
+                             'width':4,'ownerCount':health['ownerCount'],'uniqueOwner':health['uniqueOwner'],
+                             'recordSha256':health.get('recordSha256'),'consumers':health_consumers},
+                            zone_target, provenance=('gameplay-proven with main health in ShieldRelayImprovements '
+                                '(individual effect not isolated)' if combined else
+                                'shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)'))
+                    entry['damageZones'].append({'zoneId': zone_id, 'name': zone['name'],
+                        'armor': zone['armor'], 'health': zone['health'],
+                        'affectsMainHealth': zone['affectsMainHealth']})
+            if item['name'] == 'FX-12 Shield Generator Relay':
+                relay = entity_research['shieldRelay']
+                if relay['resource'] != entity['resource']:
+                    raise ValueError('relay shield evidence disagrees with the deployed entity')
+                shield, payload = relay['shield'], relay['payload']
+                shield_target = dict(entity_target, path='shield')
+                for field_id, offset in (('shield.radius', 0), ('shield.durability', 76)):
+                    add_field(entry, field_id, shield['values'][str(offset)],
+                        {'kind':'ShieldComponentData','component':'ShieldComponentData',
+                         'nativeIdentity':entity['resource'],'recordIndex':shield['recordIndex'],
+                         'indexRow':shield['indexRow'],'offset':offset,'storage':'f32','width':4,
+                         'ownerCount':shield['ownerCount'],'uniqueOwner':shield['uniqueOwner'],
+                         'recordSha256':shield['recordSha256'],
+                         'consumers':[{'stratagem':item['name'],'path':'shield'}]},
+                        shield_target, provenance='ShieldComponent member gameplay-proven by ShieldRelayImprovements')
+                add_field(entry, 'payload.lifetime', payload['values']['4'],
+                    {'kind':'HellpodPayloadComponentData','component':'HellpodPayloadComponentData',
+                     'nativeIdentity':entity['resource'],'recordIndex':payload['recordIndex'],
+                     'indexRow':payload['indexRow'],'offset':4,'storage':'f32','width':4,
+                     'ownerCount':payload['ownerCount'],'uniqueOwner':payload['uniqueOwner'],
+                     'recordSha256':payload['recordSha256'],
+                     'consumers':[{'stratagem':item['name'],'path':'deployed_entity'}]},
+                    entity_target, provenance='HellpodPayload lifetime gameplay-proven by ShieldRelayImprovements')
+                entry['shield'] = {'identityRole': 'shield projector configuration',
+                    'component': 'ShieldComponent', 'sameEntityAsBase': True,
+                    'runtimeShieldInstance': 'unresolved',
+                    'blockedFields': [
+                        {'field': 'shield recharge delay / broken delay / recharge rate / restart charge',
+                         'reason': 'Labels come from an external export only; no reference mod wrote them.'},
+                        {'field': 'zone explosive damage percentage',
+                         'reason': 'The reference gameplay test did not change grenade damage to the emitter.'}]}
 
             weapon_target = {'resource':'stratagem','stratagem':item['name'],
                 'path':'weapon','entity':'main','weapon':'primary'}
@@ -496,6 +601,13 @@ def build():
                     'blockedFields':entry['blockedFields']},
                 'mineScopeDeferred':item['family'].lower() == 'mine',
                 'mineInstanceResolved':False if item['family'].lower() == 'mine' else None})
+            public_stratagems[-1]['deployedEntity']['damageZones'] = [
+                dict(zone, fieldInstances=[field['instanceKey'] for field in entry['fields']
+                    if field['target'].get('zone') == zone['zoneId']]) for zone in entry.get('damageZones', [])]
+            if entry.get('shield'):
+                public_stratagems[-1]['deployedEntity']['shield'] = dict(entry['shield'],
+                    fieldInstances=[field['instanceKey'] for field in entry['fields']
+                        if field['target']['path'] == 'shield'])
 
     # Stable semantic identity for GUI persistence and cross-catalog joins.
     for item in public_stratagems:
@@ -631,6 +743,12 @@ def build():
         'canonicalOperationGroups':len(operation_groups),
         'supportDeliveryLinksKnown':linkage['audit']['reverseLinksKnown'],
         'supportCallInLinkage':linkage['audit'],
+        'vehicleRootsResolved':sum(x['family']=='vehicle' for x in public_stratagems),
+        'backpackRootsResolved':sum(x['family']=='backpack' for x in public_stratagems),
+        'shieldFieldsWritable':sum(x['target']['path']=='shield' and x['editable'] for x in field_instances),
+        'damageZoneFieldsWritable':sum(x['target']['path']=='damage_zone' and x['editable'] for x in field_instances),
+        'deployedZonesResolved':len({(x['target']['stratagem'],x['target']['zone']) for x in field_instances
+            if x['target']['path']=='damage_zone'}),
         'researchWrites':0,'protectionChanges':0,'fixtureFallback':'disabled'}
     return internal, public, source
 

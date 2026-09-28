@@ -1,7 +1,6 @@
 local Reader=require('hd2runtime/runtime/reader')
 local plans=require('hd2runtime/domains/composition_plans')
-local weapons=require('hd2runtime/domains/player_weapon_writes')
-local stratagems=require('hd2runtime/domains/stratagem_writes')
+local domains=require('hd2runtime/domains/write_domains')
 local writer=require('hd2runtime/core/guarded_transaction')
 local profile=require('hd2runtime/schemas/current')
 local M={}
@@ -72,10 +71,11 @@ function M.start_spec(runtime,emit,spec,startup_delay)
             for _,phase in ipairs(spec.phases)do
                 local phase_worker=coroutine.create(function()
                     local reader=Reader.new(runtime)
-                    local domain=phase.capture_specs[1].kind=='stratagem'and stratagems or weapons
+                    local key=domains.key_for_kind(phase.capture_specs[1].kind)
+                    local domain=domains.for_kind(phase.capture_specs[1].kind)
                     for _,capture_spec in ipairs(phase.capture_specs)do
-                        assert((capture_spec.kind=='stratagem')==(domain==stratagems),
-                            'one plan phase cannot mix stratagem and weapon targets')
+                        assert(domains.key_for_kind(capture_spec.kind)==key,
+                            'one plan phase cannot mix stratagem, entity, and weapon targets')
                     end
                     local resolved=domain.capture_many(runtime,reader,phase.capture_specs)
                     local plan=plans.prepare_phase(resolved,reader,phase)

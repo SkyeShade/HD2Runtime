@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 c2db0080492a73cc976f86450eee95ce0c05bb79377f659da1a21afe37ce52b6
+-- Schema SHA256 f50e10e4218b6b401701b3986ea3dc4cec19b3dc44b8760b873ed5dd11a3eb4a
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -348,7 +348,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2Backpack
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -430,7 +430,7 @@ function HD2SupportWeapon:projectile(identity) end
 ---@param identity integer|HD2SupportAttackName
 ---@return HD2SupportExplosion
 function HD2SupportWeapon:explosion(identity) end
----@alias HD2StratagemAuthoringName "40-K Meltagun"|"A/AC-8 Autocannon Sentry"|"A/ARC-3 Tesla Tower"|"A/FLAM-40 Flame Sentry"|"A/G-16 Gatling Sentry"|"A/GM-17 Gas Mortar Sentry"|"A/LAS-98 Laser Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MG-43 Machine Gun Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"E/AT-12 Anti-Tank Emplacement"|"E/GL-21 Grenadier Battlement"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FX-12 Shield Generator Relay"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MD-17 Anti-Tank Mines"|"MD-6 Anti-Personnel Minefield"|"MD-8 Gas Mines"|"MD-I4 Incendiary Mines"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"
+---@alias HD2StratagemAuthoringName "40-K Meltagun"|"A/AC-8 Autocannon Sentry"|"A/ARC-3 Tesla Tower"|"A/FLAM-40 Flame Sentry"|"A/G-16 Gatling Sentry"|"A/GM-17 Gas Mortar Sentry"|"A/LAS-98 Laser Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MG-43 Machine Gun Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"AX/AR-23 Guard Dog"|"AX/ARC-3 K-9"|"AX/FLAM-75 Hot Dog"|"AX/LAS-5 Rover"|"AX/TX-13 Dog Breath"|"B-1 Supply Pack"|"B-100 Portable Hellbomb"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"E/AT-12 Anti-Tank Emplacement"|"E/GL-21 Grenadier Battlement"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"EXO-45 Patriot Exosuit"|"EXO-49 Emancipator Exosuit"|"EXO-51 Lumberer Exosuit"|"EXO-55 Breakthrough Exosuit"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FX-12 Shield Generator Relay"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"LIFT-182 Warp Pack"|"LIFT-850 Jump Pack"|"LIFT-860 Hover Pack"|"M-1000 Maxigun"|"M-102 Gunner FRV"|"M-103 Supply FRV"|"M-104 Incinerator FRV"|"M-105 Stalwart"|"MD-17 Anti-Tank Mines"|"MD-6 Anti-Personnel Minefield"|"MD-8 Gas Mines"|"MD-I4 Incendiary Mines"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"SH-20 Ballistic Shield Backpack"|"SH-32 Shield Generator Pack"|"SH-51 Directional Shield"|"StA-X3 W.A.S.P. Launcher"|"TD-110 Maelstrom"|"TD-220 Bastion MK XVI"|"TX-41 Sterilizer"
 ---@alias HD2StratagemAttackRole "beam"|"beam_damage"|"delivery_1_projectile"|"delivery_1_projectile_damage"|"delivery_1_projectile_expiry"|"delivery_1_projectile_expiry_damage"|"delivery_1_projectile_expiry_shrapnel"|"delivery_1_projectile_expiry_shrapnel_damage"|"delivery_1_projectile_expiry_shrapnel_impact"|"delivery_1_projectile_expiry_shrapnel_impact_damage"|"delivery_1_projectile_impact"|"delivery_1_projectile_impact_damage"|"delivery_1_projectile_impact_damage_status_1"|"delivery_1_projectile_impact_damage_status_2"|"delivery_1_projectile_impact_shrapnel"|"delivery_1_projectile_impact_shrapnel_damage"|"delivery_1_projectile_impact_shrapnel_impact"|"delivery_1_projectile_impact_shrapnel_impact_damage"|"delivery_2_projectile"|"delivery_2_projectile_damage"|"delivery_2_projectile_impact"|"delivery_2_projectile_impact_damage"|"delivery_2_projectile_impact_damage_status_1"|"delivery_2_projectile_impact_damage_status_2"|"delivery_3_projectile"|"delivery_3_projectile_damage"|"delivery_3_projectile_impact"|"delivery_3_projectile_impact_damage"|"delivery_3_projectile_impact_damage_status_1"|"delivery_3_projectile_impact_damage_status_2"|"delivery_4_projectile"|"delivery_4_projectile_damage"|"primary"|"primary_damage"|"primary_damage_status_1"|"primary_damage_status_2"|"primary_damage_status_3"|"primary_expiry"|"primary_expiry_damage"|"primary_expiry_damage_status_1"|"primary_impact"|"primary_impact_damage"|"primary_impact_damage_status_1"|"primary_impact_damage_status_2"
 
 ---@class HD2StratagemAttack
@@ -503,6 +503,93 @@ function HD2Stratagem:attacks() end
 function HD2Stratagem:eagle_rearm() end
 ---@return HD2DeployedEntity
 function HD2Stratagem:deployed_entity() end
+
+---@class HD2DeployedShield
+---@field resource "stratagem"
+---@field path "shield"
+---@field stratagem HD2StratagemAuthoringName
+---@field entity string
+local HD2DeployedShield = {}
+---@return table
+function HD2DeployedShield:describe() end
+
+---@class HD2DeployedZone
+---@field resource "stratagem"
+---@field path "damage_zone"
+---@field stratagem HD2StratagemAuthoringName
+---@field entity string
+---@field zone string
+local HD2DeployedZone = {}
+---@return table
+function HD2DeployedZone:describe() end
+---@return HD2DeployedShield
+function HD2DeployedEntity:shield() end
+---@return HD2DeployedZone[]
+function HD2DeployedEntity:damage_zones() end
+---@param zone string
+---@return HD2DeployedZone
+function HD2DeployedEntity:damage_zone(zone) end
+---@alias HD2VehicleAuthoringName "EXO-45 Patriot Exosuit"|"EXO-49 Emancipator Exosuit"|"EXO-51 Lumberer Exosuit"|"EXO-55 Breakthrough Exosuit"|"FRV (Super Earth variant)"|"GATER Oil Rig"|"M-102 Gunner FRV"|"M-103 Supply FRV"|"M-104 Incinerator FRV"|"TD-110 Maelstrom"|"TD-220 Bastion MK XVI"
+---@alias HD2BackpackName "AX/AR-23 Guard Dog"|"AX/ARC-3 K-9"|"AX/FLAM-75 Hot Dog"|"AX/LAS-5 Rover"|"AX/TX-13 Dog Breath"|"B-1 Supply Pack"|"B-100 Portable Hellbomb"|"LIFT-182 Warp Pack"|"LIFT-850 Jump Pack"|"LIFT-860 Hover Pack"|"SH-20 Ballistic Shield Backpack"|"SH-32 Shield Generator Pack"|"SH-51 Directional Shield"
+---@alias HD2MountedWeaponId "mounted-weapon/v1/assault-rifle/1e4767cc1bb3f867"|"mounted-weapon/v1/combat-walker-anti-tank-cannon/7b5046ba53f31e10"|"mounted-weapon/v1/combat-walker-autocannon-left/cb15fea8423aa2f6"|"mounted-weapon/v1/combat-walker-autocannon-right/54728c643193e559"|"mounted-weapon/v1/combat-walker-flak-cannon/84989fb7944d6bba"|"mounted-weapon/v1/combat-walker-flamethrower/61d1fb4e55fd37dd"|"mounted-weapon/v1/combat-walker-missle-launcher/b69f79ed51aeb683"|"mounted-weapon/v1/combat-walker-turret/ec85bacd57e03497"|"mounted-weapon/v1/cyborg-big-walker-turret-cannon/283e3d22cc22ef01"|"mounted-weapon/v1/cyborg-tank-turret-autocannons/c35429998ba92cea"|"mounted-weapon/v1/cyborg-tank-turret-heavycannon/68a52c55b8083bd1"|"mounted-weapon/v1/cyborg-tank-turret-rocketlauncher/bbb3a8a3de937acb"|"mounted-weapon/v1/cyborg-turret-command-bunker-hmg/c31affd2be6199f5"|"mounted-weapon/v1/drone-flamethrower-mount/4eef657729c544ac"|"mounted-weapon/v1/drone-gas-projector-mount/fa183017e162b3a1"|"mounted-weapon/v1/drone-laser-rifle-mount/d24c7f3b6e85858c"|"mounted-weapon/v1/drone-mg-weapon/473e6c3f3ecb9759"|"mounted-weapon/v1/drone-stun-gun-mount/7f06093280ceb95e"|"mounted-weapon/v1/eagle-gunpod/111e7291542a80cd"|"mounted-weapon/v1/frv-flamethrower/52eb6d862f0c81ce"|"mounted-weapon/v1/frv-mg/87956cec45a21b90"|"mounted-weapon/v1/gater-oil-rig-turret-weapon/3aba6f3418fada66"|"mounted-weapon/v1/illuminate-turret-wm-cannon-head-l/d7ec908c4f54021f"|"mounted-weapon/v1/illuminate-turret-wm-cannon-head-r/60d5f153deb23159"|"mounted-weapon/v1/laser-rifle/9c4d326f378d8900"|"mounted-weapon/v1/m-103-supply-frv-gun-weapon/34d73fd6e0ab1d96"|"mounted-weapon/v1/shuttle-gunship-turret-hmg/d6d6cd9052e6709e"|"mounted-weapon/v1/soldier-flamer/45e032b636439337"|"mounted-weapon/v1/soldier-machinegun-flm/892c5a848f371242"|"mounted-weapon/v1/soldier-machinegun/97d452fb6ecd1f68"|"mounted-weapon/v1/soldier-standard-rifle/e8e838b975071d1b"|"mounted-weapon/v1/td-110-maelstrom-attach-tank-gun-weapon/dd2241a292c7330b"|"mounted-weapon/v1/td-110-maelstrom-slot-2-weapon/3a06c77a110e70c2"|"mounted-weapon/v1/td-110-maelstrom-slot-3-weapon/605fcfcd1be790c4"|"mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg-weapon/10e4809cf1704447"|"mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437"|"mounted-weapon/v1/unnamed-mounted-weapon/07d8504a50bdc316"|"mounted-weapon/v1/unnamed-mounted-weapon/0d330840f4f578e9"|"mounted-weapon/v1/unnamed-mounted-weapon/101f9dd2c0400653"|"mounted-weapon/v1/unnamed-mounted-weapon/1169bac0a5ba767a"|"mounted-weapon/v1/unnamed-mounted-weapon/11f435e5587ccdd1"|"mounted-weapon/v1/unnamed-mounted-weapon/137397eea95c1013"|"mounted-weapon/v1/unnamed-mounted-weapon/1688ac3e4dad0ae9"|"mounted-weapon/v1/unnamed-mounted-weapon/1c84b8fd4f07a463"|"mounted-weapon/v1/unnamed-mounted-weapon/203c50ce98a78d3a"|"mounted-weapon/v1/unnamed-mounted-weapon/205d3f18e6c4c986"|"mounted-weapon/v1/unnamed-mounted-weapon/250541fac04090c7"|"mounted-weapon/v1/unnamed-mounted-weapon/3b994e7172991b78"|"mounted-weapon/v1/unnamed-mounted-weapon/42aa69216544be42"|"mounted-weapon/v1/unnamed-mounted-weapon/4ec9af0a2bec8e85"|"mounted-weapon/v1/unnamed-mounted-weapon/51938480ad36da5a"|"mounted-weapon/v1/unnamed-mounted-weapon/51f18fa3cecd841f"|"mounted-weapon/v1/unnamed-mounted-weapon/58ecc827279959df"|"mounted-weapon/v1/unnamed-mounted-weapon/6c4babe49fc6677f"|"mounted-weapon/v1/unnamed-mounted-weapon/6ec61849439ad1e0"|"mounted-weapon/v1/unnamed-mounted-weapon/9197edf2fc0997c2"|"mounted-weapon/v1/unnamed-mounted-weapon/94761fd626e821fd"|"mounted-weapon/v1/unnamed-mounted-weapon/978ff8e750babd67"|"mounted-weapon/v1/unnamed-mounted-weapon/988019ef8dd87d56"|"mounted-weapon/v1/unnamed-mounted-weapon/9a0b2f30b8af9705"|"mounted-weapon/v1/unnamed-mounted-weapon/9b99e436c4807091"|"mounted-weapon/v1/unnamed-mounted-weapon/a0b9d41eb561ceb4"|"mounted-weapon/v1/unnamed-mounted-weapon/a48528dbc8a9a31a"|"mounted-weapon/v1/unnamed-mounted-weapon/a983210c172b417e"|"mounted-weapon/v1/unnamed-mounted-weapon/ad0f14d262d210b8"|"mounted-weapon/v1/unnamed-mounted-weapon/ad69246a4db149f3"|"mounted-weapon/v1/unnamed-mounted-weapon/b24ebb6af42c6794"|"mounted-weapon/v1/unnamed-mounted-weapon/b587cf80343bb0d6"|"mounted-weapon/v1/unnamed-mounted-weapon/c1555e52a30c4192"|"mounted-weapon/v1/unnamed-mounted-weapon/c4c4e526a882e2b1"|"mounted-weapon/v1/unnamed-mounted-weapon/c662ee639ea4ee58"|"mounted-weapon/v1/unnamed-mounted-weapon/ceb424b0c26962b0"|"mounted-weapon/v1/unnamed-mounted-weapon/d4c0d4ac30387388"|"mounted-weapon/v1/unnamed-mounted-weapon/d6880a93a0aeef03"|"mounted-weapon/v1/unnamed-mounted-weapon/db0385a87b4a86ca"|"mounted-weapon/v1/unnamed-mounted-weapon/e20b6a72f9714d83"|"mounted-weapon/v1/unnamed-mounted-weapon/ef60119f83d4cf57"|"mounted-weapon/v1/unnamed-mounted-weapon/facc00a32715cba1"|"mounted-weapon/v1/unnamed-mounted-weapon/ffd507e9cb88f3b7"
+
+---@class HD2VehicleEntity
+---@field resource "vehicle"
+---@field path "entity"
+---@field vehicle HD2VehicleAuthoringName
+local HD2VehicleEntity = {}
+---@return table
+function HD2VehicleEntity:describe() end
+
+---@class HD2VehicleZone
+---@field resource "vehicle"
+---@field path "damage_zone"
+---@field vehicle HD2VehicleAuthoringName
+---@field zone string
+local HD2VehicleZone = {}
+---@return table
+function HD2VehicleZone:describe() end
+
+---@class HD2MountedWeaponIdentity
+---@field semanticId HD2MountedWeaponId
+---@field displayName string
+---@field attackFamily string
+
+---@class HD2VehicleMount
+---@field resource "vehicle"
+---@field path "mount"
+---@field vehicle HD2VehicleAuthoringName
+---@field mount string
+local HD2VehicleMount = {}
+---@return table
+function HD2VehicleMount:describe() end
+---@return HD2MountedWeaponIdentity?
+function HD2VehicleMount:current() end
+---@return HD2MountedWeaponIdentity[]
+function HD2VehicleMount:candidates() end
+---@param identity HD2MountedWeaponId|string
+---@return HD2MountedWeaponIdentity
+function HD2VehicleMount:candidate(identity) end
+---@return HD2VehicleEntity
+function HD2Vehicle:entity() end
+---@return HD2VehicleZone[]
+function HD2Vehicle:damage_zones() end
+---@param zone string
+---@return HD2VehicleZone
+function HD2Vehicle:damage_zone(zone) end
+---@return HD2VehicleMount[]
+function HD2Vehicle:mounts() end
+---@param mount string
+---@return HD2VehicleMount
+function HD2Vehicle:mount(mount) end
+
+---@class HD2Backpack
+---@field resource "backpack"
+---@field path "backpack"
+---@field backpack HD2BackpackName
+local HD2Backpack = {}
+---@return table
+function HD2Backpack:describe() end
 
 ---@class HD2Fields_weapon
 ---@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
@@ -652,14 +739,18 @@ function HD2Stratagem:deployed_entity() end
 ---@class HD2Fields_shield
 ---@field durability "durability" Shield Relay: reviewed writable, number
 ---@field radius "radius" Shield Relay: reviewed writable, number
+---@field entity_radius "shield.radius"
+---@field entity_durability "shield.durability"
 
 ---@class HD2Fields_payload
 ---@field lifetime "lifetime" Shield Relay: reviewed writable, number
+---@field entity_lifetime "payload.lifetime"
 
 ---@class HD2Fields_equipment
 
 ---@class HD2Fields_recharge
 ---@field recharge "recharge" Jump Pack: read-only, number
+---@field time "recharge.time"
 
 ---@class HD2Fields_jumppack
 ---@field movement_scalar_04 "movement_scalar_04" Jump Pack: read-only, number
@@ -783,6 +874,22 @@ function HD2Stratagem:deployed_entity() end
 ---@field uses_per_rearm "eagle.uses_per_rearm"
 ---@field rearm_time "eagle.rearm_time"
 
+---@class HD2Fields_zone
+---@field armor "zone.armor"
+---@field health "zone.health"
+---@field affects_main_health "zone.affects_main_health"
+
+---@class HD2Fields_jump
+---@field vertical_launch_velocity "jump.vertical_launch_velocity"
+
+---@class HD2Fields_deposit
+---@field capacity "deposit.capacity"
+---@field start_amount "deposit.start_amount"
+---@field refill_amount "deposit.refill_amount"
+
+---@class HD2Fields_mount
+---@field weapon "mount.weapon"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -809,6 +916,10 @@ function HD2Stratagem:deployed_entity() end
 ---@field terminal HD2Fields_terminal
 ---@field entity HD2Fields_entity
 ---@field eagle HD2Fields_eagle
+---@field zone HD2Fields_zone
+---@field jump HD2Fields_jump
+---@field deposit HD2Fields_deposit
+---@field mount HD2Fields_mount
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177
@@ -850,11 +961,11 @@ local hd2 = {}
 ---@param name HD2WeaponName
 ---@return HD2Weapon
 function hd2.weapon(name) end
----@alias HD2VehicleName "Bastion"|"Maelstrom"|"bastion"|"maelstrom"
+---@alias HD2VehicleName "Bastion"|"EXO-45 Patriot Exosuit"|"EXO-49 Emancipator Exosuit"|"EXO-51 Lumberer Exosuit"|"EXO-55 Breakthrough Exosuit"|"FRV (Super Earth variant)"|"GATER Oil Rig"|"M-102 Gunner FRV"|"M-103 Supply FRV"|"M-104 Incinerator FRV"|"Maelstrom"|"TD-110 Maelstrom"|"TD-220 Bastion MK XVI"|"bastion"|"maelstrom"
 ---@param name HD2VehicleName
 ---@return HD2Vehicle
 function hd2.vehicle(name) end
----@alias HD2StratagemName "40-K Meltagun"|"A/AC-8 Autocannon Sentry"|"A/ARC-3 Tesla Tower"|"A/FLAM-40 Flame Sentry"|"A/G-16 Gatling Sentry"|"A/GM-17 Gas Mortar Sentry"|"A/LAS-98 Laser Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MG-43 Machine Gun Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"E/AT-12 Anti-Tank Emplacement"|"E/GL-21 Grenadier Battlement"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FX-12 Shield Generator Relay"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MD-17 Anti-Tank Mines"|"MD-6 Anti-Personnel Minefield"|"MD-8 Gas Mines"|"MD-I4 Incendiary Mines"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"Shield Relay"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"|"orbital_laser"|"shield_relay"
+---@alias HD2StratagemName "40-K Meltagun"|"A/AC-8 Autocannon Sentry"|"A/ARC-3 Tesla Tower"|"A/FLAM-40 Flame Sentry"|"A/G-16 Gatling Sentry"|"A/GM-17 Gas Mortar Sentry"|"A/LAS-98 Laser Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MG-43 Machine Gun Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"AX/AR-23 Guard Dog"|"AX/ARC-3 K-9"|"AX/FLAM-75 Hot Dog"|"AX/LAS-5 Rover"|"AX/TX-13 Dog Breath"|"B-1 Supply Pack"|"B-100 Portable Hellbomb"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"E/AT-12 Anti-Tank Emplacement"|"E/GL-21 Grenadier Battlement"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"EXO-45 Patriot Exosuit"|"EXO-49 Emancipator Exosuit"|"EXO-51 Lumberer Exosuit"|"EXO-55 Breakthrough Exosuit"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FX-12 Shield Generator Relay"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"LIFT-182 Warp Pack"|"LIFT-850 Jump Pack"|"LIFT-860 Hover Pack"|"M-1000 Maxigun"|"M-102 Gunner FRV"|"M-103 Supply FRV"|"M-104 Incinerator FRV"|"M-105 Stalwart"|"MD-17 Anti-Tank Mines"|"MD-6 Anti-Personnel Minefield"|"MD-8 Gas Mines"|"MD-I4 Incendiary Mines"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"SH-20 Ballistic Shield Backpack"|"SH-32 Shield Generator Pack"|"SH-51 Directional Shield"|"Shield Relay"|"StA-X3 W.A.S.P. Launcher"|"TD-110 Maelstrom"|"TD-220 Bastion MK XVI"|"TX-41 Sterilizer"|"orbital_laser"|"shield_relay"
 ---@param name HD2StratagemName
 ---@return HD2Stratagem
 function hd2.stratagem(name) end
@@ -865,6 +976,9 @@ function hd2.equipment(name) end
 ---@param name HD2SupportWeaponName
 ---@return HD2SupportWeapon
 function hd2.support_weapon(name) end
+---@param name HD2BackpackName
+---@return HD2Backpack
+function hd2.backpack(name) end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table
