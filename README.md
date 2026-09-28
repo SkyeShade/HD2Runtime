@@ -31,8 +31,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
 Version 0.25.0 makes 19 of 20 Boosters writable through natively traced targets and adds
-in-game options (`hd2.options`) bound to ensured operations, with CowboyBingus Mod Options Menu
-as an optional dependency. See `docs/releases/0.25.0.md`.
+in-game options (`hd2.options`) bound to ensured operations, confirmed in game, with CowboyBingus
+Mod Options Menu as an optional dependency. See `docs/releases/0.25.0.md`.
 
 Version 0.24.0 expands support-weapon authoring to 31 weapons (reload, projectile lifetime and
 penetration slowdown, Maxigun wind-up, and four delivery-resolved identities) and adds Booster
