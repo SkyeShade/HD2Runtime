@@ -135,3 +135,61 @@ Every deployed entity also exposes its populated damage zones through `damage_zo
 
 Nine vehicle and 13 backpack StratagemDefinitions are listed with writable cooldowns. Each carries a
 `delivers` link to the `hd2.vehicle` or `hd2.backpack` semantic ID of the entity it delivers.
+
+## Stratagem icon identity and catalog equipment
+
+`StratagemAuthoringCapabilities.json` publishes two presentation facts per stratagem. Neither changes write semantics.
+
+### `uiIcon`
+
+For each stratagem, `uiIcon` names the game's own icon for that stratagem:
+
+```json
+"uiIcon": {"state": "resolved", "nativeType": "C4", "nativeTypeValue": 14,
+           "iconKey": "StratagemC4", "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+           "provenance": {"basis": "native_stratagem_type", "evidence": [...], "displayNameEquality": "not used",
+                          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"},
+           "blocker": null}
+```
+
+`iconKey` is the key tooling uses to find the artwork. For any state other than `resolved`,
+`blocker` holds `{kind, reason}`, and `reason` repeats the same text. `provenance` is `null` for
+`no_native_root`. The top-level `uiIconContract` (contract `hd2runtime.stratagem.ui_icon.v1`)
+describes each state, the chain, the library and its SHA-256.
+
+**Structural chain** (also in `uiIconContract.chain`). No display names are used.
+
+1. The mapped `StratagemInfo` row's member 0 is `type`: `ENUM_UINT32`, enum `StratagemType` in the pinned type library.
+2. The StratagemType value maps to its native member name through the enum name table in `game.dll`. The table is accepted only as the unique pointer run `None`…`Count` whose every entry length equals the type library's hidden alias length for that value (151 of 151).
+3. The native member name maps to an icon key through the game UI's `StratagemTypeDataTemplate` DataTriggers in the icon library.
+4. The icon key maps to a `DataTemplate` in the same library.
+
+**States:**
+
+| State | Meaning | Count (pinned build) |
+| --- | --- | ---: |
+| `resolved` | The bound template has vector artwork | 84 |
+| `empty_template` | Bound, but the template is empty in this game build (Maxigun, Jump Pack, Rover, Hot Dog) | 4 |
+| `unbound` | The library binds no icon to the native type (Eagle Gas Airstrike, AC-8 Autocannon, 40-K Meltagun, M-103 Supply FRV, TD-110 Maelstrom) | 5 |
+| `no_native_root` | No call-in stratagem, so no native type (CQC-72, SG-88: `rootResolution` `NO_CALL_IN`) | 2 |
+
+No two roots resolve to the same template. The library has 111 templates: 92 contain vector artwork and 19 are empty (`uiIconContract.emptyTemplates`).
+
+**Artwork:** it is never published (`artworkPublished: false`). Tooling reads the library read-only from the user's installed game and verifies `librarySha256` for the reviewed build.
+
+### `catalogEquipment`
+
+Every support stratagem is generated from one support-weapon catalog record. Runtime locates its call-in by a reviewed native debug name. `catalogEquipment` records that pairing so tooling can present the call-in and its equipment together:
+
+```json
+"catalogEquipment": {"kind": "support_weapon", "supportWeapon": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+  "basis": "catalog_record", "nativeCallInResolved": true, "nativeDeliveryProven": true, "corroboration": [...]}
+```
+
+It is presentation only.
+- `delivers` (stratagem side) and `linkedStratagem` (weapon side) remain the only native ownership links. They are unchanged.
+- `nativeDeliveryProven` is true only when `delivers` already names this weapon.
+- `summary.catalogOnlyEquipment` lists the pairs without proven delivery: CQC-72 Entrenchment Tool and SG-88 Break-Action Shotgun. B/MD C4 Pack's delivery is proven through native loadout identity (see above).
+- For C4, the call-in's reviewed debug name (`TEAM WEAPONS. C4`), cooldown (480 s) and unlimited uses corroborate the catalog record.
+
+Research: `scripts/research_stratagem_icons.py` → `research/stratagem-icons-F5FEE03DCFDB.json`. Generator: `scripts/generate_stratagem_authoring.py`.
