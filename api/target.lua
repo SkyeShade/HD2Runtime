@@ -195,7 +195,12 @@ function M.new(describe)
             local result={}
             if not slot then return result end
             local seen={}
-            if slot.default then result[#result+1]=magazine_attachment_target(slot.default,'native_resource_default');seen[slot.default]=true end
+            if slot.default then
+                local label
+                for _,option in ipairs(slot.options)do if option.attachment==slot.default then label=option.name end end
+                result[#result+1]=magazine_attachment_target(slot.default,'native_resource_default',label)
+                seen[slot.default]=true
+            end
             for _,option in ipairs(slot.options)do
                 if option.attachment and not seen[option.attachment]then
                     seen[option.attachment]=true
@@ -211,7 +216,8 @@ function M.new(describe)
                     'native_resource_default')
             end
             for _,option in ipairs(slot.options)do
-                if option.name==identity or option.attachment==identity then
+                if option.name==identity or option.attachment==identity
+                    or(option.nativeName~=nil and option.nativeName==identity)then
                     assert(option.attachment,'magazine option '..tostring(identity)..' has no uniquely proven native '
                         ..'attachment ('..option.relationship..')')
                     return magazine_attachment_target(option.attachment,option.relationship,option.name)

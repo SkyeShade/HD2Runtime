@@ -20,7 +20,7 @@
       "LAS-98 Laser Cannon"
     ],
     "writableSupportWeapons": 31,
-    "writableFieldInstances": 970,
+    "writableFieldInstances": 984,
     "fieldInstancesByDomain": {
       "arc": 6,
       "beam": 2,
@@ -34,7 +34,7 @@
       "reload": 14,
       "rounds": 15,
       "status": 16,
-      "weapon": 271,
+      "weapon": 285,
       "windup": 2
     },
     "weaponsWithDomain": {
@@ -100,9 +100,9 @@
       ]
     },
     "sharedFieldInstances": 581,
-    "internalSupportAuthoringInstances": 970,
-    "publishedSupportFieldInstances": 970,
-    "legacyFlattenedFieldEntries": 954,
+    "internalSupportAuthoringInstances": 984,
+    "publishedSupportFieldInstances": 984,
+    "legacyFlattenedFieldEntries": 968,
     "branchSpecificFieldInstances": 581,
     "backingObjectCount": 179,
     "operationGroupingCount": 188,
@@ -113,7 +113,7 @@
     "deduplicationLossPrevented": 16,
     "referenceFieldInstances": 0,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 85,
+    "blockedFieldDeclarations": 100,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -212,6 +212,10 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "field": "weapon.fire_rate",
           "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
@@ -414,6 +418,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
+        {
           "attack": "primary",
           "field": "projectile.lifetime",
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -569,6 +577,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -617,7 +626,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 29,
+      "writableFieldCount": 30,
       "fieldInstanceKeys": [
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-ergonomics/7f27bb228f8a6b8c",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-sway/b2301dc06e747fa6",
@@ -627,6 +636,7 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-capacity/202e65f1a6684b89",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/magazine-starting-magazines/b22868a8b6d58968",
@@ -719,6 +729,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -767,7 +778,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 31,
       "fieldInstanceKeys": [
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-ergonomics/9f0e0354ede80dbb",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-sway/5e1c2cd4e7751e2c",
@@ -777,6 +788,7 @@
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-drift-vertical/9a88669c3d4600d0",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-horizontal/fe1897b4dbd9887d",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-vertical/951e4c081da1ca31",
+        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-third-person-reticle/46fba1c6b83d7798",
         "support-field/v1/arc-3-arc-thrower/weapon/root/charge-level-1/8b22183f3624d08a",
         "support-field/v1/arc-3-arc-thrower/weapon/root/charge-level-2/651e7fcc782d4c40",
         "support-field/v1/arc-3-arc-thrower/weapon/root/charge-level-3/d7949fc78b70e3e0",
@@ -1056,6 +1068,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -1095,7 +1108,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 17,
+      "writableFieldCount": 18,
       "fieldInstanceKeys": [
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-ergonomics/b8b703e264500b61",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-sway/d1a53716270b7929",
@@ -1105,6 +1118,7 @@
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-drift-vertical/7175647fee666ca4",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-horizontal/7d3dc26b2576b4fa",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-vertical/4069d39f0ca087a8",
+        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-third-person-reticle/070d95b66fa84809",
         "support-field/v1/cqc-1-one-true-flag/attack/primary/damage-standard-damage/d0a327d3a4a7e535",
         "support-field/v1/cqc-1-one-true-flag/attack/primary/damage-durable-damage/adc3741e95e57d74",
         "support-field/v1/cqc-1-one-true-flag/attack/primary/damage-ap-direct/25404ecb10f58b42",
@@ -1182,6 +1196,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -1236,7 +1251,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 21,
+      "writableFieldCount": 22,
       "fieldInstanceKeys": [
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-ergonomics/741bdb5f44e60fd7",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-sway/1bfb576696d200be",
@@ -1246,6 +1261,7 @@
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-drift-vertical/0e38f0c2cb436cca",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-horizontal/387117c4d8ab28ca",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-vertical/56271d85a669e96a",
+        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-third-person-reticle/319a78b945103757",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-capacity/9edbcd51d0528a82",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/magazine-starting-magazines/2986cf85558c27b3",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/magazine-magazines-from-supply/9b3e2d3cb441d6aa",
@@ -1378,6 +1394,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -1419,7 +1436,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 17,
+      "writableFieldCount": 18,
       "fieldInstanceKeys": [
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-ergonomics/58348267867cc0a8",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-sway/71cd2fc374e484a7",
@@ -1429,6 +1446,7 @@
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-drift-vertical/98984e8149bc7f92",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-horizontal/7b9df7a4750448f0",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-vertical/df852479ab4a6039",
+        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-third-person-reticle/5f92d6ee5481489d",
         "support-field/v1/cqc-9-defoliation-tool/attack/primary/damage-standard-damage/306df34688f653f3",
         "support-field/v1/cqc-9-defoliation-tool/attack/primary/damage-durable-damage/f806fbcf8a586735",
         "support-field/v1/cqc-9-defoliation-tool/attack/primary/damage-ap-direct/d4e5330541b2f414",
@@ -1630,6 +1648,10 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "attack": "primary",
           "field": "projectile.lifetime",
@@ -1859,6 +1881,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
+        {
           "attack": "primary",
           "field": "projectile.lifetime",
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -2019,6 +2045,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -2070,7 +2097,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 26,
+      "writableFieldCount": 27,
       "fieldInstanceKeys": [
         "support-field/v1/faf-14-spear/weapon/root/weapon-ergonomics/8937dce52fbef345",
         "support-field/v1/faf-14-spear/weapon/root/weapon-sway/4cabd17310c7bd7a",
@@ -2080,6 +2107,7 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799",
         "support-field/v1/faf-14-spear/weapon/root/weapon-fire-rate/d91fbdb6b422afcf",
         "support-field/v1/faf-14-spear/weapon/root/weapon-capacity/154afabbeef18c11",
         "support-field/v1/faf-14-spear/weapon/root/magazine-starting-magazines/4379da0b55a46153",
@@ -2186,6 +2214,10 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "field": "reload.duration",
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
@@ -2353,6 +2385,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
+        {
           "attack": "primary",
           "field": "projectile.lifetime",
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
@@ -2512,6 +2548,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -2578,7 +2615,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 36,
+      "writableFieldCount": 37,
       "fieldInstanceKeys": [
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-ergonomics/98f2f176d23eefd6",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-sway/d5e697cbfe5ad432",
@@ -2588,6 +2625,7 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/reload-duration/5499cbc3d80f7633",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/projectile-reference/primary/projectile-velocity/03e0ae72e2c0750c",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/projectile-reference/primary/projectile-mass/191cb9099944044f",
@@ -2731,6 +2769,10 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "attack": "primary",
           "field": "projectile.lifetime",
@@ -2944,6 +2986,10 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "attack": "primary",
           "field": "projectile.lifetime",
@@ -3217,6 +3263,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -3261,7 +3308,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 44,
+      "writableFieldCount": 45,
       "fieldInstanceKeys": [
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-ergonomics/e76385bed42a009f",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-sway/258e397d3054ee09",
@@ -3271,6 +3318,7 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-fire-rate/9360ebacf49eaab2",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heat-capacity/39a93a99204a786c",
         "support-field/v1/las-99-quasar-cannon/weapon/root/heat-heat-per-shot/712f742e587745d7",
@@ -3361,6 +3409,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ],
         "windup": [
@@ -3425,7 +3474,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 27,
+      "writableFieldCount": 28,
       "fieldInstanceKeys": [
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-ergonomics/167edc58b5e7a64b",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-sway/6f16603015ec52f5",
@@ -3435,6 +3484,7 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-drift-vertical/ed073b2bcbd84768",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-fire-rate/363e4cf5c0f11493",
         "support-field/v1/m-1000-maxigun/weapon/root/reload-duration/bccce4e5c11ce386",
         "support-field/v1/m-1000-maxigun/weapon/root/windup-wind-up-seconds/d59dcd26d31c899e",
@@ -3529,6 +3579,10 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "field": "reload.duration",
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
@@ -3677,6 +3731,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -3729,7 +3784,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 29,
+      "writableFieldCount": 30,
       "fieldInstanceKeys": [
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-ergonomics/9615e56e6b38b605",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-sway/630d9cfe2b6f3ec6",
@@ -3739,6 +3794,7 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-capacity/daaf21a8584020e6",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/magazine-starting-magazines/8304fcafd652ce4e",
@@ -3830,6 +3886,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -3882,7 +3939,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 29,
+      "writableFieldCount": 30,
       "fieldInstanceKeys": [
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-ergonomics/e4ff055e07d55a7e",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-sway/6f10e56a3f8acf3a",
@@ -3892,6 +3949,7 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-fire-rate/c56edd011708d9b9",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-capacity/2d14d4df96eae6a5",
         "support-field/v1/mg-43-machine-gun/weapon/root/magazine-starting-magazines/89fb43974671e9de",
@@ -3978,6 +4036,10 @@
         "shared_projectile"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "attack": "primary",
           "field": "projectile.lifetime",
@@ -4127,6 +4189,10 @@
         "shared_explosion_damage"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "field": "unresolved branch",
           "reason": "MLS-4X BACKBLAST E: no structurally linked ExplosionSettings branch matched this catalog branch"
@@ -4436,6 +4502,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
+        {
           "field": "weapon.fire_rate",
           "reason": "Charge-controlled or diagnostic selector; native sentinel/default is not exposed as ordinary RPM."
         },
@@ -4681,6 +4751,10 @@
       ],
       "blockedFields": [
         {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
+        {
           "field": "backpack storage",
           "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
         },
@@ -4861,6 +4935,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -4916,7 +4991,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 34,
+      "writableFieldCount": 35,
       "fieldInstanceKeys": [
         "support-field/v1/rs-422-railgun/weapon/root/weapon-ergonomics/1944d4cf5c3d32eb",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-sway/eebbe6027773f28e",
@@ -4926,6 +5001,7 @@
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-drift-vertical/99e7bb2cd31e7a9b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-horizontal/3070c4de78f13e5b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b",
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-third-person-reticle/1966bd6f2b656e85",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-capacity/96bc5c7d202adeff",
         "support-field/v1/rs-422-railgun/weapon/root/magazine-starting-magazines/cf5cb9c7ebeca9b9",
         "support-field/v1/rs-422-railgun/weapon/root/magazine-magazines-from-supply/f786878e53a84cc6",
@@ -5070,7 +5146,12 @@
         "shared_projectile",
         "shared_status"
       ],
-      "blockedFields": [],
+      "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        }
+      ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
@@ -5214,6 +5295,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -5273,7 +5355,7 @@
         }
       },
       "writable": true,
-      "writableFieldCount": 30,
+      "writableFieldCount": 31,
       "fieldInstanceKeys": [
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-ergonomics/dc602299a17146eb",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-sway/514475f8d5cae9e0",
@@ -5283,6 +5365,7 @@
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-drift-vertical/1889e79d86d77945",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-horizontal/20a3d8b8928a4e11",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-vertical/f61220c76bd880f7",
+        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-third-person-reticle/233b3ef61dfc7051",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-fire-rate/c9661a848530183c",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/rounds-feed-capacity-1/1bc20120cc2e4c7d",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/rounds-feed-capacity-2/4d7bec172ad93613",
@@ -5385,6 +5468,7 @@
           "weapon.recoil_drift_horizontal",
           "weapon.recoil_drift_vertical",
           "weapon.sway",
+          "weapon.third_person_reticle",
           "weapon.vertical_spread"
         ]
       },
@@ -5444,7 +5528,7 @@
         "blocker": null
       },
       "writable": true,
-      "writableFieldCount": 25,
+      "writableFieldCount": 26,
       "fieldInstanceKeys": [
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-ergonomics/daf068f76c50b86c",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-sway/e892cb6e72869aa2",
@@ -5454,6 +5538,7 @@
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-drift-vertical/ef8711c28dafcfd5",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-horizontal/10a897491d0c85cc",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405",
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-third-person-reticle/32a6e0d8fa020277",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-fire-rate/973afd05fbaaba3b",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-capacity/a1d077315ce6d2a1",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/magazine-starting-magazines/943610a57714fe48",
@@ -5550,6 +5635,10 @@
         "shared_status"
       ],
       "blockedFields": [
+        {
+          "field": "weapon.third_person_reticle",
+          "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped."
+        },
         {
           "field": "reload.duration",
           "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
@@ -15628,6 +15717,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf",
+      "supportWeapon": "APW-1 Anti-Materiel Rifle",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "name": "APW-1 Anti-Materiel Rifle",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": false,
+        "expected": false,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/918c0e92ff94f64bd904",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/40b5304b334759d9f237",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "APW-1 Anti-Materiel Rifle",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/apw-1-anti-materiel-rifle/weapon/root/938c9960eb7e8811"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/e2d947ba40d7cd1a45cb",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/apw-1-anti-materiel-rifle/9c567b76648a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "hidden",
+        "nativeValue": 3,
+        "nativeName": "CrosshairDamageIndicatorOnly",
+        "encoding": {
+          "off": 3,
+          "on": 4
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": true,
+          "gameplaySource": "ReticleAmr/research/gameplay-confirmation-0.1.0.json"
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-fire-rate/a0a6deb21a24717f",
       "supportWeapon": "APW-1 Anti-Materiel Rifle",
       "supportWeaponIdentity": {
@@ -19031,6 +19239,125 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-third-person-reticle/46fba1c6b83d7798",
+      "supportWeapon": "ARC-3 Arc Thrower",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+        "name": "ARC-3 Arc Thrower",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/026fde5560e4b10f2cc3",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/6d14d852689a547c51db",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6db9fd9a43fb84d24c0c",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "ARC-3 Arc Thrower",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/arc-3-arc-thrower/weapon/root/3a64d880685a1876"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/6d14d852689a547c51db",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/arc-3-arc-thrower/e1dd4191c1d7",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 15,
+        "nativeName": "Railgun",
+        "encoding": {
+          "off": 3,
+          "on": 15
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -24369,6 +24696,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-third-person-reticle/070d95b66fa84809",
+      "supportWeapon": "CQC-1 One True Flag",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+        "name": "CQC-1 One True Flag",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/8e5a1fdd1acf2baf2b9e",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/040ef8b8c316c0b64887",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/55fbe3a84386f6c4d1b2",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-1 One True Flag",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/cqc-1-one-true-flag/weapon/root/94aad5a5b8a20a3e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/040ef8b8c316c0b64887",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-1-one-true-flag/76eabe5acfde",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 17,
+        "nativeName": "Throwable",
+        "encoding": {
+          "off": 3,
+          "on": 17
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/cqc-1-one-true-flag/attack/primary/damage-standard-damage/d0a327d3a4a7e535",
       "supportWeapon": "CQC-1 One True Flag",
       "supportWeaponIdentity": {
@@ -26375,6 +26821,127 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-third-person-reticle/319a78b945103757",
+      "supportWeapon": "CQC-20 Breaching Hammer",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "name": "CQC-20 Breaching Hammer",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/c8d6b1d57497c5359557",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/2e15fa3e5d068ba1d844",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/197d06c649a6018ee9db",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-20 Breaching Hammer",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/cqc-20-breaching-hammer/weapon/root/a5b8b7235d26ae86"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/2e15fa3e5d068ba1d844",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-20-breaching-hammer/ff83dfec2716",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 17,
+        "nativeName": "Throwable",
+        "encoding": {
+          "off": 3,
+          "on": 17
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -28810,6 +29377,125 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-third-person-reticle/5f92d6ee5481489d",
+      "supportWeapon": "CQC-9 Defoliation Tool",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+        "name": "CQC-9 Defoliation Tool",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/f9f3fcde73c8fce258e6",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/03de8f30d5db2e6b7948",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/e096cc8835836e84d7c1",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "CQC-9 Defoliation Tool",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/cqc-9-defoliation-tool/weapon/root/765e2b9fd1cbf3b2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/03de8f30d5db2e6b7948",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/cqc-9-defoliation-tool/24b880f0341b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 17,
+        "nativeName": "Throwable",
+        "encoding": {
+          "off": 3,
+          "on": 17
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -41538,6 +42224,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799",
+      "supportWeapon": "FAF-14 Spear",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "name": "FAF-14 Spear",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/03deeab43bb91d0203a6",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/6bfb422381a792bf1b6e",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "FAF-14 Spear",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/faf-14-spear/weapon/root/4d482aafa900556f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/cf1eaa73c032edb0b5a0",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/faf-14-spear/0b5ea028958b",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 16,
+        "nativeName": "Javelin",
+        "encoding": {
+          "off": 3,
+          "on": 16
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/faf-14-spear/weapon/root/weapon-fire-rate/d91fbdb6b422afcf",
       "supportWeapon": "FAF-14 Spear",
       "supportWeaponIdentity": {
@@ -52790,6 +53595,125 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79",
+      "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "name": "GL-28 Belt-Fed Grenade Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/c31484ab9ea27750d269",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/0b6fc9230e54419b70d4",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "GL-28 Belt-Fed Grenade Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/gl-28-belt-fed-grenade-launcher/weapon/root/de45ccb8a387eed8"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/89ea49b310d347cf6f6c",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730ea",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 4,
+        "nativeName": "AssaultRifle",
+        "encoding": {
+          "off": 3,
+          "on": 4
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -67863,6 +68787,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c",
+      "supportWeapon": "LAS-99 Quasar Cannon",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "name": "LAS-99 Quasar Cannon",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/da30dcd388dac1237934",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ce3ab3ece9207ec3d86b",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "LAS-99 Quasar Cannon",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/las-99-quasar-cannon/weapon/root/0925e3034cd3e06f"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/c92fe045ccb21ddb20a7",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/las-99-quasar-cannon/c4a24078efd3",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 12,
+        "nativeName": "LaserPulseCannon",
+        "encoding": {
+          "off": 3,
+          "on": 12
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-fire-rate/9360ebacf49eaab2",
       "supportWeapon": "LAS-99 Quasar Cannon",
       "supportWeaponIdentity": {
@@ -73164,6 +74207,125 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03",
+      "supportWeapon": "M-1000 Maxigun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/4a5a5509bab57900fd72",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/4cd140fcb459e294a8bd",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "M-1000 Maxigun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/m-1000-maxigun/weapon/root/859009eb9b9999d2"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/45e3040ddec472dc7dec",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/m-1000-maxigun/95638dbb80d5",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 4,
+        "nativeName": "AssaultRifle",
+        "encoding": {
+          "off": 3,
+          "on": 4
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -79739,6 +80901,127 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d",
+      "supportWeapon": "MG-206 Heavy Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "name": "MG-206 Heavy Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/b69e64efdbcb02022f03",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/066686adcfeaefd7c4e5",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-206 Heavy Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-206-heavy-machine-gun/weapon/root/822a547f405e678e"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/ccd78218229b212e1f08",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-206-heavy-machine-gun/ea93be78d91a",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 4,
+        "nativeName": "AssaultRifle",
+        "encoding": {
+          "off": 3,
+          "on": 4
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-fire-rate/d8d7dc36af282b07",
       "supportWeapon": "MG-206 Heavy Machine Gun",
       "supportWeaponIdentity": {
@@ -83200,6 +84483,127 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532",
+      "supportWeapon": "MG-43 Machine Gun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "name": "MG-43 Machine Gun",
+        "identityStatus": "DELIVERY_RESOLVED"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/3dc7793c500ccae6998a",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/2fa4117ec90c0e5f886d",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "MG-43 Machine Gun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/mg-43-machine-gun/weapon/root/3e82e1d7fcd9e90a"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/9872e677cda5e6fd0df3",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/mg-43-machine-gun/3583ca5f516c",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "stratagem_payload",
+          "delivery_rack",
+          "delivered_weapon"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 4,
+        "nativeName": "AssaultRifle",
+        "encoding": {
+          "off": 3,
+          "on": 4
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -108177,6 +109581,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/rs-422-railgun/weapon/root/weapon-third-person-reticle/1966bd6f2b656e85",
+      "supportWeapon": "RS-422 Railgun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+        "name": "RS-422 Railgun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/b05485028910092296e8",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/175827cf1b204ffffc5a",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/902bffb3c542af24073f",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "RS-422 Railgun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/rs-422-railgun/weapon/root/4866aee933130728"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/175827cf1b204ffffc5a",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/rs-422-railgun/eb024301e3c2",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 15,
+        "nativeName": "Railgun",
+        "encoding": {
+          "off": 3,
+          "on": 15
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/rs-422-railgun/weapon/root/weapon-capacity/96bc5c7d202adeff",
       "supportWeapon": "RS-422 Railgun",
       "supportWeaponIdentity": {
@@ -118245,6 +119768,125 @@
       }
     },
     {
+      "instanceKey": "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-third-person-reticle/233b3ef61dfc7051",
+      "supportWeapon": "SG-88 Break-Action Shotgun",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/sg-88-break-action-shotgun/89e9d693eabca351",
+        "name": "SG-88 Break-Action Shotgun",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/f3738daa4189421bdedf",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/2ac3d2ae7a4eb1a25072",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/04abe5a10967df796c58",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "SG-88 Break-Action Shotgun",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/sg-88-break-action-shotgun/weapon/root/939898d11680efbb"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/2ac3d2ae7a4eb1a25072",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/sg-88-break-action-shotgun/89e9d693eabc",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 6,
+        "nativeName": "PumpShotgun",
+        "encoding": {
+          "off": 3,
+          "on": 6
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
+      }
+    },
+    {
       "instanceKey": "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-fire-rate/c9661a848530183c",
       "supportWeapon": "SG-88 Break-Action Shotgun",
       "supportWeaponIdentity": {
@@ -121752,6 +123394,125 @@
         "baseline": "exact retained-snapshot value",
         "validation": "production resolver guarded ALREADY_DESIRED no-op",
         "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      }
+    },
+    {
+      "instanceKey": "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-third-person-reticle/32a6e0d8fa020277",
+      "supportWeapon": "StA-X3 W.A.S.P. Launcher",
+      "supportWeaponIdentity": {
+        "weaponKey": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "name": "StA-X3 W.A.S.P. Launcher",
+        "identityStatus": "UNIQUE"
+      },
+      "target": {
+        "resource": "support_weapon",
+        "path": "weapon",
+        "attackRole": null,
+        "attackKind": null,
+        "parentAttackRole": null,
+        "accessor": [
+          "support_weapon"
+        ],
+        "catalogBranches": [],
+        "writableCatalogBranches": []
+      },
+      "semanticFieldId": "weapon.third_person_reticle",
+      "qualifiedSemanticFieldId": "weapon.third_person_reticle",
+      "apiFieldConstant": "hd2.fields.weapon.third_person_reticle",
+      "display": {
+        "name": "Third-person reticle",
+        "domain": "weapon",
+        "group": "WeaponDataComponentData"
+      },
+      "value": {
+        "kind": "scalar",
+        "type": "boolean",
+        "baseline": true,
+        "expected": true,
+        "unit": null,
+        "reference": null
+      },
+      "writable": true,
+      "readOnly": false,
+      "blockedReason": null,
+      "backing": {
+        "objectKey": "support-object/v1/weapondatacomponentdata/a51ea58b55fb6ca0cf54",
+        "kind": "component",
+        "semanticType": "WeaponDataComponentData",
+        "domain": "WeaponDataComponentData",
+        "operationGroupingKey": "support-operation/v1/587b5c66baefa97954b6",
+        "runtimeBackingScope": "component:WeaponDataComponentData"
+      },
+      "sharedScope": {
+        "scopeKey": "support-scope/v1/ffca38dc035499e2de47",
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedConsumerCount": 1,
+        "affectedSemanticConsumers": [
+          {
+            "weapon": "StA-X3 W.A.S.P. Launcher",
+            "targetPath": "weapon",
+            "attackRole": null,
+            "attackKind": null,
+            "parentAttackRole": null,
+            "catalogBranches": [],
+            "writableCatalogBranches": [],
+            "consumerKey": "support-consumer/v1/sta-x3-w-a-s-p-launcher/weapon/root/00fc4c6461e7eac9"
+          }
+        ],
+        "reviewedScopeComplete": true,
+        "dynamicConsumersPossible": false
+      },
+      "operation": {
+        "minimumApi": "hd2.patch",
+        "patchSupported": true,
+        "transactionSupported": true,
+        "transactionRequired": false,
+        "transactionGroupingKey": "support-operation/v1/587b5c66baefa97954b6",
+        "planSupported": true,
+        "planRequired": false,
+        "planRequiredForMultipleBackingObjects": true,
+        "planGroupingKey": "support-plan/v1/sta-x3-w-a-s-p-launcher/ea60c8ba1352",
+        "phase": 1,
+        "dependencies": [],
+        "allowSharedRequired": false,
+        "acknowledgement": "allow_unverified_effect",
+        "acknowledgementReason": "The native crosshair policy and its bytes are proven, but this weapon's third-person reticle change has not been gameplay-tested (only APW-1 3 -> 4 is, by ReticleAmr)."
+      },
+      "resolution": {
+        "rootChain": [
+          "weapon_entity"
+        ],
+        "linkage": "owned_component",
+        "parentObjectKey": null,
+        "terminalPhase": null,
+        "planPhase": 1,
+        "planDependencies": [],
+        "requiresLaterPlanPhase": false,
+        "targetFrom": null
+      },
+      "provenance": {
+        "identity": "unique reviewed support-weapon runtime identity",
+        "semantics": "shared player/support field schema",
+        "ownership": "typed retained-snapshot ownership chain",
+        "baseline": "exact retained-snapshot value",
+        "validation": "production resolver guarded ALREADY_DESIRED no-op",
+        "evidenceArtifact": "support-weapon-authoring-validation-F5FEE03DCFDB.json"
+      },
+      "reticle": {
+        "reticleState": "shown",
+        "nativeValue": 16,
+        "nativeName": "Javelin",
+        "encoding": {
+          "off": 3,
+          "on": 16
+        },
+        "evidence": {
+          "nativeOwner": "WeaponDataComponent.crosshair_type (+400, CrosshairWeaponType)",
+          "source": "research/weapon-reticles-F5FEE03DCFDB.json",
+          "gameplayProven": false,
+          "gameplaySource": null
+        }
       }
     },
     {
@@ -132754,7 +134515,8 @@
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-drift-horizontal/0b5b2d3d98883b47",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-drift-vertical/9a88669c3d4600d0",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-horizontal/fe1897b4dbd9887d",
-        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-vertical/951e4c081da1ca31"
+        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-vertical/951e4c081da1ca31",
+        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-third-person-reticle/46fba1c6b83d7798"
       ]
     },
     {
@@ -132790,7 +134552,8 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-horizontal/cf38f37a68d6766f",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
-        "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c"
+        "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799"
       ]
     },
     {
@@ -133042,7 +134805,8 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-horizontal/23f5761b9264abc5",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
-        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061"
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532"
       ]
     },
     {
@@ -133078,7 +134842,8 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-drift-horizontal/e3dfe8aab5b6c52d",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-drift-vertical/ed073b2bcbd84768",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
-        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372"
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03"
       ]
     },
     {
@@ -133222,7 +134987,8 @@
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-drift-horizontal/fb3453d3144e40d6",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-drift-vertical/7175647fee666ca4",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-horizontal/7d3dc26b2576b4fa",
-        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-vertical/4069d39f0ca087a8"
+        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-vertical/4069d39f0ca087a8",
+        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-third-person-reticle/070d95b66fa84809"
       ]
     },
     {
@@ -133258,7 +135024,8 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-horizontal/e6a1a440934dbe5f",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
-        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76"
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf"
       ]
     },
     {
@@ -133330,7 +135097,8 @@
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-drift-horizontal/4c6f304e7cff62bf",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-drift-vertical/ef8711c28dafcfd5",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-horizontal/10a897491d0c85cc",
-        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405"
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405",
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-third-person-reticle/32a6e0d8fa020277"
       ]
     },
     {
@@ -133474,7 +135242,8 @@
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-drift-horizontal/3c8b1913abf4a50f",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-drift-vertical/99e7bb2cd31e7a9b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-horizontal/3070c4de78f13e5b",
-        "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b"
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b",
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-third-person-reticle/1966bd6f2b656e85"
       ]
     },
     {
@@ -133510,7 +135279,8 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-horizontal/2db0a6c62a417a18",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
-        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b"
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d"
       ]
     },
     {
@@ -133582,7 +135352,8 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-horizontal/6a40a92234ffa2a8",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
-        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0"
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79"
       ]
     },
     {
@@ -133618,7 +135389,8 @@
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-drift-horizontal/2a2c7d1eb4467aad",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-drift-vertical/0e38f0c2cb436cca",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-horizontal/387117c4d8ab28ca",
-        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-vertical/56271d85a669e96a"
+        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-vertical/56271d85a669e96a",
+        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-third-person-reticle/319a78b945103757"
       ]
     },
     {
@@ -133654,7 +135426,8 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-horizontal/5dcdd029410b4c59",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
-        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e"
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c"
       ]
     },
     {
@@ -133726,7 +135499,8 @@
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-drift-horizontal/c5bb1637f7f6032a",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-drift-vertical/1889e79d86d77945",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-horizontal/20a3d8b8928a4e11",
-        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-vertical/f61220c76bd880f7"
+        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-vertical/f61220c76bd880f7",
+        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-third-person-reticle/233b3ef61dfc7051"
       ]
     },
     {
@@ -133762,7 +135536,8 @@
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-drift-horizontal/9e79e8696538c873",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-drift-vertical/98984e8149bc7f92",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-horizontal/7b9df7a4750448f0",
-        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-vertical/df852479ab4a6039"
+        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-vertical/df852479ab4a6039",
+        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-third-person-reticle/5f92d6ee5481489d"
       ]
     },
     {
@@ -135079,7 +136854,8 @@
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-drift-horizontal/9e79e8696538c873",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-drift-vertical/98984e8149bc7f92",
         "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-horizontal/7b9df7a4750448f0",
-        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-vertical/df852479ab4a6039"
+        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-recoil-climb-vertical/df852479ab4a6039",
+        "support-field/v1/cqc-9-defoliation-tool/weapon/root/weapon-third-person-reticle/5f92d6ee5481489d"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -135168,7 +136944,8 @@
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-drift-horizontal/fb3453d3144e40d6",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-drift-vertical/7175647fee666ca4",
         "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-horizontal/7d3dc26b2576b4fa",
-        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-vertical/4069d39f0ca087a8"
+        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-recoil-climb-vertical/4069d39f0ca087a8",
+        "support-field/v1/cqc-1-one-true-flag/weapon/root/weapon-third-person-reticle/070d95b66fa84809"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -135748,7 +137525,8 @@
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-drift-horizontal/3c8b1913abf4a50f",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-drift-vertical/99e7bb2cd31e7a9b",
         "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-horizontal/3070c4de78f13e5b",
-        "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b"
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-recoil-climb-vertical/6f54d10a5791b73b",
+        "support-field/v1/rs-422-railgun/weapon/root/weapon-third-person-reticle/1966bd6f2b656e85"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -136521,7 +138299,8 @@
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-drift-horizontal/c5bb1637f7f6032a",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-drift-vertical/1889e79d86d77945",
         "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-horizontal/20a3d8b8928a4e11",
-        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-vertical/f61220c76bd880f7"
+        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-recoil-climb-vertical/f61220c76bd880f7",
+        "support-field/v1/sg-88-break-action-shotgun/weapon/root/weapon-third-person-reticle/233b3ef61dfc7051"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -136616,7 +138395,8 @@
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-drift-horizontal/2a2c7d1eb4467aad",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-drift-vertical/0e38f0c2cb436cca",
         "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-horizontal/387117c4d8ab28ca",
-        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-vertical/56271d85a669e96a"
+        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-recoil-climb-vertical/56271d85a669e96a",
+        "support-field/v1/cqc-20-breaching-hammer/weapon/root/weapon-third-person-reticle/319a78b945103757"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -137120,7 +138900,8 @@
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-drift-horizontal/e3dfe8aab5b6c52d",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-drift-vertical/ed073b2bcbd84768",
         "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-horizontal/d3055793a75dc396",
-        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372"
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-recoil-climb-vertical/5ce19108e2225372",
+        "support-field/v1/m-1000-maxigun/weapon/root/weapon-third-person-reticle/494f3c4a3bb34c03"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -137617,7 +139398,8 @@
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-drift-horizontal/4c6f304e7cff62bf",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-drift-vertical/ef8711c28dafcfd5",
         "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-horizontal/10a897491d0c85cc",
-        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405"
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-recoil-climb-vertical/7ca4b7d242c3e405",
+        "support-field/v1/sta-x3-w-a-s-p-launcher/weapon/root/weapon-third-person-reticle/32a6e0d8fa020277"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -137940,7 +139722,8 @@
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-drift-horizontal/0b5b2d3d98883b47",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-drift-vertical/9a88669c3d4600d0",
         "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-horizontal/fe1897b4dbd9887d",
-        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-vertical/951e4c081da1ca31"
+        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-recoil-climb-vertical/951e4c081da1ca31",
+        "support-field/v1/arc-3-arc-thrower/weapon/root/weapon-third-person-reticle/46fba1c6b83d7798"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -138810,7 +140593,8 @@
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-horizontal/6a40a92234ffa2a8",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-drift-vertical/d43582c55cd4319d",
         "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-horizontal/4d69ca9baba64974",
-        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0"
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-recoil-climb-vertical/7db895b1836d21d0",
+        "support-field/v1/gl-28-belt-fed-grenade-launcher/weapon/root/weapon-third-person-reticle/73b8ce1c9920ff79"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -139190,7 +140974,8 @@
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-horizontal/23f5761b9264abc5",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-drift-vertical/86581e01ee8d37c1",
         "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-horizontal/e460db0f2a69b45d",
-        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061"
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-recoil-climb-vertical/e99a0c1d66c07061",
+        "support-field/v1/mg-43-machine-gun/weapon/root/weapon-third-person-reticle/ca8ba87642351532"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -140537,7 +142322,8 @@
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-horizontal/5dcdd029410b4c59",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-drift-vertical/6f5b8b8a45c8ac52",
         "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-horizontal/676e105cf1f1b5c4",
-        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e"
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-recoil-climb-vertical/07062820efc8036e",
+        "support-field/v1/las-99-quasar-cannon/weapon/root/weapon-third-person-reticle/d94d88a6280c955c"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -140621,7 +142407,8 @@
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-horizontal/2db0a6c62a417a18",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-drift-vertical/2143e972dbc7a684",
         "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-horizontal/493492049a4aa094",
-        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b"
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-recoil-climb-vertical/a72c4d12eab68a8b",
+        "support-field/v1/mg-206-heavy-machine-gun/weapon/root/weapon-third-person-reticle/9cf856bd27f6ca0d"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -140653,7 +142440,8 @@
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-horizontal/cf38f37a68d6766f",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-drift-vertical/23e8b7ad82ac048a",
         "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-horizontal/dada59b1af0aeeec",
-        "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c"
+        "support-field/v1/faf-14-spear/weapon/root/weapon-recoil-climb-vertical/27136e9b5c6d320c",
+        "support-field/v1/faf-14-spear/weapon/root/weapon-third-person-reticle/022a72b4925d3799"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -141196,7 +142984,8 @@
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-horizontal/e6a1a440934dbe5f",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-drift-vertical/863c37de42477c6a",
         "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-horizontal/0d4e4f7297426242",
-        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76"
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-recoil-climb-vertical/0bbe15ab9c914d76",
+        "support-field/v1/apw-1-anti-materiel-rifle/weapon/root/weapon-third-person-reticle/e92c3918d1c3d8cf"
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false,
@@ -145609,8 +147398,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 970,
-    "publishedInstances": 970,
+    "internalInstances": 984,
+    "publishedInstances": 984,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "identityCoverage": "exact"

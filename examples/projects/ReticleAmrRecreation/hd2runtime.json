@@ -1,0 +1,1 @@
+{"format":1,"name":"ReticleAmrRecreation","resource":"mods/hd2runtime_examples/reticle_amr_recreation","guid":"4e853279-5cce-55af-a4d6-ec9366aa1d82","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

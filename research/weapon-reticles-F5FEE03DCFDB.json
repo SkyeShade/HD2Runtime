@@ -1,0 +1,1867 @@
+{
+ "schemaVersion": 1,
+ "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+ "field": {
+  "component": "WeaponDataComponentData",
+  "recordType": "WeaponDataComponent",
+  "offset": 400,
+  "storage": "ENUM_UINT32",
+  "enum": "CrosshairWeaponType",
+  "memberNameLength": 14,
+  "memberName": "crosshair_type"
+ },
+ "enum": {
+  "values": 22,
+  "names": {
+   "0": "Default",
+   "1": "CrosshairNever",
+   "2": "CrosshairAlways",
+   "3": "CrosshairDamageIndicatorOnly",
+   "4": "AssaultRifle",
+   "5": null,
+   "6": "PumpShotgun",
+   "7": "AutoShotgun",
+   "8": "Pistol",
+   "9": "Revolver",
+   "10": "Laser",
+   "11": "LaserCannon",
+   "12": "LaserPulseCannon",
+   "13": null,
+   "14": null,
+   "15": "Railgun",
+   "16": "Javelin",
+   "17": "Throwable",
+   "18": "Physgun",
+   "19": "None",
+   "20": null,
+   "21": "Count"
+  },
+  "nameSources": [
+   "Filediver datalibrary/enum/crosshairweapontype.go (alias-length aligned)",
+   "ReticleAmr/research/reticle-policy.md (value 3)"
+  ]
+ },
+ "encoding": {
+  "hidden": 3,
+  "shownWhenBaselineHidden": 4
+ },
+ "gameplayEvidence": {
+  "weapon": "APW-1 Anti-Materiel Rifle",
+  "transition": [
+   3,
+   4
+  ],
+  "source": "ReticleAmr/research/gameplay-confirmation-0.1.0.json",
+  "observed": "normal third-person reticle; scope and ADS unchanged"
+ },
+ "weapons": [
+  {
+   "kind": "player",
+   "weapon": "AR-11 Arbitrator",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xA8A91EB54892B6B2": {
+     "record": 280,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-2 Coyote",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x84354339522C932D": {
+     "record": 276,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23 Liberator",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x968211C0033DCE64": {
+     "record": 270,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23A Liberator Carbine",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xA7EE1EBF58FCDF1F": {
+     "record": 278,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23C Liberator Concussive",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xCF5F176E0E322BE1": {
+     "record": 272,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23P Liberator Penetrator",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x43CB1033961A2276": {
+     "record": 271,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-32 Pacifier",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xBC29613666DF696B": {
+     "record": 275,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-59 Suppressor",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x708EA298C82093D0": {
+     "record": 281,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-61 Tenderizer",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xCE063AA33D95A812": {
+     "record": 279,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR/GL-21 One-Two",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xA955C4EA6F6D4203": {
+     "record": 273,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "ARC-12 Blitzer",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x076DD5D4F4360204": {
+     "record": 269,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "BR-14 Adjudicator",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x5FECAB819F96A3E8": {
+     "record": 285,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CB-9 Exploding Crossbow",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xF49227A0630A3F7F": {
+     "record": 288,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-19 Stun Lance",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xE3B6AEDD07FCB464": {
+     "record": 164,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-2 Saber",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xFCD8A6E67EAC635A": {
+     "record": 262,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-30 Stun Baton",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x52CDBFBACA3CB397": {
+     "record": 264,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-42 Machete",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x792D5D2A340FD6E6": {
+     "record": 267,
+     "shared": false,
+     "value": 17
+    },
+    "0x5F3EC9BDA2BD8553": {
+     "record": 163,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-5 Combat Hatchet",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x75816077C139C850": {
+     "record": 266,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-73 Entrenchment Tool",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x7E1F76163C667E4B": {
+     "record": 166,
+     "shared": false,
+     "value": 17
+    },
+    "0xE85E623F93F96FB3": {
+     "record": 165,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "DBS-2 Double Freedom",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x72170A55A1F37FF1": {
+     "record": 177,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "FLAM-66 Torcher",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4FB0F8C02F55C82B": {
+     "record": 289,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "GL-15 Evictor",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x006E44327BB953FE": {
+     "record": 169,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-20 Ultimatum",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x9EB160830321BFD6": {
+     "record": 320,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-31 Grenade Pistol",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x02CD7321CD8445F5": {
+     "record": 250,
+     "shared": false,
+     "value": 0
+    },
+    "0x52E4334E6A128CAF": {
+     "record": 315,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "JAR-5 Dominator",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x80F1A156D9FA1E36": {
+     "record": 290,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-12 Sai",
+   "crosshairType": 10,
+   "crosshairTypeName": "Laser",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xC85F576D5E086147": {
+     "record": 297,
+     "shared": false,
+     "value": 10
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-13 Trident",
+   "crosshairType": 9,
+   "crosshairTypeName": "Revolver",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x3C86E871923F3970": {
+     "record": 296,
+     "shared": false,
+     "value": 9
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-16 Sickle",
+   "crosshairType": 10,
+   "crosshairTypeName": "Laser",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x8645F167B3C813A2": {
+     "record": 294,
+     "shared": false,
+     "value": 10
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "crosshairType": 9,
+   "crosshairTypeName": "Revolver",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x295BEB26DC4F8FF1": {
+     "record": 295,
+     "shared": false,
+     "value": 9
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-5 Scythe",
+   "crosshairType": 10,
+   "crosshairTypeName": "Laser",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x27EE1ED8F6FB6356": {
+     "record": 292,
+     "shared": false,
+     "value": 10
+    },
+    "0x7E3145A5BAA4B948": {
+     "record": 293,
+     "shared": false,
+     "value": 10
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-58 Talon",
+   "crosshairType": 9,
+   "crosshairTypeName": "Revolver",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x416D053372C4E433": {
+     "record": 313,
+     "shared": false,
+     "value": 9
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-7 Dagger",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "The weapon roots disagree on crosshair_type.",
+   "records": {
+    "0x2B3C367B280F4094": {
+     "record": 99,
+     "shared": false,
+     "value": 0
+    },
+    "0x7B06196E90154C88": {
+     "record": 317,
+     "shared": false,
+     "value": 10
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "M6C/SOCOM Pistol",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4D58C77087B774C5": {
+     "record": 321,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "M7S SMG",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xBE70EE0D8D44028E": {
+     "record": 182,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "M90A Shotgun",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x90DDC374F4E3D756": {
+     "record": 178,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "MA5C Assault Rifle",
+   "crosshairType": 5,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "crosshair_type 5 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x4DBD74F49C8FFC13": {
+     "record": 277,
+     "shared": false,
+     "value": 5
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "MP-98 Knight",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x9571CA51F0DAF35B": {
+     "record": 179,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-11 Stim Pistol",
+   "crosshairType": 8,
+   "crosshairTypeName": "Pistol",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xD6B1FB05B9109353": {
+     "record": 191,
+     "shared": false,
+     "value": 8
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-113 Verdict",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x1A437158E1B8D2A1": {
+     "record": 318,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-19 Redeemer",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x3575AABC5F1F9326": {
+     "record": 311,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-2 Peacemaker",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x05E4E5C2DB6E44A2": {
+     "record": 190,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-33 Missile Pistol",
+   "crosshairType": 16,
+   "crosshairTypeName": "Javelin",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x14D5D4506056C7A4": {
+     "record": 189,
+     "shared": false,
+     "value": 16
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-34 Breacher",
+   "crosshairType": 8,
+   "crosshairTypeName": "Pistol",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xE91F569C2AD8AF01": {
+     "record": 316,
+     "shared": false,
+     "value": 8
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-35 Re-Educator",
+   "crosshairType": 8,
+   "crosshairTypeName": "Pistol",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x0B882808C6F498E8": {
+     "record": 312,
+     "shared": false,
+     "value": 8
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-4 Senator",
+   "crosshairType": 9,
+   "crosshairTypeName": "Revolver",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x8D3D52A3B2F19402": {
+     "record": 324,
+     "shared": false,
+     "value": 9
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-69 Veto",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xC780BCD79547DA0F": {
+     "record": 319,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-72 Crisper",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x3F92BA65EF65CCA9": {
+     "record": 314,
+     "shared": false,
+     "value": 0
+    },
+    "0x992B6F65A5BAB53D": {
+     "record": 249,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-92 Warrant",
+   "crosshairType": 16,
+   "crosshairTypeName": "Javelin",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xCF8934FF6567A42D": {
+     "record": 188,
+     "shared": false,
+     "value": 16
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P/40-K Bolt Pistol",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xDBB6C961C59FADC1": {
+     "record": 322,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-1 Scorcher",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xEEA5E3CEF1E12C14": {
+     "record": 308,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-101 Purifier",
+   "crosshairType": 15,
+   "crosshairTypeName": "Railgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xFB3A19078694708A": {
+     "record": 309,
+     "shared": false,
+     "value": 15
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-15 Loyalist",
+   "crosshairType": 15,
+   "crosshairTypeName": "Railgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xAA69A60D74A3EC54": {
+     "record": 323,
+     "shared": false,
+     "value": 15
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "crosshairType": 15,
+   "crosshairTypeName": "Railgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x30061F91AF477F5E": {
+     "record": 185,
+     "shared": false,
+     "value": 15
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2 Amendment",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x0F83639AB8C86165": {
+     "record": 286,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2124 Constitution",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x7B75E5132FFD4CA6": {
+     "record": 287,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-36 Eruptor",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xB6AFF2195568767F": {
+     "record": 291,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-4 Hyena",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xE5796355A8FD67E0": {
+     "record": 300,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-6 Deadeye",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xE6D932BE83729076": {
+     "record": 298,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63 Diligence",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x03E67A19B07C6523": {
+     "record": 303,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4C786785C79D44E7": {
+     "record": 304,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-72 Censor",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xF0338468DCDB6A6C": {
+     "record": 301,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x1ABBFF60D26BA391": {
+     "record": 302,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-20 Halt",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4E310B1FE4C52B52": {
+     "record": 173,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-22 Bushwhacker",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x2B28E17FFED05F7C": {
+     "record": 310,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225 Breaker",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x46183B50961D1328": {
+     "record": 282,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225IE Breaker Incendiary",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xC12A34F375BD5A87": {
+     "record": 284,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x5EBAEA70C0D060B9": {
+     "record": 283,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-451 Cookout",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xD323DE60855898AC": {
+     "record": 174,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8 Punisher",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x41EAC4A03987FAA0": {
+     "record": 170,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8P Punisher Plasma",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x05D8D8C073B9D502": {
+     "record": 175,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8S Slugger",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4F749E2EE26F532D": {
+     "record": 172,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-97 Sweeper",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xDCD1C835407EF7BA": {
+     "record": 176,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-203 Gallant",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x186EA95DE7306B1A": {
+     "record": 184,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-32 Reprimand",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x94BD931B5FB4EE95": {
+     "record": 183,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-37 Defender",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "The weapon roots disagree on crosshair_type.",
+   "records": {
+    "0x4E4A613EB9BF5C24": {
+     "record": 305,
+     "shared": false,
+     "value": 4
+    },
+    "0xCA4BBEF63C869C18": {
+     "record": 116,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-72 Pummeler",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x0807AEA5217E4767": {
+     "record": 306,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG/FLAM-34 Stoker",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x8A307BD1811A5FE9": {
+     "record": 180,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-11 SMG",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x4BA41B6F9F405CC2": {
+     "record": 181,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-52 Assault Rifle",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xCDF28BE026BB7D84": {
+     "record": 274,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "VG-70 Variable",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xF992CE97577C8A7F": {
+     "record": 186,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "40-K Meltagun",
+   "crosshairType": 14,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x6CFCC7F8801A0266": {
+     "record": 331,
+     "shared": false,
+     "value": 14
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "AC-8 Autocannon",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xA8CFFB316F0B5C5F": {
+     "record": 328,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "crosshairType": 3,
+   "crosshairTypeName": "CrosshairDamageIndicatorOnly",
+   "reticle": "hidden",
+   "reason": null,
+   "records": {
+    "0x89C5493E08CA4207": {
+     "record": 354,
+     "shared": false,
+     "value": 3
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "ARC-3 Arc Thrower",
+   "crosshairType": 15,
+   "crosshairTypeName": "Railgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x96DE9CD50F7306E6": {
+     "record": 327,
+     "shared": false,
+     "value": 15
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "B/FLAM-80 Cremator",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "The weapon roots disagree on crosshair_type.",
+   "records": {
+    "0x0736BEE2D6328726": {
+     "record": 69,
+     "shared": false,
+     "value": 2
+    },
+    "0x78A8185F63A70795": {
+     "record": 341,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "B/MD C4 Pack",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "absent",
+   "reason": "The weapon owns no WeaponDataComponentData record.",
+   "records": {}
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-1 One True Flag",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xB0F1B354BA1D38D8": {
+     "record": 265,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-20 Breaching Hammer",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x5F3EC9BDA2BD8553": {
+     "record": 163,
+     "shared": false,
+     "value": 17
+    },
+    "0x792D5D2A340FD6E6": {
+     "record": 267,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-72 Entrenchment Tool",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x7E1F76163C667E4B": {
+     "record": 166,
+     "shared": false,
+     "value": 17
+    },
+    "0xE85E623F93F96FB3": {
+     "record": 165,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-9 Defoliation Tool",
+   "crosshairType": 17,
+   "crosshairTypeName": "Throwable",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xBF4CFD2AEABFB5A4": {
+     "record": 263,
+     "shared": false,
+     "value": 17
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x5C54E81A4AAA31FC": {
+     "record": 117,
+     "shared": false,
+     "value": 0
+    },
+    "0x80932FA0ED6901D3": {
+     "record": 346,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-411 Leveller",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x7617642765AC38C7": {
+     "record": 333,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-700 Expendable Napalm",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xB2B5E0D185605F9E": {
+     "record": 334,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "FAF-14 Spear",
+   "crosshairType": 16,
+   "crosshairTypeName": "Javelin",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x25AA2FD4643CF4EE": {
+     "record": 335,
+     "shared": false,
+     "value": 16
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "FLAM-40 Flamethrower",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x39AB99895147A3BF": {
+     "record": 337,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-21 Grenade Launcher",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x02EECD0B1FA49630": {
+     "record": 338,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x88C2D09AD85A7C9F": {
+     "record": 329,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-52 De-Escalator",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xFE3B29B2CFA63F9B": {
+     "record": 339,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GR-8 Recoilless Rifle",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x9F80D67A12A7E40F": {
+     "record": 352,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-98 Laser Cannon",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "The weapon roots disagree on crosshair_type.",
+   "records": {
+    "0x1980D92B619FF5FE": {
+     "record": 206,
+     "shared": false,
+     "value": 11
+    },
+    "0x56070F36CFFFA8A8": {
+     "record": 198,
+     "shared": false,
+     "value": 0
+    },
+    "0xD54B9505C0F72873": {
+     "record": 343,
+     "shared": false,
+     "value": 11
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-99 Quasar Cannon",
+   "crosshairType": 12,
+   "crosshairTypeName": "LaserPulseCannon",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x35A61296619CC47E": {
+     "record": 345,
+     "shared": false,
+     "value": 12
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "M-1000 Maxigun",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x43A58CB89CFA197C": {
+     "record": 348,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "M-105 Stalwart",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xA6A735ACCB4A327F": {
+     "record": 299,
+     "shared": false,
+     "value": 0
+    },
+    "0xB43235DBD493750C": {
+     "record": 362,
+     "shared": false,
+     "value": 0
+    },
+    "0xB9606C5AAB32C3C2": {
+     "record": 363,
+     "shared": false,
+     "value": 0
+    },
+    "0xD53EE03481AE73FD": {
+     "record": 364,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-206 Heavy Machine Gun",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x085C1EDB038EC24E": {
+     "record": 358,
+     "shared": false,
+     "value": 4
+    },
+    "0x2152D5147B0AC418": {
+     "record": 342,
+     "shared": false,
+     "value": 4
+    },
+    "0xCD00BDC1149C2928": {
+     "record": 359,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-43 Machine Gun",
+   "crosshairType": 4,
+   "crosshairTypeName": "AssaultRifle",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x11C27D3BABB38956": {
+     "record": 347,
+     "shared": false,
+     "value": 4
+    },
+    "0x587878FB76F4B9B1": {
+     "record": 115,
+     "shared": false,
+     "value": 4
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MGX-42 Bullet Storm",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xB16C9D490AA59B77": {
+     "record": 332,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MLS-4X Commando",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x5990123D142B16CB": {
+     "record": 344,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MS-11 Solo Silo",
+   "crosshairType": null,
+   "crosshairTypeName": null,
+   "reticle": "absent",
+   "reason": "The weapon owns no WeaponDataComponentData record.",
+   "records": {}
+  },
+  {
+   "kind": "support",
+   "weapon": "PLAS-45 Epoch",
+   "crosshairType": 14,
+   "crosshairTypeName": null,
+   "reticle": "read_only",
+   "reason": "crosshair_type 14 (unnamed) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0xE8D5F49AD7780E54": {
+     "record": 350,
+     "shared": false,
+     "value": 14
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x26E40437EA275296": {
+     "record": 326,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "RS-422 Railgun",
+   "crosshairType": 15,
+   "crosshairTypeName": "Railgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x2E9D0BDC48B09E60": {
+     "record": 351,
+     "shared": false,
+     "value": 15
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "S-11 Speargun",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x3828E2051AA9E897": {
+     "record": 340,
+     "shared": false,
+     "value": 0
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "SG-88 Break-Action Shotgun",
+   "crosshairType": 6,
+   "crosshairTypeName": "PumpShotgun",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0x52071F49263415E4": {
+     "record": 243,
+     "shared": false,
+     "value": 6
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "crosshairType": 16,
+   "crosshairTypeName": "Javelin",
+   "reticle": "shown",
+   "reason": null,
+   "records": {
+    "0xCC786F6491FE7E65": {
+     "record": 336,
+     "shared": false,
+     "value": 16
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "TX-41 Sterilizer",
+   "crosshairType": 0,
+   "crosshairTypeName": "Default",
+   "reticle": "read_only",
+   "reason": "crosshair_type 0 (Default) does not select a weapon crosshair style; its third-person effect is not mapped.",
+   "records": {
+    "0x88F61AFFF48AC8A4": {
+     "record": 330,
+     "shared": false,
+     "value": 0
+    }
+   }
+  }
+ ]
+}

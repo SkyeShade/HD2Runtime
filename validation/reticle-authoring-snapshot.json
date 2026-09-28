@@ -1,0 +1,686 @@
+{
+  "acknowledgementRejections": 83,
+  "changedWrites": 84,
+  "conflictRejections": 84,
+  "fieldChecks": 84,
+  "fixtureFallback": "disabled",
+  "gameplayProven": 1,
+  "mode": "snapshot-overlay",
+  "rollbacks": 84,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "weapons": [
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-11 Arbitrator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-2 Coyote"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-23 Liberator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-23A Liberator Carbine"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-23C Liberator Concussive"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-23P Liberator Penetrator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-32 Pacifier"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-59 Suppressor"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR-61 Tenderizer"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "AR/GL-21 One-Two"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "ARC-12 Blitzer"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "BR-14 Adjudicator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CQC-19 Stun Lance"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CQC-2 Saber"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CQC-30 Stun Baton"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "CQC-5 Combat Hatchet"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "DBS-2 Double Freedom"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "FLAM-66 Torcher"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "GL-15 Evictor"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "JAR-5 Dominator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 10,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-12 Sai"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 9,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-13 Trident"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 10,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-16 Sickle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 9,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-17 Double-Edge Sickle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 9,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "LAS-58 Talon"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "M6C/SOCOM Pistol"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "M7S SMG"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "M90A Shotgun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "MP-98 Knight"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 8,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-11 Stim Pistol"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-113 Verdict"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-19 Redeemer"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-2 Peacemaker"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 16,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-33 Missile Pistol"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 8,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-34 Breacher"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 8,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-35 Re-Educator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 9,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-4 Senator"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-69 Veto"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 16,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P-92 Warrant"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "PLAS-1 Scorcher"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 15,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "PLAS-101 Purifier"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 15,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "PLAS-15 Loyalist"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 15,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-2 Amendment"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-2124 Constitution"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-36 Eruptor"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-4 Hyena"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-6 Deadeye"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-63 Diligence"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-63CS Diligence Counter Sniper"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R-72 Censor"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "R/40-K Hot-Shot Marksman Rifle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-20 Halt"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-225 Breaker"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-225IE Breaker Incendiary"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-225SP Breaker Spray&Pray"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-451 Cookout"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-8 Punisher"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-8P Punisher Plasma"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-8S Slugger"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SG-97 Sweeper"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SMG-203 Gallant"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SMG-72 Pummeler"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "SMG/FLAM-34 Stoker"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "StA-11 SMG"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "StA-52 Assault Rifle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "player_weapon",
+      "to": 3,
+      "weapon": "VG-70 Variable"
+    },
+    {
+      "acknowledgement": "none",
+      "baseline": false,
+      "from": 3,
+      "kind": "support_weapon",
+      "to": 4,
+      "weapon": "APW-1 Anti-Materiel Rifle"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 15,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "ARC-3 Arc Thrower"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "CQC-1 One True Flag"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "CQC-20 Breaching Hammer"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 17,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "CQC-9 Defoliation Tool"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 16,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "FAF-14 Spear"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "GL-28 Belt-Fed Grenade Launcher"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 12,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "LAS-99 Quasar Cannon"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "M-1000 Maxigun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "MG-206 Heavy Machine Gun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 4,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "MG-43 Machine Gun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 15,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "RS-422 Railgun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 6,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "SG-88 Break-Action Shotgun"
+    },
+    {
+      "acknowledgement": "allow_unverified_effect",
+      "baseline": true,
+      "from": 16,
+      "kind": "support_weapon",
+      "to": 3,
+      "weapon": "StA-X3 W.A.S.P. Launcher"
+    }
+  ]
+}

@@ -43,7 +43,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 315.93333333337466,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.007000000000000006
+        "worst_frame_cpu": 0.006000000000000005
       },
       "startup": {
         "adapter": {
@@ -76,7 +76,7 @@
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 18.883333333333333,
-        "worst_frame_cpu": 0.006000000000000005
+        "worst_frame_cpu": 0.0050000000000000044
       },
       "steady": {
         "adapter": {
@@ -172,7 +172,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.86666666671806,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.010999999999999899
+        "worst_frame_cpu": 0.01100000000000001
       },
       "startup": {
         "adapter": {
@@ -249,7 +249,7 @@
             "verifications": 8
           }
         ],
-        "worst_frame_cpu": 0.0020000000000000018
+        "worst_frame_cpu": 0.0010000000000000009
       },
       "watches": [
         {
@@ -501,7 +501,7 @@
             "verifications": 8
           }
         ],
-        "worst_frame_cpu": 0.0010000000000000009
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "watches": [
         {
@@ -523,9 +523,9 @@
           "log_lines": 5,
           "module_hashes": 0,
           "protection_changes": 2,
-          "queries": 49084,
-          "read_bytes": 5356460,
-          "reads": 31646,
+          "queries": 49108,
+          "read_bytes": 5456300,
+          "reads": 31670,
           "write_bytes": 12,
           "writes": 3
         },
@@ -539,19 +539,19 @@
           "exclusive.acquisitions": 1,
           "fingerprint.cache_hits": 2,
           "fingerprint.module_hashes": 0,
-          "reader.bytes": 1624104,
-          "reader.queries": 48814,
+          "reader.bytes": 1640744,
+          "reader.queries": 48818,
           "steady.drift": 1,
           "steady.target_reads": 10,
           "steady.verifications": 4,
           "transaction.applies": 1,
-          "transaction.guard_bytes": 3731824,
+          "transaction.guard_bytes": 3815024,
           "transaction.protection_changes": 2,
           "transaction.writes": 3
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 312.98333333337735,
-        "steady_after_worst_frame_cpu": 0,
+        "steady_after_worst_frame_cpu": 0.0020000000000000018,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -560,9 +560,9 @@
           "log_lines": 5,
           "module_hashes": 2,
           "protection_changes": 2,
-          "queries": 49062,
-          "read_bytes": 5356036,
-          "reads": 31624,
+          "queries": 49086,
+          "read_bytes": 5455876,
+          "reads": 31648,
           "write_bytes": 12,
           "writes": 3
         },
@@ -575,16 +575,16 @@
           "exclusive.acquisitions": 1,
           "fingerprint.cache_hits": 1,
           "fingerprint.module_hashes": 2,
-          "reader.bytes": 1624104,
-          "reader.queries": 48814,
+          "reader.bytes": 1640744,
+          "reader.queries": 48818,
           "transaction.applies": 1,
-          "transaction.guard_bytes": 3731824,
+          "transaction.guard_bytes": 3815024,
           "transaction.protection_changes": 2,
           "transaction.writes": 3
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 15.933333333333334,
-        "worst_frame_cpu": 0.0020000000000000018
+        "worst_frame_cpu": 0.0040000000000000036
       },
       "steady": {
         "adapter": {
@@ -706,7 +706,7 @@
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 18.883333333333333,
-        "worst_frame_cpu": 0.0040000000000000036
+        "worst_frame_cpu": 0.0029999999999998916
       },
       "steady": {
         "adapter": {
@@ -742,7 +742,7 @@
             "status": "complete"
           }
         ],
-        "worst_frame_cpu": 0.001000000000000112
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "watches": [
         {
@@ -762,9 +762,9 @@
           "log_lines": 7,
           "module_hashes": 0,
           "protection_changes": 2,
-          "queries": 17490,
-          "read_bytes": 1876,
-          "reads": 62,
+          "queries": 17514,
+          "read_bytes": 2932,
+          "reads": 86,
           "write_bytes": 4,
           "writes": 1
         },
@@ -777,13 +777,13 @@
           "exclusive.acquisitions": 1,
           "fingerprint.cache_hits": 2,
           "fingerprint.module_hashes": 0,
-          "reader.bytes": 464,
-          "reader.queries": 17436,
+          "reader.bytes": 728,
+          "reader.queries": 17442,
           "steady.drift": 1,
           "steady.target_reads": 4,
           "steady.verifications": 4,
           "transaction.applies": 1,
-          "transaction.guard_bytes": 1232,
+          "transaction.guard_bytes": 2024,
           "transaction.protection_changes": 2,
           "transaction.writes": 1
         },
@@ -798,9 +798,9 @@
           "log_lines": 7,
           "module_hashes": 2,
           "protection_changes": 2,
-          "queries": 17482,
-          "read_bytes": 1732,
-          "reads": 54,
+          "queries": 17506,
+          "read_bytes": 2788,
+          "reads": 78,
           "write_bytes": 4,
           "writes": 1
         },
@@ -812,16 +812,16 @@
           "exclusive.acquisitions": 1,
           "fingerprint.cache_hits": 1,
           "fingerprint.module_hashes": 2,
-          "reader.bytes": 464,
-          "reader.queries": 17436,
+          "reader.bytes": 728,
+          "reader.queries": 17442,
           "transaction.applies": 1,
-          "transaction.guard_bytes": 1232,
+          "transaction.guard_bytes": 2024,
           "transaction.protection_changes": 2,
           "transaction.writes": 1
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 7.55,
-        "worst_frame_cpu": 0.001000000000000112
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "steady": {
         "adapter": {
@@ -863,7 +863,7 @@
             "verifications": 8
           }
         ],
-        "worst_frame_cpu": 0.001000000000000112
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "watches": [
         {
@@ -891,9 +891,9 @@
           "log_lines": 35,
           "module_hashes": 2,
           "protection_changes": 42,
-          "queries": 206730,
-          "read_bytes": 61676176,
-          "reads": 119457,
+          "queries": 206778,
+          "read_bytes": 61777072,
+          "reads": 119505,
           "write_bytes": 312,
           "writes": 76
         },
@@ -908,17 +908,17 @@
           "exclusive.queued_ticks": 9710,
           "fingerprint.cache_hits": 15,
           "fingerprint.module_hashes": 2,
-          "reader.bytes": 8146456,
-          "reader.queries": 202887,
+          "reader.bytes": 8163360,
+          "reader.queries": 202897,
           "stratagem.table_captures": 2,
           "transaction.applies": 8,
-          "transaction.guard_bytes": 53528992,
+          "transaction.guard_bytes": 53612984,
           "transaction.protection_changes": 42,
           "transaction.writes": 76
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 57.266666666666666,
-        "worst_frame_cpu": 0.01200000000000001
+        "worst_frame_cpu": 0.009999999999999787
       },
       "steady": {
         "adapter": {

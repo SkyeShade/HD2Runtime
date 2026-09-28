@@ -21,8 +21,15 @@ magazine, rounds-feed, heat, and heatsink fields retain their existing guarded
 APIs because their effective component owners are independently proven.
 
 Since 0.23.1, magazine ammo values are writable on the magazine attachment
-definitions that own them; see `magazine-attachments.md`. Selection and the other
-option effects remain unwritable.
+definitions that own them; see `magazine-attachments.md`. Every magazine
+definition is now editable on its own, including reload duration and its
+ergonomics modifier. `WeaponAttachmentCatalog.json` publishes read-only effect
+metadata for every other slot. Selection and the other option effects remain
+unwritable.
+
+Per-weapon unlock lists (keyed by the weapon's loadout item id) are observed in
+memory and used as option-membership evidence. They list unlockable options,
+not the equipped one, so they do not resolve selection either.
 
 ## R-72 Censor controlled comparison
 

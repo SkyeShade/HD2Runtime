@@ -64,6 +64,8 @@ EXPECTED = {
         ('JumppackComponentData', 1, 0, f32(40), f32(50)),
     },
     'ConcussiveDrumMagazine': concussive_drum_writes(),
+    # ReticleAmr src/gameplay/patch.lua: record 354, crosshair_type (+0x190) uint32 3 -> 4.
+    'ReticleAmrRecreation': {('WeaponDataComponentData', 354, 0x190, u32(3), u32(4))},
 }
 REFERENCES = {
     'ShieldRelayRecreation': ['ShieldRelayImprovements/scripts/shield_reference.py',
@@ -74,6 +76,7 @@ REFERENCES = {
     'FRVWeaponSwapRecreation': ['FRVWeaponSwap/src/current_build.json', 'FRVWeaponSwap/src/frv_weapon_swap.lua'],
     'JumpPackRecreation': ['JumpPackImprovements/src/jump_pack_improvements.lua', 'JumpPackImprovements/src/config.lua'],
     'ConcussiveDrumMagazine': ['HD2Runtime/research/magazine-attachments-F5FEE03DCFDB.json'],
+    'ReticleAmrRecreation': ['ReticleAmr/src/gameplay/patch.lua', 'ReticleAmr/research/reticle-policy.md'],
 }
 
 

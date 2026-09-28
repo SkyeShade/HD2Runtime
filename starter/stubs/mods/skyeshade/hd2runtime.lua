@@ -740,6 +740,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field slot "weapon.slot"
 ---@field suppressed "weapon.suppressed"
 ---@field sway "weapon.sway"
+---@field third_person_reticle "weapon.third_person_reticle"
 ---@field vertical_recoil "weapon.vertical_recoil"
 ---@field vertical_spread "weapon.vertical_spread"
 
@@ -1033,6 +1034,8 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field starting_magazines "attachment.starting_magazines"
 ---@field magazines_from_supply "attachment.magazines_from_supply"
 ---@field spare_magazines "attachment.spare_magazines"
+---@field reload_duration "attachment.reload_duration"
+---@field ergonomics_modifier "attachment.ergonomics_modifier"
 
 ---@class HD2Fields_booster
 ---@field damage_taken_scale "booster.damage_taken_scale"

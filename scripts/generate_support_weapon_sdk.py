@@ -50,7 +50,7 @@ def generate(check=False):
     for path,body in outputs().items():
         if not path.exists()or path.read_text()!=body:
             stale.append(str(path.relative_to(ROOT)))
-            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body)
+            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body,newline='\n')
     if check and stale:raise RuntimeError('Stale support weapon SDK: '+', '.join(stale))
     return stale
 

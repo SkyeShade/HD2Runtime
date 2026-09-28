@@ -1,0 +1,3 @@
+# ReticleAmrRecreation
+
+Recreates the gameplay-confirmed ReticleAmr mod through the public API: the APW-1 Anti-Materiel Rifle shows the normal third-person aiming reticle. `weapon.third_person_reticle` is backed by the weapon's own `WeaponDataComponent.crosshair_type` (+400, `CrosshairWeaponType`); turning it on writes `AssaultRifle` (4) over `CrosshairDamageIndicatorOnly` (3). Scope and ADS behavior are unchanged. The field is weapon-local, and this exact transition is gameplay-proven, so no acknowledgement is needed. The reference validator proves the physical write set equals ReticleAmr's pinned patch (record 354, +0x190, 3 -> 4). Built only; never deployed or launched.

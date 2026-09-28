@@ -113,7 +113,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(aliases[('weapon.feed_capacity_2','rounds.feed_capacity_2')]['instanceCount'],15)
         audit=CAPABILITIES['backingCollisionAudit']
         self.assertEqual(audit['fieldInstancesAudited'],CAPABILITIES['summary']['fieldInstances'])
-        self.assertEqual(audit['exactBackingCollisionGroups'],209)
+        # weapon.third_person_reticle is a distinct boolean view over the crosshair_type bytes.
+        self.assertEqual(audit['exactBackingCollisionGroups'],289)
         self.assertEqual(audit['aliasPairInstances'],62)
         self.assertEqual(audit['unclassifiedCollisionPairs'],0)
         jar=next(w for w in CAPABILITIES['weapons'] if w['name']=='JAR-5 Dominator')
@@ -233,7 +234,7 @@ for name,weapon in pairs(db.weapons)do
             local part={};for index=first,math.min(first+31,#changes)do part[#part+1]=changes[index]end
             local spec=writes.validate_transaction({id='descriptor-audit',
                 target={resource='player_weapon',path='weapon',weapon=name},
-                changes=part,allow_shared=true})
+                changes=part,allow_shared=true,allow_unverified_effect=true})
             assert(spec.weapon==name and #spec.changes==#part)
         end
     end

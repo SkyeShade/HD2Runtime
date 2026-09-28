@@ -10,6 +10,7 @@ import re
 import sys
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
+import reticle_fields
 import support_callin_linkage
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -151,7 +152,7 @@ def refresh_catalog(base_path,legacy_path=LEGACY,catalog_path=CATALOG):
     value={'schemaVersion':1,'sourceSnapshot':'F5FEE03DCFDB-20260926T222226Z.hd2snap',
         'gameFingerprints':base['gameFingerprints'],'safety':{'writes':0,'protectionChanges':0,
             'fixtureFallback':'disabled','mode':'snapshot'},'candidates':candidates,'weapons':weapons}
-    Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n')
+    Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n',newline='\n')
 
 
 def build(catalog_path=CATALOG):
@@ -227,6 +228,7 @@ def build(catalog_path=CATALOG):
                 settings('explosion_damage'if prefix=='explosion'else'damage',record,
                     offset,storage,role,linkage,**extra),target))
 
+    reticle_rows,reticle_research=reticle_fields.load()
     runtime_weapons={};public_weapons=[]
     # A duplicate group is resolved only by research-proven call-in delivery plus an
     # exact scraped fingerprint. The call-in rack becomes the identity root and the
@@ -277,6 +279,15 @@ def build(catalog_path=CATALOG):
                 if key in resolved and'WeaponDataComponentData'in ownership:
                     fields.append(make_field(field_id,resolved[key],
                         component(candidate,'WeaponDataComponentData',offset,storage),target))
+            reticle=reticle_rows.get(('support',weapon['name']))
+            if reticle and reticle['reticle']!='absent'and'WeaponDataComponentData'in ownership:
+                field=reticle_fields.apply(make_field(reticle_fields.FIELD,None,
+                    component(candidate,'WeaponDataComponentData',reticle_fields.OFFSET,reticle_fields.STORAGE),
+                    target),reticle,reticle_research,True)
+                # Support fieldInstances are writable by contract; a present but unmapped policy is a
+                # blocked declaration instead.
+                if field['editable']:fields.append(field)
+                else:blocked.append({'field':reticle_fields.FIELD,'reason':field['reason']})
             if 'ProjectileWeaponComponentData'in ownership and not weapon['fireRateDiagnosticOnly']:
                 fields.append(make_field('weapon.fire_rate',resolved['fire_rate'],
                     component(candidate,'ProjectileWeaponComponentData',8,'f32'),target))
@@ -690,6 +701,9 @@ def build(catalog_path=CATALOG):
                     'baseline':'exact retained-snapshot value',
                     'validation':'production resolver guarded ALREADY_DESIRED no-op',
                     'evidenceArtifact':'support-weapon-authoring-validation-F5FEE03DCFDB.json'}}
+            if field_id==reticle_fields.FIELD:
+                instance['reticle']={key:field.get(key) for key in
+                    ('reticleState','nativeValue','nativeName','encoding','evidence')}
             instances.append(instance);operation_groups[operation_key].append(instance_key)
             object_meta['fieldInstanceKeys'].append(instance_key)
             public_weapon['fieldInstanceKeys'].append(instance_key)
@@ -813,7 +827,7 @@ def generate(check=False,catalog_path=CATALOG):
     for path,body in outputs(catalog_path).items():
         if not path.exists()or path.read_text()!=body:
             stale.append(path)
-            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body)
+            if not check:path.parent.mkdir(parents=True,exist_ok=True);path.write_text(body,newline='\n')
     if check and stale:raise RuntimeError('Stale support authoring outputs: '+', '.join(map(str,stale)))
     return stale
 

@@ -121,6 +121,12 @@ def main():
         (ROOT/'validation/magazine-attachment-snapshot.json').read_text())
     report['booster_authoring']=json.loads(
         (ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())['summary']
+    report['reticle_authoring_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/reticle-authoring-snapshot.json').read_text()).items() if key!='weapons'}
+    report['weapon_attachment_catalog']=json.loads(
+        (ROOT/'sdk/WeaponAttachmentCatalog.json').read_text())['summary']
+    report['magazine_attachment_authoring']=json.loads(
+        (ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())['summary']
     report['options_binding_validation']=json.loads(
         (ROOT/'validation/options-binding-snapshot.json').read_text())
     report['booster_snapshot_validation']=json.loads(
@@ -138,7 +144,7 @@ def main():
         'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
-        'LiberatorDamageOptions']
+        'LiberatorDamageOptions','ReticleAmrRecreation']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

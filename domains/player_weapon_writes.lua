@@ -96,7 +96,12 @@ local function identical_backing(a,c)
         and a.recordType==c.recordType and a.settingsType==c.settingsType
 end
 local function scalar(field,value,label)
-    if field.type=='boolean'then assert(type(value)=='boolean',label..' must be boolean');return value and 1 or 0 end
+    if field.type=='boolean'then
+        assert(type(value)=='boolean',label..' must be boolean')
+        -- Enum-backed booleans (third-person reticle) encode per weapon; plain flags are 0/1.
+        if field.encoding then return assert(field.encoding[value and'on'or'off'],'boolean encoding missing')end
+        return value and 1 or 0
+    end
     assert(type(value)=='number'and value==value and value>-math.huge and value<math.huge,
         label..' must be finite number')
     if field.type=='integer'then assert(value%1==0,label..' must be integer')end
@@ -222,7 +227,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             'destination fire mode is not in this weapon native mode vector')
     end
     local storage=field.backing.storage
-    local canonical=field.type=='boolean'and(field.currentDefault and 1 or 0)or field.currentDefault
+    local canonical=field.currentDefault
+    if field.type=='boolean'then canonical=scalar(field,field.currentDefault,'reviewed default')end
     assert(equal(expected,canonical,storage),'expect differs from reviewed current value for '
         ..item.field..': declared='..tostring(expected)..' reviewed='..tostring(canonical)
         ..' resolved='..tostring(field.semanticFieldId))
@@ -649,7 +655,7 @@ function M.prepare(resolved,reader,spec)
             end
         else
             local item={label=change.field,canonical_field=change.canonical_field,
-            semantic_aliases=change.semantic_aliases,owner=owner,offset=offset,
+            semantic_aliases=change.semantic_aliases,owner=owner,offset=offset,field_offset=backing.offset,
             expected=expected,desired=change.desired,before=current,
             already_desired=current==change.desired,identity=identity,chain={identity},
             expect=change.expect,value=change.value}

@@ -86,7 +86,7 @@ def generate(check=False):
         return False
     if check:
         raise RuntimeError('Stale weapon composition output: ' + str(OUTPUT))
-    OUTPUT.write_text(body)
+    OUTPUT.write_text(body,newline='\n')
     return True
 
 
