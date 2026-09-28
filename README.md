@@ -27,6 +27,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.24.0 expands support-weapon authoring to 31 weapons (reload, projectile lifetime and
+penetration slowdown, Maxigun wind-up, and four delivery-resolved identities) and adds Booster
+authoring (`hd2.booster`). See `docs/releases/0.24.0.md`.
+
 Version 0.23.2 is a critical hotfix. In 0.23.0 and 0.23.1, typed writes could fail in game with
 "module not found" once startup had finished. See `docs/releases/0.23.2.md`.
 
