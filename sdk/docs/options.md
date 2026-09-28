@@ -74,7 +74,7 @@ Declare the optional dependency in your project's `hd2runtime.json` beside the u
 "optional": {"mod_options_menu": {"min_version": "1.0.0", "api": 1, "bingus_min_release": 18}}
 ```
 
-The SDK and starter builders validate this block and add an "Optional: â€¦ Mod Options Menu"
+The SDK and starter builders validate this block and add an "Optional: … Mod Options Menu"
 note to the manager description. It never gates loading.
 
 ## The Mod Options Menu contract
@@ -86,8 +86,8 @@ This is the behavior of Mod Options Menu v1.0.1 (api 1), which HD2Runtime wraps:
   id again succeeds only if the spec is identical. There is no unregister.
 - **Controls.**
   - `toggle`: a boolean, `false` by default.
-  - `choice`: 2â€“16 names; the value is the 1-based index. Names are shown uppercased, and
-    words the game already translates (ON, OFF, LOW, HIGHâ€¦) are translated.
+  - `choice`: 2–16 names; the value is the 1-based index. Names are shown uppercased, and
+    words the game already translates (ON, OFF, LOW, HIGH…) are translated.
   - `slider`: `min < max` and `0 < step <= max - min` (step 1 by default). Values snap to the
     step and are clamped to `min..max`. The row shows up to 3 decimals; a whole-number step
     and minimum give an integer slider.
@@ -192,12 +192,12 @@ removed. It does nothing until an option changes, then tries again through the s
 The ensure watch reports `status` as one of the following, plus `enabled`, `restores`, and
 `rebinds`:
 
-- `waiting_for_options` â€” not yet available; nothing applied;
-- `unavailable` â€” an option it uses is unavailable; inactive for the session;
-- `waiting` â€” idle, verified;
-- `running` â€” resolving;
-- `blocked` â€” rejected; waiting for an option change;
-- `disabled` â€” dormant.
+- `waiting_for_options` — not yet available; nothing applied;
+- `unavailable` — an option it uses is unavailable; inactive for the session;
+- `waiting` — idle, verified;
+- `running` — resolving;
+- `blocked` — rejected; waiting for an option change;
+- `disabled` — dormant.
 
 ## Performance
 
@@ -229,6 +229,9 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
   the built runtime ZIP. A contract stand-in for Mod Options Menu is installed after the addon
   starts. The scenario applies a live change, a no-op, a disable with restore, a re-enable,
   and a simulated reset.
+- The `options-test-mod-live` and `options-test-mod-missing` scenarios run the same checks on
+  the live-validation mod `examples/live/HD2RuntimeOptionsTest`, under its own ids. That mod is
+  not a release example.
 - **Not yet confirmed in game:** the rows on the MODS tab, APPLY driving `on_change`, and the
   menu writing its values file. Mod Options Menu's own validation covers those for its
   addon; HD2Runtime's side has been validated only offline.

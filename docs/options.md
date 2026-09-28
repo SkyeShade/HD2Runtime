@@ -229,6 +229,9 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
   the built runtime ZIP. A contract stand-in for Mod Options Menu is installed after the addon
   starts. The scenario applies a live change, a no-op, a disable with restore, a re-enable,
   and a simulated reset.
+- The `options-test-mod-live` and `options-test-mod-missing` scenarios run the same checks on
+  the live-validation mod `examples/live/HD2RuntimeOptionsTest`, under its own ids. That mod is
+  not a release example.
 - **Not yet confirmed in game:** the rows on the MODS tab, APPLY driving `on_change`, and the
   menu writing its values file. Mod Options Menu's own validation covers those for its
   addon; HD2Runtime's side has been validated only offline.

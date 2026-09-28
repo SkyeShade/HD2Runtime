@@ -35,7 +35,7 @@ No executable code is ever written. Code bytes are only read, as proofs.
 ## Identity
 
 All 20 boosters resolve to exactly one enum value. `game.dll` contains its own `Booster` enum-name
-table, `[None, Vitality, â€¦, FreeEAT, Count]`, indexed by value. Every one of its 22 names matches
+table, `[None, Vitality, …, FreeEAT, Count]`, indexed by value. Every one of its 22 names matches
 the type library's hidden alias length for that value. This agrees with the UI template's
 member-to-icon bindings for the 18 boosters it names. It also resolves the 11 former candidate
 sets and the two boosters the UI template omits:
@@ -67,18 +67,18 @@ Values are range-checked because consumers divide by, subtract from, or truncate
 | Booster | Field | Baseline | Consumer | Wiki fingerprint |
 | --- | --- | --- | --- | --- |
 | Vitality Enhancement | `booster.damage_taken_scale` | 0.9 | `int(damage * v)` | exact (90%) |
-| Stamina Enhancement | `booster.stamina_scale` | 1.3 | Stamina efficiency (drain Ã· v) | not comparable |
+| Stamina Enhancement | `booster.stamina_scale` | 1.3 | Stamina efficiency (drain ÷ v) | not comparable |
 | Muscle Enhancement | `booster.terrain_slowdown_scale` | 0.35 | `1 - slowdown * v` | none |
 | UAV Recon Booster | `booster.radar_range_scale` | 1.5 | Radar scan scale | approximate (~50%) |
 | Increased Reinforcement Budget | `booster.reinforcements_per_player` | 1 | `int(v + x)` per player | exact (+1) |
-| Flexible Reinforcement Budget | `booster.reinforcement_cooldown_scale` | 0.75 | Refill cooldown Ã— v | exact (2:00 â†’ 1:30) |
-| Localization Confusion | `booster.encounter_rate_scale` | 0.9 | Spawn rate Ã— v, two timers Ã· v | approximate |
-| Expert Extraction Pilot | `booster.extraction_time_scale` | 0.7 | Extract call-in Ã— v | exact (30%) |
-| Motivational Shocks | `booster.slow_scale` | 0.5 | Applied slow Ã— v | differs (wiki ~25%) |
+| Flexible Reinforcement Budget | `booster.reinforcement_cooldown_scale` | 0.75 | Refill cooldown × v | exact (2:00 → 1:30) |
+| Localization Confusion | `booster.encounter_rate_scale` | 0.9 | Spawn rate × v, two timers ÷ v | approximate |
+| Expert Extraction Pilot | `booster.extraction_time_scale` | 0.7 | Extract call-in × v | exact (30%) |
+| Motivational Shocks | `booster.slow_scale` | 0.5 | Applied slow × v | differs (wiki ~25%) |
 | Sample Scanner | `booster.double_sample_chance` | 0.15 | `random < v` | exact (15%) |
 | Dead Sprint | `booster.health_floor` | 0.05 | Drain stops at this health fraction | exact (5%) |
 | Sample Extricator | `booster.sample_drop_cap` | 10 | `count < int(v)` | exact (10) |
-| Integrated Extinguishers | `booster.burn_decay_bonus` | 0.5 | Burn decay Ã— 1/(1-v); range â‰¤ 0.95 | approximate |
+| Integrated Extinguishers | `booster.burn_decay_bonus` | 0.5 | Burn decay × 1/(1-v); range ≤ 0.95 | approximate |
 
 ```lua
 local vitality=hd2.booster('Vitality Enhancement'):tuning()
