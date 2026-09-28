@@ -36,7 +36,15 @@ M.fields=metadata.fields;M.enums=metadata.enums;M.resources=metadata.resources
 M.version=metadata.version;M.api_version=metadata.api_version
 -- Process-wide work counters and worst durations for performance audits.
 function M.metrics()return require('hd2runtime/runtime/metrics').snapshot()end
+-- In-game options (Mod Options Menu). Required at startup with the rest of the API.
+local options=require('hd2runtime/api/options')
+function M.options(spec)return options.page(spec)end
+-- One-shot operations resolve once and cannot follow an option; ensure owns bound values.
+local function one_shot(request)
+    assert(not options.contains(request),'option-bound values require hd2.ensure')
+end
 function M.patch(request)
+    one_shot(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
     local watch=require('hd2runtime/api/patch').start(adapter.create(),
@@ -44,6 +52,7 @@ function M.patch(request)
     return require('hd2runtime/runtime/scheduler').attach(watch)
 end
 function M.transaction(request)
+    one_shot(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
     return require('hd2runtime/runtime/scheduler').attach(
@@ -51,6 +60,7 @@ function M.transaction(request)
             require('hd2runtime/runtime/log').emit,request))
 end
 function M.plan(request)
+    one_shot(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
     return require('hd2runtime/runtime/scheduler').attach(

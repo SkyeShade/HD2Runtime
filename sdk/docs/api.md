@@ -15,11 +15,12 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.map_primary_weapons(...)`: Schedule one read-only primary weapon enumeration after a startup delay.
 - `hd2.capture_snapshot(...)`: Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file.
 - `hd2.format(...)`: Format a completed read result.
-- `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change.
+- `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change. Option handles require hd2.ensure.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.
 - `hd2.plan(...)`: Coordinate ordered semantic operations across multiple related backing objects and phases.
-- `hd2.ensure(...)`: Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart.
+- `hd2.ensure(...)`: Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options: each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards.
 - `hd2.metrics(...)`: Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits.
+- `hd2.options(...)`: Declare an in-game options page (a MODS tab category in CowboyBingus Mod Options Menu v1+, which needs Bingus Shared Loader v18+). Options bind an hd2.ensure field value or its enabled toggle; without the menu they keep their defaults.
 
 ## HD2Weapon
 

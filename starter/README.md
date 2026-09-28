@@ -35,6 +35,23 @@ and CQC-20 need 0.24.0. A mod that uses none of these may lower it to `0.23.2`,
 but never below: in 0.23.0 and 0.23.1, typed writes can fail in game with "module
 not found". Do not change the `bingus` block or the `api`/`module` values.
 
+## In-game options
+
+To let players tune your mod from the in-game MODS tab, declare options with
+`hd2.options` and pass a slider as the ensured `value` (or a toggle as `enabled`):
+
+```lua
+local options=hd2.options({id='my_hd2_mod',title='My HD2 Mod'})
+local rate=options:slider({id='rate',label='Fire Rate',min=400,max=1100,step=50,default=1100})
+return hd2.ensure({patch={id='my-hd2-mod-fire-rate',target=hd2.weapon('AR-23C Liberator Concussive'),
+    field=hd2.fields.weapon.fire_rate,expect=400,value=rate}})
+```
+
+This needs HD2Runtime 0.25.0+ (raise `min_version`). Players also need CowboyBingus
+Mod Options Menu v1+ with Bingus Shared Loader v18+; without them the option keeps its
+default. `expect` stays the vanilla value, and safety flags are still required. See
+`docs/options.md` in the SDK ZIP.
+
 ## Open in Rider
 
 Open this extracted folder itself, not its parent. The checked-in `.luarc.json`

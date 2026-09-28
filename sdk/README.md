@@ -199,6 +199,9 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 `mods/skyeshade/hd2runtime`). Raise `min_version` to the oldest runtime that has
 every API your mod calls: vehicles, backpacks, relay shield and damage-zone
 fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1.
+In-game options (`hd2.options`, option-bound `hd2.ensure`; see `docs/options.md`) need the next
+release, plus CowboyBingus Mod Options Menu v1+ and Bingus Shared Loader v18+ in the player's
+installation. Without the menu, options keep their defaults.
 Boosters and the 0.24 support-weapon fields and identities need 0.24.0 (see
 `docs/releases/0.24.0.md`); the Booster `tuning()`, `explosion()`, `status_damage()`, and
 `granted_stratagem()` targets need the next release. Mods that use typed writes should require at least

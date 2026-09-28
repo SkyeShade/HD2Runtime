@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 c91472da9b911b5785e9f9c376d35c7ad254b2d0f592af09206042c3c2048086
+-- Schema SHA256 0d937633e69c003473296235dfd4b1ded9972a814cb5c20b3d3a59f2d5d0f8b8
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -41,6 +41,10 @@
 ---@field max_interval number
 ---@field verifications integer
 ---@field drifts integer
+---@field bound? boolean
+---@field enabled? boolean
+---@field restores? integer
+---@field rebinds? integer
 
 ---@class HD2ObserveRequest
 ---@field targets HD2ReadTarget[]
@@ -70,7 +74,7 @@
 ---@field target HD2AuthoringTarget
 ---@field field string
 ---@field expect number|boolean|HD2ProjectileReference|HD2Explosion
----@field value number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option
 ---@field diagnostic? boolean
 ---@field allow_shared? boolean
 ---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
@@ -79,7 +83,7 @@
 ---@class HD2TransactionChange
 ---@field field string
 ---@field expect number|boolean|HD2ProjectileReference|HD2Explosion
----@field value number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option
 
 ---@class HD2TransactionRequest
 ---@field id string
@@ -100,7 +104,7 @@
 ---@field target_from? HD2PlanTargetFrom
 ---@field field? string
 ---@field expect? number|boolean|HD2ProjectileReference|HD2Explosion
----@field value? number|boolean|HD2ProjectileReference|HD2Explosion
+---@field value? number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option
 ---@field changes? HD2TransactionChange[]
 ---@field allow_shared? boolean
 ---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
@@ -123,12 +127,61 @@
 ---@field interval? number
 ---@field startup_delay? number
 ---@field max_interval? number
+---@field enabled? HD2Option
 
 ---@class HD2RuntimeMetrics
 ---@field counters table<string, number>
 ---@field worst_seconds table<string, number>
 ---@field total_seconds table<string, number>
 ---@field timed boolean
+
+---@class HD2OptionsRequest
+---@field id string
+---@field title string
+
+---@class HD2ToggleSpec
+---@field id string
+---@field label string
+---@field description? string
+---@field gap? boolean
+---@field default? boolean
+
+---@class HD2SliderSpec
+---@field id string
+---@field label string
+---@field description? string
+---@field gap? boolean
+---@field min number
+---@field max number
+---@field step? number
+---@field default? number
+
+---@class HD2ChoiceSpec
+---@field id string
+---@field label string
+---@field description? string
+---@field gap? boolean
+---@field choices string[]
+---@field values? number[]
+---@field default? integer
+
+---@class HD2Option
+---@field id string
+---@field kind "toggle"|"slider"|"choice"
+---@field label string
+---@field registered boolean
+---@field source "default"|"saved"|"menu"
+---@field get fun(self: HD2Option): number|boolean
+---@field index fun(self: HD2Option): integer?
+---@field describe fun(self: HD2Option): table
+
+---@class HD2Options
+---@field id string
+---@field title string
+---@field toggle fun(self: HD2Options, spec: HD2ToggleSpec): HD2Option
+---@field slider fun(self: HD2Options, spec: HD2SliderSpec): HD2Option
+---@field choice fun(self: HD2Options, spec: HD2ChoiceSpec): HD2Option
+---@field describe fun(self: HD2Options): table
 
 ---@class HD2Weapon
 ---@field resource HD2Resource
@@ -1118,7 +1171,7 @@ function hd2.capture_snapshot(request) end
 ---@param result table
 ---@return string
 function hd2.format(result) end
----Freshly resolve and apply one reviewed scalar or typed-reference change.
+---Freshly resolve and apply one reviewed scalar or typed-reference change. Option handles require hd2.ensure.
 ---@param request HD2PatchRequest
 ---@return HD2Watch
 function hd2.patch(request) end
@@ -1130,13 +1183,17 @@ function hd2.transaction(request) end
 ---@param request HD2PlanRequest
 ---@return HD2Watch
 function hd2.plan(request) end
----Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart.
+---Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options: each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards.
 ---@param request HD2EnsureRequest
 ---@return HD2EnsureWatch
 function hd2.ensure(request) end
 ---Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits.
 ---@return HD2RuntimeMetrics
 function hd2.metrics() end
+---Declare an in-game options page (a MODS tab category in CowboyBingus Mod Options Menu v1+, which needs Bingus Shared Loader v18+). Options bind an hd2.ensure field value or its enabled toggle; without the menu they keep their defaults.
+---@param spec HD2OptionsRequest
+---@return HD2Options
+function hd2.options(spec) end
 
 if rawget(_G,'CowboyBingusModLoader') then
     error("HD2Runtime SDK stubs are authoring-only; install the runtime package in-game")

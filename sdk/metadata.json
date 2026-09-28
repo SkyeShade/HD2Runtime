@@ -2733,7 +2733,11 @@
         "current_interval": "number",
         "max_interval": "number",
         "verifications": "integer",
-        "drifts": "integer"
+        "drifts": "integer",
+        "bound?": "boolean",
+        "enabled?": "boolean",
+        "restores?": "integer",
+        "rebinds?": "integer"
       },
       "HD2ObserveRequest": {
         "targets": "HD2ReadTarget[]",
@@ -2763,14 +2767,14 @@
         "target": "HD2AuthoringTarget",
         "field": "string",
         "expect": "number|boolean|HD2ProjectileReference|HD2Explosion",
-        "value": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "value": "number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option",
         "diagnostic?": "boolean",
         "allow_shared?": "boolean"
       },
       "HD2TransactionChange": {
         "field": "string",
         "expect": "number|boolean|HD2ProjectileReference|HD2Explosion",
-        "value": "number|boolean|HD2ProjectileReference|HD2Explosion"
+        "value": "number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option"
       },
       "HD2TransactionRequest": {
         "id": "string",
@@ -2789,7 +2793,7 @@
         "target_from?": "HD2PlanTargetFrom",
         "field?": "string",
         "expect?": "number|boolean|HD2ProjectileReference|HD2Explosion",
-        "value?": "number|boolean|HD2ProjectileReference|HD2Explosion",
+        "value?": "number|boolean|HD2ProjectileReference|HD2Explosion|HD2Option",
         "changes?": "HD2TransactionChange[]",
         "allow_shared?": "boolean"
       },
@@ -2809,13 +2813,62 @@
         "plan?": "HD2PlanRequest",
         "interval?": "number",
         "startup_delay?": "number",
-        "max_interval?": "number"
+        "max_interval?": "number",
+        "enabled?": "HD2Option"
       },
       "HD2RuntimeMetrics": {
         "counters": "table<string, number>",
         "worst_seconds": "table<string, number>",
         "total_seconds": "table<string, number>",
         "timed": "boolean"
+      },
+      "HD2OptionsRequest": {
+        "id": "string",
+        "title": "string"
+      },
+      "HD2ToggleSpec": {
+        "id": "string",
+        "label": "string",
+        "description?": "string",
+        "gap?": "boolean",
+        "default?": "boolean"
+      },
+      "HD2SliderSpec": {
+        "id": "string",
+        "label": "string",
+        "description?": "string",
+        "gap?": "boolean",
+        "min": "number",
+        "max": "number",
+        "step?": "number",
+        "default?": "number"
+      },
+      "HD2ChoiceSpec": {
+        "id": "string",
+        "label": "string",
+        "description?": "string",
+        "gap?": "boolean",
+        "choices": "string[]",
+        "values?": "number[]",
+        "default?": "integer"
+      },
+      "HD2Option": {
+        "id": "string",
+        "kind": "\"toggle\"|\"slider\"|\"choice\"",
+        "label": "string",
+        "registered": "boolean",
+        "source": "\"default\"|\"saved\"|\"menu\"",
+        "get": "fun(self: HD2Option): number|boolean",
+        "index": "fun(self: HD2Option): integer?",
+        "describe": "fun(self: HD2Option): table"
+      },
+      "HD2Options": {
+        "id": "string",
+        "title": "string",
+        "toggle": "fun(self: HD2Options, spec: HD2ToggleSpec): HD2Option",
+        "slider": "fun(self: HD2Options, spec: HD2SliderSpec): HD2Option",
+        "choice": "fun(self: HD2Options, spec: HD2ChoiceSpec): HD2Option",
+        "describe": "fun(self: HD2Options): table"
       }
     },
     "functions": {
@@ -2897,7 +2950,7 @@
           ]
         ],
         "returns": "HD2Watch",
-        "doc": "Freshly resolve and apply one reviewed scalar or typed-reference change."
+        "doc": "Freshly resolve and apply one reviewed scalar or typed-reference change. Option handles require hd2.ensure."
       },
       "transaction": {
         "params": [
@@ -2927,12 +2980,22 @@
           ]
         ],
         "returns": "HD2EnsureWatch",
-        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart."
+        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options: each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards."
       },
       "metrics": {
         "params": [],
         "returns": "HD2RuntimeMetrics",
         "doc": "Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits."
+      },
+      "options": {
+        "params": [
+          [
+            "spec",
+            "HD2OptionsRequest"
+          ]
+        ],
+        "returns": "HD2Options",
+        "doc": "Declare an in-game options page (a MODS tab category in CowboyBingus Mod Options Menu v1+, which needs Bingus Shared Loader v18+). Options bind an hd2.ensure field value or its enabled toggle; without the menu they keep their defaults."
       }
     },
     "target_methods": {

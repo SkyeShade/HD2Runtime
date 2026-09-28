@@ -2,6 +2,7 @@
 -- entity delta keyed by its AddPath (patches onto WeaponMagazineComponentData).
 -- Every write re-proves the complete delta chain inside the live, uniquely owned
 -- delta allocation before touching the reviewed data bytes.
+local ownership=require('hd2runtime/core/ownership')
 local b=require('hd2runtime/core/bytes')
 local discover=require('hd2runtime/runtime/discover')
 local profile=require('hd2runtime/schemas/current')
@@ -122,11 +123,10 @@ function M.prepare(resolved,reader,spec)
     for _,change in ipairs(spec.changes)do
         local field=change.descriptor
         local current=reader.read(resolved.region,field.dataOffset,4,true)
-        assert(current==change.expected or current==change.desired,
-            'CONFLICT: '..change.field..' is neither expected nor desired')
+        local expected=ownership.expected(change,current)
         plan.changes[#plan.changes+1]={label=change.field,canonical_field=change.field,
             semantic_aliases={change.field},owner=resolved.region,offset=field.dataOffset,
-            field_offset=field.componentOffset,packed=true,expected=change.expected,desired=change.desired,
+            field_offset=field.componentOffset,packed=true,expected=expected,desired=change.desired,
             before=current,already_desired=current==change.desired,expect=change.expect,value=change.value,
             identity={component='EntityDelta:WeaponMagazineComponentData',component_type='semantic',
                 record_index=resolved.entry.settingsIndex,unique_owner=false,owner_count=0,

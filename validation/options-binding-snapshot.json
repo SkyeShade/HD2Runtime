@@ -1,0 +1,171 @@
+{
+  "checks": [
+    {
+      "detail": "value=0.8",
+      "name": "options registered with saved values",
+      "passed": true
+    },
+    {
+      "name": "malformed saved choice falls back to the default",
+      "passed": true
+    },
+    {
+      "detail": "cap=50",
+      "name": "out-of-range saved slider is clamped by the menu",
+      "passed": true
+    },
+    {
+      "name": "missing saved value uses the default",
+      "passed": true
+    },
+    {
+      "detail": "value=0.80000001192093",
+      "name": "initial apply uses the saved value",
+      "passed": true
+    },
+    {
+      "name": "baseline expect never mutates",
+      "passed": true
+    },
+    {
+      "name": "live change writes the new value",
+      "passed": true
+    },
+    {
+      "name": "change from an applied value is an owned transition",
+      "passed": true
+    },
+    {
+      "name": "one resolution per applied change",
+      "passed": true
+    },
+    {
+      "name": "no-op change does no work",
+      "passed": true
+    },
+    {
+      "name": "rapid changes coalesce",
+      "passed": true
+    },
+    {
+      "name": "steady state is a byte check, not a resolution",
+      "passed": true
+    },
+    {
+      "name": "drift after a change re-applies the new desired value",
+      "passed": true
+    },
+    {
+      "name": "disable restores the reviewed baseline",
+      "passed": true
+    },
+    {
+      "name": "a reset while disabled writes nothing",
+      "passed": true
+    },
+    {
+      "name": "a value change while disabled stays dormant",
+      "passed": true
+    },
+    {
+      "name": "re-enable applies the current value",
+      "passed": true
+    },
+    {
+      "name": "change while the target is unavailable waits",
+      "passed": true
+    },
+    {
+      "name": "pending retry picks up the newest value",
+      "passed": true
+    },
+    {
+      "name": "disable during a pending retry restores the baseline",
+      "passed": true
+    },
+    {
+      "detail": "CONFLICT: booster.damage_taken_scale is neither expected nor desired",
+      "name": "a third-party value is a conflict",
+      "passed": true
+    },
+    {
+      "name": "the next change after a conflict applies",
+      "passed": true
+    },
+    {
+      "name": "plan applies every bound value atomically",
+      "passed": true
+    },
+    {
+      "detail": "waiting nil",
+      "name": "transaction first run is a guarded no-op at the defaults",
+      "passed": true
+    },
+    {
+      "detail": "waiting nil",
+      "name": "transaction applies both bound fields in one write set",
+      "passed": true
+    },
+    {
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:52: shared field requires allow_shared=true: explosion.inner_radius",
+      "name": "allow_shared stays mandatory",
+      "passed": true
+    },
+    {
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:50: booster writes require allow_unverified_effect=true: booster.damage_taken_scale (No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.)",
+      "name": "allow_unverified_effect stays mandatory",
+      "passed": true
+    },
+    {
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:65: value outside the reviewed range [0, 0.95] for booster.burn_decay_bonus",
+      "name": "slider range must fit the reviewed field range",
+      "passed": true
+    },
+    {
+      "detail": "option hd2rt_opts.fraction value 0.5 is not accepted by fraction: [string \"hd2runtime/domains/booster_writes\"]:67: integer booster field requires an integer value: booster.reinforcements_per_player",
+      "name": "integer fields reject fractional sliders",
+      "passed": true
+    },
+    {
+      "detail": "[string \"hd2runtime/domains/stratagem_writes\"]:67: field is read-only: stratagem.max_uses (The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.)",
+      "name": "read-only capabilities stay read-only",
+      "passed": true
+    },
+    {
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:49: field is not exposed for Vitality Enhancement: booster.stamina_scale",
+      "name": "fields a target does not expose stay unavailable",
+      "passed": true
+    },
+    {
+      "name": "one-shot operations refuse option handles",
+      "passed": true
+    }
+  ],
+  "fixtureFallback": "disabled",
+  "metrics": {
+    "ensure.full_resolutions": 4,
+    "ensure.full_resolutions_after_drift": 1,
+    "options.bound_resolutions": 15,
+    "options.changes": 20,
+    "options.noop_changes": 6,
+    "options.owned_transitions": 5,
+    "options.registered": 8,
+    "options.restores": 2
+  },
+  "modOptionsMenu": {
+    "api": 1,
+    "nativeReady": false,
+    "sourceCommit": "4dedb3428b320507a80190dd3a083bd668e84126",
+    "version": 1
+  },
+  "mode": "snapshot-overlay",
+  "persistence": {
+    "readSavedValues": true,
+    "reason": "Mod Options Menu saves only while its native menu integration is active",
+    "writeBackExercised": false
+  },
+  "protectionChanges": 0,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "writes": 14
+}

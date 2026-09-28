@@ -249,6 +249,24 @@ How they run:
   guarded path again.
 - Only one runtime operation works at a time, so mods do not collide at startup.
 
+### In-game options
+
+`hd2.options` puts sliders, choices, and toggles on the in-game MODS tab (CowboyBingus
+Mod Options Menu v1+, which needs Bingus Shared Loader v18+). Pass a slider or choice as a
+field `value` in `hd2.ensure`, or a toggle as `enabled`:
+
+```lua
+local options=hd2.options({id='my_mod',title='My Mod'})
+local rate=options:slider({id='rate',label='Fire Rate',min=400,max=1100,step=50,default=900})
+return hd2.ensure({patch={id='my-hd2-mod-fire-rate',target=hd2.weapon('AR-23C Liberator Concussive'),
+    field=hd2.fields.weapon.fire_rate,expect=400,value=rate}})
+```
+
+When the player presses APPLY, the same ensure re-runs the full guarded path with the new
+value. `expect` stays the reviewed baseline, and every safety flag is still required.
+Turning an `enabled` toggle off restores the baseline. Without the menu, options keep their
+defaults. See `docs/options.md`.
+
 ## 9. Safety flags
 
 These flags are explicit risk acknowledgements. Add one only when the capability
