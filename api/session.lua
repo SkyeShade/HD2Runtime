@@ -164,9 +164,11 @@ function M.new(runtime,emit)
             if not job then job=self.read({targets=targets});watch.status='reading';attempts=attempts+1 end
             if not job.step() then return end
             if job.status=='rejected' then
-                if job.code=='TARGET_UNAVAILABLE' and attempts<6 then
-                    log('target not ready; retry '..(attempts+1)..'/6 in 5 update seconds')
-                    job=nil;next_at=elapsed+5;watch.status='waiting';return
+                local retry=require('hd2runtime/runtime/retry')
+                if job.code=='TARGET_UNAVAILABLE' and attempts<retry.MAX_ATTEMPTS then
+                    log('target not ready; retry '..(attempts+1)..'/'..retry.MAX_ATTEMPTS..' in '
+                        ..retry.DELAY_SECONDS..' update seconds')
+                    job=nil;next_at=elapsed+retry.DELAY_SECONDS;watch.status='waiting';return
                 end
                 return reject(job.error,{code=job.code,adapter=job.adapter})
             end

@@ -43,7 +43,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 315.93333333337466,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.007000000000000006
+        "worst_frame_cpu": 0.006000000000000005
       },
       "startup": {
         "adapter": {
@@ -120,7 +120,7 @@
             "verifications": 8
           }
         ],
-        "worst_frame_cpu": 0.0010000000000000009
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "watches": [
         {
@@ -172,7 +172,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.86666666671806,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.010999999999999899
+        "worst_frame_cpu": 0.010000000000000009
       },
       "startup": {
         "adapter": {
@@ -299,7 +299,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.73333333338485,
-        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "steady_after_worst_frame_cpu": 0.0020000000000000018,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -332,7 +332,7 @@
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 7.683333333333334,
-        "worst_frame_cpu": 0.0020000000000000018
+        "worst_frame_cpu": 0.0019999999999998908
       },
       "steady": {
         "adapter": {
@@ -425,7 +425,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.73333333338485,
-        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "steady_after_worst_frame_cpu": 0.0020000000000000018,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -794,7 +794,7 @@
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 52.733333333333334,
-        "worst_frame_cpu": 0.014000000000000012
+        "worst_frame_cpu": 0.01200000000000001
       },
       "steady": {
         "adapter": {

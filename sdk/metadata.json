@@ -2716,7 +2716,10 @@
         "status": "string",
         "result?": "table",
         "error?": "string",
-        "cancel": "fun()"
+        "cancel": "fun()",
+        "attempts?": "integer",
+        "max_attempts?": "integer",
+        "last_transient?": "string"
       },
       "HD2EnsureWatch": {
         "status": "string",
@@ -2924,7 +2927,7 @@
           ]
         ],
         "returns": "HD2EnsureWatch",
-        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal."
+        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart."
       },
       "metrics": {
         "params": [],

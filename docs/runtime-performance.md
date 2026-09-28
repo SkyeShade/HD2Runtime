@@ -50,3 +50,32 @@ steady-state window, a simulated game reinitialization, and all mods together,
 and records the results in `validation/steady-state-audit.json`. The same audit
 against the pre-fix 0.23.0 commit is kept in
 `validation/steady-state-audit-before-0.23.0-22ec478.json`.
+
+## Bounded retry
+
+`hd2.patch`, `hd2.transaction`, and `hd2.plan` share one policy (`runtime/retry.lua`). `observe`
+uses the same constants.
+
+- **Attempt:** one complete guarded resolution and application run that has actually started, after
+  the startup delay and after acquiring the operation gate. Time spent queued or waiting for a retry
+  never counts, and the resolution budget applies per attempt.
+- **Delay:** a fixed 5 update seconds between attempts, at most 6 attempts in total. After the last
+  attempt the operation is terminal and no further polling occurs.
+- **Retried failures:**
+  - `TARGET_UNAVAILABLE`: game modules not loaded yet, the entity region or a settings allocation
+    absent, or the stratagem table not initialized or not committed.
+  - `TARGET_UNSTABLE`: captured data changed while resolving. The stability reread raises this
+    before any write.
+
+  A plan failure retries only if its rollback verified or was not needed.
+- **Immediate failures:**
+  - value conflicts (`CONFLICT`);
+  - build fingerprint mismatch;
+  - identity, ownership, schema, or extent changes;
+  - transaction-core rejections, unverified rollback, or unrestored protection;
+  - resolution budget exhaustion.
+- **Success:** ends the operation immediately. A retry never re-applies a value that already verified.
+- **After retries run out:** the result reports `code` (`TARGET_UNAVAILABLE` or `TARGET_UNSTABLE`)
+  and `attempts`.
+- **Ensure:** when drift is detected, ensure starts a fresh guarded operation with its own 6 attempts.
+  While that operation retries, ensure stays alive. If it runs out of retries, ensure stops.

@@ -1,5 +1,6 @@
 local Reader=require('hd2runtime/runtime/reader')
 local exclusive=require('hd2runtime/runtime/exclusive')
+local retry=require('hd2runtime/runtime/retry')
 local resolution=require('hd2runtime/core/resolution')
 local domain=require('hd2runtime/domains/transactions')
 local writer=require('hd2runtime/core/guarded_transaction')
@@ -11,6 +12,8 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         'invalid transaction startup delay')
     local watch={status='waiting'}
     local elapsed,steps,worker=0,0,nil;local waited=0
+    local attempts,retry_at,attempt_time=0,0,0
+    watch.attempts=0;watch.max_attempts=retry.MAX_ATTEMPTS
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local function value_text(value)
         if type(value)=='table'and value.weapon and value.attack then
@@ -27,6 +30,25 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         watch.result.code=watch.error:find('CONFLICT:',1,true) and 'CONFLICT' or 'VALIDATION_FAILED'
         log('transaction '..spec.id..' REJECTED code='..watch.result.code..' reason='..watch.error)
     end
+    -- One place decides between a bounded transient retry and a terminal rejection.
+    local function fail(reason,result)
+        local code=retry.transient(reason,result)
+        if code and attempts<retry.MAX_ATTEMPTS then
+            worker=nil;exclusive.release(watch)
+            retry_at=elapsed+retry.DELAY_SECONDS;watch.status='retry_wait'
+            watch.last_transient=code..': '..tostring(reason)
+            log('transaction '..spec.id..' target not ready ('..code..'); retry '..(attempts+1)..'/'
+                ..retry.MAX_ATTEMPTS..' in '..retry.DELAY_SECONDS..' update seconds')
+            return
+        end
+        reject(reason,result)
+        watch.result.attempts=attempts
+        if code then
+            -- Transient retries exhausted: report why, not a generic validation failure.
+            watch.result.code=code
+            log('retries exhausted after '..attempts..' attempts')
+        end
+    end
     function watch.cancel()
         if watch.status~='complete' and watch.status~='rejected' then watch.status='cancelled';worker=nil;exclusive.release(watch) end
     end
@@ -35,11 +57,14 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         assert(type(dt)=='number' and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt
         if elapsed<startup_delay then return end
+        -- Waiting for a scheduled retry never holds the gate or consumes an attempt.
+        if not worker and elapsed<retry_at then return end
         if not exclusive.acquire(watch)then watch.status='queued';waited=waited+dt;return end
-        steps=steps+1
-        if elapsed-waited>startup_delay+180 or steps>10000 then
-            return reject('transaction resolution budget exhausted')
+        if not worker then
+            attempts=attempts+1;watch.attempts=attempts;attempt_time=0;steps=0;watch.result=nil
         end
+        attempt_time=attempt_time+dt;steps=steps+1
+        if attempt_time>180 or steps>10000 then return reject('transaction resolution budget exhausted')end
         if not worker then worker=coroutine.create(function()
             local reader=Reader.new(runtime)
             local resolved,plan
@@ -76,7 +101,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         end)end
         watch.status='resolving'
         local ok,result=coroutine.resume(worker)
-        if not ok then return reject(result)end
+        if not ok then return fail(result)end
         if coroutine.status(worker)~='dead' then return end
         watch.result=result
         result.id=spec.id;result.resource=spec.resource
@@ -102,7 +127,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
             log('transaction '..spec.id..' rollback='..result.rollback..' writes='..result.writes
                 ..' protection_changes='..result.protection_changes
                 ..(result.rollback_error and ' rollback_reason='..result.rollback_error or ''))
-            return reject(result.reason)
+            return fail(result.reason,result)
         end
         watch.status='complete';exclusive.release(watch)
         log('transaction '..spec.id..' '..result.status)

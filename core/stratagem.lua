@@ -144,6 +144,17 @@ function M.parse(bytes,base,pointers,s,target)
     selected.total_records=total
     return selected
 end
+-- While HD2 is still loading, the settings buffer pointer is null or points at
+-- memory that is not committed yet: that is transient, not a layout mismatch.
+-- A committed allocation with the wrong extent still fails the caller's assertion.
+function M.initialized_region(reader,base)
+    if base==0 then error('TARGET_UNAVAILABLE: stratagem table not initialized',0)end
+    local region=reader.query(base)
+    if region.state~=0x1000 or region.allocation_base==0 then
+        error('TARGET_UNAVAILABLE: stratagem table not committed',0)
+    end
+    return region
+end
 function M.capture(runtime,reader,profile)
     require('hd2runtime/runtime/metrics').count('stratagem.table_captures')
     reader.stage='core/stratagem:module_root'
@@ -159,7 +170,7 @@ function M.capture(runtime,reader,profile)
     assert(s.buffer_rva+8<=image.size and s.table_rva+s.entries*8<=image.size,'settings RVA outside image')
     local lead=reader.read(image,s.buffer_rva,8,true)
     local base=b.pointer(lead,0)
-    local region=reader.query(base)
+    local region=M.initialized_region(reader,base)
     assert(region.base==base and region.allocation_base==base and region.size>=s.size
         and region.size<=s.size+65536,'stratagem allocation extent')
     local owner=region
@@ -184,7 +195,7 @@ function M.capture_all(runtime,reader,profile)
     image.size=b.u32(h,pe+80)
     assert(s.buffer_rva+8<=image.size and s.table_rva+s.entries*8<=image.size,'settings RVA outside image')
     local base=b.pointer(reader.read(image,s.buffer_rva,8,true),0)
-    local region=reader.query(base)
+    local region=M.initialized_region(reader,base)
     assert(region.base==base and region.allocation_base==base and region.size>=s.size
         and region.size<=s.size+65536,'stratagem allocation extent')
     local bytes=reader.read(region,0,s.size,true)
