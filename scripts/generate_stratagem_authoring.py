@@ -874,7 +874,7 @@ def generate(check=False):
     for path,body in outputs.items():
         if not path.exists() or path.read_text()!=body:
             stale.append(path)
-            if not check:path.write_text(body)
+            if not check:path.write_text(body,newline='\n')
     if check and stale:raise RuntimeError('Stale stratagem authoring outputs: '+', '.join(map(str,stale)))
     return stale,public['summary']
 
