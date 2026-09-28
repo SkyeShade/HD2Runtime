@@ -160,7 +160,7 @@ $Archive = [HD2StarterArchive]::Build($Resource, $Body)
 
 $Description = "Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime $Minimum+ / API 1; install dependencies separately."
 if ($null -ne $Optional) {
-    $Description += ' Optional: CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) for in-game settings; without it the configurable settings stay inactive.'
+    $Description += ' Optional: CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) for in-game settings; without it the settings use their defaults.'
 }
 $Manifest = [ordered]@{
     Version = 1

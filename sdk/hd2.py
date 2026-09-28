@@ -143,7 +143,7 @@ def zip_files(path,files):
 # Optional dependencies never gate loading; HD2Runtime degrades the features that need them.
 OPTIONAL_MOD_OPTIONS_MENU={'min_version':'1.0.0','api':1,'bingus_min_release':18}
 OPTIONS_NOTE=(' Optional: CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) for in-game'
-    ' settings; without it the configurable settings stay inactive.')
+    ' settings; without it the settings use their defaults.')
 
 
 def optional_dependencies(spec):

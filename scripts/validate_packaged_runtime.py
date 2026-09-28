@@ -172,7 +172,35 @@ operations[2]=hd2.ensure({patch={id='plain-vitality',allow_unverified_effect=tru
     expect=0.9,value=0.8}})
 return operations
 ''')
+# Default fallback: without Mod Options Menu the bound operation applies its declared defaults.
 OPTIONS_MISSING = r'''
+return function(frame,watches,counts,lines)
+ local DEFAULT=150
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local warning='[HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; '
+  ..'using configured defaults'
+ local function count(text,plain)
+  local n=0
+  for _,line in ipairs(lines)do if line:find(text,1,plain)then n=n+1 end end
+  return n
+ end
+ local bound,plain=watches[1],watches[2]
+ step('bound operation applies its declared default',bound.status=='waiting'and bound.runs==1
+  and bound.option_defaults==true and bound.result.status=='APPLIED'and count(' 90 -> '..DEFAULT,true)==1,
+  bound.status)
+ step('unrelated operation in the same mod applies',plain.status=='waiting'and plain.result.status=='APPLIED')
+ step('one clear warning',count(warning,true)==1 and count('will not be applied',true)==0,
+  table.concat(lines,' | '))
+ local writes=counts.writes
+ for _=1,3000 do frame()end
+ step('no retries, repeated warnings or extra writes',count('Mod Options Menu',true)==1 and bound.runs==1
+  and bound.status=='waiting'and counts.writes==writes)
+ return results
+end
+'''
+# Strict fallback (fallback='disable'): the bound operation stays inactive without the menu.
+OPTIONS_MISSING_STRICT = r'''
 return function(frame,watches,counts,lines)
  local results={}
  local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
@@ -194,12 +222,14 @@ return function(frame,watches,counts,lines)
  return results
 end
 '''
+STRICT_PAGE = ("title='Liberator Damage'})", "title='Liberator Damage',fallback='disable'})")
 # The live-validation mod (examples/live/HD2RuntimeOptionsTest) runs the same checks under its
 # own page, option and operation ids, so the exact addon players test is proven from the ZIP.
 TEST_MOD_IDS = (('liberator_damage.damage', 'hd2runtime_options_test.liberator_damage'),
     ('liberator_damage.enabled', 'hd2runtime_options_test.enabled'),
     ('options liberator_damage unavailable', 'options hd2runtime_options_test unavailable'),
-    ('(liberator-damage)', '(options-test-liberator-damage)'))
+    ('(liberator-damage)', '(options-test-liberator-damage)'),
+    ('local DEFAULT=150', 'local DEFAULT=100'))
 
 
 def test_mod_ids(text):
@@ -210,10 +240,10 @@ def test_mod_ids(text):
 
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
-    'options-missing': {'after': OPTIONS_MISSING, 'unavailable': ('liberator-damage',)},
+    'options-missing': {'after': OPTIONS_MISSING},
+    'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
-    'options-test-mod-missing': {'after': test_mod_ids(OPTIONS_MISSING),
-        'unavailable': ('options-test-liberator-damage',)}}
+    'options-test-mod-missing': {'after': test_mod_ids(OPTIONS_MISSING)}}
 
 
 def example(name, folder='projects'):
@@ -238,6 +268,7 @@ SCENARIOS = {
     'booster-coverage': lambda: BOOSTER_COVERAGE,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
+    'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),
     'options-test-mod-live': lambda: example('HD2RuntimeOptionsTest', 'live'),
     'options-test-mod-missing': lambda: OPTIONS_MISSING_ADDON('HD2RuntimeOptionsTest', 'live'),
 }

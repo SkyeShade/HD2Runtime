@@ -177,36 +177,42 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
         log('ensure '..id..' verified status='..watch.result.status..' cycle='..watch.runs
             ..' next='..watch.current_interval..(verification and' steady=byte-check'or' steady=full'))
     end
-    -- Mod Options Menu is an optional dependency. Nothing runs until every option this operation
-    -- uses is available; defaults are never applied silently. If one is unavailable, the
-    -- operation stays inactive for the session and leaves the scheduler.
+    -- Mod Options Menu is an optional enhancement. Nothing runs until every option this operation
+    -- uses is settled (at most the options startup grace period). An unavailable option supplies
+    -- its declared default, which the bind-time proof above already validated, unless its page was
+    -- declared with fallback='disable': then the operation stays inactive for the session and
+    -- leaves the scheduler.
     local required={}
     for _,handle in ipairs(bound)do required[#required+1]=handle end
     if enabled_handle then required[#required+1]=enabled_handle end
     local function availability()
-        local reasons,pending={},false
+        local reasons,pending,defaults={},false,false
         for _,handle in ipairs(required)do
-            if handle.state=='unavailable'then reasons[#reasons+1]=handle.id..': '..tostring(handle.reason)
+            if handle:disables()then reasons[#reasons+1]=handle.id..': '..tostring(handle.reason)
+            elseif handle.state=='unavailable'then defaults=true
             elseif handle.state~='ready'then pending=true end
         end
         if #reasons>0 then return 'unavailable',reasons end
-        return pending and'pending'or'ready'
+        return pending and'pending'or'ready',nil,defaults
     end
     local function on_state()
         if watch.status~='waiting_for_options'then return end
-        local state,reasons=availability()
+        local state,reasons,defaults=availability()
         if state=='unavailable'then
             watch.status='unavailable';watch.error='options unavailable: '..table.concat(reasons,'; ')
             metrics.count('options.inactive_operations')
         elseif state=='ready'then
-            -- Resolve once with the applied (saved or default) values, after the startup delay.
+            -- Resolve once with the applied values (saved, live, or declared defaults), after the
+            -- startup delay, through the same guarded path.
+            watch.option_defaults=defaults or nil
+            if defaults then metrics.count('options.default_operations')end
             watch.status='waiting';dirty,debounce=true,0
         end
     end
     local late={}
     for _,handle in ipairs(required)do
         handle.page.operations[id]=true
-        if handle.state=='unavailable'and handle.page.warned>0 then late[handle.page.id]=true end
+        if handle:disables()and handle.page.warned>0 then late[handle.page.id]=true end
         handle:on_state(on_state)
     end
     watch.status='waiting_for_options'

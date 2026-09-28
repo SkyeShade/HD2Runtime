@@ -46,6 +46,10 @@ assert(page==hd2.options({id='limits',title='Limits'}))
 fails(hd2.options,'another title',{id='limits',title='Other'})
 fails(hd2.options,'options id',{id='bad id',title='X'})
 fails(hd2.options,'title',{id='long',title=string.rep('x',41)})
+fails(hd2.options,"fallback must be 'default' or 'disable'",{id='fb',title='Fb',fallback='maybe'})
+assert(page.fallback=='default')                                      -- the default mode
+assert(hd2.options({id='strict',title='Strict',fallback='disable'}).fallback=='disable')
+fails(hd2.options,'another fallback',{id='limits',title='Limits',fallback='disable'})
 fails(page.slider,'decimal',page,{id='fine',label='Fine',min=0,max=1,step=0.0001})
 fails(page.slider,'min < max',page,{id='flat',label='Flat',min=1,max=1})
 fails(page.slider,'on a step',page,{id='off',label='Off',min=0,max=10,step=2,default=3})
@@ -189,7 +193,7 @@ assert(w.status=='running')                       -- resolving with the saved va
 return 'ok'
 """)
 
-    def test_missing_dependency_leaves_bound_operations_inactive(self):
+    def test_missing_dependency_applies_declared_defaults(self):
         self.lua(r"""
 local page=hd2.options({id='liberator_damage',title='Liberator Damage'})
 local damage=page:slider({id='damage',label='Damage',min=0.5,max=1,step=0.05,default=0.8})
@@ -199,10 +203,50 @@ local plain=ensure.start({},function()end,{patch={id='plain',allow_unverified_ef
  target=hd2.booster('Stamina Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,expect=1.3,value=1.5}})
 scheduler.attach(plain)
 tick(4)
+assert(bound.status=='waiting_for_options')        -- inside the startup grace: nothing applied yet
+tick(2)
+-- The grace period ended without the menu: the operation runs its normal guarded path with the
+-- declared defaults (the synthetic fixture cannot apply booster writes; the packaged
+-- options-missing scenario proves the write against real memory).
+assert(bound.status~='unavailable'and bound.status~='waiting_for_options'and bound.option_defaults==true)
+assert(damage.state=='unavailable'and damage:get()==0.8 and damage.source=='default'and on:get()==true)
+assert(damage:describe().fallback=='default')
+assert(count('[HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; '
+ ..'using configured defaults')==1)
+assert(count('will not be applied')==0)
+assert(plain.bound==nil and plain.status~='unavailable'and plain.status~='waiting_for_options')
+-- Definitive: no re-probing and no repeated warning, even if a menu appears later.
+local metrics=require('hd2runtime/runtime/metrics')
+local attempts=metrics.snapshot().counters['options.registration_attempts']
+rawset(_G,'ModOptionsMenu',{api=1,register_option=function()error('must not be called')end,
+ get=function()end,on_change=function()end})
+tick(30)
+assert(count('Mod Options Menu')==1 and bound.status~='unavailable')
+assert(metrics.snapshot().counters['options.registration_attempts']==attempts)
+assert(metrics.snapshot().counters['options.default_operations']>=1)
+-- A later declaration inherits the result immediately and also uses its default.
+local late=page:slider({id='late',label='Late',min=0.5,max=1,step=0.05,default=0.9})
+local late_op=vitality('late-op',late)
+tick(0.1)
+assert(late.state=='unavailable'and late_op.status~='unavailable'and late_op.option_defaults==true)
+assert(count('options liberator_damage unavailable')==2)   -- one new warning for the new option only
+return 'ok'
+""")
+
+    def test_missing_dependency_in_strict_mode_leaves_bound_operations_inactive(self):
+        self.lua(r"""
+local page=hd2.options({id='liberator_damage',title='Liberator Damage',fallback='disable'})
+local damage=page:slider({id='damage',label='Damage',min=0.5,max=1,step=0.05,default=0.8})
+local on=page:toggle({id='enabled',label='Enabled',default=true})
+local bound=vitality('liberator-damage',damage,on)
+local plain=ensure.start({},function()end,{patch={id='plain',allow_unverified_effect=true,
+ target=hd2.booster('Stamina Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,expect=1.3,value=1.5}})
+scheduler.attach(plain)
+tick(4)
 assert(bound.status=='waiting_for_options')        -- inside the startup grace: nothing applied
 tick(2)
-assert(bound.status=='unavailable'and bound.runs==0 and bound.result==nil)
-assert(damage.state=='unavailable'and damage:get()==0.8)
+assert(bound.status=='unavailable'and bound.runs==0 and bound.result==nil and bound.option_defaults==nil)
+assert(damage.state=='unavailable'and damage:get()==0.8 and damage:describe().fallback=='disable')
 assert(count('[HD2Runtime] options liberator_damage unavailable: Mod Options Menu is not installed; '
  ..'configurable operation will not be applied (liberator-damage)')==1)
 -- Untouched by option state (it applies against real memory in the packaged options-missing scenario).
@@ -230,12 +274,13 @@ local v=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
 local w=vitality('old-op',v)
 rawset(_G,'ModOptionsMenu',{api=2,register_option=function()error('must not be called')end})
 tick(0.1)
-assert(w.status=='unavailable'and v.reason:find('api 2 is incompatible',1,true))
-assert(count('options old unavailable: Mod Options Menu api 2 is incompatible (HD2Runtime needs api 1)')==1)
+assert(w.status~='unavailable'and w.option_defaults==true and v.reason:find('api 2 is incompatible',1,true))
+assert(count('options old unavailable: Mod Options Menu api 2 is incompatible (HD2Runtime needs api 1); '
+ ..'using configured defaults')==1)
 return 'ok'
 """)
         self.lua(r"""
-local page=hd2.options({id='fail',title='Fail'})
+local page=hd2.options({id='fail',title='Fail',fallback='disable'})
 local ok_option=page:slider({id='ok',label='Ok',min=0.5,max=1,step=0.05,default=0.9})
 local refused=page:slider({id='refused',label='Refused',min=0.5,max=1,step=0.05,default=0.9})
 local broken=page:slider({id='broken',label='Broken',min=0.5,max=1,step=0.05,default=0.9})
@@ -262,6 +307,24 @@ tick(0.1)
 assert(later.state=='unavailable'and later.reason=='Mod Options Menu is not installed')
 return 'ok'
 """)
+        # Default mode: a rejected option uses its default, even if a saved value was read before
+        # the menu refused the change callback, and the other options stay live.
+        self.lua(r"""
+local page=hd2.options({id='mixed',title='Mixed'})
+local live=page:slider({id='live',label='Live',min=0.5,max=1,step=0.05,default=0.9})
+local half=page:slider({id='half',label='Half',min=0.5,max=1,step=0.05,default=0.8})
+local live_op=vitality('live-op',live)
+local half_op=vitality('half-op',half)
+rawset(_G,'ModOptionsMenu',{api=1,register_option=function()return true end,
+ get=function(id)return id=='mixed.live'and 0.6 or 0.55 end,
+ on_change=function(id)return id~='mixed.half'end})
+tick(0.1)
+assert(live.state=='ready'and live:get()==0.6 and live_op.option_defaults==nil)
+assert(half.state=='unavailable'and half:get()==0.8 and half.source=='default'and half_op.option_defaults==true)
+assert(count('options mixed unavailable: Mod Options Menu did not accept a change callback for half; '
+ ..'using configured defaults')==1)
+return 'ok'
+""")
 
     def test_duplicate_declaration_is_unavailable_not_fatal(self):
         self.lua(r"""
@@ -269,13 +332,39 @@ local page=hd2.options({id='dup',title='Dup'})
 local first=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
 local second=page:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
 assert(first~=second and second.state=='unavailable'and second.reason=='option v is declared twice')
-assert(count('options dup unavailable: option v is declared twice')==1)
+assert(count('options dup unavailable: option v is declared twice; using configured defaults')==1)
 local op=vitality('dup-op',second)
-assert(op.status=='unavailable')
+assert(op.status~='unavailable'and op.option_defaults==true)      -- default mode: runs with 0.9
+local strict=hd2.options({id='dup_strict',title='Dup Strict',fallback='disable'})
+strict:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9})
+local strict_op=vitality('dup-strict-op',strict:slider({id='v',label='V',min=0.5,max=1,step=0.05,default=0.9}))
+assert(strict_op.status=='unavailable')
 rawset(_G,'ModOptionsMenu',{api=1,register_option=function()return true end,get=function()end,
  on_change=function()return true end})
 tick(0.1)
 assert(first.state=='ready')
+return 'ok'
+""")
+
+    def test_invalid_defaults_fail_at_declaration(self):
+        self.lua(r"""
+local page=hd2.options({id='bad_defaults',title='Bad Defaults'})
+fails(page.slider,'outside',page,{id='out',label='Out',min=0.5,max=1,step=0.05,default=2})
+fails(page.slider,'on a step',page,{id='off',label='Off',min=0.5,max=1,step=0.1,default=0.55})
+fails(page.toggle,'toggle default',page,{id='t',label='T',default='yes'})
+fails(page.choice,'1-based',page,{id='c',label='C',choices={'A','B'},values={0.8,0.9},default=0})
+-- A declared default the operation itself would reject fails when the ensure is declared, so
+-- the fallback can never apply an unvalidated value. Here it is -1, outside the reviewed 0..4
+-- range of the booster scale (negative values would heal).
+local choice=page:choice({id='scale',label='Scale',choices={'Heal','Normal'},values={-1,0.9},default=1})
+fails(vitality,'outside the reviewed range [0, 4]','bad-default-op',choice)
+-- Every other value in the option's domain is proven at the same point.
+local later=page:choice({id='later',label='Later',choices={'Normal','Heal'},values={0.9,-1},default=1})
+fails(vitality,'value -1 is not accepted by bad-domain-op','bad-domain-op',later)
+-- The acknowledgement stays mandatory for defaults too.
+local ok_default=page:slider({id='fine',label='Fine',min=0.5,max=1,step=0.05,default=0.8})
+fails(function()return ensure.start({},function()end,{patch={id='no-ack',target=vitality_target(),
+ field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=ok_default}})end,'allow_unverified_effect')
 return 'ok'
 """)
 
@@ -364,7 +453,11 @@ return 'ok'
         self.assertIn('options-live', validate_packaged_runtime.SCENARIOS)
         self.assertIn('options-live', validate_packaged_runtime.EXTRAS)
         self.assertIn('options-missing', validate_packaged_runtime.SCENARIOS)
-        self.assertEqual(validate_packaged_runtime.EXTRAS['options-missing']['unavailable'], ('liberator-damage',))
+        # Default fallback applies (nothing is expected inactive); strict mode keeps it inactive.
+        self.assertNotIn('unavailable', validate_packaged_runtime.EXTRAS['options-missing'])
+        self.assertEqual(validate_packaged_runtime.EXTRAS['options-missing-strict']['unavailable'],
+            ('liberator-damage',))
+        self.assertIn("fallback='disable'", validate_packaged_runtime.SCENARIOS['options-missing-strict']())
         # No dynamic module names: every internal require is a literal the static scan can resolve.
         for name in ('api/ensure.lua', 'api/options.lua', 'api/hd2.lua'):
             self.assertNotIn("require('hd2runtime/api/'..", (ROOT / name).read_text())
