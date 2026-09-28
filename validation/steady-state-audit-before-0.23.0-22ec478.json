@@ -1,0 +1,578 @@
+{
+  "gameProcessAccess": false,
+  "mode": "snapshot-overlay",
+  "researchWrites": 0,
+  "scenarios": [
+    {
+      "mods": [
+        "ShieldRelayRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "detected_and_reapplied": false,
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 3600.0000000182276,
+        "steady_after_worst_frame_cpu": 0.0020000000000000018,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 3,
+          "module_hashes": 4,
+          "protection_changes": 0,
+          "queries": 59556,
+          "read_bytes": 2334228,
+          "reads": 42133,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "frames": 1133,
+        "metrics": {},
+        "module_hash_disk_bytes": 60959136.0,
+        "seconds": 18.883333333333333,
+        "worst_frame_cpu": 0.0050000000000000044
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "shield-relay-recreation",
+            "runs": 0,
+            "status": "rejected"
+          }
+        ],
+        "worst_frame_cpu": 0.0010000000000000009
+      },
+      "watches": [
+        {
+          "error": "[string \"hd2runtime/core/guarded_transaction\"]:148: transaction target context absent/ambiguous",
+          "id": "shield-relay-recreation",
+          "result": "REJECTED",
+          "runs": 0,
+          "status": "rejected",
+          "writes": 0
+        }
+      ]
+    },
+    {
+      "mods": [
+        "BastionReArmoredRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 36,
+          "module_hashes": 72,
+          "protection_changes": 22,
+          "queries": 316468,
+          "read_bytes": 42700712,
+          "reads": 2806,
+          "write_bytes": 232,
+          "writes": 58
+        },
+        "detected_and_reapplied": true,
+        "metrics": {},
+        "module_hash_disk_bytes": 1097264448.0,
+        "seconds_to_reapply": 24.099999999999913,
+        "steady_after_worst_frame_cpu": 0.008000000000000007,
+        "worst_frame_cpu": 0.010000000000000009
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 8,
+          "protection_changes": 22,
+          "queries": 37156,
+          "read_bytes": 31054632,
+          "reads": 2246,
+          "write_bytes": 232,
+          "writes": 58
+        },
+        "frames": 741,
+        "metrics": {},
+        "module_hash_disk_bytes": 121918272.0,
+        "seconds": 12.35,
+        "worst_frame_cpu": 0.02400000000000002
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 32,
+          "module_hashes": 64,
+          "protection_changes": 0,
+          "queries": 279312,
+          "read_bytes": 11646080,
+          "reads": 560,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 975346176.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "bastion-rearmored-recreation",
+            "runs": 9,
+            "status": "waiting"
+          }
+        ],
+        "worst_frame_cpu": 0.014000000000000012
+      },
+      "watches": [
+        {
+          "id": "bastion-rearmored-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 58
+        }
+      ]
+    },
+    {
+      "mods": [
+        "FRVWeaponSwapRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "detected_and_reapplied": false,
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 3600.0000000182276,
+        "steady_after_worst_frame_cpu": 0.0009999999999998899,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 3,
+          "module_hashes": 4,
+          "protection_changes": 0,
+          "queries": 17448,
+          "read_bytes": 441560,
+          "reads": 26,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "frames": 461,
+        "metrics": {},
+        "module_hash_disk_bytes": 60959136.0,
+        "seconds": 7.683333333333334,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "frv-weapon-swap-recreation",
+            "runs": 0,
+            "status": "rejected"
+          }
+        ],
+        "worst_frame_cpu": 0.001000000000000112
+      },
+      "watches": [
+        {
+          "error": "[string \"hd2runtime/core/guarded_transaction\"]:96: invalid transaction change",
+          "id": "frv-weapon-swap-recreation",
+          "result": "REJECTED",
+          "runs": 0,
+          "status": "rejected",
+          "writes": 0
+        }
+      ]
+    },
+    {
+      "mods": [
+        "JumpPackRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 40,
+          "module_hashes": 40,
+          "protection_changes": 4,
+          "queries": 174739,
+          "read_bytes": 8191052,
+          "reads": 507,
+          "write_bytes": 8,
+          "writes": 2
+        },
+        "detected_and_reapplied": true,
+        "metrics": {},
+        "module_hash_disk_bytes": 609591360.0,
+        "seconds_to_reapply": 46.78333333333196,
+        "steady_after_worst_frame_cpu": 0.0029999999999998916,
+        "worst_frame_cpu": 0.001000000000000112
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 4,
+          "protection_changes": 4,
+          "queries": 17572,
+          "read_bytes": 2213720,
+          "reads": 138,
+          "write_bytes": 8,
+          "writes": 2
+        },
+        "frames": 461,
+        "metrics": {},
+        "module_hash_disk_bytes": 60959136.0,
+        "seconds": 7.683333333333334,
+        "worst_frame_cpu": 0.0029999999999998916
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 36,
+          "module_hashes": 36,
+          "protection_changes": 0,
+          "queries": 157167,
+          "read_bytes": 5977332,
+          "reads": 369,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 548632224.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "jump-pack-recreation",
+            "runs": 10,
+            "status": "waiting"
+          }
+        ],
+        "worst_frame_cpu": 0.0030000000000001137
+      },
+      "watches": [
+        {
+          "id": "jump-pack-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        }
+      ]
+    },
+    {
+      "mods": [
+        "SupportAMRProof"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 36,
+          "module_hashes": 36,
+          "protection_changes": 2,
+          "queries": 439747,
+          "read_bytes": 21334212,
+          "reads": 282933,
+          "write_bytes": 12,
+          "writes": 3
+        },
+        "detected_and_reapplied": true,
+        "metrics": {},
+        "module_hash_disk_bytes": 548632224.0,
+        "seconds_to_reapply": 56.36666666666475,
+        "steady_after_worst_frame_cpu": 0.020000000000000018,
+        "worst_frame_cpu": 0.002000000000000224
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 4,
+          "protection_changes": 2,
+          "queries": 49059,
+          "read_bytes": 5355940,
+          "reads": 31621,
+          "write_bytes": 12,
+          "writes": 3
+        },
+        "frames": 956,
+        "metrics": {},
+        "module_hash_disk_bytes": 60959136.0,
+        "seconds": 15.933333333333334,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 32,
+          "module_hashes": 32,
+          "protection_changes": 0,
+          "queries": 390688,
+          "read_bytes": 15978272,
+          "reads": 251312,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 487673088.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "support-amr-proof",
+            "runs": 9,
+            "status": "waiting"
+          }
+        ],
+        "worst_frame_cpu": 0.008999999999999897
+      },
+      "watches": [
+        {
+          "id": "support-amr-proof",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 3
+        }
+      ]
+    },
+    {
+      "mods": [
+        "AntiTankEmplacementProof"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "detected_and_reapplied": true,
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 0,
+        "steady_after_worst_frame_cpu": 0.0009999999999994458,
+        "worst_frame_cpu": 0
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 4,
+          "protection_changes": 0,
+          "queries": 59552,
+          "read_bytes": 2333516,
+          "reads": 42129,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "frames": 1133,
+        "metrics": {},
+        "module_hash_disk_bytes": 60959136.0,
+        "seconds": 18.883333333333333,
+        "worst_frame_cpu": 0.0030000000000001137
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "status": "rejected"
+          }
+        ],
+        "worst_frame_cpu": 0.001000000000000334
+      },
+      "watches": [
+        {
+          "error": "[string \"hd2runtime/core/guarded_transaction\"]:148: transaction target context absent/ambiguous",
+          "result": "REJECTED",
+          "status": "rejected",
+          "writes": 0
+        }
+      ]
+    },
+    {
+      "mods": [
+        "ShieldRelayRecreation",
+        "BastionReArmoredRecreation",
+        "FRVWeaponSwapRecreation",
+        "JumpPackRecreation",
+        "SupportAMRProof",
+        "AntiTankEmplacementProof"
+      ],
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 22,
+          "module_hashes": 24,
+          "protection_changes": 28,
+          "queries": 240285,
+          "read_bytes": 42929864,
+          "reads": 118235,
+          "write_bytes": 252,
+          "writes": 63
+        },
+        "frames": 1125,
+        "metrics": {},
+        "module_hash_disk_bytes": 365754816.0,
+        "seconds": 18.75,
+        "worst_frame_cpu": 0.017000000000000348
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 100,
+          "module_hashes": 132,
+          "protection_changes": 0,
+          "queries": 827167,
+          "read_bytes": 33601684,
+          "reads": 252241,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {},
+        "module_hash_disk_bytes": 2011651488.0,
+        "seconds": 600,
+        "watches": [
+          {
+            "id": "shield-relay-recreation",
+            "runs": 0,
+            "status": "rejected"
+          },
+          {
+            "id": "bastion-rearmored-recreation",
+            "runs": 9,
+            "status": "waiting"
+          },
+          {
+            "id": "frv-weapon-swap-recreation",
+            "runs": 0,
+            "status": "rejected"
+          },
+          {
+            "id": "jump-pack-recreation",
+            "runs": 10,
+            "status": "waiting"
+          },
+          {
+            "id": "support-amr-proof",
+            "runs": 9,
+            "status": "waiting"
+          },
+          {
+            "status": "rejected"
+          }
+        ],
+        "worst_frame_cpu": 0.011999999999999567
+      },
+      "watches": [
+        {
+          "error": "[string \"hd2runtime/runtime/reader\"]:53: unstable ownership/data snapshot",
+          "id": "shield-relay-recreation",
+          "result": "REJECTED",
+          "runs": 0,
+          "status": "rejected",
+          "writes": 0
+        },
+        {
+          "id": "bastion-rearmored-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 58
+        },
+        {
+          "error": "[string \"hd2runtime/core/guarded_transaction\"]:96: invalid transaction change",
+          "id": "frv-weapon-swap-recreation",
+          "result": "REJECTED",
+          "runs": 0,
+          "status": "rejected",
+          "writes": 0
+        },
+        {
+          "id": "jump-pack-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        },
+        {
+          "id": "support-amr-proof",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 3
+        },
+        {
+          "error": "[string \"hd2runtime/runtime/reader\"]:53: unstable ownership/data snapshot",
+          "result": "REJECTED",
+          "status": "rejected",
+          "writes": 0
+        }
+      ]
+    }
+  ],
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "steadySeconds": 600
+}

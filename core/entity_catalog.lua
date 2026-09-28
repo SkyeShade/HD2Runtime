@@ -1,6 +1,7 @@
 -- Generic, read-only enumeration of reviewed entity component indices.
 -- Runtime addresses never leave this module.
 local b=require('hd2runtime/core/bytes')
+local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local ZERO='0x0000000000000000'
 
@@ -10,6 +11,8 @@ local function sorted_keys(values)
 end
 
 function M.capture(reader,owner,profile,names)
+    metrics.count('entity_catalog.captures')
+    local started=metrics.now()
     reader.stage='core/entity_catalog:entity_map'
     local header=reader.read(owner,0,28)
     assert(header==b.unhex(profile.map_header),'entity map framing changed')
@@ -25,10 +28,10 @@ function M.capture(reader,owner,profile,names)
             assert(count>0 and count<=1024,'membership count bounds')
             local offset=b.relative(b.pointer(map,at+8),owner.base+28,count*2,
                 size-28,profile.map_rows*32)
-            local members={}
-            for n=0,count-1 do members[b.u16(map,28+offset+n*2)]=true end
+            -- Every row's pointer and bounds are still validated here; the membership
+            -- list itself is scanned lazily and only for component candidates.
             local rows=entities[resource] or {}
-            rows[#rows+1]={row=row,members=members};entities[resource]=rows
+            rows[#rows+1]={row=row,offset=offset,count=count};entities[resource]=rows
         end
     end
 
@@ -60,6 +63,10 @@ function M.capture(reader,owner,profile,names)
         components[name]={schema=c,by_record=by_record,records={}}
     end
 
+    local function member(entry,index)
+        for n=0,entry.count-1 do if b.u16(map,28+entry.offset+n*2)==index then return true end end
+        return false
+    end
     local ordered={}
     for _,resource in ipairs(sorted_keys(candidates))do
         local candidate=candidates[resource]
@@ -70,7 +77,7 @@ function M.capture(reader,owner,profile,names)
         else
             candidate.entityRow=rows[1].row
             for name,identity in pairs(candidate.ownership)do
-                if not rows[1].members[identity.componentIndex] then
+                if not member(rows[1],identity.componentIndex) then
                     candidate.diagnostics[#candidate.diagnostics+1]=name..' membership absent'
                 end
                 identity.ownerCount=#components[name].by_record[identity.recordIndex]
@@ -81,6 +88,7 @@ function M.capture(reader,owner,profile,names)
     end
 
     local catalog={candidates=ordered}
+    metrics.elapsed('entity_catalog.build',started)
     function catalog.record(candidate,name)
         local identity=assert(candidate.ownership[name],name..' ownership absent')
         assert(candidate.entityRow~=nil,name..' entity ownership unproven')

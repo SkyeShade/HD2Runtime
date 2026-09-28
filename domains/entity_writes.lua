@@ -138,10 +138,7 @@ local function entry_of(spec)
 end
 function M.capture_many(runtime,reader,specs)
     reader.stage='runtime/windows_readonly:fingerprint'
-    local exe,dll=runtime.module(nil),runtime.module('game.dll')
-    if not exe or not dll then error('TARGET_UNAVAILABLE: game modules not ready',0)end
-    assert(runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha,
-        'unsupported build fingerprint')
+    require('hd2runtime/core/fingerprint').require(runtime)
     local roots=discover.locate(runtime,reader,profile,{entity=true})
     local catalog=entities.capture(reader,roots.entity,profile,component_names)
     local results={}

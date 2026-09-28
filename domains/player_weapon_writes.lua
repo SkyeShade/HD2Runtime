@@ -336,10 +336,7 @@ end
 function M.capture_many(runtime,reader,specs)
     assert(type(specs)=='table'and#specs>=1,'composition capture requires operation specs')
     reader.stage='runtime/windows_readonly:fingerprint'
-    local exe,dll=runtime.module(nil),runtime.module('game.dll')
-    if not exe or not dll then error('TARGET_UNAVAILABLE: game modules not ready',0)end
-    assert(runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha,
-        'unsupported build fingerprint')
+    require('hd2runtime/core/fingerprint').require(runtime)
     local needed={};for _,spec in ipairs(specs)do collect_needs(needed,spec)end
     local roots=discover.locate(runtime,reader,profile,needed)
     local catalog=entities.capture(reader,roots.entity,profile,component_names)

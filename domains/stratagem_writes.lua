@@ -211,10 +211,7 @@ local function collect_needs(spec)
 end
 function M.capture_many(runtime,reader,specs)
     reader.stage='runtime/windows_readonly:fingerprint'
-    local exe,dll=runtime.module(nil),runtime.module('game.dll')
-    if not exe or not dll then error('TARGET_UNAVAILABLE: game modules not ready',0)end
-    assert(runtime.module_hash(exe)==profile.exe_sha and runtime.module_hash(dll)==profile.dll_sha,
-        'unsupported build fingerprint')
+    require('hd2runtime/core/fingerprint').require(runtime)
     local needed={};for _,spec in ipairs(specs)do for key,value in pairs(collect_needs(spec))do
         if value==true or needed[key]==nil then needed[key]=value end end end
     local roots=next(needed)and discover.locate(runtime,reader,profile,needed)or{}
@@ -284,7 +281,9 @@ function M.prepare(resolved,reader,spec)
         local bytes=record.bytes
         if backing.kind=='StratagemDefinition'then
             -- capture_all validates the whole allocation; reread only this reviewed row for write planning.
-            bytes=reader.read(owner,record.offset,profile.stratagem.stride,true)
+            -- Not captured again: the full-table snapshot from capture_all is the guarded
+            -- transaction context, and a second overlapping context makes apply ambiguous.
+            bytes=reader.read(owner,record.offset,profile.stratagem.stride)
             record={bytes=bytes,offset=record.offset}
         end
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')

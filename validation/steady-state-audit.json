@@ -1,0 +1,926 @@
+{
+  "gameProcessAccess": false,
+  "mode": "snapshot-overlay",
+  "researchWrites": 0,
+  "scenarios": [
+    {
+      "mods": [
+        "ShieldRelayRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 6,
+          "queries": 60197,
+          "read_bytes": 11579608,
+          "reads": 42751,
+          "write_bytes": 24,
+          "writes": 6
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 2,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 2333828,
+          "reader.queries": 59555,
+          "steady.drift": 1,
+          "steady.target_reads": 19,
+          "steady.verifications": 4,
+          "stratagem.table_captures": 1,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 9245360,
+          "transaction.protection_changes": 6,
+          "transaction.writes": 6
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 315.93333333337466,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "worst_frame_cpu": 0.007000000000000006
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 2,
+          "protection_changes": 6,
+          "queries": 60170,
+          "read_bytes": 11579276,
+          "reads": 42724,
+          "write_bytes": 24,
+          "writes": 6
+        },
+        "frames": 1133,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 2333828,
+          "reader.queries": 59555,
+          "stratagem.table_captures": 1,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 9245360,
+          "transaction.protection_changes": 6,
+          "transaction.writes": 6
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 18.883333333333333,
+        "worst_frame_cpu": 0.006000000000000005
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 64,
+          "read_bytes": 704,
+          "reads": 64,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 48,
+          "steady.verifications": 8,
+          "stratagem.table_captures": 0,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "shield-relay-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.0010000000000000009
+      },
+      "watches": [
+        {
+          "id": "shield-relay-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 6
+        }
+      ]
+    },
+    {
+      "mods": [
+        "BastionReArmoredRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 22,
+          "queries": 19915,
+          "read_bytes": 31055492,
+          "reads": 2426,
+          "write_bytes": 232,
+          "writes": 58
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.shared_reuses": 1,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "entity_catalog.captures": 2,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 4,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 970544,
+          "reader.queries": 17471,
+          "steady.drift": 1,
+          "steady.target_reads": 175,
+          "steady.verifications": 4,
+          "transaction.applies": 2,
+          "transaction.guard_bytes": 30083856,
+          "transaction.protection_changes": 22,
+          "transaction.writes": 58
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 304.86666666671806,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "worst_frame_cpu": 0.010999999999999899
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 2,
+          "protection_changes": 22,
+          "queries": 19736,
+          "read_bytes": 31054664,
+          "reads": 2247,
+          "write_bytes": 232,
+          "writes": 58
+        },
+        "frames": 469,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.shared_reuses": 1,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "entity_catalog.captures": 2,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 3,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 970544,
+          "reader.queries": 17471,
+          "transaction.applies": 2,
+          "transaction.guard_bytes": 30083856,
+          "transaction.protection_changes": 22,
+          "transaction.writes": 58
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 7.816666666666666,
+        "worst_frame_cpu": 0.01100000000000001
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 472,
+          "read_bytes": 2112,
+          "reads": 472,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.shared_reuses": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 464,
+          "steady.verifications": 8,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "bastion-rearmored-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "watches": [
+        {
+          "id": "bastion-rearmored-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 58
+        }
+      ]
+    },
+    {
+      "mods": [
+        "FRVWeaponSwapRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 4,
+          "queries": 17574,
+          "read_bytes": 2207840,
+          "reads": 140,
+          "write_bytes": 16,
+          "writes": 2
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 2,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 441560,
+          "reader.queries": 17448,
+          "steady.drift": 1,
+          "steady.target_reads": 7,
+          "steady.verifications": 4,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1766048,
+          "transaction.protection_changes": 4,
+          "transaction.writes": 2
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 304.73333333338485,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 2,
+          "protection_changes": 4,
+          "queries": 17563,
+          "read_bytes": 2207656,
+          "reads": 129,
+          "write_bytes": 16,
+          "writes": 2
+        },
+        "frames": 461,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 441560,
+          "reader.queries": 17448,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1766048,
+          "transaction.protection_changes": 4,
+          "transaction.writes": 2
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 7.683333333333334,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 24,
+          "read_bytes": 384,
+          "reads": 24,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 16,
+          "steady.verifications": 8,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "frv-weapon-swap-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "watches": [
+        {
+          "id": "frv-weapon-swap-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        }
+      ]
+    },
+    {
+      "mods": [
+        "JumpPackRecreation"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 4,
+          "queries": 17584,
+          "read_bytes": 2213908,
+          "reads": 150,
+          "write_bytes": 8,
+          "writes": 2
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 2,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 442784,
+          "reader.queries": 17450,
+          "steady.drift": 1,
+          "steady.target_reads": 7,
+          "steady.verifications": 4,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1770928,
+          "transaction.protection_changes": 4,
+          "transaction.writes": 2
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 304.73333333338485,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 2,
+          "protection_changes": 4,
+          "queries": 17573,
+          "read_bytes": 2213752,
+          "reads": 139,
+          "write_bytes": 8,
+          "writes": 2
+        },
+        "frames": 461,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 442784,
+          "reader.queries": 17450,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1770928,
+          "transaction.protection_changes": 4,
+          "transaction.writes": 2
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 7.683333333333334,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 24,
+          "read_bytes": 320,
+          "reads": 24,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 16,
+          "steady.verifications": 8,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "jump-pack-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "watches": [
+        {
+          "id": "jump-pack-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        }
+      ]
+    },
+    {
+      "mods": [
+        "SupportAMRProof"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 2,
+          "queries": 49084,
+          "read_bytes": 5356460,
+          "reads": 31646,
+          "write_bytes": 12,
+          "writes": 3
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 2,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 1624104,
+          "reader.queries": 48814,
+          "steady.drift": 1,
+          "steady.target_reads": 10,
+          "steady.verifications": 4,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 3731824,
+          "transaction.protection_changes": 2,
+          "transaction.writes": 3
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 312.98333333337735,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 2,
+          "protection_changes": 2,
+          "queries": 49062,
+          "read_bytes": 5356036,
+          "reads": 31624,
+          "write_bytes": 12,
+          "writes": 3
+        },
+        "frames": 956,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 1624104,
+          "reader.queries": 48814,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 3731824,
+          "transaction.protection_changes": 2,
+          "transaction.writes": 3
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 15.933333333333334,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 48,
+          "read_bytes": 864,
+          "reads": 48,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 24,
+          "steady.verifications": 8,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "support-amr-proof",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.0010000000000000009
+      },
+      "watches": [
+        {
+          "id": "support-amr-proof",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 3
+        }
+      ]
+    },
+    {
+      "mods": [
+        "AntiTankEmplacementProof"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "stratagem.table_captures": 0,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 0,
+        "steady_after_worst_frame_cpu": 0.001000000000000112,
+        "worst_frame_cpu": 0
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 3,
+          "module_hashes": 2,
+          "protection_changes": 2,
+          "queries": 59982,
+          "read_bytes": 9263004,
+          "reads": 42538,
+          "write_bytes": 16,
+          "writes": 4
+        },
+        "frames": 1133,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "entity_catalog.captures": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 2333116,
+          "reader.queries": 59551,
+          "stratagem.table_captures": 1,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 6929744,
+          "transaction.protection_changes": 2,
+          "transaction.writes": 4
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 18.883333333333333,
+        "worst_frame_cpu": 0.0040000000000000036
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 0,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 0,
+          "read_bytes": 0,
+          "reads": 0,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "stratagem.table_captures": 0,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "status": "complete"
+          }
+        ],
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "watches": [
+        {
+          "result": "APPLIED",
+          "status": "complete",
+          "writes": 4
+        }
+      ]
+    },
+    {
+      "mods": [
+        "ShieldRelayRecreation",
+        "BastionReArmoredRecreation",
+        "FRVWeaponSwapRecreation",
+        "JumpPackRecreation",
+        "SupportAMRProof",
+        "AntiTankEmplacementProof"
+      ],
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 28,
+          "module_hashes": 2,
+          "protection_changes": 40,
+          "queries": 189248,
+          "read_bytes": 61674444,
+          "reads": 119403,
+          "write_bytes": 308,
+          "writes": 75
+        },
+        "frames": 3164,
+        "metrics": {
+          "discover.regions": 69688,
+          "discover.shared_reuses": 3,
+          "discover.walks": 4,
+          "ensure.full_resolutions": 5,
+          "entity_catalog.captures": 7,
+          "exclusive.acquisitions": 6,
+          "exclusive.queued_ticks": 6727,
+          "fingerprint.cache_hits": 13,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 8145992,
+          "reader.queries": 185451,
+          "stratagem.table_captures": 2,
+          "transaction.applies": 7,
+          "transaction.guard_bytes": 53527760,
+          "transaction.protection_changes": 40,
+          "transaction.writes": 75
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 52.733333333333334,
+        "worst_frame_cpu": 0.014000000000000012
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 5,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 632,
+          "read_bytes": 4384,
+          "reads": 632,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.shared_reuses": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "entity_catalog.captures": 0,
+          "exclusive.acquisitions": 0,
+          "exclusive.queued_ticks": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 568,
+          "steady.verifications": 40,
+          "stratagem.table_captures": 0,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "shield-relay-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          },
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "bastion-rearmored-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          },
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "frv-weapon-swap-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          },
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "jump-pack-recreation",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          },
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "support-amr-proof",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          },
+          {
+            "status": "complete"
+          }
+        ],
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "watches": [
+        {
+          "id": "shield-relay-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 6
+        },
+        {
+          "id": "bastion-rearmored-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 58
+        },
+        {
+          "id": "frv-weapon-swap-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        },
+        {
+          "id": "jump-pack-recreation",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 2
+        },
+        {
+          "id": "support-amr-proof",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 3
+        },
+        {
+          "result": "APPLIED",
+          "status": "complete",
+          "writes": 4
+        }
+      ]
+    }
+  ],
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "steadySeconds": 3600
+}

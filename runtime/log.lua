@@ -1,6 +1,7 @@
 local M={}
 local sink,attempted
 function M.emit(message)
+    require('hd2runtime/runtime/metrics').count('log.lines')
     pcall(print,message)
     if not attempted then
         attempted=true
