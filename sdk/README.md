@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.25.1.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.26.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -33,8 +33,24 @@ ammo values are writable on the magazine attachment definitions themselves, with
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
 
+New in 0.26.0 (see `docs/releases/0.26.0.md`):
+
+- **Attachment catalog.** `WeaponAttachmentCatalog.json` holds read-only metadata for all 241 customization
+  items. `MagazineAttachmentCapabilities.json` covers all 49 resolved magazine options, with reload and
+  ergonomics fields.
+- **Fire modes.** `WeaponFireModeCapabilities.json` has native fire-mode sets for 115 weapons (61 writable;
+  `docs/fire-modes.md`). Third-person reticles are covered in `docs/weapon-reticles.md`.
+- **Vehicle weapons.** `VehicleWeaponCapabilities.json` covers 18 vehicle and Exosuit weapon mounts
+  (480 fields; `docs/vehicle-weapons.md`).
+- **Stratagem uses.** `StratagemAuthoringCapabilities.json` publishes `maxUses` for 85 editable stratagems
+  (`docs/stratagem-uses.md`).
+- **Backpack ammo.** `BackpackAuthoringCapabilities.json` and `SupportWeaponAuthoringCapabilities.json` link
+  the three backpack-fed weapons to their ammunition backpacks (`docs/backpack-ammo.md`).
+- **Pod payloads.** `PodPayloadCapabilities.json` covers 56 hellpod racks (192 writable slots), the typed
+  replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
+
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.25.1-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.26.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -198,7 +214,15 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 `requires.hd2runtime` (version matching the SDK-generated project, API 1, module
 `mods/skyeshade/hd2runtime`). Raise `min_version` to the oldest runtime that has
 every API your mod calls: vehicles, backpacks, relay shield and damage-zone
-fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1.
+fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1. Everything new in
+0.26.0 needs 0.26.0:
+- the `attachment.reload_duration` and `attachment.ergonomics_modifier` fields, and non-default magazine
+  targeting;
+- `weapon.third_person_reticle` and `fire_mode.*`;
+- vehicle weapons (`vehicle:weapon`);
+- writable `stratagem.max_uses`;
+- `support_weapon:backpack()` and deposit writes;
+- pod payloads (`hd2.pod_rack`, `hd2.pickup`, `payload.*`).
 In-game options (`hd2.options`, option-bound `hd2.ensure`; see `docs/options.md`) need 0.25.1 (0.25.0 has no `fallback` and never falls back to defaults). CowboyBingus Mod Options Menu v1+ (with Bingus Shared Loader v18+) is an optional
 dependency of such mods only; declare it under `optional.mod_options_menu` in `hd2runtime.json`.
 Without the menu, one warning is logged and the operations bound to options run with their

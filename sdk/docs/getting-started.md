@@ -358,8 +358,9 @@ return hd2.ensure({patch={id='concussive-drum',target=drum,
 
 1. Read the example projects; each is a small, working mod.
 2. Browse the capability file for what you want to change.
-3. Read the matching doc (`vehicle-authoring.md`, `backpack-authoring.md`,
-   `stratagem-authoring.md`, `support-weapon-api.md`, `magazine-attachments.md`,
+3. Read the matching doc (`vehicle-authoring.md`, `vehicle-weapons.md`, `backpack-authoring.md`,
+   `backpack-ammo.md`, `stratagem-authoring.md`, `stratagem-uses.md`, `pod-payloads.md`,
+   `support-weapon-api.md`, `magazine-attachments.md`, `weapon-reticles.md`, `fire-modes.md`,
    `composition-plans.md`).
 4. Use `:describe()` on a target.
 

@@ -14,9 +14,13 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Support-weapon call-in cooldowns
 - Sentry and emplacement authoring
 - Vehicle durability, damage zones and mounted-weapon swaps
-- Backpack authoring (Jump Pack, Hover Pack, shields)
+- Vehicle and Exosuit mounted-weapon stats (fire rate, magazines, reload, mount health/armor, rounds)
+- Backpack authoring (Jump Pack, Hover Pack, shields) and backpack-fed ammo (Maxigun, Cremator, GL-28)
 - Shield Generator Relay shield radius and health
-- Magazine attachment capacity and magazine counts
+- Magazine attachments: every resolved magazine option's ammo, reload duration and ergonomics
+- Third-person reticles and native fire-mode sets (for example, adding full-auto)
+- Stratagem mission uses, including the game's real unlimited value
+- Drop-pod contents: replace the items a support, backpack or Resupply pod opens with, and the spawn count
 - Deployed entity health and armor
 - Projectile, damage and explosion editing
 - Ammo, heat, charge, beam, arc and status fields
@@ -29,6 +33,13 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
+
+Version 0.26.0 adds every magazine option (reload and ergonomics too), third-person reticles, native
+fire-mode sets, vehicle and Exosuit mounted weapons, stratagem mission uses (including unlimited),
+backpack-fed support-weapon ammo, and drop-pod payload slots. Most new fields are natively proven but
+not yet live-tested, and require the published acknowledgements. See `docs/releases/0.26.0.md`, and
+`docs/magazine-attachments.md`, `docs/weapon-reticles.md`, `docs/fire-modes.md`,
+`docs/vehicle-weapons.md`, `docs/stratagem-uses.md`, `docs/backpack-ammo.md` and `docs/pod-payloads.md`.
 
 Version 0.25.1 publishes the stratagem icon identity metadata (`uiIcon`) that 0.25.0 omitted.
 It also makes Mod Options Menu a true enhancement: without it, option-bound operations run with
