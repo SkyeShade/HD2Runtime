@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.23.1.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.23.2.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -27,7 +27,7 @@ supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. S
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.23.1-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.23.2-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
@@ -191,7 +191,9 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 `requires.hd2runtime` (version matching the SDK-generated project, API 1, module
 `mods/skyeshade/hd2runtime`). Raise `min_version` to the oldest runtime that has
 every API your mod calls: vehicles, backpacks, relay shield and damage-zone
-fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1. HD2Runtime's own declaration requires only Bingus.
+fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1.
+Mods that use typed writes should require at least 0.23.2; in 0.23.0 and 0.23.1
+those writes can fail in game after startup (see `docs/releases/0.23.2.md`). HD2Runtime's own declaration requires only Bingus.
 These are HD2Runtime SDK metadata, not new Bingus/Arsenal/HD2MM manifest fields.
 Manager descriptions also state the requirements; managers do not install them
 automatically. The generated Lua checks them before starting the mod.

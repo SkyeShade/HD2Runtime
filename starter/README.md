@@ -28,11 +28,10 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.23.1`, the release this starter ships
-with. Vehicles, backpacks, relay shield and damage-zone fields, magazine
-attachments, and `hd2.support_weapon` need at least 0.23.0; magazine attachments
-need 0.23.1. Only lower it if your mod uses nothing newer. Do not change the
-`bingus` block or the `api`/`module` values.
+`requires.hd2runtime.min_version` is `0.23.2`, the release this starter ships
+with. Keep it: in 0.23.0 and 0.23.1, typed writes can fail in game with "module
+not found", which 0.23.2 fixes. Do not change the `bingus` block or the
+`api`/`module` values.
 
 ## Open in Rider
 
@@ -79,7 +78,7 @@ HD2Runtime implementation.
 Players install and enable three packages:
 
 1. Bingus Shared Loader v15 or newer / API 1.
-2. HD2Runtime 0.23.1 or newer / API 1, installed once.
+2. HD2Runtime 0.23.2 or newer / API 1, installed once.
 3. Your built gameplay mod ZIP.
 
 The generated manifest description and `hd2runtime.json` state both dependencies.
