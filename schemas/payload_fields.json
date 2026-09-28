@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "notes": "Drop-pod (hellpod rack) payload fields. Offsets are record-relative in HellpodRackComponent; a slot is one 64-byte RackAttach entry at slot*64. See research/pod-payloads-F5FEE03DCFDB.json.",
+  "fields": [
+    {"id": "payload.entity", "display_name": "Slot item", "type": "payload_entity_reference", "unit": null, "writable": true, "storage": "u64", "component": "HellpodRackComponentData", "slotStride": 64, "offset": 0},
+    {"id": "payload.spawn_count", "display_name": "Items spawned", "type": "integer", "unit": "items", "writable": true, "storage": "u32", "component": "HellpodRackComponentData", "offset": 556}
+  ]
+}

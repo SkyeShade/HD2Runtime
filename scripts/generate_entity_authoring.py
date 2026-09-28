@@ -124,6 +124,9 @@ def api_constants():
         if constant in constants[domain] and constants[domain][constant] != definition['id']:
             constant = 'attachment_' + constant
         constants[domain][constant] = definition['id']
+    for definition in json.loads((ROOT / 'schemas/payload_fields.json').read_text())['fields']:
+        domain, name = definition['id'].split('.', 1)
+        constants[domain][name.replace('.', '_')] = definition['id']
     for definition in json.loads((ROOT / 'schemas/booster_fields.json').read_text())['fields']:
         domain, name = definition['id'].split('.', 1); constant = name.replace('.', '_')
         if definition['id'] in constants[domain].values():

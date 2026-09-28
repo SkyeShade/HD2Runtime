@@ -1,0 +1,1 @@
+{"format":1,"name":"SurplusEatPodSwap","resource":"mods/hd2runtime_examples/surplus_eat_pod_swap","guid":"fe1069b6-acc3-5412-ba29-56cd76614369","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}
