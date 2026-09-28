@@ -232,6 +232,10 @@ The ensure watch reports `status` as one of the following, plus `enabled`, `rest
 - The `options-test-mod-live` and `options-test-mod-missing` scenarios run the same checks on
   the live-validation mod `examples/live/HD2RuntimeOptionsTest`, under its own ids. That mod is
   not a release example.
-- **Not yet confirmed in game:** the rows on the MODS tab, APPLY driving `on_change`, and the
-  menu writing its values file. Mod Options Menu's own validation covers those for its
-  addon; HD2Runtime's side has been validated only offline.
+- **Confirmed in game** (HD2Runtime 0.25.0, Mod Options Menu v1.0.1, Bingus Shared Loader v18,
+  Steam build 25480438), with `examples/live/HD2RuntimeOptionsTest`:
+  - the option controls appear on the MODS tab and work;
+  - APPLY updates the value managed by the runtime;
+  - disabling restores the reviewed baseline;
+  - without Mod Options Menu, only the option-bound operation is disabled;
+  - saved values survive a full game restart (a saved 230 was loaded and applied at startup).

@@ -3,6 +3,15 @@
 Live-validation mod for HD2Runtime 0.25.0 in-game options. It is not a release example and is
 not part of the example-projects ZIP.
 
+Confirmed in game with HD2Runtime 0.25.0, Mod Options Menu v1.0.1 and Bingus Shared Loader v18
+(Steam build 25480438):
+
+- the controls work;
+- APPLY updates the managed value;
+- disabling restores 90;
+- without the menu, only this operation is disabled;
+- a saved value of 230 survived a full restart and was applied at startup.
+
 Adds an **HD2Runtime Options Test** page to the MODS tab (CowboyBingus Mod Options Menu):
 
 - **Enabled** toggle (default on). Off restores the vanilla AR-23 Liberator damage (90) through
