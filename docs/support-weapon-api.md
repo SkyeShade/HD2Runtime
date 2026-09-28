@@ -72,3 +72,38 @@ artifact.
 Snapshot validation resolves all promoted fields through production ownership chains and applies
 their current values as guarded no-ops. The checked result must be `ALREADY_DESIRED`, with zero
 writes, zero protection changes, stable rereads, and fixture fallback disabled.
+
+## Support call-in linkage
+
+Support weapons and their call-in stratagems remain separate authoring targets:
+`hd2.support_weapon(...)` edits the delivered weapon, and `hd2.stratagem(...)` edits the call-in
+definition. Since 0.22.1, both capability catalogs publish the reviewed relationship between them,
+so tools can present one merged view without matching display names or using private tables.
+
+Every support weapon has a stable `semanticId` (`support-weapon/v1/...`) and every stratagem has a
+stable `semanticId` (`stratagem/v1/...`). These IDs are opaque digests of semantic identity and are
+safe to persist. `weapons[].linkedStratagem` holds the forward link and support
+`stratagems[].delivers` holds the reverse link. Both catalogs carry the same
+`supportCallInLinks.relationships` collection. Use its `relationshipId`
+(`support-callin/v1/...`) as the merge key.
+
+Links are proven structurally. Either the call-in StratagemDefinition's primary payload is the
+support weapon's own runtime root, or it is a hellpod rack that attaches one of the weapon's runtime
+resources. The historical stratagem debug-name table is only a cross-check, and generation fails if
+the two disagree. The generator also fails on any one-way link.
+
+| State | Support weapons |
+| --- | --- |
+| `linked` | 32, including MS-11 Solo Silo (special: `deployable_silo`) |
+| `unresolved_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool |
+| `unresolved_delivery` | B/MD C4 Pack. Its call-in rack attaches a backpack and an unmapped thrower weapon, not the placed charge the catalog identifies as C4. |
+
+Seven linked weapons have ambiguous runtime roots: MG-43, M-105, EAT-17, MG-206, LAS-98,
+B/FLAM-80, and CQC-20. Their call-in links are known and their stratagem cooldowns stay writable.
+The relationship never lifts support-weapon write blocking, so their weapon fields remain blocked.
+
+Each relationship has a reference-only `deliveryGraph`. Its nodes name the owning view
+(`stratagem` or `support_weapon`), the semantic ID, and the target path or attack role. An editor
+uses these to select existing `fieldInstances`; no fields are copied. For Solo Silo the graph is
+stratagem call-in (cooldown) -> deployable silo -> missile -> `detonation` and `impact`
+explosions. Edits still persist through the original target types.

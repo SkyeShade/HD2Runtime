@@ -22,6 +22,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.22.1 publishes explicit, bidirectional support-weapon <-> call-in stratagem linkage
+(stable semantic IDs, `linkedStratagem`, `delivers`, and `supportCallInLinks`) in the SDK capability
+catalogs. Runtime write semantics are unchanged; see `docs/releases/0.22.1.md`.
+
 ## Requirements
 
 - Helldivers 2

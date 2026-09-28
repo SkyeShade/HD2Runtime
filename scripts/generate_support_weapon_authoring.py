@@ -7,6 +7,10 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
+
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+import support_callin_linkage
 
 ROOT=Path(__file__).resolve().parents[1]
 CATALOG=ROOT/'schemas/support_weapon_authoring_catalog.json'
@@ -37,7 +41,7 @@ def slug(value):
 
 
 def weapon_key(name):
-    return 'support-weapon/v1/'+slug(name)+'/'+digest(name,16)
+    return support_callin_linkage.support_weapon_key(name)
 
 
 def backing_identity(backing):
@@ -148,6 +152,8 @@ def build(catalog_path=CATALOG):
     schema=json.loads(FIELDS.read_text());definitions={item['id']:item for item in schema['fields']}
     candidates=source['candidates'];weapon_names={item['name'] for item in source['weapons']}
     assert len(source['weapons'])==35 and len(weapon_names)==35
+    call_in_linkage=support_callin_linkage.build()
+    assert set(call_in_linkage['supportWeapons'])==weapon_names,'call-in linkage weapon coverage diverged'
     consumers=defaultdict(set)
     for weapon in source['weapons']:
         for resource in weapon['resources']:
@@ -363,7 +369,8 @@ def build(catalog_path=CATALOG):
                 'WeaponLinkedAmmo ownership is classified, but storage semantics are not proven.'})
         if weapon['ownershipChain']and any(x['kind']=='stratagem_payload'for x in weapon['ownershipChain']):
             blocked.append({'field':'linked stratagem scalars','reason':
-                'Delivery identity is linked; cooldown/uses/call-in scalar ownership is not reviewed.'})
+                'Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); '
+                'call-in scalar ownership through the support weapon is not reviewed.'})
         for reason in weapon['unresolvedLinks']:blocked.append({'field':'unresolved branch','reason':reason})
 
         runtime_weapons[weapon['name']]={'name':weapon['name'],'resolution':weapon['resolution'],
@@ -384,7 +391,8 @@ def build(catalog_path=CATALOG):
                 'state':branch['state'],'writable':unique and branch['state']=='RESOLVED'
                     and runtime_role in attacks,
                 'blockedReason':block if not unique else branch.get('unresolvedReason')})
-        public_weapons.append({'name':weapon['name'],'identityStatus':weapon['resolution'],
+        public_weapons.append({'name':weapon['name'],'semanticId':weapon_key(weapon['name']),
+            'identityStatus':weapon['resolution'],
             'confidence':weapon['confidence'],'family':sorted(set(
                 branch['kind'] for branch in weapon['attackGraph'] if branch['kind']!='Unknown')),
             'attackBranches':public_branches,
@@ -392,8 +400,7 @@ def build(catalog_path=CATALOG):
             'sharedScopes':sorted(set(f['writeScope']for f in fields if f['affectsMultipleWeapons'])),
             'blockedFields':blocked,'backpackDependency':weapon['backpackDependent'],
             'linkedAmmoOwnership':weapon['linkedAmmoOwned'],
-            'linkedStratagem':next(({'known':True,'kind':'support_weapon_delivery'}
-                for item in weapon['ownershipChain']if item['kind']=='stratagem_payload'),{'known':False}),
+            'linkedStratagem':call_in_linkage['supportWeapons'][weapon['name']],
             'writable':unique and bool(fields),'writableFieldCount':len(fields)if unique else 0})
 
     # Build the canonical public instance/object model only after every internal
@@ -659,6 +666,7 @@ def build(catalog_path=CATALOG):
             for domain in ('magazine','rounds'))for w in public_weapons),
         'linkedStratagemIdentities':sum(w['linkedStratagem']['known']for w in public_weapons),
         'linkedStratagemScalarValues':0,
+        'supportCallInLinkage':call_in_linkage['audit'],
         'sharedFieldInstances':sum(field['affectsMultipleWeapons']
             for weapon in runtime_weapons.values()for field in weapon['fields']),
         'internalSupportAuthoringInstances':sum(len(weapon['fields'])for weapon in runtime_weapons.values()),
@@ -706,6 +714,8 @@ def build(catalog_path=CATALOG):
             'sourceClassProperty':'value.reference.sourceClass',
             'rawNativeIdentifiersPublished':False,
             'currentReferenceFieldInstances':summary['referenceFieldInstances']},
+        'supportCallInLinks':{key:call_in_linkage[key]for key in
+            ('contract','schemaVersion','joinContract','relationships','audit')},
         'safety':{'runtimeAddresses':False,'rawResourceIdentifiers':False,
             'writesDuringGeneration':0,'protectionChangesDuringGeneration':0,'fixtureFallback':'disabled'}}
     public['instanceAudit']=audit_instance_coverage(runtime,public)

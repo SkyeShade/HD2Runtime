@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "contract": "hd2runtime.support_weapon.guarded_authoring.v2",
-  "hd2RuntimeVersion": "0.22.0",
+  "hd2RuntimeVersion": "0.22.1",
   "summary": {
     "catalogWeapons": 35,
     "uniqueSupportIdentities": 27,
@@ -60,8 +60,38 @@
     "weaponsWithHeatFields": 1,
     "weaponsWithChargeFields": 4,
     "weaponsWithDirectAmmoFields": 19,
-    "linkedStratagemIdentities": 1,
+    "linkedStratagemIdentities": 32,
     "linkedStratagemScalarValues": 0,
+    "supportCallInLinkage": {
+      "supportWeapons": 35,
+      "knownLinks": 32,
+      "unresolvedLinks": 3,
+      "unresolvedCallIns": [
+        "CQC-72 Entrenchment Tool",
+        "SG-88 Break-Action Shotgun"
+      ],
+      "unresolvedDeliveries": [
+        "B/MD C4 Pack"
+      ],
+      "supportStratagems": 35,
+      "reverseLinksKnown": 32,
+      "relationships": 32,
+      "bidirectionalMismatches": 0,
+      "linksRelyingOnDisplayNameOnly": 0,
+      "ambiguousWeaponIdentityLinks": 7,
+      "ambiguousWeaponIdentityNames": [
+        "B/FLAM-80 Cremator",
+        "CQC-20 Breaching Hammer",
+        "EAT-17 Expendable Anti-Tank",
+        "LAS-98 Laser Cannon",
+        "M-105 Stalwart",
+        "MG-206 Heavy Machine Gun",
+        "MG-43 Machine Gun"
+      ],
+      "specialLinks": [
+        "MS-11 Solo Silo"
+      ]
+    },
     "sharedFieldInstances": 506,
     "internalSupportAuthoringInstances": 828,
     "publishedSupportFieldInstances": 828,
@@ -88,6 +118,7 @@
   "weapons": [
     {
       "name": "40-K Meltagun",
+      "semanticId": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -185,7 +216,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/40-k-meltagun/3ce05d7d133179e0",
+        "relationshipId": "support-callin/v1/40-k-meltagun/5c2890c4c98aaf65",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "40-K Meltagun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 30,
@@ -224,6 +280,7 @@
     },
     {
       "name": "AC-8 Autocannon",
+      "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -362,7 +419,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/ac-8-autocannon/902ed559c079bf20",
+        "relationshipId": "support-callin/v1/ac-8-autocannon/4dd733aa855d44ca",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "AC-8 Autocannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 40,
@@ -411,6 +493,7 @@
     },
     {
       "name": "APW-1 Anti-Materiel Rifle",
+      "semanticId": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -483,7 +566,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "relationshipId": "support-callin/v1/apw-1-anti-materiel-rifle/f4e28a5a22331080",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "APW-1 Anti-Materiel Rifle",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 27,
@@ -519,6 +627,7 @@
     },
     {
       "name": "ARC-3 Arc Thrower",
+      "semanticId": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -601,7 +710,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+        "relationshipId": "support-callin/v1/arc-3-arc-thrower/d9604e909f5bb518",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "ARC-3 Arc Thrower",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 30,
@@ -640,6 +774,7 @@
     },
     {
       "name": "B/FLAM-80 Cremator",
+      "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -719,7 +854,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "relationshipId": "support-callin/v1/b-flam-80-cremator/027eb7f1fce4943e",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "B/FLAM-80 Cremator",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -727,6 +887,7 @@
     },
     {
       "name": "B/MD C4 Pack",
+      "semanticId": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -776,7 +937,15 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": false,
+        "state": "unresolved_delivery",
+        "semanticId": null,
+        "relationshipId": null,
+        "relationship": "call_in",
+        "stratagemName": null,
+        "confidence": null,
+        "provenance": null,
+        "blocker": "No resolved call-in StratagemDefinition delivers a runtime resource proven to belong to this support weapon; the link is not inferred from display names."
       },
       "writable": true,
       "writableFieldCount": 12,
@@ -797,6 +966,7 @@
     },
     {
       "name": "CQC-1 One True Flag",
+      "semanticId": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -843,7 +1013,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+        "relationshipId": "support-callin/v1/cqc-1-one-true-flag/cde5d3336c01e435",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "CQC-1 One True Flag",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 17,
@@ -869,6 +1064,7 @@
     },
     {
       "name": "CQC-20 Breaching Hammer",
+      "semanticId": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -910,7 +1106,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "relationshipId": "support-callin/v1/cqc-20-breaching-hammer/adeff7eab692d76f",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "CQC-20 Breaching Hammer",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -918,6 +1139,7 @@
     },
     {
       "name": "CQC-72 Entrenchment Tool",
+      "semanticId": "support-weapon/v1/cqc-72-entrenchment-tool/6fd25d866820a884",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -945,7 +1167,15 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": false,
+        "state": "unresolved_call_in",
+        "semanticId": null,
+        "relationshipId": null,
+        "relationship": "call_in",
+        "stratagemName": null,
+        "confidence": null,
+        "provenance": null,
+        "blocker": "No uniquely correlated call-in StratagemDefinition exists in the retained snapshot; the call-in is not guessed."
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -953,6 +1183,7 @@
     },
     {
       "name": "CQC-9 Defoliation Tool",
+      "semanticId": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -999,7 +1230,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+        "relationshipId": "support-callin/v1/cqc-9-defoliation-tool/92c06b0b7297aed4",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "CQC-9 Defoliation Tool",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 17,
@@ -1025,6 +1281,7 @@
     },
     {
       "name": "EAT-17 Expendable Anti-Tank",
+      "semanticId": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -1079,7 +1336,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "relationshipId": "support-callin/v1/eat-17-expendable-anti-tank/ccfe6be52ab37309",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "EAT-17 Expendable Anti-Tank",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -1087,6 +1369,7 @@
     },
     {
       "name": "EAT-411 Leveller",
+      "semanticId": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -1198,7 +1481,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/eat-411-leveller/77b0b0e293adb90a",
+        "relationshipId": "support-callin/v1/eat-411-leveller/27046a55f4d5fbda",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "EAT-411 Leveller",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 39,
@@ -1246,6 +1554,7 @@
     },
     {
       "name": "EAT-700 Expendable Napalm",
+      "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -1407,7 +1716,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "relationshipId": "support-callin/v1/eat-700-expendable-napalm/c1158cedaadf7d35",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "EAT-700 Expendable Napalm",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 41,
@@ -1457,6 +1791,7 @@
     },
     {
       "name": "FAF-14 Spear",
+      "semanticId": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -1533,7 +1868,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/faf-14-spear/0b5ea028958b920a",
+        "relationshipId": "support-callin/v1/faf-14-spear/d417615c5859c93c",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "FAF-14 Spear",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 25,
@@ -1567,6 +1927,7 @@
     },
     {
       "name": "FLAM-40 Flamethrower",
+      "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -1661,7 +2022,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/flam-40-flamethrower/35bdbbbca9621341",
+        "relationshipId": "support-callin/v1/flam-40-flamethrower/58b5d775a5cf3c17",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "FLAM-40 Flamethrower",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 23,
@@ -1693,6 +2079,7 @@
     },
     {
       "name": "GL-21 Grenade Launcher",
+      "semanticId": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -1791,7 +2178,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "relationshipId": "support-callin/v1/gl-21-grenade-launcher/6ec63dced58ec064",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "GL-21 Grenade Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 39,
@@ -1839,6 +2251,7 @@
     },
     {
       "name": "GL-28 Belt-Fed Grenade Launcher",
+      "semanticId": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
       "identityStatus": "UNIQUE",
       "confidence": "STRONG",
       "family": [
@@ -1946,7 +2359,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "relationshipId": "support-callin/v1/gl-28-belt-fed-grenade-launcher/83faa37583d5e3ef",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "GL-28 Belt-Fed Grenade Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 34,
@@ -1989,6 +2427,7 @@
     },
     {
       "name": "GL-52 De-Escalator",
+      "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2116,7 +2555,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "relationshipId": "support-callin/v1/gl-52-de-escalator/d178ff4ac71195db",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "GL-52 De-Escalator",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 40,
@@ -2165,6 +2629,7 @@
     },
     {
       "name": "GR-8 Recoilless Rifle",
+      "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2306,7 +2771,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "relationshipId": "support-callin/v1/gr-8-recoilless-rifle/81fa192e64230582",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "GR-8 Recoilless Rifle",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 39,
@@ -2354,6 +2844,7 @@
     },
     {
       "name": "LAS-98 Laser Cannon",
+      "semanticId": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -2403,7 +2894,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "relationshipId": "support-callin/v1/las-98-laser-cannon/55f228e4488259ff",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "LAS-98 Laser Cannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -2411,6 +2927,7 @@
     },
     {
       "name": "LAS-99 Quasar Cannon",
+      "semanticId": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2514,7 +3031,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "relationshipId": "support-callin/v1/las-99-quasar-cannon/564c4d416bdb0632",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "LAS-99 Quasar Cannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 42,
@@ -2565,6 +3107,7 @@
     },
     {
       "name": "M-1000 Maxigun",
+      "semanticId": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2643,7 +3186,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/m-1000-maxigun/95638dbb80d59593",
+        "relationshipId": "support-callin/v1/m-1000-maxigun/16094504a105acf1",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "M-1000 Maxigun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 23,
@@ -2675,6 +3243,7 @@
     },
     {
       "name": "M-105 Stalwart",
+      "semanticId": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -2702,7 +3271,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/m-105-stalwart/5af15aa5bcc38509",
+        "relationshipId": "support-callin/v1/m-105-stalwart/223bcea10ca2f0f5",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "M-105 Stalwart",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -2710,6 +3304,7 @@
     },
     {
       "name": "MG-206 Heavy Machine Gun",
+      "semanticId": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -2737,7 +3332,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "relationshipId": "support-callin/v1/mg-206-heavy-machine-gun/829324a6a25e2427",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "MG-206 Heavy Machine Gun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -2745,6 +3365,7 @@
     },
     {
       "name": "MG-43 Machine Gun",
+      "semanticId": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
       "identityStatus": "DUPLICATE",
       "confidence": "AMBIGUOUS",
       "family": [
@@ -2772,7 +3393,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "relationshipId": "support-callin/v1/mg-43-machine-gun/5e0a8022b9c77a72",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "MG-43 Machine Gun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": false,
       "writableFieldCount": 0,
@@ -2780,6 +3426,7 @@
     },
     {
       "name": "MGX-42 Bullet Storm",
+      "semanticId": "support-weapon/v1/mgx-42-bullet-storm/4c6df7047f634176",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2852,7 +3499,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/mgx-42-bullet-storm/4c6df7047f634176",
+        "relationshipId": "support-callin/v1/mgx-42-bullet-storm/b6675f622bb8df64",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "MGX-42 Bullet Storm",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 27,
@@ -2888,6 +3560,7 @@
     },
     {
       "name": "MLS-4X Commando",
+      "semanticId": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -2969,7 +3642,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/mls-4x-commando/fbd50e50e043315f",
+        "relationshipId": "support-callin/v1/mls-4x-commando/a1a559bdf0ca392d",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "MLS-4X Commando",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 25,
@@ -3003,6 +3701,7 @@
     },
     {
       "name": "MS-11 Solo Silo",
+      "semanticId": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3051,14 +3750,40 @@
       "blockedFields": [
         {
           "field": "linked stratagem scalars",
-          "reason": "Delivery identity is linked; cooldown/uses/call-in scalar ownership is not reviewed."
+          "reason": "Cooldown and uses are owned by the linked stratagem view (linkedStratagem.semanticId); call-in scalar ownership through the support weapon is not reviewed."
         }
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
         "known": true,
-        "kind": "support_weapon_delivery"
+        "state": "linked",
+        "semanticId": "stratagem/v1/ms-11-solo-silo/f719b3801aa63197",
+        "relationshipId": "support-callin/v1/ms-11-solo-silo/3ea472f5cf6a2888",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "MS-11 Solo Silo",
+        "deliveryObject": "deployable_silo",
+        "special": "deployable_silo",
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "stratagem_payload_is_support_root",
+            "hellpod_rack_attaches_attack_entity"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is the support weapon runtime root.",
+            "The call-in delivery rack attaches the support weapon attack-owner entity."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 24,
@@ -3091,6 +3816,7 @@
     },
     {
       "name": "PLAS-45 Epoch",
+      "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3234,7 +3960,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+        "relationshipId": "support-callin/v1/plas-45-epoch/69485b2986d2513b",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "PLAS-45 Epoch",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 43,
@@ -3286,6 +4037,7 @@
     },
     {
       "name": "RL-77 Airburst Rocket Launcher",
+      "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3454,7 +4206,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "relationshipId": "support-callin/v1/rl-77-airburst-rocket-launcher/6e7160f4324f8e1e",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "RL-77 Airburst Rocket Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 39,
@@ -3502,6 +4279,7 @@
     },
     {
       "name": "RS-422 Railgun",
+      "semanticId": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3611,7 +4389,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/rs-422-railgun/eb024301e3c28200",
+        "relationshipId": "support-callin/v1/rs-422-railgun/a808e4044409edd4",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "RS-422 Railgun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 31,
@@ -3651,6 +4454,7 @@
     },
     {
       "name": "S-11 Speargun",
+      "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3773,7 +4577,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/s-11-speargun/12230537964a8c26",
+        "relationshipId": "support-callin/v1/s-11-speargun/1dbc7e670400e949",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "S-11 Speargun",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 43,
@@ -3825,6 +4654,7 @@
     },
     {
       "name": "SG-88 Break-Action Shotgun",
+      "semanticId": "support-weapon/v1/sg-88-break-action-shotgun/89e9d693eabca351",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -3898,7 +4728,15 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": false,
+        "state": "unresolved_call_in",
+        "semanticId": null,
+        "relationshipId": null,
+        "relationship": "call_in",
+        "stratagemName": null,
+        "confidence": null,
+        "provenance": null,
+        "blocker": "No uniquely correlated call-in StratagemDefinition exists in the retained snapshot; the call-in is not guessed."
       },
       "writable": true,
       "writableFieldCount": 28,
@@ -3935,6 +4773,7 @@
     },
     {
       "name": "StA-X3 W.A.S.P. Launcher",
+      "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -4033,7 +4872,32 @@
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "relationshipId": "support-callin/v1/sta-x3-w-a-s-p-launcher/47ca757f123cd842",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "StA-X3 W.A.S.P. Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 25,
@@ -4067,6 +4931,7 @@
     },
     {
       "name": "TX-41 Sterilizer",
+      "semanticId": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
       "identityStatus": "UNIQUE",
       "confidence": "EXACT",
       "family": [
@@ -4143,7 +5008,32 @@
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
       "linkedStratagem": {
-        "known": false
+        "known": true,
+        "state": "linked",
+        "semanticId": "stratagem/v1/tx-41-sterilizer/00483fecacc69a04",
+        "relationshipId": "support-callin/v1/tx-41-sterilizer/fc3a8706e857851a",
+        "relationship": "call_in",
+        "kind": "support_weapon_delivery",
+        "stratagemName": "TX-41 Sterilizer",
+        "deliveryObject": "hellpod_support_weapon",
+        "special": null,
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "writable": true,
       "writableFieldCount": 25,
@@ -120010,6 +120900,3058 @@
     "sourceClassProperty": "value.reference.sourceClass",
     "rawNativeIdentifiersPublished": false,
     "currentReferenceFieldInstances": 0
+  },
+  "supportCallInLinks": {
+    "contract": "hd2runtime.support_callin_linkage.v1",
+    "schemaVersion": 1,
+    "joinContract": {
+      "supportWeaponKeyProperty": "weapons[].semanticId",
+      "stratagemKeyProperty": "stratagems[].semanticId",
+      "forwardLinkProperty": "weapons[].linkedStratagem",
+      "reverseLinkProperty": "stratagems[].delivers",
+      "relationshipCollection": "supportCallInLinks.relationships",
+      "mergeKey": "relationshipId",
+      "displayNameMatchingRequired": false,
+      "rawNativeIdentifiersPublished": false,
+      "writeTargetsRemainSeparate": true,
+      "writeGuardsUnchanged": "A known relationship never lifts support-weapon write blocking; ambiguous runtime weapon roots stay blocked."
+    },
+    "relationships": [
+      {
+        "relationshipId": "support-callin/v1/40-k-meltagun/5c2890c4c98aaf65",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/40-k-meltagun/3ce05d7d133179e0",
+        "stratagemName": "40-K Meltagun",
+        "supportWeapon": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "supportWeaponName": "40-K Meltagun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/40-k-meltagun/3ce05d7d133179e0",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:40-k-meltagun-b",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "beam",
+              "catalogBranch": "40-K MELTAGUN B",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:fire-panic",
+              "parent": "branch:40-k-meltagun-b",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+              "targetPath": "attack",
+              "attackRole": "primary_status_6",
+              "object": "status",
+              "catalogBranch": "Fire Panic",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:flamerslowed",
+              "parent": "branch:40-k-meltagun-b",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+              "targetPath": "attack",
+              "attackRole": "primary_status_67",
+              "object": "status",
+              "catalogBranch": "FlamerSlowed",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/ac-8-autocannon/4dd733aa855d44ca",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/ac-8-autocannon/902ed559c079bf20",
+        "stratagemName": "AC-8 Autocannon",
+        "supportWeapon": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+        "supportWeaponName": "AC-8 Autocannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:ac-8-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "AC-8 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:ac-8-p-ie",
+              "parent": "branch:ac-8-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "AC-8 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:ac-8-p1",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "AC-8 P1",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:ac-8-p1-ie",
+              "parent": "branch:ac-8-p1",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "AC-8 P1 IE",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:ac-8-p2",
+              "parent": "branch:ac-8-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "AC-8 P2",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/apw-1-anti-materiel-rifle/f4e28a5a22331080",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "stratagemName": "APW-1 Anti-Materiel Rifle",
+        "supportWeapon": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "supportWeaponName": "APW-1 Anti-Materiel Rifle",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:apw-1-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "APW-1 P",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/arc-3-arc-thrower/d9604e909f5bb518",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+        "stratagemName": "ARC-3 Arc Thrower",
+        "supportWeapon": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+        "supportWeaponName": "ARC-3 Arc Thrower",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:arc-3-arc-thrower-a",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "arc",
+              "catalogBranch": "ARC-3 ARC THROWER A",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:stun-small",
+              "parent": "branch:arc-3-arc-thrower-a",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+              "targetPath": "attack",
+              "attackRole": "primary_status_37",
+              "object": "status",
+              "catalogBranch": "Stun Small",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/b-flam-80-cremator/027eb7f1fce4943e",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "stratagemName": "B/FLAM-80 Cremator",
+        "supportWeapon": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "supportWeaponName": "B/FLAM-80 Cremator",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:b-flam-80-cremator-s",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "spray",
+              "catalogBranch": "B/FLAM-80 CREMATOR S",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:fire",
+              "parent": "branch:b-flam-80-cremator-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "Fire",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:fire-panic",
+              "parent": "branch:b-flam-80-cremator-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "Fire Panic",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:flamerslowed",
+              "parent": "branch:b-flam-80-cremator-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "FlamerSlowed",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/cqc-1-one-true-flag/cde5d3336c01e435",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+        "stratagemName": "CQC-1 One True Flag",
+        "supportWeapon": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+        "supportWeaponName": "CQC-1 One True Flag",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:cqc-1-one-true-flag-dm",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "melee",
+              "catalogBranch": "CQC-1 ONE TRUE FLAG_dm",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/cqc-20-breaching-hammer/adeff7eab692d76f",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "stratagemName": "CQC-20 Breaching Hammer",
+        "supportWeapon": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "supportWeaponName": "CQC-20 Breaching Hammer",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:cqc-20-breaching-hammer-dm",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "melee",
+              "catalogBranch": "CQC-20 BREACHING HAMMER_dm",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:cqc-20-breaching-hammer-ie",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "explosion",
+              "catalogBranch": "CQC-20 BREACHING HAMMER IE",
+              "state": "UNRESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/cqc-9-defoliation-tool/92c06b0b7297aed4",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+        "stratagemName": "CQC-9 Defoliation Tool",
+        "supportWeapon": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+        "supportWeaponName": "CQC-9 Defoliation Tool",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:cqc-9-defoliation-tool-dm",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "melee",
+              "catalogBranch": "CQC-9 DEFOLIATION TOOL_dm",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/eat-17-expendable-anti-tank/ccfe6be52ab37309",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "stratagemName": "EAT-17 Expendable Anti-Tank",
+        "supportWeapon": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "supportWeaponName": "EAT-17 Expendable Anti-Tank",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-17-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-17 BACKBLAST E",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-17-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "EAT-17 P",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-17-p-ie",
+              "parent": "branch:eat-17-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-17 P IE",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/eat-411-leveller/27046a55f4d5fbda",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/eat-411-leveller/77b0b0e293adb90a",
+        "stratagemName": "EAT-411 Leveller",
+        "supportWeapon": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "supportWeaponName": "EAT-411 Leveller",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/eat-411-leveller/77b0b0e293adb90a",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-17-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-17 BACKBLAST E",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-411-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "EAT-411 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-411-p-ie",
+              "parent": "branch:eat-411-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-411 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/eat-700-expendable-napalm/c1158cedaadf7d35",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "stratagemName": "EAT-700 Expendable Napalm",
+        "supportWeapon": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "supportWeaponName": "EAT-700 Expendable Napalm",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-17-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-17 BACKBLAST E",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-700-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "EAT-700 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:burningheavy",
+              "parent": "branch:eat-700-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "attack",
+              "attackRole": "primary_impact_status_32",
+              "object": "status",
+              "catalogBranch": "BurningHeavy",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-700-p-ie",
+              "parent": "branch:eat-700-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-700 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-700-p1",
+              "parent": "branch:eat-700-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "EAT-700 P1",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:eat-700-p1-ie",
+              "parent": "branch:eat-700-p1",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "EAT-700 P1 IE",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:fire",
+              "parent": "branch:eat-700-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+              "targetPath": "attack",
+              "attackRole": "primary_impact_status_5",
+              "object": "status",
+              "catalogBranch": "Fire",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/faf-14-spear/d417615c5859c93c",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/faf-14-spear/0b5ea028958b920a",
+        "stratagemName": "FAF-14 Spear",
+        "supportWeapon": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "supportWeaponName": "FAF-14 Spear",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/faf-14-spear/0b5ea028958b920a",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:faf-14-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "FAF-14 P",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:faf-14-p-ie",
+              "parent": "branch:faf-14-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "FAF-14 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/flam-40-flamethrower/58b5d775a5cf3c17",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/flam-40-flamethrower/35bdbbbca9621341",
+        "stratagemName": "FLAM-40 Flamethrower",
+        "supportWeapon": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+        "supportWeaponName": "FLAM-40 Flamethrower",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:flam-40-flamethrower-s",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "spray",
+              "catalogBranch": "FLAM-40 FLAMETHROWER S",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:fire",
+              "parent": "branch:flam-40-flamethrower-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "Fire",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:fire-panic",
+              "parent": "branch:flam-40-flamethrower-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "Fire Panic",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:flamerslowed",
+              "parent": "branch:flam-40-flamethrower-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "FlamerSlowed",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/gl-21-grenade-launcher/6ec63dced58ec064",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "stratagemName": "GL-21 Grenade Launcher",
+        "supportWeapon": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "supportWeaponName": "GL-21 Grenade Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-21-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "GL-21 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-21-p-ie",
+              "parent": "branch:gl-21-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GL-21 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/gl-28-belt-fed-grenade-launcher/83faa37583d5e3ef",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "stratagemName": "GL-28 Belt-Fed Grenade Launcher",
+        "supportWeapon": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "supportWeaponName": "GL-28 Belt-Fed Grenade Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-28-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "GL-28 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-28-p-ie",
+              "parent": "branch:gl-28-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GL-28 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/gl-52-de-escalator/d178ff4ac71195db",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "stratagemName": "GL-52 De-Escalator",
+        "supportWeapon": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "supportWeaponName": "GL-52 De-Escalator",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-52-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "GL-52 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-52-p-ie",
+              "parent": "branch:gl-52-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GL-52 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gl-52-p-ie-a",
+              "parent": "branch:gl-52-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "arc",
+              "catalogBranch": "GL-52 P IE A",
+              "state": "UNRESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:stun-small",
+              "parent": "branch:gl-52-p-ie-a",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "status",
+              "catalogBranch": "Stun Small",
+              "state": "UNRESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/gr-8-recoilless-rifle/81fa192e64230582",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "stratagemName": "GR-8 Recoilless Rifle",
+        "supportWeapon": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "supportWeaponName": "GR-8 Recoilless Rifle",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GR-8 BACKBLAST E",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "GR-8 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-p-ie",
+              "parent": "branch:gr-8-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GR-8 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-p1",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "GR-8 P1",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-p1-ie",
+              "parent": "branch:gr-8-p1",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GR-8 P1 IE",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/las-98-laser-cannon/55f228e4488259ff",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "stratagemName": "LAS-98 Laser Cannon",
+        "supportWeapon": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "supportWeaponName": "LAS-98 Laser Cannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/las-98-laser-cannon/7d66ab30f2190028",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:las-98-laser-cannon-b",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "beam",
+              "catalogBranch": "LAS-98 LASER CANNON B",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            },
+            {
+              "node": "branch:fire",
+              "parent": "branch:las-98-laser-cannon-b",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+              "targetPath": "attack",
+              "attackRole": "primary_status_5",
+              "object": "status",
+              "catalogBranch": "Fire",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/las-99-quasar-cannon/564c4d416bdb0632",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "stratagemName": "LAS-99 Quasar Cannon",
+        "supportWeapon": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "supportWeaponName": "LAS-99 Quasar Cannon",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/las-99-quasar-cannon/c4a24078efd3219b",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:las-99-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "LAS-99 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:las-99-p-ie",
+              "parent": "branch:las-99-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "LAS-99 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/m-1000-maxigun/16094504a105acf1",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/m-1000-maxigun/95638dbb80d59593",
+        "stratagemName": "M-1000 Maxigun",
+        "supportWeapon": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "supportWeaponName": "M-1000 Maxigun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/m-1000-maxigun/95638dbb80d59593",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:m-1000-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "M-1000 P",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/m-105-stalwart/223bcea10ca2f0f5",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/m-105-stalwart/5af15aa5bcc38509",
+        "stratagemName": "M-105 Stalwart",
+        "supportWeapon": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "supportWeaponName": "M-105 Stalwart",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/m-105-stalwart/5af15aa5bcc38509",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:ar-23-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "AR-23 P",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/mg-206-heavy-machine-gun/829324a6a25e2427",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "stratagemName": "MG-206 Heavy Machine Gun",
+        "supportWeapon": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "supportWeaponName": "MG-206 Heavy Machine Gun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:mg-206-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "MG-206 P",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/mg-43-machine-gun/5e0a8022b9c77a72",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "stratagemName": "MG-43 Machine Gun",
+        "supportWeapon": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "supportWeaponName": "MG-43 Machine Gun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "DUPLICATE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/mg-43-machine-gun/3583ca5f516c038f",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:mg-43-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "MG-43 P",
+              "state": "IDENTITY_AMBIGUOUS",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/mgx-42-bullet-storm/b6675f622bb8df64",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/mgx-42-bullet-storm/4c6df7047f634176",
+        "stratagemName": "MGX-42 Bullet Storm",
+        "supportWeapon": "support-weapon/v1/mgx-42-bullet-storm/4c6df7047f634176",
+        "supportWeaponName": "MGX-42 Bullet Storm",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/mgx-42-bullet-storm/4c6df7047f634176",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mgx-42-bullet-storm/4c6df7047f634176",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:mgx-42-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mgx-42-bullet-storm/4c6df7047f634176",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "MGX-42 P",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/mls-4x-commando/a1a559bdf0ca392d",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/mls-4x-commando/fbd50e50e043315f",
+        "stratagemName": "MLS-4X Commando",
+        "supportWeapon": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+        "supportWeaponName": "MLS-4X Commando",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/mls-4x-commando/fbd50e50e043315f",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:mls-4x-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "MLS-4X BACKBLAST E",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:mls-4x-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "MLS-4X P",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:mls-4x-p-ie",
+              "parent": "branch:mls-4x-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "MLS-4X P IE",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/ms-11-solo-silo/3ea472f5cf6a2888",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/ms-11-solo-silo/f719b3801aa63197",
+        "stratagemName": "MS-11 Solo Silo",
+        "supportWeapon": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+        "supportWeaponName": "MS-11 Solo Silo",
+        "deliveryObject": "deployable_silo",
+        "companionDeliveries": [],
+        "special": "deployable_silo",
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/ms-11-solo-silo/f719b3801aa63197",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "deployable_silo",
+              "fields": null
+            },
+            {
+              "node": "attack_entity",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "missile",
+              "fields": null
+            },
+            {
+              "node": "branch:swp-solo-silo-e",
+              "parent": "attack_entity",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+              "targetPath": "explosion",
+              "attackRole": "detonation",
+              "object": "explosion",
+              "catalogBranch": "SWP SOLO SILO E",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:swp-solo-silo-eimpact",
+              "parent": "attack_entity",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+              "targetPath": "explosion",
+              "attackRole": "impact",
+              "object": "explosion",
+              "catalogBranch": "SWP SOLO SILO EImpact",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "stratagem_payload_is_support_root",
+            "hellpod_rack_attaches_attack_entity"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is the support weapon runtime root.",
+            "The call-in delivery rack attaches the support weapon attack-owner entity."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/plas-45-epoch/69485b2986d2513b",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+        "stratagemName": "PLAS-45 Epoch",
+        "supportWeapon": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+        "supportWeaponName": "PLAS-45 Epoch",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:p3",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "P3",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:p3-ie",
+              "parent": "branch:p3",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "P3 IE",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:plas-45-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "PLAS-45 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:plas-45-p-ie",
+              "parent": "branch:plas-45-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "PLAS-45 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:plas-45-epoch-overcharge-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "PLAS-45 EPOCH Overcharge E",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/rl-77-airburst-rocket-launcher/6e7160f4324f8e1e",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "stratagemName": "RL-77 Airburst Rocket Launcher",
+        "supportWeapon": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "supportWeaponName": "RL-77 Airburst Rocket Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:gr-8-backblast-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "GR-8 BACKBLAST E",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "RL-77 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p-ie",
+              "parent": "branch:rl-77-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "RL-77 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p1",
+              "parent": "branch:rl-77-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "RL-77 P1",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p1-ie",
+              "parent": "branch:rl-77-p3",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "RL-77 P1 IE",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p2",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "RL-77 P2",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p2-ie",
+              "parent": "branch:rl-77-p2",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "RL-77 P2 IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:rl-77-p3",
+              "parent": "branch:rl-77-p-ie",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "RL-77 P3",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/rs-422-railgun/a808e4044409edd4",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/rs-422-railgun/eb024301e3c28200",
+        "stratagemName": "RS-422 Railgun",
+        "supportWeapon": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+        "supportWeaponName": "RS-422 Railgun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/rs-422-railgun/eb024301e3c28200",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:rs-422-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "RS-422 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:rs-422-railgun-overcharge-e",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "explosion",
+              "catalogBranch": "RS-422 RAILGUN Overcharge E",
+              "state": "UNRESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:railgun-max-charge",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+              "targetPath": null,
+              "attackRole": null,
+              "object": "unknown",
+              "catalogBranch": "Railgun Max Charge",
+              "state": "UNRESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/s-11-speargun/1dbc7e670400e949",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/s-11-speargun/12230537964a8c26",
+        "stratagemName": "S-11 Speargun",
+        "supportWeapon": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "supportWeaponName": "S-11 Speargun",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:s-11-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "S-11 P",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gas",
+              "parent": "branch:s-11-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "attack",
+              "attackRole": "primary_status_42",
+              "object": "status",
+              "catalogBranch": "Gas",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gas-confusion",
+              "parent": "branch:s-11-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "attack",
+              "attackRole": "primary_status_44",
+              "object": "status",
+              "catalogBranch": "Gas Confusion",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:s-11-p-e",
+              "parent": "branch:s-11-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+              "targetPath": "explosion",
+              "attackRole": "primary_expiry",
+              "object": "explosion",
+              "catalogBranch": "S-11 P E",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/sta-x3-w-a-s-p-launcher/47ca757f123cd842",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "stratagemName": "StA-X3 W.A.S.P. Launcher",
+        "supportWeapon": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "supportWeaponName": "StA-X3 W.A.S.P. Launcher",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          }
+        ],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:sta-x3-p",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "StA-X3 P",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:sta-x3-p-ie",
+              "parent": "branch:sta-x3-p",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "StA-X3 P IE",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:sta-x3-p1",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "projectile_reference",
+              "attackRole": "primary",
+              "object": "projectile",
+              "catalogBranch": "StA-X3 P1",
+              "state": "PARTIAL",
+              "fields": null
+            },
+            {
+              "node": "branch:sta-x3-p1-ie",
+              "parent": "branch:sta-x3-p1",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+              "targetPath": "explosion",
+              "attackRole": "primary_impact",
+              "object": "explosion",
+              "catalogBranch": "StA-X3 P1 IE",
+              "state": "PARTIAL",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/tx-41-sterilizer/fc3a8706e857851a",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/tx-41-sterilizer/00483fecacc69a04",
+        "stratagemName": "TX-41 Sterilizer",
+        "supportWeapon": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+        "supportWeaponName": "TX-41 Sterilizer",
+        "deliveryObject": "hellpod_support_weapon",
+        "companionDeliveries": [],
+        "special": null,
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/tx-41-sterilizer/00483fecacc69a04",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery",
+              "parent": "call_in",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "hellpod_support_weapon",
+              "fields": null
+            },
+            {
+              "node": "branch:tx-41-sterilizer-s",
+              "parent": "delivery",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+              "targetPath": "attack",
+              "attackRole": "primary",
+              "object": "spray",
+              "catalogBranch": "TX-41 STERILIZER S",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gas-confusion-var2",
+              "parent": "branch:tx-41-sterilizer-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+              "targetPath": "attack",
+              "attackRole": "primary_status_45",
+              "object": "status",
+              "catalogBranch": "Gas Confusion Var2",
+              "state": "RESOLVED",
+              "fields": null
+            },
+            {
+              "node": "branch:gas-var2",
+              "parent": "branch:tx-41-sterilizer-s",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+              "targetPath": "attack",
+              "attackRole": "primary_status_43",
+              "object": "status",
+              "catalogBranch": "Gas Var2",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_payload_graph",
+          "evidence": [
+            "hellpod_rack_attaches_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json"
+          ]
+        }
+      }
+    ],
+    "audit": {
+      "supportWeapons": 35,
+      "knownLinks": 32,
+      "unresolvedLinks": 3,
+      "unresolvedCallIns": [
+        "CQC-72 Entrenchment Tool",
+        "SG-88 Break-Action Shotgun"
+      ],
+      "unresolvedDeliveries": [
+        "B/MD C4 Pack"
+      ],
+      "supportStratagems": 35,
+      "reverseLinksKnown": 32,
+      "relationships": 32,
+      "bidirectionalMismatches": 0,
+      "linksRelyingOnDisplayNameOnly": 0,
+      "ambiguousWeaponIdentityLinks": 7,
+      "ambiguousWeaponIdentityNames": [
+        "B/FLAM-80 Cremator",
+        "CQC-20 Breaching Hammer",
+        "EAT-17 Expendable Anti-Tank",
+        "LAS-98 Laser Cannon",
+        "M-105 Stalwart",
+        "MG-206 Heavy Machine Gun",
+        "MG-43 Machine Gun"
+      ],
+      "specialLinks": [
+        "MS-11 Solo Silo"
+      ]
+    }
   },
   "safety": {
     "runtimeAddresses": false,

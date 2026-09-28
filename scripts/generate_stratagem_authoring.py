@@ -6,6 +6,10 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import support_callin_linkage
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / 'build/offensive-stratagem-research.json'
@@ -85,6 +89,7 @@ def build():
     attack_instances = []
     semantic_branches = []
     eagle_names = [x['name'] for x in source['stratagems'] if x['family'] == 'Eagle']
+    linkage = support_callin_linkage.build(source['supportRoots'])
 
     def add_field(entry, field_id, baseline, backing, target, writable=True, reason=None,
                   provenance='current-build retained snapshot plus schema-labelled native ownership'):
@@ -234,6 +239,7 @@ def build():
         if support['resolution'] != 'UNIQUE':
             public_stratagems.append({'name':support['name'],'family':'support',
                 'rootResolution':support['resolution'],'blockedReason':support['reason'],
+                'delivers':linkage['stratagems'][support['name']],
                 'attackRoles':[],
                 'cooldownCapability':{'value':None,'writable':False,'reason':support['reason']},
                 'maxUses':{'value':None,'writable':False,'reason':support['reason']},
@@ -253,7 +259,8 @@ def build():
             {'resource':'stratagem','stratagem':support['name'],'path':'stratagem'},False)
         internal['stratagems'][support['name']]=entry
         public_stratagems.append({'name':support['name'],'family':'support','rootResolution':'UNIQUE',
-            'attackRoles':[],'cooldown':root['cooldown'],
+            'attackRoles':[],'delivers':linkage['stratagems'][support['name']],
+            'cooldown':root['cooldown'],
             'cooldownCapability':{'value':root['cooldown'],'writable':True,
                 'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
             'maxUses':{'value':None if root['use_count']==4294967295 else root['use_count'],
@@ -490,6 +497,12 @@ def build():
                 'mineScopeDeferred':item['family'].lower() == 'mine',
                 'mineInstanceResolved':False if item['family'].lower() == 'mine' else None})
 
+    # Stable semantic identity for GUI persistence and cross-catalog joins.
+    for item in public_stratagems:
+        item['semanticId'] = support_callin_linkage.stratagem_key(item['name'])
+    semantic_ids = [item['semanticId'] for item in public_stratagems]
+    if len(semantic_ids) != len(set(semantic_ids)):
+        raise ValueError('stratagem semantic identities are not unique')
     backing_objects = {}
     operation_groups = {}
     for field in field_instances:
@@ -541,7 +554,9 @@ def build():
         'stratagems':public_stratagems,'semanticBranches':semantic_branches,
         'attacks':attack_instances,'fieldInstances':field_instances,
         'deployedEntities':deployed_entities,'backingObjects':list(backing_objects.values()),
-        'operationGroups':list(operation_groups.values())}
+        'operationGroups':list(operation_groups.values()),
+        'supportCallInLinks':{key:linkage[key] for key in
+            ('contract','schemaVersion','joinContract','relationships','audit')}}
     internal_instance_keys = [field['instanceKey'] for entry in internal['stratagems'].values()
         for field in entry['fields']]
     published_instance_keys = [field['instanceKey'] for field in field_instances]
@@ -614,6 +629,8 @@ def build():
             for x in defensive_fields),
         'canonicalBackingObjects':len(backing_objects),
         'canonicalOperationGroups':len(operation_groups),
+        'supportDeliveryLinksKnown':linkage['audit']['reverseLinksKnown'],
+        'supportCallInLinkage':linkage['audit'],
         'researchWrites':0,'protectionChanges':0,'fixtureFallback':'disabled'}
     return internal, public, source
 
