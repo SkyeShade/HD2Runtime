@@ -1,0 +1,1 @@
+{"format":1,"name":"PatriotExosuitBuffs","resource":"mods/hd2runtime_examples/patriot_exosuit_buffs","guid":"0fe901fd-574f-569c-92fe-c063e6b53536","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

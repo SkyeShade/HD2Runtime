@@ -1,0 +1,1 @@
+{"format":1,"name":"ExosuitUnlimitedUses","resource":"mods/hd2runtime_examples/exosuit_unlimited_uses","guid":"781b4382-d80a-5782-8004-cee1a3b3da79","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

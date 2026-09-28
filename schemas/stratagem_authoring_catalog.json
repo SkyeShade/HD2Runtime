@@ -69,12 +69,12 @@
         {
           "instanceKey": "stratagem:orbital_precision_strike:orbital_precision_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Precision Strike",
@@ -108,7 +108,19 @@
           "sharedScopeKey": "shared-scope:57929fbeae692c3b",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_precision_strike:orbital_precision_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -1563,12 +1575,12 @@
         {
           "instanceKey": "stratagem:orbital_gatling_barrage:orbital_gatling_barrage_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Gatling Barrage",
@@ -1602,7 +1614,19 @@
           "sharedScopeKey": "shared-scope:eaa0082b6c415507",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_gatling_barrage:orbital_gatling_barrage_attack_delivery_1_projectile:projectile.pellet_count",
@@ -6738,12 +6762,12 @@
         {
           "instanceKey": "stratagem:orbital_gas_strike:orbital_gas_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Gas Strike",
@@ -6777,7 +6801,19 @@
           "sharedScopeKey": "shared-scope:e1defeee4bfb9ce0",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_gas_strike:orbital_gas_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -8727,12 +8763,12 @@
         {
           "instanceKey": "stratagem:orbital_120mm_he_barrage:orbital_120mm_he_barrage_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital 120mm HE Barrage",
@@ -8766,7 +8802,19 @@
           "sharedScopeKey": "shared-scope:6bc1649115565f54",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_120mm_he_barrage:orbital_120mm_he_barrage_attack_delivery_1_projectile:projectile.pellet_count",
@@ -13969,12 +14017,12 @@
         {
           "instanceKey": "stratagem:orbital_airburst_strike:orbital_airburst_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Airburst Strike",
@@ -14008,7 +14056,19 @@
           "sharedScopeKey": "shared-scope:467b99c3cfcf1ff4",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_airburst_strike:orbital_airburst_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -20840,12 +20900,12 @@
         {
           "instanceKey": "stratagem:orbital_smoke_strike:orbital_smoke_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Smoke Strike",
@@ -20879,7 +20939,19 @@
           "sharedScopeKey": "shared-scope:099157c2b6272ea9",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_smoke_strike:orbital_smoke_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -22104,12 +22176,12 @@
         {
           "instanceKey": "stratagem:orbital_ems_strike:orbital_ems_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital EMS Strike",
@@ -22143,7 +22215,19 @@
           "sharedScopeKey": "shared-scope:9ce17b553526ecf9",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_ems_strike:orbital_ems_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -24026,12 +24110,12 @@
         {
           "instanceKey": "stratagem:orbital_380mm_he_barrage:orbital_380mm_he_barrage_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital 380mm HE Barrage",
@@ -24065,7 +24149,19 @@
           "sharedScopeKey": "shared-scope:a3aefbf18e44530a",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_380mm_he_barrage:orbital_380mm_he_barrage_attack_delivery_1_projectile:projectile.pellet_count",
@@ -30884,12 +30980,12 @@
         {
           "instanceKey": "stratagem:orbital_walking_barrage:orbital_walking_barrage_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Walking Barrage",
@@ -30923,7 +31019,19 @@
           "sharedScopeKey": "shared-scope:9cd5e514d95c4355",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_walking_barrage:orbital_walking_barrage_attack_delivery_1_projectile:projectile.pellet_count",
@@ -37742,12 +37850,12 @@
         {
           "instanceKey": "stratagem:orbital_laser:orbital_laser_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
           "currentDefault": 3,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Laser",
@@ -37781,7 +37889,20 @@
           "sharedScopeKey": "shared-scope:d833c4e09ff8ee73",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "finite",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "finite_to_unlimited",
+            "finite_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_laser:orbital_laser_attack_beam:orbital.duration",
@@ -38540,12 +38661,12 @@
         {
           "instanceKey": "stratagem:orbital_napalm_barrage:orbital_napalm_barrage_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Napalm Barrage",
@@ -38579,7 +38700,19 @@
           "sharedScopeKey": "shared-scope:008321e3a49df8df",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_napalm_barrage:orbital_napalm_barrage_attack_delivery_1_projectile:projectile.pellet_count",
@@ -44811,12 +44944,12 @@
         {
           "instanceKey": "stratagem:orbital_railcannon_strike:orbital_railcannon_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Orbital Railcannon Strike",
@@ -44850,7 +44983,19 @@
           "sharedScopeKey": "shared-scope:9b0a5ae3e3dc2636",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:orbital_railcannon_strike:orbital_railcannon_strike_attack_delivery_1_projectile:projectile.pellet_count",
@@ -46305,12 +46450,12 @@
         {
           "instanceKey": "stratagem:eagle_gas_airstrike:eagle_gas_airstrike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 2,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Gas Airstrike",
@@ -46344,7 +46489,9 @@
           "sharedScopeKey": "shared-scope:b3b96697be6acfc4",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_gas_airstrike:eagle_gas_airstrike_stratagem:eagle.uses_per_rearm",
@@ -48510,12 +48657,12 @@
         {
           "instanceKey": "stratagem:eagle_strafing_run:eagle_strafing_run_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 4,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Strafing Run",
@@ -48549,7 +48696,9 @@
           "sharedScopeKey": "shared-scope:69b43cfcc2f3897b",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_strafing_run:eagle_strafing_run_stratagem:eagle.uses_per_rearm",
@@ -50508,12 +50657,12 @@
         {
           "instanceKey": "stratagem:eagle_airstrike:eagle_airstrike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 2,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Airstrike",
@@ -50547,7 +50696,9 @@
           "sharedScopeKey": "shared-scope:f1ea9d9433e30ec1",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_airstrike:eagle_airstrike_stratagem:eagle.uses_per_rearm",
@@ -52434,12 +52585,12 @@
         {
           "instanceKey": "stratagem:eagle_cluster_bomb:eagle_cluster_bomb_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 4,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Cluster Bomb",
@@ -52473,7 +52624,9 @@
           "sharedScopeKey": "shared-scope:10f312ce984b13ad",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_cluster_bomb:eagle_cluster_bomb_stratagem:eagle.uses_per_rearm",
@@ -56677,12 +56830,12 @@
         {
           "instanceKey": "stratagem:eagle_smoke_strike:eagle_smoke_strike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 2,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Smoke Strike",
@@ -56716,7 +56869,9 @@
           "sharedScopeKey": "shared-scope:b4cd3e8ff32fa442",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_smoke_strike:eagle_smoke_strike_stratagem:eagle.uses_per_rearm",
@@ -58157,12 +58312,12 @@
         {
           "instanceKey": "stratagem:eagle_napalm_airstrike:eagle_napalm_airstrike_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 2,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle Napalm Airstrike",
@@ -58196,7 +58351,9 @@
           "sharedScopeKey": "shared-scope:12538d421a99f2d2",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_napalm_airstrike:eagle_napalm_airstrike_stratagem:eagle.uses_per_rearm",
@@ -60394,12 +60551,12 @@
         {
           "instanceKey": "stratagem:eagle_110mm_rocket_pods:eagle_110mm_rocket_pods_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 3,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle 110mm Rocket Pods",
@@ -60433,7 +60590,9 @@
           "sharedScopeKey": "shared-scope:ea6aa00cf52d3472",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_110mm_rocket_pods:eagle_110mm_rocket_pods_stratagem:eagle.uses_per_rearm",
@@ -62032,12 +62191,12 @@
         {
           "instanceKey": "stratagem:eagle_500kg_bomb:eagle_500kg_bomb_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": 1,
+          "currentDefault": null,
           "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "reason": "On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no separate mission-use limit.",
           "target": {
             "resource": "stratagem",
             "stratagem": "Eagle 500kg Bomb",
@@ -62071,7 +62230,9 @@
           "sharedScopeKey": "shared-scope:e35af6f2c29b6ee5",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": null,
+          "transitions": []
         },
         {
           "instanceKey": "stratagem:eagle_500kg_bomb:eagle_500kg_bomb_stratagem:eagle.uses_per_rearm",
@@ -64310,12 +64471,12 @@
         {
           "instanceKey": "stratagem:mg_43_machine_gun:mg_43_machine_gun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MG-43 Machine Gun",
@@ -64349,7 +64510,19 @@
           "sharedScopeKey": "shared-scope:1aca43488458a389",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64416,12 +64589,12 @@
         {
           "instanceKey": "stratagem:m_105_stalwart:m_105_stalwart_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "M-105 Stalwart",
@@ -64455,7 +64628,19 @@
           "sharedScopeKey": "shared-scope:5a1762d1f8a2b088",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64522,12 +64707,12 @@
         {
           "instanceKey": "stratagem:apw_1_anti_materiel_rifle:apw_1_anti_materiel_rifle_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "APW-1 Anti-Materiel Rifle",
@@ -64561,7 +64746,19 @@
           "sharedScopeKey": "shared-scope:831a89045b292807",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64628,12 +64825,12 @@
         {
           "instanceKey": "stratagem:eat_17_expendable_anti_tank:eat_17_expendable_anti_tank_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EAT-17 Expendable Anti-Tank",
@@ -64667,7 +64864,19 @@
           "sharedScopeKey": "shared-scope:a5bdb217039d6a00",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64734,12 +64943,12 @@
         {
           "instanceKey": "stratagem:gr_8_recoilless_rifle:gr_8_recoilless_rifle_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "GR-8 Recoilless Rifle",
@@ -64773,7 +64982,19 @@
           "sharedScopeKey": "shared-scope:92d1f54fa73bf5ad",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64840,12 +65061,12 @@
         {
           "instanceKey": "stratagem:flam_40_flamethrower:flam_40_flamethrower_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "FLAM-40 Flamethrower",
@@ -64879,7 +65100,19 @@
           "sharedScopeKey": "shared-scope:9f924c44b83d0b86",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -64946,12 +65179,12 @@
         {
           "instanceKey": "stratagem:ac_8_autocannon:ac_8_autocannon_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AC-8 Autocannon",
@@ -64985,7 +65218,19 @@
           "sharedScopeKey": "shared-scope:9d0947cd03c6c106",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65052,12 +65297,12 @@
         {
           "instanceKey": "stratagem:mg_206_heavy_machine_gun:mg_206_heavy_machine_gun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MG-206 Heavy Machine Gun",
@@ -65091,7 +65336,19 @@
           "sharedScopeKey": "shared-scope:719222dfe771ba2f",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65158,12 +65415,12 @@
         {
           "instanceKey": "stratagem:mls_4x_commando:mls_4x_commando_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MLS-4X Commando",
@@ -65197,7 +65454,19 @@
           "sharedScopeKey": "shared-scope:662b43bc9a925855",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65264,12 +65533,12 @@
         {
           "instanceKey": "stratagem:rl_77_airburst_rocket_launcher:rl_77_airburst_rocket_launcher_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "RL-77 Airburst Rocket Launcher",
@@ -65303,7 +65572,19 @@
           "sharedScopeKey": "shared-scope:4c727dc8b360c8e8",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65370,12 +65651,12 @@
         {
           "instanceKey": "stratagem:faf_14_spear:faf_14_spear_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "FAF-14 Spear",
@@ -65409,7 +65690,19 @@
           "sharedScopeKey": "shared-scope:698b825978e78a18",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65476,12 +65769,12 @@
         {
           "instanceKey": "stratagem:rs_422_railgun:rs_422_railgun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "RS-422 Railgun",
@@ -65515,7 +65808,19 @@
           "sharedScopeKey": "shared-scope:22443ee81a2083af",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65582,12 +65887,12 @@
         {
           "instanceKey": "stratagem:sta_x3_w_a_s_p_launcher:sta_x3_w_a_s_p_launcher_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "StA-X3 W.A.S.P. Launcher",
@@ -65621,7 +65926,19 @@
           "sharedScopeKey": "shared-scope:bb9bc88807952fd7",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65688,12 +66005,12 @@
         {
           "instanceKey": "stratagem:las_98_laser_cannon:las_98_laser_cannon_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "LAS-98 Laser Cannon",
@@ -65727,7 +66044,19 @@
           "sharedScopeKey": "shared-scope:e76cb567593150f1",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65794,12 +66123,12 @@
         {
           "instanceKey": "stratagem:gl_21_grenade_launcher:gl_21_grenade_launcher_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "GL-21 Grenade Launcher",
@@ -65833,7 +66162,19 @@
           "sharedScopeKey": "shared-scope:3d3560ac75eb34b5",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -65900,12 +66241,12 @@
         {
           "instanceKey": "stratagem:arc_3_arc_thrower:arc_3_arc_thrower_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "ARC-3 Arc Thrower",
@@ -65939,7 +66280,19 @@
           "sharedScopeKey": "shared-scope:f4cd9557094af6f8",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66006,12 +66359,12 @@
         {
           "instanceKey": "stratagem:las_99_quasar_cannon:las_99_quasar_cannon_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "LAS-99 Quasar Cannon",
@@ -66045,7 +66398,19 @@
           "sharedScopeKey": "shared-scope:57848b7c35891efd",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66112,12 +66477,12 @@
         {
           "instanceKey": "stratagem:tx_41_sterilizer:tx_41_sterilizer_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "TX-41 Sterilizer",
@@ -66151,7 +66516,19 @@
           "sharedScopeKey": "shared-scope:875118415ffc3e41",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66218,12 +66595,12 @@
         {
           "instanceKey": "stratagem:cqc_1_one_true_flag:cqc_1_one_true_flag_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "CQC-1 One True Flag",
@@ -66257,7 +66634,19 @@
           "sharedScopeKey": "shared-scope:e04e6c062aeaf9c1",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66324,12 +66713,12 @@
         {
           "instanceKey": "stratagem:gl_52_de_escalator:gl_52_de_escalator_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "GL-52 De-Escalator",
@@ -66363,7 +66752,19 @@
           "sharedScopeKey": "shared-scope:742680da65dea00a",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66430,12 +66831,12 @@
         {
           "instanceKey": "stratagem:plas_45_epoch:plas_45_epoch_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "PLAS-45 Epoch",
@@ -66469,7 +66870,19 @@
           "sharedScopeKey": "shared-scope:012d25c6befbfa16",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66536,12 +66949,12 @@
         {
           "instanceKey": "stratagem:s_11_speargun:s_11_speargun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "S-11 Speargun",
@@ -66575,7 +66988,19 @@
           "sharedScopeKey": "shared-scope:88f4394a91d327e1",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66642,12 +67067,12 @@
         {
           "instanceKey": "stratagem:eat_700_expendable_napalm:eat_700_expendable_napalm_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EAT-700 Expendable Napalm",
@@ -66681,7 +67106,19 @@
           "sharedScopeKey": "shared-scope:14f0fe83c05ff91b",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66748,12 +67185,12 @@
         {
           "instanceKey": "stratagem:ms_11_solo_silo:ms_11_solo_silo_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MS-11 Solo Silo",
@@ -66787,7 +67224,19 @@
           "sharedScopeKey": "shared-scope:ad5296a111b55442",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66854,12 +67303,12 @@
         {
           "instanceKey": "stratagem:cqc_9_defoliation_tool:cqc_9_defoliation_tool_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "CQC-9 Defoliation Tool",
@@ -66893,7 +67342,19 @@
           "sharedScopeKey": "shared-scope:5c8d872c1fa3b9a6",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -66960,12 +67421,12 @@
         {
           "instanceKey": "stratagem:m_1000_maxigun:m_1000_maxigun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "M-1000 Maxigun",
@@ -66999,7 +67460,19 @@
           "sharedScopeKey": "shared-scope:6d309814f5d0f076",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67066,12 +67539,12 @@
         {
           "instanceKey": "stratagem:b_md_c4_pack:b_md_c4_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "B/MD C4 Pack",
@@ -67105,7 +67578,19 @@
           "sharedScopeKey": "shared-scope:7a3619894e183088",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67172,12 +67657,12 @@
         {
           "instanceKey": "stratagem:cqc_20_breaching_hammer:cqc_20_breaching_hammer_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "CQC-20 Breaching Hammer",
@@ -67211,7 +67696,19 @@
           "sharedScopeKey": "shared-scope:8c29c31b831df858",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67278,12 +67775,12 @@
         {
           "instanceKey": "stratagem:eat_411_leveller:eat_411_leveller_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EAT-411 Leveller",
@@ -67317,7 +67814,19 @@
           "sharedScopeKey": "shared-scope:3d7ba5f078eaf2fa",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67384,12 +67893,12 @@
         {
           "instanceKey": "stratagem:gl_28_belt_fed_grenade_launcher:gl_28_belt_fed_grenade_launcher_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "GL-28 Belt-Fed Grenade Launcher",
@@ -67423,7 +67932,19 @@
           "sharedScopeKey": "shared-scope:dbf397b8f65791b2",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67490,12 +68011,12 @@
         {
           "instanceKey": "stratagem:b_flam_80_cremator:b_flam_80_cremator_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "B/FLAM-80 Cremator",
@@ -67529,7 +68050,19 @@
           "sharedScopeKey": "shared-scope:f3afa074ef56795f",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67596,12 +68129,12 @@
         {
           "instanceKey": "stratagem:mgx_42_bullet_storm:mgx_42_bullet_storm_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MGX-42 Bullet Storm",
@@ -67635,7 +68168,19 @@
           "sharedScopeKey": "shared-scope:5b640073b6dae5f5",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67702,12 +68247,12 @@
         {
           "instanceKey": "stratagem:40_k_meltagun:40_k_meltagun_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "40-K Meltagun",
@@ -67741,7 +68286,19 @@
           "sharedScopeKey": "shared-scope:93fe397d32f5fd37",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67808,12 +68365,12 @@
         {
           "instanceKey": "stratagem:m_103_supply_frv:m_103_supply_frv_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "M-103 Supply FRV",
@@ -67847,7 +68404,19 @@
           "sharedScopeKey": "shared-scope:8778435a787c409a",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -67914,12 +68483,12 @@
         {
           "instanceKey": "stratagem:td_110_maelstrom:td_110_maelstrom_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "TD-110 Maelstrom",
@@ -67953,7 +68522,19 @@
           "sharedScopeKey": "shared-scope:cc10ae964c556a3d",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68020,12 +68601,12 @@
         {
           "instanceKey": "stratagem:m_104_incinerator_frv:m_104_incinerator_frv_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "M-104 Incinerator FRV",
@@ -68059,7 +68640,19 @@
           "sharedScopeKey": "shared-scope:9f2d250cb57a3c26",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68126,12 +68719,12 @@
         {
           "instanceKey": "stratagem:exo_49_emancipator_exosuit:exo_49_emancipator_exosuit_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
           "currentDefault": 3,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EXO-49 Emancipator Exosuit",
@@ -68165,7 +68758,22 @@
           "sharedScopeKey": "shared-scope:da0c11cf95eced97",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "finite",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "finite_to_unlimited",
+            "finite_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [
+            "unlimited"
+          ],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68232,12 +68840,12 @@
         {
           "instanceKey": "stratagem:exo_45_patriot_exosuit:exo_45_patriot_exosuit_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
           "currentDefault": 3,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EXO-45 Patriot Exosuit",
@@ -68271,7 +68879,22 @@
           "sharedScopeKey": "shared-scope:7a350097ae987e33",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "finite",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "finite_to_unlimited",
+            "finite_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [
+            "unlimited"
+          ],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68338,12 +68961,12 @@
         {
           "instanceKey": "stratagem:m_102_gunner_frv:m_102_gunner_frv_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "M-102 Gunner FRV",
@@ -68377,7 +69000,19 @@
           "sharedScopeKey": "shared-scope:ab6c40ba4ae31302",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68444,12 +69079,12 @@
         {
           "instanceKey": "stratagem:td_220_bastion_mk_xvi:td_220_bastion_mk_xvi_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "TD-220 Bastion MK XVI",
@@ -68483,7 +69118,19 @@
           "sharedScopeKey": "shared-scope:161edbb0a60ce85b",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68550,12 +69197,12 @@
         {
           "instanceKey": "stratagem:exo_55_breakthrough_exosuit:exo_55_breakthrough_exosuit_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
           "currentDefault": 3,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EXO-55 Breakthrough Exosuit",
@@ -68589,7 +69236,22 @@
           "sharedScopeKey": "shared-scope:0e1b7f4f8a93cc96",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "finite",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "finite_to_unlimited",
+            "finite_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [
+            "unlimited"
+          ],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68656,12 +69318,12 @@
         {
           "instanceKey": "stratagem:exo_51_lumberer_exosuit:exo_51_lumberer_exosuit_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
           "currentDefault": 3,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "EXO-51 Lumberer Exosuit",
@@ -68695,7 +69357,22 @@
           "sharedScopeKey": "shared-scope:37df5fccda499ecc",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "finite",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "finite_to_unlimited",
+            "finite_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [
+            "unlimited"
+          ],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68762,12 +69439,12 @@
         {
           "instanceKey": "stratagem:b_1_supply_pack:b_1_supply_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "B-1 Supply Pack",
@@ -68801,7 +69478,19 @@
           "sharedScopeKey": "shared-scope:fcd81c755bb823fe",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68868,12 +69557,12 @@
         {
           "instanceKey": "stratagem:lift_850_jump_pack:lift_850_jump_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "LIFT-850 Jump Pack",
@@ -68907,7 +69596,19 @@
           "sharedScopeKey": "shared-scope:8fd9ba622e81f1f8",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -68974,12 +69675,12 @@
         {
           "instanceKey": "stratagem:sh_20_ballistic_shield_backpack:sh_20_ballistic_shield_backpack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "SH-20 Ballistic Shield Backpack",
@@ -69013,7 +69714,19 @@
           "sharedScopeKey": "shared-scope:35a23e75e4ee6c1f",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69080,12 +69793,12 @@
         {
           "instanceKey": "stratagem:ax_ar_23_guard_dog:ax_ar_23_guard_dog_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AX/AR-23 Guard Dog",
@@ -69119,7 +69832,19 @@
           "sharedScopeKey": "shared-scope:4341060c6cace7eb",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69186,12 +69911,12 @@
         {
           "instanceKey": "stratagem:ax_las_5_rover:ax_las_5_rover_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AX/LAS-5 Rover",
@@ -69225,7 +69950,19 @@
           "sharedScopeKey": "shared-scope:75f313aae9d8477f",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69292,12 +70029,12 @@
         {
           "instanceKey": "stratagem:sh_32_shield_generator_pack:sh_32_shield_generator_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "SH-32 Shield Generator Pack",
@@ -69331,7 +70068,19 @@
           "sharedScopeKey": "shared-scope:081f6de2f650c26d",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69398,12 +70147,12 @@
         {
           "instanceKey": "stratagem:sh_51_directional_shield:sh_51_directional_shield_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "SH-51 Directional Shield",
@@ -69437,7 +70186,19 @@
           "sharedScopeKey": "shared-scope:0d6659e1fb8774a4",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69504,12 +70265,12 @@
         {
           "instanceKey": "stratagem:ax_flam_75_hot_dog:ax_flam_75_hot_dog_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AX/FLAM-75 Hot Dog",
@@ -69543,7 +70304,19 @@
           "sharedScopeKey": "shared-scope:e3aba22fef362579",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69610,12 +70383,12 @@
         {
           "instanceKey": "stratagem:b_100_portable_hellbomb:b_100_portable_hellbomb_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "B-100 Portable Hellbomb",
@@ -69649,7 +70422,19 @@
           "sharedScopeKey": "shared-scope:8128afda46c6425c",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69716,12 +70501,12 @@
         {
           "instanceKey": "stratagem:ax_arc_3_k_9:ax_arc_3_k_9_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AX/ARC-3 K-9",
@@ -69755,7 +70540,19 @@
           "sharedScopeKey": "shared-scope:2483cde083cc6f33",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69822,12 +70619,12 @@
         {
           "instanceKey": "stratagem:lift_860_hover_pack:lift_860_hover_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "LIFT-860 Hover Pack",
@@ -69861,7 +70658,19 @@
           "sharedScopeKey": "shared-scope:c3cfaa3b1013e1b9",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -69928,12 +70737,12 @@
         {
           "instanceKey": "stratagem:ax_tx_13_dog_breath:ax_tx_13_dog_breath_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "AX/TX-13 Dog Breath",
@@ -69967,7 +70776,19 @@
           "sharedScopeKey": "shared-scope:95cd76624045879e",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -70034,12 +70855,12 @@
         {
           "instanceKey": "stratagem:lift_182_warp_pack:lift_182_warp_pack_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "LIFT-182 Warp Pack",
@@ -70073,7 +70894,19 @@
           "sharedScopeKey": "shared-scope:4e2ab909b37ec591",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         }
       ],
       "attacks": {}
@@ -70140,12 +70973,12 @@
         {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/MG-43 Machine Gun Sentry",
@@ -70179,7 +71012,19 @@
           "sharedScopeKey": "shared-scope:2138664a5ab4263d",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_deployed_entity_main:entity.health",
@@ -71753,12 +72598,12 @@
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/G-16 Gatling Sentry",
@@ -71792,7 +72637,19 @@
           "sharedScopeKey": "shared-scope:1135ac96e0c0f457",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_deployed_entity_main:entity.health",
@@ -73367,12 +74224,12 @@
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/AC-8 Autocannon Sentry",
@@ -73406,7 +74263,19 @@
           "sharedScopeKey": "shared-scope:44cf58cfe64afd41",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_deployed_entity_main:entity.health",
@@ -75566,12 +76435,12 @@
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/M-12 Mortar Sentry",
@@ -75605,7 +76474,19 @@
           "sharedScopeKey": "shared-scope:308b24a094803ead",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_deployed_entity_main:entity.health",
@@ -77982,12 +78863,12 @@
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/MLS-4X Rocket Sentry",
@@ -78021,7 +78902,19 @@
           "sharedScopeKey": "shared-scope:0a0d01b20ada23dc",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_deployed_entity_main:entity.health",
@@ -80182,12 +81075,12 @@
         {
           "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/ARC-3 Tesla Tower",
@@ -80221,7 +81114,19 @@
           "sharedScopeKey": "shared-scope:841ce787a832836e",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_deployed_entity_main:entity.health",
@@ -81819,12 +82724,12 @@
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/M-23 EMS Mortar Sentry",
@@ -81858,7 +82763,19 @@
           "sharedScopeKey": "shared-scope:96f37bd6229ee4ef",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_deployed_entity_main:entity.health",
@@ -85167,12 +86084,12 @@
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/LAS-98 Laser Sentry",
@@ -85206,7 +86123,19 @@
           "sharedScopeKey": "shared-scope:7fedfb58cd991e0a",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_deployed_entity_main:entity.health",
@@ -86789,12 +87718,12 @@
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/FLAM-40 Flame Sentry",
@@ -86828,7 +87757,19 @@
           "sharedScopeKey": "shared-scope:ebe5d35bdb1f9fbf",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_deployed_entity_main:entity.health",
@@ -88409,12 +89350,12 @@
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "A/GM-17 Gas Mortar Sentry",
@@ -88448,7 +89389,19 @@
           "sharedScopeKey": "shared-scope:c7b6540e4b87e503",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_deployed_entity_main:entity.health",
@@ -91147,12 +92100,12 @@
         {
           "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MD-6 Anti-Personnel Minefield",
@@ -91186,7 +92139,19 @@
           "sharedScopeKey": "shared-scope:815b54919f715313",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_deployed_entity_main:entity.health",
@@ -91413,12 +92378,12 @@
         {
           "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MD-I4 Incendiary Mines",
@@ -91452,7 +92417,19 @@
           "sharedScopeKey": "shared-scope:25c4232d80d6ac2f",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_deployed_entity_main:entity.health",
@@ -91679,12 +92656,12 @@
         {
           "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MD-17 Anti-Tank Mines",
@@ -91718,7 +92695,19 @@
           "sharedScopeKey": "shared-scope:3f0f950f12831fdf",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_deployed_entity_main:entity.health",
@@ -91945,12 +92934,12 @@
         {
           "instanceKey": "stratagem:fx_12_shield_generator_relay:fx_12_shield_generator_relay_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "FX-12 Shield Generator Relay",
@@ -91984,7 +92973,19 @@
           "sharedScopeKey": "shared-scope:a31138b08692cbc6",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:fx_12_shield_generator_relay:fx_12_shield_generator_relay_deployed_entity_main:entity.health",
@@ -92529,12 +93530,12 @@
         {
           "instanceKey": "stratagem:e_mg_101_hmg_emplacement:e_mg_101_hmg_emplacement_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "E/MG-101 HMG Emplacement",
@@ -92568,7 +93569,19 @@
           "sharedScopeKey": "shared-scope:b9cddb8062eac77a",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:e_mg_101_hmg_emplacement:e_mg_101_hmg_emplacement_deployed_entity_main:entity.health",
@@ -94027,12 +95040,12 @@
         {
           "instanceKey": "stratagem:e_gl_21_grenadier_battlement:e_gl_21_grenadier_battlement_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "E/GL-21 Grenadier Battlement",
@@ -94066,7 +95079,19 @@
           "sharedScopeKey": "shared-scope:d1a2631f0ef426a4",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:e_gl_21_grenadier_battlement:e_gl_21_grenadier_battlement_deployed_entity_main:entity.health",
@@ -94286,12 +95311,12 @@
         {
           "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "MD-8 Gas Mines",
@@ -94325,7 +95350,19 @@
           "sharedScopeKey": "shared-scope:41550b1d5c94d14e",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_deployed_entity_main:entity.health",
@@ -94552,12 +95589,12 @@
         {
           "instanceKey": "stratagem:e_at_12_anti_tank_emplacement:e_at_12_anti_tank_emplacement_stratagem:stratagem.max_uses",
           "semanticFieldId": "stratagem.max_uses",
-          "displayName": "Maximum mission uses",
-          "type": "integer",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
           "unit": "uses",
-          "currentDefault": null,
-          "editable": false,
-          "reason": "The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven.",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
           "target": {
             "resource": "stratagem",
             "stratagem": "E/AT-12 Anti-Tank Emplacement",
@@ -94591,7 +95628,19 @@
           "sharedScopeKey": "shared-scope:8bd5e8db7ed26fae",
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
-          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
         },
         {
           "instanceKey": "stratagem:e_at_12_anti_tank_emplacement:e_at_12_anti_tank_emplacement_deployed_entity_main:entity.health",

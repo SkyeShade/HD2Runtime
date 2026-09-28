@@ -1,0 +1,1 @@
+{"format":1,"name":"EmancipatorAmmo","resource":"mods/hd2runtime_examples/emancipator_ammo","guid":"d9921b8c-1b5b-5c40-a29a-340e60869769","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

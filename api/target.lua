@@ -480,10 +480,65 @@ function M.new(describe)
         return {semanticId=weapon.semanticId,displayName=weapon.displayName,attackFamily=weapon.attackFamily}
     end
     local legacy_vehicle=builders.vehicle
+    -- Mounted weapons: vehicle -> mount slot -> the mounted weapon entity's own records, and its
+    -- shared projectile/damage/explosion rows (see sdk/VehicleWeaponCapabilities.json).
+    local vehicle_weapons=require('hd2runtime/domains/vehicle_weapon_authoring')
+    local function vehicle_weapon_target(key)
+        local weapon=assert(vehicle_weapons.weapons[key],'unknown reviewed mounted weapon: '..tostring(key))
+        local methods={}
+        function methods.describe()
+            local fields={}
+            for _,field in ipairs(weapon.fields)do
+                fields[#fields+1]={semanticFieldId=field.semanticFieldId,displayName=field.displayName,
+                    currentDefault=field.currentDefault,unit=field.unit,editable=field.editable,
+                    scope=field.writeScope,allowSharedRequired=field.affectsMultipleWeapons,
+                    otherConsumers=copy(field.sharedWithWeapons),acknowledgement=field.acknowledgement,
+                    target=copy(field.target)}
+            end
+            local attacks={};for role,attack in pairs(weapon.attacks)do attacks[#attacks+1]={role=role,kind=attack.kind}end
+            table.sort(attacks,function(a,b)return a.role<b.role end)
+            return {name=key,semanticId=weapon.semanticId,vehicle=weapon.vehicle,mount=weapon.mount,slot=weapon.slot,
+                attacks=attacks,fields=fields}
+        end
+        function methods.attacks()
+            local result={}
+            for role in pairs(weapon.attacks)do result[#result+1]=methods.attack(nil,role)end
+            table.sort(result,function(a,b)return a.attack<b.attack end)
+            return result
+        end
+        function methods.attack(_,role)
+            local attack=assert(weapon.attacks[role],'unknown mounted weapon attack for '..key..': '..tostring(role))
+            local attack_methods={}
+            function attack_methods.describe()return copy(attack)end
+            return setmetatable({resource='vehicle_weapon',path=attack.targetPath,weapon=key,attack=role},
+                {__index=attack_methods})
+        end
+        function methods.projectile()return methods.attack(nil,'primary')end
+        function methods.explosion(_,phase)return methods.attack(nil,phase or'impact')end
+        return setmetatable({resource='vehicle_weapon',path='weapon',weapon=key},{__index=methods})
+    end
+    local function weapon_key(name,identity)
+        local slots=vehicle_weapons.byVehicle[name] or{}
+        if type(identity)=='number'then
+            return assert(slots[tostring(identity)],'mount slot '..identity..' of '..name..' holds no reviewed weapon')
+        end
+        for _,key in pairs(slots)do
+            local weapon=vehicle_weapons.weapons[key]
+            if identity==key or identity==weapon.mount or identity==weapon.semanticId then return key end
+        end
+        error('unknown mounted weapon for '..name..': '..tostring(identity),0)
+    end
     function builders.vehicle(name)
         local entry=entity_authoring.vehicles[name]
         if not entry then return legacy_vehicle(name)end
         local methods={}
+        function methods.weapons()
+            local slots={};for slot in pairs(vehicle_weapons.byVehicle[name] or{})do slots[#slots+1]=tonumber(slot)end
+            table.sort(slots)
+            local result={};for index,slot in ipairs(slots)do result[index]=vehicle_weapon_target(weapon_key(name,slot))end
+            return result
+        end
+        function methods.weapon(_,identity)return vehicle_weapon_target(weapon_key(name,identity))end
         local function zone_target(zone)
             local zone_methods={}
             function zone_methods.describe()
@@ -512,6 +567,8 @@ function M.new(describe)
                     current=weapon_view(info.current),fields=fields_for(entry,'mount','mount',mount)}
             end
             function mount_methods.current()return weapon_view(info.current)end
+            -- The weapon currently in this mount, with its own editable fields.
+            function mount_methods.weapon()return vehicle_weapon_target(weapon_key(name,info.slot))end
             function mount_methods.candidates()
                 local result={}
                 for _,identity in ipairs(field and field.allowedValues or{})do result[#result+1]=weapon_view(identity)end

@@ -10,6 +10,7 @@ source constants.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import json
 from pathlib import Path
 import struct
@@ -34,6 +35,32 @@ def bastion_writes(record):
         writes.add(('HealthComponentData', record, 520 + zone * 552 + 216, u32(4), u32(5)))
     for zone in (3, 4):  # src/lunchbox_proof/validate.lua: +0x978 / +0xBA0
         writes.add(('HealthComponentData', record, 520 + zone * 552 + 248, f32(1.0), f32(0.0)))
+    return writes
+
+
+def patriot_writes():
+    # EXO45 Patriot Buff 1.12.0 (generated baseline/edit tables): hull Health 86, arms Health 91/93,
+    # magazines 57/58, HMG ProjectileWeapon 52, DamageSettings 125 (HMG round) and 239 (missile).
+    writes = {('HealthComponentData', 86, 0, i32(1800), i32(8000))}
+    for zone, health in enumerate((400, 400, 400, 400, 550, 550, 10, 10)):
+        writes.add(('HealthComponentData', 86, 520 + zone * 552 + 232, i32(health), i32(8000)))
+    for zone, armor in ((4, 3), (5, 3), (6, 0), (7, 0)):
+        writes.add(('HealthComponentData', 86, 520 + zone * 552 + 216, u32(armor), u32(4)))
+    for record in (91, 93):
+        writes |= {('HealthComponentData', record, 0, i32(800), i32(8000)),
+            ('HealthComponentData', record, 280, u32(3), u32(10)),
+            ('HealthComponentData', record, 520 + 216, u32(3), u32(10)),
+            ('HealthComponentData', record, 520 + 232, i32(800), i32(8000))}
+    writes |= {('WeaponMagazineComponentData', 57, 136, u32(14), u32(30)),
+        ('WeaponMagazineComponentData', 58, 136, u32(1350), u32(2000)),
+        ('ProjectileWeaponComponentData', 52, 8, f32(1200), f32(600)),
+        ('damageSettings', 125, 4, i32(90), i32(500)), ('damageSettings', 125, 8, i32(23), i32(150)),
+        ('damageSettings', 125, 12, u32(3), u32(5)), ('damageSettings', 125, 16, u32(3), u32(5)),
+        ('damageSettings', 125, 20, u32(3), u32(5)), ('damageSettings', 125, 24, u32(1), u32(5)),
+        ('damageSettings', 239, 4, i32(1250), i32(2000)), ('damageSettings', 239, 8, i32(1250), i32(2000)),
+        ('damageSettings', 239, 20, u32(5), u32(6)), ('damageSettings', 239, 24, u32(0), u32(3)),
+        ('damageSettings', 239, 32, u32(40), u32(50)),
+        ('StratagemDefinition', None, 104, f32(420), f32(250))}
     return writes
 
 
@@ -66,6 +93,25 @@ EXPECTED = {
     'ConcussiveDrumMagazine': concussive_drum_writes(),
     # ReticleAmr src/gameplay/patch.lua: record 354, crosshair_type (+0x190) uint32 3 -> 4.
     'ReticleAmrRecreation': {('WeaponDataComponentData', 354, 0x190, u32(3), u32(4))},
+    # Emancipator-Ammo-v1: WeaponMagazine records 166 (left arm) and 169 (right arm), capacity 100 -> 150.
+    'EmancipatorAmmo': {('WeaponMagazineComponentData', 166, 136, u32(100), u32(150)),
+        ('WeaponMagazineComponentData', 169, 136, u32(100), u32(150))},
+    # Lumberer-Ammo-v1.1: flamethrower 56 (500 -> 1000), anti-tank cannon 54 (25 -> 35).
+    'LumbererAmmo': {('WeaponMagazineComponentData', 56, 136, u32(500), u32(1000)),
+        ('WeaponMagazineComponentData', 54, 136, u32(25), u32(35))},
+    # Better-M-103-FRV-Turret-V1.31: WeaponMagazine 266 capacity 120 -> 600 (addend edit omitted, see OMITTED).
+    'M103TurretMagazine': {('WeaponMagazineComponentData', 266, 136, u32(120), u32(600))},
+    # Exosuit-Unlimited-Uses-v2: StratagemInfo +0x50, 3 -> 0xFFFFFFFF on the four Exosuit call-ins.
+    'ExosuitUnlimitedUses': Counter({('StratagemDefinition', None, 80, u32(3), u32(0xFFFFFFFF)): 4}),
+    'PatriotExosuitBuffs': patriot_writes(),
+}
+# Reference writes deliberately not recreated, with the reason (reported, never silently dropped).
+OMITTED = {
+    'M103TurretMagazine': [{'write': 'ProjectileWeaponComponent +136/+140 addends set to 35/15',
+        'reason': 'The type library and the reference mod disagree on which addend is damage and which is armor '
+            'penetration; read-only until an in-game test separates them.'}],
+    'PatriotExosuitBuffs': [{'write': 'HealthComponent max armor (+288 and each zone +224): hull 0 -> 4, arms 0 -> 10',
+        'reason': 'Meaning of the max armor value is not established; not exposed.'}],
 }
 REFERENCES = {
     'ShieldRelayRecreation': ['ShieldRelayImprovements/scripts/shield_reference.py',
@@ -77,6 +123,11 @@ REFERENCES = {
     'JumpPackRecreation': ['JumpPackImprovements/src/jump_pack_improvements.lua', 'JumpPackImprovements/src/config.lua'],
     'ConcussiveDrumMagazine': ['HD2Runtime/research/magazine-attachments-F5FEE03DCFDB.json'],
     'ReticleAmrRecreation': ['ReticleAmr/src/gameplay/patch.lua', 'ReticleAmr/research/reticle-policy.md'],
+    'EmancipatorAmmo': ['opus reference materials/Emancipator-Ammo-v1.zip'],
+    'LumbererAmmo': ['opus reference materials/Lumberer-Ammo-v1.1.zip'],
+    'M103TurretMagazine': ['opus reference materials/Better M-103-FRV-Turret-V1.31.zip'],
+    'ExosuitUnlimitedUses': ['opus reference materials/Exosuit-Unlimited-Uses-v2 (1).zip'],
+    'PatriotExosuitBuffs': ['opus reference materials/EXO45-Patriot-Buff-1.12.0-EAT17Missile-HMG2000-30Missiles.zip'],
 }
 
 
@@ -131,7 +182,9 @@ local worker=coroutine.create(function()
    reader.verify()
    for _,change in ipairs(prepared.changes)do
     writes[#writes+1]={component=change.identity.component,
-     record=change.identity.component~='StratagemDefinition'and change.identity.record_index or nil,
+     -- Settings rows are identified by native record type (the index reference mods use), not table row.
+     record=change.identity.component~='StratagemDefinition'and(change.identity.record_kind
+      or change.identity.record_index)or nil,
      offset=change.field_offset,before=b.hex(change.before),after=b.hex(change.desired),
      alreadyDesired=change.already_desired,label=change.label}
    end
@@ -153,14 +206,17 @@ def compare(resolved):
         'fixtureFallback': 'disabled', 'recreations': {}}
     for name, expected in EXPECTED.items():
         item = resolved[name]
-        actual = {(write['component'], write.get('record'), write['offset'], write['before'], write['after'])
-            for write in item['writes']}
-        if len(actual) != len(item['writes']):
+        actual = Counter((write['component'], write.get('record'), write['offset'], write['before'], write['after'])
+            for write in item['writes'])
+        expected = Counter(expected)
+        if not isinstance(EXPECTED[name], Counter) and max(actual.values(), default=1) > 1:
             raise ValueError(name + ' produced duplicate physical writes')
-        missing, unexpected = sorted(expected - actual, key=str), sorted(actual - expected, key=str)
+        missing = sorted((expected - actual).elements(), key=str)
+        unexpected = sorted((actual - expected).elements(), key=str)
         report['recreations'][name] = {'status': 'EXACT_MATCH' if not missing and not unexpected else 'MISMATCH',
             'phases': item['phases'], 'operations': item['operations'],
-            'physicalWrites': len(actual), 'referenceWrites': len(expected),
+            'physicalWrites': sum(actual.values()), 'referenceWrites': sum(expected.values()),
+            'omittedReferenceWrites': OMITTED.get(name, []),
             'allAtVanillaBaseline': not any(write['alreadyDesired'] for write in item['writes']),
             'missing': [list(entry) for entry in missing], 'unexpected': [list(entry) for entry in unexpected],
             'referenceSources': REFERENCES[name]}

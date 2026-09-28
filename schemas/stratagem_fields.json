@@ -4,7 +4,7 @@
     {"id":"entity.health","display_name":"Main health","type":"integer","unit":"health","writable":true,"storage":"i32","component":"HealthComponentData","offset":0},
     {"id":"entity.armor","display_name":"Main armor","type":"integer","unit":"armor_class","writable":true,"storage":"u32","component":"HealthComponentData","offset":280},
     {"id":"stratagem.cooldown","display_name":"Cooldown","type":"number","unit":"seconds","writable":true,"storage":"f32"},
-    {"id":"stratagem.max_uses","display_name":"Maximum mission uses","type":"integer","unit":"uses","writable":false,"reason":"The static use field and unlimited sentinel are resolved, but mutation semantics have not been gameplay-proven."},
+    {"id":"stratagem.max_uses","display_name":"Mission uses","type":"stratagem_uses","unit":"uses","writable":true,"storage":"u32","reason":"StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded."},
     {"id":"eagle.uses_per_rearm","display_name":"Uses before rearm","type":"integer","unit":"uses","writable":true,"storage":"u32"},
     {"id":"eagle.rearm_time","display_name":"Eagle rearm time","type":"number","unit":"seconds","writable":true,"storage":"f32"},
     {"id":"orbital.duration","display_name":"Orbital attack duration","type":"number","unit":"seconds","writable":true,"storage":"f32"},

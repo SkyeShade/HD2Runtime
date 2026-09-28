@@ -1,0 +1,84 @@
+# Vehicle weapons
+
+Mounted weapons on vehicles, Exosuits and the GATER oil rig are ordinary weapon entities. The
+runtime reaches each one through its vehicle's mount slot, and edits it the same way as a support
+weapon.
+
+```lua
+-- Emancipator: each autocannon arm 100 -> 150 rounds (see examples/projects/EmancipatorAmmo)
+local emancipator=hd2.vehicle('EXO-49 Emancipator Exosuit')
+hd2.ensure({plan={id='emancipator-ammo',operations={
+    {id='left',target=emancipator:weapon('left_gun'),field=hd2.fields.weapon.capacity,expect=100,value=150},
+    {id='right',target=emancipator:weapon('right_gun'),field=hd2.fields.weapon.capacity,expect=100,value=150}}}})
+```
+
+## Ownership chain
+
+| Step | Native object | Scope |
+| --- | --- | --- |
+| Vehicle | `MountComponentData`: 5 slots × 24 bytes, with the mounted entity path at `slot*24` | Re-proven on every write |
+| Mounted weapon | The slot's entity, which owns its own component records | Weapon-local |
+| Local settings | `ProjectileWeaponComponentData` (fire rate), `WeaponMagazineComponentData`, `WeaponReloadComponentData`, `HealthComponentData` (the mount's health, armor and hit zone) | Weapon-local |
+| Attack | `ProjectileWeaponComponentData.projectile_type` → `ProjectileSettings`, or `SprayWeaponComponentData` → `DamageInfo` | Shared rows |
+| Damage | `DamageInfo` from the projectile or the spray | Shared rows |
+| Explosion | The projectile's impact `ExplosionSettings` and its `DamageInfo` | Shared rows |
+
+Before every write, the runtime re-reads the vehicle's `MountComponentData` and checks that the
+slot still names the reviewed weapon. If it does not, for example after a mount swap, the write
+fails.
+
+## Accessors
+
+- `hd2.vehicle(name):weapons()`: every mounted weapon, in slot order.
+- `hd2.vehicle(name):weapon(identity)`: one mounted weapon. `identity` can be a slot number, a mount
+  label (such as `'left_gun'` or `'attach_tank_gun'`), the weapon key (`'<vehicle> / <label>'`) or
+  its `semanticId`.
+- `hd2.vehicle(name):mount(label):weapon()`: the weapon in that mount.
+- `weapon:projectile()`, `weapon:explosion('impact')` and `weapon:attack(role)`: the weapon's shared
+  attack objects. `weapon:describe()` lists every field with its baseline, scope and required
+  acknowledgements.
+
+Each mount is its own weapon. The Maelstrom's main gun, missile pod and twin launchers are separate
+weapons, and so are the two arms of each Exosuit. An edit to one never changes another's
+weapon-local records.
+
+## Fields
+
+| Field constant | Target | Backing |
+| --- | --- | --- |
+| `hd2.fields.weapon.fire_rate` | weapon | `ProjectileWeaponComponentData` +8 (rpm) |
+| `hd2.fields.weapon.capacity` | weapon | `WeaponMagazineComponentData` +136 |
+| `hd2.fields.magazine.starting_magazines`, `magazines_from_supply`, `spare_magazines` | weapon | `WeaponMagazineComponentData` +140 / +144 / +148 |
+| `hd2.fields.reload.duration` | weapon | `WeaponReloadComponentData` +56 (only where the value is non-zero) |
+| `hd2.fields.entity.health`, `hd2.fields.entity.armor` | weapon | The mount's own `HealthComponentData` +0 / +280 |
+| `hd2.fields.zone.health`, `hd2.fields.zone.armor` | weapon | The mount's single hit zone (Exosuit arms) |
+| `hd2.fields.projectile.*` | `weapon:projectile()` | Shared `ProjectileSettings` |
+| `hd2.fields.damage.player_standard_damage`, `player_durable_damage`, `ap_*`, `demolition`, `stagger`, `push_force` | `weapon:projectile()`, or the spray attack | Shared `DamageInfo` |
+| `hd2.fields.explosion.*_radius`, `hd2.fields.explosion.damage_*` | `weapon:explosion()` | Shared `ExplosionSettings` and its `DamageInfo` |
+
+## Scopes and acknowledgements
+
+- **`weapon_local`:** a record owned by exactly one mount. No `allow_shared` is needed.
+- **`shared_mounted_weapon`:** one weapon entity sits in several mounts, so its own records change all
+  of them. This applies to the M-102 Gunner FRV and Super Earth FRV gun, and to Maelstrom slots 3
+  and 4. Requires `allow_shared=true`.
+- **`shared_projectile`, `shared_damage`, `shared_explosion`:** settings rows. Every consumer listed in
+  `otherConsumers` changes, including player and support weapons. For example, the Patriot HMG
+  round is also used by the MG-43 and several sentries. Requires `allow_shared=true`.
+- **`allow_unverified_effect`:** required for every field that no working reference mod has changed in
+  game. The fields that reference mods have changed are the M-103 gun magazine, both Emancipator and
+  Lumberer magazines, and the Patriot magazines, fire rate, arm health, armor and hit zone, and
+  missile and HMG damage. These are listed in `gameplayEvidence` and need no acknowledgement.
+
+## Not exposed
+
+- **ProjectileWeapon damage/armor-penetration addends (+128/+136):** the type library names +128
+  `damage_addends` and +136 `ap_addends`. The M-103 turret reference mod reports them the other way
+  round in game. They stay read-only until one in-game test settles it.
+- **Mounts without a weapon component:** the Maelstrom turret ring, the Breakthrough's left mount and
+  seats are listed with a reason.
+- **Health "max armor" values (+288, zone +224):** their meaning is not established.
+
+`sdk/VehicleWeaponCapabilities.json` lists every vehicle, mount and field instance. For each field it
+gives the baseline, scope, other consumers, acknowledgement, gameplay evidence and API constant. It
+never includes a native address or raw resource identifier.

@@ -1,0 +1,170 @@
+{
+  "acknowledgementRejections": 453,
+  "byScope": {
+    "shared_damage": 225,
+    "shared_explosion": 24,
+    "shared_mounted_weapon": 26,
+    "shared_projectile": 99,
+    "weapon_local": 106
+  },
+  "changedWrites": 480,
+  "conflictRejections": 480,
+  "fixtureFallback": "disabled",
+  "independentArms": true,
+  "mode": "snapshot-overlay",
+  "mountChainRejections": 18,
+  "noOps": 480,
+  "rollbacks": 480,
+  "scenarios": {
+    "bastion_cannon_damage": {
+      "after": "88130000",
+      "before": "ac0d0000",
+      "component": "damageSettings",
+      "field": "damage.primary.standard_damage",
+      "from": 3500,
+      "to": 5000,
+      "uniqueOwner": false,
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "writes": 1
+    },
+    "bastion_cannon_reserve": {
+      "after": "2d000000",
+      "before": "1e000000",
+      "component": "WeaponMagazineComponentData",
+      "field": "magazine.spare_magazines",
+      "from": 30,
+      "to": 45,
+      "uniqueOwner": true,
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "writes": 1
+    },
+    "bastion_mg_capacity": {
+      "after": "b80b0000",
+      "before": "d0070000",
+      "component": "WeaponMagazineComponentData",
+      "field": "weapon.capacity",
+      "from": 2000,
+      "to": 3000,
+      "uniqueOwner": true,
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "writes": 1
+    },
+    "emancipator_left_capacity": {
+      "after": "96000000",
+      "before": "64000000",
+      "component": "WeaponMagazineComponentData",
+      "field": "weapon.capacity",
+      "from": 100,
+      "to": 150,
+      "uniqueOwner": true,
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "writes": 1
+    },
+    "emancipator_right_capacity": {
+      "after": "96000000",
+      "before": "64000000",
+      "component": "WeaponMagazineComponentData",
+      "field": "weapon.capacity",
+      "from": 100,
+      "to": 150,
+      "uniqueOwner": true,
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "writes": 1
+    },
+    "exosuit_unlimited_uses": {
+      "acknowledgement": "not required (gameplay-proven)",
+      "after": "ffffffff",
+      "before": "03000000",
+      "from": 3,
+      "stratagem": "EXO-45 Patriot Exosuit",
+      "to": "unlimited"
+    },
+    "finite_to_finite_uses": {
+      "acknowledgement": "allow_unverified_effect",
+      "after": "05000000",
+      "before": "03000000",
+      "from": 3,
+      "stratagem": "Orbital Laser",
+      "to": 5
+    },
+    "frv_gun_capacity": {
+      "after": "58020000",
+      "before": "78000000",
+      "component": "WeaponMagazineComponentData",
+      "field": "weapon.capacity",
+      "from": 120,
+      "to": 600,
+      "uniqueOwner": true,
+      "weapon": "M-103 Supply FRV / gun",
+      "writes": 1
+    },
+    "maelstrom_gun_fire_rate": {
+      "after": "00006144",
+      "before": "00009644",
+      "component": "ProjectileWeaponComponentData",
+      "field": "weapon.fire_rate",
+      "from": 1200,
+      "to": 900,
+      "uniqueOwner": true,
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "writes": 1
+    },
+    "patriot_hmg_capacity": {
+      "after": "d0070000",
+      "before": "46050000",
+      "component": "WeaponMagazineComponentData",
+      "field": "weapon.capacity",
+      "from": 1350,
+      "to": 2000,
+      "uniqueOwner": true,
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "writes": 1
+    },
+    "patriot_hmg_fire_rate": {
+      "after": "00001644",
+      "before": "00009644",
+      "component": "ProjectileWeaponComponentData",
+      "field": "weapon.fire_rate",
+      "from": 1200,
+      "to": 600,
+      "uniqueOwner": true,
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "writes": 1
+    },
+    "patriot_missile_damage": {
+      "after": "d0070000",
+      "before": "e2040000",
+      "component": "damageSettings",
+      "field": "damage.primary.standard_damage",
+      "from": 1250,
+      "to": 2000,
+      "uniqueOwner": false,
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "writes": 1
+    },
+    "unlimited_to_finite_uses": {
+      "acknowledgement": "allow_unverified_effect",
+      "after": "02000000",
+      "before": "ffffffff",
+      "from": "unlimited",
+      "stratagem": "M-102 Gunner FRV",
+      "to": 2
+    }
+  },
+  "sharedRejections": 374,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "stratagemUses": {
+    "acknowledgementRejections": 81,
+    "checked": 85,
+    "conflictRejections": 85,
+    "proven": 4,
+    "transitions": {
+      "finite_to_finite": 5,
+      "finite_to_unlimited": 4,
+      "unlimited_to_finite": 80
+    }
+  },
+  "vehicleFields": 480,
+  "vehicleWeapons": 18
+}

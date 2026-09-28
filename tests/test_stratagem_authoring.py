@@ -41,7 +41,7 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['cooldownWritable'], 93)
         self.assertEqual(summary['vehicleRootsResolved'], 9)
         self.assertEqual(summary['backpackRootsResolved'], 13)
-        self.assertEqual(summary['maxUsesWritable'], 0)
+        self.assertEqual(summary['maxUsesWritable'], 85)
         self.assertEqual(summary['eagleUsesPerRearmWritable'], 8)
         self.assertEqual(summary['eagleRearmTimeWritable'], 8)
         instances = self.catalog['fieldInstances']
@@ -137,7 +137,7 @@ class StratagemAuthoringTests(unittest.TestCase):
         by_name = {x['name']: x for x in self.catalog['stratagems']}
         self.assertEqual(by_name['Orbital Laser']['cooldown'], 300)
         self.assertEqual(by_name['Orbital Laser']['maxUses']['value'], 3)
-        self.assertFalse(by_name['Orbital Laser']['maxUses']['writable'])
+        self.assertTrue(by_name['Orbital Laser']['maxUses']['writable'])
         self.assertEqual(by_name['Orbital Precision Strike']['cooldown'], 80)
         self.assertEqual(by_name['MS-11 Solo Silo']['cooldown'], 180)
         self.assertEqual(by_name['SG-88 Break-Action Shotgun']['rootResolution'], 'NO_CALL_IN')

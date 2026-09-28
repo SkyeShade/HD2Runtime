@@ -282,7 +282,7 @@ local worker=coroutine.create(function()
   target=hd2.booster('Increased Reinforcement Budget'):tuning(),field=hd2.fields.booster.reinforcements_per_player,
   expect=1,value=fraction}},'integer'))
  local uses=page:slider({id='uses',label='Uses',min=1,max=10,step=1,default=2})
- check('read-only capabilities stay read-only',rejects({patch={id='ro',target=hd2.stratagem('GR-8 Recoilless Rifle'),
+ check('read-only capabilities stay read-only',rejects({patch={id='ro',target=hd2.stratagem('Eagle Airstrike'),
   field=hd2.fields.stratagem.max_uses,expect=0,value=uses}},'field is read-only'))
  check('fields a target does not expose stay unavailable',rejects({patch={id='other',allow_unverified_effect=true,
   target=hd2.booster('Vitality Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,

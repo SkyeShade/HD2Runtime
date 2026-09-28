@@ -62,9 +62,8 @@ per-stratagem uses before rearm, and the shared Eagle rearm definition. Editing
 `eagle.rearm_time` requires `allow_shared = true` and affects all eight reviewed
 Eagle offensive stratagems.
 
-`stratagem.max_uses` remains readable metadata. Its finite value and unlimited
-sentinel are structurally resolved, but mutation is blocked until definition-write
-semantics are gameplay-proven. Barrage delivery arrays are preserved as delivery
+`stratagem.max_uses` edits the mission use count of every non-Eagle stratagem, including
+unlimited <-> finite transitions; see [Stratagem mission uses](stratagem-uses.md). Barrage delivery arrays are preserved as delivery
 structure; the SDK does not invent scalar shell or volley counts from them.
 
 ## Support call-in linkage
