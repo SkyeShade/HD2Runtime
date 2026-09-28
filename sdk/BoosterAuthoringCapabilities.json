@@ -1,0 +1,866 @@
+{
+  "contract": "hd2runtime.booster.guarded_authoring.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.23.2",
+  "canonicalCollection": "fieldInstances",
+  "nativeModel": {
+    "identity": "Native Booster enum member, named by the game UI template and matched to enum values by type-library alias length. Shared lengths stay candidate sets.",
+    "typeLibraryReferences": [
+      "StratagemInfo booster list",
+      "StatusEffectSusceptibility booster gate"
+    ],
+    "ownership": "Boosters have no component or settings type; effects live on the records they reference."
+  },
+  "acknowledgements": {
+    "allow_unverified_effect": "Required for every booster field. No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+    "allow_shared": "Required where the owning record is applied by game code with an open consumer scope."
+  },
+  "boosters": [
+    {
+      "name": "Hellpod Space Optimization",
+      "semanticId": "booster/v1/hellpod-space-optimization/7d9f3f69c2e34c24",
+      "identity": {
+        "nativeName": "HellpodSpaceOptimization",
+        "uiIcon": "BoosterHellpodopt",
+        "enumValue": 7,
+        "enumValueCandidates": [
+          7
+        ],
+        "evidence": [
+          "game UI template binds native member HellpodSpaceOptimization to BoosterHellpodopt",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Vitality Enhancement",
+      "semanticId": "booster/v1/vitality-enhancement/caec9d2589e2a235",
+      "identity": {
+        "nativeName": "Vitality",
+        "uiIcon": "BoosterVitality",
+        "enumValue": null,
+        "enumValueCandidates": [
+          1,
+          4
+        ],
+        "evidence": [
+          "game UI template binds native member Vitality to BoosterVitality",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "UAV Recon Booster",
+      "semanticId": "booster/v1/uav-recon-booster/a6a3f1f6d437ba4d",
+      "identity": {
+        "nativeName": "UAVRecon",
+        "uiIcon": "BoosterRecon",
+        "enumValue": null,
+        "enumValueCandidates": [
+          1,
+          4
+        ],
+        "evidence": [
+          "game UI template binds native member UAVRecon to BoosterRecon",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Stamina Enhancement",
+      "semanticId": "booster/v1/stamina-enhancement/15f9ce6b6f1cdbae",
+      "identity": {
+        "nativeName": "Stamina",
+        "uiIcon": "BoosterStamina",
+        "enumValue": null,
+        "enumValueCandidates": [
+          2,
+          20
+        ],
+        "evidence": [
+          "game UI template binds native member Stamina to BoosterStamina",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Muscle Enhancement",
+      "semanticId": "booster/v1/muscle-enhancement/132b26ad07a898d8",
+      "identity": {
+        "nativeName": "MuscleEnhancement",
+        "uiIcon": "BoosterMuscle",
+        "enumValue": 3,
+        "enumValueCandidates": [
+          3
+        ],
+        "evidence": [
+          "game UI template binds native member MuscleEnhancement to BoosterMuscle",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Increased Reinforcement Budget",
+      "semanticId": "booster/v1/increased-reinforcement-budget/984d134f8ced7a96",
+      "identity": {
+        "nativeName": "IncreasedReinforcementBudget",
+        "uiIcon": "BoosterIncreasedbudget",
+        "enumValue": 5,
+        "enumValueCandidates": [
+          5
+        ],
+        "evidence": [
+          "game UI template binds native member IncreasedReinforcementBudget to BoosterIncreasedbudget",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Flexible Reinforcement Budget",
+      "semanticId": "booster/v1/flexible-reinforcement-budget/61cabf5da1dabd59",
+      "identity": {
+        "nativeName": "FlexibleReinforcementBudget",
+        "uiIcon": "BoosterFlexiblebudget",
+        "enumValue": 6,
+        "enumValueCandidates": [
+          6
+        ],
+        "evidence": [
+          "game UI template binds native member FlexibleReinforcementBudget to BoosterFlexiblebudget",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Localization Confusion",
+      "semanticId": "booster/v1/localization-confusion/6c8fbcaca31db83b",
+      "identity": {
+        "nativeName": "LocalizationConfusion",
+        "uiIcon": "BoosterLocalization",
+        "enumValue": null,
+        "enumValueCandidates": [
+          8,
+          16
+        ],
+        "evidence": [
+          "game UI template binds native member LocalizationConfusion to BoosterLocalization",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Expert Extraction Pilot",
+      "semanticId": "booster/v1/expert-extraction-pilot/80eb5837348c63f3",
+      "identity": {
+        "nativeName": "FastExtraction",
+        "uiIcon": "BoosterExpert",
+        "enumValue": null,
+        "enumValueCandidates": [
+          9,
+          19
+        ],
+        "evidence": [
+          "game UI template binds native member FastExtraction to BoosterExpert",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Motivational Shocks",
+      "semanticId": "booster/v1/motivational-shocks/3d33317675dd9dc6",
+      "identity": {
+        "nativeName": "SlowStunResistance",
+        "uiIcon": "BoosterShocks",
+        "enumValue": null,
+        "enumValueCandidates": [
+          10,
+          13
+        ],
+        "evidence": [
+          "game UI template binds native member SlowStunResistance to BoosterShocks",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Experimental Infusion",
+      "semanticId": "booster/v1/experimental-infusion/35cf8142ae307311",
+      "identity": {
+        "nativeName": "CombatDrugs",
+        "uiIcon": "BoosterInfusion",
+        "enumValue": 11,
+        "enumValueCandidates": [
+          11
+        ],
+        "evidence": [
+          "game UI template binds native member CombatDrugs to BoosterInfusion",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [
+        {
+          "kind": "status_effect_fingerprint",
+          "effect": "Stim-applied status effect: movement speed multiplier, duration, incoming damage scale.",
+          "evidence": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
+          "sharedScope": "applied by game code only"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "status_effect"
+      ],
+      "fieldInstanceKeys": [
+        "booster:experimental-infusion:status_effect:status.strength",
+        "booster:experimental-infusion:status_effect:status.duration",
+        "booster:experimental-infusion:status_effect:status.incoming_damage_scale"
+      ],
+      "blockedFields": []
+    },
+    {
+      "name": "Firebomb Hellpods",
+      "semanticId": "booster/v1/firebomb-hellpods/7ee24ab5cca7028c",
+      "identity": {
+        "nativeName": "FieryDrop",
+        "uiIcon": "BoosterFirebomb",
+        "enumValue": null,
+        "enumValueCandidates": [
+          12,
+          17,
+          18
+        ],
+        "evidence": [
+          "game UI template binds native member FieryDrop to BoosterFirebomb",
+          "type-library alias length resolves a candidate set of 3",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Dead Sprint",
+      "semanticId": "booster/v1/dead-sprint/4a6e9cedb6925630",
+      "identity": {
+        "nativeName": "DeathMarch",
+        "uiIcon": "BoosterDeadsprint",
+        "enumValue": 14,
+        "enumValueCandidates": [
+          14
+        ],
+        "evidence": [
+          "game UI template binds native member DeathMarch to BoosterDeadsprint",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Armed Resupply Pods",
+      "semanticId": "booster/v1/armed-resupply-pods/83bb1f9c4b71e1f6",
+      "identity": {
+        "nativeName": "DefensiveAmmoPod",
+        "uiIcon": "BoosterArmedpods",
+        "enumValue": 15,
+        "enumValueCandidates": [
+          15
+        ],
+        "evidence": [
+          "game UI template binds native member DefensiveAmmoPod to BoosterArmedpods",
+          "type-library alias length resolves a unique value"
+        ],
+        "status": "RESOLVED"
+      },
+      "relationships": [
+        {
+          "kind": "stratagem_booster_entry",
+          "stratagem": "Resupply",
+          "stratagemSemanticId": "stratagem/v1/resupply/ae294eff50927c20",
+          "stratagemAuthoring": "not in StratagemAuthoringCapabilities (supply stratagems are not authored yet)",
+          "effect": "When the booster is active, a native entity delta rewrites the resupply hellpod rack: four supply boxes plus one mounted turret.",
+          "deployedEntity": "deployed_entity",
+          "turretProjectileShared": true,
+          "evidence": "structural: StratagemInfo booster list -> entity delta -> HellpodRackComponent item"
+        }
+      ],
+      "writable": true,
+      "targets": [
+        "deployed_entity"
+      ],
+      "fieldInstanceKeys": [
+        "booster:armed-resupply-pods:deployed_entity:weapon.fire_rate",
+        "booster:armed-resupply-pods:deployed_entity:magazine.capacity"
+      ],
+      "blockedFields": [
+        {
+          "field": "turret projectile / damage",
+          "reason": "The turret fires a projectile definition shared with player weapons; edit it through the owning weapon view with allow_shared instead."
+        }
+      ]
+    },
+    {
+      "name": "Sample Extricator",
+      "semanticId": "booster/v1/sample-extricator/e569d43463c9676f",
+      "identity": {
+        "nativeName": "BigEnemiesDropSamples",
+        "uiIcon": "BoosterSampleextricator",
+        "enumValue": null,
+        "enumValueCandidates": [
+          8,
+          16
+        ],
+        "evidence": [
+          "game UI template binds native member BigEnemiesDropSamples to BoosterSampleextricator",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Sample Scanner",
+      "semanticId": "booster/v1/sample-scanner/00954fb7a554d95e",
+      "identity": {
+        "nativeName": "DoubleSampleChance",
+        "uiIcon": "BoosterSamplescanner",
+        "enumValue": null,
+        "enumValueCandidates": [
+          10,
+          13
+        ],
+        "evidence": [
+          "game UI template binds native member DoubleSampleChance to BoosterSamplescanner",
+          "type-library alias length resolves a candidate set of 2",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Stun Pods",
+      "semanticId": "booster/v1/stun-pods/728b06c223c7690f",
+      "identity": {
+        "nativeName": "ShockPods",
+        "uiIcon": "BoosterStunpods",
+        "enumValue": null,
+        "enumValueCandidates": [
+          12,
+          17,
+          18
+        ],
+        "evidence": [
+          "game UI template binds native member ShockPods to BoosterStunpods",
+          "type-library alias length resolves a candidate set of 3",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Concealed Insertion",
+      "semanticId": "booster/v1/concealed-insertion/b5b751b967a5f98c",
+      "identity": {
+        "nativeName": "SmokePods",
+        "uiIcon": "BoosterConcealedinsertion",
+        "enumValue": null,
+        "enumValueCandidates": [
+          12,
+          17,
+          18
+        ],
+        "evidence": [
+          "game UI template binds native member SmokePods to BoosterConcealedinsertion",
+          "type-library alias length resolves a candidate set of 3",
+          "Several enum values share this alias length; the value is not guessed."
+        ],
+        "status": "CANDIDATES"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Surplus EAT Allocation",
+      "semanticId": "booster/v1/surplus-eat-allocation/cb1271359bd85dbd",
+      "identity": {
+        "nativeName": null,
+        "uiIcon": null,
+        "enumValue": null,
+        "enumValueCandidates": [],
+        "evidence": [
+          "Remaining booster after every UI-template name and the susceptibility-gating value are assigned."
+        ],
+        "status": "ELIMINATION"
+      },
+      "relationships": [],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "booster effect",
+          "reason": "No native data member references this booster: the type library links the Booster enum only from stratagem booster lists and status susceptibilities. Its effect is applied by game code."
+        }
+      ]
+    },
+    {
+      "name": "Integrated Extinguishers",
+      "semanticId": "booster/v1/integrated-extinguishers/e28b068e7da39f57",
+      "identity": {
+        "nativeName": null,
+        "uiIcon": null,
+        "enumValue": 19,
+        "enumValueCandidates": [],
+        "evidence": [
+          "The only native booster value that gates status susceptibilities (two avatar susceptibilities); the other unnamed booster is Surplus EAT Allocation."
+        ],
+        "status": "EFFECT_CATEGORY"
+      },
+      "relationships": [
+        {
+          "kind": "susceptibility_gate",
+          "owner": "Helldiver avatar",
+          "gatedSusceptibilities": 2,
+          "effect": "Replaces the status effect applied by two avatar susceptibilities while active."
+        }
+      ],
+      "writable": false,
+      "targets": [],
+      "fieldInstanceKeys": [],
+      "blockedFields": [
+        {
+          "field": "susceptibility override",
+          "reason": "The override is a reference to a native effect preset whose semantics are not proven; no scalar is exposed."
+        }
+      ]
+    }
+  ],
+  "fieldInstances": [
+    {
+      "instanceKey": "booster:experimental-infusion:status_effect:status.strength",
+      "booster": "Experimental Infusion",
+      "semanticFieldId": "status.strength",
+      "apiFieldConstant": "hd2.fields.status.strength",
+      "displayName": "Status strength",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "status_effect",
+        "accessor": [
+          "booster",
+          "status_effect"
+        ]
+      },
+      "value": {
+        "baseline": 1.1,
+        "expected": 1.1,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/b12eb126022112e1",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "unique_exact_multi_value_fingerprint",
+        "fingerprint": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
+        "nativeName": "UI booster member CombatDrugs",
+        "gameplayWriteEffect": "unproven"
+      }
+    },
+    {
+      "instanceKey": "booster:experimental-infusion:status_effect:status.duration",
+      "booster": "Experimental Infusion",
+      "semanticFieldId": "status.duration",
+      "apiFieldConstant": "hd2.fields.status.duration",
+      "displayName": "Status duration",
+      "type": "number",
+      "unit": "seconds",
+      "target": {
+        "resource": "booster",
+        "path": "status_effect",
+        "accessor": [
+          "booster",
+          "status_effect"
+        ]
+      },
+      "value": {
+        "baseline": 10.0,
+        "expected": 10.0,
+        "unit": "seconds"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/b12eb126022112e1",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "unique_exact_multi_value_fingerprint",
+        "fingerprint": "schema-labelled duration; no published value",
+        "nativeName": "UI booster member CombatDrugs",
+        "gameplayWriteEffect": "unproven"
+      }
+    },
+    {
+      "instanceKey": "booster:experimental-infusion:status_effect:status.incoming_damage_scale",
+      "booster": "Experimental Infusion",
+      "semanticFieldId": "status.incoming_damage_scale",
+      "apiFieldConstant": "hd2.fields.status.incoming_damage_scale",
+      "displayName": "Incoming damage scale",
+      "type": "number",
+      "unit": "factor",
+      "target": {
+        "resource": "booster",
+        "path": "status_effect",
+        "accessor": [
+          "booster",
+          "status_effect"
+        ]
+      },
+      "value": {
+        "baseline": 0.9,
+        "expected": 0.9,
+        "unit": "factor"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_shared",
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "sharedScope": {
+        "shared": true,
+        "requiresAcknowledgement": true,
+        "reviewedScopeComplete": false,
+        "note": "Applied by game code; no weapon damage references this status effect, but other code paths cannot be excluded."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/b12eb126022112e1",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "unique_exact_multi_value_fingerprint",
+        "fingerprint": "movement x1.1 (strength) and damage x0.9 (IncomingDamageScale) both match",
+        "nativeName": "UI booster member CombatDrugs",
+        "gameplayWriteEffect": "unproven"
+      }
+    },
+    {
+      "instanceKey": "booster:armed-resupply-pods:deployed_entity:weapon.fire_rate",
+      "booster": "Armed Resupply Pods",
+      "semanticFieldId": "weapon.fire_rate",
+      "apiFieldConstant": "hd2.fields.weapon.fire_rate",
+      "displayName": "Fire rate",
+      "type": "number",
+      "unit": "rpm",
+      "target": {
+        "resource": "booster",
+        "path": "deployed_entity",
+        "accessor": [
+          "booster",
+          "deployed_entity"
+        ]
+      },
+      "value": {
+        "baseline": 640.0,
+        "expected": 640.0,
+        "unit": "rpm"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Uniquely owned native record."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/51b931c2b36e8ca4",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_chain_exact_fingerprint",
+        "chain": [
+          "StratagemInfo booster entry",
+          "entity delta",
+          "hellpod rack item",
+          "turret entity"
+        ],
+        "gameplayWriteEffect": "unproven",
+        "fingerprint": "640 rpm"
+      }
+    },
+    {
+      "instanceKey": "booster:armed-resupply-pods:deployed_entity:magazine.capacity",
+      "booster": "Armed Resupply Pods",
+      "semanticFieldId": "magazine.capacity",
+      "apiFieldConstant": "hd2.fields.magazine.capacity",
+      "displayName": "Magazine capacity",
+      "type": "integer",
+      "unit": "rounds",
+      "target": {
+        "resource": "booster",
+        "path": "deployed_entity",
+        "accessor": [
+          "booster",
+          "deployed_entity"
+        ]
+      },
+      "value": {
+        "baseline": 140,
+        "expected": 140,
+        "unit": "rounds"
+      },
+      "writable": true,
+      "acknowledgements": [
+        "allow_unverified_effect"
+      ],
+      "acknowledgementReason": "No booster edit is gameplay-proven yet; the native value is proven, but whether the game re-reads it for an active booster has not been tested.",
+      "sharedScope": {
+        "shared": false,
+        "requiresAcknowledgement": false,
+        "reviewedScopeComplete": true,
+        "note": "Uniquely owned native record."
+      },
+      "operation": {
+        "patchSupported": true,
+        "transactionGroupingKey": "booster-operation/v1/5f10858ca4211235",
+        "planSupported": true
+      },
+      "evidence": {
+        "tier": "structural_chain_exact_fingerprint",
+        "chain": [
+          "StratagemInfo booster entry",
+          "entity delta",
+          "hellpod rack item",
+          "turret entity"
+        ],
+        "gameplayWriteEffect": "unproven",
+        "fingerprint": "140 rounds"
+      }
+    }
+  ],
+  "summary": {
+    "boosters": 20,
+    "writableBoosters": 2,
+    "fieldInstances": 5,
+    "identityStatus": {
+      "RESOLVED": 7,
+      "CANDIDATES": 11,
+      "EFFECT_CATEGORY": 1,
+      "ELIMINATION": 1,
+      "UNRESOLVED": 0
+    },
+    "nativeEnumValues": 20,
+    "researchWrites": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled"
+  },
+  "safety": {
+    "runtimeAddresses": false,
+    "rawResourceIdentifiers": false,
+    "writesDuringGeneration": 0
+  }
+}

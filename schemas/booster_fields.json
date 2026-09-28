@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "evidence": "Booster fields live on records the native Booster enum links to (research/booster-authoring-F5FEE03DCFDB.json). Identifiers reuse existing semantic fields where the backing member is the same kind of value.",
+  "fields": [
+    {"id": "status.strength", "display_name": "Status strength", "type": "number", "unit": "factor"},
+    {"id": "status.duration", "display_name": "Status duration", "type": "number", "unit": "seconds"},
+    {"id": "status.incoming_damage_scale", "display_name": "Incoming damage scale", "type": "number", "unit": "factor"},
+    {"id": "weapon.fire_rate", "display_name": "Fire rate", "type": "number", "unit": "rpm"},
+    {"id": "magazine.capacity", "display_name": "Magazine capacity", "type": "integer", "unit": "rounds"}
+  ]
+}

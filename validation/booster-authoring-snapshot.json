@@ -1,0 +1,12 @@
+{
+  "alreadyDesired": 5,
+  "boosters": 2,
+  "fieldChecks": 5,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot",
+  "protectionChanges": 0,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "targets": 3,
+  "writes": 0
+}

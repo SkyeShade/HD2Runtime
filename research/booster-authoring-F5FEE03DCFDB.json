@@ -1,0 +1,676 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "pinnedReferences": {
+    "entities": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+    "typelib": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+    "entityDeltas": "3FADC7C2475558000F9E8AD30E01D52CAEA481E1633E35674ED2864572694F4E",
+    "namedStratagems": "4FF468244EEB1B68E3F9B1730C23A39802436E6CF5C7FD75C6C9CBC61618FF84"
+  },
+  "wikiDataset": "D287CE8CE3F45BDB505E36606EF41BD82F6CEFF8E83CED744A836ADE51A145D3",
+  "boosterEnum": {
+    "values": 22,
+    "aliasLengths": {
+      "0": 12,
+      "1": 16,
+      "2": 15,
+      "3": 25,
+      "4": 16,
+      "5": 36,
+      "6": 35,
+      "7": 32,
+      "8": 29,
+      "9": 22,
+      "10": 26,
+      "11": 19,
+      "12": 17,
+      "13": 26,
+      "14": 18,
+      "15": 24,
+      "16": 29,
+      "17": 17,
+      "18": 17,
+      "19": 22,
+      "20": 15,
+      "21": 13
+    },
+    "crackedNames": [
+      "Vitality",
+      "Stamina",
+      "MuscleEnhancement",
+      "UAVRecon",
+      "IncreasedReinforcementBudget",
+      "FlexibleReinforcementBudget",
+      "HellpodSpaceOptimization",
+      "LocalizationConfusion",
+      "FastExtraction"
+    ],
+    "uiTemplateSha256": "9BA35722A6342A9F4D8FAEBF55C01D6B641B4E0C54BC5EDCB7C8726309666193",
+    "uiPairs": [
+      [
+        "DefensiveAmmoPod",
+        "BoosterArmedpods"
+      ],
+      [
+        "SmokePods",
+        "BoosterConcealedinsertion"
+      ],
+      [
+        "DeathMarch",
+        "BoosterDeadsprint"
+      ],
+      [
+        "FastExtraction",
+        "BoosterExpert"
+      ],
+      [
+        "FieryDrop",
+        "BoosterFirebomb"
+      ],
+      [
+        "FlexibleReinforcementBudget",
+        "BoosterFlexiblebudget"
+      ],
+      [
+        "HellpodSpaceOptimization",
+        "BoosterHellpodopt"
+      ],
+      [
+        "IncreasedReinforcementBudget",
+        "BoosterIncreasedbudget"
+      ],
+      [
+        "CombatDrugs",
+        "BoosterInfusion"
+      ],
+      [
+        "LocalizationConfusion",
+        "BoosterLocalization"
+      ],
+      [
+        "MuscleEnhancement",
+        "BoosterMuscle"
+      ],
+      [
+        "UAVRecon",
+        "BoosterRecon"
+      ],
+      [
+        "BigEnemiesDropSamples",
+        "BoosterSampleextricator"
+      ],
+      [
+        "DoubleSampleChance",
+        "BoosterSamplescanner"
+      ],
+      [
+        "SlowStunResistance",
+        "BoosterShocks"
+      ],
+      [
+        "Stamina",
+        "BoosterStamina"
+      ],
+      [
+        "ShockPods",
+        "BoosterStunpods"
+      ],
+      [
+        "Vitality",
+        "BoosterVitality"
+      ]
+    ],
+    "nameCandidates": {
+      "DefensiveAmmoPod": [
+        15
+      ],
+      "SmokePods": [
+        12,
+        17,
+        18
+      ],
+      "DeathMarch": [
+        14
+      ],
+      "FastExtraction": [
+        9,
+        19
+      ],
+      "FieryDrop": [
+        12,
+        17,
+        18
+      ],
+      "FlexibleReinforcementBudget": [
+        6
+      ],
+      "HellpodSpaceOptimization": [
+        7
+      ],
+      "IncreasedReinforcementBudget": [
+        5
+      ],
+      "CombatDrugs": [
+        11
+      ],
+      "LocalizationConfusion": [
+        8,
+        16
+      ],
+      "MuscleEnhancement": [
+        3
+      ],
+      "UAVRecon": [
+        1,
+        4
+      ],
+      "BigEnemiesDropSamples": [
+        8,
+        16
+      ],
+      "DoubleSampleChance": [
+        10,
+        13
+      ],
+      "SlowStunResistance": [
+        10,
+        13
+      ],
+      "Stamina": [
+        2,
+        20
+      ],
+      "ShockPods": [
+        12,
+        17,
+        18
+      ],
+      "Vitality": [
+        1,
+        4
+      ]
+    }
+  },
+  "typeLibraryBoosterReferences": [
+    "StratagemInfo+280 (0xB6CAFF2E list)",
+    "StatusEffectSusceptibility+112"
+  ],
+  "liveEquality": {
+    "entityDeltas": {
+      "identical": true
+    },
+    "entityTables": {
+      "ProjectileWeaponComponentData": true,
+      "WeaponMagazineComponentData": true,
+      "StatusEffectReceiverComponentData": true,
+      "HellpodRackComponentData": true
+    }
+  },
+  "stratagemBoosterEntries": [
+    {
+      "booster": 15,
+      "entityDelta": "0x414054D365ACDF30",
+      "entryIndex": 0,
+      "id": 867876502,
+      "package": "0xFB48DE3E9D5F187C",
+      "payload": "0x5052EC6A928CCF1A",
+      "payloads": [
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415",
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415",
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415"
+      ],
+      "recordKind": 33,
+      "reserved": 0,
+      "referenceDebugName": "CONSUMABLES. RESUPPLY",
+      "delta": {
+        "hashmapSlot": 816,
+        "settingsIndex": 367,
+        "patchedComponent": "HellpodRackComponentData",
+        "patchedComponentIndex": 155,
+        "attachedEntities": [
+          {
+            "resource": "0xA94913CA014F7579",
+            "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+            "rackSlot": 0,
+            "dataOffset": 234216,
+            "weaponEntity": false
+          },
+          {
+            "resource": "0xA94913CA014F7579",
+            "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+            "rackSlot": 1,
+            "dataOffset": 234240,
+            "weaponEntity": false
+          },
+          {
+            "resource": "0xA94913CA014F7579",
+            "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+            "rackSlot": 2,
+            "dataOffset": 234260,
+            "weaponEntity": false
+          },
+          {
+            "resource": "0xA94913CA014F7579",
+            "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+            "rackSlot": 3,
+            "dataOffset": 234284,
+            "weaponEntity": false
+          },
+          {
+            "resource": "0x73681FFD58FA1A90",
+            "path": null,
+            "rackSlot": 4,
+            "dataOffset": 234308,
+            "weaponEntity": true
+          }
+        ]
+      }
+    }
+  ],
+  "boosterTurrets": [
+    {
+      "resource": "0x73681FFD58FA1A90",
+      "entityRow": 2705,
+      "booster": 15,
+      "components": {
+        "ProjectileWeaponComponentData": {
+          "recordIndex": 262,
+          "indexRow": 415,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "fireRate": 640.0,
+          "projectileType": 7
+        },
+        "WeaponMagazineComponentData": {
+          "recordIndex": 260,
+          "indexRow": 217,
+          "ownerCount": 1,
+          "uniqueOwner": true,
+          "magazine": [
+            140,
+            0,
+            6,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "susceptibilityGates": [
+    {
+      "booster": 19,
+      "record": 35,
+      "zone": 0,
+      "slot": 3,
+      "owners": [
+        "content/fac_helldivers/cha_avatar/avatar_helldiver"
+      ],
+      "susceptibilityType": 12,
+      "parameters": [
+        0.5,
+        1.0
+      ],
+      "baseEffect": "0x7E554A17958C4153",
+      "overrideEffect": "0x81D6F1CCD96CF115"
+    },
+    {
+      "booster": 19,
+      "record": 35,
+      "zone": 0,
+      "slot": 6,
+      "owners": [
+        "content/fac_helldivers/cha_avatar/avatar_helldiver"
+      ],
+      "susceptibilityType": 4,
+      "parameters": [
+        3.0,
+        4.0
+      ],
+      "baseEffect": "0x7E554A17958C4153",
+      "overrideEffect": "0x81D6F1CCD96CF115"
+    }
+  ],
+  "statModifyingStatusRows": [
+    {
+      "row": 28,
+      "type": 29,
+      "offset": 4300,
+      "strength": 1.1,
+      "duration": 10.0,
+      "multiplierArrayOffset": 11100,
+      "multipliers": [
+        {
+          "stat": 2,
+          "value": 0.9
+        }
+      ]
+    },
+    {
+      "row": 64,
+      "type": 65,
+      "offset": 9772,
+      "strength": 0.0,
+      "duration": 3.0,
+      "multiplierArrayOffset": 11608,
+      "multipliers": [
+        {
+          "stat": 2,
+          "value": 0.2
+        }
+      ]
+    }
+  ],
+  "statusTypeReferencesFromDamageInfo": {
+    "10": 19,
+    "5": 59,
+    "37": 23,
+    "32": 6,
+    "67": 5,
+    "6": 5,
+    "43": 2,
+    "45": 2,
+    "38": 10,
+    "42": 9,
+    "44": 8,
+    "39": 10,
+    "52": 2,
+    "4": 3,
+    "40": 2,
+    "7": 4,
+    "57": 3,
+    "46": 2,
+    "14": 1
+  },
+  "catalog": [
+    {
+      "name": "Hellpod Space Optimization",
+      "wikiIndexOrder": 0,
+      "uiIcon": "BoosterHellpodopt",
+      "nativeName": "HellpodSpaceOptimization",
+      "enumValue": 7,
+      "enumValueCandidates": [
+        7
+      ],
+      "identityEvidence": [
+        "game UI template binds native member HellpodSpaceOptimization to BoosterHellpodopt",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Vitality Enhancement",
+      "wikiIndexOrder": 1,
+      "uiIcon": "BoosterVitality",
+      "nativeName": "Vitality",
+      "enumValue": null,
+      "enumValueCandidates": [
+        1,
+        4
+      ],
+      "identityEvidence": [
+        "game UI template binds native member Vitality to BoosterVitality",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "UAV Recon Booster",
+      "wikiIndexOrder": 2,
+      "uiIcon": "BoosterRecon",
+      "nativeName": "UAVRecon",
+      "enumValue": null,
+      "enumValueCandidates": [
+        1,
+        4
+      ],
+      "identityEvidence": [
+        "game UI template binds native member UAVRecon to BoosterRecon",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Stamina Enhancement",
+      "wikiIndexOrder": 3,
+      "uiIcon": "BoosterStamina",
+      "nativeName": "Stamina",
+      "enumValue": null,
+      "enumValueCandidates": [
+        2,
+        20
+      ],
+      "identityEvidence": [
+        "game UI template binds native member Stamina to BoosterStamina",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Muscle Enhancement",
+      "wikiIndexOrder": 4,
+      "uiIcon": "BoosterMuscle",
+      "nativeName": "MuscleEnhancement",
+      "enumValue": 3,
+      "enumValueCandidates": [
+        3
+      ],
+      "identityEvidence": [
+        "game UI template binds native member MuscleEnhancement to BoosterMuscle",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Increased Reinforcement Budget",
+      "wikiIndexOrder": 5,
+      "uiIcon": "BoosterIncreasedbudget",
+      "nativeName": "IncreasedReinforcementBudget",
+      "enumValue": 5,
+      "enumValueCandidates": [
+        5
+      ],
+      "identityEvidence": [
+        "game UI template binds native member IncreasedReinforcementBudget to BoosterIncreasedbudget",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Flexible Reinforcement Budget",
+      "wikiIndexOrder": 6,
+      "uiIcon": "BoosterFlexiblebudget",
+      "nativeName": "FlexibleReinforcementBudget",
+      "enumValue": 6,
+      "enumValueCandidates": [
+        6
+      ],
+      "identityEvidence": [
+        "game UI template binds native member FlexibleReinforcementBudget to BoosterFlexiblebudget",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Localization Confusion",
+      "wikiIndexOrder": 7,
+      "uiIcon": "BoosterLocalization",
+      "nativeName": "LocalizationConfusion",
+      "enumValue": null,
+      "enumValueCandidates": [
+        8,
+        16
+      ],
+      "identityEvidence": [
+        "game UI template binds native member LocalizationConfusion to BoosterLocalization",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Expert Extraction Pilot",
+      "wikiIndexOrder": 8,
+      "uiIcon": "BoosterExpert",
+      "nativeName": "FastExtraction",
+      "enumValue": null,
+      "enumValueCandidates": [
+        9,
+        19
+      ],
+      "identityEvidence": [
+        "game UI template binds native member FastExtraction to BoosterExpert",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Motivational Shocks",
+      "wikiIndexOrder": 9,
+      "uiIcon": "BoosterShocks",
+      "nativeName": "SlowStunResistance",
+      "enumValue": null,
+      "enumValueCandidates": [
+        10,
+        13
+      ],
+      "identityEvidence": [
+        "game UI template binds native member SlowStunResistance to BoosterShocks",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Experimental Infusion",
+      "wikiIndexOrder": 10,
+      "uiIcon": "BoosterInfusion",
+      "nativeName": "CombatDrugs",
+      "enumValue": 11,
+      "enumValueCandidates": [
+        11
+      ],
+      "identityEvidence": [
+        "game UI template binds native member CombatDrugs to BoosterInfusion",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Firebomb Hellpods",
+      "wikiIndexOrder": 11,
+      "uiIcon": "BoosterFirebomb",
+      "nativeName": "FieryDrop",
+      "enumValue": null,
+      "enumValueCandidates": [
+        12,
+        17,
+        18
+      ],
+      "identityEvidence": [
+        "game UI template binds native member FieryDrop to BoosterFirebomb",
+        "type-library alias length resolves a candidate set of 3"
+      ]
+    },
+    {
+      "name": "Dead Sprint",
+      "wikiIndexOrder": 12,
+      "uiIcon": "BoosterDeadsprint",
+      "nativeName": "DeathMarch",
+      "enumValue": 14,
+      "enumValueCandidates": [
+        14
+      ],
+      "identityEvidence": [
+        "game UI template binds native member DeathMarch to BoosterDeadsprint",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Armed Resupply Pods",
+      "wikiIndexOrder": 13,
+      "uiIcon": "BoosterArmedpods",
+      "nativeName": "DefensiveAmmoPod",
+      "enumValue": 15,
+      "enumValueCandidates": [
+        15
+      ],
+      "identityEvidence": [
+        "game UI template binds native member DefensiveAmmoPod to BoosterArmedpods",
+        "type-library alias length resolves a unique value"
+      ]
+    },
+    {
+      "name": "Sample Extricator",
+      "wikiIndexOrder": 14,
+      "uiIcon": "BoosterSampleextricator",
+      "nativeName": "BigEnemiesDropSamples",
+      "enumValue": null,
+      "enumValueCandidates": [
+        8,
+        16
+      ],
+      "identityEvidence": [
+        "game UI template binds native member BigEnemiesDropSamples to BoosterSampleextricator",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Sample Scanner",
+      "wikiIndexOrder": 15,
+      "uiIcon": "BoosterSamplescanner",
+      "nativeName": "DoubleSampleChance",
+      "enumValue": null,
+      "enumValueCandidates": [
+        10,
+        13
+      ],
+      "identityEvidence": [
+        "game UI template binds native member DoubleSampleChance to BoosterSamplescanner",
+        "type-library alias length resolves a candidate set of 2"
+      ]
+    },
+    {
+      "name": "Stun Pods",
+      "wikiIndexOrder": 16,
+      "uiIcon": "BoosterStunpods",
+      "nativeName": "ShockPods",
+      "enumValue": null,
+      "enumValueCandidates": [
+        12,
+        17,
+        18
+      ],
+      "identityEvidence": [
+        "game UI template binds native member ShockPods to BoosterStunpods",
+        "type-library alias length resolves a candidate set of 3"
+      ]
+    },
+    {
+      "name": "Concealed Insertion",
+      "wikiIndexOrder": 17,
+      "uiIcon": "BoosterConcealedinsertion",
+      "nativeName": "SmokePods",
+      "enumValue": null,
+      "enumValueCandidates": [
+        12,
+        17,
+        18
+      ],
+      "identityEvidence": [
+        "game UI template binds native member SmokePods to BoosterConcealedinsertion",
+        "type-library alias length resolves a candidate set of 3"
+      ]
+    },
+    {
+      "name": "Surplus EAT Allocation",
+      "wikiIndexOrder": 18,
+      "uiIcon": null,
+      "nativeName": null,
+      "enumValue": null,
+      "enumValueCandidates": [],
+      "identityEvidence": []
+    },
+    {
+      "name": "Integrated Extinguishers",
+      "wikiIndexOrder": 19,
+      "uiIcon": null,
+      "nativeName": null,
+      "enumValue": null,
+      "enumValueCandidates": [],
+      "identityEvidence": []
+    }
+  ],
+  "writes": 0,
+  "protectionChanges": 0,
+  "fixtureFallback": "disabled"
+}

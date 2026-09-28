@@ -13,6 +13,8 @@ see `docs/player-weapon-composition.md` for the guarded APIs.
 `CompositionPlanCapabilities.json` describes multi-target grouping, ordered
 phase dependencies, `target_from` paths, and per-operation shared scope. Field
 editability remains canonical in `PlayerWeaponAuthoringCapabilities.json`.
+`BoosterAuthoringCapabilities.json` publishes the 20 boosters, their native identity evidence,
+relationships, and the few fields that are backed by native data; see `docs/booster-authoring.md`.
 `StratagemAuthoringCapabilities.json` is the canonical per-instance contract for
 offensive, support-call-in, sentry, emplacement, and deferred mine authoring; see
 `docs/stratagem-authoring.md`.

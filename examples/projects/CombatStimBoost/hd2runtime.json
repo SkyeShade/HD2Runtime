@@ -1,0 +1,1 @@
+{"format":1,"name":"CombatStimBoost","resource":"mods/hd2runtime_examples/combat_stim_boost","guid":"7e89948e-3a4c-5bb3-bec2-972c481289ef","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.24.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

@@ -24,7 +24,7 @@ def _lua(value: str) -> str:
 
 def _sources():
     result = {}
-    for folder in ('api', 'core', 'runtime', 'schemas', 'domains'):
+    for folder in ('api', 'core', 'runtime', 'schemas', 'domains', 'primary_mapper'):
         for path in sorted((ROOT / folder).glob('*.lua')):
             result['hd2runtime/' + path.relative_to(ROOT).with_suffix('').as_posix()] = path.read_bytes()
     return result
@@ -65,6 +65,29 @@ assert(ok,result);return result
 '''
     raw = execute(program.encode('latin-1'))
     return struct.unpack_from('<Q', raw, 0)[0], raw[8:]
+
+
+def run_lua(body: str, snapshot: Path = SNAPSHOT) -> bytes:
+    """Run a read-only Lua body with production modules preloaded and `source` open.
+
+    The body runs inside a coroutine and must return a string; the snapshot is closed
+    afterwards. Used by research scripts that need the production parsers.
+    """
+    preload = '\n'.join('package.preload[' + _lua(name) + ']=function(...) return assert(loadstring('
+        + _lua(data.decode('latin-1')) + ',' + _lua(name) + '))(...) end' for name, data in _sources().items())
+    program = preload + r'''
+local profile=require('hd2runtime/schemas/current')
+local source=require('hd2runtime/runtime/snapshot_memory_reader').open(''' + _lua(str(Path(snapshot).resolve())) + r''',{
+ expected_exe_sha=profile.exe_sha,expected_dll_sha=profile.dll_sha})
+local worker=coroutine.create(function()
+''' + body + r'''
+end)
+local ok,result
+repeat ok,result=coroutine.resume(worker)until not ok or coroutine.status(worker)=='dead'
+source.close()
+assert(ok,result);return result
+'''
+    return execute(program.encode('latin-1'))
 
 
 def compare_pinned(live: bytes, base: int, pinned: bytes) -> dict:
