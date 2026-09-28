@@ -19,6 +19,12 @@ def lua(value):
 def ident(name): return name.replace('.', '_')
 
 
+# Typed replacements for legacy fixed-resource constants, named in the stub notes.
+LEGACY_TYPED={'armor_penetration':'hd2.fields.damage.ap_direct/ap_slight/ap_large/ap_extreme on '
+    'weapon:attack(role):projectile()','standard_damage':'hd2.fields.damage.player_standard_damage',
+    'durable_damage':'hd2.fields.damage.player_durable_damage'}
+
+
 def outputs():
     # Match Git's LF-normalized source on every checkout, including Windows.
     raw=(ROOT/'schemas/sdk.json').read_text(encoding='utf-8').encode('utf-8')
@@ -370,6 +376,11 @@ def outputs():
             if name in player_aliases:
                 note=('Deprecated compatibility alias; use hd2.fields.'
                     +player_aliases[name]+('. '+note if note else '.'))
+            elif relevant:
+                # Original fixed-resource catalog field (short names such as 'JAR-5 Dominator').
+                hint=LEGACY_TYPED.get(name)
+                note=('Legacy fixed-resource field (original short-name catalog only). '
+                    +('Typed targets use '+hint+'. ' if hint else '')+note)
             stub.append(('---@field '+constant+' '+json.dumps(name)+' '+note).rstrip())
     stub+=['','---@class HD2Fields']
     for domain in fields: stub.append('---@field '+domain+' HD2Fields_'+domain)

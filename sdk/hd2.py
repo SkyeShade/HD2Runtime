@@ -102,7 +102,7 @@ def configure(project,sdk=SDK):
     config['ide_library']=library;write_json(path,config);write_json(luarc,options)
 
 
-def new_project(path,name,template='jar5',sdk=SDK):
+def new_project(path,name,template='fire_rate',sdk=SDK):
     if not valid_resource(name):
         raise ValueError('Use a unique mods/author/mod_name resource')
     path=Path(path).resolve()
@@ -221,7 +221,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     sub=parser.add_subparsers(dest='command',required=True)
     p=sub.add_parser('inspect');p.add_argument('kind',choices=['weapon','vehicle','stratagem','equipment','type']);p.add_argument('name');p.add_argument('--json',action='store_true')
-    p=sub.add_parser('new');p.add_argument('path',type=Path);p.add_argument('--name',required=True);p.add_argument('--template',choices=['jar5','shield','observer'],default='jar5');p.add_argument('--sdk',type=Path,default=SDK)
+    p=sub.add_parser('new');p.add_argument('path',type=Path);p.add_argument('--name',required=True);p.add_argument('--template',choices=['fire_rate','projectile_damage'],default='fire_rate');p.add_argument('--sdk',type=Path,default=SDK)
     p=sub.add_parser('configure');p.add_argument('project',type=Path);p.add_argument('--sdk',type=Path,default=SDK)
     p=sub.add_parser('build');p.add_argument('project',type=Path)
     p=sub.add_parser('snapshot');snapshot_sub=p.add_subparsers(dest='snapshot_command',required=True)

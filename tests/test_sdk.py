@@ -148,7 +148,7 @@ return 'ok'
             path=sdk.build_project(project);sources=archive_sources(path)
             self.assertEqual(set(sources),{resource_hash('mods/test_sdk/my_mod')})
             body=next(iter(sources.values()))
-            self.assertIn(b'hd2.fields.damage.armor_penetration',body)
+            self.assertIn(b'hd2.fields.weapon.fire_rate',body)
             for forbidden in (b'VirtualProtect',b'VirtualQuery',b'WriteProcessMemory',b'package.preload',b'---@meta',b'function update'):
                 self.assertNotIn(forbidden,body)
             config=json.loads((project/'.luarc.json').read_text())
@@ -199,7 +199,7 @@ package.preload['ffi']=function()error('native access on load')end
 CowboyBingusModLoader={api=1,version=16}
 local a=require('mods/skyeshade/hd2runtime')
 local b=assert(loadstring(sources['mods/skyeshade/hd2runtime']))()
-assert(a==b and a.version=='0.26.0' and update==nil)
+assert(a==b and a.version=='0.26.1' and update==nil)
 return 'ok'
 ''').encode())
 
@@ -218,7 +218,10 @@ assert(not ok and why:find('requires Bingus',1,true));return 'ok'
     def test_separate_shield_mod_runs_with_either_discovery_order(self):
         from hd2_archive import resource_hash
         with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
-            project=sdk.new_project(Path(folder)/'Shield','mods/test_sdk/shield','shield')
+            # Load-order mechanics, exercised with the original fixed-resource Shield Relay transaction
+            # (the runtime keeps that legacy API; no template teaches it any more).
+            project=sdk.new_project(Path(folder)/'Shield','mods/test_sdk/shield')
+            (project/'src/addon.lua').write_text("local hd2=require('mods/skyeshade/hd2runtime')\n\nreturn hd2.ensure({\n    transaction={\n        id='shield-relay-proof',\n        target=hd2.stratagem('Shield Relay'),\n        changes={\n            {field=hd2.fields.shield.radius,expect=15,value=8},\n            {field=hd2.fields.shield.durability,expect=4000,value=40000},\n            {field=hd2.fields.payload.lifetime,expect=40,value=90},\n            {field=hd2.fields.stratagem.cooldown,expect=90,value=180},\n        },\n    },\n})\n",encoding='utf-8')
             body=archive_sources(sdk.build_project(project))[resource_hash('mods/test_sdk/shield')]
             sources=build_release.runtime_resources();sources['mods/test_sdk/shield']=body
             for runtime_first in (False,True):

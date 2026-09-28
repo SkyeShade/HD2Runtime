@@ -3,9 +3,17 @@
   "name": "ArcThrowerProof",
   "resource": "mods/hd2runtime_examples/arc_thrower_proof",
   "guid": "3fa526e0-e9ee-5a71-b293-eb895d77a98b",
-  "requires": {"bingus": {"min_release": 15, "api": 1},
-    "hd2runtime": {"min_version": "0.20.0", "api": 1,
-      "module": "mods/skyeshade/hd2runtime"}},
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.23.2",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
   "sdk": "../../../sdk",
   "ide_library": "../../../sdk/stubs"
 }

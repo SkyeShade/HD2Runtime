@@ -1,5 +1,9 @@
 # First guarded patch: JAR-5 AP4
 
+> **Historical document.** This describes the original fixed-resource JAR-5 `armor_penetration` patch from HD2Runtime 0.3.0. The runtime still accepts it so old mods keep working, but it is not how new mods are written. For the current typed API see `getting-started.md` (ownership, patch/transaction/plan) and the `Jar5AP4` example project.
+
+The typed equivalent writes the same bytes: `hd2.weapon('JAR-5 Dominator'):attack('primary'):projectile()` with `hd2.fields.damage.ap_direct`, `ap_slight` and `ap_large` from 3 to 4, as one transaction with `allow_shared=true`.
+
 Version 0.3.0 adds one reviewed write: JAR-5 Dominator logical armor penetration
 from 3 to 4. The retained source entrypoint is `proof/jar5.lua`; its entire gameplay
 declaration is:

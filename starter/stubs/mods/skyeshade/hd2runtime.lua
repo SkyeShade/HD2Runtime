@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 8cc6cb1ed18c3fc5e038dc36da3b1bbfd60939f28024126f3bd38b143464549f
+-- Schema SHA256 5bc4d4b8c4565122761e4da932ba36e87ac1a064ce994c9258e2c7a8d9f2226d
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -808,7 +808,7 @@ function HD2Weapon:magazine_attachments() end
 function HD2Weapon:magazine_attachment(identity) end
 
 ---@class HD2Fields_weapon
----@field crosshair_type "crosshair_type" APW-1 Anti-Materiel Rifle: read-only, integer
+---@field crosshair_type "crosshair_type" Legacy fixed-resource field (original short-name catalog only). APW-1 Anti-Materiel Rifle: read-only, integer
 ---@field base_capacity "weapon.base_capacity"
 ---@field capacity "weapon.capacity" Deprecated compatibility alias; use hd2.fields.magazine.capacity.
 ---@field player_crosshair_type "weapon.crosshair_type"
@@ -833,7 +833,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field vertical_spread "weapon.vertical_spread"
 
 ---@class HD2Fields_projectile
----@field projectile_type "projectile_type" JAR-5 Dominator: read-only, integer
+---@field projectile_type "projectile_type" Legacy fixed-resource field (original short-name catalog only). JAR-5 Dominator: read-only, integer
 ---@field alternate_drag "projectile.alternate.drag"
 ---@field alternate_gravity "projectile.alternate.gravity"
 ---@field alternate_mass "projectile.alternate.mass"
@@ -856,13 +856,13 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field velocity "projectile.velocity"
 
 ---@class HD2Fields_damage
----@field armor_penetration "armor_penetration" JAR-5 Dominator: reviewed writable, integer
----@field armor_penetration_lanes_1 "armor_penetration_lanes.1" JAR-5 Dominator: read-only, integer
----@field armor_penetration_lanes_2 "armor_penetration_lanes.2" JAR-5 Dominator: read-only, integer
----@field armor_penetration_lanes_3 "armor_penetration_lanes.3" JAR-5 Dominator: read-only, integer
----@field durable_damage "durable_damage" JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
----@field standard_damage "standard_damage" JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
----@field damage_type "damage_type" Orbital Laser: read-only, integer
+---@field armor_penetration "armor_penetration" Legacy fixed-resource field (original short-name catalog only). Typed targets use hd2.fields.damage.ap_direct/ap_slight/ap_large/ap_extreme on weapon:attack(role):projectile(). JAR-5 Dominator: reviewed writable, integer
+---@field armor_penetration_lanes_1 "armor_penetration_lanes.1" Legacy fixed-resource field (original short-name catalog only). JAR-5 Dominator: read-only, integer
+---@field armor_penetration_lanes_2 "armor_penetration_lanes.2" Legacy fixed-resource field (original short-name catalog only). JAR-5 Dominator: read-only, integer
+---@field armor_penetration_lanes_3 "armor_penetration_lanes.3" Legacy fixed-resource field (original short-name catalog only). JAR-5 Dominator: read-only, integer
+---@field durable_damage "durable_damage" Legacy fixed-resource field (original short-name catalog only). Typed targets use hd2.fields.damage.player_durable_damage. JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
+---@field standard_damage "standard_damage" Legacy fixed-resource field (original short-name catalog only). Typed targets use hd2.fields.damage.player_standard_damage. JAR-5 Dominator: read-only, integer; Orbital Laser: read-only, integer
+---@field damage_type "damage_type" Legacy fixed-resource field (original short-name catalog only). Orbital Laser: read-only, integer
 ---@field alternate_ap_direct "damage.alternate.ap_direct"
 ---@field alternate_ap_extreme "damage.alternate.ap_extreme"
 ---@field alternate_ap_large "damage.alternate.ap_large"
@@ -907,62 +907,62 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_vehicle
 
 ---@class HD2Fields_health
----@field default_armor "default_armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field main_health "main_health" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_0_armor "zones.0.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_1_armor "zones.1.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_10_armor "zones.10.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_11_armor "zones.11.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_12_armor "zones.12.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_13_armor "zones.13.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_14_armor "zones.14.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_15_armor "zones.15.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_16_armor "zones.16.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_17_armor "zones.17.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_18_armor "zones.18.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_19_armor "zones.19.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_2_armor "zones.2.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_20_armor "zones.20.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_21_armor "zones.21.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_22_armor "zones.22.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_23_armor "zones.23.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_24_armor "zones.24.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_25_armor "zones.25.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_26_armor "zones.26.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_27_armor "zones.27.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_28_armor "zones.28.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_29_armor "zones.29.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_3_affects_main_health "zones.3.affects_main_health" Bastion: read-only, number; Maelstrom: read-only, number
----@field zones_3_armor "zones.3.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_30_armor "zones.30.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_31_armor "zones.31.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_32_armor "zones.32.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_33_armor "zones.33.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_34_armor "zones.34.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_35_armor "zones.35.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_36_armor "zones.36.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_37_armor "zones.37.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_4_affects_main_health "zones.4.affects_main_health" Bastion: read-only, number; Maelstrom: read-only, number
----@field zones_4_armor "zones.4.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_5_armor "zones.5.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_6_armor "zones.6.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_7_armor "zones.7.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_8_armor "zones.8.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
----@field zones_9_armor "zones.9.armor" Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field default_armor "default_armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field main_health "main_health" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_0_armor "zones.0.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_1_armor "zones.1.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_10_armor "zones.10.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_11_armor "zones.11.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_12_armor "zones.12.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_13_armor "zones.13.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_14_armor "zones.14.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_15_armor "zones.15.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_16_armor "zones.16.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_17_armor "zones.17.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_18_armor "zones.18.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_19_armor "zones.19.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_2_armor "zones.2.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_20_armor "zones.20.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_21_armor "zones.21.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_22_armor "zones.22.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_23_armor "zones.23.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_24_armor "zones.24.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_25_armor "zones.25.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_26_armor "zones.26.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_27_armor "zones.27.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_28_armor "zones.28.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_29_armor "zones.29.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_3_affects_main_health "zones.3.affects_main_health" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, number; Maelstrom: read-only, number
+---@field zones_3_armor "zones.3.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_30_armor "zones.30.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_31_armor "zones.31.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_32_armor "zones.32.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_33_armor "zones.33.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_34_armor "zones.34.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_35_armor "zones.35.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_36_armor "zones.36.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_37_armor "zones.37.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_4_affects_main_health "zones.4.affects_main_health" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, number; Maelstrom: read-only, number
+---@field zones_4_armor "zones.4.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_5_armor "zones.5.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_6_armor "zones.6.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_7_armor "zones.7.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_8_armor "zones.8.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
+---@field zones_9_armor "zones.9.armor" Legacy fixed-resource field (original short-name catalog only). Bastion: read-only, integer; Maelstrom: read-only, integer
 
 ---@class HD2Fields_stratagem
----@field cooldown "cooldown" Shield Relay: reviewed writable, number
+---@field cooldown "cooldown" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
 ---@field definition_cooldown "stratagem.cooldown"
 ---@field max_uses "stratagem.max_uses"
 
 ---@class HD2Fields_shield
----@field durability "durability" Shield Relay: reviewed writable, number
----@field radius "radius" Shield Relay: reviewed writable, number
+---@field durability "durability" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
+---@field radius "radius" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
 ---@field entity_radius "shield.radius"
 ---@field entity_durability "shield.durability"
 
 ---@class HD2Fields_payload
----@field lifetime "lifetime" Shield Relay: reviewed writable, number
+---@field lifetime "lifetime" Legacy fixed-resource field (original short-name catalog only). Shield Relay: reviewed writable, number
 ---@field entity_lifetime "payload.lifetime"
 ---@field entity "payload.entity"
 ---@field spawn_count "payload.spawn_count"
@@ -970,16 +970,16 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_equipment
 
 ---@class HD2Fields_recharge
----@field recharge "recharge" Jump Pack: read-only, number
+---@field recharge "recharge" Legacy fixed-resource field (original short-name catalog only). Jump Pack: read-only, number
 ---@field time "recharge.time"
 
 ---@class HD2Fields_jumppack
----@field movement_scalar_04 "movement_scalar_04" Jump Pack: read-only, number
----@field movement_scalar_24 "movement_scalar_24" Jump Pack: read-only, number
----@field vertical_launch_velocity "vertical_launch_velocity" Jump Pack: read-only, number
+---@field movement_scalar_04 "movement_scalar_04" Legacy fixed-resource field (original short-name catalog only). Jump Pack: read-only, number
+---@field movement_scalar_24 "movement_scalar_24" Legacy fixed-resource field (original short-name catalog only). Jump Pack: read-only, number
+---@field vertical_launch_velocity "vertical_launch_velocity" Legacy fixed-resource field (original short-name catalog only). Jump Pack: read-only, number
 
 ---@class HD2Fields_orbital
----@field interval "interval" Orbital Laser: read-only, number
+---@field interval "interval" Legacy fixed-resource field (original short-name catalog only). Orbital Laser: read-only, number
 ---@field duration "orbital.duration"
 ---@field movement_speed "orbital.movement_speed"
 ---@field search_radius "orbital.search_radius"

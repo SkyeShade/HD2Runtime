@@ -23,6 +23,7 @@ import generate_pod_payload_authoring
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
+import validate_examples
 
 ROOT=build.ROOT
 sys.path.insert(0,str(ROOT/'sdk'))
@@ -171,6 +172,14 @@ def main():
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
         'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto','ExosuitUnlimitedUses',
         'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs','MaxigunBackpackAmmo','SurplusEatPodSwap']
+    # Every shipped example (projects, live examples, the ModTemplate) must pass current Runtime validation,
+    # including snapshot baselines, acknowledgements and minimum versions; a rotten example fails the release.
+    examples_report=validate_examples.validate()
+    if examples_report['status']!='VALIDATED':
+        raise RuntimeError('Example validation failed: '+', '.join(examples_report['failed']))
+    report['example_validation']={'status':examples_report['status'],'examples':examples_report['examples'],
+        'failed':examples_report['failed'],'baselineChanges':sum(item['baselineChanges'] or 0
+            for item in examples_report['results'].values())}
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

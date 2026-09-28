@@ -3,9 +3,17 @@
   "name": "SupportAMRProof",
   "resource": "mods/hd2runtime_examples/support_amr_proof",
   "guid": "ab796fba-b8b5-5eb8-8b52-b5b7fa083f74",
-  "requires": {"bingus": {"min_release": 15, "api": 1},
-    "hd2runtime": {"min_version": "0.20.0", "api": 1,
-      "module": "mods/skyeshade/hd2runtime"}},
+  "requires": {
+    "bingus": {
+      "min_release": 15,
+      "api": 1
+    },
+    "hd2runtime": {
+      "min_version": "0.23.2",
+      "api": 1,
+      "module": "mods/skyeshade/hd2runtime"
+    }
+  },
   "sdk": "../../../sdk",
   "ide_library": "../../../sdk/stubs"
 }

@@ -1,6 +1,8 @@
 # Jar5AP4
 
-Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime 0.5.0+ / API 1 installed once.
+Raises the JAR-5 Dominator's armor penetration from 3 to 4 at the direct, slight and large impact angles, through the typed projectile target (`hd2.weapon('JAR-5 Dominator'):attack('primary'):projectile()`) and the per-angle fields `hd2.fields.damage.ap_direct`, `ap_slight` and `ap_large`. It writes the same bytes as the original gameplay-proven JAR-5 patch, which used the legacy fixed `armor_penetration` field; that legacy form is no longer taught.
+
+Requires Bingus Shared Loader v15+ / API 1 and HD2Runtime 0.23.2+ / API 1 installed once.
 
 This project contains only gameplay declarations. Do not copy the runtime or SDK stubs into src.
 

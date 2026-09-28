@@ -561,8 +561,24 @@ def build(catalog_path=CATALOG):
             'fixtureFallback':'disabled'}}
 
 
+def api_constant(field_id,legacy):
+    domain,name=field_id.split('.',1)
+    constant=name.replace('.','_')
+    if legacy.get(domain,{}).get(constant,field_id)!=field_id:
+        constant='player_'+constant
+    return 'hd2.fields.'+domain+'.'+constant
+
+
 def outputs(catalog_path=CATALOG):
     value=build(catalog_path)
+    # The Lua constant for each field, so authors never pick a legacy fixed-resource constant by accident.
+    legacy={}
+    for resource in json.loads((ROOT/'schemas/sdk.json').read_text())['resources'].values():
+        for name,spec in resource['fields'].items():
+            legacy.setdefault(spec['domain'],{})[name.replace('.','_')]=name
+    for weapon in value['weapons']:
+        for field in weapon['fields']:
+            field['apiFieldConstant']=api_constant(field['semanticFieldId'],legacy)
     ammo_source=json.loads(AMMO_CATALOG.read_text())
     constants={}
     for weapon in value['weapons']:

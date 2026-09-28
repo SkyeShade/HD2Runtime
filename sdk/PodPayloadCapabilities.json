@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.pod_payload.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.26.0",
+  "hd2RuntimeVersion": "0.26.1",
   "model": [
     "StratagemDefinition primary payload -> rack entity",
     "HellpodRackComponent payloads[8] RackAttach (64 bytes): item entity reference (+0), attach node, rack side, apply_deltas",
