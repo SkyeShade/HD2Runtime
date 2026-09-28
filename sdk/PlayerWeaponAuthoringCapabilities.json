@@ -10,8 +10,8 @@
     "weapons": 80,
     "uniqueWeapons": 73,
     "duplicateWeapons": 7,
-    "semanticFieldDefinitions": 96,
-    "writableSemanticFieldDefinitions": 76,
+    "semanticFieldDefinitions": 101,
+    "writableSemanticFieldDefinitions": 81,
     "readOnlySemanticFieldDefinitions": 20,
     "derivedSemanticFieldDefinitions": 9,
     "fieldInstances": 3574,
@@ -684,6 +684,28 @@
       "storage": "f32"
     },
     {
+      "id": "projectile.lifetime",
+      "display_name": "Projectile lifetime",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "settings": "projectile",
+      "offset": 52,
+      "storage": "f32"
+    },
+    {
+      "id": "projectile.penetration_slowdown",
+      "display_name": "Penetration slowdown",
+      "type": "number",
+      "unit": "factor",
+      "derived": false,
+      "writable": true,
+      "settings": "projectile",
+      "offset": 64,
+      "storage": "f32"
+    },
+    {
       "id": "projectile.pellet_count",
       "display_name": "Pellet count",
       "type": "integer",
@@ -962,6 +984,39 @@
       "writable": true,
       "component": "WeaponChargeComponentData",
       "offset": 48,
+      "storage": "f32"
+    },
+    {
+      "id": "reload.duration",
+      "display_name": "Reload duration",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponReloadComponentData",
+      "offset": 56,
+      "storage": "f32"
+    },
+    {
+      "id": "windup.wind_up_seconds",
+      "display_name": "Wind-up time",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponWindUpComponentData",
+      "offset": 0,
+      "storage": "f32"
+    },
+    {
+      "id": "windup.wind_down_seconds",
+      "display_name": "Wind-down time",
+      "type": "number",
+      "unit": "seconds",
+      "derived": false,
+      "writable": true,
+      "component": "WeaponWindUpComponentData",
+      "offset": 4,
       "storage": "f32"
     },
     {

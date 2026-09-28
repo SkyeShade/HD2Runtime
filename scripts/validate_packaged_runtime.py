@@ -68,6 +68,24 @@ return hd2.patch({id='concussive-fire-rate',target=hd2.weapon('AR-23C Liberator 
 '''
 
 
+SUPPORT_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local mg43=hd2.support_weapon('MG-43 Machine Gun')
+local operations={}
+-- Delivery-resolved identity (call-in rack chain re-proven live) plus a reload duration.
+operations[#operations+1]=hd2.ensure({plan={id='mg43-coverage',operations={
+    {id='rate',target=mg43,field=hd2.fields.weapon.fire_rate,expect=760,value=900},
+    {id='reload',target=mg43,allow_unverified_effect=true,
+        field=hd2.fields.reload.duration,expect=4.5,value=3},
+}}})
+operations[#operations+1]=hd2.ensure({patch={id='maxigun-windup',target=hd2.support_weapon('M-1000 Maxigun'),
+    field=hd2.fields.windup.wind_up_seconds,expect=0.5,value=0.2}})
+operations[#operations+1]=hd2.ensure({patch={id='rl77-lifetime',allow_shared=true,
+    target=hd2.support_weapon('RL-77 Airburst Rocket Launcher'):attack('primary'):projectile(),
+    field=hd2.fields.projectile.lifetime,expect=1.5,value=3}})
+return operations
+'''
+
+
 def example(name):
     return (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
 
@@ -76,6 +94,7 @@ SCENARIOS = {
     'player-weapon-patch': lambda: SIMPLE_PATCH,
     'player-weapon-transaction-gui': lambda: GUI_TRANSACTION,
     'support-weapon': lambda: example('SupportAMRProof'),
+    'support-weapon-coverage': lambda: SUPPORT_COVERAGE,
     'stratagem': lambda: example('SupportStratagemCooldownProof'),
     'vehicle-armor': lambda: example('BastionReArmoredRecreation'),
     'vehicle-mount': lambda: example('FRVWeaponSwapRecreation'),

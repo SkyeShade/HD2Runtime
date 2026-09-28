@@ -1,12 +1,12 @@
 {
-  "blocked": 8,
+  "blocked": 4,
   "explosionBranches": 17,
   "failures": {},
-  "fields": 828,
+  "fields": 970,
   "fixtureFallback": "disabled",
   "mode": "snapshot",
-  "projectileBranches": 16,
+  "projectileBranches": 19,
   "protectionChanges": 0,
-  "weapons": 27,
+  "weapons": 31,
   "writes": 0
 }

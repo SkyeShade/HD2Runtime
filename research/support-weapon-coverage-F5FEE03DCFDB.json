@@ -1,0 +1,1044 @@
+{
+  "schemaVersion": 1,
+  "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "pinnedReferences": {
+    "entities": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+    "typelib": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+    "projectileSettings": "50AF7CCCF03697A0EF96B7F9DDEB19279ADC3B887BD95E0F972996844B7221EA"
+  },
+  "wikiDataset": {
+    "wiki_support_weapons.json": "4C14FD256666FFE6CAD9646A284A8C2B664322A470FFA4D787A06B46B4B1B351",
+    "wiki_player_weapons.json": "419496333B7951B89DA48642A3BE79025E3DBD16D536A7615BDC76B2F43C42FC"
+  },
+  "liveEquality": {
+    "projectileSettings": {
+      "identical": true,
+      "relocatedPointers": 1,
+      "otherDifferences": 0,
+      "firstDifferences": []
+    },
+    "entityTables": {
+      "WeaponReloadComponentData": {
+        "indexAndRecordsIdentical": true,
+        "records": 250,
+        "stride": 80
+      },
+      "WeaponWindUpComponentData": {
+        "indexAndRecordsIdentical": true,
+        "records": 10,
+        "stride": 36
+      },
+      "WeaponMagazineComponentData": {
+        "indexAndRecordsIdentical": true,
+        "records": 271,
+        "stride": 160
+      },
+      "ProjectileWeaponComponentData": {
+        "indexAndRecordsIdentical": true,
+        "records": 272,
+        "stride": 616
+      },
+      "HellpodRackComponentData": {
+        "indexAndRecordsIdentical": true,
+        "records": 71,
+        "stride": 568
+      }
+    }
+  },
+  "fieldLayout": {
+    "projectile.lifetime": {
+      "type": "ProjectileInfo",
+      "offset": 52,
+      "storage": "FP32",
+      "hiddenNameLength": 9,
+      "matchesName": "life_time"
+    },
+    "projectile.penetration_slowdown": {
+      "type": "ProjectileInfo",
+      "offset": 64,
+      "storage": "FP32",
+      "hiddenNameLength": 20,
+      "matchesName": "penetration_slowdown"
+    },
+    "reload.duration": {
+      "type": "WeaponReloadComponent",
+      "offset": 56,
+      "storage": "FP32",
+      "hiddenNameLength": 8,
+      "matchesName": "duration"
+    },
+    "windup.wind_up_seconds": {
+      "type": "WeaponWindUpComponent",
+      "offset": 0,
+      "storage": "FP32",
+      "hiddenNameLength": 12,
+      "matchesName": "wind_up_time"
+    },
+    "windup.wind_down_seconds": {
+      "type": "WeaponWindUpComponent",
+      "offset": 4,
+      "storage": "FP32",
+      "hiddenNameLength": 14,
+      "matchesName": "wind_down_time"
+    }
+  },
+  "projectileLabelConflict": {
+    "filediverLabel": "LifeTime at +56",
+    "hiddenNameLengthAt56": 20,
+    "resolution": "+56 cannot be life_time (9); +52 matches by length and by exact correlation"
+  },
+  "projectileCorrelation": {
+    "join": "unique four-value physics fingerprint (velocity, mass, drag, gravity)",
+    "joinedRows": 27,
+    "results": {
+      "lifetime52": {
+        "matches": 5,
+        "mismatches": 0
+      },
+      "lifetime56": {
+        "matches": 0,
+        "mismatches": 5
+      },
+      "penetration56": {
+        "matches": 1,
+        "mismatches": 26
+      },
+      "penetration64": {
+        "matches": 27,
+        "mismatches": 0
+      }
+    },
+    "lifetimeSamples": [
+      {
+        "weapon": "AC-8 Autocannon",
+        "attack": "AC-8 P1",
+        "wikiLifetime": 0.899999976,
+        "native52": 0.9,
+        "native56": 0.0
+      },
+      {
+        "weapon": "EAT-700 Expendable Napalm",
+        "attack": "EAT-700 P1",
+        "wikiLifetime": 7,
+        "native52": 7.0,
+        "native56": 0.0
+      },
+      {
+        "weapon": "R/40-K Hot-Shot Marksman Rifle",
+        "attack": "R/40-K P",
+        "wikiLifetime": 3,
+        "native52": 3.0,
+        "native56": 0.0
+      },
+      {
+        "weapon": "LAS-12 Sai",
+        "attack": "LAS-12 P",
+        "wikiLifetime": 6,
+        "native52": 6.0,
+        "native56": 0.0
+      },
+      {
+        "weapon": "P/40-K Bolt Pistol",
+        "attack": "P/40-K P",
+        "wikiLifetime": 0.600000024,
+        "native52": 0.6,
+        "native56": 0.0
+      }
+    ]
+  },
+  "projectileRows": {
+    "30": {
+      "recordType": 115,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.55
+    },
+    "80": {
+      "recordType": 89,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "81": {
+      "recordType": 280,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "88": {
+      "recordType": 222,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "93": {
+      "recordType": 132,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.85
+    },
+    "94": {
+      "recordType": 259,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.85
+    },
+    "99": {
+      "recordType": 153,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "101": {
+      "recordType": 312,
+      "lifetime": 1.5,
+      "penetrationSlowdown": 0.25
+    },
+    "122": {
+      "recordType": 245,
+      "lifetime": 15.0,
+      "penetrationSlowdown": 0.25
+    },
+    "125": {
+      "recordType": 225,
+      "lifetime": 15.0,
+      "penetrationSlowdown": 0.25
+    },
+    "127": {
+      "recordType": 43,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "147": {
+      "recordType": 34,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "199": {
+      "recordType": 276,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "213": {
+      "recordType": 61,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "221": {
+      "recordType": 148,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "222": {
+      "recordType": 49,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "225": {
+      "recordType": 306,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "250": {
+      "recordType": 226,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "252": {
+      "recordType": 275,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "288": {
+      "recordType": 217,
+      "lifetime": 0.0,
+      "penetrationSlowdown": 0.25
+    },
+    "317": {
+      "recordType": 165,
+      "lifetime": 0.6,
+      "penetrationSlowdown": 0.35
+    },
+    "320": {
+      "recordType": 186,
+      "lifetime": 5.0,
+      "penetrationSlowdown": 0.0
+    },
+    "321": {
+      "recordType": 125,
+      "lifetime": 1.7,
+      "penetrationSlowdown": 0.0
+    },
+    "333": {
+      "recordType": 133,
+      "lifetime": 6.0,
+      "penetrationSlowdown": 0.25
+    }
+  },
+  "weapons": {
+    "40-K Meltagun": {
+      "reload": {
+        "recordIndex": 225,
+        "indexRow": 48,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x6CFCC7F8801A0266",
+        "duration": 0.0,
+        "wikiFullReload": [
+          3.75
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "AC-8 Autocannon": {
+      "reload": {
+        "recordIndex": 222,
+        "indexRow": 393,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xA8CFFB316F0B5C5F",
+        "duration": 3.0,
+        "wikiFullReload": [],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "APW-1 Anti-Materiel Rifle": {
+      "reload": {
+        "recordIndex": 240,
+        "indexRow": 150,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x89C5493E08CA4207",
+        "duration": 3.0,
+        "wikiFullReload": [
+          3.05
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "ARC-3 Arc Thrower": {},
+    "B/FLAM-80 Cremator": {},
+    "B/MD C4 Pack": {},
+    "CQC-1 One True Flag": {},
+    "CQC-20 Breaching Hammer": {
+      "reload": {
+        "recordIndex": 117,
+        "indexRow": 61,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x5F3EC9BDA2BD8553",
+        "duration": 0.0,
+        "wikiFullReload": [
+          1
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "CQC-72 Entrenchment Tool": {},
+    "CQC-9 Defoliation Tool": {},
+    "EAT-17 Expendable Anti-Tank": {},
+    "EAT-411 Leveller": {},
+    "EAT-700 Expendable Napalm": {},
+    "FAF-14 Spear": {
+      "reload": {
+        "recordIndex": 226,
+        "indexRow": 118,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x25AA2FD4643CF4EE",
+        "duration": 5.0,
+        "wikiFullReload": [
+          4.65
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "FLAM-40 Flamethrower": {
+      "reload": {
+        "recordIndex": 228,
+        "indexRow": 278,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x39AB99895147A3BF",
+        "duration": 0.0,
+        "wikiFullReload": [
+          4
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "GL-21 Grenade Launcher": {
+      "reload": {
+        "recordIndex": 229,
+        "indexRow": 0,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x02EECD0B1FA49630",
+        "duration": 3.5,
+        "wikiFullReload": [
+          3.55
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "GL-28 Belt-Fed Grenade Launcher": {
+      "reload": {
+        "recordIndex": 223,
+        "indexRow": 202,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x88C2D09AD85A7C9F",
+        "duration": 4.5,
+        "wikiFullReload": [],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "GL-52 De-Escalator": {
+      "reload": {
+        "recordIndex": 230,
+        "indexRow": 170,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xFE3B29B2CFA63F9B",
+        "duration": 2.5,
+        "wikiFullReload": [],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "GR-8 Recoilless Rifle": {
+      "reload": {
+        "recordIndex": 239,
+        "indexRow": 37,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x9F80D67A12A7E40F",
+        "duration": 6.0,
+        "wikiFullReload": [
+          6.1
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "LAS-98 Laser Cannon": {},
+    "LAS-99 Quasar Cannon": {},
+    "M-1000 Maxigun": {
+      "reload": {
+        "recordIndex": 236,
+        "indexRow": 82,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x43A58CB89CFA197C",
+        "duration": 4.5,
+        "wikiFullReload": [],
+        "writable": true,
+        "reason": null
+      },
+      "windUp": {
+        "recordIndex": 8,
+        "indexRow": 4,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x43A58CB89CFA197C",
+        "windUpSeconds": 0.5,
+        "windDownSeconds": 0.5,
+        "wikiSpinUp": 0.5,
+        "wikiWindDown": null
+      }
+    },
+    "M-105 Stalwart": {
+      "reload": {
+        "recordIndex": 195,
+        "indexRow": 211,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xA6A735ACCB4A327F",
+        "duration": 0.0,
+        "wikiFullReload": [
+          5.9
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "MG-206 Heavy Machine Gun": {
+      "reload": {
+        "recordIndex": 233,
+        "indexRow": 9,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x2152D5147B0AC418",
+        "duration": 5.5,
+        "wikiFullReload": [
+          5.55
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "MG-43 Machine Gun": {
+      "reload": {
+        "recordIndex": 235,
+        "indexRow": 308,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x11C27D3BABB38956",
+        "duration": 4.5,
+        "wikiFullReload": [
+          4.55
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "MGX-42 Bullet Storm": {},
+    "MLS-4X Commando": {},
+    "MS-11 Solo Silo": {},
+    "PLAS-45 Epoch": {
+      "reload": {
+        "recordIndex": 237,
+        "indexRow": 413,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xE8D5F49AD7780E54",
+        "duration": 0.0,
+        "wikiFullReload": [
+          5.15
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "RL-77 Airburst Rocket Launcher": {
+      "reload": {
+        "recordIndex": 221,
+        "indexRow": 326,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x26E40437EA275296",
+        "duration": 5.0,
+        "wikiFullReload": [
+          5.1
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "RS-422 Railgun": {
+      "reload": {
+        "recordIndex": 238,
+        "indexRow": 312,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x2E9D0BDC48B09E60",
+        "duration": 1.25,
+        "wikiFullReload": [
+          1.2,
+          1.35
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "S-11 Speargun": {
+      "reload": {
+        "recordIndex": 231,
+        "indexRow": 221,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x3828E2051AA9E897",
+        "duration": 2.5,
+        "wikiFullReload": [
+          2.5
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "SG-88 Break-Action Shotgun": {
+      "reload": {
+        "recordIndex": 149,
+        "indexRow": 191,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x52071F49263415E4",
+        "duration": 2.5,
+        "wikiFullReload": [
+          1.55
+        ],
+        "writable": true,
+        "reason": null
+      }
+    },
+    "StA-X3 W.A.S.P. Launcher": {
+      "reload": {
+        "recordIndex": 227,
+        "indexRow": 112,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0xCC786F6491FE7E65",
+        "duration": 0.0,
+        "wikiFullReload": [
+          4.9
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    },
+    "TX-41 Sterilizer": {
+      "reload": {
+        "recordIndex": 224,
+        "indexRow": 128,
+        "ownerCount": 1,
+        "uniqueOwner": true,
+        "resource": "0x88F61AFFF48AC8A4",
+        "duration": 0.0,
+        "wikiFullReload": [
+          4
+        ],
+        "writable": false,
+        "reason": "Native duration 0 means the reload ability default duration applies; no scalar owner."
+      }
+    }
+  },
+  "deliveryResolution": {
+    "B/FLAM-80 Cremator": {
+      "candidates": [
+        "0x0736BEE2D6328726",
+        "0x78A8185F63A70795"
+      ],
+      "decision": "BLOCKED",
+      "callIn": {
+        "id": 2271469939,
+        "package": "0xDF16F5C644EDC2B1",
+        "recordKind": 87
+      },
+      "rack": {
+        "resourceHash": "0xCA4F3FC268F449D5",
+        "entityRow": 2518,
+        "recordIndex": 34,
+        "attachedResources": [
+          "0x78A8185F63A70795",
+          "0x43EB1C3C1A1860E0"
+        ]
+      },
+      "structurallyDelivered": [
+        "0x78A8185F63A70795"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          500,
+          null,
+          250,
+          null
+        ],
+        "roots": [
+          {
+            "resource": "0x0736BEE2D6328726",
+            "delivered": false,
+            "nativeMagazine": [
+              500,
+              0,
+              6,
+              0
+            ],
+            "matchesWiki": false
+          },
+          {
+            "resource": "0x78A8185F63A70795",
+            "delivered": true,
+            "nativeMagazine": null,
+            "matchesWiki": false
+          }
+        ]
+      },
+      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+    },
+    "CQC-20 Breaching Hammer": {
+      "candidates": [
+        "0x5F3EC9BDA2BD8553",
+        "0x792D5D2A340FD6E6"
+      ],
+      "decision": "RESOLVED",
+      "callIn": {
+        "id": 3330450692,
+        "package": "0x39DDD2E6F131C873",
+        "recordKind": 100
+      },
+      "rack": {
+        "resourceHash": "0x8DB8B823889324F9",
+        "entityRow": 1276,
+        "recordIndex": 51,
+        "attachedResources": [
+          "0x5F3EC9BDA2BD8553"
+        ]
+      },
+      "structurallyDelivered": [
+        "0x5F3EC9BDA2BD8553"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          1,
+          7,
+          7,
+          7
+        ],
+        "roots": [
+          {
+            "resource": "0x5F3EC9BDA2BD8553",
+            "delivered": true,
+            "nativeMagazine": [
+              1,
+              7,
+              7,
+              7
+            ],
+            "matchesWiki": true
+          },
+          {
+            "resource": "0x792D5D2A340FD6E6",
+            "delivered": false,
+            "nativeMagazine": null,
+            "matchesWiki": false
+          }
+        ]
+      },
+      "deliveredRoot": "0x5F3EC9BDA2BD8553",
+      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+    },
+    "CQC-72 Entrenchment Tool": {
+      "candidates": [
+        "0x7E1F76163C667E4B",
+        "0xE85E623F93F96FB3"
+      ],
+      "decision": "BLOCKED",
+      "reason": "No uniquely correlated call-in StratagemDefinition; delivered root unknown."
+    },
+    "EAT-17 Expendable Anti-Tank": {
+      "candidates": [
+        "0x5C54E81A4AAA31FC",
+        "0x80932FA0ED6901D3"
+      ],
+      "decision": "BLOCKED",
+      "callIn": {
+        "id": 3413606544,
+        "package": "0x0000000000000000",
+        "recordKind": 147
+      },
+      "rack": {
+        "resourceHash": "0x0DC7A18342B62BEC",
+        "entityRow": 3053,
+        "recordIndex": 44,
+        "attachedResources": [
+          "0x80932FA0ED6901D3",
+          "0x80932FA0ED6901D3"
+        ]
+      },
+      "structurallyDelivered": [
+        "0x80932FA0ED6901D3"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          1,
+          null,
+          null,
+          null
+        ],
+        "roots": [
+          {
+            "resource": "0x5C54E81A4AAA31FC",
+            "delivered": false,
+            "nativeMagazine": [
+              1,
+              0,
+              6,
+              0
+            ],
+            "matchesWiki": false
+          },
+          {
+            "resource": "0x80932FA0ED6901D3",
+            "delivered": true,
+            "nativeMagazine": [
+              1,
+              0,
+              6,
+              0
+            ],
+            "matchesWiki": false
+          }
+        ]
+      },
+      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+    },
+    "LAS-98 Laser Cannon": {
+      "candidates": [
+        "0x1980D92B619FF5FE",
+        "0x56070F36CFFFA8A8",
+        "0xD54B9505C0F72873"
+      ],
+      "decision": "BLOCKED",
+      "callIn": {
+        "id": 2822568285,
+        "package": "0x0000000000000000",
+        "recordKind": 63
+      },
+      "rack": {
+        "resourceHash": "0xFDE262593307CA2F",
+        "entityRow": 2607,
+        "recordIndex": 41,
+        "attachedResources": [
+          "0xD54B9505C0F72873",
+          "0xD54B9505C0F72873"
+        ]
+      },
+      "structurallyDelivered": [
+        "0xD54B9505C0F72873"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          12.5,
+          2,
+          6,
+          2
+        ],
+        "roots": [
+          {
+            "resource": "0x1980D92B619FF5FE",
+            "delivered": false,
+            "nativeMagazine": null,
+            "matchesWiki": false
+          },
+          {
+            "resource": "0x56070F36CFFFA8A8",
+            "delivered": false,
+            "nativeMagazine": null,
+            "matchesWiki": false
+          },
+          {
+            "resource": "0xD54B9505C0F72873",
+            "delivered": true,
+            "nativeMagazine": null,
+            "matchesWiki": false
+          }
+        ]
+      },
+      "reason": "Structural delivery is unique, but scraped magazine values do not independently identify the delivered root (identical alternative or conflicting values)."
+    },
+    "M-105 Stalwart": {
+      "candidates": [
+        "0xA6A735ACCB4A327F",
+        "0xB43235DBD493750C",
+        "0xB9606C5AAB32C3C2",
+        "0xD53EE03481AE73FD"
+      ],
+      "decision": "RESOLVED",
+      "callIn": {
+        "id": 14345846,
+        "package": "0x0000000000000000",
+        "recordKind": 13
+      },
+      "rack": {
+        "resourceHash": "0x31C4DD88C1450282",
+        "entityRow": 642,
+        "recordIndex": 45,
+        "attachedResources": [
+          "0xA6A735ACCB4A327F",
+          "0xA6A735ACCB4A327F"
+        ]
+      },
+      "structurallyDelivered": [
+        "0xA6A735ACCB4A327F"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          250,
+          2,
+          2,
+          3
+        ],
+        "roots": [
+          {
+            "resource": "0xA6A735ACCB4A327F",
+            "delivered": true,
+            "nativeMagazine": [
+              250,
+              2,
+              2,
+              3
+            ],
+            "matchesWiki": true
+          },
+          {
+            "resource": "0xB43235DBD493750C",
+            "delivered": false,
+            "nativeMagazine": [
+              150,
+              0,
+              0,
+              0
+            ],
+            "matchesWiki": false
+          },
+          {
+            "resource": "0xB9606C5AAB32C3C2",
+            "delivered": false,
+            "nativeMagazine": [
+              150,
+              0,
+              0,
+              0
+            ],
+            "matchesWiki": false
+          },
+          {
+            "resource": "0xD53EE03481AE73FD",
+            "delivered": false,
+            "nativeMagazine": [
+              150,
+              0,
+              0,
+              0
+            ],
+            "matchesWiki": false
+          }
+        ]
+      },
+      "deliveredRoot": "0xA6A735ACCB4A327F",
+      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+    },
+    "MG-206 Heavy Machine Gun": {
+      "candidates": [
+        "0x085C1EDB038EC24E",
+        "0x2152D5147B0AC418",
+        "0xCD00BDC1149C2928"
+      ],
+      "decision": "RESOLVED",
+      "callIn": {
+        "id": 533318241,
+        "package": "0x0000000000000000",
+        "recordKind": 32
+      },
+      "rack": {
+        "resourceHash": "0x0FD8B759412815DD",
+        "entityRow": 1503,
+        "recordIndex": 35,
+        "attachedResources": [
+          "0x2152D5147B0AC418",
+          "0x2152D5147B0AC418"
+        ]
+      },
+      "structurallyDelivered": [
+        "0x2152D5147B0AC418"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          100,
+          1,
+          2,
+          2
+        ],
+        "roots": [
+          {
+            "resource": "0x085C1EDB038EC24E",
+            "delivered": false,
+            "nativeMagazine": [
+              100,
+              4,
+              2,
+              4
+            ],
+            "matchesWiki": false
+          },
+          {
+            "resource": "0x2152D5147B0AC418",
+            "delivered": true,
+            "nativeMagazine": [
+              100,
+              1,
+              2,
+              2
+            ],
+            "matchesWiki": true
+          },
+          {
+            "resource": "0xCD00BDC1149C2928",
+            "delivered": false,
+            "nativeMagazine": [
+              100,
+              6,
+              2,
+              6
+            ],
+            "matchesWiki": false
+          }
+        ]
+      },
+      "deliveredRoot": "0x2152D5147B0AC418",
+      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+    },
+    "MG-43 Machine Gun": {
+      "candidates": [
+        "0x11C27D3BABB38956",
+        "0x587878FB76F4B9B1"
+      ],
+      "decision": "RESOLVED",
+      "callIn": {
+        "id": 458198946,
+        "package": "0x0000000000000000",
+        "recordKind": 92
+      },
+      "rack": {
+        "resourceHash": "0x94C5114EBA59AA21",
+        "entityRow": 2593,
+        "recordIndex": 46,
+        "attachedResources": [
+          "0x11C27D3BABB38956",
+          "0x11C27D3BABB38956"
+        ]
+      },
+      "structurallyDelivered": [
+        "0x11C27D3BABB38956"
+      ],
+      "fingerprint": {
+        "wikiMagazine": [
+          175,
+          2,
+          2,
+          3
+        ],
+        "roots": [
+          {
+            "resource": "0x11C27D3BABB38956",
+            "delivered": true,
+            "nativeMagazine": [
+              175,
+              2,
+              2,
+              3
+            ],
+            "matchesWiki": true
+          },
+          {
+            "resource": "0x587878FB76F4B9B1",
+            "delivered": false,
+            "nativeMagazine": [
+              175,
+              30,
+              6,
+              12
+            ],
+            "matchesWiki": false
+          }
+        ]
+      },
+      "deliveredRoot": "0x11C27D3BABB38956",
+      "reason": "Call-in rack attaches exactly this root, and its native magazine tuple alone matches the scraped values."
+    }
+  },
+  "writes": 0,
+  "protectionChanges": 0,
+  "fixtureFallback": "disabled"
+}

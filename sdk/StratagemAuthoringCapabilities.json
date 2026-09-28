@@ -87758,7 +87758,7 @@
       "displayNameMatchingRequired": false,
       "rawNativeIdentifiersPublished": false,
       "writeTargetsRemainSeparate": true,
-      "writeGuardsUnchanged": "A known relationship never lifts support-weapon write blocking; ambiguous runtime weapon roots stay blocked."
+      "writeGuardsUnchanged": "A known relationship alone never lifts support-weapon write blocking. A duplicate group is resolved only when its call-in rack attaches exactly one candidate root and scraped magazine values independently identify that root (DELIVERY_RESOLVED); ambiguous runtime weapon roots stay blocked."
     },
     "relationships": [
       {
@@ -88320,7 +88320,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -89628,7 +89628,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -89698,7 +89698,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -89768,7 +89768,7 @@
         "deliveryObject": "hellpod_support_weapon",
         "companionDeliveries": [],
         "special": null,
-        "weaponIdentityStatus": "DUPLICATE",
+        "weaponIdentityStatus": "DELIVERY_RESOLVED",
         "deliveryGraph": {
           "composition": "reference",
           "duplicatesFields": false,
@@ -90782,15 +90782,11 @@
       "relationships": 32,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
-      "ambiguousWeaponIdentityLinks": 7,
+      "ambiguousWeaponIdentityLinks": 3,
       "ambiguousWeaponIdentityNames": [
         "B/FLAM-80 Cremator",
-        "CQC-20 Breaching Hammer",
         "EAT-17 Expendable Anti-Tank",
-        "LAS-98 Laser Cannon",
-        "M-105 Stalwart",
-        "MG-206 Heavy Machine Gun",
-        "MG-43 Machine Gun"
+        "LAS-98 Laser Cannon"
       ],
       "specialLinks": [
         "MS-11 Solo Silo"
@@ -90910,15 +90906,11 @@
       "relationships": 32,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
-      "ambiguousWeaponIdentityLinks": 7,
+      "ambiguousWeaponIdentityLinks": 3,
       "ambiguousWeaponIdentityNames": [
         "B/FLAM-80 Cremator",
-        "CQC-20 Breaching Hammer",
         "EAT-17 Expendable Anti-Tank",
-        "LAS-98 Laser Cannon",
-        "M-105 Stalwart",
-        "MG-206 Heavy Machine Gun",
-        "MG-43 Machine Gun"
+        "LAS-98 Laser Cannon"
       ],
       "specialLinks": [
         "MS-11 Solo Silo"

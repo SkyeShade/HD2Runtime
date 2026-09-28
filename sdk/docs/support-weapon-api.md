@@ -47,9 +47,59 @@ stays read-only until its entity/package storage owner and semantics are proven.
 `WeaponLinkedAmmoComponentData` ownership is reported as classification evidence only.
 
 LAS-98 uses the 0.18 `WeaponHeatComponentData` layout in the retained snapshot, including heat
-capacity, generation, cooling, and heatsinks. Its three runtime roots are still ambiguous, so both
-heat and beam writes remain blocked. EAT-17, MG-43, MG-206, M-105, B/FLAM-80, CQC-20, and CQC-72
-are blocked for the same identity reason.
+capacity, generation, cooling, and heatsinks. Its runtime roots are still unresolved (see below),
+so both heat and beam writes remain blocked.
+
+## 0.24 coverage
+
+Evidence: `research/support-weapon-coverage-F5FEE03DCFDB.json`, produced by
+`scripts/research_support_weapon_coverage.py`. The live snapshot proves every relied-on native
+table is byte-identical to the pinned reference; scraped values are fingerprints only.
+
+| Field | Native owner | Evidence | Writable where |
+| --- | --- | --- | --- |
+| `projectile.lifetime` | `ProjectileInfo` +52 | Type-library member name length 9 (`life_time`); 5/5 exact scraped matches, 0/5 at the competing +56 | Native lifetime is non-zero (LAS-99, PLAS-45, RL-77, RS-422, S-11). A 0 lifetime means "no explicit limit" and stays read-only. |
+| `projectile.penetration_slowdown` | `ProjectileInfo` +64 | Name length 20; 27/27 exact matches, 1/27 at +56 | Every resolved projectile branch |
+| `reload.duration` | `WeaponReloadComponentData` +56 | Name length 8 (`duration`); scraped reload times agree only approximately | Native duration is non-zero (14 weapons). **Requires `allow_unverified_effect=true`.** A 0 duration means the reload ability's default applies and stays read-only. |
+| `windup.wind_up_seconds` | `WeaponWindUpComponentData` +0 | Name length 12; exact scraped match (Maxigun 0.5 s) | M-1000 Maxigun |
+| `windup.wind_down_seconds` | `WeaponWindUpComponentData` +4 | Name length 14; no scraped value | M-1000 Maxigun. **Requires `allow_unverified_effect=true`.** |
+
+Projectile fields live on shared definitions and need `allow_shared=true`, like the other
+`projectile.*` fields. Filediver labels +56 as `LifeTime`; the type library and the correlation
+both contradict that for this build.
+
+```lua
+local mg43=hd2.support_weapon('MG-43 Machine Gun')
+hd2.ensure({patch={id='mg43-reload',target=mg43,allow_unverified_effect=true,
+    field=hd2.fields.reload.duration,expect=4.5,value=3}})
+```
+
+### Delivery-resolved identities
+
+Duplicate groups used to be blocked as a whole. Each root in these groups owns separate component
+records, so the only open question was which root the player receives. A group is now resolved
+(`identityStatus` `DELIVERY_RESOLVED`) only when both are true:
+
+1. The linked call-in StratagemDefinition's hellpod rack attaches exactly one candidate root.
+2. That root's native magazine tuple (capacity, starting, from supply, spare) alone matches the
+   scraped values, and the other roots differ.
+
+| Weapon | Result |
+| --- | --- |
+| MG-43 Machine Gun | Resolved. Delivered root 175/2/2/3 matches; the other root is 175/30/6/12. |
+| M-105 Stalwart | Resolved. Delivered root 250/2/2/3 matches; three other roots are 150/0/0/0. |
+| MG-206 Heavy Machine Gun | Resolved. Delivered root 100/1/2/2 matches; the FRV gun and another root differ. |
+| CQC-20 Breaching Hammer | Resolved. Delivered root 1/7/7/7 matches; the other root has no magazine. |
+| EAT-17 Expendable Anti-Tank | Blocked. Delivery is unique, but both roots are byte-identical in magazine and fire rate. |
+| LAS-98 Laser Cannon | Blocked. Delivery is unique, but the delivered root's reload (5.0 s) conflicts with the scraped 3.65 s. |
+| B/FLAM-80 Cremator | Blocked. Delivery is unique, but the scraped 500 capacity matches the Exosuit root, not the handheld. |
+| CQC-72 Entrenchment Tool | Blocked. No call-in stratagem is linked. |
+
+Resolved weapons reuse the Solo Silo chain check: every write re-proves live that the call-in
+StratagemDefinition payload is the rack and that the rack attaches the delivered root. Fields
+edit only the delivered weapon. Other native roots with the same catalog name (vehicle,
+emplacement, or mission variants) keep their own records, although shared settings rows still
+require `allow_shared`.
 
 The GUI-facing `SupportWeaponAuthoringCapabilities.json` schema v2 reports every weapon, catalog
 branch, writable fields by domain, shared scopes, blocked fields and exact reasons, backpack
@@ -98,9 +148,10 @@ the two disagree. The generator also fails on any one-way link.
 | `unresolved_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool |
 | `unresolved_delivery` | B/MD C4 Pack. Its call-in rack attaches a backpack and an unmapped thrower weapon, not the placed charge the catalog identifies as C4. |
 
-Seven linked weapons have ambiguous runtime roots: MG-43, M-105, EAT-17, MG-206, LAS-98,
-B/FLAM-80, and CQC-20. Their call-in links are known and their stratagem cooldowns stay writable.
-The relationship never lifts support-weapon write blocking, so their weapon fields remain blocked.
+Three linked weapons still have unresolved runtime roots: EAT-17, LAS-98, and B/FLAM-80. Their
+call-in links are known and their stratagem cooldowns stay writable. A relationship alone never
+lifts support-weapon write blocking; MG-43, M-105, MG-206, and CQC-20 are resolved only because
+scraped fingerprints independently confirm the delivered root (see "Delivery-resolved identities").
 
 Each relationship has a reference-only `deliveryGraph`. Its nodes name the owning view
 (`stratagem` or `support_weapon`), the semantic ID, and the target path or attack role. An editor

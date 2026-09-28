@@ -16,6 +16,13 @@ ROOT=Path(__file__).resolve().parents[1]
 CATALOG=ROOT/'schemas/support_weapon_authoring_catalog.json'
 FIELDS=ROOT/'schemas/player_weapon_fields.json'
 LEGACY=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
+COVERAGE=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
+UNVERIFIED_REASONS={
+    'reload.duration':'Schema-labelled native reload duration; scraped reload times agree only approximately '
+        '(they include animation), and the gameplay effect of an edit is not yet confirmed.',
+    'windup.wind_up_seconds':'Schema-labelled native wind-up time without an exact scraped match.',
+    'windup.wind_down_seconds':'Schema-labelled native wind-down time; no scraped value corroborates it and the '
+        'gameplay effect of an edit is not yet confirmed.'}
 JSON_OUTPUT=ROOT/'sdk/SupportWeaponAuthoringCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/support_weapon_authoring.lua'
 
@@ -149,6 +156,8 @@ def refresh_catalog(base_path,legacy_path=LEGACY,catalog_path=CATALOG):
 
 def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
+    coverage=json.loads(COVERAGE.read_text())
+    delivery={name:item for name,item in coverage['deliveryResolution'].items()if item['decision']=='RESOLVED'}
     schema=json.loads(FIELDS.read_text());definitions={item['id']:item for item in schema['fields']}
     candidates=source['candidates'];weapon_names={item['name'] for item in source['weapons']}
     assert len(source['weapons'])==35 and len(weapon_names)==35
@@ -188,7 +197,7 @@ def build(catalog_path=CATALOG):
             'settingsType':record['settingsType'],'branch':role,'linkage':linkage}
         result.update(extra);return result
 
-    def make_field(field_id,current,backing,target,editable=True,reason=None):
+    def make_field(field_id,current,backing,target,editable=True,reason=None,acknowledgement=None):
         spec=definition(field_id);shared=[];affects=False
         if backing['kind']=='component':affects=backing.get('ownerCount',1)>1
         else:
@@ -200,7 +209,9 @@ def build(catalog_path=CATALOG):
             'derivedReadOnly':spec.get('derived',False),'backing':backing,'target':target,
             'writeScope':('shared_'+backing.get('settings','component') if affects else'weapon_local'),
             'sharedWithWeapons':shared,'affectsMultipleWeapons':affects,
-            'dynamicConsumersPossible':backing['kind']=='settings','reason':reason}
+            'dynamicConsumersPossible':backing['kind']=='settings','reason':reason,
+            'acknowledgement':acknowledgement,
+            'acknowledgementReason':UNVERIFIED_REASONS.get(spec['id'])if acknowledgement else None}
 
     def damage_fields(fields,candidate,attack,target,role,linkage,extra=None,prefix='damage'):
         record=attack['damageInfo'];values=attack['resolvedFields'];extra=extra or{}
@@ -217,8 +228,27 @@ def build(catalog_path=CATALOG):
                     offset,storage,role,linkage,**extra),target))
 
     runtime_weapons={};public_weapons=[]
+    # A duplicate group is resolved only by research-proven call-in delivery plus an
+    # exact scraped fingerprint. The call-in rack becomes the identity root and the
+    # delivered root the owner, reusing the reviewed live chain re-proof.
+    resolved_source=[]
     for weapon in source['weapons']:
-        unique=weapon['resolution']=='UNIQUE';block=None if unique else(
+        item=delivery.get(weapon['name'])
+        if item:
+            rack=item['rack'];root=item['deliveredRoot'];call_in=item['callIn']
+            weapon=dict(weapon,resolution='DELIVERY_RESOLVED',canonicalResource=rack['resourceHash'],
+                attackResource=root,rootRack=rack,nonDeliveredRoots=sorted(set(weapon['resources'])-{root}),
+                ownershipChain=[{'kind':'stratagem_payload','resourceHash':rack['resourceHash'],
+                    'recordKind':call_in['recordKind'],'id':call_in['id'],'package':call_in['package']},
+                    {'kind':'delivery_rack','resourceHash':rack['resourceHash'],
+                        'component':'HellpodRackComponentData'},
+                    {'kind':'delivered_weapon','resourceHash':root}],
+                attackGraph=[dict(branch,state='RESOLVED',resolvedBy='call_in_delivery')
+                    if branch.get('state')=='IDENTITY_AMBIGUOUS'else branch for branch in weapon['attackGraph']])
+        resolved_source.append(weapon)
+    source=dict(source,weapons=resolved_source)
+    for weapon in source['weapons']:
+        unique=weapon['resolution']in('UNIQUE','DELIVERY_RESOLVED');block=None if unique else(
             'Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically.')
         candidate=candidates.get(weapon['attackResource']) or(
             candidates.get(weapon['canonicalResource']) if weapon['canonicalResource'] else None)
@@ -271,6 +301,26 @@ def build(catalog_path=CATALOG):
                     ('rounds.starting_rounds','starting_rounds',88,'u32')):
                     fields.append(make_field(field_id,ammo.get(key),
                         component(candidate,'WeaponRoundsComponentData',offset,storage),target))
+            extra=coverage['weapons'].get(weapon['name'])or{}
+            reload=extra.get('reload')
+            if reload and reload['resource']==weapon['attackResource']:
+                backing={'kind':'component','component':'WeaponReloadComponentData','offset':56,
+                    'storage':'f32','width':4,'recordIndex':reload['recordIndex'],'indexRow':reload['indexRow'],
+                    'ownerCount':reload['ownerCount'],'uniqueOwner':reload['uniqueOwner']}
+                if reload['writable']:
+                    fields.append(make_field('reload.duration',reload['duration'],backing,target,
+                        acknowledgement='allow_unverified_effect'))
+                else:blocked.append({'field':'reload.duration','reason':reload['reason']})
+            windup=extra.get('windUp')
+            if windup and windup['resource']==weapon['attackResource']:
+                backing={'kind':'component','component':'WeaponWindUpComponentData','storage':'f32',
+                    'width':4,'recordIndex':windup['recordIndex'],'indexRow':windup['indexRow'],
+                    'ownerCount':windup['ownerCount'],'uniqueOwner':windup['uniqueOwner']}
+                exact=windup['wikiSpinUp']is not None and abs(windup['wikiSpinUp']-windup['windUpSeconds'])<1e-6
+                fields.append(make_field('windup.wind_up_seconds',windup['windUpSeconds'],dict(backing,offset=0),
+                    target,acknowledgement=None if exact else'allow_unverified_effect'))
+                fields.append(make_field('windup.wind_down_seconds',windup['windDownSeconds'],
+                    dict(backing,offset=4),target,acknowledgement='allow_unverified_effect'))
             charge=candidate.get('chargeCadence')
             if charge and'WeaponChargeComponentData'in ownership:
                 for field_id,value,offset in (
@@ -306,9 +356,23 @@ def build(catalog_path=CATALOG):
                         ('pellet_count','pellet_count',28,'u32')):
                         fields.append(make_field('projectile.'+role+'.'+suffix,values.get(key),
                             settings('projectile',record,offset,storage,role,'projectile'),attack_target))
+                    row=coverage['projectileRows'].get(str(record['row']))if record['group']==0 else None
+                    if row and row['recordType']==record['recordType']:
+                        for suffix,key,offset in (('lifetime','lifetime',52),
+                                ('penetration_slowdown','penetrationSlowdown',64)):
+                            if suffix=='lifetime'and row[key]==0:
+                                # 0 is the no-explicit-lifetime state; a non-zero value would add a
+                                # limit rather than tune one, which is not proven.
+                                blocked.append({'attack':role,'field':'projectile.lifetime','reason':
+                                    'Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable.'})
+                                continue
+                            fields.append(make_field('projectile.'+role+'.'+suffix,row[key],
+                                settings('projectile',record,offset,'f32',role,'projectile'),attack_target))
+                    else:
+                        blocked.extend({'attack':role,'field':name,
+                            'reason':'Projectile row outside the reviewed coverage set.'}
+                            for name in ('projectile.lifetime','projectile.penetration_slowdown'))
                     damage_fields(fields,candidate,attack,attack_target,role,'projectile_damage')
-                    blocked.extend({'attack':role,'field':name,'reason':'No shared schema-labelled native field is proven.'}
-                        for name in ('projectile.lifetime','projectile.penetration_slowdown'))
                 elif kind in('Arc','Beam'):
                     settings_name=kind.lower();record=attack[settings_name+'Settings']
                     values=candidate['resolvedFields']if kind=='Beam'else attack['resolvedFields']
@@ -378,6 +442,7 @@ def build(catalog_path=CATALOG):
             'ordinaryWritesBlocked':not unique,'blockReason':block,'resources':weapon['resources'],
             'identityResource':weapon['canonicalResource'],'attackResource':weapon['attackResource'],
             'ownershipChain':weapon['ownershipChain'],'rootRack':weapon.get('rootRack'),
+            'nonDeliveredRoots':weapon.get('nonDeliveredRoots'),
             'fields':fields,'attacks':attacks}
         categorized=defaultdict(list)
         for field in fields:
@@ -391,8 +456,19 @@ def build(catalog_path=CATALOG):
                 'state':branch['state'],'writable':unique and branch['state']=='RESOLVED'
                     and runtime_role in attacks,
                 'blockedReason':block if not unique else branch.get('unresolvedReason')})
+        resolution_basis=None
+        if weapon['resolution']=='DELIVERY_RESOLVED':
+            resolution_basis={'basis':'call_in_delivery_and_scraped_fingerprint',
+                'evidence':['The linked call-in hellpod rack attaches exactly one candidate root.',
+                    'That root alone has the scraped magazine values; the other roots differ.'],
+                'nonDeliveredNativeRoots':len(weapon['nonDeliveredRoots']),
+                'nonDeliveredRootsAffected':False,
+                'note':('Fields edit only the call-in-delivered weapon. Other native roots with this catalog name '
+                    '(for example vehicle or emplacement variants) keep their own records; shared settings rows '
+                    'still require allow_shared.'),
+                'evidenceArtifact':COVERAGE.name}
         public_weapons.append({'name':weapon['name'],'semanticId':weapon_key(weapon['name']),
-            'identityStatus':weapon['resolution'],
+            'identityStatus':weapon['resolution'],'identityResolution':resolution_basis,
             'confidence':weapon['confidence'],'family':sorted(set(
                 branch['kind'] for branch in weapon['attackGraph'] if branch['kind']!='Unknown')),
             'attackBranches':public_branches,
@@ -604,7 +680,9 @@ def build(catalog_path=CATALOG):
                     'transactionGroupingKey':operation_key,'planSupported':True,
                     'planRequired':False,'planRequiredForMultipleBackingObjects':True,
                     'planGroupingKey':plan_key,'phase':1,'dependencies':[],
-                    'allowSharedRequired':object_meta['requiresSharedAcknowledgement']},
+                    'allowSharedRequired':object_meta['requiresSharedAcknowledgement'],
+                    'acknowledgement':field.get('acknowledgement'),
+                    'acknowledgementReason':field.get('acknowledgementReason')},
                 'resolution':resolution_metadata(weapon_name,field),
                 'provenance':{'identity':'unique reviewed support-weapon runtime identity',
                     'semantics':'shared player/support field schema',
@@ -646,6 +724,8 @@ def build(catalog_path=CATALOG):
                 if field['semanticFieldId'].split('.')[0]==domain)
             if field_ids:weapons_by_domain[domain]+=1
     summary={'catalogWeapons':35,'uniqueSupportIdentities':sum(w['resolution']=='UNIQUE'for w in source['weapons']),
+        'deliveryResolvedIdentities':sum(w['resolution']=='DELIVERY_RESOLVED'for w in source['weapons']),
+        'deliveryResolvedNames':[w['name']for w in source['weapons']if w['resolution']=='DELIVERY_RESOLVED'],
         'duplicateGroupsBlocked':sum(w['resolution']=='DUPLICATE'for w in source['weapons']),
         'duplicateGroupNames':[w['name']for w in source['weapons']if w['resolution']=='DUPLICATE'],
         'writableSupportWeapons':sum(w['writable']for w in public_weapons),

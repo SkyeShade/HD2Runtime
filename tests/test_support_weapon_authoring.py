@@ -19,13 +19,14 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(self.capabilities['schemaVersion'],2)
         self.assertEqual(self.capabilities['summary']['catalogWeapons'],35)
         self.assertEqual(self.capabilities['summary']['uniqueSupportIdentities'],27)
-        self.assertEqual(self.capabilities['summary']['writableSupportWeapons'],27)
-        self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],8)
-        self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],16)
+        self.assertEqual(self.capabilities['summary']['writableSupportWeapons'],31)
+        self.assertEqual(self.capabilities['summary']['deliveryResolvedIdentities'],4)
+        self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],4)
+        self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],19)
         self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],17)
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],828)
-        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],828)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],812)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],970)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],970)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],954)
         self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],16)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],16)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],32)
@@ -48,16 +49,16 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':828,'publishedInstances':828,
+        self.assertEqual(audit,{'internalInstances':970,'publishedInstances':970,
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
-        self.assertEqual(len(instances),828)
-        self.assertEqual(len({item['instanceKey'] for item in instances}),828)
+        self.assertEqual(len(instances),970)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),970)
         objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
         operations={item['operationGroupingKey']:item
             for item in self.capabilities['operationGroups']}
-        self.assertEqual(len(objects),146)
-        self.assertEqual(len(operations),155)
+        self.assertEqual(len(objects),179)
+        self.assertEqual(len(operations),188)
         required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
             'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
             'readOnly','blockedReason','backing','sharedScope','operation','resolution',
@@ -67,12 +68,12 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertIn(instance['backing']['objectKey'],objects)
             self.assertIn(instance['operation']['transactionGroupingKey'],operations)
             self.assertEqual(instance['supportWeaponIdentity']['name'],instance['supportWeapon'])
-            self.assertEqual(instance['supportWeaponIdentity']['identityStatus'],'UNIQUE')
+            self.assertIn(instance['supportWeaponIdentity']['identityStatus'],('UNIQUE','DELIVERY_RESOLVED'))
             self.assertEqual(instance['value']['baseline'],instance['value']['expected'])
             self.assertEqual(instance['operation']['phase'],1)
             self.assertEqual(instance['target']['accessor'][0],'support_weapon')
         self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
-            for weapon in self.capabilities['weapons']),828)
+            for weapon in self.capabilities['weapons']),970)
 
     def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
         instances=[item for item in self.capabilities['fieldInstances']
@@ -118,7 +119,16 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
 
     def test_representative_capabilities_and_fail_closed_groups(self):
         by_name={weapon['name']:weapon for weapon in self.capabilities['weapons']}
-        self.assertFalse(by_name['MG-43 Machine Gun']['writable'])
+        for name in ('MG-43 Machine Gun','M-105 Stalwart','MG-206 Heavy Machine Gun','CQC-20 Breaching Hammer'):
+            weapon=by_name[name]
+            self.assertTrue(weapon['writable'],name)
+            self.assertEqual(weapon['identityStatus'],'DELIVERY_RESOLVED')
+            self.assertEqual(weapon['identityResolution']['basis'],'call_in_delivery_and_scraped_fingerprint')
+            self.assertFalse(weapon['identityResolution']['nonDeliveredRootsAffected'])
+        for name in ('EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon','B/FLAM-80 Cremator',
+                'CQC-72 Entrenchment Tool'):
+            self.assertFalse(by_name[name]['writable'],name)
+            self.assertEqual(by_name[name]['identityStatus'],'DUPLICATE')
         self.assertFalse(by_name['EAT-17 Expendable Anti-Tank']['writable'])
         self.assertFalse(by_name['LAS-98 Laser Cannon']['writable'])
         self.assertEqual(by_name['LAS-98 Laser Cannon']['family'],['Beam','Status'])
@@ -136,7 +146,17 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             by_name['GR-8 Recoilless Rifle']['blockedFields']))
 
     def test_public_targets_validate_shared_domains_and_duplicates(self):
-        run(r'''
+        gr8=[item for item in self.capabilities['fieldInstances']
+            if item['supportWeapon']=='GR-8 Recoilless Rifle'and item['target']['attackRole']=='primary']
+        baseline={item['semanticFieldId']:item['value']['baseline']for item in gr8}
+        # Native lifetime 0 means no explicit limit, so it is not exposed.
+        self.assertNotIn('projectile.lifetime',baseline)
+        rl77=next(item for item in self.capabilities['fieldInstances']
+            if item['supportWeapon']=='RL-77 Airburst Rocket Launcher'
+            and item['semanticFieldId']=='projectile.lifetime')
+        self.assertEqual(rl77['value']['baseline'],1.5)
+        run('local projectile_lifetime='+repr(rl77['value']['baseline'])
+            +' local projectile_penetration='+repr(baseline['projectile.penetration_slowdown'])+r'''
 local hd2=require('hd2runtime/api/session').new({},function()end)
 local writes=require('hd2runtime/domains/player_weapon_writes')
 local gr8=hd2.support_weapon('GR-8 Recoilless Rifle')
@@ -161,10 +181,33 @@ assert(range.changes[1].descriptor.backing.linkage=='arc')
 local charge=writes.validate_patch{id='arc-charge',target=hd2.support_weapon('ARC-3 Arc Thrower'),
  field=hd2.fields.charge.minimum_seconds,expect=.699999988079071,value=.35}
 assert(charge.changes[1].descriptor.backing.component=='WeaponChargeComponentData')
-local ok,why=pcall(writes.validate_patch,{id='mg43-blocked',
- target=hd2.support_weapon('MG-43 Machine Gun'),field=hd2.fields.weapon.fire_rate,
- expect=760,value=1000})
+local mg43=writes.validate_patch{id='mg43-rate',target=hd2.support_weapon('MG-43 Machine Gun'),
+ field=hd2.fields.weapon.fire_rate,expect=760,value=1000}
+assert(mg43.identity_resource~=mg43.resource and mg43.root_rack and mg43.ownership_chain[1].kind=='stratagem_payload')
+local ok,why=pcall(writes.validate_patch,{id='eat-blocked',
+ target=hd2.support_weapon('EAT-17 Expendable Anti-Tank'),field=hd2.fields.weapon.fire_rate,
+ expect=600,value=1000})
 assert(not ok and tostring(why):find('Duplicate runtime roots',1,true))
+ok,why=pcall(writes.validate_patch,{id='reload-ack',target=hd2.support_weapon('GR-8 Recoilless Rifle'),
+ field=hd2.fields.reload.duration,expect=6,value=3})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true))
+local reload=writes.validate_patch{id='reload',target=hd2.support_weapon('GR-8 Recoilless Rifle'),
+ allow_unverified_effect=true,field=hd2.fields.reload.duration,expect=6,value=3}
+assert(reload.changes[1].descriptor.backing.component=='WeaponReloadComponentData'
+ and reload.changes[1].descriptor.backing.offset==56)
+local windup=writes.validate_patch{id='windup',target=hd2.support_weapon('M-1000 Maxigun'),
+ field=hd2.fields.windup.wind_up_seconds,expect=.5,value=.1}
+assert(windup.changes[1].descriptor.backing.component=='WeaponWindUpComponentData')
+ok,why=pcall(writes.validate_patch,{id='winddown',target=hd2.support_weapon('M-1000 Maxigun'),
+ field=hd2.fields.windup.wind_down_seconds,expect=.5,value=.1})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true))
+local life=writes.validate_patch{id='life',allow_shared=true,
+ target=hd2.support_weapon('RL-77 Airburst Rocket Launcher'):attack('primary'):projectile(),
+ field=hd2.fields.projectile.lifetime,expect=projectile_lifetime,value=5}
+assert(life.changes[1].descriptor.backing.offset==52)
+local pen=writes.validate_patch{id='pen',target=projectile,allow_shared=true,
+ field=hd2.fields.projectile.penetration_slowdown,expect=projectile_penetration,value=.5}
+assert(pen.changes[1].descriptor.backing.offset==64)
 ok,why=pcall(writes.validate_patch,{id='arc-sentinel',target=hd2.support_weapon('ARC-3 Arc Thrower'),
  field=hd2.fields.weapon.fire_rate,expect=-1,value=60})
 assert(not ok and tostring(why):find('not exposed',1,true))
