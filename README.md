@@ -16,6 +16,7 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Vehicle durability, damage zones and mounted-weapon swaps
 - Backpack authoring (Jump Pack, Hover Pack, shields)
 - Shield Generator Relay shield radius and health
+- Magazine attachment capacity and magazine counts
 - Deployed entity health and armor
 - Projectile, damage and explosion editing
 - Ammo, heat, charge, beam, arc and status fields
@@ -24,6 +25,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Generated SDK metadata for tools such as HD2RuntimeGUI
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
+
+Version 0.23.1 adds guarded magazine-attachment authoring: per-attachment capacity and magazine counts
+for weapons whose ammo is owned by selectable magazines (for example, the Liberator Concussive drum).
+See `docs/releases/0.23.1.md`.
 
 Version 0.23.0 adds guarded vehicle durability and mount swapping (`hd2.vehicle`), backpack authoring
 (`hd2.backpack`), and the Shield Generator Relay's shield as a separate target. Example projects recreate
