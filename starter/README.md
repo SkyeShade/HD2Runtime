@@ -28,8 +28,8 @@ Before distributing your mod, edit these exact values:
 resource ID, so it changes when you rename the resource and remains stable after
 that. You may replace `auto` with your own non-zero UUID, then keep it forever.
 
-`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.25.1, which changes
-only SDK metadata, so mods do not need to require it. In-game options (`hd2.options`) and the Booster `tuning()`, `explosion()`,
+`requires.hd2runtime.min_version` is `0.25.0`. This starter ships with 0.25.1; only mods that
+use in-game options need to raise it to `0.25.1` (see below). In-game options (`hd2.options`) and the Booster `tuning()`, `explosion()`,
 `status_damage()` and `granted_stratagem()` targets need 0.25.0. Boosters
 (`hd2.booster`), the `reload.*`, `windup.*`, `projectile.lifetime`,
 and `projectile.penetration_slowdown` fields, and writes to MG-43, M-105, MG-206,
@@ -49,7 +49,7 @@ return hd2.ensure({patch={id='my-hd2-mod-fire-rate',target=hd2.weapon('AR-23C Li
     field=hd2.fields.weapon.fire_rate,expect=400,value=rate}})
 ```
 
-This needs HD2Runtime 0.25.0+ (raise `min_version`). CowboyBingus Mod Options Menu v1+
+This needs HD2Runtime 0.25.1+ (raise `min_version`). CowboyBingus Mod Options Menu v1+
 (which needs Bingus Shared Loader v18+) is an optional dependency. Add
 
 ```json
@@ -57,7 +57,8 @@ This needs HD2Runtime 0.25.0+ (raise `min_version`). CowboyBingus Mod Options Me
 ```
 
 to `hd2runtime.json` and leave `requires` unchanged. Players without the menu get one
-warning, and the operation bound to the option stays inactive; operations without options
+warning, and the operation bound to the option runs with its declared default (use
+`fallback='disable'` on the options page to keep it inactive instead); operations without options
 still run. `expect` stays the vanilla value, and safety flags are still required. See
 `docs/options.md` in the SDK ZIP.
 

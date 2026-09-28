@@ -6,8 +6,10 @@
 -- applied values itself. HD2Runtime adds no persistence of its own.
 --
 -- Options are declared at startup. Registration is deferred to the first update ticks
--- because Mod Options Menu may load before or after the declaring mod. Without it (not
--- installed, or older), every option keeps its default and nothing else changes.
+-- because Mod Options Menu may load before or after the declaring mod. Mod Options Menu is an
+-- enhancement: without it (not installed, incompatible, or rejecting an option) each page logs
+-- one warning and, with the page's default fallback='default', its operations run with the
+-- declared defaults. A page declared with fallback='disable' keeps them inactive instead.
 local metrics=require('hd2runtime/runtime/metrics')
 local log=require('hd2runtime/runtime/log')
 local scheduler=require('hd2runtime/runtime/scheduler')
@@ -59,8 +61,11 @@ function Handle:available()return self.state=='ready'end
 -- Internal: availability listeners for bound operations.
 function Handle:on_state(listener)self.state_listeners[#self.state_listeners+1]=listener end
 function Handle:index()return self.kind=='choice'and self.selected or nil end
+-- True when this option is unavailable and its page keeps bound operations inactive.
+function Handle:disables()return self.state=='unavailable'and self.page.fallback=='disable'end
 function Handle:describe()
     return {id=self.id,option=self.option,kind=self.kind,label=self.label,description=self.description,
+        fallback=self.page.fallback,
         default=self.kind=='choice'and self.values[self.default]or self.default,
         value=self:get(),min=self.min,max=self.max,step=self.step,integer=self.integer,
         choices=self.choices,values=self.values,registered=self.registered,source=self.source,
@@ -133,13 +138,18 @@ local function resolve(handle,state,reason)
     if state=='unavailable'then
         metrics.count('options.unavailable')
         handle.page.unavailable[#handle.page.unavailable+1]=handle
+        -- Without the menu the declared default is the value, even if a saved value was read
+        -- before registration failed. Listeners are not called: bound operations are still
+        -- waiting for this availability result.
+        if handle.kind=='choice'then handle.selected=handle.default else handle.current=handle.default end
+        handle.source='default'
     end
     for _,listener in ipairs(handle.state_listeners)do
         local ok,why=pcall(listener,handle)
         if not ok then emit('option '..handle.id..' state listener failed: '..tostring(why))end
     end
 end
--- One warning per options page, naming the operations its missing settings keep inactive.
+-- One warning per options page. With fallback='disable' it names the operations kept inactive.
 local function warn_pages()
     for _,page in pairs(pages)do
         if #page.unavailable>page.warned then
@@ -148,12 +158,17 @@ local function warn_pages()
             for _,handle in ipairs(page.unavailable)do
                 if not seen[handle.reason]then seen[handle.reason]=true;reasons[#reasons+1]=handle.reason end
             end
-            local operations={}
-            for id in pairs(page.operations)do operations[#operations+1]=id end
-            table.sort(operations)
-            emit('options '..page.id..' unavailable: '..table.concat(reasons,'; ')
-                ..'; configurable operation will not be applied'
-                ..(#operations>0 and' ('..table.concat(operations,', ')..')'or''))
+            if page.fallback=='default'then
+                metrics.count('options.default_fallbacks')
+                emit('options '..page.id..' unavailable: '..table.concat(reasons,'; ')..'; using configured defaults')
+            else
+                local operations={}
+                for id in pairs(page.operations)do operations[#operations+1]=id end
+                table.sort(operations)
+                emit('options '..page.id..' unavailable: '..table.concat(reasons,'; ')
+                    ..'; configurable operation will not be applied'
+                    ..(#operations>0 and' ('..table.concat(operations,', ')..')'or''))
+            end
         end
     end
 end
@@ -287,24 +302,32 @@ function Page:toggle(spec)return option(self,'toggle',spec)end
 function Page:slider(spec)return option(self,'slider',spec)end
 function Page:choice(spec)return option(self,'choice',spec)end
 function Page:describe()
-    local result={id=self.id,title=self.title,options={}}
+    local result={id=self.id,title=self.title,fallback=self.fallback,options={}}
     for _,handle in ipairs(self.order)do result.options[#result.options+1]=handle:describe()end
     return result
 end
 
--- hd2.options({id='my-mod', title='My Mod'}): one options page (a MODS category button).
+-- hd2.options({id='my-mod', title='My Mod', fallback='default'}): one options page (a MODS
+-- category button). fallback says what bound operations do when Mod Options Menu is unavailable:
+-- 'default' (the default) runs them with the declared defaults; 'disable' keeps them inactive.
 function M.page(spec)
     assert(type(spec)=='table','options requires a descriptor')
-    for key in pairs(spec)do assert(key=='id'or key=='title','unsupported options key: '..tostring(key))end
+    for key in pairs(spec)do
+        assert(key=='id'or key=='title'or key=='fallback','unsupported options key: '..tostring(key))
+    end
+    local fallback=spec.fallback==nil and'default'or spec.fallback
+    assert(fallback=='default'or fallback=='disable',"options fallback must be 'default' or 'disable'")
     assert(type(spec.id)=='string'and spec.id:match('^[%w_%-]+$')and#spec.id<=40,
         'options id must be 1 to 40 letters, digits, _ or -')
     plain(spec.title,LIMITS.title,'title')
     local existing=pages[spec.id]
     if existing then
         assert(existing.title==spec.title,'options page already declared with another title: '..spec.id)
+        assert(existing.fallback==fallback,'options page already declared with another fallback: '..spec.id)
         return existing
     end
-    local page=setmetatable({id=spec.id,title=spec.title,count=0,order={},unavailable={},warned=0,operations={}},Page)
+    local page=setmetatable({id=spec.id,title=spec.title,fallback=fallback,count=0,order={},unavailable={},
+        warned=0,operations={}},Page)
     pages[spec.id]=page
     return page
 end

@@ -30,8 +30,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
-Version 0.25.1 is a metadata-only follow-up. It publishes the stratagem icon identity metadata
-(`uiIcon`) that 0.25.0 omitted; runtime behavior is unchanged. See `docs/releases/0.25.1.md`.
+Version 0.25.1 publishes the stratagem icon identity metadata (`uiIcon`) that 0.25.0 omitted.
+It also makes Mod Options Menu a true enhancement: without it, option-bound operations run with
+their declared defaults (or stay inactive with `fallback='disable'`). See `docs/releases/0.25.1.md`.
 
 Version 0.25.0 makes 19 of 20 Boosters writable through natively traced targets and adds
 in-game options (`hd2.options`) bound to ensured operations, confirmed in game, with CowboyBingus

@@ -2737,7 +2737,8 @@
         "bound?": "boolean",
         "enabled?": "boolean",
         "restores?": "integer",
-        "rebinds?": "integer"
+        "rebinds?": "integer",
+        "option_defaults?": "boolean"
       },
       "HD2ObserveRequest": {
         "targets": "HD2ReadTarget[]",
@@ -2824,7 +2825,8 @@
       },
       "HD2OptionsRequest": {
         "id": "string",
-        "title": "string"
+        "title": "string",
+        "fallback?": "\"default\"|\"disable\""
       },
       "HD2ToggleSpec": {
         "id": "string",
@@ -2983,7 +2985,7 @@
           ]
         ],
         "returns": "HD2EnsureWatch",
-        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options. It waits until the options are available (status waiting_for_options) and stays inactive (status unavailable) if they are not; each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards."
+        "doc": "Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart. An option handle as a field value, or an enabled toggle, makes the ensure follow in-game options. It waits until the options are settled (status waiting_for_options). Without Mod Options Menu it runs with the options' declared defaults, or, when the options page was declared with fallback='disable', stays inactive (status unavailable); each applied change re-runs the full guarded validation and write for the same operation; disabling restores the reviewed baseline through the same guards."
       },
       "metrics": {
         "params": [],
@@ -2998,7 +3000,7 @@
           ]
         ],
         "returns": "HD2Options",
-        "doc": "Declare an in-game options page (a MODS tab category). CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) is an optional dependency of mods that use this: without it, or if it is incompatible or rejects an option, one warning is logged and every hd2.ensure bound to those options stays inactive for the session. Defaults are never applied silently. Mods that do not call hd2.options are unaffected."
+        "doc": "Declare an in-game options page (a MODS tab category). CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) is an optional enhancement of mods that use this: without it, or if it is incompatible or rejects an option, one warning is logged per page and every hd2.ensure bound to those options runs normally with the options' declared defaults (fallback='default', the default). Declare the page with fallback='disable' to keep those operations inactive for the session instead. Defaults are validated with the operation when it is declared. Mods that do not call hd2.options are unaffected."
       }
     },
     "target_methods": {
