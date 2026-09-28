@@ -1,0 +1,1 @@
+{"format":1,"name":"ArmedResupplyTurret","resource":"mods/hd2runtime_examples/armed_resupply_turret","guid":"0004f13d-f0fb-51dd-9fd4-e98325b28a06","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.24.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

@@ -566,6 +566,45 @@ function M.new(describe)
         end
         return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end
+    -- Boosters own no native record: their fields live on the records the Booster enum
+    -- links to, exposed as status_effect() or deployed_entity() sub-targets.
+    function builders.booster(identity)
+        local booster_authoring=require('hd2runtime/domains/booster_authoring')
+        local entry=booster_authoring.boosters[identity]
+        if not entry then
+            for _,candidate in pairs(booster_authoring.boosters)do
+                if candidate.semanticId==identity then entry=candidate end
+            end
+        end
+        assert(entry,'unknown reviewed booster: '..tostring(identity))
+        local function owned_fields(path)
+            local fields={}
+            for field_id,field in pairs(entry.targets[path].fields)do
+                fields[#fields+1]={semanticFieldId=field_id,instanceKey=field.instanceKey,
+                    currentDefault=field.currentDefault,editable=true,
+                    acknowledgements=field.shared and{'allow_shared','allow_unverified_effect'}
+                        or{'allow_unverified_effect'}}
+            end
+            table.sort(fields,function(a,b)return a.semanticFieldId<b.semanticFieldId end)
+            return fields
+        end
+        local function owned_target(path)
+            assert(entry.targets[path],entry.name..' has no reviewed '..path..' target')
+            return setmetatable({resource='booster',booster=entry.name,path=path},{__index={
+                describe=function()return {booster=entry.name,path=path,fields=owned_fields(path)}end}})
+        end
+        local methods={}
+        function methods.describe()
+            local targets={}
+            for path in pairs(entry.targets)do targets[#targets+1]=path end
+            table.sort(targets)
+            return {name=entry.name,semanticId=entry.semanticId,identityStatus=entry.identityStatus,
+                enumValue=entry.enumValue,targets=targets}
+        end
+        function methods.status_effect()return owned_target('status_effect')end
+        function methods.deployed_entity()return owned_target('deployed_entity')end
+        return setmetatable({resource='booster',booster=entry.name,path='booster'},{__index=methods})
+    end
     function builders.stratagem(name)
         local entry=stratagem_authoring.stratagems[name]
         if not entry then return legacy_stratagem(name)end

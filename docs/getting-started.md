@@ -99,6 +99,7 @@ Some values live on a sub-object. For example, a bullet lives under
 | Vehicles: health, damage zones, weapon mounts | `VehicleAuthoringCapabilities.json` |
 | Backpacks | `BackpackAuthoringCapabilities.json` |
 | Magazine attachments (round counts on weapons with selectable magazines) | `MagazineAttachmentCapabilities.json` |
+| Boosters | `BoosterAuthoringCapabilities.json` |
 | The Lua name of a field | `stubs/mods/skyeshade/hd2runtime.lua`, the `---@class HD2Fields_<domain>` blocks |
 | Explanations | the other files in `docs/` |
 | Working code | `examples/projects/*/src/addon.lua` in the example-projects ZIP |
@@ -212,6 +213,10 @@ hd2.vehicle('M-102 Gunner FRV'):mount('gun')
 
 -- Backpack
 hd2.backpack('LIFT-850 Jump Pack')
+
+-- Booster: fields live on the record the booster links to
+hd2.booster('Armed Resupply Pods'):deployed_entity()   -- the resupply-pod turret
+hd2.booster('Experimental Infusion'):status_effect()   -- the stim buff
 
 -- Magazine attachment (owns the round count on weapons with selectable magazines)
 hd2.weapon('AR-23C Liberator Concussive'):magazine_attachment()

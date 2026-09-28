@@ -101,6 +101,8 @@ SCENARIOS = {
     'backpack': lambda: example('JumpPackRecreation'),
     'shield-relay': lambda: example('ShieldRelayRecreation'),
     'magazine-attachment': lambda: example('ConcussiveDrumMagazine'),
+    'booster-deployed-entity': lambda: example('ArmedResupplyTurret'),
+    'booster-status-effect': lambda: example('CombatStimBoost'),
 }
 
 
