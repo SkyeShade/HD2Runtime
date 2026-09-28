@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.booster.guarded_authoring.v1",
   "schemaVersion": 1,
-  "hd2RuntimeVersion": "0.23.2",
+  "hd2RuntimeVersion": "0.24.0",
   "canonicalCollection": "fieldInstances",
   "nativeModel": {
     "identity": "Native Booster enum member, named by the game UI template and matched to enum values by type-library alias length. Shared lengths stay candidate sets.",
