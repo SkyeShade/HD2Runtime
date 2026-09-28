@@ -59,7 +59,26 @@ local function validate_target(target)
         'unsupported stratagem target identity')end
     return entry
 end
-local function validate_change(entry,target,item,allow_shared)
+-- Mission uses (StratagemInfo +80): an integer count or 'unlimited', which is the native
+-- 0xFFFFFFFF value the game itself uses; no large finite number stands in for unlimited.
+local UNLIMITED=4294967295
+local function uses_value(field,value,label)
+    if value=='unlimited'then return UNLIMITED end
+    assert(type(value)=='number'and value%1==0 and value>=field.min and value<=field.max,
+        label..' must be "unlimited" or an integer use count from '..field.min..' to '..field.max)
+    return value
+end
+local function validate_uses(field,item,allow_unverified_effect)
+    local expected=uses_value(field,item.expect,'expect');local desired=uses_value(field,item.value,'value')
+    assert(item.expect==field.currentDefault,'expect differs from reviewed current value for '..item.field)
+    local proven=false
+    for _,value in ipairs(field.gameplayProvenValues or{})do if value==item.value then proven=true end end
+    assert(proven or item.value==item.expect or allow_unverified_effect,
+        'mission use change requires allow_unverified_effect=true: '..item.field..' ('..field.acknowledgementReason..')')
+    return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+        expected=b.encode(expected,'u32'),desired=b.encode(desired,'u32'),expect=item.expect,value=item.value}
+end
+local function validate_change(entry,target,item,allow_shared,allow_unverified_effect)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
@@ -67,6 +86,7 @@ local function validate_change(entry,target,item,allow_shared)
     assert(field.editable and field.backing,'field is read-only: '..item.field
         ..' ('..tostring(field.reason)..')')
     assert(not field.shared or allow_shared,'shared field requires allow_shared=true: '..item.field)
+    if field.type=='stratagem_uses'then return validate_uses(field,item,allow_unverified_effect)end
     local expected=item.expect;local desired=item.value
     assert(type(expected)=='number'and expected==expected and expected>-math.huge and expected<math.huge,
         'expect must be a finite number')
@@ -83,18 +103,21 @@ local function validate_change(entry,target,item,allow_shared)
 end
 local function validate(request,multiple)
     assert(type(request)=='table',(multiple and'transaction'or'patch')..' requires a descriptor')
-    local allowed=multiple and{id=true,target=true,changes=true,diagnostic=true,allow_shared=true}
-        or{id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true}
+    local allowed=multiple and{id=true,target=true,changes=true,diagnostic=true,allow_shared=true,
+        allow_unverified_effect=true}
+        or{id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true,
+        allow_unverified_effect=true}
     for key in pairs(request)do assert(allowed[key],'unsupported option: '..tostring(key))end
     valid_id(request.id);local entry=validate_target(request.target)
     local items=multiple and request.changes or{{field=request.field,expect=request.expect,value=request.value}}
     assert(type(items)=='table'and#items>=1 and#items<=32,'transaction requires one to 32 changes')
     local result={kind='stratagem',id=request.id,stratagem=entry.name,target_path=request.target.path,
         attack=rawget(request.target,'attack'),diagnostic=request.diagnostic==true,
-        allow_shared=request.allow_shared==true,changes={}}
+        allow_shared=request.allow_shared==true,allow_unverified_effect=request.allow_unverified_effect==true,
+        changes={}}
     local object
     for index,item in ipairs(items)do
-        local change=validate_change(entry,request.target,item,result.allow_shared)
+        local change=validate_change(entry,request.target,item,result.allow_shared,result.allow_unverified_effect)
         local current=change.descriptor.operationGroup
         object=object or current
         assert(not multiple or object==current,

@@ -118,6 +118,31 @@ operations[#operations+1]=hd2.ensure({patch={id='mg43-single',target=hd2.support
 return operations
 '''
 
+# Tank mounted weapons: Bastion main cannon (shared round and own reserve), Bastion coaxial MG, Maelstrom gun.
+TANK_WEAPONS = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local bastion,maelstrom=hd2.vehicle('TD-220 Bastion MK XVI'),hd2.vehicle('TD-110 Maelstrom')
+local operations={}
+operations[#operations+1]=hd2.ensure({patch={id='bastion-cannon-reserve',target=bastion:weapon('attach_tank_gun'),
+    field=hd2.fields.magazine.spare_magazines,expect=30,value=45,allow_unverified_effect=true}})
+operations[#operations+1]=hd2.ensure({patch={id='bastion-cannon-damage',target=bastion:weapon('attach_tank_gun'):projectile(),
+    field=hd2.fields.damage.player_standard_damage,expect=3500,value=5000,allow_shared=true,allow_unverified_effect=true}})
+operations[#operations+1]=hd2.ensure({patch={id='bastion-mg-capacity',target=bastion:weapon('attach_tank_gun_mg'),
+    field=hd2.fields.weapon.capacity,expect=2000,value=3000,allow_unverified_effect=true}})
+operations[#operations+1]=hd2.ensure({patch={id='maelstrom-gun-rate',target=maelstrom:weapon(0),
+    field=hd2.fields.weapon.fire_rate,expect=1200,value=900,allow_unverified_effect=true}})
+return operations
+'''
+
+# Mission uses: unlimited -> finite and finite -> different finite (not gameplay-proven: acknowledged).
+STRATAGEM_USES = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+operations[#operations+1]=hd2.ensure({patch={id='frv-two-uses',target=hd2.stratagem('M-102 Gunner FRV'),
+    field=hd2.fields.stratagem.max_uses,expect='unlimited',value=2,allow_unverified_effect=true}})
+operations[#operations+1]=hd2.ensure({patch={id='laser-five-uses',target=hd2.stratagem('Orbital Laser'),
+    field=hd2.fields.stratagem.max_uses,expect=3,value=5,allow_unverified_effect=true}})
+return operations
+'''
+
 
 BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local operations={}
@@ -304,6 +329,13 @@ SCENARIOS = {
     'player-weapon-reticle': lambda: PLAYER_RETICLE,
     'fire-mode-jar5-full-auto': lambda: example('JAR5FullAuto'),
     'fire-mode-burst-and-automatic': lambda: FIRE_MODES,
+    'vehicle-weapon-frv': lambda: example('M103TurretMagazine'),
+    'vehicle-weapon-tank': lambda: TANK_WEAPONS,
+    'vehicle-weapon-emancipator': lambda: example('EmancipatorAmmo'),
+    'vehicle-weapon-lumberer': lambda: example('LumbererAmmo'),
+    'vehicle-weapon-patriot': lambda: example('PatriotExosuitBuffs'),
+    'stratagem-uses-unlimited': lambda: example('ExosuitUnlimitedUses'),
+    'stratagem-uses-finite': lambda: STRATAGEM_USES,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
     'options-missing-strict': lambda: OPTIONS_MISSING_ADDON().replace(*STRICT_PAGE),

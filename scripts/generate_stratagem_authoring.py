@@ -121,6 +121,41 @@ def add_catalog_equipment(public_stratagems, source, linkage):
                 'It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links.')}
 
 
+UNLIMITED_USES = 4294967295
+USES_RANGE = (1, 100)
+# Gameplay evidence: the Exosuit Unlimited Uses reference mod writes 3 -> 0xFFFFFFFF on these four
+# StratagemInfo records (matched by name, call-in and cooldown) and removes the three-use limit.
+USES_GAMEPLAY_PROVEN = {'EXO-45 Patriot Exosuit', 'EXO-49 Emancipator Exosuit', 'EXO-55 Breakthrough Exosuit',
+    'EXO-51 Lumberer Exosuit'}
+USES_UNVERIFIED = ('StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game\'s own value '
+    'for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).')
+EAGLE_USES = ('On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no '
+    'separate mission-use limit.')
+USES_CAVEAT = ('Use counts are applied by the mission host; the HUD counter may keep its old value until the next '
+    'mission (reference mod observation).')
+
+
+def uses_state(root, family, name):
+    """Native mission-use model for one StratagemInfo record."""
+    if str(family).lower() == 'eagle':
+        return {'value': None, 'writable': False, 'reason': EAGLE_USES,
+            'public': {'value': None, 'mode': None, 'writable': False, 'reason': EAGLE_USES, 'transitions': []},
+            'extra': {'usesMode': None, 'transitions': []}}
+    count = root['use_count']
+    value = 'unlimited' if count == UNLIMITED_USES else count
+    mode = 'unlimited' if value == 'unlimited' else 'finite'
+    proven = ['unlimited'] if name in USES_GAMEPLAY_PROVEN and mode == 'finite' else []
+    transitions = (['unlimited_to_finite'] if mode == 'unlimited' else ['finite_to_unlimited', 'finite_to_finite'])
+    extra = {'usesMode': mode, 'unlimitedValue': 'unlimited', 'nativeUnlimited': UNLIMITED_USES,
+        'min': USES_RANGE[0], 'max': USES_RANGE[1], 'transitions': transitions,
+        'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': USES_UNVERIFIED,
+        'gameplayProvenValues': proven, 'caveat': USES_CAVEAT}
+    return {'value': value, 'writable': True, 'reason': None, 'extra': extra,
+        'public': {'value': value, 'mode': mode, 'writable': True, 'field': 'hd2.fields.stratagem.max_uses',
+            'range': list(USES_RANGE), 'transitions': transitions, 'gameplayProvenValues': proven,
+            'acknowledgement': 'allow_unverified_effect', 'caveat': USES_CAVEAT}}
+
+
 def lua(value):
     if isinstance(value, dict):
         return '{' + ','.join('[' + lua(k) + ']=' + lua(v) for k, v in value.items()) + '}'
@@ -193,7 +228,7 @@ def build():
     linkage = support_callin_linkage.build(source['supportRoots'])
 
     def add_field(entry, field_id, baseline, backing, target, writable=True, reason=None,
-                  provenance='current-build retained snapshot plus schema-labelled native ownership'):
+                  provenance='current-build retained snapshot plus schema-labelled native ownership', extra=None):
         definition = defs[field_id]
         target_identity = ':'.join(str(target.get(key, '')) for key in
             ('stratagem', 'path', 'entity', 'weapon', 'attack'))
@@ -224,6 +259,8 @@ def build():
             'sharedScopeKey': scope_key,
             'reviewedScopeComplete': True, 'dynamicConsumersPossible': settings_object,
             'provenance': provenance}
+        if extra:
+            descriptor.update(extra)
         entry['fields'].append(descriptor)
         public = {k: descriptor[k] for k in ('instanceKey','semanticFieldId','displayName','type','unit',
             'currentDefault','editable','reason','target','backingObjectId','operationGroup','planGroup',
@@ -234,6 +271,8 @@ def build():
         public['domain'] = field_id.split('.')[0]
         public['planPhase'] = backing.get('phase', 1)
         public['dependsOn'] = backing.get('dependsOn', [])
+        if extra:
+            public.update(extra)
         field_instances.append(public)
 
     for item in source['stratagems']:
@@ -259,10 +298,10 @@ def build():
              'width':4,'consumers':root_scope},
             {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'})
         max_value = None if root['use_count'] == 4294967295 else root['use_count']
-        add_field(entry, 'stratagem.max_uses', max_value,
+        add_field(entry, 'stratagem.max_uses', uses_state(root, item['family'], item['name'])['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':root_scope},
-            {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'}, False)
+            {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'}, uses_state(root, item['family'], item['name'])['writable'], uses_state(root, item['family'], item['name'])['reason'], extra=uses_state(root, item['family'], item['name'])['extra'])
         if item['family'] == 'Eagle':
             add_field(entry, 'eagle.uses_per_rearm', root['use_count'],
                 {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
@@ -328,8 +367,7 @@ def build():
             'cooldown':root['cooldown'],
             'cooldownCapability':{'value':root['cooldown'],'writable':True,
                 'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
-            'maxUses':{'value':max_value,'writable':False,
-                'reason':defs['stratagem.max_uses']['reason']},
+            'maxUses':uses_state(root, item['family'], item['name'])['public'],
             'callInTime':{'value':None,'writable':False,
                 'reason':'The resolved spawn-time scalar does not reproduce the semantic call-in time across families.'},
             'usesPerRearm':root['use_count'] if item['family']=='Eagle' else None,
@@ -361,18 +399,17 @@ def build():
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,'storage':'f32',
              'width':4,'consumers':[{'stratagem':support['name'],'path':'stratagem'}]},
             {'resource':'stratagem','stratagem':support['name'],'path':'stratagem'})
-        add_field(entry,'stratagem.max_uses',None if root['use_count']==4294967295 else root['use_count'],
+        add_field(entry,'stratagem.max_uses', uses_state(root, 'support', support['name'])['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':[{'stratagem':support['name'],'path':'stratagem'}]},
-            {'resource':'stratagem','stratagem':support['name'],'path':'stratagem'},False)
+            {'resource':'stratagem','stratagem':support['name'],'path':'stratagem'}, uses_state(root, 'support', support['name'])['writable'], uses_state(root, 'support', support['name'])['reason'], extra=uses_state(root, 'support', support['name'])['extra'])
         internal['stratagems'][support['name']]=entry
         public_stratagems.append({'name':support['name'],'family':'support','rootResolution':'UNIQUE',
             'attackRoles':[],'delivers':linkage['stratagems'][support['name']],
             'cooldown':root['cooldown'],
             'cooldownCapability':{'value':root['cooldown'],'writable':True,
                 'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
-            'maxUses':{'value':None if root['use_count']==4294967295 else root['use_count'],
-                'writable':False,'reason':defs['stratagem.max_uses']['reason']},
+            'maxUses':uses_state(root, 'support', support['name'])['public'],
             'callInTime':{'value':None,'writable':False,
                 'reason':'No call-in-time owner is proven for this definition.'}})
 
@@ -394,16 +431,16 @@ def build():
              'width':4,'consumers':root_scope},
             {'resource':'stratagem','stratagem':name,'path':'stratagem'})
         max_value = None if root['use_count'] == 4294967295 else root['use_count']
-        add_field(entry,'stratagem.max_uses',max_value,
+        add_field(entry,'stratagem.max_uses', uses_state(root, family, name)['value'],
             {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
              'width':4,'consumers':root_scope},
-            {'resource':'stratagem','stratagem':name,'path':'stratagem'},False)
+            {'resource':'stratagem','stratagem':name,'path':'stratagem'}, uses_state(root, family, name)['writable'], uses_state(root, family, name)['reason'], extra=uses_state(root, family, name)['extra'])
         internal['stratagems'][name]=entry
         public_stratagems.append({'name':name,'family':family,'rootResolution':'UNIQUE',
             'attackRoles':[],'cooldown':root['cooldown'],
             'cooldownCapability':{'value':root['cooldown'],'writable':True,
                 'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
-            'maxUses':{'value':max_value,'writable':False,'reason':defs['stratagem.max_uses']['reason']},
+            'maxUses':uses_state(root, family, name)['public'],
             'callInTime':{'value':None,'writable':False,
                 'reason':'No call-in-time owner is proven for this definition.'},
             'delivers':{'kind':family,'known':True,'state':'linked','semanticId':semantic_id,
@@ -493,10 +530,10 @@ def build():
                  'storage':'f32','width':4,'consumers':root_scope},
                 {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'})
             max_value = None if root['use_count'] == 4294967295 else root['use_count']
-            add_field(entry, 'stratagem.max_uses', max_value,
+            add_field(entry, 'stratagem.max_uses', uses_state(root, item['family'], item['name'])['value'],
                 {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,
                  'storage':'u32','width':4,'consumers':root_scope},
-                {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'}, False)
+                {'resource':'stratagem','stratagem':item['name'],'path':'stratagem'}, uses_state(root, item['family'], item['name'])['writable'], uses_state(root, item['family'], item['name'])['reason'], extra=uses_state(root, item['family'], item['name'])['extra'])
 
             components = {component['name']: component for report in item['payloadReports']
                 if report['payload'] == entity['resource'] for component in report['components']}
@@ -687,8 +724,7 @@ def build():
                 'rootResolution':'UNIQUE','attackRoles':list(entry['attacks']),
                 'cooldown':root['cooldown'],'cooldownCapability':{'value':root['cooldown'],
                     'writable':True,'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
-                'maxUses':{'value':max_value,'writable':False,
-                    'reason':defs['stratagem.max_uses']['reason']},
+                'maxUses':uses_state(root, item['family'], item['name'])['public'],
                 'callInTime':{'value':None,'writable':False,
                     'reason':'The resolved spawn-time scalar does not reproduce the semantic call-in time across families.'},
                 'deployedEntity':{'kind':entity['kind'],'identityStatus':'UNIQUE',
@@ -794,7 +830,12 @@ def build():
     public['summary']={'offensiveRootsResolved':20,'orbitalRootsResolved':12,'eagleRootsResolved':8,
         'supportRootsResolved':sum(x['resolution']=='UNIQUE' for x in source['supportRoots']),
         'cooldownWritable':sum(x['semanticFieldId']=='stratagem.cooldown' and x['editable'] for x in field_instances),
-        'maxUsesWritable':0,'eagleUsesPerRearmWritable':8,'eagleRearmTimeWritable':8,
+        'maxUsesWritable':sum(x['semanticFieldId']=='stratagem.max_uses' and x['editable'] for x in field_instances),
+        'maxUsesByMode':dict(sorted(Counter(x.get('usesMode') or 'eagle_per_rearm' for x in field_instances
+            if x['semanticFieldId']=='stratagem.max_uses').items())),
+        'maxUsesGameplayProven':sum(bool(x.get('gameplayProvenValues')) for x in field_instances
+            if x['semanticFieldId']=='stratagem.max_uses'),
+        'eagleUsesPerRearmWritable':8,'eagleRearmTimeWritable':8,
         'fieldInstances':len(field_instances),'writableFieldInstances':sum(x['editable'] for x in field_instances),
         'backingObjectCount':len({x['backingObjectId'] for x in field_instances}),
         'sharedBackingObjectCount':len({x['backingObjectId'] for x in field_instances if x['shared']}),

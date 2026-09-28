@@ -6,13 +6,19 @@ local entities=require('hd2runtime/core/entity_catalog')
 local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/player_weapon_authoring')
 local support_database=require('hd2runtime/domains/support_weapon_authoring')
+-- Mounted weapons (vehicles, Exosuits, GATER) share the support-weapon entry shape.
+local vehicle_database=require('hd2runtime/domains/vehicle_weapon_authoring')
+local function database_for(kind)
+    if kind=='vehicle_weapon'then return vehicle_database end
+    return kind=='support_weapon'and support_database or database
+end
 local M={}
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
     'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
-    'WeaponWindUpComponentData'}
+    'WeaponWindUpComponentData','HealthComponentData','MountComponentData'}
 
 local function equal(a,c,kind)
     if kind=='f32'then return type(a)=='number'and type(c)=='number'
@@ -21,7 +27,7 @@ local function equal(a,c,kind)
 end
 local function target_name(target)
     assert(type(target)=='table'and(target.resource=='player_weapon'
-        or target.resource=='support_weapon')and type(target.weapon)=='string',
+        or target.resource=='support_weapon'or target.resource=='vehicle_weapon')and type(target.weapon)=='string',
         'unsupported weapon target')
     local kind=target.resource
     if target.path=='weapon'then
@@ -276,14 +282,14 @@ function M.validate_patch(request)
         allow_unverified_effect=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
-    local selected=kind=='support_weapon'and support_database or database
+    local selected=database_for(kind)
     local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
         request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true)
     return {kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
-        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,
+        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,
         attack=role,target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
         field=request.field,expect=request.expect,value=request.value,changes={change}}
@@ -294,14 +300,14 @@ function M.validate_transaction(request)
         allow_unverified_effect=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
-    local selected=kind=='support_weapon'and support_database or database
+    local selected=database_for(kind)
     local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     assert(type(request.changes)=='table'and#request.changes>=1 and#request.changes<=32,
         'transaction requires one to 32 changes')
     local result={kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
-        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,attack=role,
+        ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,attack=role,
         target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,changes={}}
     local seen,canonical_seen={},{ }
@@ -385,7 +391,7 @@ function M.capture_many(runtime,reader,specs)
     local catalog=entities.capture(reader,roots.entity,profile,component_names)
     local results={}
     for index,spec in ipairs(specs)do
-        local selected=spec.kind=='support_weapon'and support_database or database
+        local selected=database_for(spec.kind)
         local resolved={roots=roots,catalog=catalog,candidate=find_candidate(catalog,spec.resource),
             database=selected,
             reference_sources={}}
@@ -414,6 +420,15 @@ function M.capture_many(runtime,reader,specs)
                 assert(found,'support ownership chain changed: stratagem payload link absent')
             end end
             resolved.identity_candidate=identity_candidate
+        end
+        if spec.kind=='vehicle_weapon'then
+            -- Re-prove the mount chain: the vehicle's own MountComponentData slot still holds this weapon.
+            local chain=assert(spec.mount_chain,'vehicle weapon mount chain missing')
+            local vehicle=find_candidate(catalog,chain.vehicleResource)
+            local mount=catalog.record(vehicle,'MountComponentData')
+            assert(b.resource(mount.bytes,chain.slot*24)==chain.mountPath,
+                'vehicle mount chain changed: slot '..chain.slot..' no longer holds the reviewed weapon')
+            assert(chain.mountPath==spec.resource,'vehicle mount chain does not name the weapon owner')
         end
         for _,change in ipairs(spec.changes)do
             if change.desired_selector and not change.desired_selector.is_null then
@@ -582,7 +597,7 @@ function M.prepare(resolved,reader,spec)
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
-        elseif spec.kind=='support_weapon'and backing.linkage then
+        elseif(spec.kind=='support_weapon'or spec.kind=='vehicle_weapon')and backing.linkage then
             record,owner=support_linked(resolved,backing)
             assert(record.group==backing.group and record.row==backing.row
                 and record.kind==backing.recordType and record.settings_type==backing.settingsType,

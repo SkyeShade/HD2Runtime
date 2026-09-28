@@ -426,7 +426,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -661,6 +661,40 @@ function HD2Vehicle:mounts() end
 ---@param mount string
 ---@return HD2VehicleMount
 function HD2Vehicle:mount(mount) end
+
+---@class HD2VehicleWeapon
+---@field resource "vehicle_weapon"
+---@field path "weapon"
+---@field weapon string
+local HD2VehicleWeapon = {}
+---@return table
+function HD2VehicleWeapon:describe() end
+---@return HD2VehicleWeaponAttack[]
+function HD2VehicleWeapon:attacks() end
+---@param role string
+---@return HD2VehicleWeaponAttack
+function HD2VehicleWeapon:attack(role) end
+---@return HD2VehicleWeaponAttack
+function HD2VehicleWeapon:projectile() end
+---@param phase? "impact"
+---@return HD2VehicleWeaponAttack
+function HD2VehicleWeapon:explosion(phase) end
+
+---@class HD2VehicleWeaponAttack
+---@field resource "vehicle_weapon"
+---@field path "projectile_reference"|"explosion"|"attack"
+---@field weapon string
+---@field attack string
+local HD2VehicleWeaponAttack = {}
+---@return table
+function HD2VehicleWeaponAttack:describe() end
+---@return HD2VehicleWeapon[]
+function HD2Vehicle:weapons() end
+---@param identity integer|string mount slot, mount label, weapon key or semanticId
+---@return HD2VehicleWeapon
+function HD2Vehicle:weapon(identity) end
+---@return HD2VehicleWeapon
+function HD2VehicleMount:weapon() end
 
 ---@class HD2Backpack
 ---@field resource "backpack"

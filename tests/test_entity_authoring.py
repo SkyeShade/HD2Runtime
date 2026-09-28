@@ -240,7 +240,8 @@ return 'ok'
         recreations = json.loads((ROOT / 'validation/reference-mod-recreations.json').read_text())
         self.assertEqual(recreations['status'], 'EXACT_MATCH')
         self.assertEqual(set(recreations['recreations']), {'ShieldRelayRecreation', 'BastionReArmoredRecreation',
-            'FRVWeaponSwapRecreation', 'JumpPackRecreation', 'ConcussiveDrumMagazine', 'ReticleAmrRecreation'})
+            'FRVWeaponSwapRecreation', 'JumpPackRecreation', 'ConcussiveDrumMagazine', 'ReticleAmrRecreation',
+            'EmancipatorAmmo', 'LumbererAmmo', 'M103TurretMagazine', 'ExosuitUnlimitedUses', 'PatriotExosuitBuffs'})
         for name, item in recreations['recreations'].items():
             self.assertEqual(item['physicalWrites'], item['referenceWrites'], name)
             self.assertTrue(item['allAtVanillaBaseline'], name)

@@ -18,6 +18,7 @@ import generate_attachment_authoring
 import generate_booster_authoring
 import generate_weapon_composition
 import generate_fire_mode_authoring
+import generate_vehicle_weapon_authoring
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
@@ -81,6 +82,7 @@ def main():
     generate_stratagem_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
     generate_fire_mode_authoring.generate(check=True)
+    generate_vehicle_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
@@ -128,6 +130,12 @@ def main():
     report['fire_mode_authoring_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/fire-mode-authoring-snapshot.json').read_text()).items() if key!='weapons'}
     report['weapon_fire_modes']=json.loads((ROOT/'sdk/WeaponFireModeCapabilities.json').read_text())['summary']
+    report['vehicle_weapons']=json.loads((ROOT/'sdk/VehicleWeaponCapabilities.json').read_text())['summary']
+    report['vehicle_weapon_snapshot_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/vehicle-weapon-authoring-snapshot.json').read_text()).items() if key!='scenarios'}
+    report['reference_mod_inventory']={name:{key:item[key] for key in ('sha256','recreation','recreationStatus')}
+        for name,item in json.loads((ROOT/'research/reference-mod-inventory-F5FEE03DCFDB.json').read_text())
+        ['referenceMods'].items()}
     report['weapon_attachment_catalog']=json.loads(
         (ROOT/'sdk/WeaponAttachmentCatalog.json').read_text())['summary']
     report['magazine_attachment_authoring']=json.loads(
@@ -141,7 +149,7 @@ def main():
     recreations=json.loads((ROOT/'validation/reference-mod-recreations.json').read_text())
     assert recreations['status']=='EXACT_MATCH','Reference mod recreation is not exact'
     report['reference_mod_recreations']={name:{key:item[key] for key in
-        ('status','physicalWrites','referenceWrites','referenceSources')}
+        ('status','physicalWrites','referenceWrites','referenceSources','omittedReferenceWrites')}
         for name,item in recreations['recreations'].items()}
     report['stratagem_proof_packages']=['OrbitalLaserProof','OrbitalPrecisionProof',
         'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof',
@@ -149,7 +157,8 @@ def main():
         'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
         'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine',
         'ArmedResupplyTurret','CombatStimBoost','BoosterTuning','IncendiaryHellpods',
-        'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto']
+        'LiberatorDamageOptions','ReticleAmrRecreation','JAR5FullAuto','ExosuitUnlimitedUses',
+        'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

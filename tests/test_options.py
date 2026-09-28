@@ -135,7 +135,7 @@ fails(start,'integer',{patch={id='c',allow_unverified_effect=true,
 fails(start,'allow_shared',{transaction={id='d',allow_unverified_effect=true,
  target=hd2.booster('Firebomb Hellpods'):explosion(),
  changes={{field=hd2.fields.explosion.inner_radius,expect=2,value=shared}}}})
-fails(start,'field is read-only',{patch={id='e',target=hd2.stratagem('GR-8 Recoilless Rifle'),
+fails(start,'field is read-only',{patch={id='e',target=hd2.stratagem('Eagle Airstrike'),
  field=hd2.fields.stratagem.max_uses,expect=0,value=uses}})
 fails(start,'only bind a field value',{patch={id='f',allow_unverified_effect=true,target=vitality_target(),
  field=hd2.fields.booster.damage_taken_scale,expect=vit,value=0.8}})

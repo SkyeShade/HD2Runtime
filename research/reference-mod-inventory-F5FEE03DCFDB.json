@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "source": "opus reference materials",
+  "rawTechniquesCopied": false,
+  "referenceMods": {
+    "Better M-103-FRV-Turret-V1.31.zip": {
+      "target": "M-103 Supply FRV roof gun (mounted weapon entity)",
+      "writes": [
+        "WeaponMagazineComponent record 266 capacity (+136) 120 -> 600",
+        "ProjectileWeaponComponent +136/+140 set to 35/15 (author: damage/armor-penetration addends at +128/+132)"
+      ],
+      "taught": "Vehicle mounted weapons own ordinary weapon components; the addend pair naming conflicts with the pinned type library (+128 damage_addends, +136 ap_addends).",
+      "recreation": "M103TurretMagazine",
+      "recreationStatus": "partial",
+      "notRecreated": "Addend writes: semantic assignment unresolved; read-only until an in-game test separates them.",
+      "sha256": "4A01DB0FDF2ED56CE75EE04DF53E85DCDA8B1C4DCCDFDD2AA9520D96C4C5AD6E",
+      "bytes": 29360
+    },
+    "Emancipator-Ammo-v1.zip": {
+      "target": "EXO-49 Emancipator arms",
+      "writes": [
+        "WeaponMagazine 166 and 169 capacity 100 -> 150"
+      ],
+      "taught": "Author found the records by trial; the mount trace proves 166 = left_gun, 169 = right_gun.",
+      "recreation": "EmancipatorAmmo",
+      "recreationStatus": "exact",
+      "sha256": "513950EDABFF8572013E3C4E8E88E9456B058EFF202BDEF7A8D9A1E79D79B0BF",
+      "bytes": 9032
+    },
+    "EXO45-Patriot-Buff-1.12.0-EAT17Missile-HMG2000-30Missiles.zip": {
+      "target": "EXO-45 Patriot hull, both arms, both rounds, call-in",
+      "writes": [
+        "Health 86 hull main/zone health and armor, max armor",
+        "Health 91/93 arm health, armor, zone, max armor",
+        "Magazine 57 (missiles) 14 -> 30, 58 (HMG) 1350 -> 2000",
+        "ProjectileWeapon 52 rpm 1200 -> 600",
+        "DamageInfo type 125 (HMG round, shared) and 239 (missile, own)",
+        "StratagemSettings +104 cooldown 420 -> 250"
+      ],
+      "taught": "Exosuit arms are independent mounted weapons with their own Health, Magazine and ProjectileWeapon records; settings arrays are indexed by native record type, not table row.",
+      "recreation": "PatriotExosuitBuffs",
+      "recreationStatus": "exact_except_omitted",
+      "notRecreated": "Max armor values (+288, zone +224): meaning not established, not exposed.",
+      "sha256": "2A280C0A73D6F35FE6B2055ED1517BCE7ADB43E23392E844D6475CF23E4728D9",
+      "bytes": 45137
+    },
+    "Exosuit-Unlimited-Uses-v2 (1).zip": {
+      "target": "Four Exosuit call-in StratagemInfo records",
+      "writes": [
+        "StratagemInfo +0x50 use count 3 -> 0xFFFFFFFF (continuous rescans)"
+      ],
+      "taught": "Mission use count is StratagemInfo +80 and 0xFFFFFFFF is the native unlimited value (also used by the FRVs); host-applied, HUD may lag until the next mission.",
+      "recreation": "ExosuitUnlimitedUses",
+      "recreationStatus": "exact",
+      "sha256": "557FF5FC0FC6D2A423A878AD5FD1B67F2BB01277164B6A74B6CF97C9B71D527F",
+      "bytes": 4950
+    },
+    "Lumberer-Ammo-v1.1.zip": {
+      "target": "EXO-51 Lumberer arms",
+      "writes": [
+        "WeaponMagazine 56 (flamethrower) 500 -> 1000",
+        "WeaponMagazine 54 (AT cannon) 25 -> 35"
+      ],
+      "taught": "The author inferred which record was the flamethrower; the mount trace confirms it (the left arm owns the SprayWeaponComponent).",
+      "recreation": "LumbererAmmo",
+      "recreationStatus": "exact",
+      "sha256": "34B040F7330B00CD48B9FAF512FA7B73DCCF9C3C4E874F2547D0CD10AAAE3962",
+      "bytes": 9417
+    },
+    "Patriot-Exosuit-Buffs-v8.zip": {
+      "target": "EXO-45 Patriot",
+      "writes": [
+        "Magazine 1350 -> 2000",
+        "Missile DamageInfo signature 1250/1250 AP 6/6/5/0 -> 2000/2000 AP 6/6/6/3, stagger 50",
+        "Minigun AP4: overwrites spare DamageInfo 112, copies projectile 148 into 59 and repoints ProjectileWeapon 148 -> 59"
+      ],
+      "taught": "Same records as EXO45; the minigun change clones and repoints settings rows.",
+      "recreation": "PatriotExosuitBuffs (magazine and missile part)",
+      "recreationStatus": "not_1_to_1",
+      "notRecreated": "Spare-record cloning and projectile repointing are not reproduced (unsafe: overwrites records other content may use). The equivalent AP change is a shared HMG DamageInfo edit with allow_shared.",
+      "sha256": "66FC4484A184EF1F5655ECD58BA67B270500FB9B304CDE42398506F76C691B32",
+      "bytes": 10449
+    },
+    "Tanks Overhaul 2.3.zip": {
+      "target": "TD-220 Bastion and TD-110 Maelstrom hulls (profiles tankier/agile)",
+      "writes": [
+        "Health main 12000, named-zone armor 5/3, explosion damage multiplier (+324) 0.4, affects_main_health 2/1.5/0, linked-zone damage fractions (+208/+212) 0",
+        "Agile: vehicle physics speed x2, pivot x2.5, steering slew x2.5"
+      ],
+      "taught": "Hull health routing lives in the vehicle HealthComponent zones; no mounted weapon writes.",
+      "recreation": null,
+      "recreationStatus": "not_recreated",
+      "notRecreated": "Tankier needs zone explosion damage multiplier and linked-zone damage fractions, which the vehicle hull domain does not expose yet; Agile edits vehicle physics, which is out of scope.",
+      "sha256": "921D6E78A1C706C804304D361174500E7B0997A957021852C66AF8C6835DAA98",
+      "bytes": 2199771
+    }
+  }
+}

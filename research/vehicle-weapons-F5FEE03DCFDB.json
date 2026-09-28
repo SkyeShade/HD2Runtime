@@ -1,0 +1,2644 @@
+{
+ "schemaVersion": 1,
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+ "mountSlotBytes": 24,
+ "vehicles": [
+  {
+   "name": "M-103 Supply FRV",
+   "resource": "0x9B2140378640432E",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x4DF41F84668D07FB",
+     "nativePath": null,
+     "name": "gun",
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 361,
+       "indexRow": 167,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 267,
+       "indexRow": 55,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 266,
+       "indexRow": 56,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 245,
+       "indexRow": 302,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 72,
+       "indexRow": 19,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 7,
+      "fireRate": 640.0,
+      "fireRateVector": [
+       0.0,
+       640.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 120,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 0.0,
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 105,
+        "row": 110,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 105,
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 10,
+        "durable_damage": 15,
+        "push_force": 10,
+        "stagger": 10,
+        "standard_damage": 65
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 7,
+       "row": 200,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 7,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 4.5,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 1000
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "M-103 Supply FRV",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "player_weapon",
+        "name": "AR-23P Liberator Penetrator"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon"
+       },
+       {
+        "kind": "entity",
+        "path": null
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0x9E83637BB077E782",
+     "nativePath": "content/fac_helldivers/vehicles/frv_supply/armaments/frv_supply_rack/frv_supply_rack",
+     "name": "rack",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "HealthComponentData": {
+       "recordIndex": 96,
+       "indexRow": 332,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": false
+    }
+   ]
+  },
+  {
+   "name": "TD-110 Maelstrom",
+   "resource": "0xB0C9FAF4AF8903F9",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0xD58AE6A04EDB10DE",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": "attach_tank_gun",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 86,
+       "indexRow": 357,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 65,
+       "indexRow": 497,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 71,
+       "indexRow": 107,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 63,
+       "indexRow": 209,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 107,
+       "indexRow": 1000,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 29,
+       "indexRow": 65,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 251,
+      "fireRate": 1200.0,
+      "fireRateVector": [
+       0.0,
+       1200.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 300,
+       "magazines": 6,
+       "refill": 6,
+       "max": 6,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 4.0,
+      "health": 100000,
+      "armor": 4,
+      "zones": [],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 205,
+        "row": 204,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 205,
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 15,
+        "durable_damage": 35,
+        "push_force": 20,
+        "stagger": 25,
+        "standard_damage": 150
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 251,
+       "row": 253,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 251,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 52,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 980
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-110 Maelstrom",
+        "slot": 0
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0xC36B5B37C058DBDD",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": "attach_tank_gun_mg",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 85,
+       "indexRow": 594,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 28,
+       "indexRow": 9,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": false
+    },
+    {
+     "slot": 2,
+     "path": "0x3A061009AA31E9CB",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 88,
+       "indexRow": 11,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 67,
+       "indexRow": 419,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 73,
+       "indexRow": 459,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 64,
+       "indexRow": 285,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 109,
+       "indexRow": 424,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 324,
+      "fireRate": 12.0,
+      "fireRateVector": [
+       0.0,
+       12.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 20,
+       "magazines": 0,
+       "refill": 0,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 4.0,
+      "health": 100000,
+      "armor": 0,
+      "zones": [],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 6,
+       "type": 0
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 324,
+       "row": 10,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 324,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 11,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 500
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-110 Maelstrom",
+        "slot": 2
+       }
+      ]
+     }
+    },
+    {
+     "slot": 3,
+     "path": "0x8AFF7F0793A5BCED",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 87,
+       "indexRow": 230,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 66,
+       "indexRow": 193,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 72,
+       "indexRow": 469,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 108,
+       "indexRow": 938,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 245,
+      "fireRate": 240.0,
+      "fireRateVector": [
+       0.0,
+       240.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 10,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 100000,
+      "armor": 0,
+      "zones": [],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 237,
+        "row": 237,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 237,
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 3,
+        "ap_large": 6,
+        "ap_slight": 6,
+        "demolition": 30,
+        "durable_damage": 1100,
+        "push_force": 25,
+        "stagger": 40,
+        "standard_damage": 1100
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 392,
+          "row": 381,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 392,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 40,
+          "stagger": 40,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 148,
+         "row": 236,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 148,
+        "values": {
+         "inner_radius": 1,
+         "outer_radius": 2,
+         "shockwave_radius": 4
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 245,
+       "row": 122,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 245,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 15,
+       "mass": 350,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 70
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-110 Maelstrom",
+        "slot": 4
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MLS-4X Commando"
+       }
+      ]
+     }
+    },
+    {
+     "slot": 4,
+     "path": "0x8AFF7F0793A5BCED",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 87,
+       "indexRow": 230,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 66,
+       "indexRow": 193,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 72,
+       "indexRow": 469,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 108,
+       "indexRow": 938,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 245,
+      "fireRate": 240.0,
+      "fireRateVector": [
+       0.0,
+       240.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 10,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 100000,
+      "armor": 0,
+      "zones": [],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 237,
+        "row": 237,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 237,
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 3,
+        "ap_large": 6,
+        "ap_slight": 6,
+        "demolition": 30,
+        "durable_damage": 1100,
+        "push_force": 25,
+        "stagger": 40,
+        "standard_damage": 1100
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 392,
+          "row": 381,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 392,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 40,
+          "stagger": 40,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 148,
+         "row": 236,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 148,
+        "values": {
+         "inner_radius": 1,
+         "outer_radius": 2,
+         "shockwave_radius": 4
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 245,
+       "row": 122,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 245,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 15,
+       "mass": 350,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 70
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-110 Maelstrom",
+        "slot": 4
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MLS-4X Commando"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "M-104 Incinerator FRV",
+   "resource": "0x2D85BFE3D8717FE5",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x444880F62CA7EAE8",
+     "nativePath": "content/fac_helldivers/vehicles/frv_heavy/armaments/frv_flamethrower/frv_flamethrower",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 360,
+       "indexRow": 199,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 265,
+       "indexRow": 456,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 244,
+       "indexRow": 26,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "SprayWeaponComponentData": {
+       "recordIndex": 22,
+       "indexRow": 30,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "sprayDamageType": 17,
+      "magazine": {
+       "capacity": 800,
+       "magazines": 0,
+       "refill": 0,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 5.0,
+      "ergonomics": 15.0
+     },
+     "spray": {
+      "settings": {
+       "group": 1,
+       "recordType": 17,
+       "row": 22,
+       "settingsType": "0xE0A72CF0"
+      },
+      "type": 17,
+      "values": {
+       "ap_direct": 4,
+       "ap_extreme": 4,
+       "ap_large": 4,
+       "ap_slight": 4,
+       "demolition": 10,
+       "durable_damage": 3,
+       "push_force": 5,
+       "stagger": 5,
+       "standard_damage": 3
+      },
+      "usedBy": [
+       {
+        "kind": "support_weapon",
+        "name": "B/FLAM-80 Cremator"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "slot": 0
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "M-104 Incinerator FRV",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0xF99FBDAFEAF3D006",
+     "nativePath": "content/fac_helldivers/vehicles/frv_heavy/armaments/frv_flamer_fuel_tank/frv_flamer_fuel_tank",
+     "name": null,
+     "attachNodeName": null,
+     "ownership": {},
+     "isWeapon": false
+    }
+   ]
+  },
+  {
+   "name": "EXO-49 Emancipator Exosuit",
+   "resource": "0xC2D449ECF7FACAB1",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0xE5F64DCC3BFE9DD1",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_autocannon/combat_walker_autocannon_left",
+     "name": "left_gun",
+     "attachNodeName": "attach_turret_l",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 216,
+       "indexRow": 25,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 157,
+       "indexRow": 201,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 166,
+       "indexRow": 25,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 402,
+       "indexRow": 949,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 261,
+      "fireRate": 175.0,
+      "fireRateVector": [
+       0.0,
+       175.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 100,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 925828120,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 215,
+        "row": 214,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 215,
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 150,
+        "push_force": 10,
+        "stagger": 30,
+        "standard_damage": 300
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 371,
+          "row": 360,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 371,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 40,
+          "stagger": 40,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 235,
+         "row": 136,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 235,
+        "values": {
+         "inner_radius": 1.5,
+         "outer_radius": 4.5,
+         "shockwave_radius": 6
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 261,
+       "row": 34,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 261,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 900,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 1021
+      },
+      "firedBy": [
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "slot": 1
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0xFF9878576A4C543B",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_autocannon/combat_walker_autocannon_right",
+     "name": "right_gun",
+     "attachNodeName": "attach_turret_r",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 219,
+       "indexRow": 339,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 160,
+       "indexRow": 345,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 169,
+       "indexRow": 279,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 405,
+       "indexRow": 831,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 261,
+      "fireRate": 175.0,
+      "fireRateVector": [
+       0.0,
+       175.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 100,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 925828120,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 215,
+        "row": 214,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 215,
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 150,
+        "push_force": 10,
+        "stagger": 30,
+        "standard_damage": 300
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 371,
+          "row": 360,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 371,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 40,
+          "stagger": 40,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 235,
+         "row": 136,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 235,
+        "values": {
+         "inner_radius": 1.5,
+         "outer_radius": 4.5,
+         "shockwave_radius": 6
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 261,
+       "row": 34,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 261,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 900,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 1021
+      },
+      "firedBy": [
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-49 Emancipator Exosuit",
+        "slot": 1
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "EXO-45 Patriot Exosuit",
+   "resource": "0x79E4B3D2DA5E45E3",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x824B7E0C4C879EB5",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_missle_launcher/combat_walker_missle_launcher",
+     "name": "left_gun",
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 70,
+       "indexRow": 593,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 51,
+       "indexRow": 285,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 57,
+       "indexRow": 173,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 91,
+       "indexRow": 743,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 128,
+      "fireRate": 90.0,
+      "fireRateVector": [
+       0.0,
+       90.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 14,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 2854072496,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 239,
+        "row": 239,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 239,
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 6,
+        "demolition": 30,
+        "durable_damage": 1250,
+        "push_force": 25,
+        "stagger": 40,
+        "standard_damage": 1250
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 395,
+          "row": 384,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 395,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 400,
+          "push_force": 70,
+          "stagger": 60,
+          "standard_damage": 400
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 416,
+         "row": 238,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 416,
+        "values": {
+         "inner_radius": 1,
+         "outer_radius": 2,
+         "shockwave_radius": 4
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 128,
+       "row": 129,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 128,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 15,
+       "mass": 2500,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.8500000238418579,
+       "velocity": 200
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "slot": 0
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0x08F6089289C83D22",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_turret/combat_walker_turret",
+     "name": "right_gun",
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 72,
+       "indexRow": 170,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 52,
+       "indexRow": 483,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 58,
+       "indexRow": 332,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 93,
+       "indexRow": 334,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 148,
+      "fireRate": 1200.0,
+      "fireRateVector": [
+       0.0,
+       1200.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 1350,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 925828120,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 5,
+       "settings": {
+        "group": 1,
+        "recordType": 125,
+        "row": 130,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 125,
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 1,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 10,
+        "durable_damage": 23,
+        "push_force": 12,
+        "stagger": 20,
+        "standard_damage": 90
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 148,
+       "row": 221,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 148,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 11,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 820
+      },
+      "firedBy": [
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/turret/gatling_turret"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/turret/power_generated_gatling_turret"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_super_earth/tutorial/target_turret"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/turret_machinegun_gpmg/turret_machinegun_gpmg"
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-43 Machine Gun"
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_super_earth/tutorial/safety_turret"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/turret/tutorial_turret"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-45 Patriot Exosuit",
+        "slot": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "M-102 Gunner FRV",
+   "resource": "0xCC21C7FFD3EBEFB9",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x085C1EDB038EC24E",
+     "nativePath": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 358,
+       "indexRow": 447,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 265,
+       "indexRow": 72,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 263,
+       "indexRow": 226,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 242,
+       "indexRow": 106,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 275,
+      "fireRate": 600.0,
+      "fireRateVector": [
+       450.0,
+       600.0,
+       750.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 100,
+       "magazines": 4,
+       "refill": 2,
+       "max": 4,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 5.0,
+      "ergonomics": 30.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 205,
+        "row": 204,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 205,
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 15,
+        "durable_damage": 35,
+        "push_force": 20,
+        "stagger": 25,
+        "standard_damage": 150
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 275,
+       "row": 252,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 275,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 52,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 980
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "FRV (Super Earth variant)",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "slot": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "TD-220 Bastion MK XVI",
+   "resource": "0x16474112801385B6",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x1FA1F596769225C2",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": "attach_tank_gun",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 83,
+       "indexRow": 632,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 63,
+       "indexRow": 118,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 69,
+       "indexRow": 482,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 62,
+       "indexRow": 44,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 105,
+       "indexRow": 728,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 26,
+       "indexRow": 48,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 13,
+      "fireRate": 12.0,
+      "fireRateVector": [
+       0.0,
+       12.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 1,
+       "magazines": 30,
+       "refill": 30,
+       "max": 30,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 4.0,
+      "health": 100000,
+      "armor": 4,
+      "zones": [],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 643,
+        "row": 642,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 643,
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 6,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 40,
+        "durable_damage": 3500,
+        "push_force": 20,
+        "stagger": 50,
+        "standard_damage": 3500
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 645,
+          "row": 438,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 645,
+         "values": {
+          "ap_direct": 5,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 40,
+          "durable_damage": 750,
+          "push_force": 40,
+          "stagger": 70,
+          "standard_damage": 750
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 267,
+         "row": 412,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 267,
+        "values": {
+         "inner_radius": 3.299999952316284,
+         "outer_radius": 10,
+         "shockwave_radius": 11
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 13,
+       "row": 344,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 13,
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 5000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 400
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "slot": 0
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0x439F9E65C18567DA",
+     "nativePath": null,
+     "name": null,
+     "attachNodeName": "attach_tank_gun_mg",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 84,
+       "indexRow": 482,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 64,
+       "indexRow": 280,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 70,
+       "indexRow": 444,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 27,
+       "indexRow": 44,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 275,
+      "fireRate": 600.0,
+      "fireRateVector": [
+       0.0,
+       600.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 2000,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 205,
+        "row": 204,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 205,
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 15,
+        "durable_damage": 35,
+        "push_force": 20,
+        "stagger": 25,
+        "standard_damage": 150
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 275,
+       "row": 252,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 275,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 52,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 980
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "FRV (Super Earth variant)",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "slot": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "EXO-55 Breakthrough Exosuit",
+   "resource": "0x35DBF54F016F3624",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x65489809A8181B96",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_shield/combat_walker_shield",
+     "name": "left_gun",
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 71,
+       "indexRow": 58,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 92,
+       "indexRow": 868,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": false
+    },
+    {
+     "slot": 1,
+     "path": "0xDF51FE8D62F294BE",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_flak_cannon/combat_walker_flak_cannon",
+     "name": "right_gun",
+     "attachNodeName": null,
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 68,
+       "indexRow": 32,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 50,
+       "indexRow": 284,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 54,
+       "indexRow": 138,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 89,
+       "indexRow": 199,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponRoundsComponentData": {
+       "recordIndex": 0,
+       "indexRow": 12,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 68,
+      "fireRate": 180.0,
+      "fireRateVector": [
+       0.0,
+       180.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "reloadDuration": 1.1,
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 925828120,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 188,
+        "row": 192,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 188,
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 20,
+        "durable_damage": 30,
+        "push_force": 30,
+        "stagger": 40,
+        "standard_damage": 90
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 68,
+       "row": 300,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 68,
+      "values": {
+       "drag": 1.2000000476837158,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 6,
+       "pellet_count": 40,
+       "penetration_slowdown": 0.25,
+       "velocity": 385
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-55 Breakthrough Exosuit",
+        "slot": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "EXO-51 Lumberer Exosuit",
+   "resource": "0x7B2326F6FD9C8069",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x0736BEE2D6328726",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_flamethrower/combat_walker_flamethrower",
+     "name": "left_gun",
+     "attachNodeName": "attach_turret_l",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 69,
+       "indexRow": 166,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 56,
+       "indexRow": 254,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 90,
+       "indexRow": 939,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "SprayWeaponComponentData": {
+       "recordIndex": 7,
+       "indexRow": 12,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "sprayDamageType": 17,
+      "magazine": {
+       "capacity": 500,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 3,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 2854072496,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "spray": {
+      "settings": {
+       "group": 1,
+       "recordType": 17,
+       "row": 22,
+       "settingsType": "0xE0A72CF0"
+      },
+      "type": 17,
+      "values": {
+       "ap_direct": 4,
+       "ap_extreme": 4,
+       "ap_large": 4,
+       "ap_slight": 4,
+       "demolition": 10,
+       "durable_damage": 3,
+       "push_force": 5,
+       "stagger": 5,
+       "standard_damage": 3
+      },
+      "usedBy": [
+       {
+        "kind": "support_weapon",
+        "name": "B/FLAM-80 Cremator"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "slot": 0
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "M-104 Incinerator FRV",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+       }
+      ]
+     }
+    },
+    {
+     "slot": 1,
+     "path": "0x17C5D12D8D5DEE2C",
+     "nativePath": "content/fac_helldivers/vehicles/combat_walker_anti_tank_cannon/combat_walker_anti_tank_cannon",
+     "name": "right_gun",
+     "attachNodeName": "attach_turret_r",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 66,
+       "indexRow": 460,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 48,
+       "indexRow": 214,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 54,
+       "indexRow": 300,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 87,
+       "indexRow": 906,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 110,
+      "fireRate": 30.0,
+      "fireRateVector": [
+       30.0,
+       30.0,
+       30.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 25,
+       "magazines": 0,
+       "refill": 6,
+       "max": 0,
+       "reloadThreshold": 0
+      },
+      "health": 800,
+      "armor": 2,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 925828120,
+        "armor": 3,
+        "health": 800
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 226,
+        "row": 222,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 226,
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 3,
+        "ap_large": 6,
+        "ap_slight": 6,
+        "demolition": 30,
+        "durable_damage": 1300,
+        "push_force": 25,
+        "stagger": 50,
+        "standard_damage": 1300
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 382,
+          "row": 371,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 382,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 40,
+          "stagger": 60,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 2,
+        "settings": {
+         "group": 0,
+         "recordType": 46,
+         "row": 123,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 46,
+        "values": {
+         "inner_radius": 3,
+         "outer_radius": 6,
+         "shockwave_radius": 7
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 110,
+       "row": 96,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 110,
+      "values": {
+       "drag": 0.75,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 6500,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.8500000238418579,
+       "velocity": 625
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "EXO-51 Lumberer Exosuit",
+        "slot": 1
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/hellpod/antitank_emplacement/antitank_emplacement"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "FRV (Super Earth variant)",
+   "resource": "0xE9CD1D0D118886AF",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x085C1EDB038EC24E",
+     "nativePath": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+     "name": "gun",
+     "attachNodeName": "gun_mount",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 358,
+       "indexRow": 447,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 265,
+       "indexRow": 72,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 263,
+       "indexRow": 226,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 242,
+       "indexRow": 106,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 275,
+      "fireRate": 600.0,
+      "fireRateVector": [
+       450.0,
+       600.0,
+       750.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 100,
+       "magazines": 4,
+       "refill": 2,
+       "max": 4,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 5.0,
+      "ergonomics": 30.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 2,
+       "settings": {
+        "group": 1,
+        "recordType": 205,
+        "row": 204,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 205,
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 15,
+        "durable_damage": 35,
+        "push_force": 20,
+        "stagger": 25,
+        "standard_damage": 150
+       }
+      },
+      "explosions": {},
+      "settings": {
+       "group": 0,
+       "recordType": 275,
+       "row": 252,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 275,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 52,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 980
+      },
+      "firedBy": [
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "FRV (Super Earth variant)",
+        "slot": 0
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "support_weapon",
+        "name": "MG-206 Heavy Machine Gun"
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "TD-220 Bastion MK XVI",
+        "slot": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "GATER Oil Rig",
+   "resource": "0x423FF97D57AB04F5",
+   "slots": [
+    {
+     "slot": 0,
+     "path": "0x9872EEB31A5F88FD",
+     "nativePath": null,
+     "name": "turret",
+     "attachNodeName": "attach_turret",
+     "ownership": {
+      "WeaponDataComponentData": {
+       "recordIndex": 65,
+       "indexRow": 673,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "ProjectileWeaponComponentData": {
+       "recordIndex": 47,
+       "indexRow": 490,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponMagazineComponentData": {
+       "recordIndex": 53,
+       "indexRow": 534,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "WeaponReloadComponentData": {
+       "recordIndex": 53,
+       "indexRow": 83,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "HealthComponentData": {
+       "recordIndex": 85,
+       "indexRow": 341,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      },
+      "TurretComponentData": {
+       "recordIndex": 19,
+       "indexRow": 91,
+       "ownerCount": 1,
+       "uniqueOwner": true
+      }
+     },
+     "isWeapon": true,
+     "values": {
+      "projectileType": 120,
+      "fireRate": 220.0,
+      "fireRateVector": [
+       0.0,
+       220.0,
+       0.0
+      ],
+      "infiniteAmmo": 0,
+      "speedMultiplier": 1.0,
+      "addends128": [
+       0.0,
+       0.0
+      ],
+      "addends136": [
+       0.0,
+       0.0
+      ],
+      "magazine": {
+       "capacity": 200,
+       "magazines": 0,
+       "refill": 6,
+       "max": 12,
+       "reloadThreshold": 0
+      },
+      "reloadDuration": 4.0,
+      "health": 1000,
+      "armor": 4,
+      "zones": [
+       {
+        "index": 0,
+        "nameHash": 2582166149,
+        "armor": 4,
+        "health": -1
+       }
+      ],
+      "ergonomics": 65.0
+     },
+     "projectile": {
+      "damage": {
+       "projectileUsers": 1,
+       "settings": {
+        "group": 1,
+        "recordType": 216,
+        "row": 215,
+        "settingsType": "0xE0A72CF0"
+       },
+       "type": 216,
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 450,
+        "push_force": 10,
+        "stagger": 40,
+        "standard_damage": 450
+       }
+      },
+      "explosions": {
+       "impact": {
+        "damage": {
+         "settings": {
+          "group": 1,
+          "recordType": 373,
+          "row": 362,
+          "settingsType": "0xE0A72CF0"
+         },
+         "type": 373,
+         "values": {
+          "ap_direct": 3,
+          "ap_extreme": 0,
+          "ap_large": 0,
+          "ap_slight": 0,
+          "demolition": 30,
+          "durable_damage": 150,
+          "push_force": 30,
+          "stagger": 30,
+          "standard_damage": 150
+         }
+        },
+        "projectileUsers": 1,
+        "settings": {
+         "group": 0,
+         "recordType": 234,
+         "row": 138,
+         "settingsType": "0x2AEA2592"
+        },
+        "type": 234,
+        "values": {
+         "inner_radius": 2,
+         "outer_radius": 6,
+         "shockwave_radius": 8
+        }
+       }
+      },
+      "settings": {
+       "group": 0,
+       "recordType": 120,
+       "row": 36,
+       "settingsType": "0xBD4042C2"
+      },
+      "type": 120,
+      "values": {
+       "drag": 0.30000001192092896,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 900,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 1021
+      },
+      "firedBy": [
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg"
+       },
+       {
+        "kind": "entity",
+        "path": "content/fac_helldivers/vehicles/lav/armaments/lav_autocannon/lav_autocannon"
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "entity",
+        "path": null
+       },
+       {
+        "kind": "vehicle_weapon",
+        "vehicle": "GATER Oil Rig",
+        "slot": 0
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}
