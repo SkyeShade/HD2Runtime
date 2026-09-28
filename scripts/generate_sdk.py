@@ -395,18 +395,18 @@ def outputs():
             'sdk/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'starter/stubs/mods/skyeshade/hd2runtime.lua':'\n'.join(stub),
             'sdk/docs/api.md':'\n'.join(doc),
-            'sdk/docs/player-weapon-composition.md':(ROOT/'docs/player-weapon-composition.md').read_text(),
-            'sdk/docs/composition-plans.md':(ROOT/'docs/composition-plans.md').read_text(),
-            'sdk/docs/attachment-preset-research.md':(ROOT/'docs/attachment-preset-research.md').read_text(),
-            'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(),
-            'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(),
-            'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(),
-            'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(),
-            'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(),
-            'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(),
-            'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(),
-            'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(),
-            'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
+            'sdk/docs/player-weapon-composition.md':(ROOT/'docs/player-weapon-composition.md').read_text(encoding='utf-8'),
+            'sdk/docs/composition-plans.md':(ROOT/'docs/composition-plans.md').read_text(encoding='utf-8'),
+            'sdk/docs/attachment-preset-research.md':(ROOT/'docs/attachment-preset-research.md').read_text(encoding='utf-8'),
+            'sdk/docs/support-weapon-api.md':(ROOT/'docs/support-weapon-api.md').read_text(encoding='utf-8'),
+            'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
+            'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
+            'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
+            'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}
 
 
 def generate(check=False):

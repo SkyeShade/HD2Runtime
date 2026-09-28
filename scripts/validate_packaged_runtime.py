@@ -164,7 +164,7 @@ return function(frame,watches,counts)
  return results
 end
 '''
-OPTIONS_MISSING_ADDON = lambda: (example('LiberatorDamageOptions')
+OPTIONS_MISSING_ADDON = lambda name='LiberatorDamageOptions', folder='projects': (example(name, folder)
     .replace('return hd2.ensure(', 'local operations={}\noperations[1]=hd2.ensure(')
     + '''-- Not bound to any option: runs normally whether or not Mod Options Menu is installed.
 operations[2]=hd2.ensure({patch={id='plain-vitality',allow_unverified_effect=true,
@@ -194,12 +194,30 @@ return function(frame,watches,counts,lines)
  return results
 end
 '''
+# The live-validation mod (examples/live/HD2RuntimeOptionsTest) runs the same checks under its
+# own page, option and operation ids, so the exact addon players test is proven from the ZIP.
+TEST_MOD_IDS = (('liberator_damage.damage', 'hd2runtime_options_test.liberator_damage'),
+    ('liberator_damage.enabled', 'hd2runtime_options_test.enabled'),
+    ('options liberator_damage unavailable', 'options hd2runtime_options_test unavailable'),
+    ('(liberator-damage)', '(options-test-liberator-damage)'))
+
+
+def test_mod_ids(text):
+    for old, new in TEST_MOD_IDS:
+        text = text.replace(old, new)
+    assert 'liberator_damage.' not in text and '(liberator-damage)' not in text
+    return text
+
+
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
-    'options-missing': {'after': OPTIONS_MISSING, 'unavailable': ('liberator-damage',)}}
+    'options-missing': {'after': OPTIONS_MISSING, 'unavailable': ('liberator-damage',)},
+    'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
+    'options-test-mod-missing': {'after': test_mod_ids(OPTIONS_MISSING),
+        'unavailable': ('options-test-liberator-damage',)}}
 
 
-def example(name):
-    return (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
+def example(name, folder='projects'):
+    return (ROOT / 'examples' / folder / name / 'src/addon.lua').read_text()
 
 
 SCENARIOS = {
@@ -220,6 +238,8 @@ SCENARIOS = {
     'booster-coverage': lambda: BOOSTER_COVERAGE,
     'options-live': lambda: example('LiberatorDamageOptions'),
     'options-missing': OPTIONS_MISSING_ADDON,
+    'options-test-mod-live': lambda: example('HD2RuntimeOptionsTest', 'live'),
+    'options-test-mod-missing': lambda: OPTIONS_MISSING_ADDON('HD2RuntimeOptionsTest', 'live'),
 }
 
 

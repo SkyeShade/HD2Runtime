@@ -148,8 +148,8 @@ The differ is limited to `WeaponCustomizationComponentData`,
 player-weapon roots. It reports exact changed byte ranges with aligned U32/FP32
 views. It does not search arbitrary process memory.
 
-Required controls are AR-23C Extended â†’ Short â†’ saved â†’ re-equipped, AR-23C
-Short â†’ Drum, one optic change, and one Sickle or Scythe heatsink change. A
+Required controls are AR-23C Extended → Short → saved → re-equipped, AR-23C
+Short → Drum, one optic change, and one Sickle or Scythe heatsink change. A
 field may be promoted only after those captures separate option selection from
 saved preset state and copied effective component values, and re-equip shows
 whether construction rebuilds those values.

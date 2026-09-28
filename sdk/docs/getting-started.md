@@ -51,8 +51,8 @@ MyFirstMod\
 
 Open the folder itself in your editor, then change:
 
-1. `hd2runtime.json` â†’ `name`: your display name. It also becomes the ZIP name.
-2. `hd2runtime.json` â†’ `resource`: your permanent mod ID, `mods/<you>/<mod_id>`.
+1. `hd2runtime.json` → `name`: your display name. It also becomes the ZIP name.
+2. `hd2runtime.json` → `resource`: your permanent mod ID, `mods/<you>/<mod_id>`.
    Use letters, digits, and underscores only. Never change it after release; the
    mod manager GUID is derived from it.
 3. `VERSION`: `major.minor.patch`.
@@ -383,6 +383,6 @@ runtime update, not memory access from your mod.
 1. Install Bingus Shared Loader and HD2Runtime in your mod manager.
 2. Extract the mod template to `C:\HD2Mods\MyFirstMod\`.
 3. In `hd2runtime.json`, set `name` and a unique `resource`.
-4. Keep the example in `src\addon.lua` (Concussive fire rate 400 â†’ 1100).
+4. Keep the example in `src\addon.lua` (Concussive fire rate 400 → 1100).
 5. Run `build.cmd`, import the ZIP from `build\`, and deploy.
 6. Start the game, fire the Concussive, and look for `APPLIED` in `HD2Runtime.log`.
