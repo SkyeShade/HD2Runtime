@@ -77,6 +77,10 @@ def main():
     report['stratagem_authoring']=stratagem_capabilities['summary']
     report['stratagem_snapshot_validation']=json.loads(
         (ROOT/'validation/stratagem-authoring-snapshot.json').read_text())
+    call_in_links=support_capabilities['supportCallInLinks']
+    assert call_in_links==stratagem_capabilities['supportCallInLinks'],'Support call-in linkage diverged'
+    assert call_in_links['audit']['bidirectionalMismatches']==0,'Support call-in linkage is one-way'
+    report['support_call_in_linkage']=call_in_links['audit']
     report['stratagem_proof_packages']=['OrbitalLaserProof','OrbitalPrecisionProof',
         'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof',
         'AntiTankEmplacementProof','ConventionalSentryProof','ExplosiveSentryProof',
