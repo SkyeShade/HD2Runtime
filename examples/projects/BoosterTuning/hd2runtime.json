@@ -1,0 +1,1 @@
+{"format":1,"name":"BoosterTuning","resource":"mods/hd2runtime_examples/booster_tuning","guid":"034abe1f-9547-55dc-96da-f664242387d5","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.25.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

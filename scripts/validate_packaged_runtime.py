@@ -86,6 +86,35 @@ return operations
 '''
 
 
+BOOSTER_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+-- Remaining tuning scalars in one plan; every row is re-proven live from game.dll.
+local tuning={
+    {'Stamina Enhancement','stamina_scale',1.3,1.6},{'Muscle Enhancement','terrain_slowdown_scale',0.35,0.2},
+    {'UAV Recon Booster','radar_range_scale',1.5,2},{'Increased Reinforcement Budget','reinforcements_per_player',1,2},
+    {'Flexible Reinforcement Budget','reinforcement_cooldown_scale',0.75,0.5},
+    {'Localization Confusion','encounter_rate_scale',0.9,0.8},{'Motivational Shocks','slow_scale',0.5,0.25},
+    {'Dead Sprint','health_floor',0.05,0.1},{'Sample Extricator','sample_drop_cap',10,20},
+    {'Integrated Extinguishers','burn_decay_bonus',0.5,0.75},
+}
+local plan={}
+for index,item in ipairs(tuning)do
+    plan[index]={id='tuning-'..index,target=hd2.booster(item[1]):tuning(),allow_unverified_effect=true,
+        field=hd2.fields.booster[item[2]],expect=item[3],value=item[4]}
+end
+operations[#operations+1]=hd2.ensure({plan={id='booster-tuning-coverage',operations=plan}})
+operations[#operations+1]=hd2.ensure({transaction={id='dead-sprint-drain',
+    target=hd2.booster('Dead Sprint'):status_damage(),allow_shared=true,allow_unverified_effect=true,
+    changes={{field=hd2.fields.damage.player_standard_damage,expect=5,value=2},
+        {field=hd2.fields.damage.player_durable_damage,expect=5,value=2}}}})
+operations[#operations+1]=hd2.ensure({patch={id='stun-pods-radius',target=hd2.booster('Stun Pods'):explosion(),
+    allow_shared=true,allow_unverified_effect=true,field=hd2.fields.explosion.outer_radius,expect=4,value=7}})
+operations[#operations+1]=hd2.ensure({patch={id='smoke-pods-radius',
+    target=hd2.booster('Concealed Insertion'):explosion(),allow_shared=true,allow_unverified_effect=true,
+    field=hd2.fields.explosion.inner_radius,expect=5,value=8}})
+return operations
+'''
+
 def example(name):
     return (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
 
@@ -103,6 +132,9 @@ SCENARIOS = {
     'magazine-attachment': lambda: example('ConcussiveDrumMagazine'),
     'booster-deployed-entity': lambda: example('ArmedResupplyTurret'),
     'booster-status-effect': lambda: example('CombatStimBoost'),
+    'booster-tuning': lambda: example('BoosterTuning'),
+    'booster-explosion': lambda: example('IncendiaryHellpods'),
+    'booster-coverage': lambda: BOOSTER_COVERAGE,
 }
 
 

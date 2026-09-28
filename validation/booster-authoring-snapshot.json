@@ -1,12 +1,26 @@
 {
-  "alreadyDesired": 5,
-  "boosters": 2,
-  "fieldChecks": 5,
+  "acknowledgementRejections": 68,
+  "alreadyDesired": 42,
+  "boosters": 19,
+  "changedWrites": 42,
+  "conflictRejections": 42,
+  "dataSectionProtectionChanges": 0,
+  "fieldChecks": 42,
   "fixtureFallback": "disabled",
-  "mode": "snapshot",
-  "protectionChanges": 0,
+  "mode": "snapshot-overlay",
+  "proofRejections": {
+    "enumName": 19,
+    "gateFunction": 19,
+    "instructionByte": 90,
+    "relocatedModule": 19,
+    "tableRowIdentity": 19,
+    "wrongBuild": 20
+  },
+  "protectionChanges": 8,
+  "rangeRejections": 37,
+  "rollbacks": 42,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
-  "targets": 3,
-  "writes": 0
+  "targets": 20,
+  "writes": 84
 }

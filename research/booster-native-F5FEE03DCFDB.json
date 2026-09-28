@@ -1,0 +1,2280 @@
+{
+ "schemaVersion": 1,
+ "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424,
+  "unpackedImageSha256": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5",
+  "textSha256": "373FD67E02BBF277494BFA8357ACBCBC5A7E2A309B5F0B20578C7B383996658B"
+ },
+ "pinnedReferences": {
+  "typelib": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4"
+ },
+ "boosterNames": {
+  "rva": 35509808,
+  "names": [
+   "None",
+   "Vitality",
+   "Stamina",
+   "MuscleEnhancement",
+   "UAVRecon",
+   "IncreasedReinforcementBudget",
+   "FlexibleReinforcementBudget",
+   "HellpodSpaceOptimization",
+   "LocalizationConfusion",
+   "FastExtraction",
+   "SlowStunResistance",
+   "CombatDrugs",
+   "FieryDrop",
+   "DoubleSampleChance",
+   "DeathMarch",
+   "DefensiveAmmoPod",
+   "BigEnemiesDropSamples",
+   "ShockPods",
+   "SmokePods",
+   "FireExtinguish",
+   "FreeEAT",
+   "Count"
+  ],
+  "stringRvas": [
+   35903776,
+   36480344,
+   36480432,
+   36480408,
+   36480392,
+   36480360,
+   36480512,
+   36480480,
+   36480456,
+   36480440,
+   36480600,
+   36480584,
+   36480568,
+   36480544,
+   36480688,
+   36480664,
+   36480640,
+   36480624,
+   36480728,
+   36480712,
+   36480704,
+   35939432
+  ],
+  "typeLibraryAliasLengths": {
+   "0": 12,
+   "1": 16,
+   "2": 15,
+   "3": 25,
+   "4": 16,
+   "5": 36,
+   "6": 35,
+   "7": 32,
+   "8": 29,
+   "9": 22,
+   "10": 26,
+   "11": 19,
+   "12": 17,
+   "13": 26,
+   "14": 18,
+   "15": 24,
+   "16": 29,
+   "17": 17,
+   "18": 17,
+   "19": 22,
+   "20": 15,
+   "21": 13
+  }
+ },
+ "stratagemTypeNames": {
+  "rva": 35474080,
+  "count": 151,
+  "LATOneshot_Booster": 15,
+  "Extract": 148,
+  "AmmoRack": 33
+ },
+ "isBoosterActive": {
+  "rva": 8744256,
+  "bytes": "488b0d59f9ac02488b05eafbac02837908007606837940047446448b481033c9448bc14585c974103910743741ffc04883c008453bc172f0488b0579f7ac02448b80e80800004585c0741548058c0a00003910740effc14883c040413bc872f132c0c3b001c3",
+  "calls": [
+   {
+    "rva": 6887491,
+    "booster": 19,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 6893134,
+    "booster": 3,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 6904362,
+    "booster": null,
+    "dynamicArgument": "mov edx, dword ptr [r15 + 0x70]"
+   },
+   {
+    "rva": 6923048,
+    "booster": 10,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 6970502,
+    "booster": 9,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7741744,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7789463,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7790136,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7794403,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7795095,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7838146,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7838782,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 7846570,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 8561328,
+    "booster": 2,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 8600069,
+    "booster": 2,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 8881658,
+    "booster": null,
+    "dynamicArgument": "mov edx, dword ptr [r11 - 0x10]"
+   },
+   {
+    "rva": 9384363,
+    "booster": 5,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9385666,
+    "booster": 6,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9387266,
+    "booster": 6,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9387559,
+    "booster": 5,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9387619,
+    "booster": 5,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9583242,
+    "booster": 1,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9617638,
+    "booster": 12,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9617768,
+    "booster": 17,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9617900,
+    "booster": 18,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 9802926,
+    "booster": 8,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10123106,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10159846,
+    "booster": 7,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10295950,
+    "booster": 13,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10305641,
+    "booster": 16,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10306037,
+    "booster": 16,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10480680,
+    "booster": 8,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 10481198,
+    "booster": 8,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 11056388,
+    "booster": 14,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 11836041,
+    "booster": 5,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 18651670,
+    "booster": 11,
+    "dynamicArgument": null
+   },
+   {
+    "rva": 25875351,
+    "booster": null,
+    "dynamicArgument": "mov edx, r15d"
+   },
+   {
+    "rva": 25878639,
+    "booster": 4,
+    "dynamicArgument": null
+   }
+  ]
+ },
+ "boosterTable": {
+  "rva": 53467792,
+  "stride": 56,
+  "rows": [
+   {
+    "value": 0,
+    "nativeName": "None",
+    "rowRva": 53467792,
+    "bytes": "876bbda3000000000000803f01000000e3204af2f178c15adcbcab9c000000007ca84425ac572a89ca550069a6a372810000000000000000",
+    "id": 2747100039,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 1,
+    "nativeName": "Vitality",
+    "rowRva": 53467848,
+    "bytes": "28bb3342000000006666663f010000005bb82cc9536335eb9a9e17ac0000000068cbdf33232ac5a9597a4cfb887bd7a50000000000000000",
+    "id": 1110686504,
+    "grantedStratagemType": 0,
+    "scalar": 0.9,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 2,
+    "nativeName": "Stamina",
+    "rowRva": 53467904,
+    "bytes": "b825d028000000006666a63f01000000daf5ca37f80c8c9f9b253b7800000000850b40f49f884c358a683004a3f526dd0000000000000000",
+    "id": 684729784,
+    "grantedStratagemType": 0,
+    "scalar": 1.3,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 3,
+    "nativeName": "MuscleEnhancement",
+    "rowRva": 53467960,
+    "bytes": "cb4e7da5000000003333b33e010000008277db85608e00227dd7248f00000000f5c25b3943d05cc3e8030c5f07ad5fd50000000000000000",
+    "id": 2776452811,
+    "grantedStratagemType": 0,
+    "scalar": 0.35,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 4,
+    "nativeName": "UAVRecon",
+    "rowRva": 53468016,
+    "bytes": "618694f6000000000000c03f01000000281d3813c86b3068ba72df7900000000808cf2fcc8cb1871cdf3c2a0f0923ae80000000000000000",
+    "id": 4136928865,
+    "grantedStratagemType": 0,
+    "scalar": 1.5,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 5,
+    "nativeName": "IncreasedReinforcementBudget",
+    "rowRva": 53468072,
+    "bytes": "acc367f2000000000000803f010000000dfb9714ae127aee5d2c4fd00000000023b5d35a062bd0207afc5b1fb6d4a7580000000000000000",
+    "id": 4066886572,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 6,
+    "nativeName": "FlexibleReinforcementBudget",
+    "rowRva": 53468128,
+    "bytes": "78a8b5fe000000000000403f01000000449daf38960316eb0228b18200000000754bb575174feef81084c80734c8eea30000000000000000",
+    "id": 4273318008,
+    "grantedStratagemType": 0,
+    "scalar": 0.75,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 7,
+    "nativeName": "HellpodSpaceOptimization",
+    "rowRva": 53468184,
+    "bytes": "81cdbc71000000000000c03f010000000c96ab0672e40cf8f126582b000000004bd376d2bb314fb85cfc990a6fa5f05e0000000000000000",
+    "id": 1908198785,
+    "grantedStratagemType": 0,
+    "scalar": 1.5,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 8,
+    "nativeName": "LocalizationConfusion",
+    "rowRva": 53468240,
+    "bytes": "a8bc4534000000006666663f01000000b926a6465e9c9ff725d85b3400000000960d8d37c83032c454e3bdc0a4055de40000000000000000",
+    "id": 876985512,
+    "grantedStratagemType": 0,
+    "scalar": 0.9,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 9,
+    "nativeName": "FastExtraction",
+    "rowRva": 53468296,
+    "bytes": "f2fce0d0000000003333333f01000000d46802ab655af88a0dba218100000000480e50d3312acc781d3f1f5ba8f1212c0000000000000000",
+    "id": 3504405746,
+    "grantedStratagemType": 0,
+    "scalar": 0.7,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 10,
+    "nativeName": "SlowStunResistance",
+    "rowRva": 53468352,
+    "bytes": "52187ca1000000000000003f010000005729d5d7e1e8853c993f842f0000000014633508d56c2cab1ce65ca7d0baa5f10000000000000000",
+    "id": 2709264466,
+    "grantedStratagemType": 0,
+    "scalar": 0.5,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 11,
+    "nativeName": "CombatDrugs",
+    "rowRva": 53468408,
+    "bytes": "7e632ee9000000000000803f010000007226b2001f92f689c1f6a9a800000000d72479844d6e15f651be47ead9bae74800000000aabd6766",
+    "id": 3912131454,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 1718074794
+   },
+   {
+    "value": 12,
+    "nativeName": "FieryDrop",
+    "rowRva": 53468464,
+    "bytes": "f87af1b8000000000000803f01000000e63783a888bb9790363f347a0000000030b6150115343588abd724bd985f2e5800000000ed9d4f90",
+    "id": 3102833400,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 2421136877
+   },
+   {
+    "value": 13,
+    "nativeName": "DoubleSampleChance",
+    "rowRva": 53468520,
+    "bytes": "293c0a14000000009a99193e01000000a08e5d6d00a4c6a6bb13cfa9000000009c8c9c48680d05c3bf028e50b3310b910300000000000000",
+    "id": 336215081,
+    "grantedStratagemType": 0,
+    "scalar": 0.15,
+    "enabled": 1,
+    "displayKind": 3,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 14,
+    "nativeName": "DeathMarch",
+    "rowRva": 53468576,
+    "bytes": "4735768500000000cdcc4c3d01000000f853008d7383052f9f72245b00000000595f9328e183f17ab3110311241e82ee0000000000000000",
+    "id": 2239116615,
+    "grantedStratagemType": 0,
+    "scalar": 0.05,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 15,
+    "nativeName": "DefensiveAmmoPod",
+    "rowRva": 53468632,
+    "bytes": "34951be2000000000000000001000000cabab5e910fd1440345ab10b0000000063811eedaceea2947677ff8a062bec050000000000000000",
+    "id": 3793458484,
+    "grantedStratagemType": 0,
+    "scalar": 0.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 16,
+    "nativeName": "BigEnemiesDropSamples",
+    "rowRva": 53468688,
+    "bytes": "76e57d2f00000000000020410100000057581f8bce13d7b396a51d43000000003ae2d359f1db0e782a6a6e0c332809280400000000000000",
+    "id": 796779894,
+    "grantedStratagemType": 0,
+    "scalar": 10.0,
+    "enabled": 1,
+    "displayKind": 4,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 17,
+    "nativeName": "ShockPods",
+    "rowRva": 53468744,
+    "bytes": "5ae19f44000000000000803f0100000076ccafb30af3b5c6b2c9496c00000000083eea944500997351d4c2402e033d6b00000000fcd6288e",
+    "id": 1151328602,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 2385041148
+   },
+   {
+    "value": 18,
+    "nativeName": "SmokePods",
+    "rowRva": 53468800,
+    "bytes": "7959895f000000000000803f010000006cda228fa87b416ec4c22f6700000000175dd08a7243efe62c9890592995406800000000be4e38d4",
+    "id": 1602836857,
+    "grantedStratagemType": 0,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 3560459966
+   },
+   {
+    "value": 19,
+    "nativeName": "FireExtinguish",
+    "rowRva": 53468856,
+    "bytes": "55785bd3000000000000003f01000000ff492bdf0300a766a91a0545000000006c23cb8ea7246649fec28410ccfdc1920200000000000000",
+    "id": 3545987157,
+    "grantedStratagemType": 0,
+    "scalar": 0.5,
+    "enabled": 1,
+    "displayKind": 2,
+    "resourceThinHash": 0
+   },
+   {
+    "value": 20,
+    "nativeName": "FreeEAT",
+    "rowRva": 53468912,
+    "bytes": "8aaa5a480f0000000000803f010000007487264fea0df91c98c78c5400000000ae615cfaad3ce413ba83a0f673120ca40000000000000000",
+    "id": 1213901450,
+    "grantedStratagemType": 15,
+    "scalar": 1.0,
+    "enabled": 1,
+    "displayKind": 0,
+    "resourceThinHash": 0
+   }
+  ],
+  "bound": {
+   "rva": 18843150,
+   "bytes": "83ff15",
+   "role": "row_bound",
+   "asm": "cmp edi, 0x15"
+  },
+  "references": [
+   {
+    "rva": 6887508,
+    "asm": "subss xmm1, dword ptr [rip + 0x2c6c664]",
+    "row": 19,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 6893143,
+    "asm": "mulss xmm0, dword ptr [rip + 0x2c6ace1]",
+    "row": 3,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 6923525,
+    "asm": "mulss xmm4, dword ptr [rip + 0x2c637bb]",
+    "row": 10,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 6970511,
+    "asm": "mulss xmm7, dword ptr [rip + 0x2c57ff9]",
+    "row": 9,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 8561337,
+    "asm": "mulss xmm0, dword ptr [rip + 0x2ad3847]",
+    "row": 2,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 8600078,
+    "asm": "movss xmm0, dword ptr [rip + 0x2aca0f2]",
+    "row": 2,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 8743143,
+    "asm": "lea rbx, [rip + 0x2aa71a2]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8743344,
+    "asm": "lea r14, [rip + 0x2aa70d9]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8743607,
+    "asm": "lea rbp, [rip + 0x2aa6fd2]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8744074,
+    "asm": "lea rbx, [rip + 0x2aa6dff]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8744374,
+    "asm": "lea rax, [rip + 0x2aa6cdb]",
+    "row": 0,
+    "offset": 8,
+    "kind": "address"
+   },
+   {
+    "rva": 8744987,
+    "asm": "lea rax, [rip + 0x2aa6a6e]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8745220,
+    "asm": "lea rax, [rip + 0x2aa6985]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8745669,
+    "asm": "lea rax, [rip + 0x2aa67c4]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8868599,
+    "asm": "lea rax, [rip + 0x2a88792]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8869233,
+    "asm": "lea r8, [rip + 0x2a88518]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8869623,
+    "asm": "lea rax, [rip + 0x2a88392]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 8870678,
+    "asm": "lea r10, [rip + 0x2a87f73]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 9384377,
+    "asm": "movss xmm1, dword ptr [rip + 0x2a0a9ef]",
+    "row": 5,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9385675,
+    "asm": "mulss xmm1, dword ptr [rip + 0x2a0a515]",
+    "row": 6,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9387275,
+    "asm": "mulss xmm1, dword ptr [rip + 0x2a09ed5]",
+    "row": 6,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9387568,
+    "asm": "movss xmm0, dword ptr [rip + 0x2a09d78]",
+    "row": 5,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9387628,
+    "asm": "movss xmm1, dword ptr [rip + 0x2a09d3c]",
+    "row": 5,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9583262,
+    "asm": "mulss xmm0, dword ptr [rip + 0x29da02a]",
+    "row": 1,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 9802940,
+    "asm": "mulss xmm6, dword ptr [rip + 0x29a4794]",
+    "row": 8,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10295980,
+    "asm": "movss xmm0, dword ptr [rip + 0x292c2bc]",
+    "row": 13,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10305650,
+    "asm": "cvttss2si rcx, dword ptr [rip + 0x2929d9d]",
+    "row": 16,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10305696,
+    "asm": "cvttss2si rax, dword ptr [rip + 0x2929d6f]",
+    "row": 16,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10306050,
+    "asm": "cvttss2si rcx, dword ptr [rip + 0x2929c0d]",
+    "row": 16,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10480689,
+    "asm": "divss xmm2, dword ptr [rip + 0x28ff01f]",
+    "row": 8,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 10481207,
+    "asm": "divss xmm0, dword ptr [rip + 0x28fee19]",
+    "row": 8,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 11056488,
+    "asm": "movss xmm2, dword ptr [rip + 0x2872838]",
+    "row": 14,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 11836054,
+    "asm": "movss xmm0, dword ptr [rip + 0x27b4112]",
+    "row": 5,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 12004067,
+    "asm": "lea rax, [rip + 0x278afa6]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 12182302,
+    "asm": "lea r12, [rip + 0x275f76b]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18736362,
+    "asm": "lea rbx, [rip + 0x211f59f]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18841968,
+    "asm": "lea r8, [rip + 0x2105919]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842018,
+    "asm": "lea rdx, [rip + 0x21058e7]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842066,
+    "asm": "lea rax, [rip + 0x21058cb]",
+    "row": 0,
+    "offset": 20,
+    "kind": "address"
+   },
+   {
+    "rva": 18842118,
+    "asm": "lea rax, [rip + 0x2105883]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842144,
+    "asm": "lea r10, [rip + 0x2105869]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842208,
+    "asm": "lea r10, [rip + 0x2105829]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842272,
+    "asm": "lea r9, [rip + 0x21057e9]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842336,
+    "asm": "lea r9, [rip + 0x21057a9]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842512,
+    "asm": "lea r8, [rip + 0x21056f9]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842570,
+    "asm": "lea rcx, [rip + 0x21056bf]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842603,
+    "asm": "lea rax, [rip + 0x210569e]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842643,
+    "asm": "lea r9, [rip + 0x2105676]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18842824,
+    "asm": "lea rax, [rip + 0x21055c1]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18843033,
+    "asm": "lea rsi, [rip + 0x2105528]",
+    "row": 1,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18843040,
+    "asm": "lea rbp, [rip + 0x21054e9]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 18843404,
+    "asm": "lea rax, [rip + 0x210537d]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20297230,
+    "asm": "mov eax, dword ptr [rip + 0x1fa247c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "load"
+   },
+   {
+    "rva": 20299927,
+    "asm": "lea rdi, [rip + 0x1fa19f2]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20300056,
+    "asm": "lea rax, [rip + 0x1fa1971]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20300280,
+    "asm": "lea rax, [rip + 0x1fa1891]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20312230,
+    "asm": "lea rcx, [rip + 0x1f9e9e3]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20320237,
+    "asm": "lea rcx, [rip + 0x1f9ca9c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20326099,
+    "asm": "lea rcx, [rip + 0x1f9b3b6]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20375291,
+    "asm": "lea r9, [rip + 0x1f8f38e]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20375380,
+    "asm": "lea r9, [rip + 0x1f8f335]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20375600,
+    "asm": "lea r9, [rip + 0x1f8f259]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20376233,
+    "asm": "lea r9, [rip + 0x1f8efe0]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20451973,
+    "asm": "lea r12, [rip + 0x1f7c804]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 20453272,
+    "asm": "lea rdx, [rip + 0x1f7c2f1]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21334263,
+    "asm": "lea rdi, [rip + 0x1ea51ca]",
+    "row": 1,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21334395,
+    "asm": "lea rax, [rip + 0x1ea510e]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21399697,
+    "asm": "lea rcx, [rip + 0x1e951f8]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21406995,
+    "asm": "lea rdx, [rip + 0x1e93576]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21423871,
+    "asm": "lea rax, [rip + 0x1e8f38a]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21429507,
+    "asm": "lea r12, [rip + 0x1e8dd86]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21430708,
+    "asm": "lea rdx, [rip + 0x1e8d8d5]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21430898,
+    "asm": "lea rdx, [rip + 0x1e8d817]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21431671,
+    "asm": "lea r12, [rip + 0x1e8d512]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 21918191,
+    "asm": "lea rcx, [rip + 0x1e1689a]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 22010685,
+    "asm": "lea rcx, [rip + 0x1dfff4c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24448066,
+    "asm": "lea r10, [rip + 0x1bace47]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24454295,
+    "asm": "mov eax, dword ptr [rip + 0x1bab5f3]",
+    "row": 0,
+    "offset": 0,
+    "kind": "load"
+   },
+   {
+    "rva": 24454773,
+    "asm": "lea rax, [rip + 0x1bab414]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24454999,
+    "asm": "lea rdx, [rip + 0x1bab332]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24695948,
+    "asm": "lea rdx, [rip + 0x1b705fd]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24740516,
+    "asm": "lea r14, [rip + 0x1b657e5]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24740653,
+    "asm": "lea r14, [rip + 0x1b6575c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24741289,
+    "asm": "lea r14, [rip + 0x1b654e0]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24746858,
+    "asm": "lea r8, [rip + 0x1b63f1f]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24747261,
+    "asm": "lea r8, [rip + 0x1b63d8c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24749478,
+    "asm": "lea r8, [rip + 0x1b634e3]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24750675,
+    "asm": "lea rcx, [rip + 0x1b63036]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24759405,
+    "asm": "lea rdx, [rip + 0x1b60e1c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24761900,
+    "asm": "lea r9, [rip + 0x1b6045d]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 24764526,
+    "asm": "lea rdx, [rip + 0x1b5fa1b]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 25771362,
+    "asm": "lea rcx, [rip + 0x1a69d27]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 25783709,
+    "asm": "lea rdx, [rip + 0x1a66cec]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 25783890,
+    "asm": "lea rdx, [rip + 0x1a66c37]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 25875360,
+    "asm": "movss xmm1, dword ptr [rip + 0x1a507d0]",
+    "row": 4,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 25878648,
+    "asm": "movss xmm1, dword ptr [rip + 0x1a4faf8]",
+    "row": 4,
+    "offset": 8,
+    "kind": "load"
+   },
+   {
+    "rva": 25998115,
+    "asm": "lea r8, [rip + 0x1a32766]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26000025,
+    "asm": "lea rax, [rip + 0x1a31ff0]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26000460,
+    "asm": "lea rcx, [rip + 0x1a31e3d]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26001887,
+    "asm": "lea rax, [rip + 0x1a318aa]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26004364,
+    "asm": "lea rax, [rip + 0x1a30efd]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26052015,
+    "asm": "lea r13, [rip + 0x1a254da]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26331757,
+    "asm": "lea rax, [rip + 0x19e101c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26336254,
+    "asm": "lea rax, [rip + 0x19dfe8b]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26344408,
+    "asm": "lea rax, [rip + 0x19ddeb1]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26449083,
+    "asm": "lea rcx, [rip + 0x19c45ce]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26927000,
+    "asm": "lea rdx, [rip + 0x194faf1]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26927256,
+    "asm": "lea rdx, [rip + 0x194f9f1]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   },
+   {
+    "rva": 26927469,
+    "asm": "lea rdx, [rip + 0x194f91c]",
+    "row": 0,
+    "offset": 0,
+    "kind": "address"
+   }
+  ],
+  "directStores": 0
+ },
+ "tuning": {
+  "FireExtinguish": {
+   "value": 19,
+   "readers": [
+    {
+     "rva": 6887508,
+     "bytes": "f30f5c0d64c6c602",
+     "role": "reader",
+     "asm": "subss xmm1, dword ptr [rip + 0x2c6c664]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 6887486,
+       "bytes": "ba13000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0x13"
+      }
+     ],
+     "call": {
+      "rva": 6887491,
+      "bytes": "e8f8541c00",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.5,
+   "semanticFieldId": "booster.burn_decay_bonus",
+   "effect": "Burn decay is multiplied by 1 / (1 - value) while the booster is active; values at or above 1 divide by zero."
+  },
+  "MuscleEnhancement": {
+   "value": 3,
+   "readers": [
+    {
+     "rva": 6893143,
+     "bytes": "f30f5905e1acc602",
+     "role": "reader",
+     "asm": "mulss xmm0, dword ptr [rip + 0x2c6ace1]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 6893129,
+       "bytes": "ba03000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 3"
+      }
+     ],
+     "call": {
+      "rva": 6893134,
+      "bytes": "e8ed3e1c00",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.35,
+   "semanticFieldId": "booster.terrain_slowdown_scale",
+   "effect": "Multiplies the terrain slowdown fraction; movement factor becomes 1 - slowdown * value."
+  },
+  "SlowStunResistance": {
+   "value": 10,
+   "readers": [
+    {
+     "rva": 6923525,
+     "bytes": "f30f5925bb37c602",
+     "role": "reader",
+     "asm": "mulss xmm4, dword ptr [rip + 0x2c637bb]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 6923043,
+       "bytes": "ba0a000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0xa"
+      }
+     ],
+     "call": {
+      "rva": 6923048,
+      "bytes": "e813ca1b00",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.5,
+   "semanticFieldId": "booster.slow_scale",
+   "effect": "Multiplies the slow/stun amount applied to a Helldiver."
+  },
+  "FastExtraction": {
+   "value": 9,
+   "readers": [
+    {
+     "rva": 6970511,
+     "bytes": "f30f593df97fc502",
+     "role": "reader",
+     "asm": "mulss xmm7, dword ptr [rip + 0x2c57ff9]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 6970497,
+       "bytes": "ba09000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 9"
+      }
+     ],
+     "call": {
+      "rva": 6970502,
+      "bytes": "e8b5101b00",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.7,
+   "semanticFieldId": "booster.extraction_time_scale",
+   "effect": "Multiplies the call-in time of the Extract stratagem (StratagemType 148)."
+  },
+  "Stamina": {
+   "value": 2,
+   "readers": [
+    {
+     "rva": 8561337,
+     "bytes": "f30f59054738ad02",
+     "role": "reader",
+     "asm": "mulss xmm0, dword ptr [rip + 0x2ad3847]"
+    },
+    {
+     "rva": 8600078,
+     "bytes": "f30f1005f2a0ac02",
+     "role": "reader",
+     "asm": "movss xmm0, dword ptr [rip + 0x2aca0f2]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 8561323,
+       "bytes": "ba02000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 2"
+      }
+     ],
+     "call": {
+      "rva": 8561328,
+      "bytes": "e88bca0200",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 8600061,
+       "bytes": "ba02000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 2"
+      }
+     ],
+     "call": {
+      "rva": 8600069,
+      "bytes": "e836330200",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 1.3,
+   "semanticFieldId": "booster.stamina_scale",
+   "effect": "Multiplies the stamina efficiency factor; sprint stamina drain is divided by it and the regeneration input is multiplied by it."
+  },
+  "IncreasedReinforcementBudget": {
+   "value": 5,
+   "readers": [
+    {
+     "rva": 9384377,
+     "bytes": "f30f100defa9a002",
+     "role": "reader",
+     "asm": "movss xmm1, dword ptr [rip + 0x2a0a9ef]"
+    },
+    {
+     "rva": 9387568,
+     "bytes": "f30f1005789da002",
+     "role": "reader",
+     "asm": "movss xmm0, dword ptr [rip + 0x2a09d78]"
+    },
+    {
+     "rva": 9387628,
+     "bytes": "f30f100d3c9da002",
+     "role": "reader",
+     "asm": "movss xmm1, dword ptr [rip + 0x2a09d3c]"
+    },
+    {
+     "rva": 11836054,
+     "bytes": "f30f100512417b02",
+     "role": "reader",
+     "asm": "movss xmm0, dword ptr [rip + 0x27b4112]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 9384319,
+       "bytes": "ba05000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 5"
+      }
+     ],
+     "call": {
+      "rva": 9384363,
+      "bytes": "e8903bf6ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 9387547,
+       "bytes": "ba05000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 5"
+      }
+     ],
+     "call": {
+      "rva": 9387559,
+      "bytes": "e8142ff6ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 9387604,
+       "bytes": "ba05000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 5"
+      }
+     ],
+     "call": {
+      "rva": 9387619,
+      "bytes": "e8d82ef6ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 11836032,
+       "bytes": "ba05000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 5"
+      }
+     ],
+     "call": {
+      "rva": 11836041,
+      "bytes": "e8b2d2d0ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 1.0,
+   "semanticFieldId": "booster.reinforcements_per_player",
+   "effect": "Added to each player's reinforcement budget and truncated to an integer when the budget is initialised."
+  },
+  "FlexibleReinforcementBudget": {
+   "value": 6,
+   "readers": [
+    {
+     "rva": 9385675,
+     "bytes": "f30f590d15a5a002",
+     "role": "reader",
+     "asm": "mulss xmm1, dword ptr [rip + 0x2a0a515]"
+    },
+    {
+     "rva": 9387275,
+     "bytes": "f30f590dd59ea002",
+     "role": "reader",
+     "asm": "mulss xmm1, dword ptr [rip + 0x2a09ed5]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 9385661,
+       "bytes": "ba06000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 6"
+      }
+     ],
+     "call": {
+      "rva": 9385666,
+      "bytes": "e87936f6ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 9387261,
+       "bytes": "ba06000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 6"
+      }
+     ],
+     "call": {
+      "rva": 9387266,
+      "bytes": "e83930f6ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.75,
+   "semanticFieldId": "booster.reinforcement_cooldown_scale",
+   "effect": "Multiplies the reinforcement refill cooldown read from the mission settings before it is scheduled."
+  },
+  "Vitality": {
+   "value": 1,
+   "readers": [
+    {
+     "rva": 9583262,
+     "bytes": "f30f59052aa09d02",
+     "role": "reader",
+     "asm": "mulss xmm0, dword ptr [rip + 0x29da02a]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 9583237,
+       "bytes": "ba01000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 1"
+      }
+     ],
+     "call": {
+      "rva": 9583242,
+      "bytes": "e8b132f3ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.9,
+   "semanticFieldId": "booster.damage_taken_scale",
+   "effect": "Incoming damage to a Helldiver is multiplied by the value and truncated to an integer (int(damage * value))."
+  },
+  "LocalizationConfusion": {
+   "value": 8,
+   "readers": [
+    {
+     "rva": 9802940,
+     "bytes": "f30f593594479a02",
+     "role": "reader",
+     "asm": "mulss xmm6, dword ptr [rip + 0x29a4794]"
+    },
+    {
+     "rva": 10480689,
+     "bytes": "f30f5e151ff08f02",
+     "role": "reader",
+     "asm": "divss xmm2, dword ptr [rip + 0x28ff01f]"
+    },
+    {
+     "rva": 10481207,
+     "bytes": "f30f5e0519ee8f02",
+     "role": "reader",
+     "asm": "divss xmm0, dword ptr [rip + 0x28fee19]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 9802921,
+       "bytes": "ba08000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 8"
+      }
+     ],
+     "call": {
+      "rva": 9802926,
+      "bytes": "e88dd8efff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 10480639,
+       "bytes": "ba08000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 8"
+      }
+     ],
+     "call": {
+      "rva": 10480680,
+      "bytes": "e81381e5ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 10481149,
+       "bytes": "ba08000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 8"
+      }
+     ],
+     "call": {
+      "rva": 10481198,
+      "bytes": "e80d7fe5ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.9,
+   "semanticFieldId": "booster.encounter_rate_scale",
+   "effect": "Multiplies the encounter spawn rate; the two encounter/reinforcement timers are divided by it."
+  },
+  "DoubleSampleChance": {
+   "value": 13,
+   "readers": [
+    {
+     "rva": 10295980,
+     "bytes": "f30f1005bcc29202",
+     "role": "reader",
+     "asm": "movss xmm0, dword ptr [rip + 0x292c2bc]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 10295942,
+       "bytes": "ba0d000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0xd"
+      }
+     ],
+     "call": {
+      "rva": 10295950,
+      "bytes": "e8ad52e8ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.15,
+   "semanticFieldId": "booster.double_sample_chance",
+   "effect": "Probability that a picked-up sample counts twice."
+  },
+  "BigEnemiesDropSamples": {
+   "value": 16,
+   "readers": [
+    {
+     "rva": 10305650,
+     "bytes": "f3480f2c0d9d9d9202",
+     "role": "reader",
+     "asm": "cvttss2si rcx, dword ptr [rip + 0x2929d9d]"
+    },
+    {
+     "rva": 10306050,
+     "bytes": "f3480f2c0d0d9c9202",
+     "role": "reader",
+     "asm": "cvttss2si rcx, dword ptr [rip + 0x2929c0d]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 10305636,
+       "bytes": "ba10000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0x10"
+      }
+     ],
+     "call": {
+      "rva": 10305641,
+      "bytes": "e8d22ce8ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 10306032,
+       "bytes": "ba10000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0x10"
+      }
+     ],
+     "call": {
+      "rva": 10306037,
+      "bytes": "e8462be8ff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [
+    {
+     "rva": 10305696,
+     "bytes": "f3480f2c056f9d9202",
+     "role": "getter",
+     "asm": "cvttss2si rax, dword ptr [rip + 0x2929d6f]"
+    }
+   ],
+   "baseline": 10.0,
+   "semanticFieldId": "booster.sample_drop_cap",
+   "effect": "Mission cap on samples dropped by large enemies (truncated to an integer)."
+  },
+  "DeathMarch": {
+   "value": 14,
+   "readers": [
+    {
+     "rva": 11056488,
+     "bytes": "f30f101538288702",
+     "role": "reader",
+     "asm": "movss xmm2, dword ptr [rip + 0x2872838]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 11056383,
+       "bytes": "ba0e000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 0xe"
+      }
+     ],
+     "call": {
+      "rva": 11056388,
+      "bytes": "e837b8dcff",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 0.05,
+   "semanticFieldId": "booster.health_floor",
+   "effect": "Health fraction below which Dead Sprint stops draining health and stops allowing exhausted sprinting."
+  },
+  "UAVRecon": {
+   "value": 4,
+   "readers": [
+    {
+     "rva": 25875360,
+     "bytes": "f30f100dd007a501",
+     "role": "reader",
+     "asm": "movss xmm1, dword ptr [rip + 0x1a507d0]"
+    },
+    {
+     "rva": 25878648,
+     "bytes": "f30f100df8faa401",
+     "role": "reader",
+     "asm": "movss xmm1, dword ptr [rip + 0x1a4faf8]"
+    }
+   ],
+   "gates": [
+    {
+     "mov": [
+      {
+       "rva": 25875327,
+       "bytes": "41bf04000000",
+       "role": "gate_argument",
+       "asm": "mov r15d, 4"
+      },
+      {
+       "rva": 25875338,
+       "bytes": "418bd7",
+       "role": "gate_argument",
+       "asm": "mov edx, r15d"
+      }
+     ],
+     "call": {
+      "rva": 25875351,
+      "bytes": "e8a499fafe",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    },
+    {
+     "mov": [
+      {
+       "rva": 25878634,
+       "bytes": "ba04000000",
+       "role": "gate_argument",
+       "asm": "mov edx, 4"
+      }
+     ],
+     "call": {
+      "rva": 25878639,
+      "bytes": "e8cc8cfafe",
+      "role": "gate_call",
+      "asm": "call 0x856d40"
+     }
+    }
+   ],
+   "ungatedReaders": [],
+   "baseline": 1.5,
+   "semanticFieldId": "booster.radar_range_scale",
+   "effect": "Multiplies the radar scan scale (base 0.025)."
+  }
+ },
+ "grant": {
+  "proof": [
+   {
+    "rva": 8744967,
+    "bytes": "83fa15",
+    "role": "grant",
+    "asm": "cmp edx, 0x15"
+   },
+   {
+    "rva": 8744983,
+    "bytes": "486bf838",
+    "role": "grant",
+    "asm": "imul rdi, rax, 0x38"
+   },
+   {
+    "rva": 8744987,
+    "bytes": "488d056e6aaa02",
+    "role": "grant",
+    "asm": "lea rax, [rip + 0x2aa6a6e]"
+   },
+   {
+    "rva": 8745003,
+    "bytes": "448b4704",
+    "role": "grant",
+    "asm": "mov r8d, dword ptr [rdi + 4]"
+   },
+   {
+    "rva": 8745070,
+    "bytes": "8b4f04",
+    "role": "grant",
+    "asm": "mov ecx, dword ptr [rdi + 4]"
+   },
+   {
+    "rva": 8745086,
+    "bytes": "488d157b45f702",
+    "role": "grant",
+    "asm": "lea rdx, [rip + 0x2f7457b]"
+   },
+   {
+    "rva": 8745093,
+    "bytes": "488b04ca",
+    "role": "grant",
+    "asm": "mov rax, qword ptr [rdx + rcx*8]"
+   },
+   {
+    "rva": 8745097,
+    "bytes": "8b4050",
+    "role": "grant",
+    "asm": "mov eax, dword ptr [rax + 0x50]"
+   }
+  ],
+  "stratagemTableRva": 58504704,
+  "granted": [
+   {
+    "booster": "FreeEAT",
+    "value": 20,
+    "stratagemType": 15,
+    "stratagemTypeName": "LATOneshot_Booster"
+   }
+  ]
+ },
+ "selectors": {
+  "FieryDrop": {
+   "value": 12,
+   "nativeType": 83,
+   "family": "explosion",
+   "gate": [
+    {
+     "rva": 9617633,
+     "bytes": "ba0c000000",
+     "role": "gate_argument",
+     "asm": "mov edx, 0xc"
+    },
+    {
+     "rva": 9617638,
+     "bytes": "e855acf2ff",
+     "role": "gate_call",
+     "asm": "call 0x856d40"
+    }
+   ],
+   "selector": {
+    "rva": 9617666,
+    "bytes": "448d4247",
+    "role": "selector",
+    "asm": "lea r8d, [rdx + 0x47]"
+   }
+  },
+  "ShockPods": {
+   "value": 17,
+   "nativeType": 335,
+   "family": "explosion",
+   "gate": [
+    {
+     "rva": 9617763,
+     "bytes": "ba11000000",
+     "role": "gate_argument",
+     "asm": "mov edx, 0x11"
+    },
+    {
+     "rva": 9617768,
+     "bytes": "e8d3abf2ff",
+     "role": "gate_call",
+     "asm": "call 0x856d40"
+    }
+   ],
+   "selector": {
+    "rva": 9617809,
+    "bytes": "41b84f010000",
+    "role": "selector",
+    "asm": "mov r8d, 0x14f"
+   }
+  },
+  "SmokePods": {
+   "value": 18,
+   "nativeType": 400,
+   "family": "explosion",
+   "gate": [
+    {
+     "rva": 9617895,
+     "bytes": "ba12000000",
+     "role": "gate_argument",
+     "asm": "mov edx, 0x12"
+    },
+    {
+     "rva": 9617900,
+     "bytes": "e84fabf2ff",
+     "role": "gate_call",
+     "asm": "call 0x856d40"
+    }
+   ],
+   "selector": {
+    "rva": 9617941,
+    "bytes": "41b890010000",
+    "role": "selector",
+    "asm": "mov r8d, 0x190"
+   }
+  },
+  "CombatDrugs": {
+   "value": 11,
+   "nativeType": 29,
+   "family": "status",
+   "gate": [
+    {
+     "rva": 18651665,
+     "bytes": "ba0b000000",
+     "role": "gate_argument",
+     "asm": "mov edx, 0xb"
+    },
+    {
+     "rva": 18651670,
+     "bytes": "e825d368ff",
+     "role": "gate_call",
+     "asm": "call 0x856d40"
+    }
+   ],
+   "selector": {
+    "rva": 18651771,
+    "bytes": "41b81d000000",
+    "role": "selector",
+    "asm": "mov r8d, 0x1d"
+   }
+  },
+  "DeathMarch": {
+   "value": 14,
+   "nativeType": 59,
+   "family": "status",
+   "gate": [
+    {
+     "rva": 11056383,
+     "bytes": "ba0e000000",
+     "role": "gate_argument",
+     "asm": "mov edx, 0xe"
+    },
+    {
+     "rva": 11056388,
+     "bytes": "e837b8dcff",
+     "role": "gate_call",
+     "asm": "call 0x856d40"
+    }
+   ],
+   "selector": {
+    "rva": 11056554,
+    "bytes": "458d413b",
+    "role": "selector",
+    "asm": "lea r8d, [r9 + 0x3b]"
+   }
+  }
+ },
+ "literalSelectorSites": {
+  "FieryDrop": {
+   "calls": 31,
+   "dynamicOrBranchedArgumentCalls": 22,
+   "literalCallSites": []
+  },
+  "ShockPods": {
+   "calls": 31,
+   "dynamicOrBranchedArgumentCalls": 22,
+   "literalCallSites": [
+    9617890
+   ]
+  },
+  "SmokePods": {
+   "calls": 31,
+   "dynamicOrBranchedArgumentCalls": 22,
+   "literalCallSites": [
+    9618022
+   ]
+  },
+  "CombatDrugs": {
+   "calls": 107,
+   "dynamicOrBranchedArgumentCalls": 31,
+   "literalCallSites": []
+  },
+  "DeathMarch": {
+   "calls": 107,
+   "dynamicOrBranchedArgumentCalls": 31,
+   "literalCallSites": [
+    10931561,
+    11056564,
+    11056595,
+    11056616
+   ]
+  }
+ },
+ "dataCarriers": {
+  "explosionCarriers": 11,
+  "statusCarriers": 8,
+  "hits": {
+   "explosion": [],
+   "status": []
+  },
+  "notDecoded": [
+   "DestructionEffect (a union inside the destruction settings library)"
+  ]
+ },
+ "settingsRows": {
+  "explosion": [
+   {
+    "bytes": "53000000ab0100000000000000000000000000400000804000008040000000000000f041000000006c01c8ce0e020000010000000000000013b53f00da167ecb511c7f78060000001e0000000000000000000000000000000e000000010000000000000000000000000000000000000000000000050000000000000002000000000000000000000000000042030000000000000000000000",
+    "group": 0,
+    "kind": 83,
+    "offset": 28924,
+    "row": 190
+   },
+   {
+    "bytes": "4f010000ac0100000000000000000000000000400000804000008040000000000000f041000000007401c8ce0e02000001000000000000004e8ac7c45695eb863138bc99060000001e0000000000000000000000000000000e000000010000000000000000000000000000000000000000000000050000000000000002000000000000000000000000000042030000000000000000000000",
+    "group": 0,
+    "kind": 335,
+    "offset": 29076,
+    "row": 191
+   },
+   {
+    "bytes": "900100000000000000000000000000000000a0400000a0400000000000000000000000000000000000000000000000000000000000000000eee9171523deea186ebfd55200000000f20000000000000000000000000000000000000000000000000000000e0000000000f0410000000000000000040000000000000002000000000000000000000000000042030000000000000000000000",
+    "group": 0,
+    "kind": 400,
+    "offset": 29228,
+    "row": 192
+   }
+  ],
+  "damage": [
+   {
+    "bytes": "ab010000c8000000c80000000a000000000000000000000000000000280000000f0000001400000000000000050000000000a041000000000000000000000000000000000000000000000000",
+    "group": 1,
+    "kind": 427,
+    "offset": 31792,
+    "row": 417
+   },
+   {
+    "bytes": "ac01000032000000320000000a00000000000000000000000000000028000000320000000000000002000000280000000000c842000000000000000000000000000000000000000000000000",
+    "group": 1,
+    "kind": 428,
+    "offset": 31868,
+    "row": 418
+   },
+   {
+    "bytes": "1d020000050000000500000009000000090000000900000009000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "group": 1,
+    "kind": 541,
+    "offset": 40836,
+    "row": 536
+   }
+  ],
+  "status": [
+   {
+    "bytes": "1d00000000000000482bc2ce0e0200000000000000000000509a484b85aa631000006040cdcc8c3f0000204100000000000000000000000000000000000000000000000000000000a4f788e701a800660000000000000000000000000000000000000000000000005c2bc2ce0e02000001000000000000000000000000000000000000000100000000000000000000000000000000000000",
+    "group": 0,
+    "kind": 29,
+    "offset": 4300,
+    "row": 28
+   },
+   {
+    "bytes": "3b00000000000000c72cc2ce0e0200000000000000000000000000000000000000000000000000009a99193e1d0200000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000",
+    "group": 0,
+    "kind": 59,
+    "offset": 8860,
+    "row": 58
+   }
+  ]
+ },
+ "grantedStratagemRecord": {
+  "cooldown": 0,
+  "cooldown_type": 1,
+  "group": 7,
+  "has_shared_uses_pool": false,
+  "id": 3753216434,
+  "kind": 15,
+  "offset": 53944,
+  "package": "0x0000000000000000",
+  "payloads": [
+   "0x0DC7A18342B62BEC",
+   "0x73F8498BFFDCF415"
+  ],
+  "row": 11,
+  "use_count": 2
+ },
+ "writes": 0,
+ "protectionChanges": 0
+}

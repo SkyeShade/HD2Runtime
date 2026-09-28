@@ -566,8 +566,9 @@ function M.new(describe)
         end
         return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end
-    -- Boosters own no native record: their fields live on the records the Booster enum
-    -- links to, exposed as status_effect() or deployed_entity() sub-targets.
+    -- Boosters own no settings type: their fields live on the records the Booster enum
+    -- reaches (native definition table, code-selected settings rows, granted stratagem,
+    -- deployed entity), each exposed as a sub-target.
     function builders.booster(identity)
         local booster_authoring=require('hd2runtime/domains/booster_authoring')
         local entry=booster_authoring.boosters[identity]
@@ -581,7 +582,7 @@ function M.new(describe)
             local fields={}
             for field_id,field in pairs(entry.targets[path].fields)do
                 fields[#fields+1]={semanticFieldId=field_id,instanceKey=field.instanceKey,
-                    currentDefault=field.currentDefault,editable=true,
+                    currentDefault=field.currentDefault,editable=true,range=field.range,
                     acknowledgements=field.shared and{'allow_shared','allow_unverified_effect'}
                         or{'allow_unverified_effect'}}
             end
@@ -599,9 +600,13 @@ function M.new(describe)
             for path in pairs(entry.targets)do targets[#targets+1]=path end
             table.sort(targets)
             return {name=entry.name,semanticId=entry.semanticId,identityStatus=entry.identityStatus,
-                enumValue=entry.enumValue,targets=targets}
+                enumValue=entry.enumValue,nativeName=entry.nativeName,targets=targets}
         end
+        function methods.tuning()return owned_target('tuning')end
+        function methods.explosion()return owned_target('explosion')end
         function methods.status_effect()return owned_target('status_effect')end
+        function methods.status_damage()return owned_target('status_damage')end
+        function methods.granted_stratagem()return owned_target('granted_stratagem')end
         function methods.deployed_entity()return owned_target('deployed_entity')end
         return setmetatable({resource='booster',booster=entry.name,path='booster'},{__index=methods})
     end

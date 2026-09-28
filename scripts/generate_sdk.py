@@ -82,6 +82,7 @@ def outputs():
         fields[domain][constant]=field_id
     for definition in json.loads((ROOT/'schemas/booster_fields.json').read_text())['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
+        if field_id in fields.setdefault(domain,{}).values():continue
         constant=ident(name)
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='booster_'+constant
@@ -297,13 +298,22 @@ def outputs():
         '---@field backpack HD2BackpackName','local HD2Backpack = {}','---@return table',
         'function HD2Backpack:describe() end',
         '','---@class HD2BoosterTarget','---@field resource "booster"',
-        '---@field path "status_effect"|"deployed_entity"','---@field booster string',
+        '---@field path "tuning"|"explosion"|"status_effect"|"status_damage"|"granted_stratagem"|"deployed_entity"',
+        '---@field booster string',
         'local HD2BoosterTarget = {}','---@return table','function HD2BoosterTarget:describe() end',
         '','---@class HD2Booster','---@field resource "booster"','---@field path "booster"',
         '---@field booster string','local HD2Booster = {}',
         '---@return table','function HD2Booster:describe() end',
+        '---Tuning scalar in the native Booster definition table of game.dll (booster-local).',
+        '---@return HD2BoosterTarget','function HD2Booster:tuning() end',
+        '---Extra hellpod-impact explosion the booster adds (ExplosionSettings and its DamageInfo).',
+        '---@return HD2BoosterTarget','function HD2Booster:explosion() end',
         '---Status effect the booster applies (only where a native record is linked).',
         '---@return HD2BoosterTarget','function HD2Booster:status_effect() end',
+        '---Damage of the status effect the booster applies (Dead Sprint drain).',
+        '---@return HD2BoosterTarget','function HD2Booster:status_damage() end',
+        '---Stratagem the booster grants (its native use count).',
+        '---@return HD2BoosterTarget','function HD2Booster:granted_stratagem() end',
         '---Entity the booster deploys (only where a native record is linked).',
         '---@return HD2BoosterTarget','function HD2Booster:deployed_entity() end']
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
