@@ -35,10 +35,12 @@ import json
 from pathlib import Path
 import struct
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 
 ROOT = Path(__file__).resolve().parents[1]
 SIBLINGS = ROOT.parent
-SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+SNAPSHOT = build_profile.SNAPSHOT
 DATALIB = SIBLINGS / 'StrongerOrbitalLaser/local_research/dependencies/filediver-reference/datalibrary'
 OPTIONS = ROOT / 'sdk/AttachmentOptionCapabilities.json'
 OUTPUT = ROOT / 'research/magazine-attachments-F5FEE03DCFDB.json'

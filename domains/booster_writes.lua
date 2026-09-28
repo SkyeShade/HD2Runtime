@@ -47,6 +47,7 @@ local function validate_change(entry,owned,item,request)
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
     local field=assert(owned.fields[item.field],'field is not exposed for '..entry.name..': '..tostring(item.field))
+    assert(field.editable~=false,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(request.allow_unverified_effect==true,
         'booster writes require allow_unverified_effect=true: '..item.field..' ('..field.acknowledgementReason..')')
     assert(not field.shared or request.allow_shared==true,

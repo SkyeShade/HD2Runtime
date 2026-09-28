@@ -37,7 +37,9 @@ Unsupported or ambiguous values remain read-only rather than being modified spec
 Version 0.26.1 is a documentation and example correctness release. The examples, ModTemplate, SDK project
 templates and getting-started guide now teach the current typed API (damage on the projectile, per-angle armor
 penetration, patch vs transaction vs plan), and every shipped example is validated against the current SDK on
-each release. See `docs/releases/0.26.1.md`.
+each release. It also adds offline game-update migration tooling: after a Helldivers 2 patch,
+`docs/game-update-migration.md` walks through re-proving every mapping, recovering safe ones automatically
+and downgrading the rest to read-only. See `docs/releases/0.26.1.md`.
 
 Version 0.26.0 adds every magazine option (reload and ergonomics too), third-person reticles, native
 fire-mode sets, vehicle and Exosuit mounted weapons, stratagem mission uses (including unlimited),

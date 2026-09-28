@@ -1,0 +1,162 @@
+{
+ "schemaVersion": 1,
+ "engine": {
+  "extractorVersion": 2,
+  "reportVersion": 1
+ },
+ "source": {
+  "version": "0.26.1",
+  "ref": "0.26.1",
+  "commit": "ccc9b4f86e3a4e700eeb1c8a80dc633444fc666c",
+  "dirtyWorkingTree": false,
+  "buildId": "F5FEE03DCFDB",
+  "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+  "gameDllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "buildProfile": "F5FEE03DCFDB",
+  "sources": [
+   {
+    "kind": "snapshot",
+    "path": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+    "usedFor": "tables, stratagem rows, fingerprints"
+   }
+  ],
+  "entitiesSha256": "A69628B6654C25BE74D43D3537E11A6D922C29B649635514C77FB9657ADFFEC3",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "capturedAt": "2026-09-26T22:23:17Z"
+ },
+ "target": {
+  "buildId": "F5FEE03DCFDB",
+  "buildProfile": "F5FEE03DCFDB",
+  "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+  "gameDllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+  "capturedAt": "2026-09-27T15:57:52Z",
+  "snapshotBytes": 11799691264,
+  "entitiesSha256": "0643B78E04C21DC28BC66826D195F6EE25491FEA3102D5E6D529FA823824CF51",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "typelibMemberFormat": 72,
+  "sources": [
+   {
+    "kind": "snapshot",
+    "path": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+    "usedFor": "tables, stratagem rows, fingerprints"
+   }
+  ]
+ },
+ "cache": {
+  "used": true,
+  "key": "6E679EF36A8907267C840612",
+  "directory": "build\\migration-cache\\F5FEE03DCFDB-2E2C3B7C2500\\6E679EF36A8907267C840612"
+ },
+ "sameGameDll": true,
+ "totals": {
+  "EXACT": 7539,
+  "MOVED": 0,
+  "BASELINE_CHANGED": 0,
+  "LAYOUT_CHANGED": 0,
+  "AMBIGUOUS": 0,
+  "LOST": 0,
+  "BLOCKED": 0,
+  "UNCHECKED": 0
+ },
+ "fields": 7539,
+ "byDomain": {
+  "attachment_authoring": {
+   "label": "Magazine attachments",
+   "fields": 233,
+   "previouslyWritable": 233,
+   "recovered": 233,
+   "states": {
+    "EXACT": 233
+   }
+  },
+  "booster_authoring": {
+   "label": "Boosters",
+   "fields": 42,
+   "previouslyWritable": 42,
+   "recovered": 42,
+   "states": {
+    "EXACT": 42
+   }
+  },
+  "entity_authoring": {
+   "label": "Vehicles and backpacks",
+   "fields": 758,
+   "previouslyWritable": 736,
+   "recovered": 736,
+   "states": {
+    "EXACT": 758
+   }
+  },
+  "player_weapon_authoring": {
+   "label": "Player weapons",
+   "fields": 3306,
+   "previouslyWritable": 2457,
+   "recovered": 2457,
+   "states": {
+    "EXACT": 3306
+   }
+  },
+  "pod_payload_authoring": {
+   "label": "Drop-pod payloads",
+   "fields": 248,
+   "previouslyWritable": 240,
+   "recovered": 240,
+   "states": {
+    "EXACT": 248
+   }
+  },
+  "stratagem_authoring": {
+   "label": "Stratagems",
+   "fields": 1464,
+   "previouslyWritable": 1456,
+   "recovered": 1456,
+   "states": {
+    "EXACT": 1464
+   }
+  },
+  "support_weapon_authoring": {
+   "label": "Support weapons",
+   "fields": 1008,
+   "previouslyWritable": 1008,
+   "recovered": 1008,
+   "states": {
+    "EXACT": 1008
+   }
+  },
+  "vehicle_weapon_authoring": {
+   "label": "Vehicle weapons",
+   "fields": 480,
+   "previouslyWritable": 480,
+   "recovered": 480,
+   "states": {
+    "EXACT": 480
+   }
+  }
+ },
+ "relationships": {
+  "INTACT": 289,
+  "UNCHECKED": 130
+ },
+ "newCandidates": {
+  "entities": 0,
+  "settings": 0,
+  "stratagems": 0,
+  "entityDeltas": 0,
+  "componentTypes": 0
+ },
+ "writable": {
+  "previouslyWritable": 6652,
+  "carried": 6652,
+  "rebound": 0,
+  "downgradedToReadOnly": 0,
+  "manualReview": 0
+ },
+ "confidence": {
+  "recoveredAutomaticallyPercent": 100.0,
+  "downgradedPercent": 0.0,
+  "manualReviewPercent": 0.0,
+  "unsafeStaleWritesCarriedForward": 0
+ }
+}

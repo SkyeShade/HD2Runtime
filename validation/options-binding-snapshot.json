@@ -107,22 +107,22 @@
       "passed": true
     },
     {
-      "detail": "[string \"hd2runtime/domains/booster_writes\"]:52: shared field requires allow_shared=true: explosion.inner_radius",
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:53: shared field requires allow_shared=true: explosion.inner_radius",
       "name": "allow_shared stays mandatory",
       "passed": true
     },
     {
-      "detail": "[string \"hd2runtime/domains/booster_writes\"]:50: booster writes require allow_unverified_effect=true: booster.damage_taken_scale (No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.)",
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:51: booster writes require allow_unverified_effect=true: booster.damage_taken_scale (No booster edit is gameplay-proven yet; the native value and its consumer are proven, but the in-game effect of a changed value has not been tested.)",
       "name": "allow_unverified_effect stays mandatory",
       "passed": true
     },
     {
-      "detail": "[string \"hd2runtime/domains/booster_writes\"]:65: value outside the reviewed range [0, 0.95] for booster.burn_decay_bonus",
+      "detail": "[string \"hd2runtime/domains/booster_writes\"]:66: value outside the reviewed range [0, 0.95] for booster.burn_decay_bonus",
       "name": "slider range must fit the reviewed field range",
       "passed": true
     },
     {
-      "detail": "option hd2rt_opts.fraction value 0.5 is not accepted by fraction: [string \"hd2runtime/domains/booster_writes\"]:67: integer booster field requires an integer value: booster.reinforcements_per_player",
+      "detail": "option hd2rt_opts.fraction value 0.5 is not accepted by fraction: [string \"hd2runtime/domains/booster_writes\"]:68: integer booster field requires an integer value: booster.reinforcements_per_player",
       "name": "integer fields reject fractional sliders",
       "passed": true
     },

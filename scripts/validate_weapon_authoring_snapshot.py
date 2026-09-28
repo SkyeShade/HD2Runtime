@@ -9,12 +9,14 @@ import argparse
 import json
 from pathlib import Path
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'sdk'))
 from tools.lua_runner import execute
 
-DEFAULT_SNAPSHOT=Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+DEFAULT_SNAPSHOT=build_profile.SNAPSHOT
 DEFAULT_OUTPUT=ROOT/'build/snapshot-results-authoring/PlayerWeaponWritePathValidation.json'
 
 

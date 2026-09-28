@@ -41,6 +41,7 @@ local function validate_change(entry,item,request)
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
     local field=assert(entry.fields[item.field],'field is not exposed for '..entry.name..': '..tostring(item.field))
+    assert(field.editable~=false,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(request.allow_shared==true,
         'magazine attachments apply to every weapon that equips them; allow_shared=true is required')
     assert(request.allow_unverified_effect==true,

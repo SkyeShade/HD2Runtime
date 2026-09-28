@@ -23,6 +23,8 @@ from collections import defaultdict
 from pathlib import Path
 import struct
 import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -33,7 +35,7 @@ from tools.lua_runner import execute
 
 OUTPUT = ROOT / 'research/vehicle-weapons-F5FEE03DCFDB.json'
 ENTITY_RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
-SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+SNAPSHOT = build_profile.SNAPSHOT
 COMPONENTS = ('WeaponDataComponentData', 'ProjectileWeaponComponentData', 'WeaponMagazineComponentData',
     'WeaponReloadComponentData', 'WeaponHeatComponentData', 'HealthComponentData', 'TurretComponentData',
     'WeaponRoundsComponentData', 'SprayWeaponComponentData', 'BeamWeaponComponentData', 'ArcWeaponComponentData',

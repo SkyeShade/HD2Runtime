@@ -18,7 +18,9 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshots\F5FEE03DCFDB-20260926T222226Z.hd2snap')
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+SNAPSHOT = build_profile.SNAPSHOT
 OUTPUT = ROOT / 'validation/steady-state-audit.json'
 GAME = Path(r'C:\Program Files (x86)\Steam\steamapps\common\Helldivers 2')
 EXAMPLES = ['ShieldRelayRecreation', 'BastionReArmoredRecreation', 'FRVWeaponSwapRecreation',

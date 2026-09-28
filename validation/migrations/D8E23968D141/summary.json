@@ -1,0 +1,178 @@
+{
+ "schemaVersion": 1,
+ "engine": {
+  "extractorVersion": 2,
+  "reportVersion": 1
+ },
+ "source": {
+  "version": "0.26.1",
+  "ref": "0.26.1",
+  "commit": "ccc9b4f86e3a4e700eeb1c8a80dc633444fc666c",
+  "dirtyWorkingTree": false,
+  "buildId": "F5FEE03DCFDB",
+  "exeSha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+  "gameDllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "buildProfile": "F5FEE03DCFDB",
+  "sources": [
+   {
+    "kind": "snapshot",
+    "path": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+    "usedFor": "tables, stratagem rows, fingerprints"
+   }
+  ],
+  "entitiesSha256": "A69628B6654C25BE74D43D3537E11A6D922C29B649635514C77FB9657ADFFEC3",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "capturedAt": "2026-09-26T22:23:17Z"
+ },
+ "target": {
+  "buildId": "D8E23968D141",
+  "buildProfile": "D8E23968D141",
+  "exeSha256": "D8E23968D1412B07E06785321727D63EDF74E711214D6F6ADEB3BFCA95CA6827",
+  "gameDllSha256": "73374BD4E38386BEB9A23BEF480082B67D457EBC77485FBEC5F488B4E95E201F",
+  "snapshot": null,
+  "capturedAt": null,
+  "snapshotBytes": null,
+  "entitiesSha256": "0FC07FCD2A97ECC6D6646FE34B084A4B801840A6AAA619FD4E178C94BBBDBC8B",
+  "typelibSha256": "A898B2BA592E89B8A231253B02FBA186B1FFF0660644A10F751BC696876F6AF4",
+  "typelibMemberFormat": 52,
+  "sources": [
+   {
+    "kind": "datalibrary",
+    "path": "../JumpPackImprovements/local_research/dependencies/filediver/datalibrary",
+    "entitiesSha256": "0FC07FCD2A97ECC6D6646FE34B084A4B801840A6AAA619FD4E178C94BBBDBC8B",
+    "typelibSha256": "A898B2BA592E89B8A231253B02FBA186B1FFF0660644A10F751BC696876F6AF4"
+   }
+  ]
+ },
+ "cache": null,
+ "sameGameDll": false,
+ "totals": {
+  "EXACT": 472,
+  "MOVED": 4423,
+  "BASELINE_CHANGED": 154,
+  "LAYOUT_CHANGED": 1224,
+  "AMBIGUOUS": 0,
+  "LOST": 403,
+  "BLOCKED": 592,
+  "UNCHECKED": 271
+ },
+ "fields": 7539,
+ "byDomain": {
+  "attachment_authoring": {
+   "label": "Magazine attachments",
+   "fields": 233,
+   "previouslyWritable": 233,
+   "recovered": 233,
+   "states": {
+    "BASELINE_CHANGED": 2,
+    "LAYOUT_CHANGED": 24,
+    "MOVED": 207
+   }
+  },
+  "booster_authoring": {
+   "label": "Boosters",
+   "fields": 42,
+   "previouslyWritable": 42,
+   "recovered": 2,
+   "states": {
+    "MOVED": 2,
+    "UNCHECKED": 40
+   }
+  },
+  "entity_authoring": {
+   "label": "Vehicles and backpacks",
+   "fields": 758,
+   "previouslyWritable": 736,
+   "recovered": 637,
+   "states": {
+    "EXACT": 6,
+    "LOST": 99,
+    "MOVED": 653
+   }
+  },
+  "player_weapon_authoring": {
+   "label": "Player weapons",
+   "fields": 3306,
+   "previouslyWritable": 2457,
+   "recovered": 2158,
+   "states": {
+    "BASELINE_CHANGED": 152,
+    "EXACT": 56,
+    "LAYOUT_CHANGED": 988,
+    "LOST": 194,
+    "MOVED": 1916
+   }
+  },
+  "pod_payload_authoring": {
+   "label": "Drop-pod payloads",
+   "fields": 248,
+   "previouslyWritable": 240,
+   "recovered": 240,
+   "states": {
+    "EXACT": 248
+   }
+  },
+  "stratagem_authoring": {
+   "label": "Stratagems",
+   "fields": 1464,
+   "previouslyWritable": 1456,
+   "recovered": 646,
+   "states": {
+    "BLOCKED": 592,
+    "EXACT": 59,
+    "LOST": 3,
+    "MOVED": 587,
+    "UNCHECKED": 223
+   }
+  },
+  "support_weapon_authoring": {
+   "label": "Support weapons",
+   "fields": 1008,
+   "previouslyWritable": 1008,
+   "recovered": 942,
+   "states": {
+    "EXACT": 85,
+    "LAYOUT_CHANGED": 212,
+    "MOVED": 703,
+    "UNCHECKED": 8
+   }
+  },
+  "vehicle_weapon_authoring": {
+   "label": "Vehicle weapons",
+   "fields": 480,
+   "previouslyWritable": 480,
+   "recovered": 373,
+   "states": {
+    "EXACT": 18,
+    "LOST": 107,
+    "MOVED": 355
+   }
+  }
+ },
+ "relationships": {
+  "BROKEN": 8,
+  "INTACT": 125,
+  "UNCHECKED": 286
+ },
+ "newCandidates": {
+  "entities": 0,
+  "settings": 0,
+  "stratagems": 0,
+  "entityDeltas": 0,
+  "componentTypes": 0
+ },
+ "writable": {
+  "previouslyWritable": 6652,
+  "carried": 439,
+  "rebound": 4792,
+  "downgradedToReadOnly": 1421,
+  "manualReview": 1051
+ },
+ "confidence": {
+  "recoveredAutomaticallyPercent": 78.64,
+  "downgradedPercent": 21.36,
+  "manualReviewPercent": 15.8,
+  "unsafeStaleWritesCarriedForward": 0
+ }
+}

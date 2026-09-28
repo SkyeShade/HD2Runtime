@@ -10,6 +10,8 @@ import re
 import sys
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
+import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import reticle_fields
 import fire_mode_fields
 import support_callin_linkage
@@ -151,7 +153,7 @@ def refresh_catalog(base_path,legacy_path=LEGACY,catalog_path=CATALOG):
             'sourceSection':weapon.get('sourceSection'),'weaponType':weapon.get('weaponType'),
             'rootRack':next((rack for rack in base['supportGraph']['hellpodRacks']
                 if rack['resourceHash']==weapon.get('canonicalResourceHash')),None)})
-    value={'schemaVersion':1,'sourceSnapshot':'F5FEE03DCFDB-20260926T222226Z.hd2snap',
+    value={'schemaVersion':1,'sourceSnapshot':build_profile.SNAPSHOT_NAME,
         'gameFingerprints':base['gameFingerprints'],'safety':{'writes':0,'protectionChanges':0,
             'fixtureFallback':'disabled','mode':'snapshot'},'candidates':candidates,'weapons':weapons}
     Path(catalog_path).write_text(json.dumps(value,indent=2)+'\n',newline='\n')
@@ -857,7 +859,7 @@ def build(catalog_path=CATALOG):
 
 def outputs(catalog_path=CATALOG):
     runtime,public=build(catalog_path)
-    return {LUA_OUTPUT:'-- Generated guarded support-weapon authoring contract; do not edit.\nreturn '+lua(runtime)+'\n',
+    return {LUA_OUTPUT:'-- Generated guarded support-weapon authoring contract; do not edit.\nreturn '+lua(migration_overlay.apply('support_weapon_authoring', runtime))+'\n',
         JSON_OUTPUT:json.dumps(public,indent=2)+'\n'}
 
 
