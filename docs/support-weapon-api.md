@@ -93,7 +93,7 @@ records, so the only open question was which root the player receives. A group i
 | EAT-17 Expendable Anti-Tank | Blocked. Delivery is unique, but both roots are byte-identical in magazine and fire rate. |
 | LAS-98 Laser Cannon | Blocked. Delivery is unique, but the delivered root's reload (5.0 s) conflicts with the scraped 3.65 s. |
 | B/FLAM-80 Cremator | Blocked. Delivery is unique, but the scraped 500 capacity matches the Exosuit root, not the handheld. |
-| CQC-72 Entrenchment Tool | Blocked. No call-in stratagem is linked. |
+| CQC-72 Entrenchment Tool | Blocked. Its two native roots share one package and matching melee records; one is a `SupportWeapon` loadout item and the other a `SidearmWeapon` item. It has no call-in (state `no_call_in`). |
 
 Resolved weapons reuse the Solo Silo chain check: every write re-proves live that the call-in
 StratagemDefinition payload is the rack and that the rack attaches the delivered root. Fields
@@ -144,9 +144,27 @@ the two disagree. The generator also fails on any one-way link.
 
 | State | Support weapons |
 | --- | --- |
-| `linked` | 32, including MS-11 Solo Silo (special: `deployable_silo`) |
-| `unresolved_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool |
-| `unresolved_delivery` | B/MD C4 Pack. Its call-in rack attaches a backpack and an unmapped thrower weapon, not the placed charge the catalog identifies as C4. |
+| `linked` | 33, including MS-11 Solo Silo (special: `deployable_silo`) and B/MD C4 Pack (special: `placed_item`) |
+| `no_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool |
+| `unresolved_call_in`, `unresolved_delivery` | none |
+
+A second, independent native identity corroborates the payload graph. Each loadout item's
+`LoadoutEntryComponent` carries an item id and a `LoadoutItemType`. For 29 of the 33 linked
+support weapons the item id is the id of the call-in StratagemDefinition. The generator fails if
+an item id ever names a different call-in than the structural link.
+
+- **B/MD C4 Pack** (`placed_item`). The call-in rack attaches the detonator (the thrower) and the
+  backpack; the backpack's deposit refills the detonator. The placed charge, which the catalog
+  identifies as C4, is linked because both of these hold: its loadout item id is the C4 call-in
+  id, and the call-in's package is its package. That package is owned only by the rack, the
+  detonator, the backpack, and the charge. The `deliveryGraph` keeps them separate: call-in
+  (cooldown) -> rack items `thrower` and `backpack` (native-only nodes, no authoring view) ->
+  placed charge (the support-weapon view) -> `detonation` explosion.
+- **SG-88 and CQC-72** (`no_call_in`). No StratagemDefinition carries their loadout item ids or
+  names their packages. No rack, deposit, entity delta, or other entity record references them.
+  `noCallIn` gives the reason, the root `loadoutItemTypes`, and a catalog-sourced
+  `acquisition` of `world_pickup` with `nativeDeliveryProven=false`: only the absence of a call-in
+  is native. On the stratagem side their `rootResolution` is `NO_CALL_IN`.
 
 Three linked weapons still have unresolved runtime roots: EAT-17, LAS-98, and B/FLAM-80. Their
 call-in links are known and their stratagem cooldowns stay writable. A relationship alone never

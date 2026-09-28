@@ -88,9 +88,15 @@ the two disagree. The generator also fails on any one-way link.
 
 | State | Support weapons |
 | --- | --- |
-| `linked` | 32, including MS-11 Solo Silo (special: `deployable_silo`) |
-| `unresolved_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool |
-| `unresolved_delivery` | B/MD C4 Pack. Its call-in rack attaches a backpack and an unmapped thrower weapon, not the placed charge the catalog identifies as C4. |
+| `linked` | 33, including MS-11 Solo Silo (`deployable_silo`) and B/MD C4 Pack (`placed_item`) |
+| `no_call_in` | SG-88 Break-Action Shotgun, CQC-72 Entrenchment Tool (`rootResolution` `NO_CALL_IN`) |
+
+B/MD C4 Pack links to the placed charge through native loadout identity. The charge's loadout
+item id is the call-in id, and the call-in package is owned only by the rack, the detonator, the
+backpack, and the charge. The rack-delivered detonator (`thrower`) and backpack are published as
+companion deliveries. SG-88 and CQC-72 have no StratagemDefinition at all: no stratagem carries
+their loadout item ids or packages, and nothing native delivers them. See
+[support-weapon authoring](support-weapon-api.md).
 
 Seven linked weapons have ambiguous runtime roots: MG-43, M-105, EAT-17, MG-206, LAS-98,
 B/FLAM-80, and CQC-20. Their call-in links are known and their stratagem cooldowns stay writable.

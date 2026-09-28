@@ -30,27 +30,34 @@ class SupportCallInLinkageTests(unittest.TestCase):
     def test_summary_audit(self):
         audit=self.support['supportCallInLinks']['audit']
         self.assertEqual(audit['supportWeapons'],35)
-        self.assertEqual(audit['knownLinks'],32)
-        self.assertEqual(audit['unresolvedLinks'],3)
-        self.assertEqual(audit['reverseLinksKnown'],32)
-        self.assertEqual(audit['relationships'],32)
+        self.assertEqual(audit['knownLinks'],33)
+        self.assertEqual(audit['unresolvedLinks'],0)
+        self.assertEqual(audit['noCallInItems'],['CQC-72 Entrenchment Tool','SG-88 Break-Action Shotgun'])
+        self.assertEqual(audit['placedItemLinks'],['B/MD C4 Pack'])
+        self.assertEqual(audit['loadoutIdentityCorroboratedLinks'],29)
+        self.assertEqual(audit['reverseLinksKnown'],33)
+        self.assertEqual(audit['relationships'],33)
         self.assertEqual(audit['bidirectionalMismatches'],0)
         self.assertEqual(audit['linksRelyingOnDisplayNameOnly'],0)
-        self.assertEqual(audit['specialLinks'],['MS-11 Solo Silo'])
-        self.assertEqual(self.support['summary']['linkedStratagemIdentities'],32)
+        self.assertEqual(audit['specialLinks'],['B/MD C4 Pack','MS-11 Solo Silo'])
+        self.assertEqual(self.support['summary']['linkedStratagemIdentities'],33)
         self.assertEqual(self.support['summary']['supportCallInLinkage'],audit)
         self.assertEqual(self.stratagems['summary']['supportCallInLinkage'],audit)
-        self.assertEqual(self.stratagems['summary']['supportDeliveryLinksKnown'],32)
+        self.assertEqual(self.stratagems['summary']['supportDeliveryLinksKnown'],33)
 
     def test_every_support_weapon_publishes_linkage_state(self):
         self.assertEqual(len(self.weapons),35)
         self.assertEqual(len(self.support_roots),35)
         for name,weapon in self.weapons.items():
             link=weapon['linkedStratagem']
-            self.assertIn(link['state'],('linked','unresolved_call_in','unresolved_delivery'),name)
+            self.assertIn(link['state'],('linked','no_call_in','unresolved_call_in','unresolved_delivery'),name)
             self.assertEqual(link['known'],link['state']=='linked',name)
             self.assertEqual(link['relationship'],'call_in',name)
-            if link['known']:
+            if link['state']=='no_call_in':
+                self.assertIsNone(link['blocker'],name)
+                self.assertIsNone(link['semanticId'],name)
+                self.assertTrue(link['noCallIn']['reason'],name)
+            elif link['known']:
                 self.assertIsNone(link['blocker'],name)
                 self.assertEqual(link['confidence'],'reviewed',name)
                 self.assertTrue(link['semanticId'].startswith('stratagem/v1/'),name)
@@ -82,7 +89,7 @@ class SupportCallInLinkageTests(unittest.TestCase):
     def test_every_known_relationship_is_bidirectional(self):
         relationships=self.support['supportCallInLinks']['relationships']
         self.assertEqual(relationships,self.stratagems['supportCallInLinks']['relationships'])
-        self.assertEqual(len({item['relationshipId']for item in relationships}),32)
+        self.assertEqual(len({item['relationshipId']for item in relationships}),33)
         for relationship in relationships:
             weapon=self.by_weapon_id[relationship['supportWeapon']]
             stratagem=self.by_stratagem_id[relationship['stratagem']]
@@ -118,6 +125,12 @@ class SupportCallInLinkageTests(unittest.TestCase):
     def test_known_links_are_structural_not_display_name_equality(self):
         for relationship in self.support['supportCallInLinks']['relationships']:
             provenance=relationship['provenance']
+            if relationship['special']=='placed_item':
+                # Placed items need BOTH native loadout identities; neither alone links.
+                self.assertEqual(provenance['basis'],'native_loadout_identity')
+                self.assertEqual(provenance['evidence'],['loadout_item_id_is_call_in_id',
+                    'call_in_package_owns_support_weapon'])
+                continue
             self.assertEqual(provenance['basis'],'native_payload_graph')
             self.assertTrue(set(provenance['evidence'])&{'stratagem_payload_is_support_root',
                 'hellpod_rack_attaches_support_weapon'},relationship['relationshipId'])
@@ -181,29 +194,130 @@ class SupportCallInLinkageTests(unittest.TestCase):
                 if item['supportWeaponName']==name)
             self.assertEqual(relationship['weaponIdentityStatus'],'DELIVERY_RESOLVED')
 
-    def test_unresolved_call_ins_remain_explicit(self):
+    def test_world_pickups_publish_no_call_in(self):
         for name in ('SG-88 Break-Action Shotgun','CQC-72 Entrenchment Tool'):
             link=self.weapons[name]['linkedStratagem']
             self.assertFalse(link['known'])
-            self.assertEqual(link['state'],'unresolved_call_in')
-            self.assertIn('not guessed',link['blocker'])
+            self.assertEqual(link['state'],'no_call_in')
+            self.assertEqual(link['provenance']['basis'],'native_loadout_identity')
+            self.assertEqual(set(link['provenance']['evidence']),set(support_callin_linkage.NO_CALL_IN_EVIDENCE))
+            acquisition=link['noCallIn']['acquisition']
+            self.assertEqual((acquisition['kind'],acquisition['source'],acquisition['nativeDeliveryProven']),
+                ('world_pickup','catalog',False))
             root=self.support_roots[name]
-            self.assertEqual(root['rootResolution'],'UNRESOLVED')
-            self.assertEqual(root['delivers']['kind'],'unresolved')
-            self.assertFalse(root['delivers']['known'])
-            self.assertTrue(root['delivers']['blocker'])
-        c4=self.weapons['B/MD C4 Pack']['linkedStratagem']
-        self.assertEqual(c4['state'],'unresolved_delivery')
-        self.assertIn('not inferred from display names',c4['blocker'])
-        root=self.support_roots['B/MD C4 Pack']
-        self.assertEqual(root['rootResolution'],'UNIQUE')
-        self.assertEqual(root['delivers']['state'],'unresolved_delivery')
-        self.assertEqual(root['delivers']['companionDeliveries'],
-            [{'kind':'backpack'},{'kind':'unmapped_entity'}])
+            self.assertEqual(root['rootResolution'],'NO_CALL_IN')
+            self.assertEqual(root['delivers']['state'],'no_call_in')
+            self.assertEqual(root['delivers']['kind'],'none')
+            self.assertFalse(root['cooldownCapability']['writable'])
+        shotgun=self.weapons['SG-88 Break-Action Shotgun']['linkedStratagem']['noCallIn']
+        self.assertEqual(shotgun['loadoutItemTypes'],['SupportWeapon'])
+        cqc=self.weapons['CQC-72 Entrenchment Tool']['linkedStratagem']['noCallIn']
+        self.assertEqual(cqc['loadoutItemTypes'],['SidearmWeapon','SupportWeapon'])
+        self.assertTrue(cqc['sharedLoadoutPackage'])
+        # No-call-in status never changes weapon write guards.
+        self.assertEqual(self.weapons['CQC-72 Entrenchment Tool']['identityStatus'],'DUPLICATE')
+        self.assertFalse(self.weapons['CQC-72 Entrenchment Tool']['writable'])
         audit=self.support['supportCallInLinks']['audit']
-        self.assertEqual(audit['unresolvedCallIns'],
-            ['CQC-72 Entrenchment Tool','SG-88 Break-Action Shotgun'])
-        self.assertEqual(audit['unresolvedDeliveries'],['B/MD C4 Pack'])
+        self.assertEqual((audit['unresolvedCallIns'],audit['unresolvedDeliveries']),([],[]))
+
+    def test_c4_links_call_in_thrower_backpack_and_placed_charge_separately(self):
+        weapon=self.weapons['B/MD C4 Pack'];root=self.support_roots['B/MD C4 Pack']
+        link=weapon['linkedStratagem']
+        self.assertEqual((link['state'],link['special'],link['deliveryObject']),
+            ('linked','placed_item','placed_charge'))
+        self.assertEqual(link['semanticId'],root['semanticId'])
+        self.assertEqual(root['delivers']['semanticId'],weapon['semanticId'])
+        self.assertEqual(root['delivers']['companionDeliveries'],[{'kind':'backpack'},{'kind':'thrower'}])
+        relationship=next(item for item in self.support['supportCallInLinks']['relationships']
+            if item['supportWeaponName']=='B/MD C4 Pack')
+        nodes={node['node']:node for node in relationship['deliveryGraph']['nodes']}
+        self.assertEqual(set(nodes),{'call_in','delivery:backpack','delivery:thrower','placed_item',
+            'branch:b-md-c4-pack-e'})
+        self.assertEqual(nodes['placed_item']['parent'],'delivery:thrower')
+        self.assertEqual((nodes['placed_item']['view'],nodes['placed_item']['targetPath']),('support_weapon','weapon'))
+        for item in ('delivery:backpack','delivery:thrower'):
+            self.assertIsNone(nodes[item]['view'])
+            self.assertEqual(nodes[item]['parent'],'call_in')
+        branch=nodes['branch:b-md-c4-pack-e']
+        self.assertEqual((branch['attackRole'],branch['parent']),('detonation','placed_item'))
+        # The explosion stays writable only through the support-weapon view, as before.
+        self.assertIn('explosion',weapon['writableFieldsByDomain'])
+
+    def test_equipment_research_native_facts(self):
+        equipment=self._equipment()
+        self.assertTrue(all(equipment['liveEquality'].values()))
+        self.assertEqual(equipment['loadoutItemTypes']['2'],'SupportWeapon')
+        c4=equipment['focus']['B/MD C4 Pack'][0]
+        self.assertTrue(c4['loadoutEntry']['itemIdIsStratagemId'])
+        self.assertEqual(len(c4['packageOwners']),4)
+        self.assertEqual(len(c4['packageStratagemIds']),1)
+        self.assertFalse(c4['racksAttaching'])
+        # The delivered backpack's deposit refills the delivered detonator (the thrower).
+        rack=next(items for items in equipment['rackItems'].values()
+            if any(item['resource']==c4['package']for item in items)or
+                {item['package']for item in items}=={c4['package']})
+        refills={(link['deposit'],link['refills'])for link in equipment['depositLinks']}
+        self.assertTrue(any((a['resource'],b['resource'])in refills for a in rack for b in rack))
+        for name in ('SG-88 Break-Action Shotgun','CQC-72 Entrenchment Tool'):
+            for item in equipment['focus'][name]:
+                self.assertFalse(item['loadoutEntry']['itemIdIsStratagemId'],name)
+                self.assertFalse(item['packageStratagemIds'],name)
+                self.assertEqual(item['entityLibraryReferences']['external'],[],name)
+                self.assertEqual(item['entityDeltaOccurrences'],0,name)
+        self.assertEqual(sorted(item['loadoutEntry']['itemType']
+            for item in equipment['focus']['CQC-72 Entrenchment Tool']),['SidearmWeapon','SupportWeapon'])
+
+    def _equipment(self):
+        return json.loads(support_callin_linkage.EQUIPMENT_RESEARCH.read_text())
+
+    def _build_with(self,equipment):
+        path=ROOT/'build/test-support-equipment-links.json'
+        path.parent.mkdir(exist_ok=True);path.write_text(json.dumps(equipment))
+        try:
+            return support_callin_linkage.build(equipment_research_path=path)
+        finally:
+            path.unlink()
+
+    def test_placed_item_link_requires_exclusive_package_and_loadout_id(self):
+        equipment=self._equipment()
+        equipment['focus']['B/MD C4 Pack'][0]['packageOwners'].append('0x0000000000000001')
+        self.assertEqual(self._build_with(equipment)['supportWeapons']['B/MD C4 Pack']['state'],'unresolved_delivery')
+        equipment=self._equipment()
+        for item in equipment['supportWeapons']['B/MD C4 Pack']:
+            item['loadoutEntry']['itemId']=1
+        self.assertEqual(self._build_with(equipment)['supportWeapons']['B/MD C4 Pack']['state'],'unresolved_delivery')
+        equipment=self._equipment()
+        package=equipment['focus']['B/MD C4 Pack'][0]['package']
+        for items in equipment['rackItems'].values():
+            for item in items:
+                if item['package']==package:item['package']='0x0000000000000002'
+        self.assertEqual(self._build_with(equipment)['supportWeapons']['B/MD C4 Pack']['state'],'unresolved_delivery')
+
+    def test_no_call_in_requires_every_absence_proof(self):
+        for mutate in ('item_id','package','rack','external','delta'):
+            equipment=self._equipment()
+            item=equipment['focus']['SG-88 Break-Action Shotgun'][0]
+            if mutate=='item_id':
+                some_id=equipment['stratagemDefinitions'][0]['id']
+                equipment['supportWeapons']['SG-88 Break-Action Shotgun'][0]['loadoutEntry']['itemId']=some_id
+                item['loadoutEntry']['itemId']=some_id
+            elif mutate=='package':
+                item['package']=next(row['package']for row in equipment['stratagemDefinitions']
+                    if int(row['package'],16))
+            elif mutate=='rack':item['racksAttaching']=['0x0000000000000003']
+            elif mutate=='external':item['entityLibraryReferences']['external']=[{'component':'X','owners':[]}]
+            else:item['entityDeltaOccurrences']=1
+            state=self._build_with(equipment)['supportWeapons']['SG-88 Break-Action Shotgun']['state']
+            self.assertEqual(state,'unresolved_call_in',mutate)
+
+    def test_loadout_id_contradicting_structural_link_fails_generation(self):
+        equipment=self._equipment()
+        roots={root['name']:root for root in
+            json.loads(support_callin_linkage.STRATAGEM_RESEARCH.read_text())['supportRoots']}
+        for item in equipment['supportWeapons']['GR-8 Recoilless Rifle']:
+            item['loadoutEntry']['itemId']=roots['FAF-14 Spear']['currentRoot']['id']
+        with self.assertRaisesRegex(ValueError,'different call-in'):
+            self._build_with(equipment)
 
     def test_solo_silo_relationship_is_named_reversible_and_composable(self):
         weapon=self.weapons['MS-11 Solo Silo'];root=self.support_roots['MS-11 Solo Silo']
@@ -251,6 +365,10 @@ class SupportCallInLinkageTests(unittest.TestCase):
             self.assertEqual(len(ids),len(nodes))
             for node in nodes:
                 if node['parent']:self.assertIn(node['parent'],ids)
+                if node['view']is None:
+                    # Native-only delivery items have no authoring view and no field target.
+                    self.assertIsNone(node['semanticId']);self.assertIsNone(node['targetPath'])
+                    continue
                 expected=(relationship['stratagem']if node['view']=='stratagem'
                     else relationship['supportWeapon'])
                 self.assertEqual(node['semanticId'],expected)
