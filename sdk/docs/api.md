@@ -18,7 +18,7 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.
 - `hd2.plan(...)`: Coordinate ordered semantic operations across multiple related backing objects and phases.
-- `hd2.ensure(...)`: Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal.
+- `hd2.ensure(...)`: Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart.
 - `hd2.metrics(...)`: Process-wide counters (scans, lookups, hashes, writes, verifications, scheduler ticks) and worst durations for performance audits.
 
 ## HD2Weapon

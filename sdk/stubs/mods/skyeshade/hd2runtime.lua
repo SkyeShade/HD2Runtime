@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 95ab0e6976bb015f390c95f3e5f5c2498ea632c6d80ff37bc412488ff664398f
+-- Schema SHA256 fa402953f9a650cdd60e700912b98bebb86756ac3b0d44f8e6523d3da1b4d639
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -24,6 +24,9 @@
 ---@field result? table
 ---@field error? string
 ---@field cancel fun()
+---@field attempts? integer
+---@field max_attempts? integer
+---@field last_transient? string
 
 ---@class HD2EnsureWatch
 ---@field status string
@@ -1030,7 +1033,7 @@ function hd2.transaction(request) end
 ---@param request HD2PlanRequest
 ---@return HD2Watch
 function hd2.plan(request) end
----Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal.
+---Wrap exactly one patch, transaction, or composition plan. The first run is fully guarded; afterwards only the applied target bytes are re-checked, backing off from interval (default 60 s) to max_interval (default 600 s). Drift triggers the full guarded path again; conflicts are terminal. Each guarded run retries transient not-ready failures up to 6 attempts, 5 s apart.
 ---@param request HD2EnsureRequest
 ---@return HD2EnsureWatch
 function hd2.ensure(request) end
