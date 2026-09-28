@@ -13,6 +13,7 @@ import generate_support_weapon_sdk
 import generate_support_weapon_authoring
 import generate_stratagem_authoring
 import generate_entity_authoring
+import generate_attachment_authoring
 import generate_weapon_composition
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -49,6 +50,7 @@ def main():
     generate_support_weapon_sdk.generate(check=True)
     generate_support_weapon_authoring.generate(check=True)
     generate_entity_authoring.generate(check=True)
+    generate_attachment_authoring.generate(check=True)
     generate_stratagem_authoring.generate(check=True)
     generate_weapon_authoring.generate(check=True)
     generate_sdk.generate(check=True)
@@ -87,6 +89,10 @@ def main():
     backpack_capabilities=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
     report['vehicle_authoring']=vehicle_capabilities['summary']
     report['backpack_authoring']=backpack_capabilities['summary']
+    report['magazine_attachment_authoring']=json.loads(
+        (ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())['summary']
+    report['magazine_attachment_snapshot_validation']=json.loads(
+        (ROOT/'validation/magazine-attachment-snapshot.json').read_text())
     report['entity_snapshot_validation']=json.loads(
         (ROOT/'validation/entity-authoring-snapshot.json').read_text())
     recreations=json.loads((ROOT/'validation/reference-mod-recreations.json').read_text())
@@ -98,7 +104,7 @@ def main():
         'OrbitalBarrageProof','EagleProof','SupportStratagemCooldownProof',
         'AntiTankEmplacementProof','ConventionalSentryProof','ExplosiveSentryProof',
         'UnusualSentryProof','ShieldRelayRecreation','BastionReArmoredRecreation',
-        'FRVWeaponSwapRecreation','JumpPackRecreation']
+        'FRVWeaponSwapRecreation','JumpPackRecreation','ConcussiveDrumMagazine']
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}

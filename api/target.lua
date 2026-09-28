@@ -102,6 +102,24 @@ function M.new(describe)
             if item.category==category then return item end
         end
     end
+    local attachment_authoring=require('hd2runtime/domains/attachment_authoring')
+    local function magazine_attachment_target(identity,relationship,option_name)
+        local entry=assert(attachment_authoring.attachments[identity],'unknown reviewed magazine attachment')
+        local methods={}
+        function methods.describe()
+            local fields={}
+            for field_id,field in pairs(entry.fields)do
+                fields[#fields+1]={semanticFieldId=field_id,instanceKey=field.instanceKey,
+                    currentDefault=field.currentDefault,editable=true,
+                    acknowledgements={'allow_shared','allow_unverified_effect'}}
+            end
+            table.sort(fields,function(a,b)return a.semanticFieldId<b.semanticFieldId end)
+            return {semanticId=entry.semanticId,name=entry.name,slot='magazine',
+                relationship=relationship,option=option_name,fields=fields}
+        end
+        return setmetatable({resource='weapon_attachment',attachment=entry.semanticId,path='magazine'},
+            {__index=methods})
+    end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
         local graph=composition.weapons[name]
@@ -171,6 +189,36 @@ function M.new(describe)
             for _,option in ipairs(item.options)do if option.name==identity then
                 return attachment_target(name,category,option)end end
             error('unknown reviewed attachment for '..name..': '..tostring(identity))
+        end
+        function methods.magazine_attachments()
+            local slot=attachment_authoring.weapons[name]
+            local result={}
+            if not slot then return result end
+            local seen={}
+            if slot.default then result[#result+1]=magazine_attachment_target(slot.default,'native_resource_default');seen[slot.default]=true end
+            for _,option in ipairs(slot.options)do
+                if option.attachment and not seen[option.attachment]then
+                    seen[option.attachment]=true
+                    result[#result+1]=magazine_attachment_target(option.attachment,option.relationship,option.name)
+                end
+            end
+            return result
+        end
+        function methods.magazine_attachment(_,identity)
+            local slot=assert(attachment_authoring.weapons[name],'weapon has no reviewed magazine attachment slot: '..name)
+            if identity==nil or identity=='default'then
+                return magazine_attachment_target(assert(slot.default,'weapon has no native default magazine attachment'),
+                    'native_resource_default')
+            end
+            for _,option in ipairs(slot.options)do
+                if option.name==identity or option.attachment==identity then
+                    assert(option.attachment,'magazine option '..tostring(identity)..' has no uniquely proven native '
+                        ..'attachment ('..option.relationship..')')
+                    return magazine_attachment_target(option.attachment,option.relationship,option.name)
+                end
+            end
+            if identity==slot.default then return magazine_attachment_target(slot.default,'native_resource_default')end
+            error('unknown magazine attachment for '..name..': '..tostring(identity),0)
         end
         return setmetatable({resource='player_weapon',path='weapon',weapon=name},{__index=methods})
     end
@@ -503,6 +551,12 @@ function M.new(describe)
         end
         function methods.mount(_,identity)return mount_target(mount_identity(identity))end
         return setmetatable({resource='vehicle',vehicle=name,path='entity'},{__index=methods})
+    end
+    function builders.weapon_attachment(identity)
+        if attachment_authoring.attachments[identity]then return magazine_attachment_target(identity)end
+        local semantic=attachment_authoring.names[identity]
+        assert(semantic,'unknown reviewed magazine attachment: '..tostring(identity))
+        return magazine_attachment_target(semantic)
     end
     function builders.backpack(name)
         local entry=assert(entity_authoring.backpacks[name],'unknown reviewed backpack: '..tostring(name))

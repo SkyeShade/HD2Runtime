@@ -33,6 +33,7 @@ def outputs():
     entity_fields=json.loads((ROOT/'schemas/entity_fields.json').read_text())
     vehicle_authoring=json.loads((ROOT/'sdk/VehicleAuthoringCapabilities.json').read_text())
     backpack_authoring=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
+    attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
     digest=hashlib.sha256(raw).hexdigest()
@@ -72,6 +73,12 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='entity_'+constant
         fields[domain][constant]=field_id
+    for definition in json.loads((ROOT/'schemas/attachment_fields.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        constant=ident(name)
+        if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
+            constant='attachment_'+constant
+        fields[domain][constant]=field_id
     header='-- Generated from schemas/sdk.json; do not edit. SHA256 '+digest+'\n'
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
@@ -86,6 +93,8 @@ def outputs():
               'vehicle_authoring_summary':vehicle_authoring['summary'],
               'backpack_authoring_contract':backpack_authoring['contract'],
               'backpack_authoring_summary':backpack_authoring['summary'],
+              'magazine_attachment_contract':attachment_authoring['contract'],
+              'magazine_attachment_summary':attachment_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
               'composition_plan_contract':composition_plan,
               'resources':{k:{n:v for n,v in r.items() if n!='fields'} for k,r in resources.items()}}
@@ -151,7 +160,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2Backpack','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2Backpack|HD2WeaponAttachment','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end','---@return HD2PlayerAttack[]',
         'function HD2Weapon:attacks() end','---@return table',
@@ -271,6 +280,15 @@ def outputs():
         '','---@class HD2Backpack','---@field resource "backpack"','---@field path "backpack"',
         '---@field backpack HD2BackpackName','local HD2Backpack = {}','---@return table',
         'function HD2Backpack:describe() end']
+    alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
+        +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
+    stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
+        '---@field attachment string','local HD2WeaponAttachment = {}','---@return table',
+        'function HD2WeaponAttachment:describe() end',
+        '---Native default and uniquely proven magazine attachments for this weapon.',
+        '---@return HD2WeaponAttachment[]','function HD2Weapon:magazine_attachments() end',
+        '---@param identity? string Catalog option name, attachment semanticId, or "default".',
+        '---@return HD2WeaponAttachment','function HD2Weapon:magazine_attachment(identity) end']
     for domain,names in fields.items():
         stub+=['','---@class HD2Fields_'+domain]
         for constant,name in names.items():
@@ -301,7 +319,9 @@ def outputs():
                'function hd2.'+method+'(name) end']
     stub+=['---@param name HD2SupportWeaponName','---@return HD2SupportWeapon',
         'function hd2.support_weapon(name) end',
-        '---@param name HD2BackpackName','---@return HD2Backpack','function hd2.backpack(name) end']
+        '---@param name HD2BackpackName','---@return HD2Backpack','function hd2.backpack(name) end',
+        '---@param identity HD2MagazineAttachmentId','---@return HD2WeaponAttachment',
+        'function hd2.weapon_attachment(identity) end']
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
         for name,kind in spec['params']:stub.append('---@param '+name+' '+kind)
@@ -345,6 +365,7 @@ def outputs():
             'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(),
             'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(),
             'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(),
+            'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

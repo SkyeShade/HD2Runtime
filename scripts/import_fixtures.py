@@ -166,6 +166,15 @@ def main():
             {'offset': 11916,
              'header': '4c444c4401000000c09381de980400000100000000000000'},
         ]}
+    # Entity delta table (attachment-owned component patches). The live allocation is
+    # this file with its five header offsets relocated to absolute pointers.
+    deltas = source(str(folder.relative_to(SIBLINGS) / 'generated_entity_deltas.dl_bin').replace(chr(92), '/'))
+    assert sha(deltas) == '3FADC7C2475558000F9E8AD30E01D52CAEA481E1633E35674ED2864572694F4E'
+    fields = struct.unpack_from('<10Q', deltas, 28)
+    profile['entity_deltas'] = {'size': len(deltas), 'header': deltas[:28].hex(), 'header_offset': 28,
+        'hashmap_offset': fields[0], 'hashmap_count': fields[1], 'settings_offset': fields[2],
+        'settings_count': fields[3], 'component_offset': fields[4], 'component_count': fields[5],
+        'delta_offset': fields[6], 'delta_count': fields[7], 'data_offset': fields[8], 'data_count': fields[9]}
     profile['stratagem'] = {'buffer_rva': 0x348E8F8, 'table_rva': 0x37CB600, 'entries': 150,
         'size': 80280, 'groups': 11, 'stride': 400, 'type': 0x30EB6399,
         'version': 1, 'info_type': 0x7BD60854, 'payload_max': 16, 'payload_count': 2,

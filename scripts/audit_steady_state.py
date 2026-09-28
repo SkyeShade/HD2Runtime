@@ -22,7 +22,7 @@ SNAPSHOT = Path(r'C:\Users\Skye\AppData\Local\HD2Runtime\local_research\snapshot
 OUTPUT = ROOT / 'validation/steady-state-audit.json'
 GAME = Path(r'C:\Program Files (x86)\Steam\steamapps\common\Helldivers 2')
 EXAMPLES = ['ShieldRelayRecreation', 'BastionReArmoredRecreation', 'FRVWeaponSwapRecreation',
-    'JumpPackRecreation', 'SupportAMRProof', 'AntiTankEmplacementProof']
+    'JumpPackRecreation', 'SupportAMRProof', 'AntiTankEmplacementProof', 'ConcussiveDrumMagazine']
 
 
 def lua(value): return json.dumps(str(value), ensure_ascii=False)

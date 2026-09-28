@@ -37,6 +37,13 @@ def bastion_writes(record):
     return writes
 
 
+def concussive_drum_writes():
+    # Derived from the retained native research: the drum attachment's own delta record.
+    research = json.loads((ROOT / 'research/magazine-attachments-F5FEE03DCFDB.json').read_text())
+    drum = next(item for item in research['magazineAttachments'] if item['debugName'] == 'Rifle 5,5x50mm. Drum')
+    return {('EntityDelta:WeaponMagazineComponentData', drum['settingsIndex'], 136, u32(60), u32(90))}
+
+
 # Record indices and offsets are copied from each mod's source (see REFERENCES).
 EXPECTED = {
     'ShieldRelayRecreation': {
@@ -56,6 +63,7 @@ EXPECTED = {
         ('RechargeComponentData', 1, 0, f32(15), f32(8)),
         ('JumppackComponentData', 1, 0, f32(40), f32(50)),
     },
+    'ConcussiveDrumMagazine': concussive_drum_writes(),
 }
 REFERENCES = {
     'ShieldRelayRecreation': ['ShieldRelayImprovements/scripts/shield_reference.py',
@@ -65,6 +73,7 @@ REFERENCES = {
         'BastionReArmored/src/armor_proof/validate.lua', 'BastionReArmored/src/lunchbox_proof/validate.lua'],
     'FRVWeaponSwapRecreation': ['FRVWeaponSwap/src/current_build.json', 'FRVWeaponSwap/src/frv_weapon_swap.lua'],
     'JumpPackRecreation': ['JumpPackImprovements/src/jump_pack_improvements.lua', 'JumpPackImprovements/src/config.lua'],
+    'ConcussiveDrumMagazine': ['HD2Runtime/research/magazine-attachments-F5FEE03DCFDB.json'],
 }
 
 
@@ -96,7 +105,13 @@ local domains=require('hd2runtime/domains/write_domains')
 local b=require('hd2runtime/core/bytes')
 local json=require('hd2runtime/primary_mapper/json')
 local api=require('hd2runtime/api/hd2')
-local wrapper=setmetatable({ensure=function(request)return plans.validate(request.plan)end,
+local function as_plan(request)
+ if request.plan then return request.plan end
+ local operation={}
+ for key,value in pairs(request.patch)do operation[key]=value end
+ return {id=operation.id,operations={operation}}
+end
+local wrapper=setmetatable({ensure=function(request)return plans.validate(as_plan(request))end,
  plan=function(request)return plans.validate(request)end},{__index=api})
 package.preload['mods/skyeshade/hd2runtime']=function()return wrapper end
 local addons=''' + table + r'''

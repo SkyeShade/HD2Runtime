@@ -43,7 +43,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 315.93333333337466,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.006000000000000005
+        "worst_frame_cpu": 0.007000000000000006
       },
       "startup": {
         "adapter": {
@@ -172,7 +172,7 @@
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.86666666671806,
         "steady_after_worst_frame_cpu": 0.0010000000000000009,
-        "worst_frame_cpu": 0.010000000000000009
+        "worst_frame_cpu": 0.010999999999999899
       },
       "startup": {
         "adapter": {
@@ -299,7 +299,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.73333333338485,
-        "steady_after_worst_frame_cpu": 0.0020000000000000018,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -332,7 +332,7 @@
         },
         "module_hash_disk_bytes": 30479568.0,
         "seconds": 7.683333333333334,
-        "worst_frame_cpu": 0.0019999999999998908
+        "worst_frame_cpu": 0.0020000000000000018
       },
       "steady": {
         "adapter": {
@@ -425,7 +425,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 304.73333333338485,
-        "steady_after_worst_frame_cpu": 0.0020000000000000018,
+        "steady_after_worst_frame_cpu": 0.0010000000000000009,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -501,7 +501,7 @@
             "verifications": 8
           }
         ],
-        "worst_frame_cpu": 0.0020000000000000018
+        "worst_frame_cpu": 0.0010000000000000009
       },
       "watches": [
         {
@@ -551,7 +551,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 312.98333333337735,
-        "steady_after_worst_frame_cpu": 0.0010000000000000009,
+        "steady_after_worst_frame_cpu": 0,
         "worst_frame_cpu": 0.0020000000000000018
       },
       "startup": {
@@ -673,7 +673,7 @@
         },
         "module_hash_disk_bytes": 0.0,
         "seconds_to_reapply": 0,
-        "steady_after_worst_frame_cpu": 0.001000000000000112,
+        "steady_after_worst_frame_cpu": 0.0009999999999998899,
         "worst_frame_cpu": 0
       },
       "startup": {
@@ -742,7 +742,7 @@
             "status": "complete"
           }
         ],
-        "worst_frame_cpu": 0.0020000000000000018
+        "worst_frame_cpu": 0.001000000000000112
       },
       "watches": [
         {
@@ -754,57 +754,181 @@
     },
     {
       "mods": [
+        "ConcussiveDrumMagazine"
+      ],
+      "reinitialize": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 7,
+          "module_hashes": 0,
+          "protection_changes": 2,
+          "queries": 17490,
+          "read_bytes": 1876,
+          "reads": 62,
+          "write_bytes": 4,
+          "writes": 1
+        },
+        "detected_and_reapplied": true,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "ensure.full_resolutions_after_drift": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 2,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 464,
+          "reader.queries": 17436,
+          "steady.drift": 1,
+          "steady.target_reads": 4,
+          "steady.verifications": 4,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1232,
+          "transaction.protection_changes": 2,
+          "transaction.writes": 1
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds_to_reapply": 304.60000000005164,
+        "steady_after_worst_frame_cpu": 0.001000000000000112,
+        "worst_frame_cpu": 0.0020000000000000018
+      },
+      "startup": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 7,
+          "module_hashes": 2,
+          "protection_changes": 2,
+          "queries": 17482,
+          "read_bytes": 1732,
+          "reads": 54,
+          "write_bytes": 4,
+          "writes": 1
+        },
+        "frames": 453,
+        "metrics": {
+          "discover.regions": 17422,
+          "discover.walks": 1,
+          "ensure.full_resolutions": 1,
+          "exclusive.acquisitions": 1,
+          "fingerprint.cache_hits": 1,
+          "fingerprint.module_hashes": 2,
+          "reader.bytes": 464,
+          "reader.queries": 17436,
+          "transaction.applies": 1,
+          "transaction.guard_bytes": 1232,
+          "transaction.protection_changes": 2,
+          "transaction.writes": 1
+        },
+        "module_hash_disk_bytes": 30479568.0,
+        "seconds": 7.55,
+        "worst_frame_cpu": 0.001000000000000112
+      },
+      "steady": {
+        "adapter": {
+          "identical_writes": 0,
+          "log_lines": 1,
+          "module_hashes": 0,
+          "protection_changes": 0,
+          "queries": 16,
+          "read_bytes": 288,
+          "reads": 16,
+          "write_bytes": 0,
+          "writes": 0
+        },
+        "metrics": {
+          "discover.regions": 0,
+          "discover.walks": 0,
+          "ensure.full_resolutions": 0,
+          "exclusive.acquisitions": 0,
+          "fingerprint.cache_hits": 0,
+          "fingerprint.module_hashes": 0,
+          "reader.bytes": 0,
+          "reader.queries": 0,
+          "steady.target_reads": 8,
+          "steady.verifications": 8,
+          "transaction.applies": 0,
+          "transaction.guard_bytes": 0,
+          "transaction.protection_changes": 0,
+          "transaction.writes": 0
+        },
+        "module_hash_disk_bytes": 0.0,
+        "seconds": 3600,
+        "watches": [
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "concussive-drum-magazine",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
+          }
+        ],
+        "worst_frame_cpu": 0.001000000000000112
+      },
+      "watches": [
+        {
+          "id": "concussive-drum-magazine",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 1
+        }
+      ]
+    },
+    {
+      "mods": [
         "ShieldRelayRecreation",
         "BastionReArmoredRecreation",
         "FRVWeaponSwapRecreation",
         "JumpPackRecreation",
         "SupportAMRProof",
-        "AntiTankEmplacementProof"
+        "AntiTankEmplacementProof",
+        "ConcussiveDrumMagazine"
       ],
       "startup": {
         "adapter": {
           "identical_writes": 0,
-          "log_lines": 28,
+          "log_lines": 35,
           "module_hashes": 2,
-          "protection_changes": 40,
-          "queries": 189248,
-          "read_bytes": 61674444,
-          "reads": 119403,
-          "write_bytes": 308,
-          "writes": 75
+          "protection_changes": 42,
+          "queries": 206730,
+          "read_bytes": 61676176,
+          "reads": 119457,
+          "write_bytes": 312,
+          "writes": 76
         },
-        "frames": 3164,
+        "frames": 3436,
         "metrics": {
-          "discover.regions": 69688,
+          "discover.regions": 87110,
           "discover.shared_reuses": 3,
-          "discover.walks": 4,
-          "ensure.full_resolutions": 5,
+          "discover.walks": 5,
+          "ensure.full_resolutions": 6,
           "entity_catalog.captures": 7,
-          "exclusive.acquisitions": 6,
-          "exclusive.queued_ticks": 6727,
-          "fingerprint.cache_hits": 13,
+          "exclusive.acquisitions": 7,
+          "exclusive.queued_ticks": 9710,
+          "fingerprint.cache_hits": 15,
           "fingerprint.module_hashes": 2,
-          "reader.bytes": 8145992,
-          "reader.queries": 185451,
+          "reader.bytes": 8146456,
+          "reader.queries": 202887,
           "stratagem.table_captures": 2,
-          "transaction.applies": 7,
-          "transaction.guard_bytes": 53527760,
-          "transaction.protection_changes": 40,
-          "transaction.writes": 75
+          "transaction.applies": 8,
+          "transaction.guard_bytes": 53528992,
+          "transaction.protection_changes": 42,
+          "transaction.writes": 76
         },
         "module_hash_disk_bytes": 30479568.0,
-        "seconds": 52.733333333333334,
+        "seconds": 57.266666666666666,
         "worst_frame_cpu": 0.01200000000000001
       },
       "steady": {
         "adapter": {
           "identical_writes": 0,
-          "log_lines": 5,
+          "log_lines": 6,
           "module_hashes": 0,
           "protection_changes": 0,
-          "queries": 632,
-          "read_bytes": 4384,
-          "reads": 632,
+          "queries": 648,
+          "read_bytes": 4672,
+          "reads": 648,
           "write_bytes": 0,
           "writes": 0
         },
@@ -820,8 +944,8 @@
           "fingerprint.module_hashes": 0,
           "reader.bytes": 0,
           "reader.queries": 0,
-          "steady.target_reads": 568,
-          "steady.verifications": 40,
+          "steady.target_reads": 576,
+          "steady.verifications": 48,
           "stratagem.table_captures": 0,
           "transaction.applies": 0,
           "transaction.guard_bytes": 0,
@@ -873,6 +997,14 @@
           },
           {
             "status": "complete"
+          },
+          {
+            "current_interval": 600,
+            "drifts": 0,
+            "id": "concussive-drum-magazine",
+            "runs": 1,
+            "status": "waiting",
+            "verifications": 8
           }
         ],
         "worst_frame_cpu": 0.0020000000000000018
@@ -917,6 +1049,13 @@
           "result": "APPLIED",
           "status": "complete",
           "writes": 4
+        },
+        {
+          "id": "concussive-drum-magazine",
+          "result": "APPLIED",
+          "runs": 1,
+          "status": "waiting",
+          "writes": 1
         }
       ]
     }

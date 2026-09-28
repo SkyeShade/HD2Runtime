@@ -40,7 +40,8 @@ local function backing_scope(change)
 end
 local function validate_operation(plan,phase_index,index,item,known)
     keys(item,{id=true,target=true,target_from=true,field=true,expect=true,value=true,
-        changes=true,allow_shared=true,allow_unverified_reference=true},'plan operation')
+        changes=true,allow_shared=true,allow_unverified_reference=true,allow_unverified_effect=true},
+        'plan operation')
     valid_id(item.id,'plan operation id')
     assert(not known[item.id],'duplicate plan operation id: '..item.id)
     assert((item.target~=nil)~=(item.target_from~=nil),
@@ -61,6 +62,7 @@ local function validate_operation(plan,phase_index,index,item,known)
     if item.allow_unverified_reference~=nil then
         request.allow_unverified_reference=item.allow_unverified_reference
     end
+    if item.allow_unverified_effect~=nil then request.allow_unverified_effect=item.allow_unverified_effect end
     local spec
     if item.field~=nil then
         request.field=item.field;request.expect=item.expect;request.value=item.value
