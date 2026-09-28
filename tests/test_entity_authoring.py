@@ -56,10 +56,12 @@ class EntityAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['writableByTier'], {'gameplay_proven': 64, 'schema_proven': 636,
             'live_write_verified': 2, 'structural_reference': 16})
         backpack = self.backpacks['summary']
-        self.assertEqual(backpack['backpacks'], 13)
-        self.assertEqual(backpack['rackChainsResolved'], 13)
-        self.assertEqual(backpack['writableFieldInstances'], 9)
-        self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 7})
+        # 13 call-in backpacks plus 3 weapon-fed backpacks that store support weapon ammunition.
+        self.assertEqual(backpack['backpacks'], 16)
+        self.assertEqual(backpack['rackChainsResolved'], 16)
+        self.assertEqual(backpack['weaponFedBackpacks'], 3)
+        self.assertEqual(backpack['writableFieldInstances'], 18)
+        self.assertEqual(backpack['writableByTier'], {'gameplay_proven': 2, 'schema_proven': 16})
 
     def test_semantic_identities_are_unique_and_stable(self):
         for collection in (self.vehicles['vehicles'], self.backpacks['backpacks'], self.vehicles['mountedWeapons']):
@@ -83,6 +85,12 @@ class EntityAuthoringTests(unittest.TestCase):
                     self.assertEqual(item['catalogSource'], 'native_only')
                     continue
                 root = roots[link['semanticId']]
+                if item.get('feeds'):
+                    # Weapon-fed backpack: its call-in is the support weapon's, which delivers the weapon.
+                    self.assertEqual(root['family'], 'support')
+                    self.assertEqual(root['delivers']['semanticId'], item['feeds']['supportWeaponSemanticId'])
+                    self.assertEqual(link['relationship'], 'delivered_with_support_weapon')
+                    continue
                 self.assertEqual(root['family'], family)
                 self.assertEqual(root['delivers']['semanticId'], item['semanticId'])
                 self.assertTrue(root['cooldownCapability']['writable'])

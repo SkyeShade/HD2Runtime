@@ -547,6 +547,249 @@
         }
       ],
       "fieldInstanceKeys": []
+    },
+    {
+      "name": "B/FLAM-80 Cremator Backpack",
+      "semanticId": "backpack/v1/b-flam-80-cremator-backpack/99e220d7855c3e33",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "name": "B/FLAM-80 Cremator",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "B/FLAM-80 Cremator",
+        "supportWeaponSemanticId": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "relationship": "backpack_ammo",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack",
+        "refillStyle": "Ammo",
+        "weaponOwnsMagazine": false,
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "weapon WeaponLinkedAmmoComponent: inventory slot Backpack, tag",
+          "only this backpack carries the tag (TagComponent)",
+          "backpack DepositComponent holds the ammunition"
+        ]
+      },
+      "ammo": {
+        "capacity": 500,
+        "startAmount": 500,
+        "refillAmount": 250,
+        "fromAmmoBox": {
+          "value": 125,
+          "writable": false,
+          "reason": "Half of the supply refill, applied by game code; not a stored member."
+        },
+        "fingerprint": {
+          "capacity": {
+            "wiki": 500,
+            "native": 500
+          },
+          "fromSupply": {
+            "wiki": 250,
+            "native": 250
+          }
+        }
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit",
+        "Tag"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+            "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+            "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "GL-28 Belt-Fed Grenade Launcher Backpack",
+      "semanticId": "backpack/v1/gl-28-belt-fed-grenade-launcher-backpack/d2b841c6917f50e7",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "name": "GL-28 Belt-Fed Grenade Launcher",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "GL-28 Belt-Fed Grenade Launcher",
+        "supportWeaponSemanticId": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "relationship": "backpack_ammo",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack",
+        "refillStyle": "Ammo",
+        "weaponOwnsMagazine": false,
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "weapon WeaponLinkedAmmoComponent: inventory slot Backpack, tag",
+          "only this backpack carries the tag (TagComponent)",
+          "backpack DepositComponent holds the ammunition"
+        ]
+      },
+      "ammo": {
+        "capacity": 120,
+        "startAmount": 120,
+        "refillAmount": 60,
+        "fromAmmoBox": {
+          "value": 30,
+          "writable": false,
+          "reason": "Half of the supply refill, applied by game code; not a stored member."
+        },
+        "fingerprint": {
+          "capacity": {
+            "wiki": 120,
+            "native": 120
+          },
+          "fromSupply": {
+            "wiki": 60,
+            "native": 60
+          }
+        }
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit",
+        "Tag"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+            "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+            "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "name": "M-1000 Maxigun Backpack",
+      "semanticId": "backpack/v1/m-1000-maxigun-backpack/60983de5d5143c9b",
+      "callInStratagem": {
+        "semanticId": "stratagem/v1/m-1000-maxigun/95638dbb80d59593",
+        "name": "M-1000 Maxigun",
+        "relationship": "delivered_with_support_weapon",
+        "known": true,
+        "provenance": "call-in primary payload is the rack that attaches the weapon and this backpack"
+      },
+      "deliveryChain": [
+        "stratagem_definition",
+        "hellpod_rack",
+        "backpack_entity"
+      ],
+      "feeds": {
+        "supportWeapon": "M-1000 Maxigun",
+        "supportWeaponSemanticId": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "relationship": "backpack_ammo",
+        "ammoMode": 1,
+        "inventorySlot": "Backpack",
+        "refillStyle": "Ammo",
+        "weaponOwnsMagazine": false,
+        "chain": [
+          "call-in rack attaches the weapon and this backpack",
+          "weapon WeaponLinkedAmmoComponent: inventory slot Backpack, tag",
+          "only this backpack carries the tag (TagComponent)",
+          "backpack DepositComponent holds the ammunition"
+        ]
+      },
+      "ammo": {
+        "capacity": 1000,
+        "startAmount": 1000,
+        "refillAmount": 500,
+        "fromAmmoBox": {
+          "value": 250,
+          "writable": false,
+          "reason": "Half of the supply refill, applied by game code; not a stored member."
+        },
+        "fingerprint": {
+          "capacity": {
+            "wiki": 1000,
+            "native": 1000
+          },
+          "fromSupply": {
+            "wiki": 500,
+            "native": 500
+          }
+        }
+      },
+      "correlation": {
+        "capacity": true,
+        "fromSupply": true
+      },
+      "components": [
+        "Backpack",
+        "Deposit",
+        "Tag"
+      ],
+      "settingGroups": [
+        {
+          "group": "backpack_ammo",
+          "fieldInstanceKeys": [
+            "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+            "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+            "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
+          ]
+        }
+      ],
+      "blockedFields": [
+        {
+          "field": "remaining ammunition",
+          "reason": "The live remaining count is per-mission instance state, not a definition field; capacity, starting ammo and supply refill are authored."
+        }
+      ],
+      "fieldInstanceKeys": [
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
+      ]
     }
   ],
   "fieldInstances": [
@@ -1873,6 +2116,429 @@
         "sharedTypedSchema": true
       },
       "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+    },
+    {
+      "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack ammo capacity",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 500,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "B/FLAM-80 Cremator Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f1e942507b96413",
+      "operationGroup": "operation:a1c8593b83ee9c49",
+      "planGroup": "plan:backpack:b-flam-80-cremator-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B/FLAM-80 Cremator Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2f1037a641dc6a37",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting backpack ammo",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 500,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "B/FLAM-80 Cremator Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f1e942507b96413",
+      "operationGroup": "operation:a1c8593b83ee9c49",
+      "planGroup": "plan:backpack:b-flam-80-cremator-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B/FLAM-80 Cremator Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2f1037a641dc6a37",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack ammo from supply",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 250,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "B/FLAM-80 Cremator Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6f1e942507b96413",
+      "operationGroup": "operation:a1c8593b83ee9c49",
+      "planGroup": "plan:backpack:b-flam-80-cremator-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B/FLAM-80 Cremator Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2f1037a641dc6a37",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack ammo capacity",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 120,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6e72ff963166abe3",
+      "operationGroup": "operation:6c4c561ae68a550c",
+      "planGroup": "plan:backpack:gl-28-belt-fed-grenade-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8903b1b98b22db75",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting backpack ammo",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 120,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6e72ff963166abe3",
+      "operationGroup": "operation:6c4c561ae68a550c",
+      "planGroup": "plan:backpack:gl-28-belt-fed-grenade-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8903b1b98b22db75",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack ammo from supply",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 60,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:6e72ff963166abe3",
+      "operationGroup": "operation:6c4c561ae68a550c",
+      "planGroup": "plan:backpack:gl-28-belt-fed-grenade-launcher-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8903b1b98b22db75",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+      "semanticFieldId": "deposit.capacity",
+      "displayName": "Backpack ammo capacity",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 1000,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "M-1000 Maxigun Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:28292317aa3089cc",
+      "operationGroup": "operation:d3a12db9607f1993",
+      "planGroup": "plan:backpack:m-1000-maxigun-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "M-1000 Maxigun Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:839c1f1fdc2bd5c1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.capacity",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 1,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+      "semanticFieldId": "deposit.start_amount",
+      "displayName": "Starting backpack ammo",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 1000,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "M-1000 Maxigun Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:28292317aa3089cc",
+      "operationGroup": "operation:d3a12db9607f1993",
+      "planGroup": "plan:backpack:m-1000-maxigun-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "M-1000 Maxigun Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:839c1f1fdc2bd5c1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.start_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
+    },
+    {
+      "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount",
+      "semanticFieldId": "deposit.refill_amount",
+      "displayName": "Backpack ammo from supply",
+      "type": "integer",
+      "unit": "ammo",
+      "currentDefault": 500,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "M-1000 Maxigun Backpack",
+        "path": "backpack"
+      },
+      "backingObjectId": "backing:28292317aa3089cc",
+      "operationGroup": "operation:d3a12db9607f1993",
+      "planGroup": "plan:backpack:m-1000-maxigun-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "M-1000 Maxigun Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:839c1f1fdc2bd5c1",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "DepositComponentData",
+      "domain": "deposit",
+      "apiFieldConstant": "hd2.fields.deposit.refill_amount",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": null,
+        "proof": null,
+        "provenOn": [],
+        "sharedTypedSchema": true
+      },
+      "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
+      "uiGroup": "backpack_ammo",
+      "min": 0,
+      "max": 100000,
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     }
   ],
   "backingObjects": [
@@ -2087,6 +2753,54 @@
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
         "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:6f1e942507b96413",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "B/FLAM-80 Cremator Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:2f1037a641dc6a37",
+      "fieldInstances": [
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:6e72ff963166abe3",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:8903b1b98b22db75",
+      "fieldInstances": [
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount"
+      ]
+    },
+    {
+      "backingObjectId": "backing:28292317aa3089cc",
+      "kind": "DepositComponentData",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "M-1000 Maxigun Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:839c1f1fdc2bd5c1",
+      "fieldInstances": [
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
       ]
     }
   ],
@@ -2303,6 +3017,54 @@
       ],
       "recommendedApi": "hd2.transaction",
       "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:a1c8593b83ee9c49",
+      "backingObjectId": "backing:6f1e942507b96413",
+      "target": {
+        "resource": "backpack",
+        "backpack": "B/FLAM-80 Cremator Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+        "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:6c4c561ae68a550c",
+      "backingObjectId": "backing:6e72ff963166abe3",
+      "target": {
+        "resource": "backpack",
+        "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+        "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
+    },
+    {
+      "operationGroup": "operation:d3a12db9607f1993",
+      "backingObjectId": "backing:28292317aa3089cc",
+      "target": {
+        "resource": "backpack",
+        "backpack": "M-1000 Maxigun Backpack",
+        "path": "backpack"
+      },
+      "fieldInstances": [
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+        "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false
     }
   ],
   "evidenceTiers": {
@@ -2313,23 +3075,25 @@
     "structural_reference": "Same typed mount reference mechanism as the live-verified swap; this slot and replacement have no reference-mod write."
   },
   "summary": {
-    "backpacks": 13,
-    "fieldInstances": 31,
-    "writableFieldInstances": 9,
+    "backpacks": 16,
+    "fieldInstances": 40,
+    "writableFieldInstances": 18,
     "readOnlyFieldInstances": 22,
-    "backpacksWithWritableFields": 5,
+    "backpacksWithWritableFields": 8,
     "writableByTier": {
       "gameplay_proven": 2,
-      "schema_proven": 7
+      "schema_proven": 16
     },
-    "rackChainsResolved": 13,
+    "rackChainsResolved": 16,
+    "weaponFedBackpacks": 3,
+    "backpackAmmoWritable": 9,
     "researchWrites": 0,
     "protectionChanges": 0,
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 31,
-    "publishedInstances": 31,
+    "internalInstances": 40,
+    "publishedInstances": 40,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

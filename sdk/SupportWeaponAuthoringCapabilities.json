@@ -115,7 +115,7 @@
     "deduplicationLossPrevented": 16,
     "referenceFieldInstances": 0,
     "readOnlyFieldInstances": 0,
-    "blockedFieldDeclarations": 134,
+    "blockedFieldDeclarations": 128,
     "intentionallyOmittedInstances": 0,
     "safety": {
       "writes": 0,
@@ -241,6 +241,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -459,6 +460,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -616,6 +618,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -778,6 +781,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -901,16 +905,8 @@
           "reason": "Duplicate runtime roots remain after downstream graph audit; no root is selected heuristically."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "linked backpack ammo",
-          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+          "field": "weapon magazine",
+          "reason": "The weapon owns no WeaponMagazineComponent. Its ammunition is the backpack DepositComponent: author it through hd2.support_weapon(name):backpack()."
         },
         {
           "field": "unresolved branch",
@@ -927,6 +923,24 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
+      "ammoBackpack": {
+        "backpack": "B/FLAM-80 Cremator Backpack",
+        "semanticId": "backpack/v1/b-flam-80-cremator-backpack/99e220d7855c3e33",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "weaponOwnsMagazine": false,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 500,
+          "startAmount": 500,
+          "refillAmount": 250
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1012,6 +1026,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1119,6 +1134,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1268,6 +1284,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1356,6 +1373,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": false,
         "state": "no_call_in",
@@ -1462,6 +1480,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1573,6 +1592,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1726,6 +1746,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -1972,6 +1993,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2139,6 +2161,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2317,6 +2340,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2484,6 +2508,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2663,20 +2688,30 @@
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "linked backpack ammo",
-          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+          "field": "weapon magazine",
+          "reason": "The weapon owns no WeaponMagazineComponent. Its ammunition is the backpack DepositComponent: author it through hd2.support_weapon(name):backpack()."
         }
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
+      "ammoBackpack": {
+        "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+        "semanticId": "backpack/v1/gl-28-belt-fed-grenade-launcher-backpack/d2b841c6917f50e7",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "weaponOwnsMagazine": false,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 120,
+          "startAmount": 120,
+          "refillAmount": 60
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -2889,6 +2924,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3124,6 +3160,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3253,6 +3290,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3390,6 +3428,7 @@
       "blockedFields": [],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3552,20 +3591,30 @@
           "reason": "Native lifetime is 0 (no explicit limit); only non-zero lifetimes are tunable."
         },
         {
-          "field": "backpack storage",
-          "reason": "Backpack entity/package storage ownership is unresolved; weapon-side fields remain independent."
-        },
-        {
-          "field": "linked backpack ammo",
-          "reason": "WeaponLinkedAmmo ownership is classified, but storage semantics are not proven."
-        },
-        {
-          "field": "unresolved branch",
-          "reason": "backpack entity/package ownership link (weapon-side linked-ammo ownership is reported separately)"
+          "field": "weapon magazine",
+          "reason": "The weapon owns no WeaponMagazineComponent. Its ammunition is the backpack DepositComponent: author it through hd2.support_weapon(name):backpack()."
         }
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": true,
+      "ammoBackpack": {
+        "backpack": "M-1000 Maxigun Backpack",
+        "semanticId": "backpack/v1/m-1000-maxigun-backpack/60983de5d5143c9b",
+        "accessor": "hd2.support_weapon(name):backpack()",
+        "owner": "backpack DepositComponent",
+        "weaponOwnsMagazine": false,
+        "fields": [
+          "deposit.capacity",
+          "deposit.start_amount",
+          "deposit.refill_amount"
+        ],
+        "baseline": {
+          "capacity": 1000,
+          "startAmount": 1000,
+          "refillAmount": 500
+        },
+        "catalog": "sdk/BackpackAuthoringCapabilities.json"
+      },
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3727,6 +3776,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -3886,6 +3936,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4047,6 +4098,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4198,6 +4250,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4358,6 +4411,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4476,6 +4530,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4690,6 +4745,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -4947,6 +5003,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -5141,6 +5198,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -5340,6 +5398,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -5508,6 +5567,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": false,
         "state": "no_call_in",
@@ -5700,6 +5760,7 @@
       ],
       "backpackDependency": true,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",
@@ -5858,6 +5919,7 @@
       ],
       "backpackDependency": false,
       "linkedAmmoOwnership": false,
+      "ammoBackpack": null,
       "linkedStratagem": {
         "known": true,
         "state": "linked",

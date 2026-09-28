@@ -290,15 +290,32 @@ function M.new(describe)
         if writable then identity.attack=role else identity.attack_index=index end
         return setmetatable(identity,{__index=methods})
     end
+    -- Backpack-fed support weapons draw ammunition from their backpack's DepositComponent, not from a
+    -- weapon magazine; the backpack is the semantic owner (sdk/BackpackAuthoringCapabilities.json).
+    local fed_backpacks=require('hd2runtime/domains/entity_authoring').backpacks
+    local function ammo_backpack(weapon)
+        for name,entry in pairs(fed_backpacks)do
+            if entry.feeds and entry.feeds.weapon==weapon then return name end
+        end
+    end
     function builders.support_weapon(name)
         local weapon=assert(support_catalog.weapons[name],
             'unknown reviewed support weapon: '..tostring(name))
         local methods={}
+        -- The backpack that stores this weapon's ammunition.
+        function methods.backpack()
+            local backpack=ammo_backpack(name)
+            if not backpack then
+                error(name..' has no reviewed ammunition backpack (its ammunition is not backpack-owned)',0)
+            end
+            return builders.backpack(backpack)
+        end
         function methods.describe()
             local result=copy(weapon);local authoring=support_authoring.weapons[name]
             result.authoring={writable=authoring and not authoring.ordinaryWritesBlocked or false,
                 blockReason=authoring and authoring.blockReason or nil,
                 writableFieldCount=authoring and#authoring.fields or 0}
+            result.ammoBackpack=ammo_backpack(name)
             return result
         end
         function methods.attacks()
@@ -465,6 +482,8 @@ function M.new(describe)
         local result=public_field(field)
         result.target=copy(field.target);result.allowedValues=copy(field.allowedValues)
         result.acknowledgement=field.acknowledgement
+        result.acknowledgementReason=field.acknowledgementReason
+        result.min,result.max,result.uiGroup=field.min,field.max,field.uiGroup
         return result
     end
     local function fields_for(entry,path,key,value)
@@ -632,7 +651,13 @@ function M.new(describe)
         local entry=assert(entity_authoring.backpacks[name],'unknown reviewed backpack: '..tostring(name))
         local methods={}
         function methods.describe()
-            return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack')}
+            return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack'),
+                feeds=entry.feeds and{supportWeapon=entry.feeds.weapon,relationship='backpack_ammo'}or nil}
+        end
+        -- The support weapon this backpack stores ammunition for, if any.
+        function methods.weapon()
+            assert(entry.feeds,name..' does not store ammunition for a support weapon')
+            return builders.support_weapon(entry.feeds.weapon)
         end
         return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end

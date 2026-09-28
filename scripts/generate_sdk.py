@@ -219,7 +219,9 @@ def outputs():
         '---@param identity integer|HD2SupportAttackName','---@return HD2SupportProjectile',
         'function HD2SupportWeapon:projectile(identity) end',
         '---@param identity integer|HD2SupportAttackName','---@return HD2SupportExplosion',
-        'function HD2SupportWeapon:explosion(identity) end']
+        'function HD2SupportWeapon:explosion(identity) end',
+        '---The backpack that stores this weapon\'s ammunition (backpack-fed weapons only).',
+        '---@return HD2Backpack','function HD2SupportWeapon:backpack() end']
     stratagem_names=[item['name'] for item in stratagem_authoring['stratagems']]
     stratagem_roles=[item['role'] for item in stratagem_authoring['attacks']]
     alias('HD2StratagemAuthoringName',stratagem_names)
@@ -311,6 +313,8 @@ def outputs():
         '','---@class HD2Backpack','---@field resource "backpack"','---@field path "backpack"',
         '---@field backpack HD2BackpackName','local HD2Backpack = {}','---@return table',
         'function HD2Backpack:describe() end',
+        '---The support weapon whose ammunition this backpack stores (weapon-fed backpacks only).',
+        '---@return HD2SupportWeapon','function HD2Backpack:weapon() end',
         '','---@class HD2BoosterTarget','---@field resource "booster"',
         '---@field path "tuning"|"explosion"|"status_effect"|"status_damage"|"granted_stratagem"|"deployed_entity"',
         '---@field booster string',
@@ -416,6 +420,7 @@ def outputs():
             'sdk/docs/stratagem-authoring.md':(ROOT/'docs/stratagem-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/backpack-ammo.md':(ROOT/'docs/backpack-ammo.md').read_text(encoding='utf-8'),
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),

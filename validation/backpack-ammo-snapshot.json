@@ -1,0 +1,120 @@
+{
+  "acknowledgementRejections": 9,
+  "backpacks": [
+    {
+      "backpack": "B/FLAM-80 Cremator Backpack",
+      "chainChecks": 4,
+      "fields": [
+        {
+          "baseline": 500,
+          "before": "f4010000",
+          "changedTo": 2000,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 500,
+          "before": "f4010000",
+          "changedTo": 1500,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 250,
+          "before": "fa000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "weapon": "B/FLAM-80 Cremator"
+    },
+    {
+      "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+      "chainChecks": 4,
+      "fields": [
+        {
+          "baseline": 120,
+          "before": "78000000",
+          "changedTo": 2000,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 120,
+          "before": "78000000",
+          "changedTo": 1500,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 60,
+          "before": "3c000000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "weapon": "GL-28 Belt-Fed Grenade Launcher"
+    },
+    {
+      "backpack": "M-1000 Maxigun Backpack",
+      "chainChecks": 4,
+      "fields": [
+        {
+          "baseline": 1000,
+          "before": "e8030000",
+          "changedTo": 2000,
+          "component": "DepositComponentData",
+          "field": "deposit.capacity",
+          "fieldOffset": 0,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 1000,
+          "before": "e8030000",
+          "changedTo": 1500,
+          "component": "DepositComponentData",
+          "field": "deposit.start_amount",
+          "fieldOffset": 4,
+          "uniqueOwner": true
+        },
+        {
+          "baseline": 500,
+          "before": "f4010000",
+          "changedTo": 750,
+          "component": "DepositComponentData",
+          "field": "deposit.refill_amount",
+          "fieldOffset": 8,
+          "uniqueOwner": true
+        }
+      ],
+      "weapon": "M-1000 Maxigun"
+    }
+  ],
+  "baselineMatches": 9,
+  "chainTamperRejections": 12,
+  "changedWrites": 9,
+  "conflictRejections": 9,
+  "fields": 9,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "noOps": 9,
+  "rangeRejections": 9,
+  "rollbacks": 9,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "staleExpectRejections": 9,
+  "status": "VALIDATED"
+}

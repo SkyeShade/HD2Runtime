@@ -35,8 +35,9 @@ is supported by the linked projectile and explosion graph rather than by suppres
 diagnostic disagreement.
 
 Three of the nine catalogued backpack-dependent weapons own a `WeaponLinkedAmmoComponentData`
-record in the mapped root set. The link from those weapon-side records to a particular backpack
-entity/package is still unresolved, so backpack ammo is not writable and no ownership is claimed.
+record in the mapped root set. Since 0.26.0 the link is resolved: the record draws from the Backpack
+inventory slot through a tag that only the weapon's own backpack carries, and that backpack's
+`DepositComponent` is the ammunition store (see [Backpack ammunition](backpack-ammo.md)).
 Standalone backblast ownership and charge native-consumer semantics also remain open.
 
 The future semantic direction is `hd2.support_weapon(name)` with branch-aware access. It is not a

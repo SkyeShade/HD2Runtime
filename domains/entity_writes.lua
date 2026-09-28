@@ -9,7 +9,8 @@ local profile=require('hd2runtime/schemas/current')
 local database=require('hd2runtime/domains/entity_authoring')
 local M={}
 local component_names={'HealthComponentData','MountComponentData','RechargeComponentData',
-    'JumppackComponentData','ShieldComponentData','HellpodRackComponentData','WeaponDataComponentData'}
+    'JumppackComponentData','ShieldComponentData','HellpodRackComponentData','WeaponDataComponentData',
+    'DepositComponentData','TagComponentData','WeaponLinkedAmmoComponentData'}
 local REFERENCE='mounted_weapon_reference'
 
 local function equal(a,c,storage)
@@ -70,6 +71,8 @@ local function validate_change(entry,target,item,request)
     local field=find_field(entry,target,item.field)
     assert(field.editable and field.backing,'field is read-only: '..item.field..' ('..tostring(field.reason)..')')
     assert(not field.shared or request.allow_shared==true,'shared field requires allow_shared=true: '..item.field)
+    assert(field.acknowledgement~='allow_unverified_effect'or request.allow_unverified_effect==true,
+        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     local storage=field.backing.storage
     if field.type==REFERENCE then
         assert(request.allow_unverified_reference==true,
@@ -97,12 +100,17 @@ local function validate_change(entry,target,item,request)
     end
     assert(equal(expected,field.currentDefault,storage),
         'expect differs from reviewed current value for '..item.field)
+    if field.min then
+        assert(desired>=field.min and desired<=field.max,
+            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+    end
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage),expect=expected,value=desired}
 end
 local function validate(request,multiple)
     assert(type(request)=='table',(multiple and'transaction'or'patch')..' requires a descriptor')
-    local allowed={id=true,target=true,diagnostic=true,allow_shared=true,allow_unverified_reference=true}
+    local allowed={id=true,target=true,diagnostic=true,allow_shared=true,allow_unverified_reference=true,
+        allow_unverified_effect=true}
     if multiple then allowed.changes=true else allowed.field=true;allowed.expect=true;allowed.value=true end
     for key in pairs(request)do assert(allowed[key],'unsupported option: '..tostring(key))end
     valid_id(request.id)
@@ -111,7 +119,8 @@ local function validate(request,multiple)
     assert(type(items)=='table'and#items>=1 and#items<=32,'transaction requires one to 32 changes')
     local result={kind='entity',family=request.target.resource,id=request.id,entity=name,
         target_path=request.target.path,diagnostic=request.diagnostic==true,
-        allow_shared=request.allow_shared==true,changes={}}
+        allow_shared=request.allow_shared==true,allow_unverified_effect=request.allow_unverified_effect==true,
+        changes={}}
     local group
     for index,item in ipairs(items)do
         local change=validate_change(entry,request.target,item,request)
@@ -153,12 +162,30 @@ function M.capture_many(runtime,reader,specs)
             assert(record.identity.recordIndex==entry.rack.recordIndex
                 and record.identity.indexRow==entry.rack.indexRow,'backpack rack ownership changed')
             local attached=false
+            local slots=entry.rack.slots or{}
             for slot=0,7 do
                 local item=b.resource(record.bytes,slot*64)
                 if item==entry.resource then attached=true
+                elseif slots[tostring(slot)]then
+                    assert(item==slots[tostring(slot)],'backpack rack no longer delivers the reviewed support weapon')
                 else assert(item=='0x0000000000000000','backpack rack attaches an unreviewed item')end
             end
             assert(attached,'backpack rack no longer attaches the reviewed backpack')
+            local feeds=entry.feeds
+            if feeds then
+                -- Re-prove the ammunition link: the weapon draws from the Backpack slot through a tag
+                -- that this backpack carries.
+                local weapon=find_candidate(catalog,feeds.weaponResource,feeds.weaponEntityRow)
+                local linked=catalog.record(weapon,'WeaponLinkedAmmoComponentData')
+                assert(linked.identity.recordIndex==feeds.linkedAmmo.recordIndex
+                    and linked.identity.indexRow==feeds.linkedAmmo.indexRow,'weapon linked-ammo ownership changed')
+                assert(b.resource(linked.bytes,0)==feeds.tag.value and b.u32(linked.bytes,8)==feeds.ammoMode
+                    and b.u32(linked.bytes,12)==feeds.inventorySlot,'weapon no longer draws ammunition from this backpack')
+                local tag=catalog.record(candidate,'TagComponentData')
+                assert(tag.identity.recordIndex==feeds.tag.recordIndex and tag.identity.indexRow==feeds.tag.indexRow,
+                    'backpack tag ownership changed')
+                assert(b.resource(tag.bytes,0)==feeds.tag.value,'backpack no longer carries the weapon ammunition tag')
+            end
         end
         for _,change in ipairs(spec.changes)do
             if change.replacement then
