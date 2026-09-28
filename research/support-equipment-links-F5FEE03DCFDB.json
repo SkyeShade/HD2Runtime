@@ -1,0 +1,3700 @@
+{
+ "schemaVersion": 1,
+ "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "pinnedReferences": {
+  "entities": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+  "typelib": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "loadoutEntryFrame": "DCF47C7A3A2EB40918C27DC9EE237BB298F5E7C4A9A5D319CF904BA2DA74E199"
+ },
+ "liveEquality": {
+  "LoadoutEntryComponentData": true,
+  "LoadoutPackageComponentData": true,
+  "DepositComponentData": true,
+  "entityDeltas": true
+ },
+ "loadoutItemTypes": {
+  "0": "Unknown",
+  "1": "PrimaryWeapon",
+  "2": "SupportWeapon",
+  "3": "SidearmWeapon",
+  "4": "ThrowableWeapon",
+  "5": "PermanentGear",
+  "6": "Backpack",
+  "7": "Count"
+ },
+ "stratagemDefinitions": [
+  {
+   "kind": 1,
+   "id": 2002187052,
+   "package": "0x68EBDCE3F7498179",
+   "payloads": [
+    "0x16474112801385B6",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 2,
+   "id": 1692135420,
+   "package": "0xE62AB45BAD7F6CA3",
+   "payloads": [
+    "0x72DB04413D4AB0F0",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 3,
+   "id": 4119049995,
+   "package": "0x9BC33B7058A2BD5A",
+   "payloads": [
+    "0xE44B691DC039A505"
+   ]
+  },
+  {
+   "kind": 4,
+   "id": 2084654169,
+   "package": "0x7D72A031B0B3C618",
+   "payloads": [
+    "0x2F257B91037AC421"
+   ]
+  },
+  {
+   "kind": 5,
+   "id": 1695682779,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x3D11A855D20B5B40"
+   ]
+  },
+  {
+   "kind": 6,
+   "id": 2232989803,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xA0E691598F32932F",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 7,
+   "id": 871315230,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xACC611541CD839DB",
+    "0x736EDD2093900042"
+   ]
+  },
+  {
+   "kind": 8,
+   "id": 474724029,
+   "package": "0x1577E917AD1F287D",
+   "payloads": [
+    "0x820CC3BAFE962858",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 9,
+   "id": 762584056,
+   "package": "0x5A0F047F2695B403",
+   "payloads": [
+    "0x2B11C9E4980EC479",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 10,
+   "id": 1290499887,
+   "package": "0xE72D3E9B05C3DB0B",
+   "payloads": [
+    "0xC2D449ECF7FACAB1",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 11,
+   "id": 3722314010,
+   "package": "0x055F887C3BC616FE",
+   "payloads": [
+    "0x9A1F728716DA05B5",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 12,
+   "id": 2239174926,
+   "package": "0x12CE4BC7CDDAF51C",
+   "payloads": [
+    "0x25A2FD037B6ED25C",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 13,
+   "id": 14345846,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x31C4DD88C1450282",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 14,
+   "id": 3748434442,
+   "package": "0xBBA76437A1C00C1E",
+   "payloads": [
+    "0x0AC9CDDBE8C64851",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 15,
+   "id": 3753216434,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x0DC7A18342B62BEC",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 16,
+   "id": 2934950455,
+   "package": "0xFDE8230C79315087",
+   "payloads": [
+    "0x8A9E543022C18092",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 17,
+   "id": 2720892179,
+   "package": "0x3752BFA96CAD0109",
+   "payloads": [
+    "0xC7C2AFE0D83CF26D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 18,
+   "id": 1238358532,
+   "package": "0x1E33CC1600FF38F3",
+   "payloads": [
+    "0x2EA01CB1676ACA29"
+   ]
+  },
+  {
+   "kind": 19,
+   "id": 650447969,
+   "package": "0x7435E3429DB5CC46",
+   "payloads": [
+    "0xAC6E5FA7DB7FE621",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 20,
+   "id": 1091253198,
+   "package": "0x731ACEC30A1A6FAC",
+   "payloads": [
+    "0xB3F6EC87073AAFEC",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 21,
+   "id": 3279813377,
+   "package": "0xC0C7278D9F015EE7",
+   "payloads": [
+    "0xCB7F154719F331EC"
+   ]
+  },
+  {
+   "kind": 22,
+   "id": 2281932031,
+   "package": "0xFE0DB34AC2B9AC61",
+   "payloads": [
+    "0xED13DDC480EC6910",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 23,
+   "id": 960389145,
+   "package": "0x36313BF684C1FD79",
+   "payloads": [
+    "0x56070F36CFFFA8A8",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 24,
+   "id": 2185045091,
+   "package": "0x68F670405A504F68",
+   "payloads": [
+    "0x4C7E4680FF843A1B",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 25,
+   "id": 875551083,
+   "package": "0x49875503E219E80D",
+   "payloads": [
+    "0x5F41C4DCABE95421",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 26,
+   "id": 2636699686,
+   "package": "0x149F685717737CAE",
+   "payloads": [
+    "0x9B2140378640432E",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 27,
+   "id": 295629711,
+   "package": "0x22749A294788AF66",
+   "payloads": [
+    "0x79E4B3D2DA5E45E3",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 28,
+   "id": 2985177386,
+   "package": "0x51C7DEF49EC9F6BF",
+   "payloads": {}
+  },
+  {
+   "kind": 29,
+   "id": 1042447730,
+   "package": "0xD87885C7EAACE597",
+   "payloads": [
+    "0x6B6E7FE1B931393C",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 30,
+   "id": 2808191861,
+   "package": "0x2C26BC4C6592FA14",
+   "payloads": [
+    "0x23A60681DD4383EC"
+   ]
+  },
+  {
+   "kind": 31,
+   "id": 1053576110,
+   "package": "0x346D785D6CA13FF4",
+   "payloads": [
+    "0x77C52E494527AA8A",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 32,
+   "id": 533318241,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x0FD8B759412815DD",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 33,
+   "id": 867876502,
+   "package": "0x4D4C26C04A220CAA",
+   "payloads": [
+    "0x5052EC6A928CCF1A",
+    "0x73F8498BFFDCF415",
+    "0x5052EC6A928CCF1A",
+    "0x73F8498BFFDCF415",
+    "0x5052EC6A928CCF1A",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 34,
+   "id": 1280711447,
+   "package": "0x1E6C958B95568DD7",
+   "payloads": [
+    "0x55F3747B8C27AEF6"
+   ]
+  },
+  {
+   "kind": 35,
+   "id": 929878807,
+   "package": "0x9B0D37F93BA0AB03",
+   "payloads": [
+    "0x23A60681DD4383EC"
+   ]
+  },
+  {
+   "kind": 36,
+   "id": 65564476,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 37,
+   "id": 2587901119,
+   "package": "0x22749A294788AF66",
+   "payloads": [
+    "0x79E4B3D2DA5E45E3",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 38,
+   "id": 1685231450,
+   "package": "0x23BB68BD2E366FDF",
+   "payloads": [
+    "0x1B3BCADABC7EF8D6"
+   ]
+  },
+  {
+   "kind": 39,
+   "id": 1813634375,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x20AAFC3A504D2E5F",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 40,
+   "id": 2230051894,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xC77CE3971539F54F",
+    "0x0000000000000000",
+    "0xFADE74505BAF3287"
+   ]
+  },
+  {
+   "kind": 41,
+   "id": 3193297673,
+   "package": "0x6369816737A36A40",
+   "payloads": [
+    "0x05F3C83A91075766"
+   ]
+  },
+  {
+   "kind": 42,
+   "id": 3989310204,
+   "package": "0x681275AF9E93CB2C",
+   "payloads": [
+    "0xC6A87C428FD3C7A3",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 43,
+   "id": 3843705076,
+   "package": "0x47B43A883CAAE42C",
+   "payloads": [
+    "0xF88D61A8FE1E0766",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 44,
+   "id": 3085503322,
+   "package": "0x4666692B63185121",
+   "payloads": [
+    "0xB2053A1838092F8B",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 45,
+   "id": 4261593827,
+   "package": "0xA7B23B55209766AE",
+   "payloads": [
+    "0x46B9E3BE0AE9972E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 46,
+   "id": 644090457,
+   "package": "0xEF8EDB7B47D8F0B3",
+   "payloads": [
+    "0xA9982969137F3D77",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 47,
+   "id": 101457192,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 48,
+   "id": 681028671,
+   "package": "0x0C072E5FB6C68B88",
+   "payloads": [
+    "0x1556FE9780D5D52D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 49,
+   "id": 3837064536,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 50,
+   "id": 460870572,
+   "package": "0x65EE777B72347CB4",
+   "payloads": [
+    "0xB0C9FAF4AF8903F9",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 51,
+   "id": 3572024208,
+   "package": "0xEEEBC5FD26FE0F40",
+   "payloads": [
+    "0x7FA006885812A756",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 52,
+   "id": 3183339606,
+   "package": "0x71D9EA5D656B09B8",
+   "payloads": [
+    "0x299C0D3DFD2F0994",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 53,
+   "id": 717707279,
+   "package": "0x11BBDF8CE39E5FC5",
+   "payloads": [
+    "0x37079568DC86E9C6",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 54,
+   "id": 2007887745,
+   "package": "0xE12F82D7C0C7BC63",
+   "payloads": [
+    "0xCA6E81E2B3E22B18",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 55,
+   "id": 73468749,
+   "package": "0x1DFE6F7A3C7EBEFB",
+   "payloads": [
+    "0x52DCE8A110418742",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 56,
+   "id": 3078242205,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xB62620AE2CD89F49",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 57,
+   "id": 1125307795,
+   "package": "0x82EC28278BF9B79A",
+   "payloads": [
+    "0x41436D438139F786",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 58,
+   "id": 2744472229,
+   "package": "0xF4DC2361985C3026",
+   "payloads": [
+    "0xAC129AA2DB5EABC9"
+   ]
+  },
+  {
+   "kind": 59,
+   "id": 2480128092,
+   "package": "0x9D4EB484C405E7A2",
+   "payloads": [
+    "0x0C8257D1C0255593",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 60,
+   "id": 4264661046,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 61,
+   "id": 4152191751,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xBBD57DF3E5B15ED8",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 62,
+   "id": 3796132384,
+   "package": "0xE1AB26349774DEC6",
+   "payloads": [
+    "0x08D58CB1BF65F7A9"
+   ]
+  },
+  {
+   "kind": 63,
+   "id": 2822568285,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xFDE262593307CA2F",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 64,
+   "id": 1426041086,
+   "package": "0x91F45A686207A351",
+   "payloads": [
+    "0xB127552416CE512E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 65,
+   "id": 3656370131,
+   "package": "0xF70996775C6430A9",
+   "payloads": [
+    "0x9D4F7CB4EB34515D"
+   ]
+  },
+  {
+   "kind": 66,
+   "id": 623391597,
+   "package": "0x992D325D88DE5FBF",
+   "payloads": [
+    "0xEF85D6CF58E31D70",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 67,
+   "id": 272480476,
+   "package": "0x93FA804787551C15",
+   "payloads": [
+    "0x09183066C4EBCE28",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 68,
+   "id": 992079466,
+   "package": "0x2A9FB8F5D0576EAE",
+   "payloads": [
+    "0x4CF9D9B3F6813F52",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 69,
+   "id": 3275255096,
+   "package": "0x11BBDF8CE39E5FC5",
+   "payloads": [
+    "0x37079568DC86E9C6",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 70,
+   "id": 685210453,
+   "package": "0x8C96BA199DA24AE3",
+   "payloads": [
+    "0xDFA99372CEFBF84D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 71,
+   "id": 1606251952,
+   "package": "0x641457F8ECB6BD56",
+   "payloads": [
+    "0xDB59777F0ABAF6AF",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 72,
+   "id": 1503060624,
+   "package": "0x982259927D0C50FF",
+   "payloads": [
+    "0xDF3C4F91E298BFA4",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 73,
+   "id": 485866824,
+   "package": "0xBE6C260FADCB8719",
+   "payloads": [
+    "0x0807D288AD22601B",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 74,
+   "id": 3713568312,
+   "package": "0xBF35E874AC3A3B5A",
+   "payloads": [
+    "0xDA76A06325E692C9"
+   ]
+  },
+  {
+   "kind": 75,
+   "id": 3923676543,
+   "package": "0x530BB611A14B6CE3",
+   "payloads": [
+    "0xC57F85252B7D853B",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 76,
+   "id": 3928947721,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xE310DABABD5E36AF",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 77,
+   "id": 2229216190,
+   "package": "0xC6D14774E5C77651",
+   "payloads": [
+    "0xAF04113302F5621D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 78,
+   "id": 2186648412,
+   "package": "0xAAA4485C0B8A76ED",
+   "payloads": [
+    "0x9DE2C3A3C9A6353E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 79,
+   "id": 2319566343,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xD00A26BA08786344",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 80,
+   "id": 3343676429,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x20225DEE487C9F5F",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 81,
+   "id": 774795224,
+   "package": "0xAE4F2E79B546847C",
+   "payloads": [
+    "0x4E52F730432CDB1E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 82,
+   "id": 1567517764,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x94C5114EBA59AA21",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 83,
+   "id": 1560416221,
+   "package": "0xF51342B25542A582",
+   "payloads": [
+    "0x75B131DC1DDC02D5"
+   ]
+  },
+  {
+   "kind": 84,
+   "id": 3868299561,
+   "package": "0xA37891D879CB3B1D",
+   "payloads": [
+    "0xEA534432474985A0",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 85,
+   "id": 599201298,
+   "package": "0x055F887C3BC616FE",
+   "payloads": [
+    "0x9A1F728716DA05B5",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 86,
+   "id": 1232978203,
+   "package": "0x28812689506A3E9C",
+   "payloads": [
+    "0x44FD108C1BA32019",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 87,
+   "id": 2271469939,
+   "package": "0xDF16F5C644EDC2B1",
+   "payloads": [
+    "0xCA4F3FC268F449D5",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 88,
+   "id": 563851843,
+   "package": "0x7DE417DB7552D9FC",
+   "payloads": [
+    "0x35DBF54F016F3624",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 89,
+   "id": 1337271929,
+   "package": "0x2947AFE42093062F",
+   "payloads": [
+    "0xDE18775FA447A9BF",
+    "0xFBE75EC44E7C9A50"
+   ]
+  },
+  {
+   "kind": 90,
+   "id": 255298804,
+   "package": "0xC6D14774E5C77651",
+   "payloads": [
+    "0xAF04113302F5621D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 91,
+   "id": 3086305673,
+   "package": "0x0A4BD8A1833F11B2",
+   "payloads": [
+    "0x7B2326F6FD9C8069",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 92,
+   "id": 458198946,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x94C5114EBA59AA21",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 93,
+   "id": 863373678,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x3CAABAD4D5C09D33",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 94,
+   "id": 913592461,
+   "package": "0x5508D6B35020D7E8",
+   "payloads": [
+    "0xB31073E494A0643A",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 95,
+   "id": 3702563421,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 96,
+   "id": 3353508219,
+   "package": "0xFC1A5BF2F3FF15DF",
+   "payloads": [
+    "0x3A50B58B0553056A",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 97,
+   "id": 890972990,
+   "package": "0x5795E99A988D10B7",
+   "payloads": [
+    "0x0A60397B7409995E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 98,
+   "id": 716088572,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x5727C125BD88D82C",
+    "0x736EDD2093900042"
+   ]
+  },
+  {
+   "kind": 99,
+   "id": 3288352984,
+   "package": "0xB75F652BED19144A",
+   "payloads": [
+    "0xC87555EED1E9F092",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 100,
+   "id": 3330450692,
+   "package": "0x39DDD2E6F131C873",
+   "payloads": [
+    "0x8DB8B823889324F9",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 101,
+   "id": 1907808218,
+   "package": "0x519980A75EBD50AD",
+   "payloads": [
+    "0x31400A6A3003E29C",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 102,
+   "id": 705279885,
+   "package": "0x8899C0025745EC39",
+   "payloads": [
+    "0x206AC4AFF536B8FF",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 103,
+   "id": 905054095,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x6CCB976676EF6CC6"
+   ]
+  },
+  {
+   "kind": 104,
+   "id": 2402590523,
+   "package": "0x8ABFFB1F5544121B",
+   "payloads": [
+    "0x74599E56F72F9D7E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 105,
+   "id": 3935317067,
+   "package": "0x0BDF199F7AC14F43",
+   "payloads": [
+    "0xCC21C7FFD3EBEFB9",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 106,
+   "id": 2902516083,
+   "package": "0x96CEDF4706334C5F",
+   "payloads": [
+    "0xA16AB4FF66AE6970"
+   ]
+  },
+  {
+   "kind": 107,
+   "id": 970450596,
+   "package": "0x662A9D42F834777E",
+   "payloads": [
+    "0xEC3575E7A93793BB"
+   ]
+  },
+  {
+   "kind": 108,
+   "id": 1005987791,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xA2945F73F912004D",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 109,
+   "id": 1295431756,
+   "package": "0x4D4C26C04A220CAA",
+   "payloads": [
+    "0x5052EC6A928CCF1A",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 110,
+   "id": 3455841218,
+   "package": "0xB2C627B3BA7E0C0A",
+   "payloads": [
+    "0x73B63D637973C7A4",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 111,
+   "id": 509712523,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x0A12D5A29CDF2D40",
+    "0x736EDD2093900042"
+   ]
+  },
+  {
+   "kind": 112,
+   "id": 1432571981,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xE90F771A36FB441E",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 113,
+   "id": 336693041,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x5CAF553BA7EA1429",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 114,
+   "id": 2265180087,
+   "package": "0xC40E3B3FA79052EC",
+   "payloads": [
+    "0xEB95609DCBAD53FE",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 115,
+   "id": 951988742,
+   "package": "0x32CB44321DA1B5A0",
+   "payloads": [
+    "0xDE6F09BC8EAEBE27",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 116,
+   "id": 1449420233,
+   "package": "0x6EB59430A00A525C",
+   "payloads": [
+    "0x75F7E96AF7DCD303",
+    "0x3EC790806D0B0540"
+   ]
+  },
+  {
+   "kind": 117,
+   "id": 1582497738,
+   "package": "0x8C5A99A9A40D5B8D",
+   "payloads": [
+    "0x51A0812E3BCE2D74",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 118,
+   "id": 3523620028,
+   "package": "0xDBAE525060F06D70",
+   "payloads": [
+    "0xC897C0D84448AB2C"
+   ]
+  },
+  {
+   "kind": 119,
+   "id": 12688472,
+   "package": "0xA4946425B2C70017",
+   "payloads": [
+    "0xF00C349422E8E320",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 120,
+   "id": 45875024,
+   "package": "0x346D785D6CA13FF4",
+   "payloads": [
+    "0x77C52E494527AA8A",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 121,
+   "id": 4239785897,
+   "package": "0x154BD6143819DF7D",
+   "payloads": [
+    "0x37CDE43876BA26BB",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 122,
+   "id": 1824787072,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xC18C1301580FA0C4",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 123,
+   "id": 4177070437,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 124,
+   "id": 2266266587,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x0965AAEBA7CCBCA8"
+   ]
+  },
+  {
+   "kind": 125,
+   "id": 3108516875,
+   "package": "0xFE3EF44300E4A1E2",
+   "payloads": [
+    "0xEF66B417EDC3B1D6"
+   ]
+  },
+  {
+   "kind": 126,
+   "id": 4196275240,
+   "package": "0xD2CEBF1FEDB86A19",
+   "payloads": [
+    "0xDBB286AD7ED9DF96"
+   ]
+  },
+  {
+   "kind": 127,
+   "id": 512147393,
+   "package": "0xF24CFA612428175B",
+   "payloads": [
+    "0xB7791DA91F13488C",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 128,
+   "id": 3300666223,
+   "package": "0x0000000000000000",
+   "payloads": {}
+  },
+  {
+   "kind": 129,
+   "id": 716273285,
+   "package": "0xA957B51F1483DE7A",
+   "payloads": [
+    "0x03C74D93700C884D"
+   ]
+  },
+  {
+   "kind": 130,
+   "id": 1298599997,
+   "package": "0x15EB7241C3616351",
+   "payloads": [
+    "0xDDEE9646723E09D3",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 131,
+   "id": 153819019,
+   "package": "0x4FEE9CC13C0B4CEC",
+   "payloads": [
+    "0x2F67BF9C4F560C02",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 132,
+   "id": 2663642538,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x3FED8E4A3B242F02"
+   ]
+  },
+  {
+   "kind": 133,
+   "id": 2040137691,
+   "package": "0xDE456F55554ABB56",
+   "payloads": [
+    "0x27BB558C893383CC"
+   ]
+  },
+  {
+   "kind": 134,
+   "id": 1753436707,
+   "package": "0x3E78581FDAB81A73",
+   "payloads": [
+    "0x61353DF120F27732",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 135,
+   "id": 2846457047,
+   "package": "0x2CEE40DFBD0B174D",
+   "payloads": [
+    "0x2D85BFE3D8717FE5",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 136,
+   "id": 1063322614,
+   "package": "0x25B8CFF26C7C0112",
+   "payloads": [
+    "0x2D3BD00B1ED411B1"
+   ]
+  },
+  {
+   "kind": 137,
+   "id": 854563507,
+   "package": "0x54DC633A67BAA93D",
+   "payloads": [
+    "0x54D86057F5DACFB9",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 138,
+   "id": 2670122272,
+   "package": "0x641457F8ECB6BD56",
+   "payloads": [
+    "0x29D0A1DFB5FD811F",
+    "0x75BE82ED8592A6B3"
+   ]
+  },
+  {
+   "kind": 139,
+   "id": 2742141597,
+   "package": "0x335A97FA3774906E",
+   "payloads": [
+    "0xBF32E12923A9A252",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 140,
+   "id": 1979913877,
+   "package": "0xBFE4D006CC25A01E",
+   "payloads": [
+    "0x397792815583DA29"
+   ]
+  },
+  {
+   "kind": 141,
+   "id": 2207713849,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x891ADA7D553B69DB",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 142,
+   "id": 5185868,
+   "package": "0x35F4CA4FA00D380A",
+   "payloads": [
+    "0xD8E278355CF29EF4",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 143,
+   "id": 3316399568,
+   "package": "0x3E78581FDAB81A73",
+   "payloads": [
+    "0x61353DF120F27732",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 144,
+   "id": 2919842659,
+   "package": "0x68E80476C1C602F5",
+   "payloads": [
+    "0x0E977C49DB7604F9",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 145,
+   "id": 3193487269,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x6293CAF0559BACF6",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 146,
+   "id": 3001049275,
+   "package": "0x4E381ABCE2D425E8",
+   "payloads": [
+    "0xDFBB9A0D8FA27D85"
+   ]
+  },
+  {
+   "kind": 147,
+   "id": 3413606544,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x0DC7A18342B62BEC",
+    "0x73F8498BFFDCF415"
+   ]
+  },
+  {
+   "kind": 148,
+   "id": 115737856,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0xEF3A4136B21592CB"
+   ]
+  },
+  {
+   "kind": 149,
+   "id": 2625074523,
+   "package": "0x0000000000000000",
+   "payloads": [
+    "0x67AC082FF6D142F3",
+    "0x73F8498BFFDCF415"
+   ]
+  }
+ ],
+ "supportWeapons": {
+  "40-K Meltagun": [
+   {
+    "resource": "0x6CFCC7F8801A0266",
+    "path": "content/fac_helldivers/equipment/support_weapons/energy_weapon_shark/energy_weapon_shark",
+    "loadoutEntry": {
+     "itemId": 774795224,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xAE4F2E79B546847C",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "AC-8 Autocannon": [
+   {
+    "resource": "0xA8CFFB316F0B5C5F",
+    "path": "content/fac_helldivers/equipment/support_weapons/automatic_cannon/automatic_cannon",
+    "loadoutEntry": {
+     "itemId": 875551083,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6AD7CC21015A5F85",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "APW-1 Anti-Materiel Rifle": [
+   {
+    "resource": "0x89C5493E08CA4207",
+    "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+    "loadoutEntry": {
+     "itemId": 2207713849,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEA6967F8565A2D76",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "ARC-3 Arc Thrower": [
+   {
+    "resource": "0x96DE9CD50F7306E6",
+    "path": "content/fac_helldivers/equipment/support_weapons/arc_thrower/arc_thrower",
+    "loadoutEntry": {
+     "itemId": 992079466,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x2A9FB8F5D0576EAE",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "B/FLAM-80 Cremator": [
+   {
+    "resource": "0x0736BEE2D6328726",
+    "path": "content/fac_helldivers/vehicles/combat_walker_flamethrower/combat_walker_flamethrower",
+    "loadoutEntry": null,
+    "package": "0x0000000000000000",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x78A8185F63A70795",
+    "path": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower",
+    "loadoutEntry": {
+     "itemId": 2051054112,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xDF16F5C644EDC2B1",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "B/MD C4 Pack": [
+   {
+    "resource": "0x9B75217D8312DD67",
+    "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge",
+    "loadoutEntry": {
+     "itemId": 3748434442,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xBBA76437A1C00C1E",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "CQC-1 One True Flag": [
+   {
+    "resource": "0xB0F1B354BA1D38D8",
+    "path": "content/fac_helldivers/equipment/melee_weapons/flag/melee_flag",
+    "loadoutEntry": {
+     "itemId": 819954976,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xC40E3B3FA79052EC",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "CQC-20 Breaching Hammer": [
+   {
+    "resource": "0x5F3EC9BDA2BD8553",
+    "path": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+    "loadoutEntry": {
+     "itemId": 3330450692,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x39DDD2E6F131C873",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x792D5D2A340FD6E6",
+    "path": "content/fac_helldivers/equipment/melee_weapons/machete/machete",
+    "loadoutEntry": {
+     "itemId": 3859022603,
+     "itemType": "SidearmWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xF5014993C8402D87",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "CQC-72 Entrenchment Tool": [
+   {
+    "resource": "0x7E1F76163C667E4B",
+    "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel_trench",
+    "loadoutEntry": {
+     "itemId": 2173315377,
+     "itemType": "SidearmWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49DE16E1343250E4",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE85E623F93F96FB3",
+    "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel",
+    "loadoutEntry": {
+     "itemId": 4133671573,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49DE16E1343250E4",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "CQC-9 Defoliation Tool": [
+   {
+    "resource": "0xBF4CFD2AEABFB5A4",
+    "path": "content/fac_helldivers/equipment/melee_weapons/chainsaw_greatsword/chainsaw_greatsword",
+    "loadoutEntry": {
+     "itemId": 3572024208,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEEEBC5FD26FE0F40",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "EAT-17 Expendable Anti-Tank": [
+   {
+    "resource": "0x5C54E81A4AAA31FC",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0xDE96CD7CC69628BC",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x80932FA0ED6901D3",
+    "path": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot",
+    "loadoutEntry": {
+     "itemId": 3413606544,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xDE96CD7CC69628BC",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "EAT-411 Leveller": [
+   {
+    "resource": "0x7617642765AC38C7",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_massive_rocket_launcher/expendable_massive_rocket_launcher",
+    "loadoutEntry": {
+     "itemId": 2934950455,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xFDE8230C79315087",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "EAT-700 Expendable Napalm": [
+   {
+    "resource": "0xB2B5E0D185605F9E",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_napalm_launcher/expendable_napalm_launcher",
+    "loadoutEntry": {
+     "itemId": 1813634375,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5D68E55823ACD1BF",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "FAF-14 Spear": [
+   {
+    "resource": "0x25AA2FD4643CF4EE",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher/faf_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 3923676543,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x530BB611A14B6CE3",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "FLAM-40 Flamethrower": [
+   {
+    "resource": "0x39AB99895147A3BF",
+    "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+    "loadoutEntry": {
+     "itemId": 1432571981,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x784671F2B3A4DA79",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "GL-21 Grenade Launcher": [
+   {
+    "resource": "0x02EECD0B1FA49630",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher/grenade_launcher",
+    "loadoutEntry": {
+     "itemId": 3343676429,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x0089BBE3E284FCAA",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "GL-28 Belt-Fed Grenade Launcher": [
+   {
+    "resource": "0x88C2D09AD85A7C9F",
+    "path": "content/fac_helldivers/equipment/support_weapons/belt_fed_grenade_launcher/belt_fed_grenade_launcher",
+    "loadoutEntry": {
+     "itemId": 512147393,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF24CFA612428175B",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "GL-52 De-Escalator": [
+   {
+    "resource": "0xFE3B29B2CFA63F9B",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher_tactical/grenade_launcher_tactical",
+    "loadoutEntry": {
+     "itemId": 153819019,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x4FEE9CC13C0B4CEC",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "GR-8 Recoilless Rifle": [
+   {
+    "resource": "0x9F80D67A12A7E40F",
+    "path": "content/fac_helldivers/equipment/support_weapons/recoilless_rifle/recoilless_rifle",
+    "loadoutEntry": {
+     "itemId": 1298599997,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6CA87637EAEB5923",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "LAS-98 Laser Cannon": [
+   {
+    "resource": "0x1980D92B619FF5FE",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0x524A07E02060D7AB",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x56070F36CFFFA8A8",
+    "path": "content/fac_helldivers/hellpod/laser_cannon_turret/laser_cannon_turret",
+    "loadoutEntry": null,
+    "package": "0x36313BF684C1FD79",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xD54B9505C0F72873",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon",
+    "loadoutEntry": {
+     "itemId": 2822568285,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "LAS-99 Quasar Cannon": [
+   {
+    "resource": "0x35A61296619CC47E",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_pulse_cannon/laser_pulse_cannon",
+    "loadoutEntry": {
+     "itemId": 2625074523,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "M-1000 Maxigun": [
+   {
+    "resource": "0x43A58CB89CFA197C",
+    "path": "content/fac_helldivers/equipment/support_weapons/minigun/minigun",
+    "loadoutEntry": {
+     "itemId": 3455841218,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xB2C627B3BA7E0C0A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "M-105 Stalwart": [
+   {
+    "resource": "0xA6A735ACCB4A327F",
+    "path": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x8F295B4D04C3A06C",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xB43235DBD493750C",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xB9606C5AAB32C3C2",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xD53EE03481AE73FD",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "MG-206 Heavy Machine Gun": [
+   {
+    "resource": "0x085C1EDB038EC24E",
+    "path": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+    "loadoutEntry": {
+     "itemId": 533318241,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x902C54AFB4ED396F",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x2152D5147B0AC418",
+    "path": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+    "loadoutEntry": {
+     "itemId": 533318241,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x902C54AFB4ED396F",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xCD00BDC1149C2928",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 533318241,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x902C54AFB4ED396F",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "MG-43 Machine Gun": [
+   {
+    "resource": "0x11C27D3BABB38956",
+    "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+    "loadoutEntry": {
+     "itemId": 458198946,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC024A2E8AE639757",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x587878FB76F4B9B1",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0x73CFBBF2E883AF96",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "MGX-42 Bullet Storm": [
+   {
+    "resource": "0xB16C9D490AA59B77",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_machinegun/expendable_machinegun",
+    "loadoutEntry": {
+     "itemId": 3288352984,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xB75F652BED19144A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "MLS-4X Commando": [
+   {
+    "resource": "0x5990123D142B16CB",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_guided_missile_launcher/laser_guided_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 2232989803,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC0052E5B38E18C33",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "MS-11 Solo Silo": [
+   {
+    "resource": "0xDE18775FA447A9BF",
+    "path": "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_mini_missile_silo",
+    "loadoutEntry": null,
+    "package": "0x2947AFE42093062F",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "PLAS-45 Epoch": [
+   {
+    "resource": "0xE8D5F49AD7780E54",
+    "path": "content/fac_helldivers/equipment/support_weapons/plasma_blaster/plasma_blaster",
+    "loadoutEntry": {
+     "itemId": 2140866400,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xA7B23B55209766AE",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "RL-77 Airburst Rocket Launcher": [
+   {
+    "resource": "0x26E40437EA275296",
+    "path": "content/fac_helldivers/equipment/support_weapons/air_burst_rocket_launcher/air_burst_rocket_launcher",
+    "loadoutEntry": {
+     "itemId": 2007887745,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF7646E79610C124D",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "RS-422 Railgun": [
+   {
+    "resource": "0x2E9D0BDC48B09E60",
+    "path": "content/fac_helldivers/equipment/support_weapons/railgun/railgun",
+    "loadoutEntry": {
+     "itemId": 3078242205,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x7F37DB9B767844C2",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "S-11 Speargun": [
+   {
+    "resource": "0x3828E2051AA9E897",
+    "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+    "loadoutEntry": {
+     "itemId": 336693041,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x70D708E5FD627493",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "SG-88 Break-Action Shotgun": [
+   {
+    "resource": "0x52071F49263415E4",
+    "path": "content/fac_super_earth/equipment/support_weapons/shotgun_doublebarrel/shotgun_doublebarrel",
+    "loadoutEntry": {
+     "itemId": 3744531484,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x31894C33C4ED1E2A",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "StA-X3 W.A.S.P. Launcher": [
+   {
+    "resource": "0xCC786F6491FE7E65",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher_helghast/faf_missile_launcher_helghast",
+    "loadoutEntry": {
+     "itemId": 890972990,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5795E99A988D10B7",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "TX-41 Sterilizer": [
+   {
+    "resource": "0x88F61AFFF48AC8A4",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 4152191751,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x750605CFC0173701",
+    "packageIsStratagemPackage": false
+   }
+  ]
+ },
+ "rackItems": {
+  "0x0800B8C12FF96A8E": [
+   {
+    "resource": "0x29AE906EA485A7FA",
+    "path": "content/fac_helldivers/hellpod/expandable_cover/expandable_cover",
+    "loadoutEntry": null,
+    "package": "0x083B528D1FD9174A",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x0807D288AD22601B": [
+   {
+    "resource": "0x255EBC5767D7CEEC",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBE6C260FADCB8719",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x255EBC5767D7CEEC",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBE6C260FADCB8719",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x09183066C4EBCE28": [
+   {
+    "resource": "0xA4E796F84801B40A",
+    "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 272480476,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x93FA804787551C15",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x0A60397B7409995E": [
+   {
+    "resource": "0xCC786F6491FE7E65",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher_helghast/faf_missile_launcher_helghast",
+    "loadoutEntry": {
+     "itemId": 890972990,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5795E99A988D10B7",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xB8FEB0CC191C1EF3",
+    "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_helghast_backpack/faf_missile_launcher_helghast_backpack",
+    "loadoutEntry": {
+     "itemId": 790588279,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x5795E99A988D10B7",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xCC786F6491FE7E65",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher_helghast/faf_missile_launcher_helghast",
+    "loadoutEntry": {
+     "itemId": 890972990,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5795E99A988D10B7",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xB8FEB0CC191C1EF3",
+    "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_helghast_backpack/faf_missile_launcher_helghast_backpack",
+    "loadoutEntry": {
+     "itemId": 790588279,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x5795E99A988D10B7",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x0AC9CDDBE8C64851": [
+   {
+    "resource": "0x51F50D6321F52F3D",
+    "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge_detonator",
+    "loadoutEntry": {
+     "itemId": 397581595,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBBA76437A1C00C1E",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x2A18F81C44A26771",
+    "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge_backpack",
+    "loadoutEntry": {
+     "itemId": 519340933,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBBA76437A1C00C1E",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x0DC7A18342B62BEC": [
+   {
+    "resource": "0x80932FA0ED6901D3",
+    "path": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot",
+    "loadoutEntry": {
+     "itemId": 3413606544,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xDE96CD7CC69628BC",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x80932FA0ED6901D3",
+    "path": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot",
+    "loadoutEntry": {
+     "itemId": 3413606544,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xDE96CD7CC69628BC",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x0E9D35CD5C0217C2": [],
+  "0x0FD8B759412815DD": [
+   {
+    "resource": "0x2152D5147B0AC418",
+    "path": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+    "loadoutEntry": {
+     "itemId": 533318241,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x902C54AFB4ED396F",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x2152D5147B0AC418",
+    "path": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+    "loadoutEntry": {
+     "itemId": 533318241,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x902C54AFB4ED396F",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x20225DEE487C9F5F": [
+   {
+    "resource": "0x02EECD0B1FA49630",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher/grenade_launcher",
+    "loadoutEntry": {
+     "itemId": 3343676429,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x0089BBE3E284FCAA",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x02EECD0B1FA49630",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher/grenade_launcher",
+    "loadoutEntry": {
+     "itemId": 3343676429,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x0089BBE3E284FCAA",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x20AAFC3A504D2E5F": [
+   {
+    "resource": "0xB2B5E0D185605F9E",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_napalm_launcher/expendable_napalm_launcher",
+    "loadoutEntry": {
+     "itemId": 1813634375,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5D68E55823ACD1BF",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xB2B5E0D185605F9E",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_napalm_launcher/expendable_napalm_launcher",
+    "loadoutEntry": {
+     "itemId": 1813634375,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x5D68E55823ACD1BF",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x2AB2507588D54B8B": [
+   {
+    "resource": "0x5F9AEAC72B738298",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_small/ballistic_shield_backpack_small",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x5F9AEAC72B738298",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_small/ballistic_shield_backpack_small",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x2ADE442313B5B7B3": [
+   {
+    "resource": "0x967ED15E0BAE363B",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x967ED15E0BAE363B",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x2F67BF9C4F560C02": [
+   {
+    "resource": "0xFE3B29B2CFA63F9B",
+    "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher_tactical/grenade_launcher_tactical",
+    "loadoutEntry": {
+     "itemId": 153819019,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x4FEE9CC13C0B4CEC",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x31400A6A3003E29C": [
+   {
+    "resource": "0x4EF9A47109239A58",
+    "path": "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack",
+    "loadoutEntry": {
+     "itemId": 1925755439,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x519980A75EBD50AD",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x4EF9A47109239A58",
+    "path": "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack",
+    "loadoutEntry": {
+     "itemId": 1925755439,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x519980A75EBD50AD",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x31C4DD88C1450282": [
+   {
+    "resource": "0xA6A735ACCB4A327F",
+    "path": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x8F295B4D04C3A06C",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xA6A735ACCB4A327F",
+    "path": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+    "loadoutEntry": {
+     "itemId": 14345846,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x8F295B4D04C3A06C",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x34DA42A01BDC971A": [
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x3A50B58B0553056A": [
+   {
+    "resource": "0x967ED15E0BAE363B",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x967ED15E0BAE363B",
+    "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1028872423,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xFC1A5BF2F3FF15DF",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x41436D438139F786": [
+   {
+    "resource": "0x3015626AA69F8D4D",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
+    "loadoutEntry": {
+     "itemId": 3883022479,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x82EC28278BF9B79A",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x3015626AA69F8D4D",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
+    "loadoutEntry": {
+     "itemId": 3883022479,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x82EC28278BF9B79A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x44FD108C1BA32019": [
+   {
+    "resource": "0x38CB9C758E07BC58",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0x28812689506A3E9C",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x8E7968D7E7AA4EAB",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 1076293717,
+     "itemType": "PermanentGear",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x28812689506A3E9C",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x38CB9C758E07BC58",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0x28812689506A3E9C",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x8E7968D7E7AA4EAB",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 1076293717,
+     "itemType": "PermanentGear",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x28812689506A3E9C",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x46B9E3BE0AE9972E": [
+   {
+    "resource": "0xE8D5F49AD7780E54",
+    "path": "content/fac_helldivers/equipment/support_weapons/plasma_blaster/plasma_blaster",
+    "loadoutEntry": {
+     "itemId": 2140866400,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xA7B23B55209766AE",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xE8D5F49AD7780E54",
+    "path": "content/fac_helldivers/equipment/support_weapons/plasma_blaster/plasma_blaster",
+    "loadoutEntry": {
+     "itemId": 2140866400,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xA7B23B55209766AE",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x4C7E4680FF843A1B": [
+   {
+    "resource": "0xB49756795D9B0E68",
+    "path": "content/fac_helldivers/equipment/backpacks/displacement_backpack/displacement_backpack",
+    "loadoutEntry": {
+     "itemId": 3253029690,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x68F670405A504F68",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xB49756795D9B0E68",
+    "path": "content/fac_helldivers/equipment/backpacks/displacement_backpack/displacement_backpack",
+    "loadoutEntry": {
+     "itemId": 3253029690,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x68F670405A504F68",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x4CF9D9B3F6813F52": [
+   {
+    "resource": "0x96DE9CD50F7306E6",
+    "path": "content/fac_helldivers/equipment/support_weapons/arc_thrower/arc_thrower",
+    "loadoutEntry": {
+     "itemId": 992079466,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x2A9FB8F5D0576EAE",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x96DE9CD50F7306E6",
+    "path": "content/fac_helldivers/equipment/support_weapons/arc_thrower/arc_thrower",
+    "loadoutEntry": {
+     "itemId": 992079466,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x2A9FB8F5D0576EAE",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x4E52F730432CDB1E": [
+   {
+    "resource": "0x6CFCC7F8801A0266",
+    "path": "content/fac_helldivers/equipment/support_weapons/energy_weapon_shark/energy_weapon_shark",
+    "loadoutEntry": {
+     "itemId": 774795224,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xAE4F2E79B546847C",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x5052EC6A928CCF1A": [
+   {
+    "resource": "0xA94913CA014F7579",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xA94913CA014F7579",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xA94913CA014F7579",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xA94913CA014F7579",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x52DCE8A110418742": [
+   {
+    "resource": "0x5EC80F4F1CDB66CF",
+    "path": "content/fac_helldivers/equipment/backpacks/hover_backpack/hover_backpack",
+    "loadoutEntry": {
+     "itemId": 452826786,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x1DFE6F7A3C7EBEFB",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x5EC80F4F1CDB66CF",
+    "path": "content/fac_helldivers/equipment/backpacks/hover_backpack/hover_backpack",
+    "loadoutEntry": {
+     "itemId": 452826786,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x1DFE6F7A3C7EBEFB",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x5429EE4183CC2C2F": [
+   {
+    "resource": "0xD961F2F803F61692",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xD961F2F803F61692",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x5CAF553BA7EA1429": [
+   {
+    "resource": "0x3828E2051AA9E897",
+    "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+    "loadoutEntry": {
+     "itemId": 336693041,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x70D708E5FD627493",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3828E2051AA9E897",
+    "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+    "loadoutEntry": {
+     "itemId": 336693041,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x70D708E5FD627493",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x5F41C4DCABE95421": [
+   {
+    "resource": "0xA8CFFB316F0B5C5F",
+    "path": "content/fac_helldivers/equipment/support_weapons/automatic_cannon/automatic_cannon",
+    "loadoutEntry": {
+     "itemId": 875551083,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6AD7CC21015A5F85",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE60AE045E0090F4C",
+    "path": "content/fac_helldivers/equipment/backpacks/automatic_cannon_backpack/automatic_cannon_backpack",
+    "loadoutEntry": {
+     "itemId": 3066314944,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49875503E219E80D",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xA8CFFB316F0B5C5F",
+    "path": "content/fac_helldivers/equipment/support_weapons/automatic_cannon/automatic_cannon",
+    "loadoutEntry": {
+     "itemId": 875551083,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6AD7CC21015A5F85",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE60AE045E0090F4C",
+    "path": "content/fac_helldivers/equipment/backpacks/automatic_cannon_backpack/automatic_cannon_backpack",
+    "loadoutEntry": {
+     "itemId": 3066314944,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49875503E219E80D",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x61353DF120F27732": [
+   {
+    "resource": "0x59C5CA839449B379",
+    "path": "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack",
+    "loadoutEntry": {
+     "itemId": 2649062090,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x3E78581FDAB81A73",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x59C5CA839449B379",
+    "path": "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack",
+    "loadoutEntry": {
+     "itemId": 2649062090,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x3E78581FDAB81A73",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x67AC082FF6D142F3": [
+   {
+    "resource": "0x35A61296619CC47E",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_pulse_cannon/laser_pulse_cannon",
+    "loadoutEntry": {
+     "itemId": 2625074523,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x35A61296619CC47E",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_pulse_cannon/laser_pulse_cannon",
+    "loadoutEntry": {
+     "itemId": 2625074523,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x6B6E7FE1B931393C": [
+   {
+    "resource": "0x073270650F859DD0",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 0,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xD87885C7EAACE597",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x72DB04413D4AB0F0": [
+   {
+    "resource": "0xC28DA712B12E3DFA",
+    "path": "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/guard_dog_stun_backpack",
+    "loadoutEntry": {
+     "itemId": 1875465746,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xE62AB45BAD7F6CA3",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xC28DA712B12E3DFA",
+    "path": "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/guard_dog_stun_backpack",
+    "loadoutEntry": {
+     "itemId": 1875465746,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xE62AB45BAD7F6CA3",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x73B63D637973C7A4": [
+   {
+    "resource": "0x43A58CB89CFA197C",
+    "path": "content/fac_helldivers/equipment/support_weapons/minigun/minigun",
+    "loadoutEntry": {
+     "itemId": 3455841218,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xB2C627B3BA7E0C0A",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x056DE1C5E21E723E",
+    "path": "content/fac_helldivers/equipment/backpacks/minigun_backpack/minigun_backpack",
+    "loadoutEntry": {
+     "itemId": 1092582811,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xB2C627B3BA7E0C0A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x77C52E494527AA8A": [
+   {
+    "resource": "0x9ACE8638421ABC8E",
+    "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+    "loadoutEntry": {
+     "itemId": 4255545685,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x346D785D6CA13FF4",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x9ACE8638421ABC8E",
+    "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+    "loadoutEntry": {
+     "itemId": 4255545685,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x346D785D6CA13FF4",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x7FA006885812A756": [
+   {
+    "resource": "0xBF4CFD2AEABFB5A4",
+    "path": "content/fac_helldivers/equipment/melee_weapons/chainsaw_greatsword/chainsaw_greatsword",
+    "loadoutEntry": {
+     "itemId": 3572024208,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEEEBC5FD26FE0F40",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x891ADA7D553B69DB": [
+   {
+    "resource": "0x89C5493E08CA4207",
+    "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+    "loadoutEntry": {
+     "itemId": 2207713849,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEA6967F8565A2D76",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x89C5493E08CA4207",
+    "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+    "loadoutEntry": {
+     "itemId": 2207713849,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEA6967F8565A2D76",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x89CFD784797A7621": [
+   {
+    "resource": "0x200DC4955BD13C54",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x2DA2D250E59E37AD",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xB4424B37E87A68BE",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x4DE030AA465BB790",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x8A9E543022C18092": [
+   {
+    "resource": "0x7617642765AC38C7",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_massive_rocket_launcher/expendable_massive_rocket_launcher",
+    "loadoutEntry": {
+     "itemId": 2934950455,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xFDE8230C79315087",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x8DB8B823889324F9": [
+   {
+    "resource": "0x5F3EC9BDA2BD8553",
+    "path": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+    "loadoutEntry": {
+     "itemId": 3330450692,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x39DDD2E6F131C873",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0x94C5114EBA59AA21": [
+   {
+    "resource": "0x11C27D3BABB38956",
+    "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+    "loadoutEntry": {
+     "itemId": 458198946,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC024A2E8AE639757",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x11C27D3BABB38956",
+    "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+    "loadoutEntry": {
+     "itemId": 458198946,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC024A2E8AE639757",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x96615499993B1E16": [
+   {
+    "resource": "0x35F50DEC0EC647C6",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 2906140436,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x35F50DEC0EC647C6",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 2906140436,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0x9DE2C3A3C9A6353E": [
+   {
+    "resource": "0x372481E910C05A76",
+    "path": "content/objectives/obj_common/shoulder_mounted_camera/shoulder_mounted_camera",
+    "loadoutEntry": {
+     "itemId": 838155692,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xAAA4485C0B8A76ED",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x372481E910C05A76",
+    "path": "content/objectives/obj_common/shoulder_mounted_camera/shoulder_mounted_camera",
+    "loadoutEntry": {
+     "itemId": 838155692,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xAAA4485C0B8A76ED",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xA0E691598F32932F": [
+   {
+    "resource": "0x5990123D142B16CB",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_guided_missile_launcher/laser_guided_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 2232989803,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC0052E5B38E18C33",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x5990123D142B16CB",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_guided_missile_launcher/laser_guided_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 2232989803,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC0052E5B38E18C33",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xA6A8273F408D0309": [
+   {
+    "resource": "0x255EBC5767D7CEEC",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBE6C260FADCB8719",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xAF04113302F5621D": [
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x3B8D16C646A729A8",
+    "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xB3F6EC87073AAFEC": [
+   {
+    "resource": "0x0A55E504092B981D",
+    "path": "content/fac_helldivers/equipment/backpacks/medic_backpack/medic_backpack",
+    "loadoutEntry": {
+     "itemId": 4010403312,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x731ACEC30A1A6FAC",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x0A55E504092B981D",
+    "path": "content/fac_helldivers/equipment/backpacks/medic_backpack/medic_backpack",
+    "loadoutEntry": {
+     "itemId": 4010403312,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x731ACEC30A1A6FAC",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xB52BEAAE4F85C391": [],
+  "0xB62620AE2CD89F49": [
+   {
+    "resource": "0x2E9D0BDC48B09E60",
+    "path": "content/fac_helldivers/equipment/support_weapons/railgun/railgun",
+    "loadoutEntry": {
+     "itemId": 3078242205,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x7F37DB9B767844C2",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x2E9D0BDC48B09E60",
+    "path": "content/fac_helldivers/equipment/support_weapons/railgun/railgun",
+    "loadoutEntry": {
+     "itemId": 3078242205,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x7F37DB9B767844C2",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xB7791DA91F13488C": [
+   {
+    "resource": "0x88C2D09AD85A7C9F",
+    "path": "content/fac_helldivers/equipment/support_weapons/belt_fed_grenade_launcher/belt_fed_grenade_launcher",
+    "loadoutEntry": {
+     "itemId": 512147393,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF24CFA612428175B",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xBB4B15B588F974FD",
+    "path": "content/fac_helldivers/equipment/backpacks/belt_fed_grenade_launcher_backpack/belt_fed_grenade_launcher_backpack",
+    "loadoutEntry": {
+     "itemId": 512147393,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF24CFA612428175B",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xBB3AFFFB572C3488": [
+   {
+    "resource": "0xF8A8B17708C06606",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xBBD57DF3E5B15ED8": [
+   {
+    "resource": "0x88F61AFFF48AC8A4",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 4152191751,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x750605CFC0173701",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x88F61AFFF48AC8A4",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 4152191751,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x750605CFC0173701",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xC18C1301580FA0C4": [
+   {
+    "resource": "0xB95BD5148316F8DD",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xB95BD5148316F8DD",
+    "path": null,
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xC57F85252B7D853B": [
+   {
+    "resource": "0x25AA2FD4643CF4EE",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher/faf_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 3923676543,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x530BB611A14B6CE3",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x8EC3026B5F2E579A",
+    "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_backpack/faf_missile_launcher_backpack",
+    "loadoutEntry": {
+     "itemId": 271509801,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x530BB611A14B6CE3",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x25AA2FD4643CF4EE",
+    "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher/faf_missile_launcher",
+    "loadoutEntry": {
+     "itemId": 3923676543,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x530BB611A14B6CE3",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x8EC3026B5F2E579A",
+    "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_backpack/faf_missile_launcher_backpack",
+    "loadoutEntry": {
+     "itemId": 271509801,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x530BB611A14B6CE3",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xC87555EED1E9F092": [
+   {
+    "resource": "0xB16C9D490AA59B77",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_machinegun/expendable_machinegun",
+    "loadoutEntry": {
+     "itemId": 3288352984,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xB75F652BED19144A",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xB16C9D490AA59B77",
+    "path": "content/fac_helldivers/equipment/support_weapons/expendable_machinegun/expendable_machinegun",
+    "loadoutEntry": {
+     "itemId": 3288352984,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xB75F652BED19144A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xCA4F3FC268F449D5": [
+   {
+    "resource": "0x78A8185F63A70795",
+    "path": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower",
+    "loadoutEntry": {
+     "itemId": 2051054112,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xDF16F5C644EDC2B1",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x43EB1C3C1A1860E0",
+    "path": "content/fac_helldivers/equipment/backpacks/heavy_flamethrower_backpack/heavy_flamethrower_backpack",
+    "loadoutEntry": {
+     "itemId": 432912135,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xDF16F5C644EDC2B1",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xCA6E81E2B3E22B18": [
+   {
+    "resource": "0x26E40437EA275296",
+    "path": "content/fac_helldivers/equipment/support_weapons/air_burst_rocket_launcher/air_burst_rocket_launcher",
+    "loadoutEntry": {
+     "itemId": 2007887745,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF7646E79610C124D",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE75CD68E858A12AC",
+    "path": "content/fac_helldivers/equipment/backpacks/air_burst_rocket_backpack/air_burst_rocket_backpack",
+    "loadoutEntry": {
+     "itemId": 2273006189,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xE12F82D7C0C7BC63",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x26E40437EA275296",
+    "path": "content/fac_helldivers/equipment/support_weapons/air_burst_rocket_launcher/air_burst_rocket_launcher",
+    "loadoutEntry": {
+     "itemId": 2007887745,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xF7646E79610C124D",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE75CD68E858A12AC",
+    "path": "content/fac_helldivers/equipment/backpacks/air_burst_rocket_backpack/air_burst_rocket_backpack",
+    "loadoutEntry": {
+     "itemId": 2273006189,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xE12F82D7C0C7BC63",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xD00A26BA08786344": [
+   {
+    "resource": "0x33F2BCDAE3A12592",
+    "path": "content/objectives/obj_common/carry_data/carry_data_stratagem",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xD23393AF036CC727": [
+   {
+    "resource": "0xC8F9A2233048B836",
+    "path": null,
+    "loadoutEntry": null,
+    "package": "0x17EC2D364664C3E9",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xD7F32C2DF7934784": [
+   {
+    "resource": "0x49119612EB284A48",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/ammo_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x49119612EB284A48",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/ammo_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x49119612EB284A48",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/ammo_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x49119612EB284A48",
+    "path": "content/fac_helldivers/hellpod/ammo_rack/ammo_box",
+    "loadoutEntry": null,
+    "package": null,
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xD8E278355CF29EF4": [
+   {
+    "resource": "0xBFFCB4CD971A8EDA",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector_backpack",
+    "loadoutEntry": {
+     "itemId": 4243413869,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x35F4CA4FA00D380A",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xBFFCB4CD971A8EDA",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector_backpack",
+    "loadoutEntry": {
+     "itemId": 4243413869,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x35F4CA4FA00D380A",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xDDEE9646723E09D3": [
+   {
+    "resource": "0x9F80D67A12A7E40F",
+    "path": "content/fac_helldivers/equipment/support_weapons/recoilless_rifle/recoilless_rifle",
+    "loadoutEntry": {
+     "itemId": 1298599997,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6CA87637EAEB5923",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x96DFC6542AA22980",
+    "path": "content/fac_helldivers/equipment/backpacks/recoilless_rifle_backpack/recoilless_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 2213467394,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x15EB7241C3616351",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x9F80D67A12A7E40F",
+    "path": "content/fac_helldivers/equipment/support_weapons/recoilless_rifle/recoilless_rifle",
+    "loadoutEntry": {
+     "itemId": 1298599997,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x6CA87637EAEB5923",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x96DFC6542AA22980",
+    "path": "content/fac_helldivers/equipment/backpacks/recoilless_rifle_backpack/recoilless_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 2213467394,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x15EB7241C3616351",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xDE18775FA447A9BF": [
+   {
+    "resource": "0xDDDB2910FF2B24E9",
+    "path": "content/fac_helldivers/hellpod/mini_missile_silo/mini_missile_silo",
+    "loadoutEntry": null,
+    "package": "0x0000000000000000",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xFC13460592CA79AA",
+    "path": null,
+    "loadoutEntry": {
+     "itemId": 2918647117,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x0000000000000000",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xDE6F09BC8EAEBE27": [
+   {
+    "resource": "0xAF9B683CCB6DDC02",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 1440244352,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x32CB44321DA1B5A0",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0xAF9B683CCB6DDC02",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 1440244352,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x32CB44321DA1B5A0",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xE310DABABD5E36AF": [
+   {
+    "resource": "0x3E993C23A25E6B88",
+    "path": "content/objectives/obj_cyborgs/cyborg_airbase_control_tower/cyborg_carry_data",
+    "loadoutEntry": null,
+    "package": "0x3B1830889DA33E6C",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xE86BAA795FA4E457": [
+   {
+    "resource": "0xE88A5AA58ABB9D81",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xA14F1A98C80575AF",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xE88A5AA58ABB9D81",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xA14F1A98C80575AF",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xE90F771A36FB441E": [
+   {
+    "resource": "0x39AB99895147A3BF",
+    "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+    "loadoutEntry": {
+     "itemId": 1432571981,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x784671F2B3A4DA79",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x39AB99895147A3BF",
+    "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+    "loadoutEntry": {
+     "itemId": 1432571981,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x784671F2B3A4DA79",
+    "packageIsStratagemPackage": false
+   }
+  ],
+  "0xEA534432474985A0": [
+   {
+    "resource": "0x11C27D3BABB38956",
+    "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+    "loadoutEntry": {
+     "itemId": 458198946,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xC024A2E8AE639757",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x39AB99895147A3BF",
+    "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+    "loadoutEntry": {
+     "itemId": 1432571981,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0x784671F2B3A4DA79",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x89C5493E08CA4207",
+    "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+    "loadoutEntry": {
+     "itemId": 2207713849,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xEA6967F8565A2D76",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0x255EBC5767D7CEEC",
+    "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+    "loadoutEntry": {
+     "itemId": 2700946317,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xBE6C260FADCB8719",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x59C5CA839449B379",
+    "path": "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack",
+    "loadoutEntry": {
+     "itemId": 2649062090,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x3E78581FDAB81A73",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x4EF9A47109239A58",
+    "path": "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack",
+    "loadoutEntry": {
+     "itemId": 1925755439,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x519980A75EBD50AD",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xEB95609DCBAD53FE": [
+   {
+    "resource": "0xB0F1B354BA1D38D8",
+    "path": "content/fac_helldivers/equipment/melee_weapons/flag/melee_flag",
+    "loadoutEntry": {
+     "itemId": 819954976,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0xC40E3B3FA79052EC",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xF88D61A8FE1E0766": [
+   {
+    "resource": "0x12C8D71AC3897A5C",
+    "path": "content/fac_helldivers/equipment/backpacks/energy_shield_backpack/energy_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1313198083,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x47B43A883CAAE42C",
+    "packageIsStratagemPackage": true
+   },
+   {
+    "resource": "0x12C8D71AC3897A5C",
+    "path": "content/fac_helldivers/equipment/backpacks/energy_shield_backpack/energy_shield_backpack",
+    "loadoutEntry": {
+     "itemId": 1313198083,
+     "itemType": "Backpack",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x47B43A883CAAE42C",
+    "packageIsStratagemPackage": true
+   }
+  ],
+  "0xFDE262593307CA2F": [
+   {
+    "resource": "0xD54B9505C0F72873",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon",
+    "loadoutEntry": {
+     "itemId": 2822568285,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   },
+   {
+    "resource": "0xD54B9505C0F72873",
+    "path": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon",
+    "loadoutEntry": {
+     "itemId": 2822568285,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xCF1ACDE501CCFA1B",
+    "packageIsStratagemPackage": false
+   }
+  ]
+ },
+ "depositLinks": [
+  {
+   "deposit": "0x96DFC6542AA22980",
+   "refills": "0x9F80D67A12A7E40F"
+  },
+  {
+   "deposit": "0xE60AE045E0090F4C",
+   "refills": "0xA8CFFB316F0B5C5F"
+  },
+  {
+   "deposit": "0x8EC3026B5F2E579A",
+   "refills": "0x25AA2FD4643CF4EE"
+  },
+  {
+   "deposit": "0x35B5AF8B1E859540",
+   "refills": "0x25AA2FD4643CF4EE"
+  },
+  {
+   "deposit": "0x1B00BCA55E364292",
+   "refills": "0x9F80D67A12A7E40F"
+  },
+  {
+   "deposit": "0xB8FEB0CC191C1EF3",
+   "refills": "0xCC786F6491FE7E65"
+  },
+  {
+   "deposit": "0xE75CD68E858A12AC",
+   "refills": "0x26E40437EA275296"
+  },
+  {
+   "deposit": "0x2A18F81C44A26771",
+   "refills": "0x51F50D6321F52F3D"
+  },
+  {
+   "deposit": "0x26BDDF070C31B275",
+   "refills": "0xA8CFFB316F0B5C5F"
+  }
+ ],
+ "focus": {
+  "B/MD C4 Pack": [
+   {
+    "resource": "0x9B75217D8312DD67",
+    "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge",
+    "loadoutEntry": {
+     "itemId": 3748434442,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": true
+    },
+    "package": "0xBBA76437A1C00C1E",
+    "packageIsStratagemPackage": true,
+    "packageOwners": [
+     "0x0AC9CDDBE8C64851",
+     "0x2A18F81C44A26771",
+     "0x51F50D6321F52F3D",
+     "0x9B75217D8312DD67"
+    ],
+    "packageStratagemIds": [
+     3748434442
+    ],
+    "racksAttaching": [],
+    "depositsRefilling": [],
+    "entityLibraryReferences": {
+     "ownership": 17,
+     "self": 1,
+     "external": []
+    },
+    "entityDeltaOccurrences": 0
+   }
+  ],
+  "SG-88 Break-Action Shotgun": [
+   {
+    "resource": "0x52071F49263415E4",
+    "path": "content/fac_super_earth/equipment/support_weapons/shotgun_doublebarrel/shotgun_doublebarrel",
+    "loadoutEntry": {
+     "itemId": 3744531484,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x31894C33C4ED1E2A",
+    "packageIsStratagemPackage": false,
+    "packageOwners": [
+     "0x52071F49263415E4"
+    ],
+    "packageStratagemIds": [],
+    "racksAttaching": [],
+    "depositsRefilling": [],
+    "entityLibraryReferences": {
+     "ownership": 23,
+     "self": 1,
+     "external": []
+    },
+    "entityDeltaOccurrences": 0
+   }
+  ],
+  "CQC-72 Entrenchment Tool": [
+   {
+    "resource": "0x7E1F76163C667E4B",
+    "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel_trench",
+    "loadoutEntry": {
+     "itemId": 2173315377,
+     "itemType": "SidearmWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49DE16E1343250E4",
+    "packageIsStratagemPackage": false,
+    "packageOwners": [
+     "0x7E1F76163C667E4B",
+     "0xE85E623F93F96FB3"
+    ],
+    "packageStratagemIds": [],
+    "racksAttaching": [],
+    "depositsRefilling": [],
+    "entityLibraryReferences": {
+     "ownership": 17,
+     "self": 1,
+     "external": []
+    },
+    "entityDeltaOccurrences": 0
+   },
+   {
+    "resource": "0xE85E623F93F96FB3",
+    "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel",
+    "loadoutEntry": {
+     "itemId": 4133671573,
+     "itemType": "SupportWeapon",
+     "itemIdIsStratagemId": false
+    },
+    "package": "0x49DE16E1343250E4",
+    "packageIsStratagemPackage": false,
+    "packageOwners": [
+     "0x7E1F76163C667E4B",
+     "0xE85E623F93F96FB3"
+    ],
+    "packageStratagemIds": [],
+    "racksAttaching": [],
+    "depositsRefilling": [],
+    "entityLibraryReferences": {
+     "ownership": 18,
+     "self": 1,
+     "external": []
+    },
+    "entityDeltaOccurrences": 0
+   }
+  ]
+ },
+ "wikiAcquisition": {
+  "B/MD C4 Pack": {
+   "sourceSection": "Warbonds",
+   "procurement": "The B/MD C4 Pack is unlocked on the 3rd page of the Redacted Regiment Premium Warbond for 110 Medals."
+  },
+  "SG-88 Break-Action Shotgun": {
+   "sourceSection": "Civilian",
+   "procurement": "The SG-88 Break-Action Shotgun is one of few support weapons not available for acquisition or deployment for Helldivers, as it is designed for civilian use and non-combatant applications. However, they can be found near human corpses on the following Minor Places of Interest: Graves Elevated House"
+  },
+  "CQC-72 Entrenchment Tool": {
+   "sourceSection": "Civilian",
+   "procurement": "Much like the SG-88 Break-Action Shotgun, The CQC-72 Entenchment tool can be found in various points of interest during missions, most often within Minor Places of Interest such as Bunkers, Destroyed Houses, Graves, and especially at the Burial Grounds. Graves House Crashed Ship Bunker A secondary weapon variant, the CQC-73 Entrenchment Tool, is unlocked on the 1st page of the Entrenched Division "
+  }
+ },
+ "writes": 0,
+ "protectionChanges": 0
+}

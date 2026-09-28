@@ -140,8 +140,8 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertFalse(by_name['Orbital Laser']['maxUses']['writable'])
         self.assertEqual(by_name['Orbital Precision Strike']['cooldown'], 80)
         self.assertEqual(by_name['MS-11 Solo Silo']['cooldown'], 180)
-        self.assertEqual(by_name['SG-88 Break-Action Shotgun']['rootResolution'], 'UNRESOLVED')
-        self.assertEqual(by_name['CQC-72 Entrenchment Tool']['rootResolution'], 'UNRESOLVED')
+        self.assertEqual(by_name['SG-88 Break-Action Shotgun']['rootResolution'], 'NO_CALL_IN')
+        self.assertEqual(by_name['CQC-72 Entrenchment Tool']['rootResolution'], 'NO_CALL_IN')
         kinds = {x['kind'] for x in self.catalog['attacks']}
         self.assertTrue({'ProjectileSettings','DamageInfo','ExplosionSettings',
             'StatusEffectSettings','Beam'} <= kinds)

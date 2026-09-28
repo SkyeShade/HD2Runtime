@@ -248,13 +248,17 @@ def build():
 
     for support in source['supportRoots']:
         if support['resolution'] != 'UNIQUE':
+            delivers=linkage['stratagems'][support['name']]
+            # Native absence of any call-in is published as its own resolution, not as unresolved.
+            resolution=delivers.get('rootResolution',support['resolution'])
+            reason=delivers['noCallIn']['reason'] if delivers.get('noCallIn') else support['reason']
             public_stratagems.append({'name':support['name'],'family':'support',
-                'rootResolution':support['resolution'],'blockedReason':support['reason'],
-                'delivers':linkage['stratagems'][support['name']],
+                'rootResolution':resolution,'blockedReason':reason,
+                'delivers':delivers,
                 'attackRoles':[],
-                'cooldownCapability':{'value':None,'writable':False,'reason':support['reason']},
-                'maxUses':{'value':None,'writable':False,'reason':support['reason']},
-                'callInTime':{'value':None,'writable':False,'reason':support['reason']}})
+                'cooldownCapability':{'value':None,'writable':False,'reason':reason},
+                'maxUses':{'value':None,'writable':False,'reason':reason},
+                'callInTime':{'value':None,'writable':False,'reason':reason}})
             continue
         root = support['currentRoot']; entry={'name':support['name'],'family':'support',
             'rootResolution':'UNIQUE','root':{'id':root['id'],'package':root['package'],

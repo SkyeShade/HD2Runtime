@@ -751,16 +751,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -803,16 +806,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -855,16 +861,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -907,16 +916,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -963,16 +975,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1015,16 +1030,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1071,16 +1089,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1123,16 +1144,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1175,16 +1199,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1231,16 +1258,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1287,16 +1317,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1339,16 +1372,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1395,16 +1431,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1447,16 +1486,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1499,16 +1541,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1551,16 +1596,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1603,16 +1651,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1639,74 +1690,139 @@
     {
       "name": "SG-88 Break-Action Shotgun",
       "family": "support",
-      "rootResolution": "UNRESOLVED",
-      "blockedReason": "No uniquely correlated call-in definition.",
+      "rootResolution": "NO_CALL_IN",
+      "blockedReason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions.",
       "delivers": {
-        "kind": "unresolved",
+        "kind": "none",
         "known": false,
-        "state": "unresolved_call_in",
+        "state": "no_call_in",
+        "rootResolution": "NO_CALL_IN",
         "semanticId": null,
         "relationshipId": null,
         "supportWeaponName": null,
         "deliveryObject": null,
         "companionDeliveries": [],
         "special": null,
-        "confidence": null,
-        "provenance": null,
-        "blocker": "No uniquely correlated call-in StratagemDefinition; delivered object is unknown."
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_loadout_identity",
+          "evidence": [
+            "loadout_item_id_matches_no_stratagem",
+            "loadout_item_roots",
+            "loadout_package_named_by_no_stratagem",
+            "no_native_delivery_reference"
+          ],
+          "evidenceDescriptions": [
+            "No StratagemDefinition carries the loadout item id of any of its roots.",
+            "Every catalog root of the item is a native loadout item (LoadoutEntryComponent present).",
+            "No StratagemDefinition names the loadout package of any of its roots.",
+            "No hellpod rack, deposit, entity delta, or other entity record references any of its roots; the only occurrences are the roots' own registry and component rows."
+          ],
+          "displayNameEquality": "not used as evidence",
+          "evidenceArtifacts": [
+            "support-equipment-links-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null,
+        "noCallIn": {
+          "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions.",
+          "acquisition": {
+            "kind": "world_pickup",
+            "source": "catalog",
+            "nativeDeliveryProven": false,
+            "note": "The catalog procurement text lists it as equipment found at mission points of interest; world placement data is not part of the native evidence, so only the absence of a call-in is native."
+          },
+          "loadoutItemTypes": [
+            "SupportWeapon"
+          ],
+          "sharedLoadoutPackage": false
+        }
       },
       "attackRoles": [],
       "cooldownCapability": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "maxUses": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "callInTime": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "semanticId": "stratagem/v1/sg-88-break-action-shotgun/89e9d693eabca351"
     },
     {
       "name": "CQC-72 Entrenchment Tool",
       "family": "support",
-      "rootResolution": "UNRESOLVED",
-      "blockedReason": "No uniquely correlated call-in definition.",
+      "rootResolution": "NO_CALL_IN",
+      "blockedReason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions.",
       "delivers": {
-        "kind": "unresolved",
+        "kind": "none",
         "known": false,
-        "state": "unresolved_call_in",
+        "state": "no_call_in",
+        "rootResolution": "NO_CALL_IN",
         "semanticId": null,
         "relationshipId": null,
         "supportWeaponName": null,
         "deliveryObject": null,
         "companionDeliveries": [],
         "special": null,
-        "confidence": null,
-        "provenance": null,
-        "blocker": "No uniquely correlated call-in StratagemDefinition; delivered object is unknown."
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_loadout_identity",
+          "evidence": [
+            "loadout_item_id_matches_no_stratagem",
+            "loadout_item_roots",
+            "loadout_package_named_by_no_stratagem",
+            "no_native_delivery_reference"
+          ],
+          "evidenceDescriptions": [
+            "No StratagemDefinition carries the loadout item id of any of its roots.",
+            "Every catalog root of the item is a native loadout item (LoadoutEntryComponent present).",
+            "No StratagemDefinition names the loadout package of any of its roots.",
+            "No hellpod rack, deposit, entity delta, or other entity record references any of its roots; the only occurrences are the roots' own registry and component rows."
+          ],
+          "displayNameEquality": "not used as evidence",
+          "evidenceArtifacts": [
+            "support-equipment-links-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null,
+        "noCallIn": {
+          "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions.",
+          "acquisition": {
+            "kind": "world_pickup",
+            "source": "catalog",
+            "nativeDeliveryProven": false,
+            "note": "The catalog procurement text lists it as equipment found at mission points of interest; world placement data is not part of the native evidence, so only the absence of a call-in is native."
+          },
+          "loadoutItemTypes": [
+            "SidearmWeapon",
+            "SupportWeapon"
+          ],
+          "sharedLoadoutPackage": true
+        }
       },
       "attackRoles": [],
       "cooldownCapability": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "maxUses": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "callInTime": {
         "value": null,
         "writable": false,
-        "reason": "No uniquely correlated call-in definition."
+        "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
       "semanticId": "stratagem/v1/cqc-72-entrenchment-tool/6fd25d866820a884"
     },
@@ -1729,16 +1845,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1790,7 +1909,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1833,16 +1953,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1894,7 +2017,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1937,16 +2061,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -1989,16 +2116,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2052,7 +2182,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2095,16 +2226,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2151,16 +2285,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2190,25 +2327,42 @@
       "rootResolution": "UNIQUE",
       "attackRoles": [],
       "delivers": {
-        "kind": "unresolved",
-        "known": false,
-        "state": "unresolved_delivery",
-        "semanticId": null,
-        "relationshipId": null,
-        "supportWeaponName": null,
-        "deliveryObject": null,
+        "kind": "support_weapon",
+        "known": true,
+        "state": "linked",
+        "semanticId": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+        "relationshipId": "support-callin/v1/b-md-c4-pack/77eadffcf3070f43",
+        "supportWeaponName": "B/MD C4 Pack",
+        "deliveryObject": "placed_charge",
         "companionDeliveries": [
           {
             "kind": "backpack"
           },
           {
-            "kind": "unmapped_entity"
+            "kind": "thrower"
           }
         ],
-        "special": null,
-        "confidence": null,
-        "provenance": null,
-        "blocker": "The delivery rack attaches no runtime resource proven to belong to a catalog support weapon; the delivered object is not inferred from display names."
+        "special": "placed_item",
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_loadout_identity",
+          "evidence": [
+            "loadout_item_id_is_call_in_id",
+            "call_in_package_owns_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id.",
+            "The call-in StratagemDefinition resource package is the support weapon loadout package, and that package is owned only by the call-in rack, the entities the rack attaches, and the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
+          ]
+        },
+        "blocker": null
       },
       "cooldown": 480,
       "cooldownCapability": {
@@ -2248,16 +2402,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2300,16 +2457,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2356,16 +2516,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2421,7 +2584,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2464,16 +2628,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -2516,16 +2683,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         },
         "blocker": null
@@ -87842,16 +88012,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -87964,16 +88137,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88034,16 +88210,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88116,16 +88295,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88235,7 +88417,111 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
+          ]
+        }
+      },
+      {
+        "relationshipId": "support-callin/v1/b-md-c4-pack/77eadffcf3070f43",
+        "kind": "support_weapon_callin",
+        "relationship": "call_in",
+        "stratagem": "stratagem/v1/b-md-c4-pack/67a19fb797b95c09",
+        "stratagemName": "B/MD C4 Pack",
+        "supportWeapon": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+        "supportWeaponName": "B/MD C4 Pack",
+        "deliveryObject": "placed_charge",
+        "companionDeliveries": [
+          {
+            "kind": "backpack"
+          },
+          {
+            "kind": "thrower"
+          }
+        ],
+        "special": "placed_item",
+        "weaponIdentityStatus": "UNIQUE",
+        "deliveryGraph": {
+          "composition": "reference",
+          "duplicatesFields": false,
+          "nodes": [
+            {
+              "node": "call_in",
+              "parent": null,
+              "view": "stratagem",
+              "semanticId": "stratagem/v1/b-md-c4-pack/67a19fb797b95c09",
+              "targetPath": "stratagem",
+              "attackRole": null,
+              "object": "stratagem_definition",
+              "fields": [
+                "stratagem.cooldown",
+                "stratagem.max_uses"
+              ]
+            },
+            {
+              "node": "delivery:backpack",
+              "parent": "call_in",
+              "view": null,
+              "semanticId": null,
+              "targetPath": null,
+              "attackRole": null,
+              "object": "backpack",
+              "nativeRole": "hellpod_rack_item",
+              "fields": null
+            },
+            {
+              "node": "delivery:thrower",
+              "parent": "call_in",
+              "view": null,
+              "semanticId": null,
+              "targetPath": null,
+              "attackRole": null,
+              "object": "thrower",
+              "nativeRole": "hellpod_rack_item",
+              "fields": null
+            },
+            {
+              "node": "placed_item",
+              "parent": "delivery:thrower",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+              "targetPath": "weapon",
+              "attackRole": null,
+              "object": "placed_charge",
+              "nativeRole": "loadout_item_of_call_in",
+              "fields": null
+            },
+            {
+              "node": "branch:b-md-c4-pack-e",
+              "parent": "placed_item",
+              "view": "support_weapon",
+              "semanticId": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+              "targetPath": "explosion",
+              "attackRole": "detonation",
+              "object": "explosion",
+              "catalogBranch": "B/MD C4 PACK E",
+              "state": "RESOLVED",
+              "fields": null
+            }
+          ]
+        },
+        "confidence": "reviewed",
+        "provenance": {
+          "basis": "native_loadout_identity",
+          "evidence": [
+            "loadout_item_id_is_call_in_id",
+            "call_in_package_owns_support_weapon"
+          ],
+          "evidenceDescriptions": [
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id.",
+            "The call-in StratagemDefinition resource package is the support weapon loadout package, and that package is owned only by the call-in rack, the entities the rack attaches, and the support weapon."
+          ],
+          "crossCheck": "historical stratagem debug-name correlation agrees",
+          "displayNameEquality": "not used as link evidence",
+          "evidenceArtifacts": [
+            "offensive-stratagem-runtime-F5FEE03DCFDB.json",
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88305,7 +88591,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88378,16 +88665,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88448,16 +88738,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88542,16 +88835,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88636,16 +88932,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88778,16 +89077,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88864,16 +89166,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -88970,16 +89275,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89052,16 +89360,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89138,16 +89449,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89244,16 +89558,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89366,16 +89683,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89448,16 +89768,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89530,16 +89853,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89604,16 +89930,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89674,16 +90003,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89744,16 +90076,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89814,16 +90149,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89884,16 +90222,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -89978,16 +90319,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90081,7 +90425,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90199,7 +90544,8 @@
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90348,16 +90694,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90442,16 +90791,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90548,16 +90900,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90658,16 +91013,19 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       },
@@ -90752,34 +91110,40 @@
         "provenance": {
           "basis": "native_payload_graph",
           "evidence": [
-            "hellpod_rack_attaches_support_weapon"
+            "hellpod_rack_attaches_support_weapon",
+            "loadout_item_id_is_call_in_id"
           ],
           "evidenceDescriptions": [
-            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon."
+            "The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.",
+            "The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id."
           ],
           "crossCheck": "historical stratagem debug-name correlation agrees",
           "displayNameEquality": "not used as link evidence",
           "evidenceArtifacts": [
             "offensive-stratagem-runtime-F5FEE03DCFDB.json",
-            "support-weapon-runtime-F5FEE03DCFDB.json"
+            "support-weapon-runtime-F5FEE03DCFDB.json",
+            "support-equipment-links-F5FEE03DCFDB.json"
           ]
         }
       }
     ],
     "audit": {
       "supportWeapons": 35,
-      "knownLinks": 32,
-      "unresolvedLinks": 3,
-      "unresolvedCallIns": [
+      "knownLinks": 33,
+      "unresolvedLinks": 0,
+      "noCallInItems": [
         "CQC-72 Entrenchment Tool",
         "SG-88 Break-Action Shotgun"
       ],
-      "unresolvedDeliveries": [
+      "placedItemLinks": [
         "B/MD C4 Pack"
       ],
+      "loadoutIdentityCorroboratedLinks": 29,
+      "unresolvedCallIns": [],
+      "unresolvedDeliveries": [],
       "supportStratagems": 35,
-      "reverseLinksKnown": 32,
-      "relationships": 32,
+      "reverseLinksKnown": 33,
+      "relationships": 33,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
       "ambiguousWeaponIdentityLinks": 3,
@@ -90789,6 +91153,7 @@
         "LAS-98 Laser Cannon"
       ],
       "specialLinks": [
+        "B/MD C4 Pack",
         "MS-11 Solo Silo"
       ]
     }
@@ -90889,21 +91254,24 @@
     "heatWritable": 4,
     "canonicalBackingObjects": 250,
     "canonicalOperationGroups": 364,
-    "supportDeliveryLinksKnown": 32,
+    "supportDeliveryLinksKnown": 33,
     "supportCallInLinkage": {
       "supportWeapons": 35,
-      "knownLinks": 32,
-      "unresolvedLinks": 3,
-      "unresolvedCallIns": [
+      "knownLinks": 33,
+      "unresolvedLinks": 0,
+      "noCallInItems": [
         "CQC-72 Entrenchment Tool",
         "SG-88 Break-Action Shotgun"
       ],
-      "unresolvedDeliveries": [
+      "placedItemLinks": [
         "B/MD C4 Pack"
       ],
+      "loadoutIdentityCorroboratedLinks": 29,
+      "unresolvedCallIns": [],
+      "unresolvedDeliveries": [],
       "supportStratagems": 35,
-      "reverseLinksKnown": 32,
-      "relationships": 32,
+      "reverseLinksKnown": 33,
+      "relationships": 33,
       "bidirectionalMismatches": 0,
       "linksRelyingOnDisplayNameOnly": 0,
       "ambiguousWeaponIdentityLinks": 3,
@@ -90913,6 +91281,7 @@
         "LAS-98 Laser Cannon"
       ],
       "specialLinks": [
+        "B/MD C4 Pack",
         "MS-11 Solo Silo"
       ]
     },

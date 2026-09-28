@@ -20,6 +20,7 @@ ROOT=Path(__file__).resolve().parents[1]
 STRATAGEM_RESEARCH=ROOT/'research/offensive-stratagem-runtime-F5FEE03DCFDB.json'
 SUPPORT_RESEARCH=ROOT/'research/support-weapon-runtime-F5FEE03DCFDB.json'
 COVERAGE_RESEARCH=ROOT/'research/support-weapon-coverage-F5FEE03DCFDB.json'
+EQUIPMENT_RESEARCH=ROOT/'research/support-equipment-links-F5FEE03DCFDB.json'
 RESOLVED_STATES=('UNIQUE','DELIVERY_RESOLVED')
 CONTRACT='hd2runtime.support_callin_linkage.v1'
 SCHEMA_VERSION=1
@@ -54,7 +55,56 @@ EVIDENCE={
         'The call-in StratagemDefinition primary payload is a hellpod rack that attaches a runtime resource of the support weapon.',
     'hellpod_rack_attaches_attack_entity':
         'The call-in delivery rack attaches the support weapon attack-owner entity.',
+    'loadout_item_id_is_call_in_id':
+        'The support weapon LoadoutEntryComponent item id is the call-in StratagemDefinition id.',
+    'call_in_package_owns_support_weapon':
+        ('The call-in StratagemDefinition resource package is the support weapon loadout package, and that '
+         'package is owned only by the call-in rack, the entities the rack attaches, and the support weapon.'),
 }
+NO_CALL_IN_EVIDENCE={
+    'loadout_item_roots':
+        'Every catalog root of the item is a native loadout item (LoadoutEntryComponent present).',
+    'loadout_item_id_matches_no_stratagem':
+        'No StratagemDefinition carries the loadout item id of any of its roots.',
+    'loadout_package_named_by_no_stratagem':
+        'No StratagemDefinition names the loadout package of any of its roots.',
+    'no_native_delivery_reference':
+        ('No hellpod rack, deposit, entity delta, or other entity record references any of its roots; '
+         'the only occurrences are the roots\' own registry and component rows.'),
+}
+NO_CALL_IN_REASON=('The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout '
+    'item id or names its loadout package, and no rack or other native record delivers it. It is not a '
+    'player-callable stratagem; the catalog lists it as equipment found during missions.')
+
+
+def placed_item_graph(stratagem,weapon,companions):
+    """Call-in -> rack items -> the placed item the support-weapon view owns, by reference.
+
+    The rack-delivered thrower and backpack have no authoring view of their own; they stay
+    separate native-only nodes so the placed item is never flattened into its delivery.
+    """
+    name=weapon['catalogIdentity'];stratagem_id=stratagem_key(stratagem)
+    weapon_id=support_weapon_key(name)
+    nodes=[{'node':'call_in','parent':None,'view':'stratagem','semanticId':stratagem_id,
+        'targetPath':'stratagem','attackRole':None,'object':'stratagem_definition',
+        'fields':['stratagem.cooldown','stratagem.max_uses']}]
+    for kind in companions:
+        nodes.append({'node':'delivery:'+kind,'parent':'call_in','view':None,'semanticId':None,
+            'targetPath':None,'attackRole':None,'object':kind,'nativeRole':'hellpod_rack_item','fields':None})
+    nodes.append({'node':'placed_item','parent':'delivery:thrower'if'thrower'in companions else'call_in',
+        'view':'support_weapon','semanticId':weapon_id,'targetPath':'weapon','attackRole':None,
+        'object':'placed_charge','nativeRole':'loadout_item_of_call_in','fields':None})
+    for branch in weapon['attackGraph']:
+        role=(branch.get('runtimeMatch')or{}).get('runtimeAttackRole')
+        path={'Projectile':'projectile_reference','Explosion':'explosion'}.get(branch['kind'],'attack')
+        nodes.append({'node':'branch:'+slug(branch['name']),
+            'parent':('branch:'+slug(branch['parentAttack'])if branch.get('parentAttack')else'placed_item'),
+            'view':'support_weapon','semanticId':weapon_id,'targetPath':path if role else None,
+            'attackRole':role,'object':branch['kind'].lower(),'catalogBranch':branch['name'],
+            'state':branch['state'],'fields':None})
+    ids=[node['node']for node in nodes]
+    assert len(ids)==len(set(ids)),'delivery graph node identities collide: '+name
+    return {'composition':'reference','duplicatesFields':False,'nodes':nodes}
 
 
 def delivery_graph(stratagem,weapon,delivery_object):
@@ -96,11 +146,20 @@ def delivery_graph(stratagem,weapon,delivery_object):
 
 
 def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
-          stratagem_research_path=STRATAGEM_RESEARCH):
+          stratagem_research_path=STRATAGEM_RESEARCH,equipment_research_path=EQUIPMENT_RESEARCH):
     """Return the canonical linkage document shared by both capability catalogs."""
     if support_roots is None:
         support_roots=json.loads(Path(stratagem_research_path).read_text())['supportRoots']
     research=json.loads(Path(support_research_path).read_text())
+    equipment=json.loads(Path(equipment_research_path).read_text())
+    loadout={name:{item['resource']:item for item in items}for name,items in equipment['supportWeapons'].items()}
+    rack_items={rack:{item['resource']:item for item in items}for rack,items in equipment['rackItems'].items()}
+    deposits={(link['deposit'],link['refills'])for link in equipment['depositLinks']}
+    focus={name:{item['resource']:item for item in items}for name,items in equipment['focus'].items()}
+
+    def item_ids(weapon):
+        return {entry['loadoutEntry']['itemId']for entry in loadout[weapon['catalogIdentity']].values()
+            if entry['loadoutEntry']}
     graph=research['nativeSupportGraph']
     racks={rack['resourceHash']:rack for rack in graph['hellpodRacks']}
     backpacks={item['resourceHash']for item in graph['backpackEntities']}
@@ -124,6 +183,16 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
         if resource in explosives:return 'explosive_entity'
         return 'unmapped_entity'
 
+    def classify_rack_item(rack,resource,attached):
+        # A support loadout item that the delivered backpack's deposit refills is the pack's thrower.
+        kind=classify(resource)
+        entry=rack_items.get(rack,{}).get(resource)
+        if (kind=='unmapped_entity'and entry and entry['loadoutEntry']
+                and entry['loadoutEntry']['itemType']=='SupportWeapon'
+                and any((other,resource)in deposits for other in attached if classify(other)=='backpack')):
+            return 'thrower'
+        return kind
+
     by_root={}
     for root in support_roots:
         if root['resolution']!='UNIQUE':continue
@@ -136,11 +205,30 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
             if attached&weapon_resources(weapon):evidence.append('hellpod_rack_attaches_support_weapon')
             if weapon.get('attackOwnerResourceHash')in attached:
                 evidence.append('hellpod_rack_attaches_attack_entity')
+            if evidence and root['currentRoot']['id']in item_ids(weapon):
+                evidence.append('loadout_item_id_is_call_in_id')
             if evidence:matches[weapon['catalogIdentity']]=evidence
+        placed=False
+        if not matches and rack:
+            # A placed item the rack does not attach. Both must hold: the call-in id is its loadout
+            # item id, and the call-in package is its package, owned only by the rack, the rack's
+            # items, and the item itself (every rack item also carries that package).
+            package=root['currentRoot']['package']
+            for weapon in weapons:
+                name=weapon['catalogIdentity']
+                if root['currentRoot']['id']not in item_ids(weapon)or name not in focus:continue
+                entries=focus[name]
+                owners={tuple(item['packageOwners'])for item in entries.values()}
+                expected=tuple(sorted({primary}|attached|set(entries)))
+                if (int(package,16)and all(item['package']==package for item in entries.values())
+                        and owners=={expected}
+                        and all(rack_items[primary][item]['package']==package for item in attached)):
+                    matches[name]=['loadout_item_id_is_call_in_id','call_in_package_owns_support_weapon']
+                    placed=True
         # Deterministic, hash-free description of what the call-in delivers.
-        delivered=sorted({classify(resource)for resource in attached})
+        delivered=sorted({classify_rack_item(primary,resource,attached)for resource in attached})
         by_root[root['name']]={'matches':matches,'delivered':delivered,
-            'rackResolved':rack is not None,
+            'rackResolved':rack is not None,'placedItem':placed,
             'primaryIsSupportRoot':any('stratagem_payload_is_support_root'in value
                 for value in matches.values())}
 
@@ -156,11 +244,47 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
     links=[];weapon_links={};stratagem_links={}
     unresolved_roots={root['name']:root.get('reason')for root in support_roots
         if root['resolution']!='UNIQUE'}
+    call_in_ids={root['currentRoot']['id']:root['name']for root in support_roots if root['resolution']=='UNIQUE'}
+    all_stratagem_ids={row['id']for row in equipment['stratagemDefinitions']}
+    stratagem_packages={row['package']for row in equipment['stratagemDefinitions']}
+    no_call_in={}
     for weapon in sorted(weapons,key=lambda item:item['catalogIdentity']):
         name=weapon['catalogIdentity']
         linked=[stratagem for stratagem,entry in by_root.items()if name in entry['matches']]
         if len(linked)>1:
             raise ValueError('support weapon is delivered by more than one call-in: '+name)
+        # Independent consistency guard: a loadout item id that names a support call-in must agree
+        # with the structural link, or one of the two evidence chains is wrong. A loadout id alone
+        # never creates a link.
+        for item_id in item_ids(weapon):
+            if item_id in call_in_ids and linked and linked!=[call_in_ids[item_id]]:
+                raise ValueError('loadout item id names a different call-in than the structural link: '+name)
+        if not linked and name in unresolved_roots and name in focus:
+            roots=list(focus[name].values())
+            if (roots and all(item['loadoutEntry']for item in roots)
+                    and all(item['loadoutEntry']['itemId']not in all_stratagem_ids for item in roots)
+                    and all(item['package']not in stratagem_packages for item in roots)
+                    and all(not item['racksAttaching']and not item['depositsRefilling']
+                        and not item['entityLibraryReferences']['external']
+                        and item['entityDeltaOccurrences']==0 for item in roots)):
+                types=sorted({item['loadoutEntry']['itemType']for item in roots})
+                shared=len({item['package']for item in roots})==1 and len(roots)>1
+                provenance={'basis':'native_loadout_identity','evidence':sorted(NO_CALL_IN_EVIDENCE),
+                    'evidenceDescriptions':[NO_CALL_IN_EVIDENCE[item]for item in sorted(NO_CALL_IN_EVIDENCE)],
+                    'displayNameEquality':'not used as evidence',
+                    'evidenceArtifacts':[EQUIPMENT_RESEARCH.name]}
+                acquisition={'kind':'world_pickup','source':'catalog','nativeDeliveryProven':False,
+                    'note':('The catalog procurement text lists it as equipment found at mission points of interest; '
+                        'world placement data is not part of the native evidence, so only the absence of a '
+                        'call-in is native.')}
+                no_call_in[name]={'loadoutItemTypes':types,'sharedLoadoutPackage':shared,
+                    'provenance':provenance,'acquisition':acquisition}
+                weapon_links[name]={'known':False,'state':'no_call_in','semanticId':None,
+                    'relationshipId':None,'relationship':'call_in','stratagemName':None,
+                    'confidence':'reviewed','provenance':provenance,'blocker':None,
+                    'noCallIn':{'reason':NO_CALL_IN_REASON,'acquisition':acquisition,
+                        'loadoutItemTypes':types,'sharedLoadoutPackage':shared}}
+                continue
         if not linked:
             if name in unresolved_roots:
                 state='unresolved_call_in'
@@ -183,23 +307,27 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
         if stratagem!=name:
             raise ValueError('structural call-in link disagrees with the reviewed stratagem '
                 'debug-name correlation: '+stratagem+' -> '+name)
-        special='deployable_silo'if entry['primaryIsSupportRoot']else None
+        special=('deployable_silo'if entry['primaryIsSupportRoot']
+            else'placed_item'if entry['placedItem']else None)
         relationship_id=relationship_key(stratagem,name)
-        provenance={'basis':'native_payload_graph','evidence':evidence,
-            'evidenceDescriptions':[EVIDENCE[item]for item in evidence],
+        provenance={'basis':'native_loadout_identity'if entry['placedItem']else'native_payload_graph',
+            'evidence':evidence,'evidenceDescriptions':[EVIDENCE[item]for item in evidence],
             'crossCheck':'historical stratagem debug-name correlation agrees',
             'displayNameEquality':'not used as link evidence',
-            'evidenceArtifacts':[STRATAGEM_RESEARCH.name,SUPPORT_RESEARCH.name]}
-        delivery_object='deployable_silo'if special else'hellpod_support_weapon'
+            'evidenceArtifacts':[STRATAGEM_RESEARCH.name,SUPPORT_RESEARCH.name,EQUIPMENT_RESEARCH.name]}
+        delivery_object=('deployable_silo'if special=='deployable_silo'
+            else'placed_charge'if special=='placed_item'else'hellpod_support_weapon')
         companions=[{'kind':kind}for kind in entry['delivered']
             if kind not in('support_weapon','attack_entity','weapon_linker')]
+        graph=(placed_item_graph(stratagem,weapon,[item['kind']for item in companions])
+            if special=='placed_item'else delivery_graph(stratagem,weapon,delivery_object))
         link={'relationshipId':relationship_id,'kind':'support_weapon_callin',
             'relationship':'call_in','stratagem':stratagem_key(stratagem),
             'stratagemName':stratagem,'supportWeapon':support_weapon_key(name),
             'supportWeaponName':name,'deliveryObject':delivery_object,
             'companionDeliveries':companions,'special':special,
             'weaponIdentityStatus':identity_status(weapon),
-            'deliveryGraph':delivery_graph(stratagem,weapon,delivery_object),
+            'deliveryGraph':graph,
             'confidence':'reviewed','provenance':provenance}
         links.append(link)
         weapon_links[name]={'known':True,'state':'linked','semanticId':stratagem_key(stratagem),
@@ -216,6 +344,16 @@ def build(support_roots=None,support_research_path=SUPPORT_RESEARCH,
     for root in support_roots:
         name=root['name']
         if name in stratagem_links:continue
+        if name in no_call_in:
+            item=no_call_in[name]
+            stratagem_links[name]={'kind':'none','known':False,'state':'no_call_in',
+                'rootResolution':'NO_CALL_IN','semanticId':None,'relationshipId':None,
+                'supportWeaponName':None,'deliveryObject':None,'companionDeliveries':[],'special':None,
+                'confidence':'reviewed','provenance':item['provenance'],'blocker':None,
+                'noCallIn':{'reason':NO_CALL_IN_REASON,'acquisition':item['acquisition'],
+                    'loadoutItemTypes':item['loadoutItemTypes'],
+                    'sharedLoadoutPackage':item['sharedLoadoutPackage']}}
+            continue
         if root['resolution']!='UNIQUE':
             stratagem_links[name]={'kind':'unresolved','known':False,'state':'unresolved_call_in',
                 'semanticId':None,'relationshipId':None,'supportWeaponName':None,
@@ -274,7 +412,11 @@ def audit_links(links,weapon_links,stratagem_links):
     ambiguous=[link['supportWeaponName']for link in links if link['weaponIdentityStatus']not in RESOLVED_STATES]
     return {'supportWeapons':len(weapon_links),
         'knownLinks':sum(value['known']for value in weapon_links.values()),
-        'unresolvedLinks':sum(not value['known']for value in weapon_links.values()),
+        'unresolvedLinks':sum(value['state'].startswith('unresolved')for value in weapon_links.values()),
+        'noCallInItems':sorted(name for name,value in weapon_links.items()if value['state']=='no_call_in'),
+        'placedItemLinks':sorted(link['supportWeaponName']for link in links if link['special']=='placed_item'),
+        'loadoutIdentityCorroboratedLinks':sum('loadout_item_id_is_call_in_id'in link['provenance']['evidence']
+            for link in links),
         'unresolvedCallIns':sorted(name for name,value in weapon_links.items()
             if value['state']=='unresolved_call_in'),
         'unresolvedDeliveries':sorted(name for name,value in weapon_links.items()
