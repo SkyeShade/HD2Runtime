@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "notes": "Magazine attachment definitions own their ammo values as entity-delta patches onto WeaponMagazineComponentData. These are the attachment definition's values, not a weapon field, current rounds, or selection state. See research/magazine-attachments-F5FEE03DCFDB.json.",
+  "fields": [
+    {"id": "attachment.magazine_capacity", "display_name": "Magazine capacity", "type": "integer", "unit": "rounds", "writable": true, "storage": "u32", "componentOffset": 136},
+    {"id": "attachment.starting_magazines", "display_name": "Starting magazines", "type": "integer", "unit": "magazines", "writable": true, "storage": "u32", "componentOffset": 140},
+    {"id": "attachment.magazines_from_supply", "display_name": "Magazines from supply", "type": "integer", "unit": "magazines", "writable": true, "storage": "u32", "componentOffset": 144},
+    {"id": "attachment.spare_magazines", "display_name": "Maximum spare magazines", "type": "integer", "unit": "magazines", "writable": true, "storage": "u32", "componentOffset": 148}
+  ]
+}

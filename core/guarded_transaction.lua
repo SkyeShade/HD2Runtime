@@ -31,7 +31,7 @@ function M.inverse(plan)
         inverse.changes[#inverse.changes+1]={label=change.label,owner=change.owner,
             offset=change.offset,expected=change.desired,desired=change.before,
             before=change.desired,already_desired=false,identity=change.identity,
-            chain=change.chain,expect=change.value,value=change.expect}
+            chain=change.chain,expect=change.value,value=change.expect,packed=change.packed}
     end end
     return inverse
 end
@@ -104,7 +104,9 @@ function M.apply(runtime,plan)
         assert(change.before==change.expected or change.before==change.desired,
             'transaction change is neither expected nor desired')
         local address=change.owner.base+change.offset
-        assert(safe(address) and (#change.desired==1 or address%4==0)
+        -- Byte-packed data (entity delta blobs) opts in explicitly; everything else must
+        -- stay naturally aligned. All targets must be contained in one page.
+        assert(safe(address) and (#change.desired==1 or address%4==0 or change.packed==true)
             and address%PAGE+#change.desired<=PAGE,
             'transaction target alignment/page boundary')
         intervals[#intervals+1]={first=address,last=address+#change.desired,index=index}
@@ -220,7 +222,7 @@ function M.apply(runtime,plan)
                         'rollback target changed')
                     assert(page_region(change.page).protect==4,'rollback page protection changed')
                     report.writes=report.writes+1
-                    local wrote,reason,count=runtime.write(change.owner.base+change.offset,change.before)
+                    local wrote,reason,count=runtime.write(change.owner.base+change.offset,change.before,change.packed)
                     assert(wrote and count==#change.before,'rollback write failed: '..tostring(reason))
                     actual[attempt.index]=change.before
                     assert(read(change.owner,change.offset,#change.before)==change.before,
@@ -248,7 +250,7 @@ function M.apply(runtime,plan)
                 check(current_states)
                 local attempt={index=index,count=-1};attempted[#attempted+1]=attempt
                 report.writes=report.writes+1
-                local wrote,reason,count=runtime.write(change.owner.base+change.offset,change.desired)
+                local wrote,reason,count=runtime.write(change.owner.base+change.offset,change.desired,change.packed)
                 attempt.count=tonumber(count) or -1
                 report.bytes_written=report.bytes_written+math.max(0,attempt.count)
                 assert(wrote and count==#change.desired,'exact-width write failed: '..tostring(reason))

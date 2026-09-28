@@ -23,6 +23,8 @@ local function reuse(runtime,reader,profile,needed,now)
         local h=reader.read(r,0,28)
         if key=='entity'then
             if h~=b.unhex(profile.map_header)then return nil end
+        elseif key=='entity_deltas'then
+            if h~=b.unhex(profile.entity_deltas.header)or r.protect~=2 then return nil end
         else
             local d=profile.settings[key]
             if not(b.u32(h,0)==#d.groups and h:sub(5,28)==b.unhex(d.groups[1].header))then return nil end
@@ -32,7 +34,7 @@ local function reuse(runtime,reader,profile,needed,now)
     -- Pass 2: capture and parse exactly as the walk does.
     local result={}
     for key,r in pairs(regions)do
-        if key=='entity'then result.entity=r
+        if key=='entity'or key=='entity_deltas'then result[key]=r
         else
             local d=profile.settings[key]
             local bytes=reader.read(r,0,d.size,true)
@@ -52,7 +54,7 @@ function M.locate(runtime,reader,profile,needed)
     metrics.count('discover.walks')
     local page,finish=runtime.system_info()
     assert(page==4096 and finish>65536 and finish<=9007199254740991,'unsupported address space')
-    local matches={entity={}}
+    local matches={entity={},entity_deltas={}}
     for key in pairs(profile.settings)do matches[key]={}end
     local cursor=65536
     while cursor<finish do
@@ -64,6 +66,12 @@ function M.locate(runtime,reader,profile,needed)
             if r.size==profile.entity_region_size then
                 local h=reader.read(r,0,28)
                 if h==b.unhex(profile.map_header) then matches.entity[#matches.entity+1]=r end
+            end
+            local deltas=profile.entity_deltas
+            if needed.entity_deltas and deltas and r.protect==2
+                and r.size>=deltas.size and r.size<=deltas.size+65536 then
+                local h=reader.read(r,0,28)
+                if h==b.unhex(deltas.header)then matches.entity_deltas[#matches.entity_deltas+1]=r end
             end
             for key,d in pairs(profile.settings)do
                 if needed[key] and r.size>=d.size and r.size<=d.size+65536 then

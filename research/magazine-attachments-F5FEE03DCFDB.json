@@ -1,0 +1,3246 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "mode": "snapshot",
+  "writes": 0,
+  "protectionChanges": 0,
+  "fixtureFallback": "disabled",
+  "entityDeltasSha256": "3FADC7C2475558000F9E8AD30E01D52CAEA481E1633E35674ED2864572694F4E",
+  "customizationSettingsSha256": "0321D3A4297E4B980A809227C63CD38AD5E5E903168F3634C1A75A9F25847760"
+ },
+ "deltaTable": {
+  "fileSize": 349570,
+  "header": "4f603e684c444c44010000004f603e68665505000100000000000000",
+  "layout": {
+   "headerOffset": 28,
+   "hashmapOffset": 80,
+   "hashmapCount": 1024,
+   "settingsOffset": 16464,
+   "settingsCount": 1122,
+   "componentOffset": 25440,
+   "componentCount": 1011,
+   "deltaOffset": 37572,
+   "deltaCount": 6040,
+   "dataOffset": 110052,
+   "dataCount": 239490
+  },
+  "live": {
+   "allocationSize": 352256,
+   "protect": 2,
+   "type": 131072,
+   "relocatedHeaderQwords": [
+    28,
+    44,
+    60,
+    76,
+    92
+   ],
+   "dataIdenticalToFile": true,
+   "uniqueAllocation": true
+  },
+  "dataOffsetsShared": false
+ },
+ "customizationTable": {
+  "fileSize": 29528,
+  "items": 241,
+  "live": {
+   "allocationSize": 65536,
+   "protect": 4,
+   "uniqueAllocation": true
+  }
+ },
+ "magazineAttachments": [
+  {
+   "debugName": "Rifle 5,5x50mm. Standard",
+   "optionId": "0xDF7E8E38",
+   "addPath": "0xA4FA3EF43A8CECAF",
+   "group": 3,
+   "row": 0,
+   "hashmapSlot": 175,
+   "settingsIndex": 143,
+   "fields": {
+    "capacity": {
+     "value": 30,
+     "componentOffset": 136,
+     "dataOffset": 168656,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 9,
+     "componentOffset": 140,
+     "dataOffset": 168660,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 16,
+     "componentOffset": 148,
+     "dataOffset": 168664,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 16,
+     "componentOffset": 144,
+     "dataOffset": 168668,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 8,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Rifle 5,5x50mm. Extended",
+   "optionId": "0x73CA1B5E",
+   "addPath": "0x7BE1E04A7738E673",
+   "group": 3,
+   "row": 1,
+   "hashmapSlot": 627,
+   "settingsIndex": 139,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 168144,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 168148,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 168152,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 168156,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Rifle 5,5x50mm. Drum",
+   "optionId": "0xDF4F1322",
+   "addPath": "0xE8DE5E95B9635C21",
+   "group": 3,
+   "row": 2,
+   "hashmapSlot": 33,
+   "settingsIndex": 137,
+   "fields": {
+    "capacity": {
+     "value": 60,
+     "componentOffset": 136,
+     "dataOffset": 167680,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 167684,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 167688,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 167692,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 6,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Rifle 5,5x50mm. Standard Fastreload",
+   "optionId": "0x5FBC2C8A",
+   "addPath": "0x344CBD588A1F8058",
+   "group": 3,
+   "row": 3,
+   "hashmapSlot": 88,
+   "settingsIndex": 144,
+   "fields": {
+    "capacity": {
+     "value": 30,
+     "componentOffset": 136,
+     "dataOffset": 168892,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 9,
+     "componentOffset": 140,
+     "dataOffset": 168896,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 16,
+     "componentOffset": 148,
+     "dataOffset": 168900,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 16,
+     "componentOffset": 144,
+     "dataOffset": 168904,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 8,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Rifle 5,5x50mm. Extended Fastreload",
+   "optionId": "0x71FBEF8C",
+   "addPath": "0x2D761A80BCBFE792",
+   "group": 3,
+   "row": 4,
+   "hashmapSlot": 914,
+   "settingsIndex": 141,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 168392,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 168396,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 168400,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 168404,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 8,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Rifle 5,5x50mm. Drum Carbine",
+   "optionId": "0xB71E1C41",
+   "addPath": "0xB3FEF7AD6BC385B2",
+   "group": 3,
+   "row": 5,
+   "hashmapSlot": 434,
+   "settingsIndex": 138,
+   "fields": {
+    "capacity": {
+     "value": 60,
+     "componentOffset": 136,
+     "dataOffset": 167908,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 167912,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 167916,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 167920,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 8,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Karbin Rifle Standard",
+   "optionId": "0x45A1B03E",
+   "addPath": "0x16AB263BC03B4F96",
+   "group": 3,
+   "row": 6,
+   "hashmapSlot": 919,
+   "settingsIndex": 153,
+   "fields": {
+    "capacity": {
+     "value": 40,
+     "componentOffset": 136,
+     "dataOffset": 170592,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 170596,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 170600,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 170604,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Rifle 8x40mm Rifle Standard",
+   "optionId": "0xDED45539",
+   "addPath": "0x963ACA558CD906BC",
+   "group": 3,
+   "row": 7,
+   "hashmapSlot": 700,
+   "settingsIndex": 154,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 170776,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 170780,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 170784,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 170788,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "271": 2
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Whisper Rifle 5,5x50mm. Standard",
+   "optionId": "0xA8F88FA1",
+   "addPath": "0xFD5B6104526745D2",
+   "group": 3,
+   "row": 8,
+   "hashmapSlot": 466,
+   "settingsIndex": 156,
+   "fields": {
+    "capacity": {
+     "value": 30,
+     "componentOffset": 136,
+     "dataOffset": 171124,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 7,
+     "componentOffset": 140,
+     "dataOffset": 171128,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 16,
+     "componentOffset": 148,
+     "dataOffset": 171132,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 16,
+     "componentOffset": 144,
+     "dataOffset": 171136,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 8,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Whisper Rifle 5,5x50mm. Drum",
+   "optionId": "0x6AF47A1D",
+   "addPath": "0x493B364B37B48AE4",
+   "group": 3,
+   "row": 9,
+   "hashmapSlot": 740,
+   "settingsIndex": 155,
+   "fields": {
+    "capacity": {
+     "value": 60,
+     "componentOffset": 136,
+     "dataOffset": 170896,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 170900,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 170904,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 170908,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 6,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Standard",
+   "optionId": "0x08AF081B",
+   "addPath": "0x538191ECBD222856",
+   "group": 3,
+   "row": 10,
+   "hashmapSlot": 86,
+   "settingsIndex": 166,
+   "fields": {
+    "capacity": {
+     "value": 35,
+     "componentOffset": 136,
+     "dataOffset": 172264,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 8,
+     "componentOffset": 140,
+     "dataOffset": 172268,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 12,
+     "componentOffset": 148,
+     "dataOffset": 172272,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 12,
+     "componentOffset": 144,
+     "dataOffset": 172276,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Extended",
+   "optionId": "0x01B37BEC",
+   "addPath": "0x51DF2B8840B0DC66",
+   "group": 3,
+   "row": 11,
+   "hashmapSlot": 102,
+   "settingsIndex": 162,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 171896,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 171900,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 7,
+     "componentOffset": 148,
+     "dataOffset": 171904,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 7,
+     "componentOffset": 144,
+     "dataOffset": 171908,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Drum",
+   "optionId": "0xE4ABBAF6",
+   "addPath": "0x7706F9EA88A12C33",
+   "group": 3,
+   "row": 12,
+   "hashmapSlot": 51,
+   "settingsIndex": 160,
+   "fields": {
+    "capacity": {
+     "value": 75,
+     "componentOffset": 136,
+     "dataOffset": 171648,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 171652,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 4,
+     "componentOffset": 148,
+     "dataOffset": 171656,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 4,
+     "componentOffset": 144,
+     "dataOffset": 171660,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 9,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Standard Pummeler",
+   "optionId": "0xC47F4FBE",
+   "addPath": "0x3C13706AAEBD5F53",
+   "group": 3,
+   "row": 13,
+   "hashmapSlot": 851,
+   "settingsIndex": 167,
+   "fields": {
+    "capacity": {
+     "value": 35,
+     "componentOffset": 136,
+     "dataOffset": 172356,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 8,
+     "componentOffset": 140,
+     "dataOffset": 172360,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 12,
+     "componentOffset": 148,
+     "dataOffset": 172364,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 12,
+     "componentOffset": 144,
+     "dataOffset": 172368,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Extended Pummeler",
+   "optionId": "0xDC2ADA1D",
+   "addPath": "0xCC944F51090C682B",
+   "group": 3,
+   "row": 14,
+   "hashmapSlot": 43,
+   "settingsIndex": 165,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 172140,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 172144,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 7,
+     "componentOffset": 148,
+     "dataOffset": 172148,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 7,
+     "componentOffset": 144,
+     "dataOffset": 172152,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 12x25mm. Drum Pummeler",
+   "optionId": "0x6F65C295",
+   "addPath": "0x2FD25216D6ACABEE",
+   "group": 3,
+   "row": 15,
+   "hashmapSlot": 1007,
+   "settingsIndex": 161,
+   "fields": {
+    "capacity": {
+     "value": 75,
+     "componentOffset": 136,
+     "dataOffset": 171772,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 171776,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 4,
+     "componentOffset": 148,
+     "dataOffset": 171780,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 4,
+     "componentOffset": 144,
+     "dataOffset": 171784,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 9,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 9x20mm. Top Mounted Standard",
+   "optionId": "0x47E45B79",
+   "addPath": "0x3A58B9DCB84F665D",
+   "group": 3,
+   "row": 16,
+   "hashmapSlot": 605,
+   "settingsIndex": 206,
+   "fields": {
+    "capacity": {
+     "value": 50,
+     "componentOffset": 136,
+     "dataOffset": 175816,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 175820,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 7,
+     "componentOffset": 148,
+     "dataOffset": 175824,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 7,
+     "componentOffset": 144,
+     "dataOffset": 175828,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 9x20mm. Top Mounted Extended",
+   "optionId": "0x4F5D28F6",
+   "addPath": "0x21F0B1A5E00AF770",
+   "group": 3,
+   "row": 17,
+   "hashmapSlot": 880,
+   "settingsIndex": 204,
+   "fields": {
+    "capacity": {
+     "value": 70,
+     "componentOffset": 136,
+     "dataOffset": 175696,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 175700,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 175704,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 175708,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 9x20mm. Top Mounted Standard Solvent",
+   "optionId": "0xCD85679E",
+   "addPath": "0x8F141212B0F6F515",
+   "group": 3,
+   "row": 18,
+   "hashmapSlot": 277,
+   "settingsIndex": 229,
+   "fields": {
+    "capacity": {
+     "value": 50,
+     "componentOffset": 136,
+     "dataOffset": 178071,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 178075,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 7,
+     "componentOffset": 148,
+     "dataOffset": 178079,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 7,
+     "componentOffset": 144,
+     "dataOffset": 178083,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG 9x20mm. Top Mounted Extended Solvent",
+   "optionId": "0x7C51A74A",
+   "addPath": "0x6ABDDD8224A3328F",
+   "group": 3,
+   "row": 19,
+   "hashmapSlot": 655,
+   "settingsIndex": 228,
+   "fields": {
+    "capacity": {
+     "value": 70,
+     "componentOffset": 136,
+     "dataOffset": 177979,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 177983,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 177987,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 177991,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG Flamer Standard Magazine",
+   "optionId": "0x692EABF3",
+   "addPath": "0x9237CCEC8FE86D22",
+   "group": 3,
+   "row": 20,
+   "hashmapSlot": 290,
+   "settingsIndex": 227,
+   "fields": {
+    "capacity": {
+     "value": 25,
+     "componentOffset": 136,
+     "dataOffset": 177855,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 7,
+     "componentOffset": 140,
+     "dataOffset": 177859,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 13,
+     "componentOffset": 148,
+     "dataOffset": 177863,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 13,
+     "componentOffset": 144,
+     "dataOffset": 177867,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG Flamer Drum Magazine",
+   "optionId": "0x6C1F86EA",
+   "addPath": "0x7E3F787B75FA8C62",
+   "group": 3,
+   "row": 21,
+   "hashmapSlot": 98,
+   "settingsIndex": 225,
+   "fields": {
+    "capacity": {
+     "value": 60,
+     "componentOffset": 136,
+     "dataOffset": 177543,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 177547,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 4,
+     "componentOffset": 148,
+     "dataOffset": 177551,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 4,
+     "componentOffset": 144,
+     "dataOffset": 177555,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 9,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SMG Flamer Extended Magazine",
+   "optionId": "0xEB75D04E",
+   "addPath": "0x1B1FCC0E025C1F7D",
+   "group": 3,
+   "row": 22,
+   "hashmapSlot": 893,
+   "settingsIndex": 226,
+   "fields": {
+    "capacity": {
+     "value": 45,
+     "componentOffset": 136,
+     "dataOffset": 177667,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 177671,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 177675,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 177679,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Shotgun 12g. Magazine Standard",
+   "optionId": "0xAE7BADEF",
+   "addPath": "0x9992E382B80955CC",
+   "group": 3,
+   "row": 23,
+   "hashmapSlot": 461,
+   "settingsIndex": 145,
+   "fields": {
+    "capacity": {
+     "value": 13,
+     "componentOffset": 136,
+     "dataOffset": 169128,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 7,
+     "componentOffset": 140,
+     "dataOffset": 169132,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 11,
+     "componentOffset": 148,
+     "dataOffset": 169136,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 11,
+     "componentOffset": 144,
+     "dataOffset": 169140,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SHOTGUN 12g. Magazine Extended",
+   "optionId": "0xCA77DC98",
+   "addPath": "0x68B8D040421E8A49",
+   "group": 3,
+   "row": 24,
+   "hashmapSlot": 586,
+   "settingsIndex": 146,
+   "fields": {
+    "capacity": {
+     "value": 16,
+     "componentOffset": 136,
+     "dataOffset": 169325,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 169329,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 7,
+     "componentOffset": 148,
+     "dataOffset": 169333,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 7,
+     "componentOffset": 144,
+     "dataOffset": 169337,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SHOTGUN 12g. Drum",
+   "optionId": "0x2B798DFB",
+   "addPath": "0x3DDB9D36DA22555D",
+   "group": 3,
+   "row": 25,
+   "hashmapSlot": 349,
+   "settingsIndex": 151,
+   "fields": {
+    "capacity": {
+     "value": 26,
+     "componentOffset": 136,
+     "dataOffset": 170118,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 170122,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 4,
+     "componentOffset": 148,
+     "dataOffset": 170126,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 4,
+     "componentOffset": 144,
+     "dataOffset": 170130,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 6,
+    "236": 3,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Shotgun 12g. Magazine Standard Light",
+   "optionId": "0x8D7DFD68",
+   "addPath": "0xA3AF33F240E2F4E9",
+   "group": 3,
+   "row": 26,
+   "hashmapSlot": 234,
+   "settingsIndex": 150,
+   "fields": {
+    "capacity": {
+     "value": 13,
+     "componentOffset": 136,
+     "dataOffset": 169921,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 12,
+     "componentOffset": 140,
+     "dataOffset": 169925,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 20,
+     "componentOffset": 148,
+     "dataOffset": 169929,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 20,
+     "componentOffset": 144,
+     "dataOffset": 169933,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SHOTGUN 12g. Magazine Extended Light",
+   "optionId": "0xD510632D",
+   "addPath": "0x676C58913606A8E7",
+   "group": 3,
+   "row": 27,
+   "hashmapSlot": 231,
+   "settingsIndex": 149,
+   "fields": {
+    "capacity": {
+     "value": 16,
+     "componentOffset": 136,
+     "dataOffset": 169788,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 9,
+     "componentOffset": 140,
+     "dataOffset": 169792,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 13,
+     "componentOffset": 148,
+     "dataOffset": 169796,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 13,
+     "componentOffset": 144,
+     "dataOffset": 169800,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "SHOTGUN 12g. Drum Light",
+   "optionId": "0x562192C1",
+   "addPath": "0x040CE909939A3BAA",
+   "group": 3,
+   "row": 28,
+   "hashmapSlot": 938,
+   "settingsIndex": 152,
+   "fields": {
+    "capacity": {
+     "value": 26,
+     "componentOffset": 136,
+     "dataOffset": 170355,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 170359,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 170363,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 170367,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 6,
+    "236": 3,
+    "271": 5
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE 9x70mm. Standard",
+   "optionId": "0x1E6C8A0A",
+   "addPath": "0xE8E18735416D8A2F",
+   "group": 3,
+   "row": 29,
+   "hashmapSlot": 559,
+   "settingsIndex": 234,
+   "fields": {
+    "capacity": {
+     "value": 12,
+     "componentOffset": 136,
+     "dataOffset": 178348,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 7,
+     "componentOffset": 140,
+     "dataOffset": 178352,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 10,
+     "componentOffset": 148,
+     "dataOffset": 178356,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 10,
+     "componentOffset": 144,
+     "dataOffset": 178360,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE 9x70mm. Extended",
+   "optionId": "0xBCFF63A2",
+   "addPath": "0xC138B650D94AD5E3",
+   "group": 3,
+   "row": 30,
+   "hashmapSlot": 483,
+   "settingsIndex": 232,
+   "fields": {
+    "capacity": {
+     "value": 25,
+     "componentOffset": 136,
+     "dataOffset": 178240,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 178244,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 178248,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 178252,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 2,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE Justice. Standard",
+   "optionId": "0x9FE412AD",
+   "addPath": "0x462FC89D4903B33D",
+   "group": 3,
+   "row": 31,
+   "hashmapSlot": 829,
+   "settingsIndex": 212,
+   "fields": {
+    "capacity": {
+     "value": 20,
+     "componentOffset": 136,
+     "dataOffset": 176496,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 6,
+     "componentOffset": 140,
+     "dataOffset": 176500,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 176504,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 176508,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE Justice. Extended",
+   "optionId": "0x536662C0",
+   "addPath": "0x37C2891774B38C87",
+   "group": 3,
+   "row": 32,
+   "hashmapSlot": 135,
+   "settingsIndex": 210,
+   "fields": {
+    "capacity": {
+     "value": 30,
+     "componentOffset": 136,
+     "dataOffset": 176184,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 176188,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 176192,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 176196,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE Justice. Short",
+   "optionId": "0x33EAAA65",
+   "addPath": "0x986E6696B34B8902",
+   "group": 3,
+   "row": 33,
+   "hashmapSlot": 258,
+   "settingsIndex": 211,
+   "fields": {
+    "capacity": {
+     "value": 16,
+     "componentOffset": 136,
+     "dataOffset": 176372,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 15,
+     "componentOffset": 140,
+     "dataOffset": 176376,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 20,
+     "componentOffset": 148,
+     "dataOffset": 176380,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 20,
+     "componentOffset": 144,
+     "dataOffset": 176384,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE Drake. Standard",
+   "optionId": "0xB7FA90FD",
+   "addPath": "0x3359229E4E0F766D",
+   "group": 3,
+   "row": 34,
+   "hashmapSlot": 621,
+   "settingsIndex": 209,
+   "fields": {
+    "capacity": {
+     "value": 15,
+     "componentOffset": 136,
+     "dataOffset": 176060,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 176064,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 176068,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 176072,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "RIFLE Drake. Short",
+   "optionId": "0x4F3F221D",
+   "addPath": "0x61D9B85315F9B5BB",
+   "group": 3,
+   "row": 35,
+   "hashmapSlot": 443,
+   "settingsIndex": 208,
+   "fields": {
+    "capacity": {
+     "value": 10,
+     "componentOffset": 136,
+     "dataOffset": 175872,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 7,
+     "componentOffset": 140,
+     "dataOffset": 175876,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 9,
+     "componentOffset": 148,
+     "dataOffset": 175880,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 9,
+     "componentOffset": 144,
+     "dataOffset": 175884,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "236": 3,
+    "271": 2
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Plasma Medium. Canister Standard",
+   "optionId": "0x83DB4D5A",
+   "addPath": "0x193BECDF64AA66A9",
+   "group": 3,
+   "row": 45,
+   "hashmapSlot": 681,
+   "settingsIndex": 201,
+   "fields": {
+    "capacity": {
+     "value": 15,
+     "componentOffset": 136,
+     "dataOffset": 175629,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 175633,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 175637,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 175641,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "5": 1,
+    "271": 1
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Plasma Medium. Canister Extended",
+   "optionId": "0x70C52CEC",
+   "addPath": "0x80F0A339E905D2D3",
+   "group": 3,
+   "row": 46,
+   "hashmapSlot": 723,
+   "settingsIndex": 200,
+   "fields": {
+    "capacity": {
+     "value": 20,
+     "componentOffset": 136,
+     "dataOffset": 175604,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 175608,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 175612,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 175616,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "5": 1,
+    "271": 1
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Plasma Pistol. Canister Pistol",
+   "optionId": "0x6AF10FB5",
+   "addPath": "0xACA180FC6F846411",
+   "group": 3,
+   "row": 47,
+   "hashmapSlot": 17,
+   "settingsIndex": 203,
+   "fields": {
+    "capacity": {
+     "value": 8,
+     "componentOffset": 136,
+     "dataOffset": 175679,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 3,
+     "componentOffset": 140,
+     "dataOffset": 175683,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 5,
+     "componentOffset": 144,
+     "dataOffset": 175687,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 5,
+     "componentOffset": 148,
+     "dataOffset": 175691,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "5": 1,
+    "271": 1
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Plasma Pistol. Canister Extended",
+   "optionId": "0x8189A695",
+   "addPath": "0x990B06BF5C26BD01",
+   "group": 3,
+   "row": 48,
+   "hashmapSlot": 257,
+   "settingsIndex": 202,
+   "fields": {
+    "capacity": {
+     "value": 13,
+     "componentOffset": 136,
+     "dataOffset": 175654,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 175658,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 4,
+     "componentOffset": 144,
+     "dataOffset": 175662,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 4,
+     "componentOffset": 148,
+     "dataOffset": 175666,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "5": 1,
+    "271": 1
+   },
+   "reloadPatched": false
+  },
+  {
+   "debugName": "Jet Assisted Rifle 15mm. Drum Standard",
+   "optionId": "0x14679F6E",
+   "addPath": "0xD246831EFD370FA8",
+   "group": 3,
+   "row": 49,
+   "hashmapSlot": 936,
+   "settingsIndex": 187,
+   "fields": {
+    "capacity": {
+     "value": 15,
+     "componentOffset": 136,
+     "dataOffset": 174717,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 174721,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 174725,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 174729,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Pistol 9x20mm. Extended",
+   "optionId": "0xB269A0B3",
+   "addPath": "0xC891ACF9E8DBDA97",
+   "group": 3,
+   "row": 50,
+   "hashmapSlot": 663,
+   "settingsIndex": 157,
+   "fields": {
+    "capacity": {
+     "value": 31,
+     "componentOffset": 136,
+     "dataOffset": 171360,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 4,
+     "componentOffset": 140,
+     "dataOffset": 171364,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 6,
+     "componentOffset": 148,
+     "dataOffset": 171368,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 6,
+     "componentOffset": 144,
+     "dataOffset": 171372,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 13,
+    "236": 3,
+    "271": 1
+   },
+   "reloadPatched": true
+  },
+  {
+   "debugName": "Pistol 12x20mm. Standard",
+   "optionId": "0x116E8A0F",
+   "addPath": "0x4F839E923046E631",
+   "group": 3,
+   "row": 51,
+   "hashmapSlot": 562,
+   "settingsIndex": 216,
+   "fields": {
+    "capacity": {
+     "value": 15,
+     "componentOffset": 136,
+     "dataOffset": 176832,
+     "size": 4
+    },
+    "startingMagazines": {
+     "value": 5,
+     "componentOffset": 140,
+     "dataOffset": 176836,
+     "size": 4
+    },
+    "spareMagazines": {
+     "value": 8,
+     "componentOffset": 148,
+     "dataOffset": 176840,
+     "size": 4
+    },
+    "magazinesFromSupply": {
+     "value": 8,
+     "componentOffset": 144,
+     "dataOffset": 176844,
+     "size": 4
+    }
+   },
+   "otherPatchedComponents": {
+    "113": 1,
+    "271": 2
+   },
+   "reloadPatched": true
+  }
+ ],
+ "weapons": [
+  {
+   "weapon": "AR-11 Arbitrator",
+   "resources": [
+    "0xA8A91EB54892B6B2"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "AR-2 Coyote",
+   "resources": [
+    "0x84354339522C932D"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "AR-23 Liberator",
+   "resources": [
+    "0x968211C0033DCE64"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x7BE1E04A7738E673",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 6,
+      "maxMagazines": 8
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x7BE1E04A7738E673",
+     "candidates": [
+      "0x7BE1E04A7738E673",
+      "0x2D761A80BCBFE792",
+      "0x963ACA558CD906BC"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 30,
+      "startingMagazines": 9,
+      "maxMagazines": 16
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xA4FA3EF43A8CECAF",
+      "0x344CBD588A1F8058"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 60,
+      "startingMagazines": 4,
+      "maxMagazines": 6
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xE8DE5E95B9635C21",
+      "0xB3FEF7AD6BC385B2",
+      "0x493B364B37B48AE4"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-23A Liberator Carbine",
+   "resources": [
+    "0xA7EE1EBF58FCDF1F"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x2D761A80BCBFE792",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 6,
+      "maxMagazines": 8
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x2D761A80BCBFE792",
+     "candidates": [
+      "0x7BE1E04A7738E673",
+      "0x2D761A80BCBFE792",
+      "0x963ACA558CD906BC"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 30,
+      "startingMagazines": 9,
+      "maxMagazines": 16
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xA4FA3EF43A8CECAF",
+      "0x344CBD588A1F8058"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 60,
+      "startingMagazines": 4,
+      "maxMagazines": 6
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xE8DE5E95B9635C21",
+      "0xB3FEF7AD6BC385B2",
+      "0x493B364B37B48AE4"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-23C Liberator Concussive",
+   "resources": [
+    "0xCF5F176E0E322BE1"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0xE8DE5E95B9635C21",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 60,
+   "catalogOptions": [
+    {
+     "name": "Drum Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 60,
+      "startingMagazines": 4,
+      "maxMagazines": 6
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0xE8DE5E95B9635C21",
+     "candidates": [
+      "0xE8DE5E95B9635C21",
+      "0xB3FEF7AD6BC385B2",
+      "0x493B364B37B48AE4"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 30,
+      "startingMagazines": 9,
+      "maxMagazines": 16
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xA4FA3EF43A8CECAF",
+      "0x344CBD588A1F8058"
+     ]
+    },
+    {
+     "name": "Extended Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 6,
+      "maxMagazines": 8
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x7BE1E04A7738E673",
+      "0x2D761A80BCBFE792",
+      "0x963ACA558CD906BC"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-23P Liberator Penetrator",
+   "resources": [
+    "0x43CB1033961A2276"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x7BE1E04A7738E673",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 6,
+      "maxMagazines": 8
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x7BE1E04A7738E673",
+     "candidates": [
+      "0x7BE1E04A7738E673",
+      "0x2D761A80BCBFE792",
+      "0x963ACA558CD906BC"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 30,
+      "startingMagazines": 9,
+      "maxMagazines": 16
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xA4FA3EF43A8CECAF",
+      "0x344CBD588A1F8058"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 60,
+      "startingMagazines": 4,
+      "maxMagazines": 6
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0xE8DE5E95B9635C21",
+      "0xB3FEF7AD6BC385B2",
+      "0x493B364B37B48AE4"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-32 Pacifier",
+   "resources": [
+    "0xBC29613666DF696B"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x16AB263BC03B4F96",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 40,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-59 Suppressor",
+   "resources": [
+    "0x708EA298C82093D0"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x7BE1E04A7738E673",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "AR-61 Tenderizer",
+   "resources": [
+    "0xCE063AA33D95A812"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "AR/GL-21 One-Two",
+   "resources": [
+    "0xA955C4EA6F6D4203"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "ARC-12 Blitzer",
+   "resources": [
+    "0x076DD5D4F4360204"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "BR-14 Adjudicator",
+   "resources": [
+    "0x5FECAB819F96A3E8"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CB-9 Exploding Crossbow",
+   "resources": [
+    "0xF49227A0630A3F7F"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-19 Stun Lance",
+   "resources": [
+    "0xE3B6AEDD07FCB464"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-2 Saber",
+   "resources": [
+    "0xFCD8A6E67EAC635A"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-30 Stun Baton",
+   "resources": [
+    "0x52CDBFBACA3CB397"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-42 Machete",
+   "resources": [
+    "0x792D5D2A340FD6E6",
+    "0x5F3EC9BDA2BD8553"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-5 Combat Hatchet",
+   "resources": [
+    "0x75816077C139C850"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "CQC-73 Entrenchment Tool",
+   "resources": [
+    "0x7E1F76163C667E4B",
+    "0xE85E623F93F96FB3"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "DBS-2 Double Freedom",
+   "resources": [
+    "0x72170A55A1F37FF1"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "FLAM-66 Torcher",
+   "resources": [
+    "0x4FB0F8C02F55C82B"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "GL-15 Evictor",
+   "resources": [
+    "0x006E44327BB953FE"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "GP-20 Ultimatum",
+   "resources": [
+    "0x9EB160830321BFD6"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "GP-31 Grenade Pistol",
+   "resources": [
+    "0x02CD7321CD8445F5",
+    "0x52E4334E6A128CAF"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "JAR-5 Dominator",
+   "resources": [
+    "0x80F1A156D9FA1E36"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-12 Sai",
+   "resources": [
+    "0xC85F576D5E086147"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-13 Trident",
+   "resources": [
+    "0x3C86E871923F3970"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-16 Sickle",
+   "resources": [
+    "0x8645F167B3C813A2"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "resources": [
+    "0x295BEB26DC4F8FF1"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-5 Scythe",
+   "resources": [
+    "0x27EE1ED8F6FB6356",
+    "0x7E3145A5BAA4B948"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": [
+    {
+     "name": "Standard Heatsink",
+     "default": true,
+     "effects": {
+      "capacity": null,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "catalog_effect_fingerprint_absent",
+     "attachment": null,
+     "candidates": []
+    },
+    {
+     "name": "High Capacity Heatsink",
+     "default": false,
+     "effects": {
+      "capacity": null,
+      "startingMagazines": 2,
+      "maxMagazines": 3
+     },
+     "relationship": "catalog_effect_fingerprint_absent",
+     "attachment": null,
+     "candidates": []
+    },
+    {
+     "name": "High Dissipation Heatsink",
+     "default": false,
+     "effects": {
+      "capacity": null,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "catalog_effect_fingerprint_absent",
+     "attachment": null,
+     "candidates": []
+    }
+   ]
+  },
+  {
+   "weapon": "LAS-58 Talon",
+   "resources": [
+    "0x416D053372C4E433"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "LAS-7 Dagger",
+   "resources": [
+    "0x2B3C367B280F4094",
+    "0x7B06196E90154C88"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "M6C/SOCOM Pistol",
+   "resources": [
+    "0x4D58C77087B774C5"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "M7S SMG",
+   "resources": [
+    "0xBE70EE0D8D44028E"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "M90A Shotgun",
+   "resources": [
+    "0x90DDC374F4E3D756"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "MA5C Assault Rifle",
+   "resources": [
+    "0x4DBD74F49C8FFC13"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "MP-98 Knight",
+   "resources": [
+    "0x9571CA51F0DAF35B"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x3A58B9DCB84F665D",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 50,
+   "catalogOptions": [
+    {
+     "name": "Short Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 50,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x3A58B9DCB84F665D",
+     "candidates": [
+      "0x3A58B9DCB84F665D",
+      "0x8F141212B0F6F515"
+     ]
+    },
+    {
+     "name": "Extended Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 70,
+      "startingMagazines": 3,
+      "maxMagazines": 5
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x21F0B1A5E00AF770",
+      "0x6ABDDD8224A3328F"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "P-11 Stim Pistol",
+   "resources": [
+    "0xD6B1FB05B9109353"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-113 Verdict",
+   "resources": [
+    "0x1A437158E1B8D2A1"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-19 Redeemer",
+   "resources": [
+    "0x3575AABC5F1F9326"
+   ],
+   "baseRecordCapacity": 31,
+   "nativeDefault": "0xC891ACF9E8DBDA97",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 31,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_base_and_published_agree"
+  },
+  {
+   "weapon": "P-2 Peacemaker",
+   "resources": [
+    "0x05E4E5C2DB6E44A2"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x4F839E923046E631",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 15,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "P-33 Missile Pistol",
+   "resources": [
+    "0x14D5D4506056C7A4"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-34 Breacher",
+   "resources": [
+    "0xE91F569C2AD8AF01"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-35 Re-Educator",
+   "resources": [
+    "0x0B882808C6F498E8"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-4 Senator",
+   "resources": [
+    "0x8D3D52A3B2F19402"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-69 Veto",
+   "resources": [
+    "0xC780BCD79547DA0F"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-72 Crisper",
+   "resources": [
+    "0x3F92BA65EF65CCA9",
+    "0x992B6F65A5BAB53D"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P-92 Warrant",
+   "resources": [
+    "0xCF8934FF6567A42D"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "P/40-K Bolt Pistol",
+   "resources": [
+    "0xDBB6C961C59FADC1"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "PLAS-1 Scorcher",
+   "resources": [
+    "0xEEA5E3CEF1E12C14"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "PLAS-101 Purifier",
+   "resources": [
+    "0xFB3A19078694708A"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "PLAS-15 Loyalist",
+   "resources": [
+    "0xAA69A60D74A3EC54"
+   ],
+   "baseRecordCapacity": 8,
+   "nativeDefault": "0xACA180FC6F846411",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 8,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_base_and_published_agree"
+  },
+  {
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "resources": [
+    "0x30061F91AF477F5E"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-2 Amendment",
+   "resources": [
+    "0x0F83639AB8C86165"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-2124 Constitution",
+   "resources": [
+    "0x7B75E5132FFD4CA6"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-36 Eruptor",
+   "resources": [
+    "0xB6AFF2195568767F"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-4 Hyena",
+   "resources": [
+    "0xE5796355A8FD67E0"
+   ],
+   "baseRecordCapacity": 15,
+   "nativeDefault": "0x3359229E4E0F766D",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 15,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 15,
+      "startingMagazines": 4,
+      "maxMagazines": 5
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x3359229E4E0F766D",
+     "candidates": [
+      "0x3359229E4E0F766D"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 10,
+      "startingMagazines": 7,
+      "maxMagazines": 9
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x61D9B85315F9B5BB",
+     "candidates": [
+      "0x61D9B85315F9B5BB"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_base_and_published_agree"
+  },
+  {
+   "weapon": "R-6 Deadeye",
+   "resources": [
+    "0xE6D932BE83729076"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-63 Diligence",
+   "resources": [
+    "0x03E67A19B07C6523"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "resources": [
+    "0x4C786785C79D44E7"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "R-72 Censor",
+   "resources": [
+    "0xF0338468DCDB6A6C"
+   ],
+   "baseRecordCapacity": 20,
+   "nativeDefault": "0x462FC89D4903B33D",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 20,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_base_and_published_agree"
+  },
+  {
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "resources": [
+    "0x1ABBFF60D26BA391"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-20 Halt",
+   "resources": [
+    "0x4E310B1FE4C52B52"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-22 Bushwhacker",
+   "resources": [
+    "0x2B28E17FFED05F7C"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-225 Breaker",
+   "resources": [
+    "0x46183B50961D1328"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x68B8D040421E8A49",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 16,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 16,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x68B8D040421E8A49",
+     "candidates": [
+      "0x68B8D040421E8A49"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 13,
+      "startingMagazines": 7,
+      "maxMagazines": 11
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x9992E382B80955CC",
+     "candidates": [
+      "0x9992E382B80955CC"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 26,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x3DDB9D36DA22555D",
+     "candidates": [
+      "0x3DDB9D36DA22555D"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SG-225IE Breaker Incendiary",
+   "resources": [
+    "0xC12A34F375BD5A87"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x3DDB9D36DA22555D",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 26,
+   "catalogOptions": [
+    {
+     "name": "Drum Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 26,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x3DDB9D36DA22555D",
+     "candidates": [
+      "0x3DDB9D36DA22555D"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 13,
+      "startingMagazines": 7,
+      "maxMagazines": 11
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x9992E382B80955CC",
+     "candidates": [
+      "0x9992E382B80955CC"
+     ]
+    },
+    {
+     "name": "Extended Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 16,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x68B8D040421E8A49",
+     "candidates": [
+      "0x68B8D040421E8A49"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "resources": [
+    "0x5EBAEA70C0D060B9"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x040CE909939A3BAA",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 26,
+   "catalogOptions": [
+    {
+     "name": "Drum Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 26,
+      "startingMagazines": 6,
+      "maxMagazines": 8
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x040CE909939A3BAA",
+     "candidates": [
+      "0x040CE909939A3BAA"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 13,
+      "startingMagazines": 12,
+      "maxMagazines": 20
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0xA3AF33F240E2F4E9",
+     "candidates": [
+      "0xA3AF33F240E2F4E9"
+     ]
+    },
+    {
+     "name": "Extended Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 16,
+      "startingMagazines": 9,
+      "maxMagazines": 13
+     },
+     "relationship": "catalog_effect_fingerprint_unique",
+     "attachment": "0x676C58913606A8E7",
+     "candidates": [
+      "0x676C58913606A8E7"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SG-451 Cookout",
+   "resources": [
+    "0xD323DE60855898AC"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-8 Punisher",
+   "resources": [
+    "0x41EAC4A03987FAA0"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-8P Punisher Plasma",
+   "resources": [
+    "0x05D8D8C073B9D502"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-8S Slugger",
+   "resources": [
+    "0x4F749E2EE26F532D"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SG-97 Sweeper",
+   "resources": [
+    "0xDCD1C835407EF7BA"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SMG-203 Gallant",
+   "resources": [
+    "0x186EA95DE7306B1A"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x8F141212B0F6F515",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 50,
+   "catalogOptions": [
+    {
+     "name": "Short Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 50,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x8F141212B0F6F515",
+     "candidates": [
+      "0x3A58B9DCB84F665D",
+      "0x8F141212B0F6F515"
+     ]
+    },
+    {
+     "name": "Extended Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 70,
+      "startingMagazines": 3,
+      "maxMagazines": 5
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x21F0B1A5E00AF770",
+      "0x6ABDDD8224A3328F"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SMG-32 Reprimand",
+   "resources": [
+    "0x94BD931B5FB4EE95"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "SMG-37 Defender",
+   "resources": [
+    "0x4E4A613EB9BF5C24",
+    "0xCA4BBEF63C869C18"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x51DF2B8840B0DC66",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0x51DF2B8840B0DC66",
+     "candidates": [
+      "0x51DF2B8840B0DC66",
+      "0xCC944F51090C682B"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 35,
+      "startingMagazines": 8,
+      "maxMagazines": 12
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x538191ECBD222856",
+      "0x3C13706AAEBD5F53"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 75,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x7706F9EA88A12C33",
+      "0x2FD25216D6ACABEE"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SMG-72 Pummeler",
+   "resources": [
+    "0x0807AEA5217E4767"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0xCC944F51090C682B",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 45,
+   "catalogOptions": [
+    {
+     "name": "Extended Magazine",
+     "default": true,
+     "effects": {
+      "capacity": 45,
+      "startingMagazines": 5,
+      "maxMagazines": 7
+     },
+     "relationship": "native_resource_default",
+     "attachment": "0xCC944F51090C682B",
+     "candidates": [
+      "0x51DF2B8840B0DC66",
+      "0xCC944F51090C682B"
+     ]
+    },
+    {
+     "name": "Short Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 35,
+      "startingMagazines": 8,
+      "maxMagazines": 12
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x538191ECBD222856",
+      "0x3C13706AAEBD5F53"
+     ]
+    },
+    {
+     "name": "Drum Magazine",
+     "default": false,
+     "effects": {
+      "capacity": 75,
+      "startingMagazines": 3,
+      "maxMagazines": 4
+     },
+     "relationship": "catalog_effect_fingerprint_ambiguous",
+     "attachment": null,
+     "candidates": [
+      "0x7706F9EA88A12C33",
+      "0x2FD25216D6ACABEE"
+     ]
+    }
+   ],
+   "defaultConsistency": "delta_matches_published_base_differs"
+  },
+  {
+   "weapon": "SMG/FLAM-34 Stoker",
+   "resources": [
+    "0x8A307BD1811A5FE9"
+   ],
+   "baseRecordCapacity": 30,
+   "nativeDefault": "0x1B1FCC0E025C1F7D",
+   "defaultRelationship": "native_resource_default",
+   "publishedDefaultCapacity": 50,
+   "catalogOptions": [],
+   "defaultConsistency": "delta_differs_from_published"
+  },
+  {
+   "weapon": "StA-11 SMG",
+   "resources": [
+    "0x4BA41B6F9F405CC2"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "StA-52 Assault Rifle",
+   "resources": [
+    "0xCDF28BE026BB7D84"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  },
+  {
+   "weapon": "VG-70 Variable",
+   "resources": [
+    "0xF992CE97577C8A7F"
+   ],
+   "baseRecordCapacity": null,
+   "nativeDefault": null,
+   "defaultRelationship": null,
+   "publishedDefaultCapacity": null,
+   "catalogOptions": []
+  }
+ ]
+}

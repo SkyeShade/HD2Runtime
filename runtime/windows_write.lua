@@ -11,10 +11,11 @@ function M.create()
         ]]
         rawset(_G,'HD2RuntimeWriteFfiV1',true)
     end
-    function runtime.write(address,bytes)
+    -- packed=true is only passed for byte-packed entity-delta data; it must still stay in one page.
+    function runtime.write(address,bytes,packed)
         assert(type(address)=='number' and address>0 and address<=9007199254740991
             and type(bytes)=='string' and (#bytes==1 or #bytes==4 or #bytes==8 or #bytes==12)
-            and (#bytes==1 or address%4==0),
+            and (#bytes==1 or address%4==0 or (packed==true and #bytes==4 and address%4096+4<=4096)),
             'unsupported native write extent')
         local count=ffi.new('size_t[1]')
         local ok=kernel.WriteProcessMemory(kernel.GetCurrentProcess(),ffi.cast('void *',address),bytes,#bytes,count)

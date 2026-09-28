@@ -109,7 +109,7 @@ finish(g);finish(h);assert(h.status=='complete',tostring(h.error))
                 self.assertTrue(scenario['reinitialize']['detected_and_reapplied'], name)
                 self.assertEqual(scenario['reinitialize']['adapter']['module_hashes'], 0, name)
         combined = audit['scenarios'][-1]
-        self.assertEqual(len(combined['mods']), 6)
+        self.assertEqual(len(combined['mods']), 7)
         self.assertEqual(combined['startup']['adapter']['module_hashes'], 2)
         before = json.loads((ROOT / 'validation/steady-state-audit-before-0.23.0-22ec478.json').read_text())
         self.assertGreater(before['scenarios'][-1]['steady']['adapter']['module_hashes'], 100)

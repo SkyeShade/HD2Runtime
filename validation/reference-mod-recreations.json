@@ -18,6 +18,19 @@
       "status": "EXACT_MATCH",
       "unexpected": []
     },
+    "ConcussiveDrumMagazine": {
+      "allAtVanillaBaseline": true,
+      "missing": [],
+      "operations": 1,
+      "phases": 1,
+      "physicalWrites": 1,
+      "referenceSources": [
+        "HD2Runtime/research/magazine-attachments-F5FEE03DCFDB.json"
+      ],
+      "referenceWrites": 1,
+      "status": "EXACT_MATCH",
+      "unexpected": []
+    },
     "FRVWeaponSwapRecreation": {
       "allAtVanillaBaseline": true,
       "missing": [],
