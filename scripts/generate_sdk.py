@@ -108,9 +108,14 @@ def outputs():
     alias('HD2Resource',list(resources)+[r['resource'] for r in resources.values()])
     alias('HD2PatchField',[schema['contracts']['patch']['field']])
     alias('HD2TransactionField',list(schema['contracts']['transaction']['fields']))
+    acknowledgements=['---@field allow_unverified_effect? boolean Required only where the capability '
+            'catalog names it (magazine attachments).',
+        '---@field allow_unverified_reference? boolean Required only where the capability catalog '
+            'names it (vehicle mount swaps).']
     for name,entries in schema['api']['classes'].items():
         stub.append('\n---@class '+name)
         for field,kind in entries.items(): stub.append('---@field '+field+' '+kind)
+        if name in ('HD2PatchRequest','HD2TransactionRequest','HD2PlanOperation'):stub+=acknowledgements
     for domain,t in types.items():
         stub+=['','---@class '+t['class'],'---@field resource HD2Resource','---@field path string',
                'local '+t['class']+' = {}']
@@ -366,6 +371,7 @@ def outputs():
             'sdk/docs/vehicle-authoring.md':(ROOT/'docs/vehicle-authoring.md').read_text(),
             'sdk/docs/backpack-authoring.md':(ROOT/'docs/backpack-authoring.md').read_text(),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(),
+            'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text()}
 
 

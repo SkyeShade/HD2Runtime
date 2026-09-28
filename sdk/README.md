@@ -3,7 +3,8 @@
 For a first mod, use `HD2Runtime-ModTemplate-0.23.1.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
-automated project generation.
+automated project generation. New authors should start with
+[docs/getting-started.md](docs/getting-started.md).
 
 The SDK includes generated attachment, projectile-composition, explosion,
 fire-mode, and terminal-action capability catalogs. They describe typed reference
@@ -19,9 +20,11 @@ offensive, support-call-in, sentry, emplacement, and deferred mine authoring; se
 Attachment preset research is split into `AttachmentPresetGraph.json`,
 `AttachmentSelectionCapabilities.json`, and `AttachmentEffectOwnership.json`.
 These distinguish static resource defaults from current selections, saved
-presets, and effect owners. The current capture does not prove a writable
-selection or option effect; see `docs/attachment-preset-research.md` for the
-targeted lifecycle comparison workflow.
+presets, and effect owners. Attachment selection is not writable. Magazine
+ammo values are writable on the magazine attachment definitions themselves, with
+`allow_shared` and `allow_unverified_effect`; `MagazineAttachmentCapabilities.json`
+supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
+`docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
 `HD2Runtime-0.23.1-runtime.zip` into your mod manager and enable it once. Each
@@ -46,7 +49,10 @@ python -m unittest discover -s tests -v
 
 Use `--template shield` for the proven four-field Shield Relay transaction or
 `--template observer` for read-only Bastion/AMR observations. The default is the
-JAR-5 AP4 ensured patch. The generated entrypoint contains only public API calls;
+JAR-5 AP4 ensured patch. These CLI templates use the original fixed-resource
+catalog (short names such as `Bastion` and `Shield Relay`, and single reviewed
+transitions). For other changes, use the full names and field constants from the
+typed capability files, as the ModTemplate and example projects do. The generated entrypoint contains only public API calls;
 the runtime owns all timers, resolution, memory access and protection changes.
 Reusing a resource name intentionally reuses its stable mod GUID. Choose a unique
 author/mod path for each independently distributed mod.
@@ -85,7 +91,11 @@ On Windows, add the SDK directory to PATH to use `hd2 inspect ...` through
 claimed current memory values. The complete field/evidence and partial enum
 catalog is in [api.md](docs/api.md). Read/write access is per resource. The
 original fixed-resource catalog retains its narrow contracts, including JAR-5
-AP3→AP4 and read-only Orbital Laser fields. Unknown semantic ranges are null;
+AP3→AP4 and read-only Orbital Laser fields. `inspect` covers that catalog and the
+player-weapon catalog; for support weapons, stratagems, vehicles, backpacks, and
+magazine attachments, read the matching `*Capabilities.json` directly. Their
+`apiFieldConstant` gives the exact `hd2.fields` constant; for player weapons,
+search the stub for the quoted `semanticFieldId`. Unknown semantic ranges are null;
 partial enums do not claim completeness or introduce unproven names.
 
 The 80-weapon authoring surface is described separately in
@@ -176,7 +186,9 @@ such as AMR projectile linkage, rejects rather than inventing a mapping.
 
 `hd2runtime.json` declares `requires.bingus` (release ≥15, API 1) and
 `requires.hd2runtime` (version matching the SDK-generated project, API 1, module
-`mods/skyeshade/hd2runtime`). HD2Runtime's own declaration requires only Bingus.
+`mods/skyeshade/hd2runtime`). Raise `min_version` to the oldest runtime that has
+every API your mod calls: vehicles, backpacks, relay shield and damage-zone
+fields, and `hd2.support_weapon` need 0.23.0; magazine attachments need 0.23.1. HD2Runtime's own declaration requires only Bingus.
 These are HD2Runtime SDK metadata, not new Bingus/Arsenal/HD2MM manifest fields.
 Manager descriptions also state the requirements; managers do not install them
 automatically. The generated Lua checks them before starting the mod.
@@ -189,6 +201,12 @@ discovery returns the same API. Do not assign arbitrary priority numbers to
 gameplay mods. Bingus must remain the winning Wwise startup replacement if other
 startup-replacement mods are installed, as documented by Bingus. HD2Runtime and
 generated mods do not replace Wwise/startup resources.
+
+Bingus discovers mods once at game startup and has no hot reload. After
+rebuilding a mod, replace it in the manager, purge and redeploy, and restart the
+game. Loader output is in
+`%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs\BingusSharedLoader.log`; the
+runtime writes `HD2Runtime.log`, prefixed `[HD2Runtime]`, in the same folder.
 
 The old standalone proof ZIPs bundled their runtime for testing. Use the separate
 runtime plus dependent example ZIPs for this workflow; do not also enable an old

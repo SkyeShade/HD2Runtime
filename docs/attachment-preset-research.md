@@ -20,6 +20,10 @@ No attachment selection or option effect is writable in this pass. Direct
 magazine, rounds-feed, heat, and heatsink fields retain their existing guarded
 APIs because their effective component owners are independently proven.
 
+Since 0.23.1, magazine ammo values are writable on the magazine attachment
+definitions that own them; see `magazine-attachments.md`. Selection and the other
+option effects remain unwritable.
+
 ## R-72 Censor controlled comparison
 
 Two controlled, same-build snapshots compared Extended Magazine with Short

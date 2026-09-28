@@ -297,7 +297,7 @@ return 'ok'
                 self.assertEqual(set(sources),{resource_hash('mods/test_starter/clean_build')})
                 body=next(iter(sources.values()))
                 self.assertIn(b"require('mods/skyeshade/hd2runtime')",body)
-                self.assertIn(b'hd2.fields.damage.armor_penetration',body)
+                self.assertIn(b'hd2.fields.weapon.fire_rate',body)
                 for forbidden in (b'VirtualProtect',b'VirtualQuery',b'WriteProcessMemory',
                                   b'package.preload',b'---@meta',b'hd2runtime/core/'):
                     self.assertNotIn(forbidden,body)

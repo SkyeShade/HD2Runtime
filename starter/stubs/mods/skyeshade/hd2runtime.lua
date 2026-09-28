@@ -73,6 +73,8 @@
 ---@field value number|boolean|HD2ProjectileReference|HD2Explosion
 ---@field diagnostic? boolean
 ---@field allow_shared? boolean
+---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
+---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
 
 ---@class HD2TransactionChange
 ---@field field string
@@ -85,6 +87,8 @@
 ---@field changes HD2TransactionChange[]
 ---@field diagnostic? boolean
 ---@field allow_shared? boolean
+---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
+---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
 
 ---@class HD2PlanTargetFrom
 ---@field operation string
@@ -99,6 +103,8 @@
 ---@field value? number|boolean|HD2ProjectileReference|HD2Explosion
 ---@field changes? HD2TransactionChange[]
 ---@field allow_shared? boolean
+---@field allow_unverified_effect? boolean Required only where the capability catalog names it (magazine attachments).
+---@field allow_unverified_reference? boolean Required only where the capability catalog names it (vehicle mount swaps).
 
 ---@class HD2PlanPhase
 ---@field id? string
