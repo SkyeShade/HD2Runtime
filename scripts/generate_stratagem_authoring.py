@@ -26,6 +26,99 @@ DEFENSIVE_FIELDS = ROOT / 'schemas/stratagem_fields.json'
 ENTITY_FIELDS = ROOT / 'schemas/entity_fields.json'
 ENTITY_RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
 ZONE_BASE, ZONE_STRIDE = 520, 552
+ICON_RESEARCH = ROOT / 'research/stratagem-icons-F5FEE03DCFDB.json'
+SUPPORT_CATALOG = ROOT / 'data/wiki_support_weapons.json'
+UNLIMITED = 4294967295
+
+
+def add_ui_icons(public_stratagems, internal):
+    """Game UI icon identity per root (scripts/research_stratagem_icons.py). Artwork is never published."""
+    research = json.loads(ICON_RESEARCH.read_text())
+    by_id = {row['id']: row['type'] for row in research['rows']}
+    types = {t['value']: t for t in research['types']}
+    library = research['iconLibrary']
+    for item in public_stratagems:
+        entry = internal['stratagems'].get(item['name'])
+        if item['rootResolution'] != 'UNIQUE' or entry is None:
+            reason = ('The item has no call-in stratagem (rootResolution NO_CALL_IN), so there is no native '
+                'stratagem type.' if item['rootResolution'] == 'NO_CALL_IN' else
+                'No uniquely resolved StratagemDefinition, so no native stratagem type is known.')
+            item['uiIcon'] = {'state':'no_native_root','nativeType':None,'iconKey':None,'reason':reason,
+                'provenance':None,'blocker':{'kind':'no_native_root','rootResolution':item['rootResolution'],
+                    'reason':reason}}
+            continue
+        native = types[by_id[entry['root']['id']]]
+        state = 'unbound' if native['iconKey'] is None else 'resolved' if native['template'] == 'vector' else 'empty_template'
+        item['uiIcon'] = {'state':state,'nativeType':native['name'],'nativeTypeValue':native['value'],
+            'iconKey':native['iconKey'],'library':library['resource'] if native['iconKey'] else None}
+        if state == 'unbound':
+            item['uiIcon']['reason'] = 'The game UI icon library binds no icon to this native stratagem type.'
+        elif state == 'empty_template':
+            item['uiIcon']['reason'] = 'The bound icon template contains no vector artwork in this game build.'
+        item['uiIcon']['provenance'] = {'basis':'native_stratagem_type',
+            'evidence':['StratagemInfo.type of the uniquely resolved root','game.dll StratagemType name table']
+                + (['StratagemTypeDataTemplate binding in the icon library'] if native['iconKey'] else []),
+            'displayNameEquality':'not used','researchArtifact':ICON_RESEARCH.name}
+        item['uiIcon']['blocker'] = None if state == 'resolved' else {'kind':state,
+            'reason':item['uiIcon']['reason']}
+    keys = [x['uiIcon']['iconKey'] for x in public_stratagems if x['uiIcon']['state'] == 'resolved']
+    if len(keys) != len(set(keys)):
+        raise ValueError('two stratagem roots resolve to one icon template')
+    return {'contract':'hd2runtime.stratagem.ui_icon.v1','schemaVersion':1,
+        'states':{'resolved':'The bound icon template has vector artwork; iconKey names it.',
+            'empty_template':'An icon is bound, but its template has no vector artwork in this game build.',
+            'unbound':'The icon library binds no icon to the native stratagem type.',
+            'no_native_root':'No uniquely resolved native root, so no native stratagem type is known.'},
+        'researchArtifact':ICON_RESEARCH.name,
+        'library':library['resource'],'librarySha256':library['sha256'],'nativeTypeEnum':research['enum'],
+        'nativeTypeValues':research['enumValues'],'typeBindings':library['typeBindings'],
+        'templates':library['templates'],'vectorTemplates':library['vectorTemplates'],
+        'emptyTemplates':library['emptyTemplates'],'artworkPublished':False,
+        'chain':['StratagemInfo.type (member 0, ENUM_UINT32 StratagemType in the pinned type library)',
+            'StratagemType value -> native member name: game.dll enum name table, every entry length equal to '
+            'the type library alias length for its value',
+            'native member name -> icon key: StratagemTypeDataTemplate DataTrigger in the icon library',
+            'icon key -> DataTemplate in the same library (vector artwork or empty)'],
+        'note':('Tooling extracts the artwork locally from the installed game. Display names are never used '
+            'to select an icon.')}
+
+
+def add_catalog_equipment(public_stratagems, source, linkage):
+    """Presentation association between a support call-in and the equipment of the same catalog record.
+
+    Each support root is generated from one support-weapon catalog record (research_stratagem_authoring
+    iterates the catalog and locates the call-in by a reviewed native debug name), so the pair is known
+    from the catalog. It is published separately from `delivers`, which stays reserved for structurally
+    proven native delivery.
+    """
+    catalog = {w['name']: w for w in json.loads(SUPPORT_CATALOG.read_text())['weapons']}
+    roots = {r['name']: r for r in source['supportRoots']}
+    for item in public_stratagems:
+        if item['family'] != 'support':
+            continue
+        record, root = catalog.get(item['name']), roots.get(item['name'])
+        if record is None or root is None:
+            raise ValueError('support stratagem without its catalog record: ' + item['name'])
+        weapon_key = support_callin_linkage.support_weapon_key(item['name'])
+        delivers = item.get('delivers') or {}
+        stratagem = record['normalizedFields'].get('stratagem') or {}
+        corroboration = []
+        if root['resolution'] == 'UNIQUE':
+            native = root['currentRoot']
+            corroboration.append('reviewed native call-in debug name ' + root['historicalIdentity']['debugName'].strip())
+            cooldown = (stratagem.get('cooldownSeconds') or {}).get('value')
+            if cooldown is not None and float(cooldown) == float(native['cooldown']):
+                corroboration.append('catalog cooldown %g s equals the native definition cooldown' % native['cooldown'])
+            if stratagem.get('unlimitedUses') and native['use_count'] == UNLIMITED:
+                corroboration.append('catalog and native definition both have unlimited uses')
+        item['catalogEquipment'] = {'kind':'support_weapon','supportWeapon':weapon_key,
+            'supportWeaponName':record['name'],'basis':'catalog_record',
+            'catalogRecord':{'page':record['wikiPage'],'revision':record['wikiRevisionId']},
+            'nativeCallInResolved':root['resolution'] == 'UNIQUE',
+            'nativeDeliveryProven':delivers.get('known') is True and delivers.get('semanticId') == weapon_key,
+            'corroboration':corroboration,
+            'note':('Presentation association: the call-in and this equipment come from the same catalog record. '
+                'It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links.')}
 
 
 def lua(value):
@@ -619,6 +712,8 @@ def build():
     semantic_ids = [item['semanticId'] for item in public_stratagems]
     if len(semantic_ids) != len(set(semantic_ids)):
         raise ValueError('stratagem semantic identities are not unique')
+    icon_contract = add_ui_icons(public_stratagems, internal)
+    add_catalog_equipment(public_stratagems, source, linkage)
     backing_objects = {}
     operation_groups = {}
     for field in field_instances:
@@ -672,7 +767,8 @@ def build():
         'deployedEntities':deployed_entities,'backingObjects':list(backing_objects.values()),
         'operationGroups':list(operation_groups.values()),
         'supportCallInLinks':{key:linkage[key] for key in
-            ('contract','schemaVersion','joinContract','relationships','audit')}}
+            ('contract','schemaVersion','joinContract','relationships','audit')},
+        'uiIconContract':icon_contract}
     internal_instance_keys = [field['instanceKey'] for entry in internal['stratagems'].values()
         for field in entry['fields']]
     published_instance_keys = [field['instanceKey'] for field in field_instances]
@@ -747,6 +843,11 @@ def build():
         'canonicalOperationGroups':len(operation_groups),
         'supportDeliveryLinksKnown':linkage['audit']['reverseLinksKnown'],
         'supportCallInLinkage':linkage['audit'],
+        'uiIconStates':{state:sum(x['uiIcon']['state']==state for x in public_stratagems)
+            for state in ('resolved','empty_template','unbound','no_native_root')},
+        'catalogEquipmentAssociations':sum('catalogEquipment' in x for x in public_stratagems),
+        'catalogOnlyEquipment':sorted(x['name'] for x in public_stratagems
+            if 'catalogEquipment' in x and not x['catalogEquipment']['nativeDeliveryProven']),
         'vehicleRootsResolved':sum(x['family']=='vehicle' for x in public_stratagems),
         'backpackRootsResolved':sum(x['family']=='backpack' for x in public_stratagems),
         'shieldFieldsWritable':sum(x['target']['path']=='shield' and x['editable'] for x in field_instances),

@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.stratagem.guarded_authoring.v2",
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.25.0",
+  "hd2RuntimeVersion": "0.25.1",
   "canonicalCollection": "fieldInstances",
   "source": {
     "wikiCommit": "41f01f9b2ca2ea2ca2b9f3adde7c75663582a44a",
@@ -44,7 +44,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-precision-strike/c2167a0826176fe5"
+      "semanticId": "stratagem/v1/orbital-precision-strike/c2167a0826176fe5",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalShell",
+        "nativeTypeValue": 118,
+        "iconKey": "StratagemOrbitalStrikeprecision",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Gatling Barrage",
@@ -85,7 +103,25 @@
         "writable": false,
         "reason": "Native projectile delivery arrays are preserved; scalar shell, volley, and interval semantics are not proven."
       },
-      "semanticId": "stratagem/v1/orbital-gatling-barrage/5d5019c804b4d601"
+      "semanticId": "stratagem/v1/orbital-gatling-barrage/5d5019c804b4d601",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalGatlingBarrage",
+        "nativeTypeValue": 4,
+        "iconKey": "StratagemOrbitalGatlingbarrage",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Gas Strike",
@@ -119,7 +155,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-gas-strike/6a9e791c1643cba0"
+      "semanticId": "stratagem/v1/orbital-gas-strike/6a9e791c1643cba0",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalGas",
+        "nativeTypeValue": 41,
+        "iconKey": "StratagemOrbitalStrikegas",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital 120mm HE Barrage",
@@ -162,7 +216,25 @@
         "writable": false,
         "reason": "Native projectile delivery arrays are preserved; scalar shell, volley, and interval semantics are not proven."
       },
-      "semanticId": "stratagem/v1/orbital-120mm-he-barrage/2836eb4f68be2fc8"
+      "semanticId": "stratagem/v1/orbital-120mm-he-barrage/2836eb4f68be2fc8",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalStrike",
+        "nativeTypeValue": 136,
+        "iconKey": "StratagemOrbitalStrike120mmhe",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Airburst Strike",
@@ -204,7 +276,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-airburst-strike/78c12ce19f2a2d8a"
+      "semanticId": "stratagem/v1/orbital-airburst-strike/78c12ce19f2a2d8a",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalShot",
+        "nativeTypeValue": 83,
+        "iconKey": "StratagemOrbitalStrikeairburst",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Smoke Strike",
@@ -235,7 +325,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-smoke-strike/4580a6f49275da0e"
+      "semanticId": "stratagem/v1/orbital-smoke-strike/4580a6f49275da0e",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalSmoke",
+        "nativeTypeValue": 74,
+        "iconKey": "StratagemOrbitalSmoke",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital EMS Strike",
@@ -268,7 +376,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-ems-strike/8bd053f1e24005f5"
+      "semanticId": "stratagem/v1/orbital-ems-strike/8bd053f1e24005f5",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalStun",
+        "nativeTypeValue": 34,
+        "iconKey": "StratagemOrbitalStrikeems",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital 380mm HE Barrage",
@@ -311,7 +437,25 @@
         "writable": false,
         "reason": "Native projectile delivery arrays are preserved; scalar shell, volley, and interval semantics are not proven."
       },
-      "semanticId": "stratagem/v1/orbital-380mm-he-barrage/1ef8a88c8095bcf2"
+      "semanticId": "stratagem/v1/orbital-380mm-he-barrage/1ef8a88c8095bcf2",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalBarrage",
+        "nativeTypeValue": 125,
+        "iconKey": "StratagemOrbitalBarrage380mmhd",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Walking Barrage",
@@ -354,7 +498,25 @@
         "writable": false,
         "reason": "Native projectile delivery arrays are preserved; scalar shell, volley, and interval semantics are not proven."
       },
-      "semanticId": "stratagem/v1/orbital-walking-barrage/8f163177e94208c2"
+      "semanticId": "stratagem/v1/orbital-walking-barrage/8f163177e94208c2",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalWalkingBarrage",
+        "nativeTypeValue": 21,
+        "iconKey": "StratagemOrbitalBarragewalking",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Laser",
@@ -384,7 +546,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-laser/dc140ec98333c035"
+      "semanticId": "stratagem/v1/orbital-laser/dc140ec98333c035",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalLaser",
+        "nativeTypeValue": 107,
+        "iconKey": "StratagemOrbitalLaser",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Napalm Barrage",
@@ -433,7 +613,25 @@
         "writable": false,
         "reason": "Native projectile delivery arrays are preserved; scalar shell, volley, and interval semantics are not proven."
       },
-      "semanticId": "stratagem/v1/orbital-napalm-barrage/2145a3d956a73b76"
+      "semanticId": "stratagem/v1/orbital-napalm-barrage/2145a3d956a73b76",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalNapalmBarrage",
+        "nativeTypeValue": 106,
+        "iconKey": "StratagemOrbitalNapalm",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Orbital Railcannon Strike",
@@ -465,7 +663,25 @@
       "usesPerRearm": null,
       "rearmTime": null,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/orbital-railcannon-strike/1858462c7042d0df"
+      "semanticId": "stratagem/v1/orbital-railcannon-strike/1858462c7042d0df",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "OrbitalRailcannon",
+        "nativeTypeValue": 58,
+        "iconKey": "StratagemOrbitalRailcannon",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle Gas Airstrike",
@@ -499,7 +715,28 @@
       "usesPerRearm": 2,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-gas-airstrike/79d872996d6ea28d"
+      "semanticId": "stratagem/v1/eagle-gas-airstrike/79d872996d6ea28d",
+      "uiIcon": {
+        "state": "unbound",
+        "nativeType": "EagleAirstrikeGas",
+        "nativeTypeValue": 126,
+        "iconKey": null,
+        "library": null,
+        "reason": "The game UI icon library binds no icon to this native stratagem type.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "unbound",
+          "reason": "The game UI icon library binds no icon to this native stratagem type."
+        }
+      }
     },
     {
       "name": "Eagle Strafing Run",
@@ -531,7 +768,25 @@
       "usesPerRearm": 4,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-strafing-run/a1e1cde13e369399"
+      "semanticId": "stratagem/v1/eagle-strafing-run/a1e1cde13e369399",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleCAS",
+        "nativeTypeValue": 30,
+        "iconKey": "StratagemEagleAirSupport",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle Airstrike",
@@ -563,7 +818,25 @@
       "usesPerRearm": 2,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-airstrike/5cddac74231a1faf"
+      "semanticId": "stratagem/v1/eagle-airstrike/5cddac74231a1faf",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleAirstrike",
+        "nativeTypeValue": 18,
+        "iconKey": "StratagemEagleAirstrike",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle Cluster Bomb",
@@ -599,7 +872,25 @@
       "usesPerRearm": 4,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-cluster-bomb/df0b62175b16b375"
+      "semanticId": "stratagem/v1/eagle-cluster-bomb/df0b62175b16b375",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleClusterbombs",
+        "nativeTypeValue": 65,
+        "iconKey": "StratagemEagleClusterbomb",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle Smoke Strike",
@@ -630,7 +921,25 @@
       "usesPerRearm": 2,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-smoke-strike/6723261f1305fce1"
+      "semanticId": "stratagem/v1/eagle-smoke-strike/6723261f1305fce1",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleAirstrikeSmoke",
+        "nativeTypeValue": 38,
+        "iconKey": "StratagemEagleSmoke",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle Napalm Airstrike",
@@ -664,7 +973,25 @@
       "usesPerRearm": 2,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-napalm-airstrike/f0cbd3eb6d1eb76e"
+      "semanticId": "stratagem/v1/eagle-napalm-airstrike/f0cbd3eb6d1eb76e",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleAirstrikeNapalm",
+        "nativeTypeValue": 133,
+        "iconKey": "StratagemEagleNapalmairstrike",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle 110mm Rocket Pods",
@@ -696,7 +1023,25 @@
       "usesPerRearm": 3,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-110mm-rocket-pods/11490e97c2009cb0"
+      "semanticId": "stratagem/v1/eagle-110mm-rocket-pods/11490e97c2009cb0",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleRocket",
+        "nativeTypeValue": 140,
+        "iconKey": "StratagemEagleRockepods",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "Eagle 500kg Bomb",
@@ -730,7 +1075,25 @@
       "usesPerRearm": 1,
       "rearmTime": 150,
       "barrageScheduling": null,
-      "semanticId": "stratagem/v1/eagle-500kg-bomb/6946e7017aa35013"
+      "semanticId": "stratagem/v1/eagle-500kg-bomb/6946e7017aa35013",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EagleBomb",
+        "nativeTypeValue": 3,
+        "iconKey": "StratagemEagle500kgbomb",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "MG-43 Machine Gun",
@@ -785,7 +1148,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/mg-43-machine-gun/3583ca5f516c038f"
+      "semanticId": "stratagem/v1/mg-43-machine-gun/3583ca5f516c038f",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Machinegun",
+        "nativeTypeValue": 92,
+        "iconKey": "StratagemSupportweaponMachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/mg-43-machine-gun/3583ca5f516c038f",
+        "supportWeaponName": "MG-43 Machine Gun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/MG-43_Machine_Gun",
+          "revision": 135315
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. MACHINEGUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "M-105 Stalwart",
@@ -840,7 +1239,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/m-105-stalwart/5af15aa5bcc38509"
+      "semanticId": "stratagem/v1/m-105-stalwart/5af15aa5bcc38509",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "LightMachinegun",
+        "nativeTypeValue": 13,
+        "iconKey": "StratagemWeaponLightmachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/m-105-stalwart/5af15aa5bcc38509",
+        "supportWeaponName": "M-105 Stalwart",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/M-105_Stalwart",
+          "revision": 133253
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. LIGHT MACHINE GUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "APW-1 Anti-Materiel Rifle",
@@ -895,7 +1330,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/apw-1-anti-materiel-rifle/9c567b76648af95b"
+      "semanticId": "stratagem/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Sniper",
+        "nativeTypeValue": 141,
+        "iconKey": "StratagemWeaponSniperrifle",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/apw-1-anti-materiel-rifle/9c567b76648af95b",
+        "supportWeaponName": "APW-1 Anti-Materiel Rifle",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/APW-1_Anti-Materiel_Rifle",
+          "revision": 136626
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. SNIPER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "EAT-17 Expendable Anti-Tank",
@@ -950,7 +1421,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8"
+      "semanticId": "stratagem/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "LATOneshot",
+        "nativeTypeValue": 147,
+        "iconKey": "StratagemWeaponOneshotantitank",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/eat-17-expendable-anti-tank/e4ba6571169b08a8",
+        "supportWeaponName": "EAT-17 Expendable Anti-Tank",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/EAT-17_Expendable_Anti-Tank",
+          "revision": 136630
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. EXPENDABLE ANTI-TANK",
+          "catalog cooldown 70 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "GR-8 Recoilless Rifle",
@@ -1009,7 +1516,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6"
+      "semanticId": "stratagem/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Recoilless",
+        "nativeTypeValue": 130,
+        "iconKey": "StratagemWeaponRecoillessrifle",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/gr-8-recoilless-rifle/0c0cddff45ad97f6",
+        "supportWeaponName": "GR-8 Recoilless Rifle",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/GR-8_Recoilless_Rifle",
+          "revision": 136638
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. RECOILLESS RIFLE",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "FLAM-40 Flamethrower",
@@ -1064,7 +1607,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/flam-40-flamethrower/35bdbbbca9621341"
+      "semanticId": "stratagem/v1/flam-40-flamethrower/35bdbbbca9621341",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Flamethrower",
+        "nativeTypeValue": 112,
+        "iconKey": "StratagemWeaponFlamethrower",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/flam-40-flamethrower/35bdbbbca9621341",
+        "supportWeaponName": "FLAM-40 Flamethrower",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/FLAM-40_Flamethrower",
+          "revision": 135335
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. FLAMETHROWER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "AC-8 Autocannon",
@@ -1123,7 +1702,46 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/ac-8-autocannon/902ed559c079bf20"
+      "semanticId": "stratagem/v1/ac-8-autocannon/902ed559c079bf20",
+      "uiIcon": {
+        "state": "unbound",
+        "nativeType": "AutomaticCannon",
+        "nativeTypeValue": 25,
+        "iconKey": null,
+        "library": null,
+        "reason": "The game UI icon library binds no icon to this native stratagem type.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "unbound",
+          "reason": "The game UI icon library binds no icon to this native stratagem type."
+        }
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/ac-8-autocannon/902ed559c079bf20",
+        "supportWeaponName": "AC-8 Autocannon",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/AC-8_Autocannon",
+          "revision": 135033
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. AUTOMATIC CANNON",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "MG-206 Heavy Machine Gun",
@@ -1178,7 +1796,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7"
+      "semanticId": "stratagem/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Heavy_Mg",
+        "nativeTypeValue": 32,
+        "iconKey": "StratagemWeaponHeavymachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/mg-206-heavy-machine-gun/ea93be78d91ad0c7",
+        "supportWeaponName": "MG-206 Heavy Machine Gun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/MG-206_Heavy_Machine_Gun",
+          "revision": 136641
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. HEAVY MACHINEGUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "MLS-4X Commando",
@@ -1233,7 +1887,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/mls-4x-commando/fbd50e50e043315f"
+      "semanticId": "stratagem/v1/mls-4x-commando/fbd50e50e043315f",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "LaserGuidedMissileLauncher",
+        "nativeTypeValue": 6,
+        "iconKey": "StratagemWeaponCommando",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/mls-4x-commando/fbd50e50e043315f",
+        "supportWeaponName": "MLS-4X Commando",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/MLS-4X_Commando",
+          "revision": 135316
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. COMMANDO",
+          "catalog cooldown 120 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "RL-77 Airburst Rocket Launcher",
@@ -1292,7 +1982,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057"
+      "semanticId": "stratagem/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Air_Burst_Rocket_Launcher",
+        "nativeTypeValue": 54,
+        "iconKey": "StratagemWeaponAirburstrocket",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/rl-77-airburst-rocket-launcher/bc2a49adbc0a3057",
+        "supportWeaponName": "RL-77 Airburst Rocket Launcher",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/RL-77_Airburst_Rocket_Launcher",
+          "revision": 135049
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. AIR BURST ROCKET LAUNCHER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "FAF-14 Spear",
@@ -1351,7 +2077,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/faf-14-spear/0b5ea028958b920a"
+      "semanticId": "stratagem/v1/faf-14-spear/0b5ea028958b920a",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "FafMissileLauncher",
+        "nativeTypeValue": 75,
+        "iconKey": "StratagemWeaponSpear",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/faf-14-spear/0b5ea028958b920a",
+        "supportWeaponName": "FAF-14 Spear",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/FAF-14_Spear",
+          "revision": 134797
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. SPEAR",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "RS-422 Railgun",
@@ -1406,7 +2168,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/rs-422-railgun/eb024301e3c28200"
+      "semanticId": "stratagem/v1/rs-422-railgun/eb024301e3c28200",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Railgun",
+        "nativeTypeValue": 56,
+        "iconKey": "StratagemWeaponRailgun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/rs-422-railgun/eb024301e3c28200",
+        "supportWeaponName": "RS-422 Railgun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/RS-422_Railgun",
+          "revision": 136667
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. RAILGUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "StA-X3 W.A.S.P. Launcher",
@@ -1465,7 +2263,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff"
+      "semanticId": "stratagem/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "FafMissileLauncherHelghast",
+        "nativeTypeValue": 97,
+        "iconKey": "StratagemWeaponWaspSpear",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/sta-x3-w-a-s-p-launcher/ea60c8ba13527fff",
+        "supportWeaponName": "StA-X3 W.A.S.P. Launcher",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/StA-X3_W.A.S.P._Launcher",
+          "revision": 133263
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. WASP",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "LAS-98 Laser Cannon",
@@ -1520,7 +2354,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/las-98-laser-cannon/7d66ab30f2190028"
+      "semanticId": "stratagem/v1/las-98-laser-cannon/7d66ab30f2190028",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "LaserCannon",
+        "nativeTypeValue": 63,
+        "iconKey": "StratagemWeaponLasercannon",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/las-98-laser-cannon/7d66ab30f2190028",
+        "supportWeaponName": "LAS-98 Laser Cannon",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/LAS-98_Laser_Cannon",
+          "revision": 136639
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. LASER CANNON",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "GL-21 Grenade Launcher",
@@ -1575,7 +2445,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/gl-21-grenade-launcher/8ab581c0aebb49f9"
+      "semanticId": "stratagem/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "GrenadeLauncher",
+        "nativeTypeValue": 80,
+        "iconKey": "StratagemWeaponGrenadelauncher",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/gl-21-grenade-launcher/8ab581c0aebb49f9",
+        "supportWeaponName": "GL-21 Grenade Launcher",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/GL-21_Grenade_Launcher",
+          "revision": 133254
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. GRENADE LAUNCHER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "ARC-3 Arc Thrower",
@@ -1630,7 +2536,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/arc-3-arc-thrower/e1dd4191c1d7ef28"
+      "semanticId": "stratagem/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "ArcThrower",
+        "nativeTypeValue": 68,
+        "iconKey": "StratagemWeaponArcthrower",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/arc-3-arc-thrower/e1dd4191c1d7ef28",
+        "supportWeaponName": "ARC-3 Arc Thrower",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/ARC-3_Arc_Thrower",
+          "revision": 136627
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. ARC THROWER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "LAS-99 Quasar Cannon",
@@ -1685,7 +2627,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/las-99-quasar-cannon/c4a24078efd3219b"
+      "semanticId": "stratagem/v1/las-99-quasar-cannon/c4a24078efd3219b",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "LaserPulseCannon",
+        "nativeTypeValue": 149,
+        "iconKey": "StratagemWeaponQuasarcannon",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/las-99-quasar-cannon/c4a24078efd3219b",
+        "supportWeaponName": "LAS-99 Quasar Cannon",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/LAS-99_Quasar_Cannon",
+          "revision": 129588
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. LASER PULSE CANNON",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "SG-88 Break-Action Shotgun",
@@ -1754,7 +2732,33 @@
         "writable": false,
         "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
-      "semanticId": "stratagem/v1/sg-88-break-action-shotgun/89e9d693eabca351"
+      "semanticId": "stratagem/v1/sg-88-break-action-shotgun/89e9d693eabca351",
+      "uiIcon": {
+        "state": "no_native_root",
+        "nativeType": null,
+        "iconKey": null,
+        "reason": "The item has no call-in stratagem (rootResolution NO_CALL_IN), so there is no native stratagem type.",
+        "provenance": null,
+        "blocker": {
+          "kind": "no_native_root",
+          "rootResolution": "NO_CALL_IN",
+          "reason": "The item has no call-in stratagem (rootResolution NO_CALL_IN), so there is no native stratagem type."
+        }
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/sg-88-break-action-shotgun/89e9d693eabca351",
+        "supportWeaponName": "SG-88 Break-Action Shotgun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/SG-88_Break-Action_Shotgun",
+          "revision": 132448
+        },
+        "nativeCallInResolved": false,
+        "nativeDeliveryProven": false,
+        "corroboration": [],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "CQC-72 Entrenchment Tool",
@@ -1824,7 +2828,33 @@
         "writable": false,
         "reason": "The game defines no call-in StratagemDefinition for this item: no stratagem carries its loadout item id or names its loadout package, and no rack or other native record delivers it. It is not a player-callable stratagem; the catalog lists it as equipment found during missions."
       },
-      "semanticId": "stratagem/v1/cqc-72-entrenchment-tool/6fd25d866820a884"
+      "semanticId": "stratagem/v1/cqc-72-entrenchment-tool/6fd25d866820a884",
+      "uiIcon": {
+        "state": "no_native_root",
+        "nativeType": null,
+        "iconKey": null,
+        "reason": "The item has no call-in stratagem (rootResolution NO_CALL_IN), so there is no native stratagem type.",
+        "provenance": null,
+        "blocker": {
+          "kind": "no_native_root",
+          "rootResolution": "NO_CALL_IN",
+          "reason": "The item has no call-in stratagem (rootResolution NO_CALL_IN), so there is no native stratagem type."
+        }
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/cqc-72-entrenchment-tool/6fd25d866820a884",
+        "supportWeaponName": "CQC-72 Entrenchment Tool",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/CQC-72_Entrenchment_Tool",
+          "revision": 136723
+        },
+        "nativeCallInResolved": false,
+        "nativeDeliveryProven": false,
+        "corroboration": [],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "TX-41 Sterilizer",
@@ -1879,7 +2909,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/tx-41-sterilizer/00483fecacc69a04"
+      "semanticId": "stratagem/v1/tx-41-sterilizer/00483fecacc69a04",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Chem_Gun",
+        "nativeTypeValue": 61,
+        "iconKey": "StratagemWeaponChemGun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/tx-41-sterilizer/00483fecacc69a04",
+        "supportWeaponName": "TX-41 Sterilizer",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/TX-41_Sterilizer",
+          "revision": 136393
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. CHEM GUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "CQC-1 One True Flag",
@@ -1932,7 +2998,42 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/cqc-1-one-true-flag/76eabe5acfde443f"
+      "semanticId": "stratagem/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Melee_Flag",
+        "nativeTypeValue": 114,
+        "iconKey": "StratagemOnetrueflag",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/cqc-1-one-true-flag/76eabe5acfde443f",
+        "supportWeaponName": "CQC-1 One True Flag",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/CQC-1_One_True_Flag",
+          "revision": 136716
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. MELEE FLAG",
+          "catalog cooldown 480 s equals the native definition cooldown"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "GL-52 De-Escalator",
@@ -1987,7 +3088,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/gl-52-de-escalator/5bcc344828cda19f"
+      "semanticId": "stratagem/v1/gl-52-de-escalator/5bcc344828cda19f",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "GrenadeLauncherTactical",
+        "nativeTypeValue": 131,
+        "iconKey": "StratagemWeaponGrenadelaunchertactical",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/gl-52-de-escalator/5bcc344828cda19f",
+        "supportWeaponName": "GL-52 De-Escalator",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/GL-52_De-Escalator",
+          "revision": 136482
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. GRENADE LAUNCHER TACTICAL",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "PLAS-45 Epoch",
@@ -2040,7 +3177,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/plas-45-epoch/7e4bd15bc8e5a9c4"
+      "semanticId": "stratagem/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "PlasmaBlaster",
+        "nativeTypeValue": 45,
+        "iconKey": "StratagemEpoch",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/plas-45-epoch/7e4bd15bc8e5a9c4",
+        "supportWeaponName": "PLAS-45 Epoch",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/PLAS-45_Epoch",
+          "revision": 135043
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. PLASMA BLASTER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "S-11 Speargun",
@@ -2095,7 +3268,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/s-11-speargun/12230537964a8c26"
+      "semanticId": "stratagem/v1/s-11-speargun/12230537964a8c26",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "harpoon_gun",
+        "nativeTypeValue": 113,
+        "iconKey": "StratagemSpeargun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/s-11-speargun/12230537964a8c26",
+        "supportWeaponName": "S-11 Speargun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/S-11_Speargun",
+          "revision": 133900
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. HARPOON GUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "EAT-700 Expendable Napalm",
@@ -2150,7 +3359,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/eat-700-expendable-napalm/287dc53d1723acd9"
+      "semanticId": "stratagem/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "ExpendableNapalmLauncher",
+        "nativeTypeValue": 39,
+        "iconKey": "StratagemNapalm",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/eat-700-expendable-napalm/287dc53d1723acd9",
+        "supportWeaponName": "EAT-700 Expendable Napalm",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/EAT-700_Expendable_Napalm",
+          "revision": 136395
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. EXPENDABLE NAPALM LAUNCHER",
+          "catalog cooldown 140 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "MS-11 Solo Silo",
@@ -2205,7 +3450,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/ms-11-solo-silo/f719b3801aa63197"
+      "semanticId": "stratagem/v1/ms-11-solo-silo/f719b3801aa63197",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MiniMissile",
+        "nativeTypeValue": 89,
+        "iconKey": "StratagemMinimissilesilo",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/ms-11-solo-silo/f719b3801aa63197",
+        "supportWeaponName": "MS-11 Solo Silo",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/MS-11_Solo_Silo",
+          "revision": 136642
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. MINI MISSILE SILO",
+          "catalog cooldown 180 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "CQC-9 Defoliation Tool",
@@ -2260,7 +3541,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/cqc-9-defoliation-tool/24b880f0341b5291"
+      "semanticId": "stratagem/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Melee_Chainsaw_Greatsword",
+        "nativeTypeValue": 51,
+        "iconKey": "StratagemDefoliationtool",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/cqc-9-defoliation-tool/24b880f0341b5291",
+        "supportWeaponName": "CQC-9 Defoliation Tool",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/CQC-9_Defoliation_Tool",
+          "revision": 136749
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. CHAINSAW GREATSWORD",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "M-1000 Maxigun",
@@ -2319,7 +3636,47 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/m-1000-maxigun/95638dbb80d59593"
+      "semanticId": "stratagem/v1/m-1000-maxigun/95638dbb80d59593",
+      "uiIcon": {
+        "state": "empty_template",
+        "nativeType": "Minigun",
+        "nativeTypeValue": 110,
+        "iconKey": "StratagemMaxigun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "reason": "The bound icon template contains no vector artwork in this game build.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "empty_template",
+          "reason": "The bound icon template contains no vector artwork in this game build."
+        }
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/m-1000-maxigun/95638dbb80d59593",
+        "supportWeaponName": "M-1000 Maxigun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/M-1000_Maxigun",
+          "revision": 136643
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. MINIGUN",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "B/MD C4 Pack",
@@ -2381,7 +3738,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/b-md-c4-pack/67a19fb797b95c09"
+      "semanticId": "stratagem/v1/b-md-c4-pack/67a19fb797b95c09",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "C4",
+        "nativeTypeValue": 14,
+        "iconKey": "StratagemC4",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/b-md-c4-pack/67a19fb797b95c09",
+        "supportWeaponName": "B/MD C4 Pack",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/B/MD_C4_Pack",
+          "revision": 136572
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. C4",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "CQC-20 Breaching Hammer",
@@ -2436,7 +3829,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/cqc-20-breaching-hammer/ff83dfec2716267f"
+      "semanticId": "stratagem/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Melee_Sledge_Hammer",
+        "nativeTypeValue": 100,
+        "iconKey": "StratagemHammer",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/cqc-20-breaching-hammer/ff83dfec2716267f",
+        "supportWeaponName": "CQC-20 Breaching Hammer",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/CQC-20_Breaching_Hammer",
+          "revision": 136713
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. SLEDGE HAMMER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "EAT-411 Leveller",
@@ -2491,7 +3920,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/eat-411-leveller/77b0b0e293adb90a"
+      "semanticId": "stratagem/v1/eat-411-leveller/77b0b0e293adb90a",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "ExpendableMassiveRocketLauncher",
+        "nativeTypeValue": 16,
+        "iconKey": "StratagemRocketlauncher",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/eat-411-leveller/77b0b0e293adb90a",
+        "supportWeaponName": "EAT-411 Leveller",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/EAT-411_Leveller",
+          "revision": 136631
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. EXPENDABLE MASSIVE ROCKET LAUNCHER",
+          "catalog cooldown 140 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "GL-28 Belt-Fed Grenade Launcher",
@@ -2550,7 +4015,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35"
+      "semanticId": "stratagem/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "BeltFedGrenadeLauncher",
+        "nativeTypeValue": 127,
+        "iconKey": "StratagemGrenadelauncher",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/gl-28-belt-fed-grenade-launcher/d20d8fc730eace35",
+        "supportWeaponName": "GL-28 Belt-Fed Grenade Launcher",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/GL-28_Belt-Fed_Grenade_Launcher",
+          "revision": 136666
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. BELT FED GRENADE LAUNCHER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "B/FLAM-80 Cremator",
@@ -2607,7 +4108,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1"
+      "semanticId": "stratagem/v1/b-flam-80-cremator/3082c5f374e3efe1",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "heavy_flamethrower",
+        "nativeTypeValue": 87,
+        "iconKey": "StratagemCremator",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/b-flam-80-cremator/3082c5f374e3efe1",
+        "supportWeaponName": "B/FLAM-80 Cremator",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/B/FLAM-80_Cremator",
+          "revision": 136386
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. HEAVY FLAMETHROWER",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "MGX-42 Bullet Storm",
@@ -2662,7 +4199,43 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/mgx-42-bullet-storm/4c6df7047f634176"
+      "semanticId": "stratagem/v1/mgx-42-bullet-storm/4c6df7047f634176",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Expendable_Machinegun",
+        "nativeTypeValue": 99,
+        "iconKey": "StratagemExpandablemachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/mgx-42-bullet-storm/4c6df7047f634176",
+        "supportWeaponName": "MGX-42 Bullet Storm",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/MGX-42_Bullet_Storm",
+          "revision": 136503
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. EXPENDABLE MACHINEGUN",
+          "catalog cooldown 70 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "40-K Meltagun",
@@ -2717,7 +4290,46 @@
         "writable": false,
         "reason": "No call-in-time owner is proven for this definition."
       },
-      "semanticId": "stratagem/v1/40-k-meltagun/3ce05d7d133179e0"
+      "semanticId": "stratagem/v1/40-k-meltagun/3ce05d7d133179e0",
+      "uiIcon": {
+        "state": "unbound",
+        "nativeType": "Energy_Weapon_Shark",
+        "nativeTypeValue": 81,
+        "iconKey": null,
+        "library": null,
+        "reason": "The game UI icon library binds no icon to this native stratagem type.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "unbound",
+          "reason": "The game UI icon library binds no icon to this native stratagem type."
+        }
+      },
+      "catalogEquipment": {
+        "kind": "support_weapon",
+        "supportWeapon": "support-weapon/v1/40-k-meltagun/3ce05d7d133179e0",
+        "supportWeaponName": "40-K Meltagun",
+        "basis": "catalog_record",
+        "catalogRecord": {
+          "page": "https://helldivers.wiki.gg/wiki/40-K_Meltagun",
+          "revision": 136835
+        },
+        "nativeCallInResolved": true,
+        "nativeDeliveryProven": true,
+        "corroboration": [
+          "reviewed native call-in debug name TEAM WEAPONS. SHARK ENERGY WEAPON",
+          "catalog cooldown 480 s equals the native definition cooldown",
+          "catalog and native definition both have unlimited uses"
+        ],
+        "note": "Presentation association: the call-in and this equipment come from the same catalog record. It is not native delivery evidence; delivers and linkedStratagem remain the only ownership links."
+      }
     },
     {
       "name": "M-103 Supply FRV",
@@ -2755,7 +4367,28 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/m-103-supply-frv/108227c997178041"
+      "semanticId": "stratagem/v1/m-103-supply-frv/108227c997178041",
+      "uiIcon": {
+        "state": "unbound",
+        "nativeType": "DropoffFrv_Supply",
+        "nativeTypeValue": 26,
+        "iconKey": null,
+        "library": null,
+        "reason": "The game UI icon library binds no icon to this native stratagem type.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "unbound",
+          "reason": "The game UI icon library binds no icon to this native stratagem type."
+        }
+      }
     },
     {
       "name": "TD-110 Maelstrom",
@@ -2793,7 +4426,28 @@
         "provenance": "unique current primary-payload owner",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/td-110-maelstrom/80b0d54c76517c84"
+      "semanticId": "stratagem/v1/td-110-maelstrom/80b0d54c76517c84",
+      "uiIcon": {
+        "state": "unbound",
+        "nativeType": "DropoffTankStorm",
+        "nativeTypeValue": 50,
+        "iconKey": null,
+        "library": null,
+        "reason": "The game UI icon library binds no icon to this native stratagem type.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "unbound",
+          "reason": "The game UI icon library binds no icon to this native stratagem type."
+        }
+      }
     },
     {
       "name": "M-104 Incinerator FRV",
@@ -2831,7 +4485,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/m-104-incinerator-frv/be0550872fdf782b"
+      "semanticId": "stratagem/v1/m-104-incinerator-frv/be0550872fdf782b",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffFrv_Flamer",
+        "nativeTypeValue": 135,
+        "iconKey": "StratagemVehicleFrvFlamer",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "EXO-49 Emancipator Exosuit",
@@ -2869,7 +4541,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/exo-49-emancipator-exosuit/89c8c708cd5d987e"
+      "semanticId": "stratagem/v1/exo-49-emancipator-exosuit/89c8c708cd5d987e",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffCombatWalker_Autocannon",
+        "nativeTypeValue": 10,
+        "iconKey": "StratagemVehicleCombatwalkerobsidian",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "EXO-45 Patriot Exosuit",
@@ -2907,7 +4597,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/exo-45-patriot-exosuit/3eff249f5ec0eac9"
+      "semanticId": "stratagem/v1/exo-45-patriot-exosuit/3eff249f5ec0eac9",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffCombatWalker",
+        "nativeTypeValue": 27,
+        "iconKey": "StratagemVehicleCombatwalker",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "M-102 Gunner FRV",
@@ -2945,7 +4653,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/m-102-gunner-frv/d6196240a45a1934"
+      "semanticId": "stratagem/v1/m-102-gunner-frv/d6196240a45a1934",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffFrv",
+        "nativeTypeValue": 105,
+        "iconKey": "StratagemVehicleFrv",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "TD-220 Bastion MK XVI",
@@ -2983,7 +4709,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/td-220-bastion-mk-xvi/80b5f97195d26140"
+      "semanticId": "stratagem/v1/td-220-bastion-mk-xvi/80b5f97195d26140",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffTank",
+        "nativeTypeValue": 1,
+        "iconKey": "StratagemBastion",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "EXO-55 Breakthrough Exosuit",
@@ -3021,7 +4765,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/exo-55-breakthrough-exosuit/efd8742461fe42d4"
+      "semanticId": "stratagem/v1/exo-55-breakthrough-exosuit/efd8742461fe42d4",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffCombatWalker_Breacher",
+        "nativeTypeValue": 88,
+        "iconKey": "StratagemVehicleCombatwalkerBreacher",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "EXO-51 Lumberer Exosuit",
@@ -3059,7 +4821,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/exo-51-lumberer-exosuit/d09a8a95565ed676"
+      "semanticId": "stratagem/v1/exo-51-lumberer-exosuit/d09a8a95565ed676",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DropoffCombatWalkerLumberer",
+        "nativeTypeValue": 91,
+        "iconKey": "StratagemVehicleCombatwalkerLumberer",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "B-1 Supply Pack",
@@ -3098,7 +4878,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/b-1-supply-pack/549519682c61acd9"
+      "semanticId": "stratagem/v1/b-1-supply-pack/549519682c61acd9",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "AmmoBackpack",
+        "nativeTypeValue": 101,
+        "iconKey": "StratagemSupportbackpackAmmo",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "LIFT-850 Jump Pack",
@@ -3137,7 +4935,29 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/lift-850-jump-pack/ec792e5b65ccdbd5"
+      "semanticId": "stratagem/v1/lift-850-jump-pack/ec792e5b65ccdbd5",
+      "uiIcon": {
+        "state": "empty_template",
+        "nativeType": "JumppackBackpack",
+        "nativeTypeValue": 134,
+        "iconKey": "StratagemJumpack",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "reason": "The bound icon template contains no vector artwork in this game build.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "empty_template",
+          "reason": "The bound icon template contains no vector artwork in this game build."
+        }
+      }
     },
     {
       "name": "SH-20 Ballistic Shield Backpack",
@@ -3176,7 +4996,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c"
+      "semanticId": "stratagem/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "BallisticShield",
+        "nativeTypeValue": 96,
+        "iconKey": "StratagemBackpackShieldballistic",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "AX/AR-23 Guard Dog",
@@ -3215,7 +5053,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/ax-ar-23-guard-dog/75cb6b67ea0a1435"
+      "semanticId": "stratagem/v1/ax-ar-23-guard-dog/75cb6b67ea0a1435",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DroneMG",
+        "nativeTypeValue": 73,
+        "iconKey": "StratagemSupportdroneMachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "AX/LAS-5 Rover",
@@ -3254,7 +5110,29 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/ax-las-5-rover/f4753aa301a6487c"
+      "semanticId": "stratagem/v1/ax-las-5-rover/f4753aa301a6487c",
+      "uiIcon": {
+        "state": "empty_template",
+        "nativeType": "Drone_Laser_Rifle",
+        "nativeTypeValue": 115,
+        "iconKey": "StratagemRover",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "reason": "The bound icon template contains no vector artwork in this game build.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "empty_template",
+          "reason": "The bound icon template contains no vector artwork in this game build."
+        }
+      }
     },
     {
       "name": "SH-32 Shield Generator Pack",
@@ -3293,7 +5171,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/sh-32-shield-generator-pack/6813d062793b63a0"
+      "semanticId": "stratagem/v1/sh-32-shield-generator-pack/6813d062793b63a0",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EnergyShieldBackpack",
+        "nativeTypeValue": 43,
+        "iconKey": "StratagemBackpackShieldenergy",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "SH-51 Directional Shield",
@@ -3332,7 +5228,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/sh-51-directional-shield/400f906ca1d05117"
+      "semanticId": "stratagem/v1/sh-51-directional-shield/400f906ca1d05117",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DirectionalEnergyShield",
+        "nativeTypeValue": 67,
+        "iconKey": "StratagemDirectionalEnergyShield",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "AX/FLAM-75 Hot Dog",
@@ -3371,7 +5285,29 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/ax-flam-75-hot-dog/d45f83e90a1ea647"
+      "semanticId": "stratagem/v1/ax-flam-75-hot-dog/d45f83e90a1ea647",
+      "uiIcon": {
+        "state": "empty_template",
+        "nativeType": "Drone_FLAMETHROWER",
+        "nativeTypeValue": 57,
+        "iconKey": "StratagemHotdog",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "reason": "The bound icon template contains no vector artwork in this game build.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "empty_template",
+          "reason": "The bound icon template contains no vector artwork in this game build."
+        }
+      }
     },
     {
       "name": "B-100 Portable Hellbomb",
@@ -3410,7 +5346,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/b-100-portable-hellbomb/06da68b47c85f8b0"
+      "semanticId": "stratagem/v1/b-100-portable-hellbomb/06da68b47c85f8b0",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MissionHellbombBackpack",
+        "nativeTypeValue": 31,
+        "iconKey": "StratagemBackpackHellbomb",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "AX/ARC-3 K-9",
@@ -3449,7 +5403,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/ax-arc-3-k-9/52daba9b9e3d913d"
+      "semanticId": "stratagem/v1/ax-arc-3-k-9/52daba9b9e3d913d",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Drone_Stun",
+        "nativeTypeValue": 2,
+        "iconKey": "StratagemDroneStun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "LIFT-860 Hover Pack",
@@ -3488,7 +5460,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/lift-860-hover-pack/fec85baedc5b2c31"
+      "semanticId": "stratagem/v1/lift-860-hover-pack/fec85baedc5b2c31",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "HoverpackBackpack",
+        "nativeTypeValue": 55,
+        "iconKey": "StratagemHoverpack",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "AX/TX-13 Dog Breath",
@@ -3527,7 +5517,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/ax-tx-13-dog-breath/49fac869308cc6dd"
+      "semanticId": "stratagem/v1/ax-tx-13-dog-breath/49fac869308cc6dd",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Drone_GASPROJECTOR",
+        "nativeTypeValue": 142,
+        "iconKey": "StratagemDroneGasProjector",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "LIFT-182 Warp Pack",
@@ -3566,7 +5574,25 @@
         "provenance": "historical debug-name identity",
         "blocker": null
       },
-      "semanticId": "stratagem/v1/lift-182-warp-pack/7a55e98ddf9efd70"
+      "semanticId": "stratagem/v1/lift-182-warp-pack/7a55e98ddf9efd70",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "DisplacementBackpack",
+        "nativeTypeValue": 24,
+        "iconKey": "StratagemSupportbackpackDisplacementBackpack",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/MG-43 Machine Gun Sentry",
@@ -3636,7 +5662,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-mg-43-machine-gun-sentry/0e0393fa17d9d89e"
+      "semanticId": "stratagem/v1/a-mg-43-machine-gun-sentry/0e0393fa17d9d89e",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMachinegunGPMG",
+        "nativeTypeValue": 121,
+        "iconKey": "StratagemTurretsMachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/G-16 Gatling Sentry",
@@ -3706,7 +5750,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-g-16-gatling-sentry/c6673d55619c8903"
+      "semanticId": "stratagem/v1/a-g-16-gatling-sentry/c6673d55619c8903",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMachinegun",
+        "nativeTypeValue": 66,
+        "iconKey": "StratagemTurretsGatling",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/AC-8 Autocannon Sentry",
@@ -3778,7 +5840,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-ac-8-autocannon-sentry/85f266ab305ff9bc"
+      "semanticId": "stratagem/v1/a-ac-8-autocannon-sentry/85f266ab305ff9bc",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretAutocannon",
+        "nativeTypeValue": 137,
+        "iconKey": "StratagemTurretsAutocannon",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/M-12 Mortar Sentry",
@@ -3850,7 +5930,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-m-12-mortar-sentry/07444934336437e8"
+      "semanticId": "stratagem/v1/a-m-12-mortar-sentry/07444934336437e8",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMortar",
+        "nativeTypeValue": 117,
+        "iconKey": "StratagemTurretsMortar",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/MLS-4X Rocket Sentry",
@@ -3922,7 +6020,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-mls-4x-rocket-sentry/b8d43a0a89deeda9"
+      "semanticId": "stratagem/v1/a-mls-4x-rocket-sentry/b8d43a0a89deeda9",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretRocket",
+        "nativeTypeValue": 53,
+        "iconKey": "StratagemTurretsRocket",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/ARC-3 Tesla Tower",
@@ -3985,7 +6101,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-arc-3-tesla-tower/1d4a5a809255124c"
+      "semanticId": "stratagem/v1/a-arc-3-tesla-tower/1d4a5a809255124c",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretTesla",
+        "nativeTypeValue": 104,
+        "iconKey": "StratagemEmplacementsTeslatower",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/M-23 EMS Mortar Sentry",
@@ -4060,7 +6194,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-m-23-ems-mortar-sentry/4d250293facca577"
+      "semanticId": "stratagem/v1/a-m-23-ems-mortar-sentry/4d250293facca577",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMortar_Staticfield",
+        "nativeTypeValue": 44,
+        "iconKey": "StratagemTurretsMortarStaticfield",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/LAS-98 Laser Sentry",
@@ -4123,7 +6275,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-las-98-laser-sentry/3453078a058b5c9b"
+      "semanticId": "stratagem/v1/a-las-98-laser-sentry/3453078a058b5c9b",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretLaserCannon",
+        "nativeTypeValue": 23,
+        "iconKey": "StratagemTurretLaserCannon",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/FLAM-40 Flame Sentry",
@@ -4187,7 +6357,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-flam-40-flame-sentry/852ccc837682ccb3"
+      "semanticId": "stratagem/v1/a-flam-40-flame-sentry/852ccc837682ccb3",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretFlamethrower",
+        "nativeTypeValue": 8,
+        "iconKey": "StratagemTurretFlamethrower",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "A/GM-17 Gas Mortar Sentry",
@@ -4261,7 +6449,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/a-gm-17-gas-mortar-sentry/b23f1530ef24d72c"
+      "semanticId": "stratagem/v1/a-gm-17-gas-mortar-sentry/b23f1530ef24d72c",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMortar_Gas",
+        "nativeTypeValue": 52,
+        "iconKey": "StratagemTurretsGassentry",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "MD-6 Anti-Personnel Minefield",
@@ -4321,7 +6527,25 @@
       },
       "mineScopeDeferred": true,
       "mineInstanceResolved": false,
-      "semanticId": "stratagem/v1/md-6-anti-personnel-minefield/3b8d190c8866f82c"
+      "semanticId": "stratagem/v1/md-6-anti-personnel-minefield/3b8d190c8866f82c",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MineDeployer",
+        "nativeTypeValue": 119,
+        "iconKey": "StratagemEmplacementsMinedeployer",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "MD-I4 Incendiary Mines",
@@ -4381,7 +6605,25 @@
       },
       "mineScopeDeferred": true,
       "mineInstanceResolved": false,
-      "semanticId": "stratagem/v1/md-i4-incendiary-mines/b1272186f32bb35d"
+      "semanticId": "stratagem/v1/md-i4-incendiary-mines/b1272186f32bb35d",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MineDeployer_IncendiaryMines",
+        "nativeTypeValue": 139,
+        "iconKey": "StratagemEmplacementsMinedeployerIncendiary",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "MD-17 Anti-Tank Mines",
@@ -4441,7 +6683,25 @@
       },
       "mineScopeDeferred": true,
       "mineInstanceResolved": false,
-      "semanticId": "stratagem/v1/md-17-anti-tank-mines/55f139ba71a97934"
+      "semanticId": "stratagem/v1/md-17-anti-tank-mines/55f139ba71a97934",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MineDeployer_AntiTank",
+        "nativeTypeValue": 12,
+        "iconKey": "StratagemEmplacementsAntitankmine",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "FX-12 Shield Generator Relay",
@@ -4518,7 +6778,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/fx-12-shield-generator-relay/96c8c9b617574926"
+      "semanticId": "stratagem/v1/fx-12-shield-generator-relay/96c8c9b617574926",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "EnergyShield",
+        "nativeTypeValue": 22,
+        "iconKey": "StratagemEmplacementsEnergyshield",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "E/MG-101 HMG Emplacement",
@@ -4588,7 +6866,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/e-mg-101-hmg-emplacement/258b9c8985ef6332"
+      "semanticId": "stratagem/v1/e-mg-101-hmg-emplacement/258b9c8985ef6332",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretManned",
+        "nativeTypeValue": 144,
+        "iconKey": "StratagemMannedMachinegun",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "E/GL-21 Grenadier Battlement",
@@ -4636,7 +6932,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/e-gl-21-grenadier-battlement/3d626eb236583fc4"
+      "semanticId": "stratagem/v1/e-gl-21-grenadier-battlement/3d626eb236583fc4",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "Cover_Grenade_Launcher",
+        "nativeTypeValue": 59,
+        "iconKey": "StratagemEmplacementsCoverwall",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "MD-8 Gas Mines",
@@ -4696,7 +7010,25 @@
       },
       "mineScopeDeferred": true,
       "mineInstanceResolved": false,
-      "semanticId": "stratagem/v1/md-8-gas-mines/fd07b597d67e228b"
+      "semanticId": "stratagem/v1/md-8-gas-mines/fd07b597d67e228b",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "MineDeployer_GasMines",
+        "nativeTypeValue": 46,
+        "iconKey": "StratagemEmplacementsGasMine",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     },
     {
       "name": "E/AT-12 Anti-Tank Emplacement",
@@ -4768,7 +7100,25 @@
       },
       "mineScopeDeferred": false,
       "mineInstanceResolved": null,
-      "semanticId": "stratagem/v1/e-at-12-anti-tank-emplacement/19453f9043f7a9bf"
+      "semanticId": "stratagem/v1/e-at-12-anti-tank-emplacement/19453f9043f7a9bf",
+      "uiIcon": {
+        "state": "resolved",
+        "nativeType": "TurretMannedAntiTank",
+        "nativeTypeValue": 9,
+        "iconKey": "StratagemEmplacementAntiTank",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": null
+      }
     }
   ],
   "semanticBranches": [
@@ -91158,6 +93508,53 @@
       ]
     }
   },
+  "uiIconContract": {
+    "contract": "hd2runtime.stratagem.ui_icon.v1",
+    "schemaVersion": 1,
+    "states": {
+      "resolved": "The bound icon template has vector artwork; iconKey names it.",
+      "empty_template": "An icon is bound, but its template has no vector artwork in this game build.",
+      "unbound": "The icon library binds no icon to the native stratagem type.",
+      "no_native_root": "No uniquely resolved native root, so no native stratagem type is known."
+    },
+    "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json",
+    "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+    "librarySha256": "DEDA7000592065F14D79D41C5D153EC1041FFF7A58D6A607DEF232ADD7702EAE",
+    "nativeTypeEnum": "StratagemType",
+    "nativeTypeValues": 151,
+    "typeBindings": 110,
+    "templates": 111,
+    "vectorTemplates": 92,
+    "emptyTemplates": [
+      "StratagemCallindestroyer",
+      "StratagemCargo",
+      "StratagemData",
+      "StratagemDataCyborg",
+      "StratagemDrill",
+      "StratagemDropoffSpecialCardoContainer",
+      "StratagemEaglerearm",
+      "StratagemFlare",
+      "StratagemHellbomb",
+      "StratagemHotdog",
+      "StratagemJumpack",
+      "StratagemMaxigun",
+      "StratagemOilRigExtract",
+      "StratagemProbe",
+      "StratagemReinforce",
+      "StratagemRessuply",
+      "StratagemRover",
+      "StratagemSosbeacon",
+      "StratagemThumper"
+    ],
+    "artworkPublished": false,
+    "chain": [
+      "StratagemInfo.type (member 0, ENUM_UINT32 StratagemType in the pinned type library)",
+      "StratagemType value -> native member name: game.dll enum name table, every entry length equal to the type library alias length for its value",
+      "native member name -> icon key: StratagemTypeDataTemplate DataTrigger in the icon library",
+      "icon key -> DataTemplate in the same library (vector artwork or empty)"
+    ],
+    "note": "Tooling extracts the artwork locally from the installed game. Display names are never used to select an icon."
+  },
   "instanceAudit": {
     "internalPromotedInstances": 1468,
     "publishedCanonicalInstances": 1468,
@@ -91285,6 +93682,17 @@
         "MS-11 Solo Silo"
       ]
     },
+    "uiIconStates": {
+      "resolved": 84,
+      "empty_template": 4,
+      "unbound": 5,
+      "no_native_root": 2
+    },
+    "catalogEquipmentAssociations": 35,
+    "catalogOnlyEquipment": [
+      "CQC-72 Entrenchment Tool",
+      "SG-88 Break-Action Shotgun"
+    ],
     "vehicleRootsResolved": 9,
     "backpackRootsResolved": 13,
     "shieldFieldsWritable": 2,
