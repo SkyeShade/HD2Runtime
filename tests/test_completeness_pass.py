@@ -238,8 +238,15 @@ class MigrationTests(unittest.TestCase):
         from migration import source
         tables = source.load_tables(source.resolve_ref('current'))
         links = [link for link in source.relationships(tables) if link['kind'] == 'component_value']
-        self.assertEqual(len(links), 4)
-        self.assertEqual({link['component'] for link in links}, {'MinefieldComponentData'})
+        mines = [link for link in links if link['key'].startswith('stratagem-component-link:')]
+        self.assertEqual(len(mines), 4)
+        self.assertEqual({link['component'] for link in mines}, {'MinefieldComponentData'})
+        # The other component values guard ammunition sources: each weapon's default customization must still name
+        # the ammunition whose delta owns its fired projectile.
+        ammunition = [link for link in links if link not in mines]
+        self.assertEqual(len(ammunition), 6)
+        self.assertTrue(all(link['key'].startswith('ammunition-default:')
+            and link['component'] == 'WeaponCustomizationComponentData' for link in ammunition))
 
     def test_component_value_fails_closed(self):
         from migration import engine

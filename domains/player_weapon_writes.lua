@@ -14,6 +14,8 @@ local function database_for(kind)
     return kind=='support_weapon'and support_database or database
 end
 local M={}
+-- Catalogued attack outputs, projectile sources and ammunition sources (domains/attack_outputs.lua).
+local function attack_outputs()return require('hd2runtime/domains/attack_outputs')end
 -- Package the source weapon's projectile/explosion assets live in (its generated loadout package), when the
 -- source is another weapon whose package differs from the target's. Unknown sources return nil.
 local function source_dependency(target_name,source_name,attack)
@@ -33,6 +35,10 @@ local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData'
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
     'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
     'WeaponWindUpComponentData','HealthComponentData','MountComponentData'}
+-- Weapons whose default ammunition owns the fired projectile also re-prove their default customization.
+local ammunition_component_names={}
+for index,name in ipairs(component_names)do ammunition_component_names[index]=name end
+ammunition_component_names[#ammunition_component_names+1]='WeaponCustomizationComponentData'
 
 local function equal(a,c,kind)
     if kind=='f32'then return type(a)=='number'and type(c)=='number'
@@ -44,6 +50,13 @@ local function target_name(target)
         or target.resource=='support_weapon'or target.resource=='vehicle_weapon')and type(target.weapon)=='string',
         'unsupported weapon target')
     local kind=target.resource
+    if target.path=='ammunition'then
+        -- A weapon's default ammunition: the active projectile source when its delta patches ProjectileWeapon +0.
+        assert(kind=='player_weapon','ammunition targets are player weapons')
+        for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
+            'unsupported ammunition target identity')end
+        return target.weapon,'primary','ammunition',nil,kind
+    end
     if target.path=='weapon'then
         for key in pairs(target)do assert(key=='resource'or key=='path'or key=='weapon',
             'unsupported player weapon target identity')end
@@ -70,6 +83,11 @@ local function canonical_explosion_phase(weapon,role,phase)
 end
 local function field_for(weapon,id,role,path,phase)
     local resolved=id
+    if path=='ammunition'then
+        assert(id=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
+        return assert(attack_outputs().ammunition[weapon.name],'NO_AMMUNITION_SOURCE: '..weapon.name
+            ..' has no reviewed default ammunition that owns its fired projectile (see attack:projectile_source())')
+    end
     if weapon.supportWeapon then
         if path=='projectile_reference'and id:match('^projectile%.')then
             resolved='projectile.'..role..'.'..id:sub(#'projectile.'+1)
@@ -149,8 +167,7 @@ local function same_list(a,c)
     for index=1,#a do if a[index]~=c[index]then return false end end
     return true
 end
--- Catalogued attack outputs (domains/attack_outputs.lua): family-aware, never a common abstraction.
-local function attack_outputs()return require('hd2runtime/domains/attack_outputs')end
+-- Attack outputs are family-aware, never a common abstraction.
 local function output_selector(value,label)
     for key in pairs(value)do assert(key=='resource'or key=='output',
         label..' contains unsupported attack output identity')end
@@ -161,6 +178,13 @@ end
 local function reference_selector(value,label)
     assert(type(value)=='table',label..' must be a projectile reference handle')
     if value.resource=='attack_output'then return output_selector(value,label)end
+    if value.path=='ammunition_projectile'then
+        for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon',
+            label..' contains unsupported ammunition projectile identity')end
+        assert(value.resource=='player_weapon'and type(value.weapon)=='string',
+            label..' must come from weapon:ammunition():projectile()')
+        return {weapon=value.weapon,attack='primary',ammunition=true}
+    end
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
         label..' contains unsupported projectile reference identity')end
     assert(value.resource=='player_weapon'and value.path=='projectile_reference'
@@ -199,6 +223,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         assert(item.field:match('^damage%.')or item.field:match('^arc%.')
             or item.field:match('^beam%.')or item.field:match('^status%.'),
             'support attack target accepts only its reviewed damage/family/status fields')
+    elseif path=='ammunition'then
+        assert(item.field=='ammunition.projectile','ammunition targets only accept hd2.fields.ammunition.projectile')
     elseif path=='attack'then
         assert(item.field=='attack.projectile'or item.field=='attack.'..role..'.projectile',
             'COMPOSITION_TARGET_CHANGED: attack transactions only replace the projectile reference; edit the freshly resolved source projectile object in a separate guarded operation with allow_shared=true')
@@ -237,8 +263,19 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             'projectile reference role changed')
         local expected=reference_selector(item.expect,'expect')
         local desired=reference_selector(item.value,'value')
-        assert(not expected.output and expected.weapon==weapon.name and expected.attack==role,
-            'expect must be the target attack current projectile handle')
+        local ammunition=path=='ammunition'
+        assert(not expected.output and expected.weapon==weapon.name and expected.attack==role
+            and(expected.ammunition==true)==ammunition,ammunition
+            and'expect must be the weapon ammunition current projectile handle (weapon:ammunition():projectile())'
+            or'expect must be the target attack current projectile handle')
+        if desired.ammunition then
+            -- Only the weapon's own ammunition projectile: restoring the reviewed baseline.
+            assert(ammunition and desired.weapon==weapon.name,
+                'an ammunition projectile handle only restores its own weapon ammunition')
+            return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+                semantic_aliases={item.field},expect=item.expect,value=item.value,
+                expected_selector=expected,desired_selector=desired,source_descriptor=field,self_reference=true}
+        end
         if desired.output then
             -- A catalogued output: only the projectile family can be referenced by a projectile host.
             local output=desired.entry
@@ -250,8 +287,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             local cross=output.compatibilityClass~=field.compatibilityClass
             if cross then
                 local host=attack_outputs().hosts[weapon.name]
-                assert(host,'CROSS_CLASS_HOST_REJECTED: '..weapon.name..' is not a magazine-fed projectile host '
-                    ..'(its rounds are not all selected by its projectile reference)')
+                assert(host and host.mechanism==(ammunition and'ammunition'or'component'),
+                    'CROSS_CLASS_HOST_REJECTED: '..weapon.name..' is not a projectile host whose fired projectile this '
+                    ..'target writes (see attack:projectile_source())')
                 assert(allow_unverified_reference,'cross-class attack output requires allow_unverified_reference=true: '
                     ..output.id..' ('..attack_outputs().crossClassReason..')')
                 assert(allow_unverified_effect,'cross-class attack output requires allow_unverified_effect=true: '
@@ -288,7 +326,7 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected_selector=expected,desired_selector=desired,source_descriptor=source,
             -- The host's own projectile: the reviewed baseline, whatever another output currently holds.
-            self_reference=expected.weapon==desired.weapon and expected.attack==desired.attack,
+            self_reference=not ammunition and expected.weapon==desired.weapon and expected.attack==desired.attack,
             asset_dependency=dependency}
     end
     if field.type=='explosion_reference'then
@@ -455,11 +493,34 @@ local function find_candidate(catalog,resource)
     return found
 end
 
+-- Re-prove a weapon's ammunition source inside the live, uniquely owned entity delta allocation: the delta chain
+-- (header, hashmap row, settings entry, component rows, reviewed data offset) and the weapon's own default
+-- customization still naming that ammunition item. Returns the active projectile type the weapon is built with.
+local function prove_ammunition(reader,roots,catalog,candidate,ammunition)
+    local region=assert(roots.entity_deltas,'entity delta table was not located')
+    reader.stage='domains/player_weapon_writes:ammunition_delta'
+    local offsets=require('hd2runtime/domains/attachment_writes').prove(reader,region,ammunition)
+    local rows=assert(offsets[ammunition.component],
+        'AMMUNITION_SOURCE_CHANGED: the ammunition delta no longer patches ProjectileWeaponComponentData')
+    assert(rows[ammunition.componentOffset]==ammunition.dataOffset,
+        'AMMUNITION_SOURCE_CHANGED: reviewed ammunition delta data offset changed')
+    local custom=catalog.record(candidate,'WeaponCustomizationComponentData')
+    local pair=ammunition.defaultCustomization
+    assert(b.u32(custom.bytes,pair.offset)==pair.slot and b.u32(custom.bytes,pair.offset+4)==pair.optionId,
+        'AMMUNITION_SOURCE_CHANGED: '..ammunition.weapon..' no longer defaults to '..ammunition.item)
+    local bytes=reader.read(region,ammunition.dataOffset,4,true)
+    return {entry=ammunition,region=region,bytes=bytes,projectile_type=b.u32(bytes,0)}
+end
+
 local function add_need(needed,name,value)
     if value==true or needed[name]==nil then needed[name]=value end
 end
 local function collect_needs(needed,spec)
     add_need(needed,'entity',true)
+    if spec.kind=='player_weapon'and attack_outputs().ammunition[spec.weapon]then
+        -- The weapon's fired projectile is its ammunition delta: projectile resolution and ammunition writes use it.
+        add_need(needed,'entity_deltas',true);add_need(needed,'projectile',true)
+    end
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing
         if backing.kind=='settings'then
@@ -491,7 +552,8 @@ function M.capture_many(runtime,reader,specs)
     require('hd2runtime/core/fingerprint').require(runtime)
     local needed={};for _,spec in ipairs(specs)do collect_needs(needed,spec)end
     local roots=discover.locate(runtime,reader,profile,needed)
-    local catalog=entities.capture(reader,roots.entity,profile,component_names)
+    local catalog=entities.capture(reader,roots.entity,profile,
+        needed.entity_deltas and ammunition_component_names or component_names)
     local results={}
     for index,spec in ipairs(specs)do
         local selected=database_for(spec.kind)
@@ -524,6 +586,8 @@ function M.capture_many(runtime,reader,specs)
             end end
             resolved.identity_candidate=identity_candidate
         end
+        local ammunition=spec.kind=='player_weapon'and attack_outputs().ammunition[spec.weapon]
+        if ammunition then resolved.ammunition=prove_ammunition(reader,roots,catalog,resolved.candidate,ammunition)end
         if spec.kind=='vehicle_weapon'then
             -- Re-prove the mount chain: the vehicle's own MountComponentData slot still holds this weapon.
             local chain=assert(spec.mount_chain,'vehicle weapon mount chain missing')
@@ -563,7 +627,10 @@ end
 local function projectile_for_candidate(resolved,candidate,branch)
     local ownership=candidate.ownership
     local projectile_type
-    if ownership.WeaponRoundsComponentData then
+    if resolved.ammunition and candidate==resolved.candidate then
+        -- The weapon fires its default ammunition delta; ProjectileWeapon +0 is dormant.
+        projectile_type=resolved.ammunition.projectile_type
+    elseif ownership.WeaponRoundsComponentData then
         local rounds=resolved.catalog.record(candidate,'WeaponRoundsComponentData')
         projectile_type=b.u32(rounds.bytes,(branch=='alternate'or branch=='feed_alternate')and 68 or 64)
     elseif ownership.ProjectileWeaponComponentData then
@@ -702,6 +769,10 @@ function M.prepare(resolved,reader,spec)
     for _,change in ipairs(spec.changes)do
         local backing=change.descriptor.backing;local record,owner
         if backing.kind=='component'then record=component_record(resolved,backing);owner=record.owner
+        elseif backing.kind=='entity_delta'then
+            local ammunition=assert(resolved.ammunition,'ammunition source was not freshly proven')
+            assert(ammunition.entry.dataOffset==change.descriptor.dataOffset,'ammunition source changed')
+            record={bytes=ammunition.bytes,offset=change.descriptor.dataOffset};owner=ammunition.region
         elseif(spec.kind=='support_weapon'or spec.kind=='vehicle_weapon')and backing.linkage then
             record,owner=support_linked(resolved,backing)
             assert(record.group==backing.group and record.row==backing.row
@@ -823,7 +894,11 @@ function M.prepare(resolved,reader,spec)
         end
         local expected=ownership.expected(change,current)
         local identity
-        if backing.kind=='component'then
+        if backing.kind=='entity_delta'then
+            identity={component='EntityDelta:'..backing.component,component_type='semantic',
+                record_index=change.descriptor.settingsIndex,unique_owner=false,
+                owner_count=#change.descriptor.sharedWithWeapons+1,scope=change.descriptor.writeScope}
+        elseif backing.kind=='component'then
             identity={component=backing.component,component_type=record.identity.componentType,
                 record_index=record.identity.recordIndex,index_row=record.identity.indexRow,
                 unique_owner=record.identity.uniqueOwner,owner_count=record.identity.ownerCount,
@@ -864,7 +939,9 @@ function M.prepare(resolved,reader,spec)
             semantic_aliases=change.semantic_aliases,owner=owner,offset=offset,field_offset=backing.offset,
             expected=expected,desired=change.desired,before=current,
             already_desired=current==change.desired,identity=identity,chain={identity},
-            expect=change.expect,value=change.value}
+            expect=change.expect,value=change.value,
+            -- Entity delta data is byte-packed; the ammunition rows are aligned but opt in explicitly.
+            packed=backing.kind=='entity_delta'or nil}
             if source_identity then item.chain[#item.chain+1]=source_identity end
             if change.descriptor.type=='fire_mode_set'then
                 -- The four FireMode slots are written as four aligned 4-byte changes in one atomic

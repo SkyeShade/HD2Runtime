@@ -36,6 +36,10 @@ local function backing_scope(change)
     if backing.kind=='component'then
         return 'component:'..assert(backing.component,'composition component owner missing')
     end
+    if backing.kind=='entity_delta'then
+        -- A weapon's ammunition source: one entity delta definition.
+        return 'delta:'..assert(change.descriptor.resource,'composition delta owner missing')
+    end
     error('unsupported composition backing kind: '..tostring(backing.kind),0)
 end
 local function validate_operation(plan,phase_index,index,item,known)

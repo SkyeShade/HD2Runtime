@@ -1262,16 +1262,16 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.23.2",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": {},
           "callKind": "ensure",
-          "id": "evictor-missile-projectile",
+          "id": "scorcher-crossbow-projectile",
           "mode": "patch",
           "path": "attack",
           "resource": "player_weapon",
-          "weapon": "GL-15 Evictor"
+          "weapon": "PLAS-1 Scorcher"
         }
       ],
       "problems": [],
@@ -1725,13 +1725,14 @@
       "operations": [
         {
           "acknowledgements": [
+            "allow_shared",
             "allow_unverified_effect",
             "allow_unverified_reference"
           ],
           "callKind": "ensure",
           "id": "liberator-attack-output",
           "mode": "patch",
-          "path": "attack",
+          "path": "ammunition",
           "resource": "player_weapon",
           "weapon": "AR-23 Liberator"
         }

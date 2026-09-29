@@ -111,6 +111,9 @@ local function prove(reader,region,entry)
     end
     return offsets
 end
+-- Also used by player-weapon ammunition sources (domains/player_weapon_writes), whose entries carry the same
+-- resource, hashmapSlot and settingsIndex.
+M.prove=prove
 local function check_field(reader,region,offsets,field,label)
     local rows=assert(offsets[field.component],'attachment delta no longer patches the reviewed component: '..label)
     assert(rows[field.componentOffset]==field.dataOffset,'reviewed attachment delta data offset changed: '..label)

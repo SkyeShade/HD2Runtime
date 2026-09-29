@@ -101,6 +101,10 @@ hd2.weapon(name)                       weapon-local: fire rate, spread, recoil, 
                                        AND its damage: standard, durable, armor penetration, stagger, ...
       :terminal_action('impact')
         :explosion()                   an explosion the projectile causes: radii, explosion damage
+    :projectile_source()               where the fired projectile lives, and the target/field that
+                                       replaces it (ACTIVE_DIRECT, INDIRECT, AMBIGUOUS, BLOCKED)
+  :ammunition()                        default ammunition that owns the fired projectile (Liberator,
+                                       Dominator, Diligence, Breaker, Peacemaker, Redeemer)
   :magazine_attachment(option)         a magazine option: capacity, magazines, reload, ergonomics
                                        (weapons with selectable magazines)
 hd2.support_weapon(name)               the same tree for support weapons

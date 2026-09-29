@@ -376,6 +376,44 @@ function HD2PlayerAttack:describe() end
 ---The output this attack emits, by native family (see sdk/AttackOutputCapabilities.json).
 ---@return HD2AttackOutput
 function HD2PlayerAttack:output() end
+---Where this attack's fired projectile lives: status (ACTIVE_DIRECT, INDIRECT, AMBIGUOUS, BLOCKED),
+---mechanism, reason and, when writable, the target, field and expect handle that change it.
+---@return HD2ProjectileSource
+function HD2PlayerAttack:projectile_source() end
+
+---@class HD2ProjectileSource
+---@field weapon HD2WeaponName
+---@field attack HD2AttackRole
+---@field status "ACTIVE_DIRECT"|"INDIRECT"|"DORMANT_OR_METADATA"|"AMBIGUOUS"|"BLOCKED"
+---@field mechanism "component"|"ammunition"|nil
+---@field member string
+---@field reason string
+---@field writable boolean True only where changing field on target changes the fired projectile.
+---@field target HD2PlayerAttack|HD2WeaponAmmunition|nil
+---@field field string|nil
+---@field expect HD2ProjectileReference|HD2AmmunitionProjectile|nil
+---@field acknowledgements string[]|nil
+local HD2ProjectileSource = {}
+
+---@class HD2WeaponAmmunition
+---@field resource "player_weapon"
+---@field path "ammunition"
+---@field weapon HD2WeaponName
+local HD2WeaponAmmunition = {}
+---The ammunition projectile handle: the expect of hd2.fields.ammunition.projectile, and the value that
+---restores the reviewed ammunition projectile.
+---@return HD2AmmunitionProjectile
+function HD2WeaponAmmunition:projectile() end
+---@return table
+function HD2WeaponAmmunition:describe() end
+
+---@class HD2AmmunitionProjectile
+---@field resource "player_weapon"
+---@field path "ammunition_projectile"
+---@field weapon HD2WeaponName
+local HD2AmmunitionProjectile = {}
+---@return table
+function HD2AmmunitionProjectile:describe() end
 
 ---@class HD2ProjectileReference
 ---@field resource "player_weapon"
@@ -444,11 +482,19 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
 function HD2Weapon:attack(role) end
+---The default ammunition that owns this weapon's fired projectile (its delta patches ProjectileWeapon +0
+---when the weapon is built). Only weapons whose projectile_source() is INDIRECT; write it with
+---hd2.fields.ammunition.projectile, allow_shared=true and allow_unverified_effect=true.
+---@return HD2WeaponAmmunition
+function HD2Weapon:ammunition() end
+---@param role? HD2AttackRole Defaults to "primary".
+---@return HD2ProjectileSource
+function HD2Weapon:projectile_source(role) end
 ---@return HD2PlayerAttack[]
 function HD2Weapon:attacks() end
 ---@return table
@@ -1364,6 +1410,9 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field count_from_supply "throwable.count_from_supply"
 ---@field explosion_delay "throwable.explosion_delay"
 
+---@class HD2Fields_ammunition
+---@field projectile "ammunition.projectile"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -1403,6 +1452,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field attachment HD2Fields_attachment
 ---@field booster HD2Fields_booster
 ---@field throwable HD2Fields_throwable
+---@field ammunition HD2Fields_ammunition
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177

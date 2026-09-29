@@ -270,6 +270,15 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
             records.append(_record('attack_outputs', 'output:' + output_id, output['owner']['name'], 'attack.output',
                 _component(output['backing'], _int(output['resource'])), output.get('currentDefault'),
                 output.get('editable', True), False, {'path': ['outputs', output_id], 'guard': {'id': output_id}}))
+    # Ammunition sources: the default ammunition's entity delta row patching ProjectileWeapon +0 (the projectile the
+    # weapon is built with). Rebound like a magazine attachment delta; lost or moved rows become read-only.
+    for weapon, ammunition in sorted(((tables.get('attack_outputs') or {}).get('ammunition') or {}).items()):
+        records.append(_record('attack_outputs', 'ammunition:' + weapon, weapon, 'ammunition.projectile',
+            {'kind': 'delta', 'resource': _int(ammunition['resource']), 'component': ammunition['backing']['component'],
+                'componentIndex': ammunition['component'], 'componentOffset': ammunition['componentOffset'],
+                'dataOffset': ammunition['dataOffset'], 'storage': 'u32', 'width': 4},
+            ammunition['currentDefault']['projectileType'], ammunition.get('editable', True), True,
+            {'path': ['ammunition', weapon], 'guard': {'id': ammunition['id']}}))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')
@@ -364,6 +373,14 @@ def relationships(tables: dict) -> list[dict]:
                 attachment=_int(attachment['resource']),
                 weapons=[_int(value) for value in (player.get(weapon) or {}).get('resources') or []],
                 relationship=option['relationship'])
+    # A weapon's ammunition source holds only while its own default customization still names that ammunition item.
+    for weapon, ammunition in sorted(((tables.get('attack_outputs') or {}).get('ammunition') or {}).items()):
+        resources = (player.get(weapon) or {}).get('resources') or []
+        if resources:
+            pair = ammunition['defaultCustomization']
+            add('component_value', 'ammunition-default:' + weapon, weapon, [('attack_outputs', weapon)],
+                resource=_int(resources[0]), component='WeaponCustomizationComponentData',
+                offset=pair['offset'] + 4, expect=pair['optionId'])
     return links
 
 

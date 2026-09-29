@@ -1,27 +1,54 @@
 # LiberatorAttackOutputTest
 
-Live test: one Mod Options choice (**Liberator output**) switches what the AR-23 Liberator's attack emits, while the
-Liberator keeps its own magazine, ammunition use, reload, rate of fire and handling. Built only; nothing here is
-gameplay-confirmed yet.
+Live test: one Mod Options choice (**Liberator output**) switches what the AR-23 Liberator fires. The Liberator keeps
+its own magazine, ammunition use, reload, rate of fire and handling. Built only; nothing here is gameplay-confirmed
+yet.
 
 Needs the HD2Runtime coverage test build (not the published 0.27.0) and Mod Options Menu. The option ID is
 `liberator_attack_output.output`, on the MODS tab page "Liberator Attack Output". Change the choice, then press
-APPLY. No restart is needed. Each change is one atomic write of the Liberator's projectile reference. The donor's
-package is loaded first, automatically: nobody has to bring the EAT-700 or the GL-52.
+APPLY. The donor's package is loaded first, automatically: nobody has to bring the Talon, EAT-700 or GL-52.
 
-| Choice | What the Liberator fires |
+## What changed since the first build
+
+The first build wrote the Liberator's `attack.projectile` (ProjectileWeapon +0). In play that changed nothing, with
+the new and the older API alike, while the identical write on the SMG-32 Reprimand works. The reason is in the game
+data: the Liberator's default ammunition customization, **RIFLE 5,5x50mm. FULL METAL JACKET**, carries an entity delta
+that overwrites ProjectileWeapon +0 with its bullet whenever the weapon is built. The member we wrote was dormant. The
+Reprimand has no ammunition customization, so its member is the projectile it fires.
+
+This build writes the Liberator's **active source**, the projectile of that default ammunition
+(`weapon:ammunition():projectile()`). `attack.projectile` on the Liberator is now refused with
+`DORMANT_PROJECTILE_REFERENCE`.
+
+| Choice | What the Liberator should fire |
 | --- | --- |
-| Vanilla (default) | Its own bullet. Restores the exact original reference. |
-| EAT-700 Napalm | The EAT-700 Expendable Napalm rocket |
-| GL-52 Arc (impact) | The GL-52 De-Escalator grenade, whose impact explosion releases an arc |
+| Vanilla (default) | Its own bullet. Restores the exact original ammunition projectile. |
+| LAS-58 Talon (control) | The Talon laser bolt. This donor is live-proven on the Reprimand, so this choice tests the corrected host path alone. |
+| EAT-700 Napalm | The EAT-700 Expendable Napalm rocket (cross-class). |
+| GL-52 Arc (impact) | The GL-52 De-Escalator grenade, whose impact explosion releases an arc (cross-class). |
 
 LAS Beam, Trident and ARC-3 Arc are not offered. Beams and arcs are fired by their own weapon components, which a
-projectile weapon cannot reference (see `docs/attack-outputs.md`). A choice for them could not do anything.
+projectile weapon cannot reference (see `docs/attack-outputs.md`).
+
+## When a change takes effect
+
+The ammunition delta is applied **when the game builds the weapon**. The write lands immediately (the log shows
+`APPLIED`), but the Liberator you are already holding may keep its current projectile until the game builds a new
+one. Test it in this order, and report what you see at each step:
+
+1. **In the ship.** Choose **LAS-58 Talon (control)**, press APPLY, then deploy with the Liberator.
+2. **Mid-mission.** Switch to another choice and press APPLY. First fire the Liberator you are holding: does it change
+   right away? Then get a freshly built Liberator (be reinforced) and fire again.
+3. **Back to Vanilla.** Choose Vanilla, APPLY, get a freshly built Liberator, and confirm normal bullets with no
+   leftover rocket, grenade, arc or laser behaviour.
+
+Only the Liberator should be affected: its FULL METAL JACKET ammunition is not the default of any other weapon, and
+only the Liberator carries it in its unlock list. If another weapon changes too, report it.
 
 ## What to observe
 
-**Vanilla.** Normal Liberator bullets. Use it to reset between tests. Switching back must fully restore the normal
-bullet, with no leftover rocket, grenade or arc behaviour.
+**LAS-58 Talon (control).** Liberator shots are visible Talon laser bolts that hit and damage, at the Liberator's
+normal rate, with one Liberator round per shot. If this works, the corrected host path works.
 
 **EAT-700 Napalm.**
 - Each trigger pull, at the Liberator's normal rate and fire mode, should launch an EAT-700 napalm rocket instead of a
@@ -44,11 +71,13 @@ bullet, with no leftover rocket, grenade or arc behaviour.
 
 | You see | Meaning |
 | --- | --- |
-| The donor projectile with its explosion, fire or arc, one round per shot | **Successful output swap** |
-| `HD2Runtime.log` shows `ASSET_UNAVAILABLE` or a package wait that never finishes, and the Liberator still fires bullets | **Assets not loaded:** Runtime refused to write without the donor package. Nothing changed. |
-| The log shows `APPLIED`, but shots are invisible or do nothing | **Accepted but inert:** the reference changed, but the game did not render or run that projectile from this host. Report it: it would mean something outside the projectile row matters. |
-| A rocket or grenade appears but has no explosion, fire or arc | **Partial output:** the projectile row works but part of its chain did not. Report which part is missing. |
-| After switching to Vanilla, bullets still explode or burn | **Stale composition:** this should be impossible (each choice is a single reference). Report it with the log. |
+| The donor projectile on a freshly built Liberator, one round per shot | **Ammunition source works.** Say whether it also changed on the Liberator you were already holding. |
+| The Talon control works, but EAT-700 or GL-52 do not | The host path works; the cross-class output is the problem. Report which part is missing. |
+| No choice changes anything, even when set in the ship before deploying | **The edited ammunition delta is not re-applied** (cached at load, or read from elsewhere). Report it with the log. |
+| `HD2Runtime.log` shows `ASSET_UNAVAILABLE` or a package wait that never finishes | **Assets not loaded:** Runtime refused to write without the donor package. Nothing changed. |
+| The log shows `AMMUNITION_SOURCE_CHANGED` | The game data no longer matches the reviewed ammunition source; Runtime refused the write. |
+| A rocket or grenade appears but has no explosion, fire or arc | **Partial output:** the projectile row works but part of its chain did not. |
+| After returning to Vanilla and rebuilding, rounds still explode, burn or fire lasers | **Stale composition:** this should be impossible (each choice is a single reference). Report it with the log. |
 
 `HD2Runtime.log` should show `ensure liberator-attack-output` resolving and `APPLIED` after each APPLY. For a donor
 choice, a package request precedes the write the first time.
