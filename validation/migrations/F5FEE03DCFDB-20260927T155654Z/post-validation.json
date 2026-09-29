@@ -201,7 +201,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 597 tests in 58.608s",
+    "Ran 598 tests in 46.056s",
     "",
     "OK"
    ]
