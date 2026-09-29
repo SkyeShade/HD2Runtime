@@ -42,6 +42,83 @@ The temporary `.partial` file is renamed to `<exe-sha-prefix>-<timestamp>.hd2sna
 only after its header and index are complete. `local_research/`, `*.hd2snap`,
 and `*.partial` are ignored by Git.
 
+## Armed in-mission capture
+
+The timed package above captures a fixed time after the game loads, which is usually still on the ship. To capture
+while a mission is running, use the **armed** package and trigger it from a console window when the game is in the
+state you want.
+
+**Install** (with Arsenal or HD2MM, like any mod): an HD2Runtime build that has `hd2.snapshot_control`, and
+`HD2Runtime-SnapshotCaptureArmed-<version>.zip` (built with `py scripts/build_snapshot_capture.py --armed`). Do not
+also enable the timed package unless you also want its capture 60 s after load. The armed package never captures on
+its own: it only writes a status file and waits.
+
+**Trigger** from the SDK folder, while the game runs:
+
+```powershell
+py hd2.py snapshot status                                              # is the armed package running?
+py hd2.py snapshot arm --delay 300 --label mission-host-alive          # capture in 5 minutes
+py hd2.py snapshot arm --wait-for-key --label mission-host-alive       # capture when ENTER is pressed here
+py hd2.py snapshot arm --wait-for-key --repeat --label mission-host    # capture on every ENTER; q quits
+py hd2.py snapshot arm --label mission-host-alive                      # capture now
+```
+
+(`hd2.cmd` runs the same command.) Options:
+
+| Option | Meaning |
+| --- | --- |
+| `--delay SECONDS` | Wait, then capture. 0 to 86400; negative, NaN, infinite or non-numeric values are refused. Progress: an "armed" line, then 240, 180, 120, 60, 30 and 10 s remaining (plus every 5 minutes for longer delays). |
+| `--wait-for-key` | Print "Snapshot armed. Press ENTER to capture." and capture on ENTER (`q` + ENTER quits). |
+| `--repeat` | With `--wait-for-key`: stay armed after each capture. |
+| `--label TEXT` | Added to the file name. Letters, digits, `.`, `_` and `-`; any other run of characters becomes one `-`; at most 48 characters. |
+| `--ack-timeout SECONDS` | How long the game may take to accept a request (default 60). |
+| `--control-dir DIR` | The control folder (default `%LOCALAPPDATA%\HD2Runtime\local_research\snapshots\control`). |
+
+Neither mode (nor a plain `arm`) changes the capture itself: it is the same read-only engine
+(`api/snapshot_capture.lua`) as the timed package, started with no delay once the trigger arrives.
+
+### How it is kept safe
+
+- **Attach**: the command reads the package's status (heartbeat, process id, game session, `helldivers2.exe` and
+  `game.dll` fingerprints and module bases). It refuses when there is no fresh heartbeat (the package is not
+  running, or the game is not updating) or when that process id is not a running `helldivers2.exe`.
+- **While armed**: nothing in the game does any work; the command checks every 15 s that the process still exists.
+  Ctrl+C cancels and leaves no request behind.
+- **At capture time**: the command checks the process again and that the package still reports the same game
+  session, process, fingerprints and bases (a restarted game is refused: "run the command again to arm the new
+  session"). It then writes one request (id, label, mode, delay, times, the armed identity) that expires after the
+  acknowledgement timeout. The game takes each request id once, refuses an expired request or one armed for another
+  process or session, and starts the capture with the armed identity as its expectation. The engine re-reads the
+  process id, both module fingerprints (it hashes the module files again) and both bases before it creates any file,
+  and refuses a mismatch (`TARGET_CHANGED`). An unanswered request is withdrawn, so it can never fire later.
+- **Failure**: a capture that fails or is cancelled deletes its `.partial` container; only a complete snapshot is
+  ever renamed into place.
+
+### Output
+
+- `<exe-sha-12>-<UTC time>-<label>.hd2snap`, the unchanged HD2SNAP v1 container (the label is only in the file
+  name, never in the header or any proof), in the usual snapshot folder.
+- `<same name>.hd2snap.capture.json`, the capture context: `captured_at`, `capture_unix_time`, `capture_started_at`,
+  both fingerprints and module bases, `process_id`, `label`, `mode` (`delay`, `manual` or `immediate`),
+  `configured_delay_seconds`, `armed_at_unix`, `triggered_at_unix`, `request_id`, `game_session` and the HD2Runtime
+  version. It records the test setup only. Host or client, mission phase and player state are **not** recorded: they
+  are what the research reads out of the snapshot.
+- The command prints the snapshot and context paths; the game keeps running during the 1-4 minute capture, and the
+  command prints the captured size every 15 s.
+
+### Snapshots wanted for the event research
+
+Each is the full process memory; nothing extra is added for these questions.
+
+| Label | When | Questions it answers |
+| --- | --- | --- |
+| `mission-host-alive` | Host (or solo), deployed, alive, weapon out, enemies nearby | mission state, host flag, player and avatar records, live entities, the equipped-weapon chain |
+| `mission-host-after-reinforce` | Host, shortly after dying and being reinforced | avatar lifetime, death and reinforce transitions, stat tables |
+| `mission-host-dead` | Host, dead and waiting to be reinforced | the dead state, lifecycle values |
+| `mission-client-alive` | Joined someone else's mission | the client side of host / client, which records a client owns |
+| `mission-extraction` | Host, extraction called or the pelican landing | mission phase and extraction |
+| `mission-host-after-hellbomb` | Just after a Hellbomb or any stratagem explosion | the explosion request path |
+
 ## HD2SNAP v1
 
 The single uncompressed container has a fixed 16 MiB header/index reserve and

@@ -8,6 +8,31 @@ local function safe(n)return type(n)=='number'and n>=0 and n%1==0 and n<=9007199
 local function now(runtime)return runtime.monotonic_time and runtime.monotonic_time()or os.clock()end
 local function utc()return os.date('!%Y-%m-%dT%H:%M:%SZ')end
 local function stamp(value)return value:gsub('[-:]',''):gsub('Z$','Z')end
+-- A user annotation for the file name only (never part of the snapshot's proof data): letters, digits, '.', '_' and
+-- '-'; every other run of characters becomes one '-'; leading/trailing '-' and '.' are dropped; at most 48 characters.
+local LABEL_MAX=48
+function M.sanitize_label(label)
+    if label==nil then return nil end
+    assert(type(label)=='string','snapshot label must be a string')
+    local clean=label:gsub('[^%w%._%-]+','-'):gsub('%-%-+','-'):gsub('^[%-%.]+',''):gsub('[%-%.]+$','')
+    clean=clean:sub(1,LABEL_MAX):gsub('[%-%.]+$','')
+    assert(clean~='','snapshot label has no usable characters: '..label)
+    return clean
+end
+-- Minimal JSON for the capture-context sidecar (strings, numbers, booleans; one flat object).
+local function json_value(value)
+    if type(value)=='number'then return value%1==0 and string.format('%d',value)or string.format('%.6f',value)end
+    if type(value)=='boolean'then return tostring(value)end
+    return '"'..tostring(value):gsub('[%c"\\]',function(c)return string.format('\\u%04x',c:byte())end)..'"'
+end
+local function json_object(fields)
+    local keys={}
+    for key in pairs(fields)do keys[#keys+1]=key end
+    table.sort(keys)
+    local parts={}
+    for _,key in ipairs(keys)do parts[#parts+1]='  '..json_value(key)..': '..json_value(fields[key])end
+    return '{\n'..table.concat(parts,',\n')..'\n}\n'
+end
 local function status_for(r,d)
     if r.state~=COMMIT then d.skipped_uncommitted_bytes=d.skipped_uncommitted_bytes+r.size;return format.STATUS.SKIPPED_UNCOMMITTED end
     if r.protect%256==1 then d.skipped_noaccess_bytes=d.skipped_noaccess_bytes+r.size;return format.STATUS.SKIPPED_NOACCESS end
@@ -24,6 +49,7 @@ local function default_folder(runtime)
         localdata..'\\HD2Runtime\\local_research\\snapshots')
 end
 local function emit_progress(emit,m,start,eligible_done,eligible_total)
+    if m.progress then m.progress.bytes_captured=m.bytes_captured;m.progress.eligible_bytes=eligible_total end
     local elapsed=math.max(now(m.runtime)-start,0.001)
     local rate=m.bytes_captured/elapsed/1048576
     local remaining=math.max(eligible_total-eligible_done,0)
@@ -38,12 +64,15 @@ function M.start(runtime,emit,request)
     local delay=request.capture_delay_seconds
     if delay==nil then delay=60 end
     assert(type(delay)=='number'and delay>=0 and delay<math.huge,'invalid snapshot capture delay')
+    local label=M.sanitize_label(request.label)
+    assert(request.expected==nil or type(request.expected)=='table','snapshot expected identity must be a table')
+    assert(request.context==nil or type(request.context)=='table','snapshot context must be a table')
     local per_tick=request.bytes_per_tick or 8*1024*1024
     local chunk=request.chunk_bytes or 1024*1024
     assert(safe(per_tick)and per_tick>=65536 and per_tick<=64*1024*1024,'snapshot bytes_per_tick bounds')
     assert(safe(chunk)and chunk>=4096 and chunk<=per_tick and chunk<=4*1024*1024,'snapshot chunk bounds')
     local watch={status=delay>0 and'waiting'or'running',writes=0,protection_changes=0,
-        scheduled_delay_seconds=delay}
+        scheduled_delay_seconds=delay,label=label,progress={bytes_captured=0,eligible_bytes=0}}
     local file,partial_path
     local delay_elapsed=0
     emit(string.format('[HD2Runtime] SNAPSHOT scheduled delay_seconds=%.3f',delay))
@@ -55,6 +84,22 @@ function M.start(runtime,emit,request)
         local exe_sha,dll_sha=runtime.module_hash(exe),runtime.module_hash(dll)
         assert(type(exe_sha)=='string'and#exe_sha==64 and type(dll_sha)=='string'and#dll_sha==64,
             'module fingerprints unavailable')
+        local process_id=runtime.process_id and runtime.process_id()or nil
+        -- Armed captures: the process and build must be exactly the ones that were armed (re-read now, not cached),
+        -- checked before any file is created.
+        local expected=request.expected
+        if expected then
+            local function same(name,want,have)
+                if want~=nil and want~=have then
+                    error('TARGET_CHANGED: '..name..' is '..tostring(have)..', armed with '..tostring(want),0)
+                end
+            end
+            same('process id',expected.process_id,process_id)
+            same('helldivers2.exe fingerprint',expected.exe_sha,exe_sha)
+            same('game.dll fingerprint',expected.dll_sha,dll_sha)
+            same('helldivers2.exe base',expected.exe_base,exe_base)
+            same('game.dll base',expected.dll_base,dll_base)
+        end
         local page,maximum=runtime.system_info()
         assert(page==4096 and safe(maximum)and maximum>65536,'unsupported process address space')
         local diagnostics={mem_private_bytes=0,mem_image_bytes=0,mem_mapped_bytes=0,
@@ -79,7 +124,7 @@ function M.start(runtime,emit,request)
             folder=request.output_directory or default_folder(runtime)
             if request.output_directory then assert(runtime.ensure_directory,'snapshot directory capability unavailable')(folder)end
         end
-        local filename=exe_sha:sub(1,12)..'-'..stamp(captured_at)..'.hd2snap'
+        local filename=exe_sha:sub(1,12)..'-'..stamp(captured_at)..(label and('-'..label)or'')..'.hd2snap'
         local final_path=request.output_path or(folder..'\\'..filename)
         if request.output_path then
             local parent=final_path:match('^(.*)[\\/][^\\/]+$');if parent then runtime.ensure_directory(parent)end
@@ -90,7 +135,7 @@ function M.start(runtime,emit,request)
         assert(file:seek('set',format.HEADER_RESERVE-1),'cannot reserve snapshot header')
         assert(file:write('\0'),'cannot reserve snapshot header')
         assert(file:seek('set',format.HEADER_RESERVE),'cannot position snapshot payload')
-        local metrics={runtime=runtime,regions_seen=#regions,regions_captured=0,bytes_captured=0,
+        local metrics={runtime=runtime,progress=watch.progress,regions_seen=#regions,regions_captured=0,bytes_captured=0,
             bytes_skipped=diagnostics.skipped_noaccess_bytes+diagnostics.skipped_guard_bytes
                 +diagnostics.skipped_unreadable_bytes,read_failures=0}
         local eligible_done,tick_bytes,tick_regions,last_log=0,0,0,started
@@ -139,14 +184,47 @@ function M.start(runtime,emit,request)
         assert(file:seek('set',0));assert(file:write(header));file:flush();file:close();file=nil
         assert(os.rename(partial_path,final_path),'cannot finalize snapshot container');partial_path=nil
         emit_progress(emit,metrics,started,eligible_done,eligible)
+        -- Capture context (armed captures): a sidecar beside the snapshot. The snapshot format is unchanged, and
+        -- the sidecar is annotation only; the snapshot stays valid if writing it fails.
+        local context_path
+        if request.context then
+            local fields={format='hd2runtime.snapshot_capture_context.v1',snapshot=final_path:match('[^\\/]+$'),
+                captured_at=captured_at,capture_unix_time=meta.capture_unix_time,
+                capture_started_at=watch.capture_started_at,executable_sha256=exe_sha,game_dll_sha256=dll_sha,
+                executable_base=exe_base,game_dll_base=dll_base,hd2runtime_version=metadata.version,
+                total_captured_bytes=metrics.bytes_captured,label=label}
+            if process_id then fields.process_id=process_id end
+            for key,value in pairs(request.context)do
+                if fields[key]==nil and(type(value)=='string'or type(value)=='number'or type(value)=='boolean')then
+                    fields[key]=value
+                end
+            end
+            local sidecar=final_path..'.capture.json'
+            local ok,why=pcall(function()
+                local handle=assert(io.open(sidecar..'.partial','wb'))
+                assert(handle:write(json_object(fields)));handle:close()
+                os.remove(sidecar)
+                assert(os.rename(sidecar..'.partial',sidecar),'cannot finalize capture context')
+            end)
+            if ok then context_path=sidecar else
+                os.remove(sidecar..'.partial')
+                emit('[HD2Runtime] SNAPSHOT context sidecar not written: '..tostring(why))
+            end
+        end
         emit('[HD2Runtime] SNAPSHOT complete path='..final_path..' writes=0 protection_changes=0')
         metrics.runtime=nil;metrics.elapsed_seconds=now(runtime)-started;metrics.path=final_path
-        metrics.total_virtual_bytes=total_virtual;metrics.region_count=#regions
-        return {path=final_path,metadata=meta,metrics=metrics,writes=0,protection_changes=0}
+        metrics.total_virtual_bytes=total_virtual;metrics.region_count=#regions;metrics.progress=nil
+        return {path=final_path,context_path=context_path,label=label,process_id=process_id,metadata=meta,
+            metrics=metrics,writes=0,protection_changes=0}
     end)
+    -- A failed or cancelled capture leaves no partial container behind.
+    local function discard()
+        if file then file:close();file=nil end
+        if partial_path then os.remove(partial_path);partial_path=nil end
+    end
     function watch.cancel()
         if watch.status=='waiting'or watch.status=='running'then
-            watch.status='cancelled';if file then file:close();file=nil end
+            watch.status='cancelled';discard()
         end
     end
     function watch.tick(dt)
@@ -167,10 +245,10 @@ function M.start(runtime,emit,request)
         end
         local ok,result=coroutine.resume(worker)
         if not ok then
-            if file then file:close();file=nil end
+            discard()
             watch.status='rejected';watch.error=tostring(result)
             emit('[HD2Runtime] SNAPSHOT rejected reason='..watch.error..' writes=0 protection_changes=0')
-            if request.on_error then pcall(request.on_error,watch.error,{partial_path=partial_path})end
+            if request.on_error then pcall(request.on_error,watch.error,{partial_removed=true})end
         elseif coroutine.status(worker)=='dead'then
             watch.status='complete';watch.result=result
             if request.on_result then pcall(request.on_result,result)end

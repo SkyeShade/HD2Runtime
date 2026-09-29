@@ -2760,6 +2760,9 @@
         "output_path?": "string",
         "bytes_per_tick?": "integer",
         "chunk_bytes?": "integer",
+        "label?": "string",
+        "context?": "table<string, string|number|boolean>",
+        "expected?": "{process_id?: integer, exe_sha?: string, dll_sha?: string, exe_base?: integer, dll_base?: integer}",
         "on_result?": "fun(result: table)",
         "on_error?": "fun(reason: string, detail: table)"
       },
@@ -2889,6 +2892,10 @@
         "retain?": "string",
         "liveTested?": "boolean",
         "blocker?": "string"
+      },
+      "HD2SnapshotControlRequest": {
+        "control_directory?": "string",
+        "output_directory?": "string"
       }
     },
     "functions": {
@@ -2951,6 +2958,16 @@
         ],
         "returns": "HD2Watch",
         "doc": "Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file."
+      },
+      "snapshot_control": {
+        "params": [
+          [
+            "request",
+            "HD2SnapshotControlRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Armed capture (research tooling): wait for `py hd2.py snapshot arm` requests and capture on each one; never captures on its own."
       },
       "format": {
         "params": [

@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 3b291adcdc3b30dbdd92e136603721ebe1883c7e796522b5f0f05797fd120e8b
+-- Schema SHA256 e71af8e98862e03ed007e330d5db5e5bf1b9e4f56fe68a7aa8a3aea752b744e5
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -67,6 +67,9 @@
 ---@field output_path? string
 ---@field bytes_per_tick? integer
 ---@field chunk_bytes? integer
+---@field label? string
+---@field context? table<string, string|number|boolean>
+---@field expected? {process_id?: integer, exe_sha?: string, dll_sha?: string, exe_base?: integer, dll_base?: integer}
 ---@field on_result? fun(result: table)
 ---@field on_error? fun(reason: string, detail: table)
 
@@ -202,6 +205,10 @@
 ---@field retain? string
 ---@field liveTested? boolean
 ---@field blocker? string
+
+---@class HD2SnapshotControlRequest
+---@field control_directory? string
+---@field output_directory? string
 
 ---@class HD2Weapon
 ---@field resource HD2Resource
@@ -2122,6 +2129,10 @@ function hd2.map_primary_weapons(request) end
 ---@param request HD2SnapshotCaptureRequest
 ---@return HD2Watch
 function hd2.capture_snapshot(request) end
+---Armed capture (research tooling): wait for `py hd2.py snapshot arm` requests and capture on each one; never captures on its own.
+---@param request HD2SnapshotControlRequest
+---@return HD2Watch
+function hd2.snapshot_control(request) end
 ---Format a completed read result.
 ---@param result table
 ---@return string
