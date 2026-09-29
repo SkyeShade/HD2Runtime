@@ -110,7 +110,7 @@ local function run_example(body,name)
    for _,spec in ipairs(phase.capture_specs)do
     local fields={}
     for _,change in ipairs(spec.changes)do fields[#fields+1]=change.canonical_field or change.field end
-    specs[#specs+1]={kind=spec.kind,fields=fields}
+    specs[#specs+1]={kind=spec.kind,fields=fields,assets=#(spec.asset_dependencies or{})}
    end
    phases[#phases+1]=specs
   end

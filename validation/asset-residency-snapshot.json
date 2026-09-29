@@ -1,0 +1,69 @@
+{
+  "mode": "snapshot",
+  "nativeCalls": 0,
+  "snapshots": [
+    {
+      "budget": 64,
+      "dedupedNativeRequests": 1,
+      "proven": true,
+      "rejections": [
+        "changed request code byte",
+        "changed engine has_loaded byte",
+        "wrong build",
+        "uncatalogued package",
+        "runtime without native package loading",
+        "session package budget"
+      ],
+      "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+      "states": {
+        "0x10A7605527187EF5": "resident",
+        "0x5D68E55823ACD1BF": "absent"
+      },
+      "status": "VALIDATED",
+      "timeoutReason": "ASSET_UNAVAILABLE: EAT-700 Expendable Napalm requires package packages/generated/loadout/expendable_napalm_launcher; still queued after 90 seconds"
+    },
+    {
+      "budget": 64,
+      "dedupedNativeRequests": 1,
+      "proven": true,
+      "rejections": [
+        "changed request code byte",
+        "changed engine has_loaded byte",
+        "wrong build",
+        "uncatalogued package",
+        "runtime without native package loading",
+        "session package budget"
+      ],
+      "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+      "states": {
+        "0x5D68E55823ACD1BF": "absent",
+        "0x9974F498C67D5E20": "absent",
+        "0xDBD9381F9EA9788F": "resident"
+      },
+      "status": "VALIDATED",
+      "timeoutReason": "ASSET_UNAVAILABLE: EAT-700 Expendable Napalm requires package packages/generated/loadout/expendable_napalm_launcher; still queued after 90 seconds"
+    },
+    {
+      "budget": 64,
+      "dedupedNativeRequests": 1,
+      "proven": true,
+      "rejections": [
+        "changed request code byte",
+        "changed engine has_loaded byte",
+        "wrong build",
+        "uncatalogued package",
+        "runtime without native package loading",
+        "session package budget"
+      ],
+      "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+      "states": {
+        "0x5D68E55823ACD1BF": "absent",
+        "0xDBD9381F9EA9788F": "resident"
+      },
+      "status": "VALIDATED",
+      "timeoutReason": "ASSET_UNAVAILABLE: EAT-700 Expendable Napalm requires package packages/generated/loadout/expendable_napalm_launcher; still queued after 90 seconds"
+    }
+  ],
+  "status": "VALIDATED",
+  "writes": 0
+}

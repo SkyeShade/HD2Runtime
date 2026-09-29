@@ -21,6 +21,7 @@ import generate_fire_mode_authoring
 import generate_vehicle_weapon_authoring
 import generate_pod_payload_authoring
 import generate_throwable_authoring
+import generate_package_residency
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
@@ -88,6 +89,7 @@ def main():
     generate_vehicle_weapon_authoring.generate(check=True)
     generate_pod_payload_authoring.generate(check=True)
     generate_throwable_authoring.generate(check=True)
+    generate_package_residency.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
@@ -163,6 +165,10 @@ def main():
         (ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())['summary']
     report['throwable_snapshot_validation']=json.loads(
         (ROOT/'validation/throwable-authoring-snapshot.json').read_text())
+    report['asset_dependencies']=json.loads(
+        (ROOT/'sdk/AssetDependencyCapabilities.json').read_text())['summary']
+    report['asset_residency_snapshot_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/asset-residency-snapshot.json').read_text()).items() if key!='snapshots'}
     report['entity_snapshot_validation']=json.loads(
         (ROOT/'validation/entity-authoring-snapshot.json').read_text())
     recreations=json.loads((ROOT/'validation/reference-mod-recreations.json').read_text())

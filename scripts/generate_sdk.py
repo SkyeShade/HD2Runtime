@@ -41,6 +41,7 @@ def outputs():
     backpack_authoring=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
     booster_authoring=json.loads((ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())
     throwable_authoring=json.loads((ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())
+    asset_dependencies=json.loads((ROOT/'sdk/AssetDependencyCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
@@ -122,6 +123,8 @@ def outputs():
               'booster_authoring_summary':booster_authoring['summary'],
               'throwable_authoring_contract':throwable_authoring['contract'],
               'throwable_authoring_summary':throwable_authoring['summary'],
+              'asset_dependencies_contract':asset_dependencies['contract'],
+              'asset_dependencies_summary':asset_dependencies['summary'],
               'magazine_attachment_contract':attachment_authoring['contract'],
               'magazine_attachment_summary':attachment_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
@@ -509,6 +512,7 @@ def outputs():
             'sdk/docs/pod-payloads.md':(ROOT/'docs/pod-payloads.md').read_text(encoding='utf-8'),
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/throwable-authoring.md':(ROOT/'docs/throwable-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/asset-loading.md':(ROOT/'docs/asset-loading.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),

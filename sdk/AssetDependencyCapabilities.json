@@ -1,0 +1,4336 @@
+{
+  "contract": "hd2runtime.asset_dependencies.v1",
+  "schemaVersion": 1,
+  "build": "F5FEE03DCFDB",
+  "model": [
+    "A reference swap only works in game when the replacement's assets are resident. Helldivers 2 loads an item's generated loadout package when some player carries the item (or level generation places it); a swapped-in item nobody carries shows up missing (for example a purple question-mark pickup or an invisible projectile).",
+    "Runtime requests the same package through the game's own reference-counted package system before it writes such a reference, waits until the engine reports it resident, and only then applies the write (status WAITING_FOR_ASSETS while loading, ASSET_UNAVAILABLE if it cannot)."
+  ],
+  "policy": {
+    "retain": "session",
+    "maxHeldPackages": 64,
+    "loadTimeoutSeconds": 90,
+    "pollSeconds": 0.25,
+    "refcountFillLimit": 0.75
+  },
+  "summary": {
+    "semanticObjects": 331,
+    "known": 260,
+    "ownPackage": 253,
+    "holderPackage": 7,
+    "stratagemPackage": 0,
+    "unknown": 71,
+    "liveTested": false,
+    "packages": 173
+  },
+  "objects": [
+    {
+      "key": "backpack/AX/AR-23 Guard Dog",
+      "label": "AX/AR-23 Guard Dog",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "drone_mg_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/AX/ARC-3 K-9",
+      "label": "AX/ARC-3 K-9",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "guard_dog_stun_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/AX/FLAM-75 Hot Dog",
+      "label": "AX/FLAM-75 Hot Dog",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/AX/LAS-5 Rover",
+      "label": "AX/LAS-5 Rover",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/AX/TX-13 Dog Breath",
+      "label": "AX/TX-13 Dog Breath",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "drone_gas_projector_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/B-1 Supply Pack",
+      "label": "B-1 Supply Pack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ammo_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/B-100 Portable Hellbomb",
+      "label": "B-100 Portable Hellbomb",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hellbomb_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/B/FLAM-80 Cremator Backpack",
+      "label": "B/FLAM-80 Cremator Backpack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/GL-28 Belt-Fed Grenade Launcher Backpack",
+      "label": "GL-28 Belt-Fed Grenade Launcher Backpack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/LIFT-182 Warp Pack",
+      "label": "LIFT-182 Warp Pack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "displacement_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/LIFT-850 Jump Pack",
+      "label": "LIFT-850 Jump Pack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "jumppack_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/LIFT-860 Hover Pack",
+      "label": "LIFT-860 Hover Pack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hover_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/M-1000 Maxigun Backpack",
+      "label": "M-1000 Maxigun Backpack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/SH-20 Ballistic Shield Backpack",
+      "label": "SH-20 Ballistic Shield Backpack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ballistic_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/SH-32 Shield Generator Pack",
+      "label": "SH-32 Shield Generator Pack",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "energy_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "backpack/SH-51 Directional Shield",
+      "label": "SH-51 Directional Shield",
+      "kind": "backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "directional_energy_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/assault-rifle/1e4767cc1bb3f867",
+      "label": "assault_rifle",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-anti-tank-cannon/7b5046ba53f31e10",
+      "label": "combat_walker_anti_tank_cannon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker_lumberer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-left/cb15fea8423aa2f6",
+      "label": "combat_walker_autocannon_left",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker_obsidian",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-right/54728c643193e559",
+      "label": "combat_walker_autocannon_right",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker_obsidian",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-flak-cannon/84989fb7944d6bba",
+      "label": "combat_walker_flak_cannon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-flamethrower/61d1fb4e55fd37dd",
+      "label": "combat_walker_flamethrower",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker_lumberer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-missle-launcher/b69f79ed51aeb683",
+      "label": "combat_walker_missle_launcher",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/combat-walker-turret/ec85bacd57e03497",
+      "label": "combat_walker_turret",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "native_holder_package",
+        "package": "combat_walker",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/cyborg-big-walker-turret-cannon/283e3d22cc22ef01",
+      "label": "cyborg_big_walker_turret_cannon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-autocannons/c35429998ba92cea",
+      "label": "cyborg_tank_turret_autocannons",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-heavycannon/68a52c55b8083bd1",
+      "label": "cyborg_tank_turret_heavycannon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-rocketlauncher/bbb3a8a3de937acb",
+      "label": "cyborg_tank_turret_rocketlauncher",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/cyborg-turret-command-bunker-hmg/c31affd2be6199f5",
+      "label": "cyborg_turret_command_bunker_hmg",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/drone-flamethrower-mount/4eef657729c544ac",
+      "label": "drone_flamethrower_mount",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/drone-gas-projector-mount/fa183017e162b3a1",
+      "label": "drone_gas_projector_mount",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/drone-laser-rifle-mount/d24c7f3b6e85858c",
+      "label": "drone_laser_rifle_mount",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle_mount",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/drone-mg-weapon/473e6c3f3ecb9759",
+      "label": "drone_mg_weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/drone-stun-gun-mount/7f06093280ceb95e",
+      "label": "drone_stun_gun_mount",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "stun_gun_mount",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/eagle-gunpod/111e7291542a80cd",
+      "label": "eagle_gunpod",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/frv-flamethrower/52eb6d862f0c81ce",
+      "label": "frv_flamethrower",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "flamethrower",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/frv-mg/87956cec45a21b90",
+      "label": "frv_mg",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/gater-oil-rig-turret-weapon/3aba6f3418fada66",
+      "label": "GATER Oil Rig turret weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "oil_rig",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/illuminate-turret-wm-cannon-head-l/d7ec908c4f54021f",
+      "label": "illuminate_turret_wm_cannon_head_l",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/illuminate-turret-wm-cannon-head-r/60d5f153deb23159",
+      "label": "illuminate_turret_wm_cannon_head_r",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/laser-rifle/9c4d326f378d8900",
+      "label": "laser_rifle",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/m-103-supply-frv-gun-weapon/34d73fd6e0ab1d96",
+      "label": "M-103 Supply FRV gun weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ammo_rack_mounted_turret",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/shuttle-gunship-turret-hmg/d6d6cd9052e6709e",
+      "label": "shuttle_gunship_turret_hmg",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/soldier-flamer/45e032b636439337",
+      "label": "soldier_flamer",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/soldier-machinegun-flm/892c5a848f371242",
+      "label": "soldier_machinegun_flm",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/soldier-machinegun/97d452fb6ecd1f68",
+      "label": "soldier_machinegun",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/soldier-standard-rifle/e8e838b975071d1b",
+      "label": "soldier_standard_rifle",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-attach-tank-gun-weapon/dd2241a292c7330b",
+      "label": "TD-110 Maelstrom attach_tank_gun weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-2-weapon/3a06c77a110e70c2",
+      "label": "TD-110 Maelstrom slot 2 weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-3-weapon/605fcfcd1be790c4",
+      "label": "TD-110 Maelstrom slot 3 weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg-weapon/10e4809cf1704447",
+      "label": "TD-220 Bastion MK XVI attach_tank_gun_mg weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437",
+      "label": "TD-220 Bastion MK XVI attach_tank_gun weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/07d8504a50bdc316",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/0d330840f4f578e9",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/101f9dd2c0400653",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1169bac0a5ba767a",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/11f435e5587ccdd1",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/137397eea95c1013",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1688ac3e4dad0ae9",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1c84b8fd4f07a463",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/203c50ce98a78d3a",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/205d3f18e6c4c986",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/250541fac04090c7",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/3b994e7172991b78",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/42aa69216544be42",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/4ec9af0a2bec8e85",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/51938480ad36da5a",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/51f18fa3cecd841f",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/58ecc827279959df",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/6c4babe49fc6677f",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/6ec61849439ad1e0",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9197edf2fc0997c2",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/94761fd626e821fd",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/978ff8e750babd67",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/988019ef8dd87d56",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9a0b2f30b8af9705",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9b99e436c4807091",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a0b9d41eb561ceb4",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a48528dbc8a9a31a",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a983210c172b417e",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ad0f14d262d210b8",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ad69246a4db149f3",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/b24ebb6af42c6794",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/b587cf80343bb0d6",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c1555e52a30c4192",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c4c4e526a882e2b1",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c662ee639ea4ee58",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ceb424b0c26962b0",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/d4c0d4ac30387388",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/d6880a93a0aeef03",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/db0385a87b4a86ca",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/e20b6a72f9714d83",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ef60119f83d4cf57",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/facc00a32715cba1",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ffd507e9cb88f3b7",
+      "label": "unnamed mounted weapon",
+      "kind": "mounted_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/40-k-meltagun/07b0e863dc2c82fa",
+      "label": "40-K Meltagun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "energy_weapon_shark",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ac-8-autocannon/58e7cf0743e30df4",
+      "label": "AC-8 Autocannon",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "automatic_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/air-burst-rocket-backpack/004ba933ad94ea53",
+      "label": "Air Burst Rocket Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "air_burst_rocket_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ammo-box-pod/096e2d589f69f1ae",
+      "label": "Ammo Box (pod)",
+      "kind": "pickup_ammo",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ammo-box-world/e04feddc177e2ee8",
+      "label": "Ammo Box (world)",
+      "kind": "pickup_ammo",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ammo_box",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/apw-1-anti-materiel-rifle/3e89c8aedaec3cdb",
+      "label": "APW-1 Anti-Materiel Rifle",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "sniper_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/arc-3-arc-thrower/ffb100733bda6a6c",
+      "label": "ARC-3 Arc Thrower",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "arc_thrower",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/automatic-cannon-backpack/2c5bd6b88a4e6c81",
+      "label": "Automatic Cannon Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "automatic_cannon_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ax-ar-23-guard-dog/f2a968ff969e8851",
+      "label": "AX/AR-23 Guard Dog",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "drone_mg_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ax-arc-3-k-9/2701a5699bf3dca4",
+      "label": "AX/ARC-3 K-9",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "guard_dog_stun_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ax-flam-75-hot-dog/85f0ae4ff885e1ea",
+      "label": "AX/FLAM-75 Hot Dog",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ax-las-5-rover/68f5082608688c3d",
+      "label": "AX/LAS-5 Rover",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ax-tx-13-dog-breath/9d3211c27232ca30",
+      "label": "AX/TX-13 Dog Breath",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "drone_gas_projector_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/b-1-supply-pack/6fa0c4410a746c16",
+      "label": "B-1 Supply Pack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ammo_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/b-100-portable-hellbomb/89b274a08860b067",
+      "label": "B-100 Portable Hellbomb",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hellbomb_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/b-flam-80-cremator-backpack/d86ed0d6992bfe27",
+      "label": "B/FLAM-80 Cremator Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/b-flam-80-cremator/b56502291503ca52",
+      "label": "B/FLAM-80 Cremator",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/ballistic-shield-backpack-small/aea030f4b0955a61",
+      "label": "Ballistic Shield Backpack Small",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ballistic_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/c4-charge-backpack/e8e6f1b9fa26429f",
+      "label": "C4 Charge Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/c4-charge-detonator/1e00f9e59579f80d",
+      "label": "C4 Charge Detonator",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/cargo-backpack/aaf9f3f85632c55f",
+      "label": "Cargo Backpack",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/cqc-1-one-true-flag/678572ccf8b0bfef",
+      "label": "CQC-1 One True Flag",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_flag",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/cqc-20-breaching-hammer/b1febc3085a29800",
+      "label": "CQC-20 Breaching Hammer",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_sledge_hammer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/cqc-72-entrenchment-tool/8fd0959b02006cb6",
+      "label": "CQC-72 Entrenchment Tool",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "survival_shovel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/cqc-9-defoliation-tool/6e14b35412a40c40",
+      "label": "CQC-9 Defoliation Tool",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_chainsaw_greatsword",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/drone-assault-rifle-backpack/48653c862c4e062d",
+      "label": "Drone Assault Rifle Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/eat-17-expendable-anti-tank/aaf1f6d08281fd7a",
+      "label": "EAT-17 Expendable Anti-Tank",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "lat_oneshot",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/eat-411-leveller/bbd78065df92b6eb",
+      "label": "EAT-411 Leveller",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_massive_rocket_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/eat-700-expendable-napalm/bff4b15f31d35c94",
+      "label": "EAT-700 Expendable Napalm",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_napalm_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/faf-14-spear/eedf1b3a064edb4b",
+      "label": "FAF-14 Spear",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/faf-missile-launcher-backpack/6cd4eb768919be66",
+      "label": "Faf Missile Launcher Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/faf-missile-launcher-helghast-backpack/37483bdc55d2976e",
+      "label": "Faf Missile Launcher Helghast Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/flam-40-flamethrower/b4d4c9c15a828fde",
+      "label": "FLAM-40 Flamethrower",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "flamethrower",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/gl-21-grenade-launcher/879bce2fb521f366",
+      "label": "GL-21 Grenade Launcher",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/gl-28-belt-fed-grenade-launcher-backpack/317c655c1db40880",
+      "label": "GL-28 Belt-Fed Grenade Launcher Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/gl-28-belt-fed-grenade-launcher/9d0dcf93794536d9",
+      "label": "GL-28 Belt-Fed Grenade Launcher",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/gl-52-de-escalator/b19094bd6849cfb9",
+      "label": "GL-52 De-Escalator",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_launcher_tactical",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/gr-8-recoilless-rifle/c3681a5430f8eaa8",
+      "label": "GR-8 Recoilless Rifle",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "recoilless_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/grenade-box/5ad3b36a5d3adbb7",
+      "label": "Grenade Box",
+      "kind": "pickup_grenade",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_box",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/health-pack-pod/0a29abd61fc5ed70",
+      "label": "Health Pack (pod)",
+      "kind": "pickup_stim",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/health-pack-world/2b29702c93c39319",
+      "label": "Health Pack (world)",
+      "kind": "pickup_stim",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "health_pack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/las-98-laser-cannon/c6013cfe0815b790",
+      "label": "LAS-98 Laser Cannon",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/las-99-quasar-cannon/ecf60a71601fe1ef",
+      "label": "LAS-99 Quasar Cannon",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/lift-182-warp-pack/c91c7644668b03b9",
+      "label": "LIFT-182 Warp Pack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "displacement_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/lift-850-jump-pack/020db07511df1f84",
+      "label": "LIFT-850 Jump Pack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "jumppack_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/lift-860-hover-pack/9a4849fb1c7c3653",
+      "label": "LIFT-860 Hover Pack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hover_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/m-1000-maxigun-backpack/8b639add8bbad44b",
+      "label": "M-1000 Maxigun Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/m-1000-maxigun/39a8b72741b5c776",
+      "label": "M-1000 Maxigun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/m-105-stalwart/e173c48b267c2b90",
+      "label": "M-105 Stalwart",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "lmg_stalwart",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/medic-backpack-pod/20da54d45b013681",
+      "label": "Medic Backpack (pod)",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "medic_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/medic-backpack-world/2c6175621ff0419c",
+      "label": "Medic Backpack (world)",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/mg-206-heavy-machine-gun-pod/7e824a240e1c41ae",
+      "label": "MG-206 Heavy Machine Gun (pod)",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/mg-206-heavy-machine-gun-world/0246d57537315684",
+      "label": "MG-206 Heavy Machine Gun (world)",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/mg-43-machine-gun/7547c36fdd511b37",
+      "label": "MG-43 Machine Gun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "machinegun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/mgx-42-bullet-storm/0dda469c7b4c3976",
+      "label": "MGX-42 Bullet Storm",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_machinegun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/mls-4x-commando/78d49586093f64c1",
+      "label": "MLS-4X Commando",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_guided_missile_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/plas-45-epoch/f8f83fe309af696b",
+      "label": "PLAS-45 Epoch",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "plasma_blaster",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/recoilless-rifle-backpack/b2d8465b1b0ec213",
+      "label": "Recoilless Rifle Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "recoilless_rifle_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/rl-77-airburst-rocket-launcher/0eef82a268ed6eec",
+      "label": "RL-77 Airburst Rocket Launcher",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/rs-422-railgun/d0d22102ee2cf244",
+      "label": "RS-422 Railgun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "railgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/s-11-speargun/08be7186c997da64",
+      "label": "S-11 Speargun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "harpoon_gun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/sg-88-break-action-shotgun/48a87a88282a580c",
+      "label": "SG-88 Break-Action Shotgun",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shotgun_doublebarrel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/sh-20-ballistic-shield-backpack/6d6ecaed72093bc3",
+      "label": "SH-20 Ballistic Shield Backpack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ballistic_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/sh-32-shield-generator-pack/435379ff1c10c0a6",
+      "label": "SH-32 Shield Generator Pack",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "energy_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/sh-51-directional-shield/9ed7190ede69bca8",
+      "label": "SH-51 Directional Shield",
+      "kind": "pickup_backpack",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "directional_energy_shield_backpack",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/shoulder-mounted-camera/8818f67168ea7970",
+      "label": "Shoulder Mounted Camera",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shoulder_mounted_camera",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/sta-x3-w-a-s-p-launcher/db5ac2b41c5e4fee",
+      "label": "StA-X3 W.A.S.P. Launcher",
+      "kind": "pickup_support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "pickup/pickup/v1/supply-box/d0e8fed8c01ceb1f",
+      "label": "Supply Box",
+      "kind": "pickup_supply",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "player_weapon/AR-11 Arbitrator",
+      "label": "AR-11 Arbitrator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_risk",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-2 Coyote",
+      "label": "AR-2 Coyote",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-23 Liberator",
+      "label": "AR-23 Liberator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-23A Liberator Carbine",
+      "label": "AR-23A Liberator Carbine",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_patriot",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-23C Liberator Concussive",
+      "label": "AR-23C Liberator Concussive",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-23P Liberator Penetrator",
+      "label": "AR-23P Liberator Penetrator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-32 Pacifier",
+      "label": "AR-32 Pacifier",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_karbin",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-59 Suppressor",
+      "label": "AR-59 Suppressor",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_whisper",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR-61 Tenderizer",
+      "label": "AR-61 Tenderizer",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_rico",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/AR/GL-21 One-Two",
+      "label": "AR/GL-21 One-Two",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_grenadier",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/ARC-12 Blitzer",
+      "label": "ARC-12 Blitzer",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "arc_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/BR-14 Adjudicator",
+      "label": "BR-14 Adjudicator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "battle_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CB-9 Exploding Crossbow",
+      "label": "CB-9 Exploding Crossbow",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "crossbow_greyfax",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-19 Stun Lance",
+      "label": "CQC-19 Stun Lance",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "power_sword",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-2 Saber",
+      "label": "CQC-2 Saber",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "ceremonial_saber",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-30 Stun Baton",
+      "label": "CQC-30 Stun Baton",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "stun_baton",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-42 Machete",
+      "label": "CQC-42 Machete",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "machete",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-42 Machete#2",
+      "label": "CQC-42 Machete",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_sledge_hammer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-5 Combat Hatchet",
+      "label": "CQC-5 Combat Hatchet",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hand_axe",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-73 Entrenchment Tool",
+      "label": "CQC-73 Entrenchment Tool",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "survival_shovel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/CQC-73 Entrenchment Tool#2",
+      "label": "CQC-73 Entrenchment Tool",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "survival_shovel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/DBS-2 Double Freedom",
+      "label": "DBS-2 Double Freedom",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shotgun_double_freedom",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/FLAM-66 Torcher",
+      "label": "FLAM-66 Torcher",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "flamethrower_ripley",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/GL-15 Evictor",
+      "label": "GL-15 Evictor",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pump_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/GP-20 Ultimatum",
+      "label": "GP-20 Ultimatum",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "cricket_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/GP-31 Grenade Pistol",
+      "label": "GP-31 Grenade Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "player_weapon/GP-31 Grenade Pistol#2",
+      "label": "GP-31 Grenade Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/JAR-5 Dominator",
+      "label": "JAR-5 Dominator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "jet_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-12 Sai",
+      "label": "LAS-12 Sai",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_smg_blaster",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-13 Trident",
+      "label": "LAS-13 Trident",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-16 Sickle",
+      "label": "LAS-16 Sickle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle_long",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-17 Double-Edge Sickle",
+      "label": "LAS-17 Double-Edge Sickle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle_long_hotshot",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-5 Scythe",
+      "label": "LAS-5 Scythe",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-5 Scythe#2",
+      "label": "LAS-5 Scythe",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_rifle_charge",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-58 Talon",
+      "label": "LAS-58 Talon",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/LAS-7 Dagger",
+      "label": "LAS-7 Dagger",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "player_weapon/LAS-7 Dagger#2",
+      "label": "LAS-7 Dagger",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/M6C/SOCOM Pistol",
+      "label": "M6C/SOCOM Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pistol_nacho",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/M7S SMG",
+      "label": "M7S SMG",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_nacho",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/M90A Shotgun",
+      "label": "M90A Shotgun",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shotgun_nacho",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/MA5C Assault Rifle",
+      "label": "MA5C Assault Rifle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_nacho",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/MP-98 Knight",
+      "label": "MP-98 Knight",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_defender",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-11 Stim Pistol",
+      "label": "P-11 Stim Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-113 Verdict",
+      "label": "P-113 Verdict",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "magnum_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-19 Redeemer",
+      "label": "P-19 Redeemer",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "automatic_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-2 Peacemaker",
+      "label": "P-2 Peacemaker",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "standard_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-33 Missile Pistol",
+      "label": "P-33 Missile Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pistol_smart_missile",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-34 Breacher",
+      "label": "P-34 Breacher",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "hornet_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-35 Re-Educator",
+      "label": "P-35 Re-Educator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "caustic_dart_gun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-4 Senator",
+      "label": "P-4 Senator",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "revolver_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-69 Veto",
+      "label": "P-69 Veto",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pistol_broomhandle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-72 Crisper",
+      "label": "P-72 Crisper",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P-72 Crisper#2",
+      "label": "P-72 Crisper",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "player_weapon/P-92 Warrant",
+      "label": "P-92 Warrant",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smart_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/P/40-K Bolt Pistol",
+      "label": "P/40-K Bolt Pistol",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pistol_shark",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/PLAS-1 Scorcher",
+      "label": "PLAS-1 Scorcher",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "plasma_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/PLAS-101 Purifier",
+      "label": "PLAS-101 Purifier",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "plasma_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/PLAS-15 Loyalist",
+      "label": "PLAS-15 Loyalist",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "plasma_pistol",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/PLAS-39 Accelerator Rifle",
+      "label": "PLAS-39 Accelerator Rifle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "sniper_rifle_helghast",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-2 Amendment",
+      "label": "R-2 Amendment",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "battle_rifle_ceremonial",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-2124 Constitution",
+      "label": "R-2124 Constitution",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "bolt_action_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-36 Eruptor",
+      "label": "R-36 Eruptor",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "jet_rifle_phoenix",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-4 Hyena",
+      "label": "R-4 Hyena",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "marksman_rifle_vigilance",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-6 Deadeye",
+      "label": "R-6 Deadeye",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-63 Diligence",
+      "label": "R-63 Diligence",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "marksman_rifle_vigilance",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-63CS Diligence Counter Sniper",
+      "label": "R-63CS Diligence Counter Sniper",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "marksman_rifle_vigilance",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R-72 Censor",
+      "label": "R-72 Censor",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "marksman_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/R/40-K Hot-Shot Marksman Rifle",
+      "label": "R/40-K Hot-Shot Marksman Rifle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "marksman_rifle_shark",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-20 Halt",
+      "label": "SG-20 Halt",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pump_shotgun_stun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-22 Bushwhacker",
+      "label": "SG-22 Bushwhacker",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-225 Breaker",
+      "label": "SG-225 Breaker",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-225IE Breaker Incendiary",
+      "label": "SG-225IE Breaker Incendiary",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_shotgun_incendiary",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-225SP Breaker Spray&Pray",
+      "label": "SG-225SP Breaker Spray&Pray",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-451 Cookout",
+      "label": "SG-451 Cookout",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pump_shotgun_dragon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-8 Punisher",
+      "label": "SG-8 Punisher",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pump_shotgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-8P Punisher Plasma",
+      "label": "SG-8P Punisher Plasma",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-8S Slugger",
+      "label": "SG-8S Slugger",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SG-97 Sweeper",
+      "label": "SG-97 Sweeper",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pump_shotgun_trench",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG-203 Gallant",
+      "label": "SMG-203 Gallant",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_solvent",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG-32 Reprimand",
+      "label": "SMG-32 Reprimand",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_rhino",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG-37 Defender",
+      "label": "SMG-37 Defender",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "pdw",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG-37 Defender#2",
+      "label": "SMG-37 Defender",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "seaf_smg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG-72 Pummeler",
+      "label": "SMG-72 Pummeler",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "personal_defense_weapon_pepper",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/SMG/FLAM-34 Stoker",
+      "label": "SMG/FLAM-34 Stoker",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_flamer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/StA-11 SMG",
+      "label": "StA-11 SMG",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smg_helghast",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/StA-52 Assault Rifle",
+      "label": "StA-52 Assault Rifle",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "assault_rifle_helghast",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "player_weapon/VG-70 Variable",
+      "label": "VG-70 Variable",
+      "kind": "player_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "volley_gun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/40-K Meltagun",
+      "label": "40-K Meltagun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "energy_weapon_shark",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/AC-8 Autocannon",
+      "label": "AC-8 Autocannon",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "automatic_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/APW-1 Anti-Materiel Rifle",
+      "label": "APW-1 Anti-Materiel Rifle",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "sniper_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/ARC-3 Arc Thrower",
+      "label": "ARC-3 Arc Thrower",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "arc_thrower",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/B/FLAM-80 Cremator",
+      "label": "B/FLAM-80 Cremator",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "support_weapon/B/FLAM-80 Cremator#2",
+      "label": "B/FLAM-80 Cremator",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/B/MD C4 Pack",
+      "label": "B/MD C4 Pack",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-1 One True Flag",
+      "label": "CQC-1 One True Flag",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_flag",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-20 Breaching Hammer",
+      "label": "CQC-20 Breaching Hammer",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_sledge_hammer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-20 Breaching Hammer#2",
+      "label": "CQC-20 Breaching Hammer",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "machete",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-72 Entrenchment Tool",
+      "label": "CQC-72 Entrenchment Tool",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "survival_shovel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-72 Entrenchment Tool#2",
+      "label": "CQC-72 Entrenchment Tool",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "survival_shovel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/CQC-9 Defoliation Tool",
+      "label": "CQC-9 Defoliation Tool",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "melee_chainsaw_greatsword",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/EAT-17 Expendable Anti-Tank",
+      "label": "EAT-17 Expendable Anti-Tank",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "lat_oneshot",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/EAT-17 Expendable Anti-Tank#2",
+      "label": "EAT-17 Expendable Anti-Tank",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "lat_oneshot",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/EAT-411 Leveller",
+      "label": "EAT-411 Leveller",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_massive_rocket_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/EAT-700 Expendable Napalm",
+      "label": "EAT-700 Expendable Napalm",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_napalm_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/FAF-14 Spear",
+      "label": "FAF-14 Spear",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/FLAM-40 Flamethrower",
+      "label": "FLAM-40 Flamethrower",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "flamethrower",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/GL-21 Grenade Launcher",
+      "label": "GL-21 Grenade Launcher",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/GL-28 Belt-Fed Grenade Launcher",
+      "label": "GL-28 Belt-Fed Grenade Launcher",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/GL-52 De-Escalator",
+      "label": "GL-52 De-Escalator",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "grenade_launcher_tactical",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/GR-8 Recoilless Rifle",
+      "label": "GR-8 Recoilless Rifle",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "recoilless_rifle",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/LAS-98 Laser Cannon",
+      "label": "LAS-98 Laser Cannon",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "manned_turret_laser",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/LAS-98 Laser Cannon#2",
+      "label": "LAS-98 Laser Cannon",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_cannon_turret",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/LAS-98 Laser Cannon#3",
+      "label": "LAS-98 Laser Cannon",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/LAS-99 Quasar Cannon",
+      "label": "LAS-99 Quasar Cannon",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_cannon",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/M-1000 Maxigun",
+      "label": "M-1000 Maxigun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/M-105 Stalwart",
+      "label": "M-105 Stalwart",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "lmg_stalwart",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/M-105 Stalwart#2",
+      "label": "M-105 Stalwart",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "support_weapon/M-105 Stalwart#3",
+      "label": "M-105 Stalwart",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "support_weapon/M-105 Stalwart#4",
+      "label": "M-105 Stalwart",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": false,
+        "autoLoadSupported": false,
+        "derivation": null,
+        "package": null,
+        "liveTested": false,
+        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+      }
+    },
+    {
+      "key": "support_weapon/MG-206 Heavy Machine Gun",
+      "label": "MG-206 Heavy Machine Gun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MG-206 Heavy Machine Gun#2",
+      "label": "MG-206 Heavy Machine Gun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MG-206 Heavy Machine Gun#3",
+      "label": "MG-206 Heavy Machine Gun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "heavy_mg",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MG-43 Machine Gun",
+      "label": "MG-43 Machine Gun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "machinegun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MG-43 Machine Gun#2",
+      "label": "MG-43 Machine Gun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "seaf_machinegun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MGX-42 Bullet Storm",
+      "label": "MGX-42 Bullet Storm",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "expendable_machinegun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MLS-4X Commando",
+      "label": "MLS-4X Commando",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "laser_guided_missile_launcher",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/MS-11 Solo Silo",
+      "label": "MS-11 Solo Silo",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "mini_missile_silo",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/PLAS-45 Epoch",
+      "label": "PLAS-45 Epoch",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "plasma_blaster",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/RL-77 Airburst Rocket Launcher",
+      "label": "RL-77 Airburst Rocket Launcher",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/RS-422 Railgun",
+      "label": "RS-422 Railgun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "railgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/S-11 Speargun",
+      "label": "S-11 Speargun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "harpoon_gun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/SG-88 Break-Action Shotgun",
+      "label": "SG-88 Break-Action Shotgun",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shotgun_doublebarrel",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/StA-X3 W.A.S.P. Launcher",
+      "label": "StA-X3 W.A.S.P. Launcher",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "support_weapon/TX-41 Sterilizer",
+      "label": "TX-41 Sterilizer",
+      "kind": "support_weapon",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "chemgun",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-10 Incendiary",
+      "label": "G-10 Incendiary",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "incendiary_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-109 Urchin",
+      "label": "G-109 Urchin",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "sticky_stun_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-12 High Explosive",
+      "label": "G-12 High Explosive",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "he_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-123 Thermite",
+      "label": "G-123 Thermite",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "sticky_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-13 Incendiary Impact",
+      "label": "G-13 Incendiary Impact",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "impact_incendiary_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-142 Pyrotech",
+      "label": "G-142 Pyrotech",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "zipper_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-16 Impact",
+      "label": "G-16 Impact",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "impact_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-23 Stun",
+      "label": "G-23 Stun",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "flashbang",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-3 Smoke",
+      "label": "G-3 Smoke",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "smoke_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-31 Arc",
+      "label": "G-31 Arc",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "arc_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-4 Gas",
+      "label": "G-4 Gas",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "gas_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-48 Giga Grenade",
+      "label": "G-48 Giga Grenade",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "at_explosive_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-50 Seeker",
+      "label": "G-50 Seeker",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "self_destruct_drone",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-6 Frag",
+      "label": "G-6 Frag",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "frag_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-60 Anti-Tank Seeker",
+      "label": "G-60 Anti-Tank Seeker",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "at_self_destruct_drone",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-7 Pineapple",
+      "label": "G-7 Pineapple",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "cluster_frag_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-8 Immolation",
+      "label": "G-8 Immolation",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "molotov_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G-89 Smokescreen",
+      "label": "G-89 Smokescreen",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "impact_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G/40-K Melta Mine",
+      "label": "G/40-K Melta Mine",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "mine_shark",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/G/SH-39 Shield",
+      "label": "G/SH-39 Shield",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "shield_grenade",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/K-2 Throwing Knife",
+      "label": "K-2 Throwing Knife",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "throwing_knife",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/TED-63 Dynamite",
+      "label": "TED-63 Dynamite",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "throwable/TM-1 Lure Mine",
+      "label": "TM-1 Lure Mine",
+      "kind": "throwable",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "luring_mine",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/EXO-45 Patriot Exosuit",
+      "label": "EXO-45 Patriot Exosuit",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "combat_walker",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/EXO-49 Emancipator Exosuit",
+      "label": "EXO-49 Emancipator Exosuit",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "combat_walker_obsidian",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/EXO-51 Lumberer Exosuit",
+      "label": "EXO-51 Lumberer Exosuit",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "combat_walker_lumberer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/EXO-55 Breakthrough Exosuit",
+      "label": "EXO-55 Breakthrough Exosuit",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": null,
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/FRV (Super Earth variant)",
+      "label": "FRV (Super Earth variant)",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "frv_superearth",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/GATER Oil Rig",
+      "label": "GATER Oil Rig",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "oil_rig",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/M-102 Gunner FRV",
+      "label": "M-102 Gunner FRV",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "frv",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/M-103 Supply FRV",
+      "label": "M-103 Supply FRV",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "frv_supply",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/M-104 Incinerator FRV",
+      "label": "M-104 Incinerator FRV",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "frv_flamer",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/TD-110 Maelstrom",
+      "label": "TD-110 Maelstrom",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "tank_storm",
+        "liveTested": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "vehicle/TD-220 Bastion MK XVI",
+      "label": "TD-220 Bastion MK XVI",
+      "kind": "vehicle",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "own_loadout_package",
+        "package": "tank",
+        "liveTested": false,
+        "blocker": null
+      }
+    }
+  ],
+  "safety": {
+    "arbitraryPackages": false,
+    "callerSuppliedIdentities": false,
+    "writes": 0
+  }
+}

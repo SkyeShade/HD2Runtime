@@ -1,0 +1,1 @@
+{"format":1,"name":"AssetTestStalwartPodEat700","resource":"mods/hd2runtime_examples/asset_test_stalwart_pod_eat700","guid":"6c478194-8d6d-5212-9f47-3aa38fc02f2d","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.1","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

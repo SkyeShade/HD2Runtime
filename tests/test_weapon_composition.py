@@ -248,9 +248,10 @@ ok,why=pcall(writes.validate_transaction,{id='combined-composition',target=repri
  expect=400,value=200}}})
 assert(not ok and tostring(why):find('COMPOSITION_TARGET_CHANGED',1,true))
 local talon=session.weapon('LAS-58 Talon'):attack('primary'):projectile()
-ok,why=pcall(writes.validate_patch,{id='talon-residency',target=reprimand,
- field=session.fields.attack.projectile,expect=reprimand:projectile(),value=talon})
-assert(not ok and tostring(why):find('not resident',1,true))
+-- Talon's projectile needs the Talon's package: accepted, with that package as an asset dependency.
+local talon_spec=writes.validate_patch{id='talon-residency',target=reprimand,
+ field=session.fields.attack.projectile,expect=reprimand:projectile(),value=talon}
+assert(#talon_spec.asset_dependencies==1 and talon_spec.asset_dependencies[1].name:find('laser_pistol',1,true))
 return'ok'
 '''
         self.assertEqual(execute(script.encode()),b'ok')

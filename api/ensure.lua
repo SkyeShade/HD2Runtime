@@ -162,7 +162,9 @@ local function start_bound(runtime,emit,request,kind,validate,module,interval,st
             log('ensure '..id..' blocked until an option changes: '..tostring(watch.error))
             return
         end
-        if child.status~='complete'then watch.status='running';return end
+        if child.status~='complete'then
+            watch.status=child.status=='waiting_for_assets'and'waiting_for_assets'or'running';return
+        end
         watch.result=child.result
         if mode=='restore'then
             owned,verification={},nil;applied_signature=target.signature;watch.restores=watch.restores+1

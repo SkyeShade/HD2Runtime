@@ -2874,6 +2874,21 @@
         "slider": "fun(self: HD2Options, spec: HD2SliderSpec): HD2Option",
         "choice": "fun(self: HD2Options, spec: HD2ChoiceSpec): HD2Option",
         "describe": "fun(self: HD2Options): table"
+      },
+      "HD2AssetRequest": {
+        "id": "string",
+        "target?": "table",
+        "targets?": "table[]"
+      },
+      "HD2AssetDependency": {
+        "known": "boolean",
+        "autoLoadSupported": "boolean",
+        "key?": "string",
+        "derivation?": "string",
+        "package?": "string",
+        "retain?": "string",
+        "liveTested?": "boolean",
+        "blocker?": "string"
       }
     },
     "functions": {
@@ -3001,6 +3016,26 @@
         ],
         "returns": "HD2Options",
         "doc": "Declare an in-game options page (a MODS tab category). CowboyBingus Mod Options Menu v1+ (needs Bingus Shared Loader v18+) is an optional enhancement of mods that use this: without it, or if it is incompatible or rejects an option, one warning is logged per page and every hd2.ensure bound to those options runs normally with the options' declared defaults (fallback='default', the default). Declare the page with fallback='disable' to keep those operations inactive for the session instead. Defaults are validated with the operation when it is declared. Mods that do not call hd2.options are unaffected."
+      },
+      "require_assets": {
+        "params": [
+          [
+            "request",
+            "HD2AssetRequest"
+          ]
+        ],
+        "returns": "HD2Watch",
+        "doc": "Make the game load the packages that one to 16 typed handles (hd2.pickup, hd2.weapon, hd2.support_weapon, hd2.throwable, hd2.vehicle, hd2.backpack, a mounted-weapon candidate, a projectile handle) need, through the same reference-counted package system the game uses for loadouts. Status waiting_for_assets until every package is resident, then complete (result.status RESIDENT), or rejected with code ASSET_UNAVAILABLE. Never blocks; times out after 90 s. Package identities come only from the generated catalog; mods never pass package IDs. patch, transaction, plan and ensure already do this automatically for reference swaps, so most mods never call it."
+      },
+      "asset_dependency": {
+        "params": [
+          [
+            "target",
+            "table"
+          ]
+        ],
+        "returns": "HD2AssetDependency",
+        "doc": "Offline: whether a typed handle's package dependency is known and auto-loadable, and how it was derived. No IDs."
       }
     },
     "target_methods": {

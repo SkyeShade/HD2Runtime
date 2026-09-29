@@ -29,6 +29,18 @@ function M.create()
         local ok=kernel.VirtualProtect(ffi.cast('void *',page),size,protection,old)
         return ok~=0 and tonumber(old[0]) or nil,ok==0 and tonumber(kernel.GetLastError()) or nil
     end
+    -- One native call, used only by core/assets after it re-proved the build, the exact code bytes of
+    -- game.dll's RefcountedPackageSystem request function and the instance it passes: take one reference on
+    -- one catalog package (the same call gameplay makes when a player carries the item).
+    function runtime.package_request(entry,instance,id)
+        assert(type(entry)=='number'and entry>0 and entry<=9007199254740991
+            and type(instance)=='number'and instance>0 and instance<=9007199254740991
+            and type(id)=='string'and#id==8 and id~=string.rep('\0',8),'unsupported package request')
+        local ids=ffi.new('uint64_t[1]');ffi.copy(ids,id,8)
+        local request=ffi.cast('void (*)(void *, const uint64_t *, uint32_t)',entry)
+        request(ffi.cast('void *',instance),ids,1)
+        return true
+    end
     return runtime
 end
 return M

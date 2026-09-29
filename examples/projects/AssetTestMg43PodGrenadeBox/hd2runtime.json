@@ -1,0 +1,1 @@
+{"format":1,"name":"AssetTestMg43PodGrenadeBox","resource":"mods/hd2runtime_examples/asset_test_mg43_pod_grenade_box","guid":"75371d15-589e-5372-bb75-13e83c2d26b9","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.1","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

@@ -66,8 +66,14 @@ local function validate_change(rack,slot,target,item,request)
             ..' slot '..target.slot)
         assert(identity_of(desired)==slot.current or request.allow_unverified_reference==true,
             'replacement requires allow_unverified_reference=true ('..database.unverifiedReason..')')
+        -- A non-vanilla replacement's assets are loaded through the game's own package system first
+        -- (core/assets); the write waits until they are resident.
+        local dependency
+        if desired~='empty'and identity_of(desired)~=slot.current and not desired.alwaysResident then
+            dependency=require('hd2runtime/core/assets').dependency('pickup/'..desired.semanticId)
+        end
         return {field=item.field,canonical_field=ENTITY,descriptor=descriptor(rack,ENTITY),
-            offset=slot.index*SLOT_STRIDE,width=8,
+            asset_dependency=dependency,offset=slot.index*SLOT_STRIDE,width=8,
             expected=u64(slot.resource),desired=u64(resource_of(desired)),expect=identity_of(expected),
             value=identity_of(desired),replacement=desired~='empty'and desired or nil,slot=slot}
     end
@@ -94,7 +100,12 @@ local function validate(request,multiple)
     assert(type(items)=='table'and#items>=1 and#items<=8,'transaction requires one to 8 changes')
     local result={kind='pod',id=request.id,rack=rack.name,target_path=request.target.path,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,changes={}}
-    for index,item in ipairs(items)do result.changes[index]=validate_change(rack,slot,request.target,item,request)end
+    result.asset_dependencies={}
+    for index,item in ipairs(items)do
+        result.changes[index]=validate_change(rack,slot,request.target,item,request)
+        local dependency=result.changes[index].asset_dependency
+        if dependency then result.asset_dependencies[#result.asset_dependencies+1]=dependency end
+    end
     result.field=request.field;result.expect=request.expect;result.value=request.value
     return result
 end

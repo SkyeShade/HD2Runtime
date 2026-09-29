@@ -15,10 +15,13 @@ and linked explosions belong to the referenced projectile object. After a swap, 
 follows the new reference. Editing the object is a shared definition write and requires
 `allow_shared=true`; HD2Runtime has found no native weapon-local clone/override contract.
 
-The current snapshot contains no equipped/unequipped residency pair and Bingus exposes no reviewed
-resource preload request in this repository. LAS-58 Talon is marked `SOURCE_WEAPON_REQUIRED` from
-the reported gameplay control and is blocked as a swap source. Other untested sources remain
-`DEPENDENCY_UNRESOLVED`; JAR-5 carries the successful observed swap evidence.
+A projectile or explosion taken from another weapon lives in that weapon's loadout package. When
+the source's package is known and differs from the target's, the operation records an asset dependency.
+Runtime loads that package through the game's own package system before the write, and waits in
+`waiting_for_assets`; see `asset-loading.md`. LAS-58 Talon was classified `SOURCE_WEAPON_REQUIRED` from the
+reported gameplay control (invisible until the Talon is equipped). Its package (`laser_pistol`) is known, so
+the swap is accepted and loads that package first. A `SOURCE_WEAPON_REQUIRED` source without a known package
+stays blocked. JAR-5 carries the successful observed swap evidence.
 
 Terminal explosion slots accept typed explosion handles or `terminal:no_explosion()`. Native zero
 is never accepted as a raw public reference.
