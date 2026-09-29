@@ -327,7 +327,7 @@ def generic_catalog(magazine_public):
         'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False}}
     research_ids = {item[key][2:].lower() for item in research['items'] for key in ('optionId', 'addPath')}
     text = json.dumps(catalog).lower()
-    if re.search(r'0x[0-9a-f]{6,}', text) or any(value in text for value in research_ids):
+    if re.search(r'\b0x[0-9a-f]{6,}', text) or any(value in text for value in research_ids):
         raise ValueError('public attachment catalog leaks a native identifier')
     return catalog
 
