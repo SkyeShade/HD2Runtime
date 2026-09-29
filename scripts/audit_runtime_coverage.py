@@ -62,16 +62,25 @@ WEAPON_STATS = {
     'sway': ('weapon.sway',),
     'ergonomics': ('weapon.ergonomics',),
     'fireRateRpm': ('weapon.fire_rate',),
-    'capacity': ('weapon.capacity', 'magazine.capacity', 'rounds.capacity', 'rounds.feed_capacity_1', 'heat.capacity'),
-    'spareMagazines': ('magazine.spare_magazines', 'rounds.spare_rounds'),
-    'startingMagazines': ('magazine.starting_magazines', 'rounds.starting_rounds'),
-    'magsFromSupply': ('magazine.magazines_from_supply', 'rounds.rounds_from_supply'),
+    # Heat weapons state their heatsinks as magazines; backpack-fed weapons carry ammunition in the backpack deposit.
+    'capacity': ('weapon.capacity', 'magazine.capacity', 'rounds.capacity', 'rounds.feed_capacity_1', 'heat.capacity',
+        'deposit.capacity'),
+    'spareMagazines': ('magazine.spare_magazines', 'rounds.spare_rounds', 'heatsink.spare'),
+    'startingMagazines': ('magazine.starting_magazines', 'rounds.starting_rounds', 'heatsink.starting',
+        'deposit.start_amount'),
+    'magsFromSupply': ('magazine.magazines_from_supply', 'rounds.rounds_from_supply', 'heatsink.from_supply',
+        'deposit.refill_amount'),
     # The game derives the ammo-box refill from the supply refill (max(1, floor(supply / 2))), so the stat is authored
     # through magazines_from_supply / rounds_from_supply; the ammo-box field itself is published read-only.
-    'magsFromAmmoBox': ('magazine.magazines_from_supply', 'rounds.rounds_from_supply'),
+    'magsFromAmmoBox': ('magazine.magazines_from_supply', 'rounds.rounds_from_supply', 'heatsink.from_ammo_box',
+        'deposit.refill_amount'),
 }
 WEAPON_STAT_NOTES = {'magsFromAmmoBox': 'Derived by the game from the supply refill; authored through it.',
-    'capacity': 'Effective magazine capacity owned by a default customization option stays read-only.'}
+    'capacity': 'Effective magazine capacity owned by a default customization option stays read-only.',
+    'fireRateRpm': 'Charge-controlled weapons (Railgun, Epoch, Arc Thrower, Meltagun) and selector sentinels are '
+        'not exposed as ordinary RPM.',
+    'projectile.dragFactor': 'Guided launchers (Spear, Commando, W.A.S.P.): the native row matches the wiki on '
+        'damage, velocity and mass but not drag / gravity, so the branch stays PARTIAL.'}
 ATTACK_STATS = {
     'damage.standard': ('damage.standard_damage', 'explosion.standard_damage'),
     'damage.durable': ('damage.durable_damage', 'explosion.durable_damage'),
@@ -250,6 +259,14 @@ def support_rows():
     for field in catalog['fieldInstances']:
         if field.get('writable'):
             rows.setdefault(field['supportWeapon'], set()).add(normal(field['semanticFieldId']))
+    # Backpack-fed weapons: their ammunition is the backpack deposit (hd2.support_weapon(name):backpack()).
+    backpacks = defaultdict(set)
+    for field in load(SDK / 'BackpackAuthoringCapabilities.json')['fieldInstances']:
+        if field.get('editable'):
+            backpacks[field['target']['backpack']].add(normal(field['semanticFieldId']))
+    for weapon in catalog['weapons']:
+        if weapon.get('ammoBackpack'):
+            rows[weapon['name']] |= backpacks[weapon['ammoBackpack']['backpack']]
     return rows
 
 
