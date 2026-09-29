@@ -90,6 +90,12 @@ opaque key for its own loadout package), `alwaysResident`, and the basis for tha
   grenade boxes: their assets load only when their own package does. These writes are allowed only with
   `allow_unverified_reference=true`, and the GUI should show the warning.
 
+Since 0.27 Runtime loads the pickup's own package automatically before writing the slot, when that package
+is known; see `asset-loading.md`. The status is `waiting_for_assets` until the package is resident, and the
+write fails with `ASSET_UNAVAILABLE` (keeping the vanilla item) if it never becomes resident. This resolves
+missing assets only. Whether the pickup behaves correctly in that pod remains unverified, so
+`allow_unverified_reference` is still required.
+
 ## Guards
 
 Every write re-proves:

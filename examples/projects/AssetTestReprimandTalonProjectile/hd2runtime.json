@@ -1,0 +1,1 @@
+{"format":1,"name":"AssetTestReprimandTalonProjectile","resource":"mods/hd2runtime_examples/asset_test_reprimand_talon_projectile","guid":"24820c26-cf28-5cbc-aa30-cc37cadf4a7b","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.1","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

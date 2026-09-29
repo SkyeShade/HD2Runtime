@@ -1,6 +1,6 @@
 ---@meta
 -- Generated authoring definitions. Never package or execute this file.
--- Schema SHA256 5bc4d4b8c4565122761e4da932ba36e87ac1a064ce994c9258e2c7a8d9f2226d
+-- Schema SHA256 99f96cf737ff34170df141392fd653dfd85da3b86b9d344e8c947035c77947d6
 
 ---@alias HD2Resource "0x16474112801385B6"|"0x59C5CA839449B379"|"0x80F1A156D9FA1E36"|"0x89C5493E08CA4207"|"0xB0C9FAF4AF8903F9"|"0xEC3575E7A93793BB"|"0xED13DDC480EC6910"|"amr"|"bastion"|"jar5"|"jump_pack"|"maelstrom"|"orbital_laser"|"shield_relay"
 ---@alias HD2PatchField "armor_penetration"
@@ -187,6 +187,21 @@
 ---@field slider fun(self: HD2Options, spec: HD2SliderSpec): HD2Option
 ---@field choice fun(self: HD2Options, spec: HD2ChoiceSpec): HD2Option
 ---@field describe fun(self: HD2Options): table
+
+---@class HD2AssetRequest
+---@field id string
+---@field target? table
+---@field targets? table[]
+
+---@class HD2AssetDependency
+---@field known boolean
+---@field autoLoadSupported boolean
+---@field key? string
+---@field derivation? string
+---@field package? string
+---@field retain? string
+---@field liveTested? boolean
+---@field blocker? string
 
 ---@class HD2Weapon
 ---@field resource HD2Resource
@@ -1379,6 +1394,14 @@ function hd2.metrics() end
 ---@param spec HD2OptionsRequest
 ---@return HD2Options
 function hd2.options(spec) end
+---Make the game load the packages that one to 16 typed handles (hd2.pickup, hd2.weapon, hd2.support_weapon, hd2.throwable, hd2.vehicle, hd2.backpack, a mounted-weapon candidate, a projectile handle) need, through the same reference-counted package system the game uses for loadouts. Status waiting_for_assets until every package is resident, then complete (result.status RESIDENT), or rejected with code ASSET_UNAVAILABLE. Never blocks; times out after 90 s. Package identities come only from the generated catalog; mods never pass package IDs. patch, transaction, plan and ensure already do this automatically for reference swaps, so most mods never call it.
+---@param request HD2AssetRequest
+---@return HD2Watch
+function hd2.require_assets(request) end
+---Offline: whether a typed handle's package dependency is known and auto-loadable, and how it was derived. No IDs.
+---@param target table
+---@return HD2AssetDependency
+function hd2.asset_dependency(target) end
 
 if rawget(_G,'CowboyBingusModLoader') then
     error("HD2Runtime SDK stubs are authoring-only; install the runtime package in-game")

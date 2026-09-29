@@ -86,9 +86,12 @@ local function validate_change(entry,target,item,request)
         end
         assert(allowed or desired.semanticId==expected.semanticId,
             'replacement is not a compatible discovered mounted weapon: '..desired.semanticId)
+        -- The replacement weapon's assets (its own package, or its vanilla vehicle's) load automatically.
+        local dependency=desired.semanticId~=expected.semanticId
+            and require('hd2runtime/core/assets').dependency('mounted_weapon/'..desired.semanticId)or nil
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             expected=u64(expected.resource),desired=u64(desired.resource),
-            expect=expected.semanticId,value=desired.semanticId,replacement=desired}
+            expect=expected.semanticId,value=desired.semanticId,replacement=desired,asset_dependency=dependency}
     end
     local expected,desired=item.expect,item.value
     assert(type(expected)=='number'and expected==expected and expected>-math.huge and expected<math.huge,
@@ -128,6 +131,10 @@ local function validate(request,multiple)
         assert(not multiple or group==change.descriptor.operationGroup,
             'transaction spans multiple backing objects; use hd2.plan')
         result.changes[index]=change
+        if change.asset_dependency then
+            result.asset_dependencies=result.asset_dependencies or{}
+            result.asset_dependencies[#result.asset_dependencies+1]=change.asset_dependency
+        end
     end
     result.field=request.field;result.expect=request.expect;result.value=request.value
     return result

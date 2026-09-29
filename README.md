@@ -30,6 +30,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Throwable authoring for all 23 throwable-slot items (`hd2.throwable`): inventory counts, fuses,
   explosions, per-hit status and shared status definitions, frag shrapnel, Pineapple bomblets, the throwing
   knife's direct hit, mine health and the throwable shield (see `docs/throwable-authoring.md`)
+- Automatic asset loading for reference swaps: the packages of pod pickups, mounted weapons and borrowed
+  projectiles load through the game's own package system before the write, with no package IDs in mods
+  (see `docs/asset-loading.md`)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards

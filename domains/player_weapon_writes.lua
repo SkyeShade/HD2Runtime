@@ -13,6 +13,19 @@ local function database_for(kind)
     return kind=='support_weapon'and support_database or database
 end
 local M={}
+-- Package the source weapon's projectile/explosion assets live in (its generated loadout package), when the
+-- source is another weapon whose package differs from the target's. Unknown sources return nil.
+local function source_dependency(target_name,source_name,attack)
+    if source_name==target_name then return nil end
+    local assets=require('hd2runtime/core/assets')
+    local function lookup(name)
+        return assets.dependency('projectile_source/'..name..':'..tostring(attack))
+            or assets.dependency('player_weapon/'..name)or assets.dependency('support_weapon/'..name)
+    end
+    local source,target=lookup(source_name),lookup(target_name)
+    if source and target and source.package==target.package then return nil end
+    return source
+end
 local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData',
     'WeaponMagazineComponentData','WeaponRoundsComponentData','ArcWeaponComponentData',
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
@@ -226,12 +239,16 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             or source.compatibilityClass=='explosive_impact_and_expiry'
             or source.compatibilityClass=='explosive_shrapnel',
             'projectile compatibility class is not approved for replacement')
-        assert(expected.weapon==desired.weapon and expected.attack==desired.attack
+        -- The source's assets are loaded automatically when its package is known (core/assets); a source
+        -- known to need its own weapon's package and without a catalog package stays rejected.
+        local dependency=source_dependency(weapon.name,desired.weapon,desired.attack)
+        assert(expected.weapon==desired.weapon and expected.attack==desired.attack or dependency
             or not source.residency or source.residency.classification~='SOURCE_WEAPON_REQUIRED',
             'projectile source dependency is not resident without its source weapon: '..desired.weapon)
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
-            expected_selector=expected,desired_selector=desired,source_descriptor=source}
+            expected_selector=expected,desired_selector=desired,source_descriptor=source,
+            asset_dependency=dependency}
     end
     if field.type=='explosion_reference'then
         assert(field.referenceKind=='explosion'and field.referenceRole==role
@@ -255,7 +272,9 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         end
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
-            expected_selector=expected,desired_selector=desired,source_descriptor=source}
+            expected_selector=expected,desired_selector=desired,source_descriptor=source,
+            asset_dependency=not desired.is_null and source_dependency(weapon.name,desired.weapon,desired.attack)
+                or nil}
     end
     if field.type=='fire_mode_set'then
         local expected=mode_set(field,item.expect,'expect');local desired=mode_set(field,item.value,'value')
@@ -303,7 +322,8 @@ function M.validate_patch(request)
         ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,
         attack=role,target_path=path,phase=phase,
         diagnostic=request.diagnostic==true,allow_shared=request.allow_shared==true,
-        field=request.field,expect=request.expect,value=request.value,changes={change}}
+        field=request.field,expect=request.expect,value=request.value,changes={change},
+        asset_dependencies={change.asset_dependency}}
 end
 function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
@@ -351,6 +371,10 @@ function M.validate_transaction(request)
             result.changes[#result.changes+1]=change
             canonical_seen[change.canonical_field]=change
         end
+    end
+    result.asset_dependencies={}
+    for _,change in ipairs(result.changes)do
+        if change.asset_dependency then result.asset_dependencies[#result.asset_dependencies+1]=change.asset_dependency end
     end
     return result
 end

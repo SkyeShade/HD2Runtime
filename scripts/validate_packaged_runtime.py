@@ -332,7 +332,13 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
-    'options-test-mod-missing': {'after': test_mod_ids(OPTIONS_MISSING)}}
+    'options-test-mod-missing': {'after': test_mod_ids(OPTIONS_MISSING)},
+    # Automatic asset loading: exactly one native package request per distinct catalog package, before the
+    # reference is written, and none again after the simulated reset (Runtime retains its reference).
+    'example-asset-test-stalwart-pod-eat700': {'packageRequests': 1},
+    'example-asset-test-reprimand-talon-projectile': {'packageRequests': 1},
+    'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
+    'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
 
 
 def example(name, folder='projects'):
@@ -508,6 +514,30 @@ function runtime.write(at,bytes)
  return true,nil,#bytes
 end
 
+-- Simulated engine package loader. The artifact's single native package call is observed here instead of
+-- executed; a requested package resolves asynchronously (queued, then resident after LOAD_SECONDS), as the
+-- engine's load queue does. Code proofs and the reference-map checks still run against snapshot memory.
+local LOAD_SECONDS=0.35
+local package_requests,package_log={},{}
+counts.package_requests=0
+local function hex_of(id)
+ local out={};for index=8,1,-1 do out[#out+1]=string.format('%02X',id:byte(index))end
+ return '0x'..table.concat(out)
+end
+function runtime.package_request(entry,instance,id)
+ assert(type(entry)=='number' and type(instance)=='number' and type(id)=='string' and #id==8,'package request shape')
+ local hex=hex_of(id)
+ assert(not package_requests[hex],'duplicate native package request for '..hex)
+ counts.package_requests=counts.package_requests+1
+ package_requests[hex]=simulated;package_log[#package_log+1]=hex
+ return true
+end
+function runtime.package_state(hex)
+ local at=package_requests[hex]
+ if not at then return 'absent' end
+ return simulated-at>=LOAD_SECONDS and 'resident' or 'queued'
+end
+
 -- Emulated engine resource lookup: archive resources resolve only during startup.
 local startup_open=true
 local lookups={startup=0,late_found=0,late_missing={}}
@@ -568,7 +598,8 @@ local function describe()
 end
 if AFTER then AFTER_RESULTS=assert(loadstring(AFTER))()(frame,watches,counts,lines)end
 local report={scenario=SCENARIO,settled=settled(),startup_seconds=simulated,watches=describe(),
- counts={writes=counts.writes,protection_changes=counts.protection_changes,module_hashes=counts.module_hashes}}
+ counts={writes=counts.writes,protection_changes=counts.protection_changes,module_hashes=counts.module_hashes,
+  package_requests=counts.package_requests},packages=package_log}
 
 -- Simulated game reset: ensures must detect drift and re-apply with lookups still closed.
 local ensures={}
@@ -629,7 +660,7 @@ def check(report):
                 failures.append('%s: expected an inactive operation, got status=%s' % (watch.get('id'),
                     watch.get('status')))
             continue
-        if watch.get('result') != 'APPLIED' or watch.get('status') == 'rejected':
+        if watch.get('result') not in ('APPLIED', 'RESIDENT') or watch.get('status') == 'rejected':
             failures.append('%s: status=%s result=%s error=%s' % (watch.get('id'), watch.get('status'),
                 watch.get('result'), watch.get('error')))
     if not str(report.get('scenario', '')).startswith('options-'):
@@ -662,7 +693,12 @@ def validate(zip_path, snapshot=SNAPSHOT, scenarios=None):
             'watches': report.get('watches'), 'reset': report.get('reset', {}).get('reapplied'),
             'overlayWrites': report.get('counts', {}).get('writes'),
             'moduleHashes': report.get('counts', {}).get('module_hashes'),
-            'lateLookupsMissing': sorted(set(report.get('lookups', {}).get('late_missing', [])))}
+            'lateLookupsMissing': sorted(set(report.get('lookups', {}).get('late_missing', []))),
+            'packageRequests': report.get('counts', {}).get('package_requests', 0)}
+        expected = EXTRAS.get(name, {}).get('packageRequests')
+        if expected is not None and report.get('counts', {}).get('package_requests') != expected:
+            problems.append('expected %s native package requests, got %s' % (expected,
+                report.get('counts', {}).get('package_requests')))
         failures += [name + ': ' + problem for problem in problems]
     result['passed'] = not failures
     if failures:

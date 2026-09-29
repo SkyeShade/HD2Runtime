@@ -14,6 +14,9 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     local elapsed,steps,worker=0,0,nil;local waited=0
     local attempts,retry_at,attempt_time=0,0,0
     watch.attempts=0;watch.max_attempts=retry.MAX_ATTEMPTS
+    -- Reference swaps into items nobody carries wait here until their assets are resident.
+    local assets=require('hd2runtime/core/assets').gate(runtime,spec,emit)
+    watch.asset_dependencies=assets.dependencies
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
     local function value_text(value)
         if type(value)=='table'and value.weapon and value.attack then
@@ -27,7 +30,8 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         watch.result=watch.result or {status='REJECTED',writes=0,protection_changes=0,
             protection_restored=true,rollback='not_needed'}
         watch.result.reason=watch.error
-        watch.result.code=watch.error:find('CONFLICT:',1,true) and 'CONFLICT' or 'VALIDATION_FAILED'
+        watch.result.code=watch.error:find('CONFLICT:',1,true) and 'CONFLICT'
+            or watch.error:find('ASSET_UNAVAILABLE',1,true) and 'ASSET_UNAVAILABLE' or 'VALIDATION_FAILED'
         log('patch '..spec.id..' REJECTED code='..watch.result.code..' reason='..watch.error)
     end
     -- One place decides between a bounded transient retry and a terminal rejection.
@@ -50,13 +54,18 @@ function M.start_spec(runtime,emit,spec,startup_delay)
         end
     end
     function watch.cancel()
-        if watch.status~='complete' and watch.status~='rejected' then watch.status='cancelled';worker=nil;exclusive.release(watch) end
+        if watch.status~='complete' and watch.status~='rejected' then watch.status='cancelled';worker=nil;exclusive.release(watch);require('hd2runtime/core/assets').release(spec.id) end
     end
     function watch.tick(dt)
         if watch.status=='complete' or watch.status=='rejected' or watch.status=='cancelled' then return end
         assert(type(dt)=='number' and dt>=0 and dt<math.huge,'invalid elapsed time')
         elapsed=elapsed+dt
         if elapsed<startup_delay then return end
+        if assets.state~='ready'then
+            local state,why=assets.tick(dt)
+            if state=='failed'then return reject(why)end
+            if state~='ready'then watch.status='waiting_for_assets';return end
+        end
         -- Waiting for a scheduled retry never holds the gate or consumes an attempt.
         if not worker and elapsed<retry_at then return end
         if not exclusive.acquire(watch)then watch.status='queued';waited=waited+dt;return end

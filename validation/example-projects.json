@@ -1,5 +1,5 @@
 {
-  "examples": 50,
+  "examples": 54,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -118,6 +118,125 @@
       "usesOptions": false,
       "versionReasons": [
         "booster target -> 0.24.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "AssetTestFrvBastionCannon": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "asset-test-frv-bastion-cannon",
+          "mode": "patch",
+          "path": "mount",
+          "resource": "vehicle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "AssetTestMg43PodGrenadeBox": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "asset-test-mg43-pod-grenade-box",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "payload.entity -> 0.26.0",
+        "pod_rack target -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "AssetTestReprimandTalonProjectile": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "asset-test-reprimand-talon",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "SMG-32 Reprimand"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "AssetTestStalwartPodEat700": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-2",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawn-both",
+          "mode": "patch",
+          "path": "rack",
+          "resource": "pod_rack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "payload.entity -> 0.26.0",
+        "payload.spawn_count -> 0.26.0",
+        "pod_rack target -> 0.26.0",
         "typed writes -> 0.23.2"
       ]
     },

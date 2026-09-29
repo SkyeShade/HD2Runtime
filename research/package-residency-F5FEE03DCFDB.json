@@ -1,0 +1,4498 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "loader": {
+  "gameDll": {
+   "requestRva": 19915600,
+   "releaseRva": 19916000,
+   "requestProof": "4585c00f8475010000415641574883ec3848895c24504c8bfa48896c24584c8bf1488974246048897c24304c896424284c8d25b9244d024c896c24204c8d2d89254d02418be866660f1f840000000000418b560833c0498b37458b46184c0fafc6448d4aff85d27459498b0e0f1f40008bd84903d84923d948c1e3044803d94839330f84f7000000ffc03bc272e24d8b5e104c8bd133c0660f1f8400000000008bd84903d84923d948c1e3044903da488b0b493bcb740d483bce7408ffc03bc272de33db48893348c7430801000000488b15cade01024c8d05b38b0001488b7b08498bcc4c8bce488d4216493bc5480f42caba1600000048890da2de0102e8cdf41eff4c8b0596de0102488d0db71bfc00ffc04c8bcf4863d04903d04889157dde0102488d15f63ffc00e8819e430048837b08017514488b057b7e0202488bce488b5010ff92f00200004983c7084883ed010f85f8feffff4c8b6c24204c8b642428488b7c2430488b742460488b6c2458488b5c24504883c438415f415ec348",
+   "releaseProof": "4585c00f8460010000415641574883ec3848895c24504c8bfa48896c24584c8bf148897424604c896424284c8d252e234d024c896c24204c8d2dfe234d0248897c2430418be866660f1f840000000000498b374885f60f84d9000000418b4e0833c0418b5618480fafd6448d49ff85c90f84bf0000004d8b060f1f80000000008bd84803da4923d948c1e3044903d8483933740bffc03bc172e6e996000000488b7b084885ff0f8489000000488b155ddd01024c8d05468a000148ffcf498bcc4c8bce48897b08488d4216493bc5480f42caba1600000048890d32dd0102e85df31eff4c8b0526dd0102488d0d471afc00ffc04c8bcf4863d04903d04889150ddd0102488d15163ffc00e8119d430048837b0800751f488bd6498bcee89f174300488b05007d0202488bce488b5010ff92000300004983c7084883ed010f850dffffff4c8b6c24204c8b642428488b7c2430488b742460488b6c2458488b5c24504883c438415f415ec3cccccccccccc4883ec28488b05ad7c0202488b481048",
+   "requestLogReference": 19915891,
+   "releaseLogReference": 19916259,
+   "instanceGlobalRva": 55037616,
+   "instanceVotes": 111,
+   "callSites": 107,
+   "engineApiGlobalRva": 53633800,
+   "engineLoadSlot": 752,
+   "engineUnloadSlot": 768,
+   "refcountMap": {
+    "entries": 0,
+    "capacity": 8,
+    "emptyKey": 16,
+    "multiplier": 24,
+    "entryStride": 16,
+    "refcount": 8
+   }
+  },
+  "engine": {
+   "hasLoadedRva": 3281712,
+   "hasLoadedProof": "4883ec28488b05cdee6e01488bd1488b8800040000488b8908020000e82fc72e004c8bc84885c0750733c04883c428c3458b411833c04585c074164d8b492090498b14c1837a1c0475dfffc0413bc072efb8010000004883c428c3cccccccccc",
+   "findPackageRva": 6347392,
+   "findPackageProof": "48895c2408488974241048897c24188bb9800000004533d285ff7440488bb1880000000f1f4000660f1f8400000000004a8b1cd633c0448b4b184585c974154c8b5b204d8b04c3493950107421ffc041",
+   "loadRva": 6305392,
+   "managerGlobalRva": 27329032,
+   "packageManager": 1024,
+   "resourceManager": 520,
+   "listCount": 128,
+   "list": 136,
+   "packageId": 16,
+   "partCount": 24,
+   "parts": 32,
+   "partState": 28,
+   "loadedState": 4,
+   "queue": {
+    "head": 12828,
+    "tail": 12832,
+    "entries": 536,
+    "stride": 24,
+    "loadFlag": 16,
+    "capacity": 512
+   }
+  },
+  "hashes": {
+   "gameDllImage": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5",
+   "exeImage": "D82A025683B8380AC9514E2CD2EC3A92EA572218073AE51154BC3C6008CD9271"
+  }
+ },
+ "bundleDatabase": {
+  "sha256": "C738E2B35F4B02042A6CFF69F1C4816B12E5104A7BC5EDA71020FF476209B433",
+  "packageNames": 3657
+ },
+ "snapshotEvidence": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "residentPackages": 57,
+   "fullyLoaded": 57,
+   "residentLoadoutPackages": [
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/jet_rifle",
+    "packages/generated/loadout/magnum_pistol"
+   ],
+   "refcountedPackages": 27,
+   "refcountCapacity": 1024,
+   "refcountedLoadoutPackages": [
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/jet_rifle",
+    "packages/generated/loadout/magnum_pistol"
+   ],
+   "requestedNotYetResident": [],
+   "everyRefcountedLoadoutPackageResident": true
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "residentPackages": 59,
+   "fullyLoaded": 59,
+   "residentLoadoutPackages": [
+    "packages/generated/loadout/assault_rifle",
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/magnum_pistol"
+   ],
+   "refcountedPackages": 33,
+   "refcountCapacity": 1024,
+   "refcountedLoadoutPackages": [
+    "packages/generated/loadout/assault_rifle",
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/magnum_pistol",
+    "packages/generated/loadout/marksman_rifle"
+   ],
+   "requestedNotYetResident": [
+    "0x52EBDF76131C8F38",
+    "0x9D966B498656604A",
+    "0xB60A5080BCDC100F",
+    "packages/generated/loadout/marksman_rifle"
+   ],
+   "everyRefcountedLoadoutPackageResident": false
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "residentPackages": 56,
+   "fullyLoaded": 56,
+   "residentLoadoutPackages": [
+    "packages/generated/loadout/assault_rifle",
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/magnum_pistol"
+   ],
+   "refcountedPackages": 26,
+   "refcountCapacity": 1024,
+   "refcountedLoadoutPackages": [
+    "packages/generated/loadout/assault_rifle",
+    "packages/generated/loadout/gas_grenade",
+    "packages/generated/loadout/magnum_pistol"
+   ],
+   "requestedNotYetResident": [],
+   "everyRefcountedLoadoutPackageResident": true
+  }
+ ],
+ "logEvidence": {
+  "source": "HD2 in-memory log captured in local crash dumps from real sessions (older build; the same RefcountedPackageSystem/PackageLoader log strings exist in the current game.dll)",
+  "lines": 7888,
+  "loadoutPackagesRequestedByPhase": {
+   "boot": [
+    "jet_rifle_phoenix",
+    "magnum_pistol",
+    "sticky_grenade"
+   ],
+   "ship": [
+    "ammo_backpack",
+    "antitank_emplacement",
+    "assault_rifle_karbin",
+    "assault_rifle_rico",
+    "battle_rifle_ceremonial",
+    "cricket_pistol",
+    "eagle_base",
+    "frv",
+    "gatling_turret",
+    "grenade_launcher_tactical",
+    "jet_rifle_phoenix",
+    "laser_pistol",
+    "laser_rifle_long",
+    "machinegun_turret",
+    "magnum_pistol",
+    "power_sword",
+    "pump_shotgun",
+    "railgun",
+    "recoilless_rifle",
+    "recoilless_rifle_backpack",
+    "rocket_turret",
+    "sticky_grenade",
+    "sticky_stun_grenade",
+    "zipper_grenade"
+   ],
+   "prepare_mission": [
+    "ammo_backpack",
+    "ammo_box",
+    "ammo_rack",
+    "arc_thrower",
+    "assault_rifle_rico",
+    "assault_shotgun_incendiary",
+    "automatic_cannon",
+    "drone_mg_backpack",
+    "eagle_base",
+    "eagle_bomb",
+    "flamethrower",
+    "flashbang",
+    "frv",
+    "gatling_turret",
+    "grenade_box",
+    "grenade_launcher",
+    "grenade_launcher_tactical",
+    "grenade_pistol",
+    "health_pack",
+    "hellbomb",
+    "jet_rifle_phoenix",
+    "jumppack_backpack",
+    "laser_cannon",
+    "laser_rifle",
+    "laser_rifle_long",
+    "lat_oneshot",
+    "lmg_stalwart",
+    "machinegun",
+    "machinegun_turret",
+    "magnum_pistol",
+    "manned_turret",
+    "orbital_gas",
+    "orbital_gatling_barrage",
+    "orbital_shell",
+    "railgun",
+    "recoilless_rifle",
+    "recoilless_rifle_backpack",
+    "rocket_turret",
+    "samples_bio",
+    "samples_bots",
+    "samples_bugs",
+    "samples_legendarium",
+    "samples_spice",
+    "samples_uranium",
+    "shotgun_doublebarrel",
+    "sniper_rifle",
+    "sticky_grenade",
+    "survival_shovel"
+   ],
+   "game": [
+    "ammo_backpack",
+    "ammo_rack",
+    "antitank_emplacement",
+    "assault_rifle_rico",
+    "assault_shotgun_incendiary",
+    "automatic_cannon",
+    "automatic_cannon_backpack",
+    "battle_rifle",
+    "eagle_base",
+    "eagle_bomb",
+    "flashbang",
+    "gatling_turret",
+    "grenade_pistol",
+    "hellbomb",
+    "impact_grenade",
+    "jet_rifle_phoenix",
+    "laser_pistol",
+    "machinegun_turret",
+    "magnum_pistol",
+    "orbital_gatling_barrage",
+    "orbital_shell",
+    "railgun",
+    "recoilless_rifle",
+    "recoilless_rifle_backpack",
+    "rocket_turret",
+    "sniper_rifle",
+    "sticky_grenade"
+   ],
+   "peer_hotjoin": [
+    "ammo_backpack",
+    "ammo_rack",
+    "antitank_emplacement",
+    "assault_rifle_rico",
+    "assault_shotgun_incendiary",
+    "automatic_cannon",
+    "automatic_cannon_backpack",
+    "battle_rifle",
+    "eagle_base",
+    "eagle_bomb",
+    "flashbang",
+    "frv",
+    "grenade_launcher_tactical",
+    "grenade_pistol",
+    "hellbomb",
+    "impact_grenade",
+    "jet_rifle_phoenix",
+    "laser_pistol",
+    "machinegun_turret",
+    "magnum_pistol",
+    "orbital_gas",
+    "orbital_gatling_barrage",
+    "orbital_shell",
+    "railgun",
+    "recoilless_rifle",
+    "recoilless_rifle_backpack",
+    "rocket_turret",
+    "sniper_rifle",
+    "sticky_grenade"
+   ]
+  },
+  "observations": [
+   "Ship: every player's primary, sidearm and throwable loadout packages are requested; each additional player carrying the same item increments its reference count.",
+   "Mission preparation: PlayerHistory \"Loading all loadouts\" requests every player's weapons and every stratagem payload item (for example recoilless_rifle and recoilless_rifle_backpack); level generation then requests world-loot items (samples, lat_oneshot, machinegun, sniper_rifle, ...).",
+   "Hot join: a joining peer's loadout packages are requested and loaded locally mid-mission (40-100 ms each) before \"PlayerHistory Finished loading for peer\".",
+   "Armory preview loads and unloads each previewed weapon's package through the same reference counts."
+  ]
+ },
+ "catalog": {
+  "backpack/AX/AR-23 Guard Dog": {
+   "label": "AX/AR-23 Guard Dog",
+   "kind": "backpack",
+   "resource": "0x255EBC5767D7CEEC",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+   "dependency": {
+    "package": "0xBE6C260FADCB8719",
+    "name": "packages/generated/loadout/drone_mg_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/AX/ARC-3 K-9": {
+   "label": "AX/ARC-3 K-9",
+   "kind": "backpack",
+   "resource": "0xC28DA712B12E3DFA",
+   "path": "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/guard_dog_stun_backpack",
+   "dependency": {
+    "package": "0xE62AB45BAD7F6CA3",
+    "name": "packages/generated/loadout/guard_dog_stun_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/AX/FLAM-75 Hot Dog": {
+   "label": "AX/FLAM-75 Hot Dog",
+   "kind": "backpack",
+   "resource": "0x3015626AA69F8D4D",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
+   "dependency": {
+    "package": "0x82EC28278BF9B79A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/AX/LAS-5 Rover": {
+   "label": "AX/LAS-5 Rover",
+   "kind": "backpack",
+   "resource": "0xAF9B683CCB6DDC02",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
+   "dependency": {
+    "package": "0x32CB44321DA1B5A0",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/AX/TX-13 Dog Breath": {
+   "label": "AX/TX-13 Dog Breath",
+   "kind": "backpack",
+   "resource": "0xBFFCB4CD971A8EDA",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector_backpack",
+   "dependency": {
+    "package": "0x35F4CA4FA00D380A",
+    "name": "packages/generated/loadout/drone_gas_projector_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/B-1 Supply Pack": {
+   "label": "B-1 Supply Pack",
+   "kind": "backpack",
+   "resource": "0x4EF9A47109239A58",
+   "path": "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack",
+   "dependency": {
+    "package": "0x519980A75EBD50AD",
+    "name": "packages/generated/loadout/ammo_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/B-100 Portable Hellbomb": {
+   "label": "B-100 Portable Hellbomb",
+   "kind": "backpack",
+   "resource": "0x9ACE8638421ABC8E",
+   "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+   "dependency": {
+    "package": "0x346D785D6CA13FF4",
+    "name": "packages/generated/loadout/hellbomb_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/B/FLAM-80 Cremator Backpack": {
+   "label": "B/FLAM-80 Cremator Backpack",
+   "kind": "backpack",
+   "resource": "0x43EB1C3C1A1860E0",
+   "path": "content/fac_helldivers/equipment/backpacks/heavy_flamethrower_backpack/heavy_flamethrower_backpack",
+   "dependency": {
+    "package": "0xDF16F5C644EDC2B1",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/GL-28 Belt-Fed Grenade Launcher Backpack": {
+   "label": "GL-28 Belt-Fed Grenade Launcher Backpack",
+   "kind": "backpack",
+   "resource": "0xBB4B15B588F974FD",
+   "path": "content/fac_helldivers/equipment/backpacks/belt_fed_grenade_launcher_backpack/belt_fed_grenade_launcher_backpack",
+   "dependency": {
+    "package": "0xF24CFA612428175B",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/LIFT-182 Warp Pack": {
+   "label": "LIFT-182 Warp Pack",
+   "kind": "backpack",
+   "resource": "0xB49756795D9B0E68",
+   "path": "content/fac_helldivers/equipment/backpacks/displacement_backpack/displacement_backpack",
+   "dependency": {
+    "package": "0x68F670405A504F68",
+    "name": "packages/generated/loadout/displacement_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/LIFT-850 Jump Pack": {
+   "label": "LIFT-850 Jump Pack",
+   "kind": "backpack",
+   "resource": "0x59C5CA839449B379",
+   "path": "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack",
+   "dependency": {
+    "package": "0x3E78581FDAB81A73",
+    "name": "packages/generated/loadout/jumppack_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/LIFT-860 Hover Pack": {
+   "label": "LIFT-860 Hover Pack",
+   "kind": "backpack",
+   "resource": "0x5EC80F4F1CDB66CF",
+   "path": "content/fac_helldivers/equipment/backpacks/hover_backpack/hover_backpack",
+   "dependency": {
+    "package": "0x1DFE6F7A3C7EBEFB",
+    "name": "packages/generated/loadout/hover_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/M-1000 Maxigun Backpack": {
+   "label": "M-1000 Maxigun Backpack",
+   "kind": "backpack",
+   "resource": "0x056DE1C5E21E723E",
+   "path": "content/fac_helldivers/equipment/backpacks/minigun_backpack/minigun_backpack",
+   "dependency": {
+    "package": "0xB2C627B3BA7E0C0A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/SH-20 Ballistic Shield Backpack": {
+   "label": "SH-20 Ballistic Shield Backpack",
+   "kind": "backpack",
+   "resource": "0x967ED15E0BAE363B",
+   "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+   "dependency": {
+    "package": "0xFC1A5BF2F3FF15DF",
+    "name": "packages/generated/loadout/ballistic_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/SH-32 Shield Generator Pack": {
+   "label": "SH-32 Shield Generator Pack",
+   "kind": "backpack",
+   "resource": "0x12C8D71AC3897A5C",
+   "path": "content/fac_helldivers/equipment/backpacks/energy_shield_backpack/energy_shield_backpack",
+   "dependency": {
+    "package": "0x47B43A883CAAE42C",
+    "name": "packages/generated/loadout/energy_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "backpack/SH-51 Directional Shield": {
+   "label": "SH-51 Directional Shield",
+   "kind": "backpack",
+   "resource": "0xA4E796F84801B40A",
+   "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield_backpack",
+   "dependency": {
+    "package": "0x93FA804787551C15",
+    "name": "packages/generated/loadout/directional_energy_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/assault-rifle/1e4767cc1bb3f867": {
+   "label": "assault_rifle",
+   "kind": "mounted_weapon",
+   "resource": "0x968211C0033DCE64",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle/assault_rifle",
+   "dependency": {
+    "package": "0xDBD9381F9EA9788F",
+    "name": "packages/generated/loadout/assault_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-anti-tank-cannon/7b5046ba53f31e10": {
+   "label": "combat_walker_anti_tank_cannon",
+   "kind": "mounted_weapon",
+   "resource": "0x17C5D12D8D5DEE2C",
+   "path": "content/fac_helldivers/vehicles/combat_walker_anti_tank_cannon/combat_walker_anti_tank_cannon",
+   "dependency": {
+    "package": "0x0A4BD8A1833F11B2",
+    "name": "packages/generated/loadout/combat_walker_lumberer",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker_lumberer/combat_walker_lumberer",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-left/cb15fea8423aa2f6": {
+   "label": "combat_walker_autocannon_left",
+   "kind": "mounted_weapon",
+   "resource": "0xE5F64DCC3BFE9DD1",
+   "path": "content/fac_helldivers/vehicles/combat_walker_autocannon/combat_walker_autocannon_left",
+   "dependency": {
+    "package": "0xE72D3E9B05C3DB0B",
+    "name": "packages/generated/loadout/combat_walker_obsidian",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker_obsidian/combat_walker_obsidian",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-autocannon-right/54728c643193e559": {
+   "label": "combat_walker_autocannon_right",
+   "kind": "mounted_weapon",
+   "resource": "0xFF9878576A4C543B",
+   "path": "content/fac_helldivers/vehicles/combat_walker_autocannon/combat_walker_autocannon_right",
+   "dependency": {
+    "package": "0xE72D3E9B05C3DB0B",
+    "name": "packages/generated/loadout/combat_walker_obsidian",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker_obsidian/combat_walker_obsidian",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-flak-cannon/84989fb7944d6bba": {
+   "label": "combat_walker_flak_cannon",
+   "kind": "mounted_weapon",
+   "resource": "0xDF51FE8D62F294BE",
+   "path": "content/fac_helldivers/vehicles/combat_walker_flak_cannon/combat_walker_flak_cannon",
+   "dependency": {
+    "package": "0x7DE417DB7552D9FC",
+    "name": null,
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker_breacher/combat_walker_breacher",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-flamethrower/61d1fb4e55fd37dd": {
+   "label": "combat_walker_flamethrower",
+   "kind": "mounted_weapon",
+   "resource": "0x0736BEE2D6328726",
+   "path": "content/fac_helldivers/vehicles/combat_walker_flamethrower/combat_walker_flamethrower",
+   "dependency": {
+    "package": "0x0A4BD8A1833F11B2",
+    "name": "packages/generated/loadout/combat_walker_lumberer",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker_lumberer/combat_walker_lumberer",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-missle-launcher/b69f79ed51aeb683": {
+   "label": "combat_walker_missle_launcher",
+   "kind": "mounted_weapon",
+   "resource": "0x824B7E0C4C879EB5",
+   "path": "content/fac_helldivers/vehicles/combat_walker_missle_launcher/combat_walker_missle_launcher",
+   "dependency": {
+    "package": "0x22749A294788AF66",
+    "name": "packages/generated/loadout/combat_walker",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker/combat_walker",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/combat-walker-turret/ec85bacd57e03497": {
+   "label": "combat_walker_turret",
+   "kind": "mounted_weapon",
+   "resource": "0x08F6089289C83D22",
+   "path": "content/fac_helldivers/vehicles/combat_walker_turret/combat_walker_turret",
+   "dependency": {
+    "package": "0x22749A294788AF66",
+    "name": "packages/generated/loadout/combat_walker",
+    "via": "native_holder_package",
+    "holder": "content/fac_helldivers/vehicles/combat_walker/combat_walker",
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/cyborg-big-walker-turret-cannon/283e3d22cc22ef01": {
+   "label": "cyborg_big_walker_turret_cannon",
+   "kind": "mounted_weapon",
+   "resource": "0x843D18D4B5512B63",
+   "path": "content/fac_cyborgs/turrets/cyborg_big_walker_turret_cannon/cyborg_big_walker_turret_cannon",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-autocannons/c35429998ba92cea": {
+   "label": "cyborg_tank_turret_autocannons",
+   "kind": "mounted_weapon",
+   "resource": "0x49674794A165EDA8",
+   "path": "content/fac_cyborgs/turrets/cyborg_tank_turret_autocannons/cyborg_tank_turret_autocannons",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-heavycannon/68a52c55b8083bd1": {
+   "label": "cyborg_tank_turret_heavycannon",
+   "kind": "mounted_weapon",
+   "resource": "0x8FB47DD28B398CF7",
+   "path": "content/fac_cyborgs/turrets/cyborg_tank_turret_cannon/cyborg_tank_turret_heavycannon",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/cyborg-tank-turret-rocketlauncher/bbb3a8a3de937acb": {
+   "label": "cyborg_tank_turret_rocketlauncher",
+   "kind": "mounted_weapon",
+   "resource": "0x5D142C3A73EBC634",
+   "path": "content/fac_cyborgs/turrets/cyborg_tank_turret_rocketlauncher/cyborg_tank_turret_rocketlauncher",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/cyborg-turret-command-bunker-hmg/c31affd2be6199f5": {
+   "label": "cyborg_turret_command_bunker_hmg",
+   "kind": "mounted_weapon",
+   "resource": "0xCD28A27A79BE53D5",
+   "path": "content/fac_cyborgs/turrets/cyborg_turret_command_bunker_hmg/cyborg_turret_command_bunker_hmg",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/drone-flamethrower-mount/4eef657729c544ac": {
+   "label": "drone_flamethrower_mount",
+   "kind": "mounted_weapon",
+   "resource": "0x65CD4325BA23F3C6",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_flamethrower/drone_flamethrower_mount",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/drone-gas-projector-mount/fa183017e162b3a1": {
+   "label": "drone_gas_projector_mount",
+   "kind": "mounted_weapon",
+   "resource": "0xB729A2BA153BCAED",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_gas_projector/drone_gas_projector_mount",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/drone-laser-rifle-mount/d24c7f3b6e85858c": {
+   "label": "drone_laser_rifle_mount",
+   "kind": "mounted_weapon",
+   "resource": "0x2C66C201B2543D2C",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_mount",
+   "dependency": {
+    "package": "0xCAE3F1E8A44A80B3",
+    "name": "packages/generated/loadout/laser_rifle_mount",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/drone-mg-weapon/473e6c3f3ecb9759": {
+   "label": "drone_mg_weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xA32621E3BDE13379",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/drone-stun-gun-mount/7f06093280ceb95e": {
+   "label": "drone_stun_gun_mount",
+   "kind": "mounted_weapon",
+   "resource": "0xA0532C3616528CBF",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_stun_gun/drone_stun_gun_mount",
+   "dependency": {
+    "package": "0x77214A2DEC1D0518",
+    "name": "packages/generated/loadout/stun_gun_mount",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/eagle-gunpod/111e7291542a80cd": {
+   "label": "eagle_gunpod",
+   "kind": "mounted_weapon",
+   "resource": "0xFCE722B5EF57E4B6",
+   "path": "content/fac_helldivers/vehicles/eagle/weapons/eagle_gunpod",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/frv-flamethrower/52eb6d862f0c81ce": {
+   "label": "frv_flamethrower",
+   "kind": "mounted_weapon",
+   "resource": "0x444880F62CA7EAE8",
+   "path": "content/fac_helldivers/vehicles/frv_heavy/armaments/frv_flamethrower/frv_flamethrower",
+   "dependency": {
+    "package": "0x784671F2B3A4DA79",
+    "name": "packages/generated/loadout/flamethrower",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/frv-mg/87956cec45a21b90": {
+   "label": "frv_mg",
+   "kind": "mounted_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "path": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/gater-oil-rig-turret-weapon/3aba6f3418fada66": {
+   "label": "GATER Oil Rig turret weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x9872EEB31A5F88FD",
+   "path": null,
+   "dependency": {
+    "package": "0x0DFF5200594E867F",
+    "name": "packages/generated/loadout/oil_rig",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/illuminate-turret-wm-cannon-head-l/d7ec908c4f54021f": {
+   "label": "illuminate_turret_wm_cannon_head_l",
+   "kind": "mounted_weapon",
+   "resource": "0xF196069E7E14C497",
+   "path": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_l",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/illuminate-turret-wm-cannon-head-r/60d5f153deb23159": {
+   "label": "illuminate_turret_wm_cannon_head_r",
+   "kind": "mounted_weapon",
+   "resource": "0x7ACB4BD753B71DE0",
+   "path": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_r",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/laser-rifle/9c4d326f378d8900": {
+   "label": "laser_rifle",
+   "kind": "mounted_weapon",
+   "resource": "0x27EE1ED8F6FB6356",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle/laser_rifle",
+   "dependency": {
+    "package": "0x3A49B4448EAA94FE",
+    "name": "packages/generated/loadout/laser_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/m-103-supply-frv-gun-weapon/34d73fd6e0ab1d96": {
+   "label": "M-103 Supply FRV gun weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x4DF41F84668D07FB",
+   "path": null,
+   "dependency": {
+    "package": "0xFB48DE3E9D5F187C",
+    "name": "packages/generated/loadout/ammo_rack_mounted_turret",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/shuttle-gunship-turret-hmg/d6d6cd9052e6709e": {
+   "label": "shuttle_gunship_turret_hmg",
+   "kind": "mounted_weapon",
+   "resource": "0x8365609B35EF6672",
+   "path": "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/soldier-flamer/45e032b636439337": {
+   "label": "soldier_flamer",
+   "kind": "mounted_weapon",
+   "resource": "0x1D2AE78E0354C855",
+   "path": "content/fac_cyborgs/equipment/weapons/soldier_riotgun/soldier_flamer",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/soldier-machinegun-flm/892c5a848f371242": {
+   "label": "soldier_machinegun_flm",
+   "kind": "mounted_weapon",
+   "resource": "0xD1F232A6929E6D44",
+   "path": "content/fac_cyborgs/equipment/weapons/soldier_machinegun/soldier_machinegun_flm",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/soldier-machinegun/97d452fb6ecd1f68": {
+   "label": "soldier_machinegun",
+   "kind": "mounted_weapon",
+   "resource": "0x2ED3696E12A14D4C",
+   "path": "content/fac_cyborgs/equipment/weapons/soldier_machinegun/soldier_machinegun",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/soldier-standard-rifle/e8e838b975071d1b": {
+   "label": "soldier_standard_rifle",
+   "kind": "mounted_weapon",
+   "resource": "0x070BC8D3E18BB8F9",
+   "path": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-attach-tank-gun-weapon/dd2241a292c7330b": {
+   "label": "TD-110 Maelstrom attach_tank_gun weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xD58AE6A04EDB10DE",
+   "path": null,
+   "dependency": {
+    "package": "0x534C2C49CA10D168",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-2-weapon/3a06c77a110e70c2": {
+   "label": "TD-110 Maelstrom slot 2 weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x3A061009AA31E9CB",
+   "path": null,
+   "dependency": {
+    "package": "0x566213F0DAA62FC3",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/td-110-maelstrom-slot-3-weapon/605fcfcd1be790c4": {
+   "label": "TD-110 Maelstrom slot 3 weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x8AFF7F0793A5BCED",
+   "path": null,
+   "dependency": {
+    "package": "0x0971E953FCBDD346",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg-weapon/10e4809cf1704447": {
+   "label": "TD-220 Bastion MK XVI attach_tank_gun_mg weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x439F9E65C18567DA",
+   "path": null,
+   "dependency": {
+    "package": "0xA13286AE8FF3B593",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437": {
+   "label": "TD-220 Bastion MK XVI attach_tank_gun weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x1FA1F596769225C2",
+   "path": null,
+   "dependency": {
+    "package": "0x4B0DBC466E9DBCA1",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/07d8504a50bdc316": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x36390775D61159EB",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/0d330840f4f578e9": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x972BAAC825D4D165",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/101f9dd2c0400653": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xE8A244FFA3A48FE4",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1169bac0a5ba767a": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x3D2FE75B0DC50142",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/11f435e5587ccdd1": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xCB85E7F7FF8855F4",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/137397eea95c1013": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xF2881F5807348116",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1688ac3e4dad0ae9": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x8F2158C7E969E2AB",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/1c84b8fd4f07a463": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x0DB407EDE5603524",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/203c50ce98a78d3a": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x767977BD472A62DA",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/205d3f18e6c4c986": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x611BA777783B08A2",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/250541fac04090c7": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x5B596A4D21BC91A3",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/3b994e7172991b78": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x297434E9E8A4CD5A",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/42aa69216544be42": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x9E53A0971179344C",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/4ec9af0a2bec8e85": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x3AAFBA89B53B0F63",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/51938480ad36da5a": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xB846CDCF41967725",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/51f18fa3cecd841f": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x8DBF99607BD8E550",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/58ecc827279959df": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x390E6B3D2F26BD70",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/6c4babe49fc6677f": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x19806B4FB83FDF7C",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/6ec61849439ad1e0": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xF2B4A99D1B0E40C8",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9197edf2fc0997c2": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x9AB036439F74C115",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/94761fd626e821fd": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x2A346BF4552997E2",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/978ff8e750babd67": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x8372619B2702D743",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/988019ef8dd87d56": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xD6FB1326FC0A95C1",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9a0b2f30b8af9705": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x76E9644BCD3F341B",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/9b99e436c4807091": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x9926876B2375A1BB",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a0b9d41eb561ceb4": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xC3C1BBA1F445A81E",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a48528dbc8a9a31a": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xF5247DE3ABFB822B",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/a983210c172b417e": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x8A4DE24951A1726D",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ad0f14d262d210b8": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x1D5943301A29C940",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ad69246a4db149f3": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x2D62A25F36C08F33",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/b24ebb6af42c6794": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xEE4DEE909FF50D5E",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/b587cf80343bb0d6": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x1D8D9AA0502F866E",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c1555e52a30c4192": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xC8378469E1936877",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c4c4e526a882e2b1": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x6F91BC8002875E76",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/c662ee639ea4ee58": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x529DFE4C4C881324",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ceb424b0c26962b0": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0xC6A5BB8B319217AC",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/d4c0d4ac30387388": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x356DE4A7808EF3E3",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/d6880a93a0aeef03": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x0D382AE7FFEA9D45",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/db0385a87b4a86ca": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x3D4970D1C4E640EE",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/e20b6a72f9714d83": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x263817187B7CE092",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ef60119f83d4cf57": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x3C7F77F1A7467349",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/facc00a32715cba1": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x0E8C2515261E0325",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "mounted_weapon/mounted-weapon/v1/unnamed-mounted-weapon/ffd507e9cb88f3b7": {
+   "label": "unnamed mounted weapon",
+   "kind": "mounted_weapon",
+   "resource": "0x486522867199D7F3",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "pickup/pickup/v1/40-k-meltagun/07b0e863dc2c82fa": {
+   "label": "40-K Meltagun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x6CFCC7F8801A0266",
+   "path": "content/fac_helldivers/equipment/support_weapons/energy_weapon_shark/energy_weapon_shark",
+   "dependency": {
+    "package": "0xAE4F2E79B546847C",
+    "name": "packages/generated/loadout/energy_weapon_shark",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ac-8-autocannon/58e7cf0743e30df4": {
+   "label": "AC-8 Autocannon",
+   "kind": "pickup_support_weapon",
+   "resource": "0xA8CFFB316F0B5C5F",
+   "path": "content/fac_helldivers/equipment/support_weapons/automatic_cannon/automatic_cannon",
+   "dependency": {
+    "package": "0x6AD7CC21015A5F85",
+    "name": "packages/generated/loadout/automatic_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/air-burst-rocket-backpack/004ba933ad94ea53": {
+   "label": "Air Burst Rocket Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0xE75CD68E858A12AC",
+   "path": "content/fac_helldivers/equipment/backpacks/air_burst_rocket_backpack/air_burst_rocket_backpack",
+   "dependency": {
+    "package": "0xE12F82D7C0C7BC63",
+    "name": "packages/generated/loadout/air_burst_rocket_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ammo-box-pod/096e2d589f69f1ae": {
+   "label": "Ammo Box (pod)",
+   "kind": "pickup_ammo",
+   "resource": "0x49119612EB284A48",
+   "path": "content/fac_helldivers/hellpod/ammo_rack/ammo_box",
+   "dependency": null,
+   "known": false
+  },
+  "pickup/pickup/v1/ammo-box-world/e04feddc177e2ee8": {
+   "label": "Ammo Box (world)",
+   "kind": "pickup_ammo",
+   "resource": "0x79CCFFD281E3F3A9",
+   "path": "content/fac_helldivers/discoverables/ammo_box_discoverable_01/ammo_box_discoverable_01",
+   "dependency": {
+    "package": "0x80FEA3C0A4B22FFB",
+    "name": "packages/generated/loadout/ammo_box",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/apw-1-anti-materiel-rifle/3e89c8aedaec3cdb": {
+   "label": "APW-1 Anti-Materiel Rifle",
+   "kind": "pickup_support_weapon",
+   "resource": "0x89C5493E08CA4207",
+   "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+   "dependency": {
+    "package": "0xEA6967F8565A2D76",
+    "name": "packages/generated/loadout/sniper_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/arc-3-arc-thrower/ffb100733bda6a6c": {
+   "label": "ARC-3 Arc Thrower",
+   "kind": "pickup_support_weapon",
+   "resource": "0x96DE9CD50F7306E6",
+   "path": "content/fac_helldivers/equipment/support_weapons/arc_thrower/arc_thrower",
+   "dependency": {
+    "package": "0x2A9FB8F5D0576EAE",
+    "name": "packages/generated/loadout/arc_thrower",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/automatic-cannon-backpack/2c5bd6b88a4e6c81": {
+   "label": "Automatic Cannon Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0xE60AE045E0090F4C",
+   "path": "content/fac_helldivers/equipment/backpacks/automatic_cannon_backpack/automatic_cannon_backpack",
+   "dependency": {
+    "package": "0x49875503E219E80D",
+    "name": "packages/generated/loadout/automatic_cannon_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ax-ar-23-guard-dog/f2a968ff969e8851": {
+   "label": "AX/AR-23 Guard Dog",
+   "kind": "pickup_backpack",
+   "resource": "0x255EBC5767D7CEEC",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack",
+   "dependency": {
+    "package": "0xBE6C260FADCB8719",
+    "name": "packages/generated/loadout/drone_mg_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ax-arc-3-k-9/2701a5699bf3dca4": {
+   "label": "AX/ARC-3 K-9",
+   "kind": "pickup_backpack",
+   "resource": "0xC28DA712B12E3DFA",
+   "path": "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/guard_dog_stun_backpack",
+   "dependency": {
+    "package": "0xE62AB45BAD7F6CA3",
+    "name": "packages/generated/loadout/guard_dog_stun_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ax-flam-75-hot-dog/85f0ae4ff885e1ea": {
+   "label": "AX/FLAM-75 Hot Dog",
+   "kind": "pickup_backpack",
+   "resource": "0x3015626AA69F8D4D",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack",
+   "dependency": {
+    "package": "0x82EC28278BF9B79A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ax-las-5-rover/68f5082608688c3d": {
+   "label": "AX/LAS-5 Rover",
+   "kind": "pickup_backpack",
+   "resource": "0xAF9B683CCB6DDC02",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack",
+   "dependency": {
+    "package": "0x32CB44321DA1B5A0",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ax-tx-13-dog-breath/9d3211c27232ca30": {
+   "label": "AX/TX-13 Dog Breath",
+   "kind": "pickup_backpack",
+   "resource": "0xBFFCB4CD971A8EDA",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector_backpack",
+   "dependency": {
+    "package": "0x35F4CA4FA00D380A",
+    "name": "packages/generated/loadout/drone_gas_projector_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/b-1-supply-pack/6fa0c4410a746c16": {
+   "label": "B-1 Supply Pack",
+   "kind": "pickup_backpack",
+   "resource": "0x4EF9A47109239A58",
+   "path": "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack",
+   "dependency": {
+    "package": "0x519980A75EBD50AD",
+    "name": "packages/generated/loadout/ammo_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/b-100-portable-hellbomb/89b274a08860b067": {
+   "label": "B-100 Portable Hellbomb",
+   "kind": "pickup_backpack",
+   "resource": "0x9ACE8638421ABC8E",
+   "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+   "dependency": {
+    "package": "0x346D785D6CA13FF4",
+    "name": "packages/generated/loadout/hellbomb_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/b-flam-80-cremator-backpack/d86ed0d6992bfe27": {
+   "label": "B/FLAM-80 Cremator Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x43EB1C3C1A1860E0",
+   "path": "content/fac_helldivers/equipment/backpacks/heavy_flamethrower_backpack/heavy_flamethrower_backpack",
+   "dependency": {
+    "package": "0xDF16F5C644EDC2B1",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/b-flam-80-cremator/b56502291503ca52": {
+   "label": "B/FLAM-80 Cremator",
+   "kind": "pickup_support_weapon",
+   "resource": "0x78A8185F63A70795",
+   "path": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower",
+   "dependency": {
+    "package": "0xDF16F5C644EDC2B1",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/ballistic-shield-backpack-small/aea030f4b0955a61": {
+   "label": "Ballistic Shield Backpack Small",
+   "kind": "pickup_backpack",
+   "resource": "0x5F9AEAC72B738298",
+   "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_small/ballistic_shield_backpack_small",
+   "dependency": {
+    "package": "0xFC1A5BF2F3FF15DF",
+    "name": "packages/generated/loadout/ballistic_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/c4-charge-backpack/e8e6f1b9fa26429f": {
+   "label": "C4 Charge Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x2A18F81C44A26771",
+   "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge_backpack",
+   "dependency": {
+    "package": "0xBBA76437A1C00C1E",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/c4-charge-detonator/1e00f9e59579f80d": {
+   "label": "C4 Charge Detonator",
+   "kind": "pickup_support_weapon",
+   "resource": "0x51F50D6321F52F3D",
+   "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge_detonator",
+   "dependency": {
+    "package": "0xBBA76437A1C00C1E",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/cargo-backpack/aaf9f3f85632c55f": {
+   "label": "Cargo Backpack",
+   "kind": "pickup_support_weapon",
+   "resource": "0xC5BCBC1F64B68B9C",
+   "path": "content/fac_super_earth/cha_seaf/equipment/cargo_backpack/cargo_backpack",
+   "dependency": null,
+   "known": false
+  },
+  "pickup/pickup/v1/cqc-1-one-true-flag/678572ccf8b0bfef": {
+   "label": "CQC-1 One True Flag",
+   "kind": "pickup_support_weapon",
+   "resource": "0xB0F1B354BA1D38D8",
+   "path": "content/fac_helldivers/equipment/melee_weapons/flag/melee_flag",
+   "dependency": {
+    "package": "0xC40E3B3FA79052EC",
+    "name": "packages/generated/loadout/melee_flag",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/cqc-20-breaching-hammer/b1febc3085a29800": {
+   "label": "CQC-20 Breaching Hammer",
+   "kind": "pickup_support_weapon",
+   "resource": "0x5F3EC9BDA2BD8553",
+   "path": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+   "dependency": {
+    "package": "0x39DDD2E6F131C873",
+    "name": "packages/generated/loadout/melee_sledge_hammer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/cqc-72-entrenchment-tool/8fd0959b02006cb6": {
+   "label": "CQC-72 Entrenchment Tool",
+   "kind": "pickup_support_weapon",
+   "resource": "0xE85E623F93F96FB3",
+   "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel",
+   "dependency": {
+    "package": "0x49DE16E1343250E4",
+    "name": "packages/generated/loadout/survival_shovel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/cqc-9-defoliation-tool/6e14b35412a40c40": {
+   "label": "CQC-9 Defoliation Tool",
+   "kind": "pickup_support_weapon",
+   "resource": "0xBF4CFD2AEABFB5A4",
+   "path": "content/fac_helldivers/equipment/melee_weapons/chainsaw_greatsword/chainsaw_greatsword",
+   "dependency": {
+    "package": "0xEEEBC5FD26FE0F40",
+    "name": "packages/generated/loadout/melee_chainsaw_greatsword",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/drone-assault-rifle-backpack/48653c862c4e062d": {
+   "label": "Drone Assault Rifle Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0xE88A5AA58ABB9D81",
+   "path": "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack",
+   "dependency": {
+    "package": "0xA14F1A98C80575AF",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/eat-17-expendable-anti-tank/aaf1f6d08281fd7a": {
+   "label": "EAT-17 Expendable Anti-Tank",
+   "kind": "pickup_support_weapon",
+   "resource": "0x80932FA0ED6901D3",
+   "path": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot",
+   "dependency": {
+    "package": "0xDE96CD7CC69628BC",
+    "name": "packages/generated/loadout/lat_oneshot",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/eat-411-leveller/bbd78065df92b6eb": {
+   "label": "EAT-411 Leveller",
+   "kind": "pickup_support_weapon",
+   "resource": "0x7617642765AC38C7",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_massive_rocket_launcher/expendable_massive_rocket_launcher",
+   "dependency": {
+    "package": "0xFDE8230C79315087",
+    "name": "packages/generated/loadout/expendable_massive_rocket_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/eat-700-expendable-napalm/bff4b15f31d35c94": {
+   "label": "EAT-700 Expendable Napalm",
+   "kind": "pickup_support_weapon",
+   "resource": "0xB2B5E0D185605F9E",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_napalm_launcher/expendable_napalm_launcher",
+   "dependency": {
+    "package": "0x5D68E55823ACD1BF",
+    "name": "packages/generated/loadout/expendable_napalm_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/faf-14-spear/eedf1b3a064edb4b": {
+   "label": "FAF-14 Spear",
+   "kind": "pickup_support_weapon",
+   "resource": "0x25AA2FD4643CF4EE",
+   "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher/faf_missile_launcher",
+   "dependency": {
+    "package": "0x530BB611A14B6CE3",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/faf-missile-launcher-backpack/6cd4eb768919be66": {
+   "label": "Faf Missile Launcher Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x8EC3026B5F2E579A",
+   "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_backpack/faf_missile_launcher_backpack",
+   "dependency": {
+    "package": "0x530BB611A14B6CE3",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/faf-missile-launcher-helghast-backpack/37483bdc55d2976e": {
+   "label": "Faf Missile Launcher Helghast Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0xB8FEB0CC191C1EF3",
+   "path": "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_helghast_backpack/faf_missile_launcher_helghast_backpack",
+   "dependency": {
+    "package": "0x5795E99A988D10B7",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/flam-40-flamethrower/b4d4c9c15a828fde": {
+   "label": "FLAM-40 Flamethrower",
+   "kind": "pickup_support_weapon",
+   "resource": "0x39AB99895147A3BF",
+   "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+   "dependency": {
+    "package": "0x784671F2B3A4DA79",
+    "name": "packages/generated/loadout/flamethrower",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/gl-21-grenade-launcher/879bce2fb521f366": {
+   "label": "GL-21 Grenade Launcher",
+   "kind": "pickup_support_weapon",
+   "resource": "0x02EECD0B1FA49630",
+   "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher/grenade_launcher",
+   "dependency": {
+    "package": "0x0089BBE3E284FCAA",
+    "name": "packages/generated/loadout/grenade_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/gl-28-belt-fed-grenade-launcher-backpack/317c655c1db40880": {
+   "label": "GL-28 Belt-Fed Grenade Launcher Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0xBB4B15B588F974FD",
+   "path": "content/fac_helldivers/equipment/backpacks/belt_fed_grenade_launcher_backpack/belt_fed_grenade_launcher_backpack",
+   "dependency": {
+    "package": "0xF24CFA612428175B",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/gl-28-belt-fed-grenade-launcher/9d0dcf93794536d9": {
+   "label": "GL-28 Belt-Fed Grenade Launcher",
+   "kind": "pickup_support_weapon",
+   "resource": "0x88C2D09AD85A7C9F",
+   "path": "content/fac_helldivers/equipment/support_weapons/belt_fed_grenade_launcher/belt_fed_grenade_launcher",
+   "dependency": {
+    "package": "0xF24CFA612428175B",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/gl-52-de-escalator/b19094bd6849cfb9": {
+   "label": "GL-52 De-Escalator",
+   "kind": "pickup_support_weapon",
+   "resource": "0xFE3B29B2CFA63F9B",
+   "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher_tactical/grenade_launcher_tactical",
+   "dependency": {
+    "package": "0x4FEE9CC13C0B4CEC",
+    "name": "packages/generated/loadout/grenade_launcher_tactical",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/gr-8-recoilless-rifle/c3681a5430f8eaa8": {
+   "label": "GR-8 Recoilless Rifle",
+   "kind": "pickup_support_weapon",
+   "resource": "0x9F80D67A12A7E40F",
+   "path": "content/fac_helldivers/equipment/support_weapons/recoilless_rifle/recoilless_rifle",
+   "dependency": {
+    "package": "0x6CA87637EAEB5923",
+    "name": "packages/generated/loadout/recoilless_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/grenade-box/5ad3b36a5d3adbb7": {
+   "label": "Grenade Box",
+   "kind": "pickup_grenade",
+   "resource": "0x97AF34FBF093409C",
+   "path": "content/fac_helldivers/discoverables/grenade_box_discoverable_01/grenade_box_discoverable_01",
+   "dependency": {
+    "package": "0xFC5DA76769AFF15D",
+    "name": "packages/generated/loadout/grenade_box",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/health-pack-pod/0a29abd61fc5ed70": {
+   "label": "Health Pack (pod)",
+   "kind": "pickup_stim",
+   "resource": "0x3B8D16C646A729A8",
+   "path": "content/fac_helldivers/hellpod/health_pack_rack/health_pack",
+   "dependency": null,
+   "known": false
+  },
+  "pickup/pickup/v1/health-pack-world/2b29702c93c39319": {
+   "label": "Health Pack (world)",
+   "kind": "pickup_stim",
+   "resource": "0xB4CA4C5B922F7965",
+   "path": "content/fac_helldivers/discoverables/health_pack_discoverable_01/health_pack_discoverable_01",
+   "dependency": {
+    "package": "0x819BB56E51AC28C8",
+    "name": "packages/generated/loadout/health_pack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/las-98-laser-cannon/c6013cfe0815b790": {
+   "label": "LAS-98 Laser Cannon",
+   "kind": "pickup_support_weapon",
+   "resource": "0xD54B9505C0F72873",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon",
+   "dependency": {
+    "package": "0xCF1ACDE501CCFA1B",
+    "name": "packages/generated/loadout/laser_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/las-99-quasar-cannon/ecf60a71601fe1ef": {
+   "label": "LAS-99 Quasar Cannon",
+   "kind": "pickup_support_weapon",
+   "resource": "0x35A61296619CC47E",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_pulse_cannon/laser_pulse_cannon",
+   "dependency": {
+    "package": "0xCF1ACDE501CCFA1B",
+    "name": "packages/generated/loadout/laser_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/lift-182-warp-pack/c91c7644668b03b9": {
+   "label": "LIFT-182 Warp Pack",
+   "kind": "pickup_backpack",
+   "resource": "0xB49756795D9B0E68",
+   "path": "content/fac_helldivers/equipment/backpacks/displacement_backpack/displacement_backpack",
+   "dependency": {
+    "package": "0x68F670405A504F68",
+    "name": "packages/generated/loadout/displacement_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/lift-850-jump-pack/020db07511df1f84": {
+   "label": "LIFT-850 Jump Pack",
+   "kind": "pickup_backpack",
+   "resource": "0x59C5CA839449B379",
+   "path": "content/fac_helldivers/equipment/backpacks/jumppack_backpack/jumppack_backpack",
+   "dependency": {
+    "package": "0x3E78581FDAB81A73",
+    "name": "packages/generated/loadout/jumppack_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/lift-860-hover-pack/9a4849fb1c7c3653": {
+   "label": "LIFT-860 Hover Pack",
+   "kind": "pickup_backpack",
+   "resource": "0x5EC80F4F1CDB66CF",
+   "path": "content/fac_helldivers/equipment/backpacks/hover_backpack/hover_backpack",
+   "dependency": {
+    "package": "0x1DFE6F7A3C7EBEFB",
+    "name": "packages/generated/loadout/hover_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/m-1000-maxigun-backpack/8b639add8bbad44b": {
+   "label": "M-1000 Maxigun Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x056DE1C5E21E723E",
+   "path": "content/fac_helldivers/equipment/backpacks/minigun_backpack/minigun_backpack",
+   "dependency": {
+    "package": "0xB2C627B3BA7E0C0A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/m-1000-maxigun/39a8b72741b5c776": {
+   "label": "M-1000 Maxigun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x43A58CB89CFA197C",
+   "path": "content/fac_helldivers/equipment/support_weapons/minigun/minigun",
+   "dependency": {
+    "package": "0xB2C627B3BA7E0C0A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/m-105-stalwart/e173c48b267c2b90": {
+   "label": "M-105 Stalwart",
+   "kind": "pickup_support_weapon",
+   "resource": "0xA6A735ACCB4A327F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+   "dependency": {
+    "package": "0x8F295B4D04C3A06C",
+    "name": "packages/generated/loadout/lmg_stalwart",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/medic-backpack-pod/20da54d45b013681": {
+   "label": "Medic Backpack (pod)",
+   "kind": "pickup_backpack",
+   "resource": "0x0A55E504092B981D",
+   "path": "content/fac_helldivers/equipment/backpacks/medic_backpack/medic_backpack",
+   "dependency": {
+    "package": "0x731ACEC30A1A6FAC",
+    "name": "packages/generated/loadout/medic_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/medic-backpack-world/2c6175621ff0419c": {
+   "label": "Medic Backpack (world)",
+   "kind": "pickup_support_weapon",
+   "resource": "0x7CAE1BE9DBD3A56D",
+   "path": "content/fac_super_earth/cha_seaf/equipment/medic_backpack/medic_backpack",
+   "dependency": null,
+   "known": false
+  },
+  "pickup/pickup/v1/mg-206-heavy-machine-gun-pod/7e824a240e1c41ae": {
+   "label": "MG-206 Heavy Machine Gun (pod)",
+   "kind": "pickup_support_weapon",
+   "resource": "0x2152D5147B0AC418",
+   "path": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/mg-206-heavy-machine-gun-world/0246d57537315684": {
+   "label": "MG-206 Heavy Machine Gun (world)",
+   "kind": "pickup_support_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "path": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/mg-43-machine-gun/7547c36fdd511b37": {
+   "label": "MG-43 Machine Gun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x11C27D3BABB38956",
+   "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+   "dependency": {
+    "package": "0xC024A2E8AE639757",
+    "name": "packages/generated/loadout/machinegun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/mgx-42-bullet-storm/0dda469c7b4c3976": {
+   "label": "MGX-42 Bullet Storm",
+   "kind": "pickup_support_weapon",
+   "resource": "0xB16C9D490AA59B77",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_machinegun/expendable_machinegun",
+   "dependency": {
+    "package": "0xB75F652BED19144A",
+    "name": "packages/generated/loadout/expendable_machinegun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/mls-4x-commando/78d49586093f64c1": {
+   "label": "MLS-4X Commando",
+   "kind": "pickup_support_weapon",
+   "resource": "0x5990123D142B16CB",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_guided_missile_launcher/laser_guided_missile_launcher",
+   "dependency": {
+    "package": "0xC0052E5B38E18C33",
+    "name": "packages/generated/loadout/laser_guided_missile_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/plas-45-epoch/f8f83fe309af696b": {
+   "label": "PLAS-45 Epoch",
+   "kind": "pickup_support_weapon",
+   "resource": "0xE8D5F49AD7780E54",
+   "path": "content/fac_helldivers/equipment/support_weapons/plasma_blaster/plasma_blaster",
+   "dependency": {
+    "package": "0xA7B23B55209766AE",
+    "name": "packages/generated/loadout/plasma_blaster",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/recoilless-rifle-backpack/b2d8465b1b0ec213": {
+   "label": "Recoilless Rifle Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x96DFC6542AA22980",
+   "path": "content/fac_helldivers/equipment/backpacks/recoilless_rifle_backpack/recoilless_rifle_backpack",
+   "dependency": {
+    "package": "0x15EB7241C3616351",
+    "name": "packages/generated/loadout/recoilless_rifle_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/rl-77-airburst-rocket-launcher/0eef82a268ed6eec": {
+   "label": "RL-77 Airburst Rocket Launcher",
+   "kind": "pickup_support_weapon",
+   "resource": "0x26E40437EA275296",
+   "path": "content/fac_helldivers/equipment/support_weapons/air_burst_rocket_launcher/air_burst_rocket_launcher",
+   "dependency": {
+    "package": "0xF7646E79610C124D",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/rs-422-railgun/d0d22102ee2cf244": {
+   "label": "RS-422 Railgun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x2E9D0BDC48B09E60",
+   "path": "content/fac_helldivers/equipment/support_weapons/railgun/railgun",
+   "dependency": {
+    "package": "0x7F37DB9B767844C2",
+    "name": "packages/generated/loadout/railgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/s-11-speargun/08be7186c997da64": {
+   "label": "S-11 Speargun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x3828E2051AA9E897",
+   "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+   "dependency": {
+    "package": "0x70D708E5FD627493",
+    "name": "packages/generated/loadout/harpoon_gun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/sg-88-break-action-shotgun/48a87a88282a580c": {
+   "label": "SG-88 Break-Action Shotgun",
+   "kind": "pickup_support_weapon",
+   "resource": "0x52071F49263415E4",
+   "path": "content/fac_super_earth/equipment/support_weapons/shotgun_doublebarrel/shotgun_doublebarrel",
+   "dependency": {
+    "package": "0x31894C33C4ED1E2A",
+    "name": "packages/generated/loadout/shotgun_doublebarrel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/sh-20-ballistic-shield-backpack/6d6ecaed72093bc3": {
+   "label": "SH-20 Ballistic Shield Backpack",
+   "kind": "pickup_backpack",
+   "resource": "0x967ED15E0BAE363B",
+   "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+   "dependency": {
+    "package": "0xFC1A5BF2F3FF15DF",
+    "name": "packages/generated/loadout/ballistic_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/sh-32-shield-generator-pack/435379ff1c10c0a6": {
+   "label": "SH-32 Shield Generator Pack",
+   "kind": "pickup_backpack",
+   "resource": "0x12C8D71AC3897A5C",
+   "path": "content/fac_helldivers/equipment/backpacks/energy_shield_backpack/energy_shield_backpack",
+   "dependency": {
+    "package": "0x47B43A883CAAE42C",
+    "name": "packages/generated/loadout/energy_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/sh-51-directional-shield/9ed7190ede69bca8": {
+   "label": "SH-51 Directional Shield",
+   "kind": "pickup_backpack",
+   "resource": "0xA4E796F84801B40A",
+   "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield_backpack",
+   "dependency": {
+    "package": "0x93FA804787551C15",
+    "name": "packages/generated/loadout/directional_energy_shield_backpack",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/shoulder-mounted-camera/8818f67168ea7970": {
+   "label": "Shoulder Mounted Camera",
+   "kind": "pickup_support_weapon",
+   "resource": "0x372481E910C05A76",
+   "path": "content/objectives/obj_common/shoulder_mounted_camera/shoulder_mounted_camera",
+   "dependency": {
+    "package": "0xAAA4485C0B8A76ED",
+    "name": "packages/generated/loadout/shoulder_mounted_camera",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/sta-x3-w-a-s-p-launcher/db5ac2b41c5e4fee": {
+   "label": "StA-X3 W.A.S.P. Launcher",
+   "kind": "pickup_support_weapon",
+   "resource": "0xCC786F6491FE7E65",
+   "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher_helghast/faf_missile_launcher_helghast",
+   "dependency": {
+    "package": "0x5795E99A988D10B7",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "pickup/pickup/v1/supply-box/d0e8fed8c01ceb1f": {
+   "label": "Supply Box",
+   "kind": "pickup_supply",
+   "resource": "0xA94913CA014F7579",
+   "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+   "dependency": null,
+   "known": false
+  },
+  "player_weapon/AR-11 Arbitrator": {
+   "label": "AR-11 Arbitrator",
+   "kind": "player_weapon",
+   "resource": "0xA8A91EB54892B6B2",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_risk/assault_rifle_risk",
+   "dependency": {
+    "package": "0xF90A06C6E291692D",
+    "name": "packages/generated/loadout/assault_rifle_risk",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-2 Coyote": {
+   "label": "AR-2 Coyote",
+   "kind": "player_weapon",
+   "resource": "0x84354339522C932D",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_large_calibre_01/assault_rifle_large_calibre_01",
+   "dependency": {
+    "package": "0xEBC7888CF3886E91",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-23 Liberator": {
+   "label": "AR-23 Liberator",
+   "kind": "player_weapon",
+   "resource": "0x968211C0033DCE64",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle/assault_rifle",
+   "dependency": {
+    "package": "0xDBD9381F9EA9788F",
+    "name": "packages/generated/loadout/assault_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-23A Liberator Carbine": {
+   "label": "AR-23A Liberator Carbine",
+   "kind": "player_weapon",
+   "resource": "0xA7EE1EBF58FCDF1F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_patriot/assault_rifle_patriot",
+   "dependency": {
+    "package": "0xC46CF24278594A7D",
+    "name": "packages/generated/loadout/assault_rifle_patriot",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-23C Liberator Concussive": {
+   "label": "AR-23C Liberator Concussive",
+   "kind": "player_weapon",
+   "resource": "0xCF5F176E0E322BE1",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle/assault_rifle_exp",
+   "dependency": {
+    "package": "0xDBD9381F9EA9788F",
+    "name": "packages/generated/loadout/assault_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-23P Liberator Penetrator": {
+   "label": "AR-23P Liberator Penetrator",
+   "kind": "player_weapon",
+   "resource": "0x43CB1033961A2276",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle/assault_rifle_ap",
+   "dependency": {
+    "package": "0xDBD9381F9EA9788F",
+    "name": "packages/generated/loadout/assault_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-32 Pacifier": {
+   "label": "AR-32 Pacifier",
+   "kind": "player_weapon",
+   "resource": "0xBC29613666DF696B",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_karbin/assault_rifle_karbin",
+   "dependency": {
+    "package": "0x82751A054BDFD075",
+    "name": "packages/generated/loadout/assault_rifle_karbin",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-59 Suppressor": {
+   "label": "AR-59 Suppressor",
+   "kind": "player_weapon",
+   "resource": "0x708EA298C82093D0",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_whisper/assault_rifle_whisper",
+   "dependency": {
+    "package": "0x4709331E1A3C3AC9",
+    "name": "packages/generated/loadout/assault_rifle_whisper",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR-61 Tenderizer": {
+   "label": "AR-61 Tenderizer",
+   "kind": "player_weapon",
+   "resource": "0xCE063AA33D95A812",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_rico/assault_rifle_rico",
+   "dependency": {
+    "package": "0xD1968909EA085527",
+    "name": "packages/generated/loadout/assault_rifle_rico",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/AR/GL-21 One-Two": {
+   "label": "AR/GL-21 One-Two",
+   "kind": "player_weapon",
+   "resource": "0xA955C4EA6F6D4203",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_grenadier/assault_rifle_grenadier",
+   "dependency": {
+    "package": "0x49F1972458F7CCEC",
+    "name": "packages/generated/loadout/assault_rifle_grenadier",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/ARC-12 Blitzer": {
+   "label": "ARC-12 Blitzer",
+   "kind": "player_weapon",
+   "resource": "0x076DD5D4F4360204",
+   "path": "content/fac_helldivers/equipment/primary_weapons/arc_shotgun/arc_shotgun",
+   "dependency": {
+    "package": "0x55938279F6EF8664",
+    "name": "packages/generated/loadout/arc_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/BR-14 Adjudicator": {
+   "label": "BR-14 Adjudicator",
+   "kind": "player_weapon",
+   "resource": "0x5FECAB819F96A3E8",
+   "path": "content/fac_helldivers/equipment/primary_weapons/battle_rifle/battle_rifle",
+   "dependency": {
+    "package": "0xA66D7CF238070CA7",
+    "name": "packages/generated/loadout/battle_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CB-9 Exploding Crossbow": {
+   "label": "CB-9 Exploding Crossbow",
+   "kind": "player_weapon",
+   "resource": "0xF49227A0630A3F7F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/crossbow_greyfax/crossbow_greyfax",
+   "dependency": {
+    "package": "0xBA40A2814D01BDA0",
+    "name": "packages/generated/loadout/crossbow_greyfax",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-19 Stun Lance": {
+   "label": "CQC-19 Stun Lance",
+   "kind": "player_weapon",
+   "resource": "0xE3B6AEDD07FCB464",
+   "path": "content/fac_helldivers/equipment/melee_weapons/stun_spear/stun_spear",
+   "dependency": {
+    "package": "0x56AA04ADBBEEA69F",
+    "name": "packages/generated/loadout/power_sword",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-2 Saber": {
+   "label": "CQC-2 Saber",
+   "kind": "player_weapon",
+   "resource": "0xFCD8A6E67EAC635A",
+   "path": "content/fac_helldivers/equipment/melee_weapons/ceremonial_saber/ceremonial_saber",
+   "dependency": {
+    "package": "0x3CFC68E6BF19F67D",
+    "name": "packages/generated/loadout/ceremonial_saber",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-30 Stun Baton": {
+   "label": "CQC-30 Stun Baton",
+   "kind": "player_weapon",
+   "resource": "0x52CDBFBACA3CB397",
+   "path": "content/fac_helldivers/equipment/melee_weapons/electric_baton/stun_baton",
+   "dependency": {
+    "package": "0xF3C65EAAB75F1FC2",
+    "name": "packages/generated/loadout/stun_baton",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-42 Machete": {
+   "label": "CQC-42 Machete",
+   "kind": "player_weapon",
+   "resource": "0x792D5D2A340FD6E6",
+   "path": "content/fac_helldivers/equipment/melee_weapons/machete/machete",
+   "dependency": {
+    "package": "0xF5014993C8402D87",
+    "name": "packages/generated/loadout/machete",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-42 Machete#2": {
+   "label": "CQC-42 Machete",
+   "kind": "player_weapon",
+   "resource": "0x5F3EC9BDA2BD8553",
+   "path": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+   "dependency": {
+    "package": "0x39DDD2E6F131C873",
+    "name": "packages/generated/loadout/melee_sledge_hammer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-5 Combat Hatchet": {
+   "label": "CQC-5 Combat Hatchet",
+   "kind": "player_weapon",
+   "resource": "0x75816077C139C850",
+   "path": "content/fac_helldivers/equipment/melee_weapons/hand_axe/hand_axe",
+   "dependency": {
+    "package": "0x1982853D15D996DA",
+    "name": "packages/generated/loadout/hand_axe",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-73 Entrenchment Tool": {
+   "label": "CQC-73 Entrenchment Tool",
+   "kind": "player_weapon",
+   "resource": "0x7E1F76163C667E4B",
+   "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel_trench",
+   "dependency": {
+    "package": "0x49DE16E1343250E4",
+    "name": "packages/generated/loadout/survival_shovel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/CQC-73 Entrenchment Tool#2": {
+   "label": "CQC-73 Entrenchment Tool",
+   "kind": "player_weapon",
+   "resource": "0xE85E623F93F96FB3",
+   "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel",
+   "dependency": {
+    "package": "0x49DE16E1343250E4",
+    "name": "packages/generated/loadout/survival_shovel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/DBS-2 Double Freedom": {
+   "label": "DBS-2 Double Freedom",
+   "kind": "player_weapon",
+   "resource": "0x72170A55A1F37FF1",
+   "path": "content/fac_helldivers/equipment/primary_weapons/shotgun_double_freedom/shotgun_double_freedom",
+   "dependency": {
+    "package": "0x793A472E127520D3",
+    "name": "packages/generated/loadout/shotgun_double_freedom",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/FLAM-66 Torcher": {
+   "label": "FLAM-66 Torcher",
+   "kind": "player_weapon",
+   "resource": "0x4FB0F8C02F55C82B",
+   "path": "content/fac_helldivers/equipment/primary_weapons/flamethrower_ripley/flamethrower_ripley",
+   "dependency": {
+    "package": "0x49FD919A67A5DB66",
+    "name": "packages/generated/loadout/flamethrower_ripley",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/GL-15 Evictor": {
+   "label": "GL-15 Evictor",
+   "kind": "player_weapon",
+   "resource": "0x006E44327BB953FE",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_grenade_launcher/pump_grenade_launcher",
+   "dependency": {
+    "package": "0xE566E3AAF90DB459",
+    "name": "packages/generated/loadout/pump_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/GP-20 Ultimatum": {
+   "label": "GP-20 Ultimatum",
+   "kind": "player_weapon",
+   "resource": "0x9EB160830321BFD6",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/pistol_cricket/pistol_cricket",
+   "dependency": {
+    "package": "0xB779A2F9D0928E03",
+    "name": "packages/generated/loadout/cricket_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/GP-31 Grenade Pistol": {
+   "label": "GP-31 Grenade Pistol",
+   "kind": "player_weapon",
+   "resource": "0x02CD7321CD8445F5",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "player_weapon/GP-31 Grenade Pistol#2": {
+   "label": "GP-31 Grenade Pistol",
+   "kind": "player_weapon",
+   "resource": "0x52E4334E6A128CAF",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/grenade_pistol/grenade_pistol",
+   "dependency": {
+    "package": "0xB29A2FA06FDD99D2",
+    "name": "packages/generated/loadout/grenade_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/JAR-5 Dominator": {
+   "label": "JAR-5 Dominator",
+   "kind": "player_weapon",
+   "resource": "0x80F1A156D9FA1E36",
+   "path": "content/fac_helldivers/equipment/primary_weapons/jet_rifle/jet_rifle",
+   "dependency": {
+    "package": "0x10A7605527187EF5",
+    "name": "packages/generated/loadout/jet_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-12 Sai": {
+   "label": "LAS-12 Sai",
+   "kind": "player_weapon",
+   "resource": "0xC85F576D5E086147",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_smg_blaster/laser_smg_blaster",
+   "dependency": {
+    "package": "0x28569B6C8C641298",
+    "name": "packages/generated/loadout/laser_smg_blaster",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-13 Trident": {
+   "label": "LAS-13 Trident",
+   "kind": "player_weapon",
+   "resource": "0x3C86E871923F3970",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_shotgun/laser_shotgun",
+   "dependency": {
+    "package": "0xF79B65E482594BEF",
+    "name": "packages/generated/loadout/laser_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-16 Sickle": {
+   "label": "LAS-16 Sickle",
+   "kind": "player_weapon",
+   "resource": "0x8645F167B3C813A2",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle_long/laser_rifle_long",
+   "dependency": {
+    "package": "0x6DB0C562C2BC10B3",
+    "name": "packages/generated/loadout/laser_rifle_long",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-17 Double-Edge Sickle": {
+   "label": "LAS-17 Double-Edge Sickle",
+   "kind": "player_weapon",
+   "resource": "0x295BEB26DC4F8FF1",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle_long_hotshot/laser_rifle_long_hotshot",
+   "dependency": {
+    "package": "0x7F927F50FA6C50E8",
+    "name": "packages/generated/loadout/laser_rifle_long_hotshot",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-5 Scythe": {
+   "label": "LAS-5 Scythe",
+   "kind": "player_weapon",
+   "resource": "0x27EE1ED8F6FB6356",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle/laser_rifle",
+   "dependency": {
+    "package": "0x3A49B4448EAA94FE",
+    "name": "packages/generated/loadout/laser_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-5 Scythe#2": {
+   "label": "LAS-5 Scythe",
+   "kind": "player_weapon",
+   "resource": "0x7E3145A5BAA4B948",
+   "path": "content/fac_helldivers/equipment/primary_weapons/laser_rifle_charge/laser_rifle_charge",
+   "dependency": {
+    "package": "0x487BCF38276EB725",
+    "name": "packages/generated/loadout/laser_rifle_charge",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-58 Talon": {
+   "label": "LAS-58 Talon",
+   "kind": "player_weapon",
+   "resource": "0x416D053372C4E433",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/energy_revolver/energy_revolver",
+   "dependency": {
+    "package": "0x82DCD83D81A385F3",
+    "name": "packages/generated/loadout/laser_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/LAS-7 Dagger": {
+   "label": "LAS-7 Dagger",
+   "kind": "player_weapon",
+   "resource": "0x2B3C367B280F4094",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "player_weapon/LAS-7 Dagger#2": {
+   "label": "LAS-7 Dagger",
+   "kind": "player_weapon",
+   "resource": "0x7B06196E90154C88",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/laser_pistol/laser_pistol",
+   "dependency": {
+    "package": "0x82DCD83D81A385F3",
+    "name": "packages/generated/loadout/laser_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/M6C/SOCOM Pistol": {
+   "label": "M6C/SOCOM Pistol",
+   "kind": "player_weapon",
+   "resource": "0x4D58C77087B774C5",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/pistol_nacho/pistol_nacho",
+   "dependency": {
+    "package": "0x2A5298E1C2F70C82",
+    "name": "packages/generated/loadout/pistol_nacho",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/M7S SMG": {
+   "label": "M7S SMG",
+   "kind": "player_weapon",
+   "resource": "0xBE70EE0D8D44028E",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_nacho/smg_nacho",
+   "dependency": {
+    "package": "0xE0D35FE7CE80E3F0",
+    "name": "packages/generated/loadout/smg_nacho",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/M90A Shotgun": {
+   "label": "M90A Shotgun",
+   "kind": "player_weapon",
+   "resource": "0x90DDC374F4E3D756",
+   "path": "content/fac_helldivers/equipment/primary_weapons/shotgun_nacho/shotgun_nacho",
+   "dependency": {
+    "package": "0x44DD33AF0EF2B0D1",
+    "name": "packages/generated/loadout/shotgun_nacho",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/MA5C Assault Rifle": {
+   "label": "MA5C Assault Rifle",
+   "kind": "player_weapon",
+   "resource": "0x4DBD74F49C8FFC13",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_nacho/assault_rifle_nacho",
+   "dependency": {
+    "package": "0xFD3EEF9A0329B2C2",
+    "name": "packages/generated/loadout/assault_rifle_nacho",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/MP-98 Knight": {
+   "label": "MP-98 Knight",
+   "kind": "player_weapon",
+   "resource": "0x9571CA51F0DAF35B",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_defender/smg_defender",
+   "dependency": {
+    "package": "0x0601A2F91EC178A9",
+    "name": "packages/generated/loadout/smg_defender",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-11 Stim Pistol": {
+   "label": "P-11 Stim Pistol",
+   "kind": "player_weapon",
+   "resource": "0xD6B1FB05B9109353",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/stim_pistol_01/stim_pistol",
+   "dependency": {
+    "package": "0x2844DA91583DB0F4",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-113 Verdict": {
+   "label": "P-113 Verdict",
+   "kind": "player_weapon",
+   "resource": "0x1A437158E1B8D2A1",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/magnum_pistol/magnum_pistol",
+   "dependency": {
+    "package": "0xB47514AE19A494F0",
+    "name": "packages/generated/loadout/magnum_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-19 Redeemer": {
+   "label": "P-19 Redeemer",
+   "kind": "player_weapon",
+   "resource": "0x3575AABC5F1F9326",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/automatic_pistol/automatic_pistol",
+   "dependency": {
+    "package": "0x99F20DF1C4CF885A",
+    "name": "packages/generated/loadout/automatic_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-2 Peacemaker": {
+   "label": "P-2 Peacemaker",
+   "kind": "player_weapon",
+   "resource": "0x05E4E5C2DB6E44A2",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/standard_pistol/standard_pistol",
+   "dependency": {
+    "package": "0xBF2250DE0B17285C",
+    "name": "packages/generated/loadout/standard_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-33 Missile Pistol": {
+   "label": "P-33 Missile Pistol",
+   "kind": "player_weapon",
+   "resource": "0x14D5D4506056C7A4",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/smart_pistol_missile/smart_pistol_missile",
+   "dependency": {
+    "package": "0x64C37A90C0D906DE",
+    "name": "packages/generated/loadout/pistol_smart_missile",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-34 Breacher": {
+   "label": "P-34 Breacher",
+   "kind": "player_weapon",
+   "resource": "0xE91F569C2AD8AF01",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/hornet_pistol/hornet_pistol",
+   "dependency": {
+    "package": "0xF3174EF31B118A55",
+    "name": "packages/generated/loadout/hornet_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-35 Re-Educator": {
+   "label": "P-35 Re-Educator",
+   "kind": "player_weapon",
+   "resource": "0x0B882808C6F498E8",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/caustic_dart_gun/caustic_dart_gun",
+   "dependency": {
+    "package": "0x1B006880AC88D1CD",
+    "name": "packages/generated/loadout/caustic_dart_gun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-4 Senator": {
+   "label": "P-4 Senator",
+   "kind": "player_weapon",
+   "resource": "0x8D3D52A3B2F19402",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/revolver_pistol/revolver_pistol",
+   "dependency": {
+    "package": "0x94B554570B12C088",
+    "name": "packages/generated/loadout/revolver_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-69 Veto": {
+   "label": "P-69 Veto",
+   "kind": "player_weapon",
+   "resource": "0xC780BCD79547DA0F",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/pistol_broomhandle/pistol_broomhandle",
+   "dependency": {
+    "package": "0x58038F21C4334481",
+    "name": "packages/generated/loadout/pistol_broomhandle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-72 Crisper": {
+   "label": "P-72 Crisper",
+   "kind": "player_weapon",
+   "resource": "0x3F92BA65EF65CCA9",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/flamer_pistol/flamer_pistol",
+   "dependency": {
+    "package": "0x41CE78FE8F96BEBE",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P-72 Crisper#2": {
+   "label": "P-72 Crisper",
+   "kind": "player_weapon",
+   "resource": "0x992B6F65A5BAB53D",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "player_weapon/P-92 Warrant": {
+   "label": "P-92 Warrant",
+   "kind": "player_weapon",
+   "resource": "0xCF8934FF6567A42D",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/smart_pistol/smart_pistol",
+   "dependency": {
+    "package": "0x5D5C93EF05A46880",
+    "name": "packages/generated/loadout/smart_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/P/40-K Bolt Pistol": {
+   "label": "P/40-K Bolt Pistol",
+   "kind": "player_weapon",
+   "resource": "0xDBB6C961C59FADC1",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/pistol_shark/pistol_shark",
+   "dependency": {
+    "package": "0x9514615D563612F1",
+    "name": "packages/generated/loadout/pistol_shark",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/PLAS-1 Scorcher": {
+   "label": "PLAS-1 Scorcher",
+   "kind": "player_weapon",
+   "resource": "0xEEA5E3CEF1E12C14",
+   "path": "content/fac_helldivers/equipment/primary_weapons/plasma_rifle/plasma_rifle",
+   "dependency": {
+    "package": "0xC51F160470B34AE3",
+    "name": "packages/generated/loadout/plasma_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/PLAS-101 Purifier": {
+   "label": "PLAS-101 Purifier",
+   "kind": "player_weapon",
+   "resource": "0xFB3A19078694708A",
+   "path": "content/fac_helldivers/equipment/primary_weapons/plasma_rifle/plasma_rifle_charge",
+   "dependency": {
+    "package": "0xC51F160470B34AE3",
+    "name": "packages/generated/loadout/plasma_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/PLAS-15 Loyalist": {
+   "label": "PLAS-15 Loyalist",
+   "kind": "player_weapon",
+   "resource": "0xAA69A60D74A3EC54",
+   "path": "content/fac_helldivers/equipment/sidearm_weapons/plasma_pistol/plasma_pistol",
+   "dependency": {
+    "package": "0x9EFFC1C882578BAF",
+    "name": "packages/generated/loadout/plasma_pistol",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/PLAS-39 Accelerator Rifle": {
+   "label": "PLAS-39 Accelerator Rifle",
+   "kind": "player_weapon",
+   "resource": "0x30061F91AF477F5E",
+   "path": "content/fac_helldivers/equipment/primary_weapons/sniper_rifle_helghast/sniper_rifle_helghast",
+   "dependency": {
+    "package": "0x351506BB55187CF9",
+    "name": "packages/generated/loadout/sniper_rifle_helghast",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-2 Amendment": {
+   "label": "R-2 Amendment",
+   "kind": "player_weapon",
+   "resource": "0x0F83639AB8C86165",
+   "path": "content/fac_helldivers/equipment/primary_weapons/battle_rifle_ceremonial/battle_rifle_ceremonial",
+   "dependency": {
+    "package": "0xE829D44FB5653EC4",
+    "name": "packages/generated/loadout/battle_rifle_ceremonial",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-2124 Constitution": {
+   "label": "R-2124 Constitution",
+   "kind": "player_weapon",
+   "resource": "0x7B75E5132FFD4CA6",
+   "path": "content/fac_helldivers/equipment/primary_weapons/bolt_action_rifle/bolt_action_rifle",
+   "dependency": {
+    "package": "0x68AA9A343AA4333C",
+    "name": "packages/generated/loadout/bolt_action_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-36 Eruptor": {
+   "label": "R-36 Eruptor",
+   "kind": "player_weapon",
+   "resource": "0xB6AFF2195568767F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/jet_rifle/jet_rifle_phoenix",
+   "dependency": {
+    "package": "0xE0807831D6F456C8",
+    "name": "packages/generated/loadout/jet_rifle_phoenix",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-4 Hyena": {
+   "label": "R-4 Hyena",
+   "kind": "player_weapon",
+   "resource": "0xE5796355A8FD67E0",
+   "path": "content/fac_helldivers/equipment/primary_weapons/marksman_rifle_drake/marksman_rifle_drake",
+   "dependency": {
+    "package": "0x2404FA21FE49C32D",
+    "name": "packages/generated/loadout/marksman_rifle_vigilance",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-6 Deadeye": {
+   "label": "R-6 Deadeye",
+   "kind": "player_weapon",
+   "resource": "0xE6D932BE83729076",
+   "path": "content/fac_helldivers/equipment/primary_weapons/lever_action_rifle_01/lever_action_rifle_01",
+   "dependency": {
+    "package": "0x03B4B7A46856CCB2",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-63 Diligence": {
+   "label": "R-63 Diligence",
+   "kind": "player_weapon",
+   "resource": "0x03E67A19B07C6523",
+   "path": "content/fac_helldivers/equipment/primary_weapons/marksman_rifle_vigilance/marksman_rifle_vigilance",
+   "dependency": {
+    "package": "0x2404FA21FE49C32D",
+    "name": "packages/generated/loadout/marksman_rifle_vigilance",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-63CS Diligence Counter Sniper": {
+   "label": "R-63CS Diligence Counter Sniper",
+   "kind": "player_weapon",
+   "resource": "0x4C786785C79D44E7",
+   "path": "content/fac_helldivers/equipment/primary_weapons/marksman_rifle_vigilance/marksman_rifle_vigilance_burst",
+   "dependency": {
+    "package": "0x2404FA21FE49C32D",
+    "name": "packages/generated/loadout/marksman_rifle_vigilance",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R-72 Censor": {
+   "label": "R-72 Censor",
+   "kind": "player_weapon",
+   "resource": "0xF0338468DCDB6A6C",
+   "path": "content/fac_helldivers/equipment/primary_weapons/marksman_rifle_justice/marksman_rifle_justice",
+   "dependency": {
+    "package": "0x9974F498C67D5E20",
+    "name": "packages/generated/loadout/marksman_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/R/40-K Hot-Shot Marksman Rifle": {
+   "label": "R/40-K Hot-Shot Marksman Rifle",
+   "kind": "player_weapon",
+   "resource": "0x1ABBFF60D26BA391",
+   "path": "content/fac_helldivers/equipment/primary_weapons/marksman_rifle_shark/marksman_rifle_shark",
+   "dependency": {
+    "package": "0x0CBB8FC14F7D3433",
+    "name": "packages/generated/loadout/marksman_rifle_shark",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-20 Halt": {
+   "label": "SG-20 Halt",
+   "kind": "player_weapon",
+   "resource": "0x4E310B1FE4C52B52",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun_02/pump_shotgun_stun",
+   "dependency": {
+    "package": "0x522BE23400CC6086",
+    "name": "packages/generated/loadout/pump_shotgun_stun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-22 Bushwhacker": {
+   "label": "SG-22 Bushwhacker",
+   "kind": "player_weapon",
+   "resource": "0x2B28E17FFED05F7C",
+   "path": "content/fac_helldivers/equipment/primary_weapons/triple_barrel_breakshotgun/triple_barrel_breakshotgun",
+   "dependency": {
+    "package": "0x2350348A9ACF49C4",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-225 Breaker": {
+   "label": "SG-225 Breaker",
+   "kind": "player_weapon",
+   "resource": "0x46183B50961D1328",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_shotgun/assault_shotgun",
+   "dependency": {
+    "package": "0xC5A05D09369D0670",
+    "name": "packages/generated/loadout/assault_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-225IE Breaker Incendiary": {
+   "label": "SG-225IE Breaker Incendiary",
+   "kind": "player_weapon",
+   "resource": "0xC12A34F375BD5A87",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_shotgun_incendiary/assault_shotgun_incendiary",
+   "dependency": {
+    "package": "0x2FE755E42B659F64",
+    "name": "packages/generated/loadout/assault_shotgun_incendiary",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-225SP Breaker Spray&Pray": {
+   "label": "SG-225SP Breaker Spray&Pray",
+   "kind": "player_weapon",
+   "resource": "0x5EBAEA70C0D060B9",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_shotgun/assault_shotgun_bir",
+   "dependency": {
+    "package": "0xC5A05D09369D0670",
+    "name": "packages/generated/loadout/assault_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-451 Cookout": {
+   "label": "SG-451 Cookout",
+   "kind": "player_weapon",
+   "resource": "0xD323DE60855898AC",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun_dragon/pump_shotgun_dragon",
+   "dependency": {
+    "package": "0x7AF5DF78217FD645",
+    "name": "packages/generated/loadout/pump_shotgun_dragon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-8 Punisher": {
+   "label": "SG-8 Punisher",
+   "kind": "player_weapon",
+   "resource": "0x41EAC4A03987FAA0",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun/pump_shotgun",
+   "dependency": {
+    "package": "0xE566E3AAF90DB459",
+    "name": "packages/generated/loadout/pump_shotgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-8P Punisher Plasma": {
+   "label": "SG-8P Punisher Plasma",
+   "kind": "player_weapon",
+   "resource": "0x05D8D8C073B9D502",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun_plasma/pump_shotgun_plasma",
+   "dependency": {
+    "package": "0xCA8D89F4FB0CE5EF",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-8S Slugger": {
+   "label": "SG-8S Slugger",
+   "kind": "player_weapon",
+   "resource": "0x4F749E2EE26F532D",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun/pump_shotgun_slug",
+   "dependency": {
+    "package": "0x695BA4A2683B4CE3",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SG-97 Sweeper": {
+   "label": "SG-97 Sweeper",
+   "kind": "player_weapon",
+   "resource": "0xDCD1C835407EF7BA",
+   "path": "content/fac_helldivers/equipment/primary_weapons/pump_shotgun_trench/pump_shotgun_trench",
+   "dependency": {
+    "package": "0x933148104D23A322",
+    "name": "packages/generated/loadout/pump_shotgun_trench",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG-203 Gallant": {
+   "label": "SMG-203 Gallant",
+   "kind": "player_weapon",
+   "resource": "0x186EA95DE7306B1A",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_solvent/smg_solvent",
+   "dependency": {
+    "package": "0x94EAEAFFD878DD6D",
+    "name": "packages/generated/loadout/smg_solvent",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG-32 Reprimand": {
+   "label": "SMG-32 Reprimand",
+   "kind": "player_weapon",
+   "resource": "0x94BD931B5FB4EE95",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_rhino/smg_rhino",
+   "dependency": {
+    "package": "0x0EDAD8DDEC238BD9",
+    "name": "packages/generated/loadout/smg_rhino",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG-37 Defender": {
+   "label": "SMG-37 Defender",
+   "kind": "player_weapon",
+   "resource": "0x4E4A613EB9BF5C24",
+   "path": "content/fac_helldivers/equipment/primary_weapons/personal_defense_weapon/personal_defense_weapon",
+   "dependency": {
+    "package": "0xF230D2D2ADCC034A",
+    "name": "packages/generated/loadout/pdw",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG-37 Defender#2": {
+   "label": "SMG-37 Defender",
+   "kind": "player_weapon",
+   "resource": "0xCA4BBEF63C869C18",
+   "path": null,
+   "dependency": {
+    "package": "0xEA1B5BCAAF3EEF23",
+    "name": "packages/generated/loadout/seaf_smg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG-72 Pummeler": {
+   "label": "SMG-72 Pummeler",
+   "kind": "player_weapon",
+   "resource": "0x0807AEA5217E4767",
+   "path": "content/fac_helldivers/equipment/primary_weapons/personal_defense_weapon/personal_defense_weapon_pepper",
+   "dependency": {
+    "package": "0x0827284B048BED82",
+    "name": "packages/generated/loadout/personal_defense_weapon_pepper",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/SMG/FLAM-34 Stoker": {
+   "label": "SMG/FLAM-34 Stoker",
+   "kind": "player_weapon",
+   "resource": "0x8A307BD1811A5FE9",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_flamer/smg_flamer",
+   "dependency": {
+    "package": "0xA275324AE43DFD50",
+    "name": "packages/generated/loadout/smg_flamer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/StA-11 SMG": {
+   "label": "StA-11 SMG",
+   "kind": "player_weapon",
+   "resource": "0x4BA41B6F9F405CC2",
+   "path": "content/fac_helldivers/equipment/primary_weapons/smg_helghast/smg_helghast",
+   "dependency": {
+    "package": "0x9494C346E564D15F",
+    "name": "packages/generated/loadout/smg_helghast",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/StA-52 Assault Rifle": {
+   "label": "StA-52 Assault Rifle",
+   "kind": "player_weapon",
+   "resource": "0xCDF28BE026BB7D84",
+   "path": "content/fac_helldivers/equipment/primary_weapons/assault_rifle_helghast/assault_rifle_helghast",
+   "dependency": {
+    "package": "0x40F2A2CE5C20418F",
+    "name": "packages/generated/loadout/assault_rifle_helghast",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "player_weapon/VG-70 Variable": {
+   "label": "VG-70 Variable",
+   "kind": "player_weapon",
+   "resource": "0xF992CE97577C8A7F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/volley_gun/volley_gun",
+   "dependency": {
+    "package": "0x9CEED8AE1331D7BF",
+    "name": "packages/generated/loadout/volley_gun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/40-K Meltagun": {
+   "label": "40-K Meltagun",
+   "kind": "support_weapon",
+   "resource": "0x6CFCC7F8801A0266",
+   "path": "content/fac_helldivers/equipment/support_weapons/energy_weapon_shark/energy_weapon_shark",
+   "dependency": {
+    "package": "0xAE4F2E79B546847C",
+    "name": "packages/generated/loadout/energy_weapon_shark",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/AC-8 Autocannon": {
+   "label": "AC-8 Autocannon",
+   "kind": "support_weapon",
+   "resource": "0xA8CFFB316F0B5C5F",
+   "path": "content/fac_helldivers/equipment/support_weapons/automatic_cannon/automatic_cannon",
+   "dependency": {
+    "package": "0x6AD7CC21015A5F85",
+    "name": "packages/generated/loadout/automatic_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/APW-1 Anti-Materiel Rifle": {
+   "label": "APW-1 Anti-Materiel Rifle",
+   "kind": "support_weapon",
+   "resource": "0x89C5493E08CA4207",
+   "path": "content/fac_helldivers/equipment/support_weapons/sniper_rifle/sniper_rifle",
+   "dependency": {
+    "package": "0xEA6967F8565A2D76",
+    "name": "packages/generated/loadout/sniper_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/ARC-3 Arc Thrower": {
+   "label": "ARC-3 Arc Thrower",
+   "kind": "support_weapon",
+   "resource": "0x96DE9CD50F7306E6",
+   "path": "content/fac_helldivers/equipment/support_weapons/arc_thrower/arc_thrower",
+   "dependency": {
+    "package": "0x2A9FB8F5D0576EAE",
+    "name": "packages/generated/loadout/arc_thrower",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/B/FLAM-80 Cremator": {
+   "label": "B/FLAM-80 Cremator",
+   "kind": "support_weapon",
+   "resource": "0x0736BEE2D6328726",
+   "path": "content/fac_helldivers/vehicles/combat_walker_flamethrower/combat_walker_flamethrower",
+   "dependency": null,
+   "known": false
+  },
+  "support_weapon/B/FLAM-80 Cremator#2": {
+   "label": "B/FLAM-80 Cremator",
+   "kind": "support_weapon",
+   "resource": "0x78A8185F63A70795",
+   "path": "content/fac_helldivers/equipment/support_weapons/heavy_flamethrower/heavy_flamethrower",
+   "dependency": {
+    "package": "0xDF16F5C644EDC2B1",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/B/MD C4 Pack": {
+   "label": "B/MD C4 Pack",
+   "kind": "support_weapon",
+   "resource": "0x9B75217D8312DD67",
+   "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge",
+   "dependency": {
+    "package": "0xBBA76437A1C00C1E",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-1 One True Flag": {
+   "label": "CQC-1 One True Flag",
+   "kind": "support_weapon",
+   "resource": "0xB0F1B354BA1D38D8",
+   "path": "content/fac_helldivers/equipment/melee_weapons/flag/melee_flag",
+   "dependency": {
+    "package": "0xC40E3B3FA79052EC",
+    "name": "packages/generated/loadout/melee_flag",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-20 Breaching Hammer": {
+   "label": "CQC-20 Breaching Hammer",
+   "kind": "support_weapon",
+   "resource": "0x5F3EC9BDA2BD8553",
+   "path": "content/fac_helldivers/equipment/melee_weapons/sledge_hammer/sledge_hammer",
+   "dependency": {
+    "package": "0x39DDD2E6F131C873",
+    "name": "packages/generated/loadout/melee_sledge_hammer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-20 Breaching Hammer#2": {
+   "label": "CQC-20 Breaching Hammer",
+   "kind": "support_weapon",
+   "resource": "0x792D5D2A340FD6E6",
+   "path": "content/fac_helldivers/equipment/melee_weapons/machete/machete",
+   "dependency": {
+    "package": "0xF5014993C8402D87",
+    "name": "packages/generated/loadout/machete",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-72 Entrenchment Tool": {
+   "label": "CQC-72 Entrenchment Tool",
+   "kind": "support_weapon",
+   "resource": "0x7E1F76163C667E4B",
+   "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel_trench",
+   "dependency": {
+    "package": "0x49DE16E1343250E4",
+    "name": "packages/generated/loadout/survival_shovel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-72 Entrenchment Tool#2": {
+   "label": "CQC-72 Entrenchment Tool",
+   "kind": "support_weapon",
+   "resource": "0xE85E623F93F96FB3",
+   "path": "content/fac_helldivers/equipment/melee_weapons/survival_shovel/survival_shovel",
+   "dependency": {
+    "package": "0x49DE16E1343250E4",
+    "name": "packages/generated/loadout/survival_shovel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/CQC-9 Defoliation Tool": {
+   "label": "CQC-9 Defoliation Tool",
+   "kind": "support_weapon",
+   "resource": "0xBF4CFD2AEABFB5A4",
+   "path": "content/fac_helldivers/equipment/melee_weapons/chainsaw_greatsword/chainsaw_greatsword",
+   "dependency": {
+    "package": "0xEEEBC5FD26FE0F40",
+    "name": "packages/generated/loadout/melee_chainsaw_greatsword",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/EAT-17 Expendable Anti-Tank": {
+   "label": "EAT-17 Expendable Anti-Tank",
+   "kind": "support_weapon",
+   "resource": "0x5C54E81A4AAA31FC",
+   "path": null,
+   "dependency": {
+    "package": "0xDE96CD7CC69628BC",
+    "name": "packages/generated/loadout/lat_oneshot",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/EAT-17 Expendable Anti-Tank#2": {
+   "label": "EAT-17 Expendable Anti-Tank",
+   "kind": "support_weapon",
+   "resource": "0x80932FA0ED6901D3",
+   "path": "content/fac_helldivers/equipment/support_weapons/lat_oneshot/lat_oneshot",
+   "dependency": {
+    "package": "0xDE96CD7CC69628BC",
+    "name": "packages/generated/loadout/lat_oneshot",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/EAT-411 Leveller": {
+   "label": "EAT-411 Leveller",
+   "kind": "support_weapon",
+   "resource": "0x7617642765AC38C7",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_massive_rocket_launcher/expendable_massive_rocket_launcher",
+   "dependency": {
+    "package": "0xFDE8230C79315087",
+    "name": "packages/generated/loadout/expendable_massive_rocket_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/EAT-700 Expendable Napalm": {
+   "label": "EAT-700 Expendable Napalm",
+   "kind": "support_weapon",
+   "resource": "0xB2B5E0D185605F9E",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_napalm_launcher/expendable_napalm_launcher",
+   "dependency": {
+    "package": "0x5D68E55823ACD1BF",
+    "name": "packages/generated/loadout/expendable_napalm_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/FAF-14 Spear": {
+   "label": "FAF-14 Spear",
+   "kind": "support_weapon",
+   "resource": "0x25AA2FD4643CF4EE",
+   "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher/faf_missile_launcher",
+   "dependency": {
+    "package": "0x530BB611A14B6CE3",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/FLAM-40 Flamethrower": {
+   "label": "FLAM-40 Flamethrower",
+   "kind": "support_weapon",
+   "resource": "0x39AB99895147A3BF",
+   "path": "content/fac_helldivers/equipment/support_weapons/flamethrower/flamethrower",
+   "dependency": {
+    "package": "0x784671F2B3A4DA79",
+    "name": "packages/generated/loadout/flamethrower",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/GL-21 Grenade Launcher": {
+   "label": "GL-21 Grenade Launcher",
+   "kind": "support_weapon",
+   "resource": "0x02EECD0B1FA49630",
+   "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher/grenade_launcher",
+   "dependency": {
+    "package": "0x0089BBE3E284FCAA",
+    "name": "packages/generated/loadout/grenade_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/GL-28 Belt-Fed Grenade Launcher": {
+   "label": "GL-28 Belt-Fed Grenade Launcher",
+   "kind": "support_weapon",
+   "resource": "0x88C2D09AD85A7C9F",
+   "path": "content/fac_helldivers/equipment/support_weapons/belt_fed_grenade_launcher/belt_fed_grenade_launcher",
+   "dependency": {
+    "package": "0xF24CFA612428175B",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/GL-52 De-Escalator": {
+   "label": "GL-52 De-Escalator",
+   "kind": "support_weapon",
+   "resource": "0xFE3B29B2CFA63F9B",
+   "path": "content/fac_helldivers/equipment/support_weapons/grenade_launcher_tactical/grenade_launcher_tactical",
+   "dependency": {
+    "package": "0x4FEE9CC13C0B4CEC",
+    "name": "packages/generated/loadout/grenade_launcher_tactical",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/GR-8 Recoilless Rifle": {
+   "label": "GR-8 Recoilless Rifle",
+   "kind": "support_weapon",
+   "resource": "0x9F80D67A12A7E40F",
+   "path": "content/fac_helldivers/equipment/support_weapons/recoilless_rifle/recoilless_rifle",
+   "dependency": {
+    "package": "0x6CA87637EAEB5923",
+    "name": "packages/generated/loadout/recoilless_rifle",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/LAS-98 Laser Cannon": {
+   "label": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "resource": "0x1980D92B619FF5FE",
+   "path": null,
+   "dependency": {
+    "package": "0x524A07E02060D7AB",
+    "name": "packages/generated/loadout/manned_turret_laser",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/LAS-98 Laser Cannon#2": {
+   "label": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "resource": "0x56070F36CFFFA8A8",
+   "path": "content/fac_helldivers/hellpod/laser_cannon_turret/laser_cannon_turret",
+   "dependency": {
+    "package": "0x36313BF684C1FD79",
+    "name": "packages/generated/loadout/laser_cannon_turret",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/LAS-98 Laser Cannon#3": {
+   "label": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "resource": "0xD54B9505C0F72873",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_cannon/laser_cannon",
+   "dependency": {
+    "package": "0xCF1ACDE501CCFA1B",
+    "name": "packages/generated/loadout/laser_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/LAS-99 Quasar Cannon": {
+   "label": "LAS-99 Quasar Cannon",
+   "kind": "support_weapon",
+   "resource": "0x35A61296619CC47E",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_pulse_cannon/laser_pulse_cannon",
+   "dependency": {
+    "package": "0xCF1ACDE501CCFA1B",
+    "name": "packages/generated/loadout/laser_cannon",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/M-1000 Maxigun": {
+   "label": "M-1000 Maxigun",
+   "kind": "support_weapon",
+   "resource": "0x43A58CB89CFA197C",
+   "path": "content/fac_helldivers/equipment/support_weapons/minigun/minigun",
+   "dependency": {
+    "package": "0xB2C627B3BA7E0C0A",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/M-105 Stalwart": {
+   "label": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "resource": "0xA6A735ACCB4A327F",
+   "path": "content/fac_helldivers/equipment/primary_weapons/lmg_stalwart/lmg_stalwart",
+   "dependency": {
+    "package": "0x8F295B4D04C3A06C",
+    "name": "packages/generated/loadout/lmg_stalwart",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/M-105 Stalwart#2": {
+   "label": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "resource": "0xB43235DBD493750C",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "support_weapon/M-105 Stalwart#3": {
+   "label": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "resource": "0xB9606C5AAB32C3C2",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "support_weapon/M-105 Stalwart#4": {
+   "label": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "resource": "0xD53EE03481AE73FD",
+   "path": null,
+   "dependency": null,
+   "known": false
+  },
+  "support_weapon/MG-206 Heavy Machine Gun": {
+   "label": "MG-206 Heavy Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x085C1EDB038EC24E",
+   "path": "content/fac_helldivers/vehicles/frv/armaments/frv_mg/frv_mg",
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MG-206 Heavy Machine Gun#2": {
+   "label": "MG-206 Heavy Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x2152D5147B0AC418",
+   "path": "content/fac_helldivers/equipment/support_weapons/heavy_mg/heavy_mg",
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MG-206 Heavy Machine Gun#3": {
+   "label": "MG-206 Heavy Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0xCD00BDC1149C2928",
+   "path": null,
+   "dependency": {
+    "package": "0x902C54AFB4ED396F",
+    "name": "packages/generated/loadout/heavy_mg",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MG-43 Machine Gun": {
+   "label": "MG-43 Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x11C27D3BABB38956",
+   "path": "content/fac_helldivers/equipment/support_weapons/machinegun/machinegun",
+   "dependency": {
+    "package": "0xC024A2E8AE639757",
+    "name": "packages/generated/loadout/machinegun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MG-43 Machine Gun#2": {
+   "label": "MG-43 Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x587878FB76F4B9B1",
+   "path": null,
+   "dependency": {
+    "package": "0x73CFBBF2E883AF96",
+    "name": "packages/generated/loadout/seaf_machinegun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MGX-42 Bullet Storm": {
+   "label": "MGX-42 Bullet Storm",
+   "kind": "support_weapon",
+   "resource": "0xB16C9D490AA59B77",
+   "path": "content/fac_helldivers/equipment/support_weapons/expendable_machinegun/expendable_machinegun",
+   "dependency": {
+    "package": "0xB75F652BED19144A",
+    "name": "packages/generated/loadout/expendable_machinegun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MLS-4X Commando": {
+   "label": "MLS-4X Commando",
+   "kind": "support_weapon",
+   "resource": "0x5990123D142B16CB",
+   "path": "content/fac_helldivers/equipment/support_weapons/laser_guided_missile_launcher/laser_guided_missile_launcher",
+   "dependency": {
+    "package": "0xC0052E5B38E18C33",
+    "name": "packages/generated/loadout/laser_guided_missile_launcher",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/MS-11 Solo Silo": {
+   "label": "MS-11 Solo Silo",
+   "kind": "support_weapon",
+   "resource": "0xDE18775FA447A9BF",
+   "path": "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_mini_missile_silo",
+   "dependency": {
+    "package": "0x2947AFE42093062F",
+    "name": "packages/generated/loadout/mini_missile_silo",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/PLAS-45 Epoch": {
+   "label": "PLAS-45 Epoch",
+   "kind": "support_weapon",
+   "resource": "0xE8D5F49AD7780E54",
+   "path": "content/fac_helldivers/equipment/support_weapons/plasma_blaster/plasma_blaster",
+   "dependency": {
+    "package": "0xA7B23B55209766AE",
+    "name": "packages/generated/loadout/plasma_blaster",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/RL-77 Airburst Rocket Launcher": {
+   "label": "RL-77 Airburst Rocket Launcher",
+   "kind": "support_weapon",
+   "resource": "0x26E40437EA275296",
+   "path": "content/fac_helldivers/equipment/support_weapons/air_burst_rocket_launcher/air_burst_rocket_launcher",
+   "dependency": {
+    "package": "0xF7646E79610C124D",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/RS-422 Railgun": {
+   "label": "RS-422 Railgun",
+   "kind": "support_weapon",
+   "resource": "0x2E9D0BDC48B09E60",
+   "path": "content/fac_helldivers/equipment/support_weapons/railgun/railgun",
+   "dependency": {
+    "package": "0x7F37DB9B767844C2",
+    "name": "packages/generated/loadout/railgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/S-11 Speargun": {
+   "label": "S-11 Speargun",
+   "kind": "support_weapon",
+   "resource": "0x3828E2051AA9E897",
+   "path": "content/fac_helldivers/equipment/support_weapons/harpoon_gun/harpoon_gun",
+   "dependency": {
+    "package": "0x70D708E5FD627493",
+    "name": "packages/generated/loadout/harpoon_gun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/SG-88 Break-Action Shotgun": {
+   "label": "SG-88 Break-Action Shotgun",
+   "kind": "support_weapon",
+   "resource": "0x52071F49263415E4",
+   "path": "content/fac_super_earth/equipment/support_weapons/shotgun_doublebarrel/shotgun_doublebarrel",
+   "dependency": {
+    "package": "0x31894C33C4ED1E2A",
+    "name": "packages/generated/loadout/shotgun_doublebarrel",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/StA-X3 W.A.S.P. Launcher": {
+   "label": "StA-X3 W.A.S.P. Launcher",
+   "kind": "support_weapon",
+   "resource": "0xCC786F6491FE7E65",
+   "path": "content/fac_helldivers/equipment/support_weapons/faf_missile_launcher_helghast/faf_missile_launcher_helghast",
+   "dependency": {
+    "package": "0x5795E99A988D10B7",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "support_weapon/TX-41 Sterilizer": {
+   "label": "TX-41 Sterilizer",
+   "kind": "support_weapon",
+   "resource": "0x88F61AFFF48AC8A4",
+   "path": null,
+   "dependency": {
+    "package": "0x750605CFC0173701",
+    "name": "packages/generated/loadout/chemgun",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-10 Incendiary": {
+   "label": "G-10 Incendiary",
+   "kind": "throwable",
+   "resource": "0x04653AB33F3FFB44",
+   "path": "content/fac_helldivers/equipment/throwables/incendiary_grenade/incendiary_grenade",
+   "dependency": {
+    "package": "0x5DF489ABBE211839",
+    "name": "packages/generated/loadout/incendiary_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-109 Urchin": {
+   "label": "G-109 Urchin",
+   "kind": "throwable",
+   "resource": "0x3FA94F58F596BC0B",
+   "path": "content/fac_helldivers/equipment/throwables/sticky_stun_grenade/sticky_stun_grenade",
+   "dependency": {
+    "package": "0x2CB3F69AB9BC1297",
+    "name": "packages/generated/loadout/sticky_stun_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-12 High Explosive": {
+   "label": "G-12 High Explosive",
+   "kind": "throwable",
+   "resource": "0x6B11FC757618C57E",
+   "path": "content/fac_helldivers/equipment/throwables/he_grenade/he_grenade",
+   "dependency": {
+    "package": "0x67B87368042C8B99",
+    "name": "packages/generated/loadout/he_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-123 Thermite": {
+   "label": "G-123 Thermite",
+   "kind": "throwable",
+   "resource": "0xC5C05FCB5747C799",
+   "path": "content/fac_helldivers/equipment/throwables/sticky_grenade/sticky_grenade",
+   "dependency": {
+    "package": "0xDFB81F9917285965",
+    "name": "packages/generated/loadout/sticky_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-13 Incendiary Impact": {
+   "label": "G-13 Incendiary Impact",
+   "kind": "throwable",
+   "resource": "0xEB725C39FC38B87C",
+   "path": "content/fac_helldivers/equipment/throwables/incendiary_impact_grenade/incendiary_impact_grenade",
+   "dependency": {
+    "package": "0xB2D139F78A2E2120",
+    "name": "packages/generated/loadout/impact_incendiary_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-142 Pyrotech": {
+   "label": "G-142 Pyrotech",
+   "kind": "throwable",
+   "resource": "0x03F31CAF3A7D8F4E",
+   "path": "content/fac_helldivers/equipment/throwables/zipper_grenade/zipper_grenade",
+   "dependency": {
+    "package": "0x1721EEE4581A9C54",
+    "name": "packages/generated/loadout/zipper_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-16 Impact": {
+   "label": "G-16 Impact",
+   "kind": "throwable",
+   "resource": "0x7686544F539BB9B7",
+   "path": "content/fac_helldivers/equipment/throwables/impact_grenade/impact_grenade",
+   "dependency": {
+    "package": "0x21E90918DF69EFF7",
+    "name": "packages/generated/loadout/impact_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-23 Stun": {
+   "label": "G-23 Stun",
+   "kind": "throwable",
+   "resource": "0x0080869506299773",
+   "path": "content/fac_helldivers/equipment/throwables/flashbang/flashbang",
+   "dependency": {
+    "package": "0x543FF1FF0BD82B44",
+    "name": "packages/generated/loadout/flashbang",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-3 Smoke": {
+   "label": "G-3 Smoke",
+   "kind": "throwable",
+   "resource": "0x5DE8FD02A05B4B0A",
+   "path": "content/fac_helldivers/equipment/throwables/smoke_grenade/smoke_grenade",
+   "dependency": {
+    "package": "0xBD90B4FCCB70622C",
+    "name": "packages/generated/loadout/smoke_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-31 Arc": {
+   "label": "G-31 Arc",
+   "kind": "throwable",
+   "resource": "0xDB922A7AFC42894B",
+   "path": "content/fac_helldivers/equipment/throwables/arc_grenade/arc_grenade",
+   "dependency": {
+    "package": "0xDDCEA5FDD4071767",
+    "name": "packages/generated/loadout/arc_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-4 Gas": {
+   "label": "G-4 Gas",
+   "kind": "throwable",
+   "resource": "0x0416984F4922757B",
+   "path": "content/fac_helldivers/equipment/throwables/gas_grenade/gas_grenade",
+   "dependency": {
+    "package": "0x25A04F6D9707D2CC",
+    "name": "packages/generated/loadout/gas_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-48 Giga Grenade": {
+   "label": "G-48 Giga Grenade",
+   "kind": "throwable",
+   "resource": "0x46333FC9E3D4BD34",
+   "path": "content/fac_helldivers/equipment/throwables/at_explosive_grenade/at_explosive_grenade",
+   "dependency": {
+    "package": "0x2F1147605182C6AB",
+    "name": "packages/generated/loadout/at_explosive_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-50 Seeker": {
+   "label": "G-50 Seeker",
+   "kind": "throwable",
+   "resource": "0x2D398D1EC35E0838",
+   "path": "content/fac_helldivers/equipment/throwables/self_destruct_drone/self_destruct_drone",
+   "dependency": {
+    "package": "0xF590569DBBC6FE2D",
+    "name": "packages/generated/loadout/self_destruct_drone",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-6 Frag": {
+   "label": "G-6 Frag",
+   "kind": "throwable",
+   "resource": "0x4CE9EAB785A79B7B",
+   "path": "content/fac_helldivers/equipment/throwables/frag_grenade/frag_grenade",
+   "dependency": {
+    "package": "0x7580E5AE368440AE",
+    "name": "packages/generated/loadout/frag_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-60 Anti-Tank Seeker": {
+   "label": "G-60 Anti-Tank Seeker",
+   "kind": "throwable",
+   "resource": "0x8E325C933E55BF62",
+   "path": "content/fac_helldivers/equipment/throwables/at_self_destruct_drone/at_self_destruct_drone",
+   "dependency": {
+    "package": "0xD6D42EEFE4936690",
+    "name": "packages/generated/loadout/at_self_destruct_drone",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-7 Pineapple": {
+   "label": "G-7 Pineapple",
+   "kind": "throwable",
+   "resource": "0x075B19B068FB1045",
+   "path": "content/fac_helldivers/equipment/throwables/cluster_frag_grenade/cluster_frag_grenade",
+   "dependency": {
+    "package": "0xDBF00F1B8761ABA5",
+    "name": "packages/generated/loadout/cluster_frag_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-8 Immolation": {
+   "label": "G-8 Immolation",
+   "kind": "throwable",
+   "resource": "0x5C14F27759DD3BE0",
+   "path": "content/fac_helldivers/equipment/throwables/molotov_grenade/molotov_grenade",
+   "dependency": {
+    "package": "0xB3983AA88D96FA0A",
+    "name": "packages/generated/loadout/molotov_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G-89 Smokescreen": {
+   "label": "G-89 Smokescreen",
+   "kind": "throwable",
+   "resource": "0xDAB81B0D80B511C7",
+   "path": "content/fac_helldivers/equipment/throwables/impact_smoke_grenade/impact_smoke_grenade",
+   "dependency": {
+    "package": "0x21E90918DF69EFF7",
+    "name": "packages/generated/loadout/impact_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G/40-K Melta Mine": {
+   "label": "G/40-K Melta Mine",
+   "kind": "throwable",
+   "resource": "0xEE4C107B941AB7F4",
+   "path": "content/fac_helldivers/equipment/throwables/mine_shark/mine_shark",
+   "dependency": {
+    "package": "0xCFA471CB7C3A2D94",
+    "name": "packages/generated/loadout/mine_shark",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/G/SH-39 Shield": {
+   "label": "G/SH-39 Shield",
+   "kind": "throwable",
+   "resource": "0x1B9AC59697006337",
+   "path": "content/fac_helldivers/equipment/throwables/energy_shield_grenade/energy_shield_grenade",
+   "dependency": {
+    "package": "0xF111FA26003C0DE9",
+    "name": "packages/generated/loadout/shield_grenade",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/K-2 Throwing Knife": {
+   "label": "K-2 Throwing Knife",
+   "kind": "throwable",
+   "resource": "0xF7B35A9C5AE340B6",
+   "path": "content/fac_helldivers/equipment/throwables/throwing_knife/throwing_knife",
+   "dependency": {
+    "package": "0x3BF0844097AB595F",
+    "name": "packages/generated/loadout/throwing_knife",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/TED-63 Dynamite": {
+   "label": "TED-63 Dynamite",
+   "kind": "throwable",
+   "resource": "0x14368DC8784220B0",
+   "path": "content/fac_helldivers/equipment/throwables/dynamite/dynamite",
+   "dependency": {
+    "package": "0x3C14455D53DB72FE",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "throwable/TM-1 Lure Mine": {
+   "label": "TM-1 Lure Mine",
+   "kind": "throwable",
+   "resource": "0xA20683199DFC19E8",
+   "path": "content/fac_helldivers/equipment/throwables/luring_mine/luring_mine",
+   "dependency": {
+    "package": "0xFAE34ACB79502F53",
+    "name": "packages/generated/loadout/luring_mine",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/EXO-45 Patriot Exosuit": {
+   "label": "EXO-45 Patriot Exosuit",
+   "kind": "vehicle",
+   "resource": "0x79E4B3D2DA5E45E3",
+   "path": "content/fac_helldivers/vehicles/combat_walker/combat_walker",
+   "dependency": {
+    "package": "0x22749A294788AF66",
+    "name": "packages/generated/loadout/combat_walker",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/EXO-49 Emancipator Exosuit": {
+   "label": "EXO-49 Emancipator Exosuit",
+   "kind": "vehicle",
+   "resource": "0xC2D449ECF7FACAB1",
+   "path": "content/fac_helldivers/vehicles/combat_walker_obsidian/combat_walker_obsidian",
+   "dependency": {
+    "package": "0xE72D3E9B05C3DB0B",
+    "name": "packages/generated/loadout/combat_walker_obsidian",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/EXO-51 Lumberer Exosuit": {
+   "label": "EXO-51 Lumberer Exosuit",
+   "kind": "vehicle",
+   "resource": "0x7B2326F6FD9C8069",
+   "path": "content/fac_helldivers/vehicles/combat_walker_lumberer/combat_walker_lumberer",
+   "dependency": {
+    "package": "0x0A4BD8A1833F11B2",
+    "name": "packages/generated/loadout/combat_walker_lumberer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/EXO-55 Breakthrough Exosuit": {
+   "label": "EXO-55 Breakthrough Exosuit",
+   "kind": "vehicle",
+   "resource": "0x35DBF54F016F3624",
+   "path": "content/fac_helldivers/vehicles/combat_walker_breacher/combat_walker_breacher",
+   "dependency": {
+    "package": "0x7DE417DB7552D9FC",
+    "name": null,
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/FRV (Super Earth variant)": {
+   "label": "FRV (Super Earth variant)",
+   "kind": "vehicle",
+   "resource": "0xE9CD1D0D118886AF",
+   "path": "content/fac_helldivers/vehicles/frv/frv_superearth",
+   "dependency": {
+    "package": "0x81DA0125A3AF89EE",
+    "name": "packages/generated/loadout/frv_superearth",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/GATER Oil Rig": {
+   "label": "GATER Oil Rig",
+   "kind": "vehicle",
+   "resource": "0x423FF97D57AB04F5",
+   "path": "content/fac_helldivers/vehicles/oilrig/oil_rig",
+   "dependency": {
+    "package": "0x0DFF5200594E867F",
+    "name": "packages/generated/loadout/oil_rig",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/M-102 Gunner FRV": {
+   "label": "M-102 Gunner FRV",
+   "kind": "vehicle",
+   "resource": "0xCC21C7FFD3EBEFB9",
+   "path": "content/fac_helldivers/vehicles/frv/frv",
+   "dependency": {
+    "package": "0x0BDF199F7AC14F43",
+    "name": "packages/generated/loadout/frv",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/M-103 Supply FRV": {
+   "label": "M-103 Supply FRV",
+   "kind": "vehicle",
+   "resource": "0x9B2140378640432E",
+   "path": "content/fac_helldivers/vehicles/frv_supply/frv_supply",
+   "dependency": {
+    "package": "0x149F685717737CAE",
+    "name": "packages/generated/loadout/frv_supply",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/M-104 Incinerator FRV": {
+   "label": "M-104 Incinerator FRV",
+   "kind": "vehicle",
+   "resource": "0x2D85BFE3D8717FE5",
+   "path": "content/fac_helldivers/vehicles/frv_heavy/frv_flamer",
+   "dependency": {
+    "package": "0x2CEE40DFBD0B174D",
+    "name": "packages/generated/loadout/frv_flamer",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/TD-110 Maelstrom": {
+   "label": "TD-110 Maelstrom",
+   "kind": "vehicle",
+   "resource": "0xB0C9FAF4AF8903F9",
+   "path": "content/fac_helldivers/vehicles/tank_storm/tank_storm",
+   "dependency": {
+    "package": "0x65EE777B72347CB4",
+    "name": "packages/generated/loadout/tank_storm",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "vehicle/TD-220 Bastion MK XVI": {
+   "label": "TD-220 Bastion MK XVI",
+   "kind": "vehicle",
+   "resource": "0x16474112801385B6",
+   "path": "content/fac_helldivers/vehicles/tank/tank",
+   "dependency": {
+    "package": "0x68EBDCE3F7498179",
+    "name": "packages/generated/loadout/tank",
+    "via": "own_loadout_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  }
+ },
+ "summary": {
+  "semanticObjects": 331,
+  "known": 260,
+  "ownPackage": 253,
+  "holderPackage": 7,
+  "stratagemPackage": 0,
+  "unknown": 71
+ }
+}

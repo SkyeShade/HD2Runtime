@@ -67,6 +67,15 @@ function M.plan(request)
         require('hd2runtime/api/plan').start(adapter.create(),
             require('hd2runtime/runtime/log').emit,request))
 end
+-- Load (through the game's own package system) the assets a semantic target needs; see docs/asset-loading.md.
+function M.require_assets(request)
+    local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
+    if not ok then return disabled()end
+    return require('hd2runtime/runtime/scheduler').attach(
+        require('hd2runtime/api/assets').start(adapter.create(),require('hd2runtime/runtime/log').emit,request))
+end
+-- Offline: is this target's package dependency known and auto-loadable? (no IDs)
+function M.asset_dependency(target)return require('hd2runtime/api/assets').describe(target)end
 function M.ensure(request)
     local ok,adapter=pcall(require,'hd2runtime/runtime/windows_write')
     if not ok then return disabled()end
