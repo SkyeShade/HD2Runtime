@@ -940,11 +940,12 @@ function HD2Enemy:damage_zone(identity) end
 ---@field enemy string
 ---@field attack string
 local HD2EnemyAttack = {}
----DamageInfo fields of the row this attack reaches (hd2.fields.damage.player_standard_damage, ap_direct, ...).
+---One settings row per attack: DamageInfo (slot_<n>, slot_<n>_impact, ...), ProjectileSettings
+---(slot_<n>_projectile: velocity, mass, drag, gravity, pellet_count) or ExplosionSettings (slot_<n>_impact_explosion: radii).
 ---Shared settings rows: writes need allow_shared=true and allow_unverified_effect=true.
 ---@return table
 function HD2EnemyAttack:describe() end
----@param identity string Attack id ("slot_0", "slot_0_impact", "slot_1_spray") or an exactly matched wiki attack name.
+---@param identity string Attack id ("slot_0", "slot_0_impact", "slot_0_projectile", "slot_0_impact_explosion") or an exactly matched wiki attack name.
 ---@return HD2EnemyAttack
 function HD2Enemy:attack(identity) end
 ---@return HD2EnemyAttack[]

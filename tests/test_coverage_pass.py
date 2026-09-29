@@ -1,6 +1,7 @@
 """Coverage pass: sentry turret motion / targeting range, the status catalog and status references, enemies and
 enemy structures. Every field here is published only with its research proof; these tests pin the proofs, the
 typed API and the guards."""
+from collections import Counter
 import json
 import re
 import unittest
@@ -358,7 +359,7 @@ class EnemyTests(unittest.TestCase):
         self.assertTrue(all(f['acknowledgement'] == 'allow_unverified_effect' for k, f in fields.items()
             if k not in PROVEN))
         instances = self.catalog['fieldInstances']
-        self.assertEqual(len(instances), 10065)          # 9,300 health / zone + 765 attack fields
+        self.assertEqual(len(instances), 10425)          # 9,300 health / zone + 1,125 attack fields
         for item in instances:
             low, high = fields[item['semanticFieldId']]['range']
             if item['editable']:
@@ -366,14 +367,15 @@ class EnemyTests(unittest.TestCase):
             else:
                 self.assertTrue(item['currentDefault'] is None or item['currentDefault'] == -1, item['instanceKey'])
                 self.assertTrue(item['reason'])
-        self.assertEqual(sum(1 for i in instances if i['editable']), 8746)
+        self.assertEqual(sum(1 for i in instances if i['editable']), 9106)
 
     def test_snapshot_validation_record(self):
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['enemies']
         self.assertEqual((record['classes'], record['fields'], record['readOnly'], record['attackFields']),
-            (177, 8746, 1319, 765))
+            (177, 9106, 1319, 1125))
         self.assertEqual(set(record['roundTrips']), {'charger_health', 'charger_head_armor', 'fabricator_health',
-            'warrior_head_health', 'gunship_rocket_damage', 'bile_bombard_explosion_damage'})
+            'warrior_head_health', 'gunship_rocket_damage', 'bile_bombard_explosion_damage', 'bile_bombard_velocity',
+            'gunship_rocket_blast_radius'})
         self.assertEqual(record['rejections'], {'acknowledgement': 1, 'range': 1, 'staleExpect': 1, 'sentinel': 1,
             'attackShared': 1, 'attackAcknowledgement': 1, 'brokenMountChain': 1})
 
@@ -416,9 +418,16 @@ return 'ok'
         self.assertEqual(research['summary']['wikiMatchedRows'], 23)
         summary = self.catalog['summary']
         self.assertEqual((summary['attacks'], summary['classesWithAttacks'], summary['attackFieldInstances']),
-            (85, 38, 765))
+            (169, 38, 1125))
+        roles = Counter(a['role'].split('_settings')[0] + ('_settings' if '_settings' in a['role'] else '')
+            for c in self.catalog['classes'] for a in c['attacks'])
+        self.assertEqual(roles['projectile_settings'], 54)
+        self.assertEqual(roles['explosion_settings'], 30)
         gunship = {a['id']: a for a in self.classes['Gunship']['attacks']}
         self.assertEqual(gunship['slot_0']['wikiAttacks'], ['HEAT Rocket Racks'])
+        # Explosions are identified by standard damage and all three radii on the class's own page.
+        self.assertEqual(gunship['slot_0_impact_explosion']['wikiExplosionOf'], ['Gunship: HEAT Rocket Racks'])
+        self.assertEqual(gunship['slot_0_impact']['wikiExplosionOf'], ['Gunship: HEAT Rocket Racks'])
         self.assertEqual(gunship['slot_2']['wikiAttacks'], ['Heavy Fusion Cycler'])
         self.assertIn('Gunship', gunship['slot_0']['sharedWithClasses'])
         for item in self.catalog['classes']:
@@ -452,7 +461,14 @@ assert(spewer:attack('Bile Bombard').attack=='slot_1')
 patches.validate{id='s',target=spewer:attack('slot_1_impact'),allow_shared=true,allow_unverified_effect=true,
  field=hd2.fields.damage.ap_direct,expect=5,value=2}
 assert(not pcall(function()return hd2.enemy('Charger'):attack('slot_0')end))
-assert(#hd2.enemy('Gatekeeper'):attacks()==8)
+assert(#hd2.enemy('Gatekeeper'):attacks()==16)
+local shell=hd2.enemy('Rupture Spewer'):attack('slot_1_projectile')
+assert(#shell:describe().fields==5)
+patches.validate{id='v',target=shell,allow_shared=true,allow_unverified_effect=true,field=hd2.fields.projectile.velocity,
+ expect=shell:describe().fields[1].currentDefault,value=10}
+local blast=hd2.enemy('Gunship'):attack('slot_0_impact_explosion')
+patches.validate{id='b',target=blast,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.explosion.outer_radius,expect=1.65,value=3}
 return 'ok'
 ''')
 
@@ -507,7 +523,7 @@ class CoverageAuditTests(unittest.TestCase):
         audit.main(['--check'])
         report = json.loads(audit.JSON_OUTPUT.read_text())
         self.assertEqual(report['writes'], 0)
-        self.assertEqual(report['enemies']['attacks'], 85)
+        self.assertEqual(report['enemies']['attackRowsByKind'], {'damage': 85, 'explosion': 30, 'projectile': 54})
         self.assertEqual(report['stratagems']['statCoverage']['salvos']['covered'], 4)
 
 

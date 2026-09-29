@@ -41,12 +41,21 @@ RANGES = {'entity.health': (1, 10000000), 'zone.health': (1, 10000000), 'entity.
     'zone.explosive_damage_percentage': (0, 10),
     'damage.standard_damage': (0, 100000), 'damage.durable_damage': (0, 100000), 'damage.ap_direct': (0, 10),
     'damage.ap_slight': (0, 10), 'damage.ap_large': (0, 10), 'damage.ap_extreme': (0, 10),
-    'damage.demolition': (0, 1000), 'damage.stagger': (0, 1000), 'damage.push_force': (0, 1000)}
+    'damage.demolition': (0, 1000), 'damage.stagger': (0, 1000), 'damage.push_force': (0, 1000),
+    'projectile.velocity': (1, 5000), 'projectile.mass': (0, 1000000), 'projectile.drag': (0, 10),
+    'projectile.gravity': (0, 10), 'projectile.pellet_count': (1, 64), 'explosion.inner_radius': (0, 50),
+    'explosion.outer_radius': (0, 50), 'explosion.shockwave_radius': (0, 50)}
 # Enemy attacks: the DamageInfo rows a class's mounted weapons reach (research/enemy-attacks-*.json). Global settings
 # rows, so every write needs allow_shared; the members are the ones player weapons use, but their effect on enemy
 # attacks is not live-confirmed, so every write also needs allow_unverified_effect.
 DAMAGE_FIELDS = ('damage.standard_damage', 'damage.durable_damage', 'damage.ap_direct', 'damage.ap_slight',
     'damage.ap_large', 'damage.ap_extreme', 'damage.demolition', 'damage.stagger', 'damage.push_force')
+PROJECTILE_FIELDS = (('projectile.velocity', 'velocity'), ('projectile.mass', 'mass'), ('projectile.drag', 'drag'),
+    ('projectile.gravity', 'gravity'), ('projectile.pellet_count', 'pellet_count'))
+EXPLOSION_FIELDS = (('explosion.inner_radius', 'inner_radius'), ('explosion.outer_radius', 'outer_radius'),
+    ('explosion.shockwave_radius', 'shockwave_radius'))
+# Every attack-settings field: DamageInfo, ProjectileSettings and ExplosionSettings rows are all global settings.
+SETTINGS_FIELDS = DAMAGE_FIELDS + tuple(f for f, _ in PROJECTILE_FIELDS + EXPLOSION_FIELDS)
 ATTACK_UNVERIFIED = ('The DamageInfo row is reached through this class\'s own mount chain (re-proven before every '
     'write) and its members are the ones player weapons use, but a change to an enemy attack is not yet '
     'live-confirmed.')
@@ -54,6 +63,9 @@ ATTACK_UNVERIFIED = ('The DamageInfo row is reached through this class\'s own mo
 API_CONSTANTS = {'damage.standard_damage': 'hd2.fields.damage.player_standard_damage',
     'damage.durable_damage': 'hd2.fields.damage.player_durable_damage'}
 WEAPON_LINK = {'projectile': ('ProjectileWeaponComponentData', 0), 'spray': ('SprayWeaponComponentData', 200)}
+
+
+projectile_users, explosion_users = {}, {}
 
 
 def attack_entries(item, schema):
@@ -90,17 +102,60 @@ def attack_entries(item, schema):
                     'indexRow': slot['weaponComponent']['indexRow'],
                     'ownerCount': slot['weaponComponent']['ownerCount']},
                 'links': links})
-            for field_id in DAMAGE_FIELDS:
-                key = field_id.split('.', 1)[1]
-                low, high = RANGES[field_id]
-                if not low <= damage['values'][key] <= high:
-                    raise ValueError(f"{item['className']} {attack_id} {field_id} outside reviewed range")
-                fields.append({'id': field_id, 'path': 'attack', 'attack': attack_id,
-                    'currentDefault': damage['values'][key], 'editable': True,
-                    'backing': {'kind': 'settings', 'settings': 'damage', 'recordType': damage['type'],
-                        'group': settings['group'], 'row': settings['row'], 'offset': schema[field_id]['offset'],
-                        'storage': schema[field_id]['storage'], 'width': 4}})
+            if role.startswith('explosion_'):
+                attacks[-1]['wikiExplosionOf'] = damage.get('explosionWikiMatches') or []
+            add_settings_fields(fields, item, attack_id, schema, 'damage', damage['type'], settings,
+                [(field_id, damage['values'][field_id.split('.', 1)[1]]) for field_id in DAMAGE_FIELDS])
+        weapon = {'resource': slot['weapon'], 'entityRow': slot['weaponEntityRow'], 'component': component,
+            'recordIndex': slot['weaponComponent']['recordIndex'], 'indexRow': slot['weaponComponent']['indexRow'],
+            'ownerCount': slot['weaponComponent']['ownerCount']}
+        projectile = slot.get('projectile') or {}
+        if projectile.get('values') and projectile.get('settings'):
+            attack_id = f"slot_{slot['slot']}_projectile"
+            attacks.append({'id': attack_id, 'slot': slot['slot'], 'role': 'projectile_settings', 'wikiAttacks': [],
+                'rowWikiMatches': [], 'reviewedClassesReachingRow': projectile_users[weapon_type],
+                'mount': {'offset': slot['slot'] * 24, 'expect': slot['weapon']}, 'weapon': weapon,
+                'links': [{'from': 'weapon', 'component': component, 'offset': offset, 'expect': weapon_type}]})
+            add_settings_fields(fields, item, attack_id, schema, 'projectile', weapon_type, projectile['settings'],
+                [(field_id, projectile['values'][key]) for field_id, key in PROJECTILE_FIELDS])
+        for phase, explosion in sorted((slot.get('explosions') or {}).items()):
+            if not explosion.get('values') or not explosion.get('settings'):
+                continue
+            damage = next((d for d in slot['damage'] if d['role'] == 'explosion_' + phase), {})
+            attack_id = f"slot_{slot['slot']}_{phase}_explosion"
+            attacks.append({'id': attack_id, 'slot': slot['slot'], 'role': 'explosion_settings_' + phase,
+                'wikiAttacks': [], 'rowWikiMatches': [], 'wikiExplosionOf': damage.get('explosionWikiMatches') or [],
+                'reviewedClassesReachingRow': explosion_users[explosion['type']],
+                'mount': {'offset': slot['slot'] * 24, 'expect': slot['weapon']}, 'weapon': weapon,
+                'links': [{'from': 'weapon', 'component': component, 'offset': offset, 'expect': weapon_type},
+                    {'from': 'settings', 'settings': 'projectile', 'recordType': weapon_type,
+                     'offset': 144 if phase == 'impact' else 156, 'expect': explosion['type']}]})
+            add_settings_fields(fields, item, attack_id, schema, 'explosion', explosion['type'], explosion['settings'],
+                [(field_id, explosion['values'][key]) for field_id, key in EXPLOSION_FIELDS])
     return attacks, fields
+
+
+def add_settings_fields(fields, item, attack_id, schema, settings_kind, record_type, settings, values):
+    for field_id, value in values:
+        low, high = RANGES[field_id]
+        if not low <= value <= high:
+            raise ValueError(f"{item['className']} {attack_id} {field_id} baseline {value} outside reviewed range")
+        fields.append({'id': field_id, 'path': 'attack', 'attack': attack_id, 'currentDefault': value,
+            'editable': True, 'backing': {'kind': 'settings', 'settings': settings_kind, 'recordType': record_type,
+                'group': settings['group'], 'row': settings['row'], 'offset': schema[field_id]['offset'],
+                'storage': schema[field_id]['storage'], 'width': 4}})
+
+
+def row_users(classes):
+    """Reviewed classes whose mount chains reach each projectile / explosion row."""
+    projectile, explosion = {}, {}
+    for item in classes:
+        for slot in item['slots']:
+            if slot.get('projectileType') is not None:
+                projectile.setdefault(slot['projectileType'], set()).add(item['name'])
+            for value in (slot.get('explosions') or {}).values():
+                explosion.setdefault(value['type'], set()).add(item['name'])
+    return ({k: sorted(v) for k, v in projectile.items()}, {k: sorted(v) for k, v in explosion.items()})
 MAIN_KEYS = {'entity.health': ('main', 'health'), 'entity.armor': ('default', 'armor'),
     'entity.constitution': ('main', 'constitution'), 'entity.constitution_rate': ('main', 'constitutionRate'),
     'entity.durable_resistance': ('default', 'durableResistance'),
@@ -141,13 +196,16 @@ def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
     attack_research = json.loads(ATTACKS.read_text(encoding='utf-8'))
     attack_classes = {item['className']: item for item in attack_research['classes']}
+    users = row_users(attack_research['classes'])
+    projectile_users.clear(); projectile_users.update(users[0])
+    explosion_users.clear(); explosion_users.update(users[1])
     schema = {item['id']: item for item in json.loads(FIELDS.read_text(encoding='utf-8'))['fields']}
     runtime_schema = {}
     for field_id, item in schema.items():
         low, high = RANGES[field_id]
         runtime_schema[field_id] = {'type': item['type'], 'storage': item['storage'], 'min': low, 'max': high,
             'acknowledgement': None if field_id in PROVEN else 'allow_unverified_effect',
-            **({'shared': True} if field_id in DAMAGE_FIELDS else {})}
+            **({'shared': True} if field_id in SETTINGS_FIELDS else {})}
     enemies, aliases, public_classes, instances = {}, {}, [], []
     for item in sorted(research['classes'], key=lambda c: c['className']):
         name = item['wikiName'] or item['className']
@@ -217,7 +275,8 @@ def outputs():
             object_key = 'backing:' + digest({'enemy': semantic, 'component': COMPONENT})
             if field.get('attack'):
                 identity = ':'.join((name, 'attack', field['attack']))
-                object_key = 'backing:' + digest({'settings': 'damage', 'recordType': field['backing']['recordType']})
+                object_key = 'backing:' + digest({'settings': field['backing']['settings'],
+                    'recordType': field['backing']['recordType']})
             instance = {'instanceKey': f"enemy:{slug(item['className'])}:{slug(identity)}:{field['id']}",
                 'semanticFieldId': field['id'], 'currentDefault': field['currentDefault'], 'editable': field['editable'],
                 'target': target, 'operationGroup': 'operation:' + digest({'object': object_key, 'target': identity})}
@@ -244,7 +303,8 @@ def outputs():
                 for zone, z in zip(zones, item['zones'])],
             'hasProjectileWeapon': item['weapons']['projectileWeapon'], 'mountsEquipment': item['weapons']['mount'],
             'attacks': [{'id': a['id'], 'mountSlot': a['slot'], 'role': a['role'], 'wikiAttacks': a['wikiAttacks'],
-                'rowWikiMatches': a['rowWikiMatches'], 'sharedWithClasses': a['reviewedClassesReachingRow'],
+                'rowWikiMatches': a['rowWikiMatches'], 'wikiExplosionOf': a.get('wikiExplosionOf', []),
+                'sharedWithClasses': a['reviewedClassesReachingRow'],
                 'weaponPath': (next((s['weaponPath'] for s in attack_classes[item['className']]['slots']
                     if s['slot'] == a['slot']), None))} for a in attacks]})
     runtime = {'schema': runtime_schema, 'record': {'component': COMPONENT, 'zoneBase': ZONE_BASE,
@@ -273,8 +333,8 @@ def outputs():
             'fields': {field_id: {'displayName': item['display_name'], 'type': item['type'], 'unit': item.get('unit'),
                 'apiFieldConstant': API_CONSTANTS.get(field_id, 'hd2.fields.' + field_id),
                 'acknowledgement': runtime_schema[field_id]['acknowledgement'],
-                'acknowledgementReason': None if field_id in PROVEN else (ATTACK_UNVERIFIED if field_id in DAMAGE_FIELDS else UNVERIFIED),
-                'evidence': 'gameplay_proven_member' if field_id in PROVEN else ('mount_chain_structural' if field_id in DAMAGE_FIELDS else 'schema_wiki_correlated'),
+                'acknowledgementReason': None if field_id in PROVEN else (ATTACK_UNVERIFIED if field_id in SETTINGS_FIELDS else UNVERIFIED),
+                'evidence': 'gameplay_proven_member' if field_id in PROVEN else ('mount_chain_structural' if field_id in SETTINGS_FIELDS else 'schema_wiki_correlated'),
                 'range': [runtime_schema[field_id]['min'], runtime_schema[field_id]['max']]}
                 for field_id, item in schema.items()},
             'sentinels': {'zone.health = -1': 'the zone uses the main health pool (read-only)',

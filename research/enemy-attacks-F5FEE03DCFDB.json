@@ -20,6 +20,9 @@
   "slots": 119,
   "damageRows": 94,
   "wikiMatchedRows": 23,
+  "explosionRows": 30,
+  "explosionRowsWikiMatchedForClass": 14,
+  "explosionRowsWikiMatchedAnyPage": 22,
   "classesWithMounts": 62,
   "classesWithWeapons": 43,
   "wikiRangedAttacks": 71,
@@ -276,6 +279,18 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)"
+       ],
+       "explosionRowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Devastator: HEAT Rocket Pod Array",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)"
+       ],
        "reviewedClassesReachingRow": [
         "Gunship",
         "lieutenant_artillery",
@@ -482,6 +497,12 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
+       "explosionRowWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
        "reviewedClassesReachingRow": [
         "illuminate_attack_ship"
        ]
@@ -594,6 +615,12 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
+       "explosionRowWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
        "reviewedClassesReachingRow": [
         "illuminate_attack_ship"
        ]
@@ -742,6 +769,18 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)"
+       ],
+       "explosionRowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Devastator: HEAT Rocket Pod Array",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)"
+       ],
        "reviewedClassesReachingRow": [
         "Gunship",
         "lieutenant_artillery",
@@ -869,6 +908,18 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)"
+       ],
+       "explosionRowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Devastator: HEAT Rocket Pod Array",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)"
+       ],
        "reviewedClassesReachingRow": [
         "Gunship",
         "lieutenant_artillery",
@@ -1078,6 +1129,17 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Gunship: HEAT Rocket Racks"
+       ],
+       "explosionRowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Devastator: HEAT Rocket Pod Array",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)"
+       ],
        "reviewedClassesReachingRow": [
         "Gunship",
         "lieutenant_artillery",
@@ -1200,6 +1262,17 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Gunship: HEAT Rocket Racks"
+       ],
+       "explosionRowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Devastator: HEAT Rocket Pod Array",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)"
+       ],
        "reviewedClassesReachingRow": [
         "Gunship",
         "lieutenant_artillery",
@@ -1630,6 +1703,11 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
        "reviewedClassesReachingRow": [
         "spawner",
         "tank_base",
@@ -1811,6 +1889,13 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Bile Spewer: Bile Bombard"
+       ],
+       "explosionRowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
        "reviewedClassesReachingRow": [
         "Rupture Spewer",
         "boomer",
@@ -2019,6 +2104,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper"
        ]
@@ -2133,6 +2220,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper",
         "tripod",
@@ -2247,6 +2336,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper"
        ]
@@ -2361,6 +2452,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper",
         "tripod",
@@ -2493,6 +2586,11 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
        "reviewedClassesReachingRow": [
         "spawner",
         "tank_base",
@@ -2982,6 +3080,13 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Bile Spewer: Bile Bombard"
+       ],
+       "explosionRowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
        "reviewedClassesReachingRow": [
         "Rupture Spewer",
         "boomer",
@@ -3120,6 +3225,10 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Barrager Tank: Heavy MLRS (HE)"
+       ],
        "reviewedClassesReachingRow": [
         "tank_rocketlauncher"
        ]
@@ -3286,6 +3395,12 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Hulk Firebomber: Rotary Munition Launcher (WP)"
+       ],
+       "explosionRowWikiMatches": [
+        "Hulk Firebomber: Rotary Munition Launcher (WP)"
+       ],
        "reviewedClassesReachingRow": [
         "lieutenant_ivory_legion"
        ]
@@ -3311,6 +3426,12 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Hulk Firebomber: Rotary Munition Launcher (WP)"
+       ],
+       "explosionRowWikiMatches": [
+        "Hulk Firebomber: Rotary Munition Launcher (WP)"
+       ],
        "reviewedClassesReachingRow": [
         "lieutenant_ivory_legion"
        ]
@@ -4037,6 +4158,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper",
         "tripod",
@@ -4408,6 +4531,13 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "explosionRowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
        "reviewedClassesReachingRow": [
         "Rupture Spewer",
         "boomer",
@@ -5126,6 +5256,10 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Vox Engine: Plasma Macro-Culverin"
+       ],
        "reviewedClassesReachingRow": [
         "siege_engine"
        ]
@@ -5232,6 +5366,10 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Vox Engine: Plasma Macro-Culverin"
+       ],
        "reviewedClassesReachingRow": [
         "siege_engine"
        ]
@@ -5828,6 +5966,13 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Bile Spewer: Bile Bombard"
+       ],
+       "explosionRowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
        "reviewedClassesReachingRow": [
         "Rupture Spewer",
         "boomer",
@@ -6002,6 +6147,11 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
        "reviewedClassesReachingRow": [
         "Rupture Spewer",
         "boomer",
@@ -6321,6 +6471,13 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
+       "explosionRowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
        "reviewedClassesReachingRow": [
         "spawner",
         "tank_base",
@@ -6445,6 +6602,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "hive_lord"
        ]
@@ -6549,6 +6708,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "hive_lord"
        ]
@@ -6774,6 +6935,8 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [],
        "reviewedClassesReachingRow": [
         "Gatekeeper",
         "tripod",
@@ -7055,6 +7218,11 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Incendiary Rocket Raider: Portable Fusion Cannon",
+        "War Strider: Fusion Culverins"
+       ],
        "reviewedClassesReachingRow": [
         "assault_walker"
        ]
@@ -7162,6 +7330,11 @@
        },
        "wikiMatches": [],
        "rowWikiMatches": [],
+       "explosionWikiMatches": [],
+       "explosionRowWikiMatches": [
+        "Incendiary Rocket Raider: Portable Fusion Cannon",
+        "War Strider: Fusion Culverins"
+       ],
        "reviewedClassesReachingRow": [
         "assault_walker"
        ]

@@ -110,8 +110,8 @@ Weapons with at least one uncovered stated stat: 30 of 80. Most common gaps: `ma
 - Wiki pages: 83 enemies and 34 structures.
 - Runtime classes: 177 (138 enemies, 39 structures).
 - Wiki-named by exact anatomy: 21; with anatomy candidates: 75; wiki pages without a proven class: 96.
-- Fields: 9300 health / zone fields, 765 attack fields, 8746 writable in total.
-- Attacks: 85 mounted-weapon DamageInfo rows on 38 classes.
+- Fields: 9300 health / zone fields, 1125 attack fields, 9106 writable in total.
+- Attacks: 169 mounted-weapon settings rows on 38 classes (85 DamageInfo, 54 ProjectileSettings, 30 ExplosionSettings).
   12 of the 71 wiki ranged attacks that state all nine values are matched exactly by a class's own row.
 - Wiki attacks by delivery: Ability 4, DeathExplosion 44, Melee 100, Ranged 71, Throwable 15.
 - Not mapped: melee and ability attacks (no mount chain); death explosions; beams (Harvester); movement, detection and AI members (deliberately not attempted).
@@ -124,7 +124,7 @@ Weapons with at least one uncovered stated stat: 30 of 80. Most common gaps: `ma
 | support_weapons | 125 | 216 | 261 | 115 | 20 | 4 | 6 | 0 | 0 |
 | stratagems | 210 | 498 | 414 | 0 | 48 | 2 | 6 | 0 | 0 |
 | vehicle_weapons | 99 | 96 | 153 | 56 | 0 | 0 | 0 | 0 | 0 |
-| enemies | 0 | 0 | 765 | 0 | 0 | 0 | 0 | 0 | 0 |
+| enemies | 270 | 90 | 765 | 0 | 0 | 0 | 0 | 0 | 0 |
 | throwables | 30 | 249 | 9 | — | 16 | — | — | — | — |
 
 `statusSlot` counts the DamageInfo status slots (which status a hit applies). `status` counts status definitions (a status's duration and its own tick damage).
@@ -142,7 +142,7 @@ None of these is exposed writable. Each needs the listed proof first.
 
 | Rank | Member | Where | Evidence so far | Missing proof | Risk |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Enemy attack ProjectileSettings / ExplosionSettings (velocity, radii) and DamageInfo status slots | rows already reached by the proven enemy mount chains | Same rows, same members as player weapons; chain re-proven live for DamageInfo today | Only packaging: one target per backing object (projectile / explosion / status) on enemy attacks | low |
+| 1 | DamageInfo status slots on enemy attacks | rows already reached by the proven enemy mount chains (DamageInfo, projectile and explosion rows are published) | Same slot layout as player weapons; the status catalog applies unchanged | Packaging only: the enemy domain does not yet accept status references | low |
 | 2 | Minefield floats +8 / +12 / +16 / +28 (arming, trigger, spacing candidates) | MinefieldComponent of the four mine deployers (0.001 / 0.2 / 0.25 / 0; AT 1.0 / 0.2 / 0.2 / 0) | Typed f32 members with hidden name lengths 12 / 19 / 8 / 19; AT differs as its slower arming would | Any stated arming or trigger value (the wiki states none) or a live A/B test | medium |
 | 3 | Thrower slot floats +240..+280 (throw distance band 5-15 / 7-17 / 7-15.5 m, angles) | ThrowerComponent slot 0 of the mine deployers and the caltrops grenade | Typed f32 members; the min/max pairs differ per mine as spread would | The wiki only says "10-20 meters"; needs a live measurement | medium |
 | 4 | TurretComponent +16 / +36 / +40 | Every turreted sentry and enemy turret | Typed members beside the proven turn speeds and limits | No published table value; needs a live test | medium |

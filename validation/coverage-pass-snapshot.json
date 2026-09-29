@@ -1,8 +1,8 @@
 {
   "enemies": {
-    "attackFields": 765,
+    "attackFields": 1125,
     "classes": 177,
-    "fields": 8746,
+    "fields": 9106,
     "readOnly": 1319,
     "rejections": {
       "acknowledgement": 1,
@@ -19,6 +19,11 @@
         "from": 200,
         "to": 20
       },
+      "bile_bombard_velocity": {
+        "field": "projectile.velocity",
+        "from": 30,
+        "to": 15
+      },
       "charger_head_armor": {
         "field": "zone.armor",
         "from": 4,
@@ -33,6 +38,11 @@
         "field": "entity.health",
         "from": 1500,
         "to": 150
+      },
+      "gunship_rocket_blast_radius": {
+        "field": "explosion.outer_radius",
+        "from": 1.649999976158142,
+        "to": 3.299999952316284
       },
       "gunship_rocket_damage": {
         "field": "damage.standard_damage",
@@ -121,5 +131,5 @@
       }
     }
   },
-  "writes": 30
+  "writes": 34
 }

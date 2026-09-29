@@ -102,11 +102,11 @@ def family(field_id):
 # Native-only discoveries: members found in the native data with a plausible role but no independent proof, ranked by
 # expected value. None is exposed writable; each needs the listed proof first.
 CANDIDATES = [
-    {'rank': 1, 'member': 'Enemy attack ProjectileSettings / ExplosionSettings (velocity, radii) and DamageInfo status slots',
-     'where': 'rows already reached by the proven enemy mount chains',
-     'evidence': 'Same rows, same members as player weapons; chain re-proven live for DamageInfo today',
-     'missing': 'Only packaging: one target per backing object (projectile / explosion / status) on enemy attacks',
-     'risk': 'low'},
+    {'rank': 1, 'member': 'DamageInfo status slots on enemy attacks',
+     'where': 'rows already reached by the proven enemy mount chains (DamageInfo, projectile and explosion rows are '
+        'published)',
+     'evidence': 'Same slot layout as player weapons; the status catalog applies unchanged',
+     'missing': 'Packaging only: the enemy domain does not yet accept status references', 'risk': 'low'},
     {'rank': 2, 'member': 'Minefield floats +8 / +12 / +16 / +28 (arming, trigger, spacing candidates)',
      'where': 'MinefieldComponent of the four mine deployers (0.001 / 0.2 / 0.25 / 0; AT 1.0 / 0.2 / 0.2 / 0)',
      'evidence': 'Typed f32 members with hidden name lengths 12 / 19 / 8 / 19; AT differs as its slower arming would',
@@ -320,6 +320,8 @@ def enemy_audit():
     structures = items(load(WIKI / 'wiki_structures.json'), 'structures')
     deliveries = Counter(a.get('delivery') or 'unknown' for page in wiki for a in page.get('attacks') or [])
     summary = catalog['summary']
+    kinds = Counter('projectile' if a['role'] == 'projectile_settings' else 'explosion' if
+        a['role'].startswith('explosion_settings') else 'damage' for c in catalog['classes'] for a in c['attacks'])
     return {'wikiEnemyPages': len(wiki), 'wikiStructurePages': len(structures),
         'runtimeClasses': summary['classes'], 'runtimeEnemies': summary['enemies'],
         'runtimeStructures': summary['structures'], 'wikiNamed': summary['wikiNamed'],
@@ -328,6 +330,7 @@ def enemy_audit():
         'healthFields': summary['fieldInstances'] - summary['attackFieldInstances'],
         'writableFields': summary['writableFieldInstances'], 'attacks': summary['attacks'],
         'classesWithAttacks': summary['classesWithAttacks'], 'attackFields': summary['attackFieldInstances'],
+        'attackRowsByKind': dict(sorted(kinds.items())),
         'wikiAttacksByDelivery': dict(sorted(deliveries.items())),
         'wikiRangedAttacksMatchedExactly': research['wikiRangedAttacksMatched'],
         'wikiRangedAttacksWithNineValues': research['wikiRangedAttacks'],
@@ -425,7 +428,9 @@ def markdown(report):
         f"wiki pages without a proven class: {e['unresolvedWikiPages']}.",
         f"- Fields: {e['healthFields']} health / zone fields, {e['attackFields']} attack fields, {e['writableFields']} "
         "writable in total.",
-        f"- Attacks: {e['attacks']} mounted-weapon DamageInfo rows on {e['classesWithAttacks']} classes.",
+        f"- Attacks: {e['attacks']} mounted-weapon settings rows on {e['classesWithAttacks']} classes "
+        f"({e['attackRowsByKind'].get('damage', 0)} DamageInfo, {e['attackRowsByKind'].get('projectile', 0)} "
+        f"ProjectileSettings, {e['attackRowsByKind'].get('explosion', 0)} ExplosionSettings).",
         f"  {e['wikiRangedAttacksMatchedExactly']} of the {e['wikiRangedAttacksWithNineValues']} wiki ranged attacks "
         "that state all nine values are matched exactly by a class's own row.",
         '- Wiki attacks by delivery: ' + ', '.join(f'{k} {v}' for k, v in e['wikiAttacksByDelivery'].items()) + '.',

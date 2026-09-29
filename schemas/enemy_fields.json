@@ -21,6 +21,14 @@
     {"id":"damage.ap_extreme","display_name":"Armor penetration: extreme angle","type":"integer","unit":"armor_class","writable":true,"storage":"u32","settings":"damage","offset":24},
     {"id":"damage.demolition","display_name":"Demolition","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":28},
     {"id":"damage.stagger","display_name":"Stagger","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":32},
-    {"id":"damage.push_force","display_name":"Push force","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":36}
+    {"id":"damage.push_force","display_name":"Push force","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":36},
+    {"id":"projectile.velocity","display_name":"Projectile velocity","type":"number","unit":"meters_per_second","writable":true,"storage":"f32","settings":"projectile","offset":32},
+    {"id":"projectile.mass","display_name":"Projectile mass","type":"number","unit":"grams","writable":true,"storage":"f32","settings":"projectile","offset":36},
+    {"id":"projectile.drag","display_name":"Projectile drag","type":"number","unit":"factor","writable":true,"storage":"f32","settings":"projectile","offset":40},
+    {"id":"projectile.gravity","display_name":"Projectile gravity","type":"number","unit":"factor","writable":true,"storage":"f32","settings":"projectile","offset":44},
+    {"id":"projectile.pellet_count","display_name":"Pellet count","type":"integer","unit":"projectiles_per_shot","writable":true,"storage":"u32","settings":"projectile","offset":28},
+    {"id":"explosion.inner_radius","display_name":"Explosion inner radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":16},
+    {"id":"explosion.outer_radius","display_name":"Explosion outer radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":20},
+    {"id":"explosion.shockwave_radius","display_name":"Explosion shockwave radius","type":"number","unit":"meters","writable":true,"storage":"f32","settings":"explosion","offset":24}
   ]
 }

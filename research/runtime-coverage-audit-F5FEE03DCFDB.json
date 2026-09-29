@@ -4284,10 +4284,15 @@
   "classesWithCandidates": 75,
   "unresolvedWikiPages": 96,
   "healthFields": 9300,
-  "writableFields": 8746,
-  "attacks": 85,
+  "writableFields": 9106,
+  "attacks": 169,
   "classesWithAttacks": 38,
-  "attackFields": 765,
+  "attackFields": 1125,
+  "attackRowsByKind": {
+   "damage": 85,
+   "explosion": 30,
+   "projectile": 54
+  },
   "wikiAttacksByDelivery": {
    "Ability": 4,
    "DeathExplosion": 44,
@@ -4375,8 +4380,8 @@
     "terminal": 0
    },
    "enemies": {
-    "projectile": 0,
-    "explosion": 0,
+    "projectile": 270,
+    "explosion": 90,
     "damage": 765,
     "statusSlot": 0,
     "status": 0,
@@ -4418,10 +4423,10 @@
  "nativeOnlyCandidates": [
   {
    "rank": 1,
-   "member": "Enemy attack ProjectileSettings / ExplosionSettings (velocity, radii) and DamageInfo status slots",
-   "where": "rows already reached by the proven enemy mount chains",
-   "evidence": "Same rows, same members as player weapons; chain re-proven live for DamageInfo today",
-   "missing": "Only packaging: one target per backing object (projectile / explosion / status) on enemy attacks",
+   "member": "DamageInfo status slots on enemy attacks",
+   "where": "rows already reached by the proven enemy mount chains (DamageInfo, projectile and explosion rows are published)",
+   "evidence": "Same slot layout as player weapons; the status catalog applies unchanged",
+   "missing": "Packaging only: the enemy domain does not yet accept status references",
    "risk": "low"
   },
   {

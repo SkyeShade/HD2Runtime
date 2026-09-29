@@ -4,8 +4,8 @@ Since the coverage pass, Runtime can author the health and damage zones of enemi
 (fabricators, emplacements, nests, objective buildings).
 - Research: `scripts/research_enemy_authoring.py` → `research/enemy-authoring-F5FEE03DCFDB.json`.
 - Public catalog: `sdk/EnemyAuthoringCapabilities.json` (contract `hd2runtime.enemy.guarded_authoring.v1`).
-- Coverage: 177 classes (138 enemies, 39 structures), 10,065 field instances (9,300 health and zone fields, 765
-  attack fields), 8,746 of them writable.
+- Coverage: 177 classes (138 enemies, 39 structures), 10,425 field instances (9,300 health and zone fields,
+  1,125 attack fields), 9,106 of them writable.
 
 ## Identity: native first
 
@@ -111,12 +111,13 @@ retained snapshot:
 
 ## Migration
 
-Enemy fields migrate like vehicle fields: component coordinates are re-identified per class.
-- **Same build:** all 9,300 are EXACT.
+Enemy health and zone fields migrate like vehicle fields: component coordinates are re-identified per class. Attack
+fields migrate as settings rows re-walked from their weapon (see Attacks).
+- **Same build:** all 10,425 are EXACT.
 - **Previous build (D8E23968D141):**
-  - 9,215 MOVED (record or index row moved; layout unchanged), 84 EXACT and 1 BASELINE_CHANGED (the spore lung's
-    main health, 5000 → 30000);
-  - all 7,981 writable fields are recovered, with 0 unsafe stale writes.
+  - 10,088 MOVED (record, index row or settings row moved; layout unchanged), 336 EXACT and 1 BASELINE_CHANGED
+    (the spore lung's main health, 5000 → 30000);
+  - all 9,106 writable fields are recovered, with 0 unsafe stale writes.
 
 ## Attacks (mounted weapons)
 
@@ -131,20 +132,37 @@ mounts:
 5. ExplosionSettings (+4 DamageInfo);
 6. the DamageInfo row.
 
-62 classes own a MountComponent and 43 of them mount weapons. The weapons reach 94 DamageInfo rows. 85 of those rows
-are published as attacks: 765 fields on 38 classes. Rows with no DamageInfo of their own, such as the Spewers'
-bile spray, are skipped.
+62 classes own a MountComponent and 43 of them mount weapons. The weapons reach 94 DamageInfo rows. 169 attacks
+are published on 38 classes, with 1,125 fields. Each attack is one settings row:
+- 85 DamageInfo rows;
+- 54 ProjectileSettings rows;
+- 30 ExplosionSettings rows.
 
-Attack ids:
+Rows with no DamageInfo of their own, such as the Spewers' bile spray, are skipped.
 
-| Id | Attack |
-| --- | --- |
-| `slot_<n>` | the projectile's direct hit |
-| `slot_<n>_impact` / `slot_<n>_expiry` | its explosions |
-| `slot_<n>_spray` | a spray weapon |
+| Id | Row | Fields |
+| --- | --- | --- |
+| `slot_<n>` | the projectile's direct-hit DamageInfo | the nine DamageInfo members |
+| `slot_<n>_impact` / `slot_<n>_expiry` | its explosions' DamageInfo | the nine DamageInfo members |
+| `slot_<n>_spray` | a spray weapon's DamageInfo | the nine DamageInfo members |
+| `slot_<n>_projectile` | the ProjectileSettings the weapon fires | `projectile.velocity`, `mass`, `drag`, `gravity`, `pellet_count` |
+| `slot_<n>_impact_explosion` / `slot_<n>_expiry_explosion` | the ExplosionSettings | `explosion.inner_radius`, `outer_radius`, `shockwave_radius` |
 
-The fields are the nine DamageInfo members player weapons use: `hd2.fields.damage.player_standard_damage`,
+The nine DamageInfo members are the ones player weapons use: `hd2.fields.damage.player_standard_damage`,
 `player_durable_damage`, `ap_direct`, `ap_slight`, `ap_large`, `ap_extreme`, `demolition`, `stagger` and `push_force`.
+The projectile and explosion members are the ones player, support and vehicle weapons use.
+
+**Explosions are cross-checked separately.** The wiki states an explosion's standard damage and three radii for many
+enemy attacks. An explosion carries `wikiExplosionOf` when those four values equal an explosion on the class's own
+named or candidate page:
+- 14 of the 30 explosion rows match this way, for example the Gunship's and Hulks' HEAT rockets
+  (70 damage, 0.65 / 1.65 / 3.15 m), Bile Bombard (200, 1 / 8 / 14 m) and the Factory Strider cannon;
+- 22 match some page;
+- `lieutenant_ivory_legion`'s expiry explosion equals the Hulk Firebomber's WP rounds. This is recorded on the
+  attack only; it does not name the class.
+
+The wiki states no projectile velocity or mass for enemies, so projectile rows rest on the structural chain alone.
+Vehicle mounted weapons publish the same members on the same basis.
 
 ```lua
 local rockets=hd2.enemy('Gunship'):attack('HEAT Rocket Racks')   -- or :attack('slot_0')
@@ -190,8 +208,8 @@ attack, not the class's health fields.
 - **Melee, ability and beam attacks.** Chargers, Stalkers, Hunters, Warriors, the Bile Titan's vomit and slams, the
   Harvester's beam, and death explosions run through melee, ability and beam systems. They are not
   reached by a mount chain, so they are not mapped.
-- **Status on enemy attacks, projectile speed and explosion radius.** These rows are reachable through the same chain.
-  Enemy attacks publish only DamageInfo for now, so one target never mixes backing objects.
+- **Status slots on enemy attacks.** The DamageInfo rows are reachable, but enemy attacks do not yet take status
+  references.
 - **Movement, detection, aggression and AI timers.** No member has an independent proof. This follows the
   instruction not to expose speculative AI fields.
 - **Constitution and durable behaviour.** The members are identified, but their effect on enemies has not been
