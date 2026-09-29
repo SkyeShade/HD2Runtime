@@ -117,6 +117,22 @@ The handle exposes `status`, `runs`, `result`, `error`, `kind`, `id`, `interval`
 and `cancel()`. Results expose logical identities, field states and counters;
 they contain no runtime address.
 
+**Registration.** `hd2.patch`, `hd2.transaction`, `hd2.plan` and `hd2.ensure` validate the request when they are
+called. A request that fails validation never writes: it is logged as `[HD2Runtime] <kind> <id> rejected: <reason>`
+and returned as a handle with `status='rejected'` and `result={status='REJECTED', code=..., message=...}` instead of
+raising. A mod that declares many independent operations (a ModBuilder export declares one per backing object) keeps
+every other operation when one is invalid. The first release that raised here aborted the rest of the mod.
+
+**Settling.** Guarded operations resolve one at a time. When every operation registered in one burst has settled
+(applied, rejected or otherwise finished), one line reports it:
+`[HD2Runtime] N registered operations settled in S s: A applied, R rejected, O other`.
+
+**What APPLIED proves.** `APPLIED` means the guarded write of the definition was verified. It does not mean the game
+reads that definition. Component values are copied into a weapon (base plus customization deltas) when the game
+builds it, so they reach weapons built afterwards; settings rows are read when used. Each player-weapon field's
+`effect` in `sdk/PlayerWeaponAuthoringCapabilities.json` records the active source, when it applies, and what is
+live-proven (`docs/user-report-ayakamods-2026-09-29.md`).
+
 ## Package and validation boundary
 
 Build the standalone proof from a clean commit:

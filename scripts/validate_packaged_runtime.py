@@ -71,6 +71,28 @@ return hd2.patch({id='concussive-fire-rate',target=hd2.weapon('AR-23C Liberator 
 '''
 
 
+# Registration isolation: an independently authored operation that fails validation is logged and returned rejected;
+# it never raises, so the operations declared before and after it still register and apply.
+REGISTRATION_ISOLATION = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local operations={}
+operations[#operations+1]=hd2.ensure({patch={id='isolation-before',target=hd2.weapon('AR-23C Liberator Concussive'),
+    field=hd2.fields.weapon.fire_rate,expect=400,value=1100}})
+operations[#operations+1]=hd2.ensure({patch={id='isolation-invalid',
+    target=hd2.weapon('SG-20 Halt'):attack('feed_primary'):projectile(),field='damage.no_such_field',expect=1,value=2}})
+operations[#operations+1]=hd2.ensure({patch={id='isolation-after',target=hd2.stratagem('Orbital Precision Strike'),
+    field=hd2.fields.stratagem.definition_cooldown,expect=80,value=5}})
+return operations
+'''
+
+# The AyakaMods user report (tests/fixtures/user-reports/ayakamods-weaponry-rebalance): the exact ModBuilder 1.3.1
+# exports of the user's project and its variants, wrapped exactly as ModBuilder packages them.
+USER_REPORT = ROOT / 'tests/fixtures/user-reports/ayakamods-weaponry-rebalance/generated'
+
+
+def user_report(name):
+    return (USER_REPORT / (name + '.wrapped.lua')).read_text(encoding='utf-8')
+
+
 # Active projectile sources from the shipped archive: the Reprimand's own member is its fired projectile (the live
 # PASS control); the Liberator's attack.projectile is refused as dormant (the live FAIL control) and the same donor
 # goes to its active source, the default ammunition delta, after the donor package is loaded.
@@ -80,10 +102,11 @@ assert(reprimand.status=='ACTIVE_DIRECT'and reprimand.mechanism=='component'and 
     and reprimand.field=='attack.projectile','Reprimand is no longer a direct projectile source')
 local attack=hd2.weapon('AR-23 Liberator'):attack('primary')
 local talon=hd2.weapon('LAS-58 Talon'):attack('primary'):projectile()
-local ok,why=pcall(hd2.ensure,{patch={id='liberator-talon-dormant',target=attack,field=hd2.fields.attack.projectile,
+-- Refused at registration: a logged, rejected handle (never a raised error that would abort this addon).
+local dormant=hd2.ensure({patch={id='liberator-talon-dormant',target=attack,field=hd2.fields.attack.projectile,
     expect=attack:projectile(),value=talon}})
-assert(not ok and tostring(why):find('DORMANT_PROJECTILE_REFERENCE',1,true),
-    'the dormant Liberator member was not refused: '..tostring(why))
+assert(dormant.status=='rejected'and dormant.result.code=='DORMANT_PROJECTILE_REFERENCE',
+    'the dormant Liberator member was not refused: '..tostring(dormant.error))
 local source=attack:projectile_source()
 assert(source.status=='INDIRECT'and source.mechanism=='ammunition'and source.writable
     and source.field=='ammunition.projectile','Liberator is no longer an ammunition source')
@@ -384,8 +407,44 @@ return function(frame,watches,counts,lines)
 end
 '''
 
+# RuntimeEffectDiagnostics: six independent toggle-bound tests, all off at start. Each toggle applies only its own
+# operation; switching one off restores only that one; a later test never depends on an earlier one.
+DIAGNOSTICS_LIVE = r'''
+return function(frame,watches,counts,lines)
+ local menu=rawget(_G,'ModOptionsMenu');local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function settle(w,runs)
+  local spent=0
+  while(w.runs<=runs or w.status=='running')and w.status~='blocked'and w.status~='rejected'and spent<60000 do
+   frame();spent=spent+1
+  end
+  for _=1,20 do frame()end
+ end
+ step('every test starts off; nothing is written',counts.writes==0,'writes='..counts.writes)
+ local ids={'ma5c_magazine','halt_damage','sickle_heat','maxigun_damage','maxigun_backpack','precision_cooldown'}
+ for index,id in ipairs(ids)do
+  local w=watches[index];local runs,writes=w.runs,counts.writes
+  menu.apply('runtime_effect_diagnostics.'..id,true);settle(w,runs)
+  step(id..' on: its own operation applies',w.status=='waiting'and w.result and w.result.status=='APPLIED'
+   and counts.writes>writes,('status=%s result=%s error=%s'):format(tostring(w.status),
+    tostring(w.result and w.result.status),tostring(w.error)))
+ end
+ local w=watches[1];local restores=w.restores
+ menu.apply('runtime_effect_diagnostics.ma5c_magazine',false)
+ local spent=0
+ while w.restores==restores and spent<60000 do frame();spent=spent+1 end
+ step('switching one test off restores only that test',w.status=='disabled'and w.restores==restores+1
+  and watches[2].status=='waiting'and watches[6].status=='waiting',tostring(w.status))
+ menu.apply('runtime_effect_diagnostics.ma5c_magazine',true);settle(w,w.runs)
+ step('and switching it on again reapplies it',w.status=='waiting'and w.result and w.result.status=='APPLIED',
+  tostring(w.status))
+ return results
+end
+'''
+
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 3},
+    'example-runtime-effect-diagnostics': {'menu': MENU_STUB, 'after': DIAGNOSTICS_LIVE},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
@@ -395,6 +454,11 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-asset-test-stalwart-pod-eat700': {'packageRequests': 1},
     'example-asset-test-reprimand-talon-projectile': {'packageRequests': 1},
     'projectile-active-sources': {'packageRequests': 1},
+    'registration-isolation': {'rejected': {'isolation-invalid': 'field is not exposed for SG-20 Halt'}},
+    # The exact 133-operation user project: every operation registers; the one PLAS-101 Purifier row that its
+    # charge levels only partly fire now needs allow_unverified_effect, so it alone is refused (logged), not all.
+    'user-report-full-project': {'watches': 133, 'frames': 200000, 'resetSeconds': 20000,
+        'rejected': {'gui-object-64f6c65514d7e06d97274943': 'allow_unverified_effect'}},
     'example-explosive-projectile-swap': {'packageRequests': 1},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
@@ -407,6 +471,17 @@ def example(name, folder='projects'):
 SCENARIOS = {
     'player-weapon-patch': lambda: SIMPLE_PATCH,
     'projectile-active-sources': lambda: PROJECTILE_SOURCES,
+    'registration-isolation': lambda: REGISTRATION_ISOLATION,
+    'user-report-full-project': lambda: user_report('A-original'),
+    'user-report-ma5c-capacity-only': lambda: user_report('D2-ma5c-capacity-only'),
+    'user-report-ma5c-plus-stratagem': lambda: user_report('D3-ma5c-plus-stratagem'),
+    'user-report-maxigun-weapon': lambda: user_report('E-maxigun-only'),
+    'user-report-maxigun-plus-backpack': lambda: user_report('E2-maxigun-plus-backpack'),
+    'user-report-halt-dual-feed': lambda: user_report('F-SG-20-Halt'),
+    'user-report-spray-and-pray-damage': lambda: user_report('F-SG-225SP-Breaker-Spray-Pray'),
+    'user-report-sai-heat': lambda: user_report('F-LAS-12-Sai'),
+    'user-report-sickle-heat': lambda: user_report('F-LAS-16-Sickle'),
+    'user-report-orbital-cooldown': lambda: user_report('G-orbital-precision-strike-only'),
     'player-weapon-transaction-gui': lambda: GUI_TRANSACTION,
     'support-weapon': lambda: example('SupportAMRProof'),
     'support-weapon-coverage': lambda: SUPPORT_COVERAGE,
@@ -465,6 +540,22 @@ def archive_resources(path):
         assert version == 2, 'unexpected Lua resource version'
         found[row[0]] = data[row[2] + 8:row[2] + 8 + length]
     return found
+
+
+def archive_version(resources):
+    """(version, api) of the packaged runtime, read from its own metadata module (the packaged copy of VERSION)."""
+    body = resources.get(resource_hash('hd2runtime/domains/metadata'))
+    if body is None:
+        raise AssertionError('packaged metadata module is missing')
+    version = re.search(rb'\["version"\]="([^"]+)"', body)
+    api = re.search(rb'\["api_version"\]=(\d+)', body)
+    if not version or not api:
+        raise AssertionError('packaged metadata has no version')
+    return version.group(1).decode(), int(api.group(1))
+
+
+def startup_line(version, api):
+    return f'[HD2Runtime] HD2Runtime {version} initialized (API {api})'
 
 
 def static_scan(resources):
@@ -635,16 +726,16 @@ else watches[#watches+1]=returned end
 startup_open=false
 if MENU then assert(loadstring(MENU,'@mods/cowboybingus/mod_options_menu'))()end
 
-local FRAME=0.1
+local FRAME=FRAME_SECONDS
 local function frame()simulated=simulated+FRAME;if update then update(FRAME)end end
 local function done(watch)
- if watch.runs~=nil then return watch.status=='rejected' or watch.status=='unavailable'
+ if watch.runs~=nil then return watch.status=='rejected' or watch.status=='unavailable' or watch.status=='disabled'
   or (watch.runs>=1 and watch.status=='waiting')end
  return watch.status=='complete' or watch.status=='rejected' or watch.status=='cancelled'
 end
 local function settled()for _,w in ipairs(watches)do if not done(w)then return false end end;return true end
 local frames=0
-while not settled()and frames<36000 do frame();frames=frames+1 end
+while not settled()and frames<MAX_FRAMES do frame();frames=frames+1 end
 local function describe()
  local out={}
  for _,w in ipairs(watches)do
@@ -674,7 +765,7 @@ if next(ensures)then
   end
   return true
  end
- while not reapplied()and seconds<3600 do frame();seconds=seconds+FRAME end
+ while not reapplied()and seconds<RESET_SECONDS do frame();seconds=seconds+FRAME end
  report.reset={reapplied=reapplied(),seconds=seconds,watches=describe()}
 end
 report.lookups={startup=lookups.startup,late_missing=lookups.late_missing}
@@ -702,6 +793,10 @@ def scenario_program(scenario, addon):
     return ('\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon)
         + '\nlocal MENU=' + (lua(EXTRAS.get(scenario, {}).get('menu')) if EXTRAS.get(scenario, {}).get('menu') else 'nil')
         + '\nlocal AFTER=' + (lua(EXTRAS.get(scenario, {}).get('after')) if EXTRAS.get(scenario, {}).get('after') else 'nil')
+        # Guarded operations resolve one at a time; a large project needs a larger simulated window.
+        + '\nlocal MAX_FRAMES=' + str(EXTRAS.get(scenario, {}).get('frames', 36000))
+        + '\nlocal RESET_SECONDS=' + str(EXTRAS.get(scenario, {}).get('resetSeconds', 3600))
+        + '\nlocal FRAME_SECONDS=' + repr(EXTRAS.get(scenario, {}).get('frameSeconds', 0.1))
         + '\nlocal AFTER_RESULTS\n' + PROGRAM)
 
 
@@ -721,7 +816,20 @@ def check(report):
         failures.append('modules required after startup: ' + ', '.join(sorted(set(report['lookups']['late_missing']))))
     if not report.get('settled'):
         failures.append('did not settle')
+    expected_rejections = EXTRAS.get(report.get('scenario'), {}).get('rejected', {})
+    for watch_id, reason in expected_rejections.items():
+        line = f'[HD2Runtime] ensure {watch_id} rejected: '
+        if not any(entry.startswith(line) and reason in entry for entry in report.get('log') or []):
+            failures.append(f'{watch_id}: expected a logged registration rejection containing {reason!r}')
+    expected_watches = EXTRAS.get(report.get('scenario'), {}).get('watches')
+    if expected_watches is not None and len(report.get('watches', [])) != expected_watches:
+        failures.append(f"expected {expected_watches} registered operations, got {len(report.get('watches', []))}")
     for watch in report.get('watches', []):
+        if watch.get('id') in expected_rejections:
+            if watch.get('status') != 'rejected' or watch.get('writes'):
+                failures.append('%s: expected a rejected registration, got status=%s' % (watch.get('id'),
+                    watch.get('status')))
+            continue
         if watch.get('id') in EXTRAS.get(report.get('scenario'), {}).get('unavailable', ()):
             if watch.get('status') != 'unavailable' or watch.get('writes'):
                 failures.append('%s: expected an inactive operation, got status=%s' % (watch.get('id'),
@@ -751,9 +859,14 @@ def validate(zip_path, snapshot=SNAPSHOT, scenarios=None, jobs=None):
     scenario order, so the result and any failure text do not depend on scheduling."""
     resources = archive_resources(zip_path)
     scan = static_scan(resources)
+    version, api = archive_version(resources)
+    line = startup_line(version, api)
     result = {'artifact': Path(zip_path).name, 'static': {k: v for k, v in scan.items() if k != 'names'},
-        'scenarios': {}, 'gameProcessAccess': False, 'realWrites': 0}
+        'version': version, 'startupLine': line, 'scenarios': {}, 'gameProcessAccess': False, 'realWrites': 0}
     failures = ['unresolved module: ' + name for name in scan['unresolved']]
+    named = re.search(r'HD2Runtime-(\d+\.\d+\.\d+)-runtime', Path(zip_path).name)
+    if named and named.group(1) != version:
+        failures.append(f'artifact name says {named.group(1)} but the packaged runtime reports {version}')
     if not scan['packageModuleList']:
         failures.append('package module list is missing: ' + PACKAGE_MODULES)
     names = list(scenarios or SCENARIOS)
@@ -762,6 +875,11 @@ def validate(zip_path, snapshot=SNAPSHOT, scenarios=None, jobs=None):
         [['head', scenario_program(name, SCENARIOS[name]()).encode()] for name in names], {'head': head}, jobs)]
     for name, report in zip(names, reports):
         problems = check(report)
+        # Every session names the packaged runtime version exactly once, as its first log line.
+        log = [entry.rstrip(chr(13) + chr(10)) for entry in report.get('log') or []]
+        if log.count(line) != 1 or not log or log[0] != line:
+            problems.append(f'startup version line {line!r} expected once as the first log line '
+                f'(found {log.count(line)}, first {log[0] if log else None!r})')
         result['scenarios'][name] = {'passed': not problems, 'problems': problems,
             'watches': report.get('watches'), 'reset': report.get('reset', {}).get('reapplied'),
             'overlayWrites': report.get('counts', {}).get('writes'),

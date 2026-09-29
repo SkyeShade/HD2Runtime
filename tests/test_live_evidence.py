@@ -27,12 +27,12 @@ class LiveEvidenceTests(unittest.TestCase):
         generate_live_evidence.generate(check=True)
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
-            'live_proven': ['enemy_main_health', 'enemy_zone_armor', 'minefield_salvos', 'sentry_targeting_range',
-                'sentry_turret_turn_speed', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
+            'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor', 'minefield_salvos',
+                'sentry_targeting_range', 'sentry_turret_turn_speed', 'weapon_ammunition_projectile_reference',
+                'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
-            'live_failed': ['weapon_projectile_reference_dormant_member'],
-            'pending': ['attack_output_cross_class', 'weapon_ammunition_projectile_reference']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (13, 8))
+            'live_failed': ['weapon_projectile_reference_dormant_member'], 'pending': []})
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (16, 11))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -55,7 +55,28 @@ class LiveEvidenceTests(unittest.TestCase):
         unproven = [t for t in tests.values() if t['result'] == 'UNPROVEN']
         self.assertEqual(sorted(t['choice'] for t in unproven), ['EAT-700 Napalm', 'GL-52 Arc (impact)'])
         self.assertTrue(all(t['evidence']['hostReadsReference'] is False and t['evidence']['donorOutputWorks'] is None
-            for t in unproven))
+            and t['supersededBy'] == 'projectile-source-correction-2026-09-29' for t in unproven))
+
+    def test_corrected_source_promotions_are_exactly_the_tested_scope(self):
+        """The ammunition path is proven for the Liberator's own delta row only; the cross-class outputs for the two
+        compositions the user played only; the Reprimand direct path again."""
+        runs = [t for t in live_evidence.tests('weapon_ammunition_projectile_reference', current=True)]
+        self.assertEqual(sorted(t['choice'] for t in runs), ['EAT-700 Napalm', 'GL-52 Arc (impact)'])
+        self.assertTrue(all(t['result'] == 'PASS' and all(t['evidence'].values()) and t['host'] == 'AR-23 Liberator'
+            and t['mechanism'] == 'ammunition' for t in runs))
+        self.assertEqual({t['mod'] for t in live_evidence.tests('attack_output_cross_class', current=True)},
+            {'LiberatorAttackOutputTest'})
+        family = self.registry['families']['weapon_ammunition_projectile_reference']
+        self.assertEqual(family['provenWeapons'], ['AR-23 Liberator'])
+        self.assertTrue(any('JAR-5 Dominator' in item for item in family['notPromoted']))
+        cross = self.registry['families']['attack_output_cross_class']
+        self.assertEqual([c['output'] for c in cross['provenCompositions']],
+            ['EAT-700 Expendable Napalm', 'GL-52 De-Escalator'])
+        direct = [t for t in live_evidence.tests('weapon_projectile_reference_direct') if t['result'] == 'PASS']
+        self.assertEqual([t['session'] for t in direct],
+            ['projectile-host-path-2026-09-29', 'projectile-source-correction-2026-09-29'])
+        self.assertEqual(live_evidence.proven('weapon_ammunition_projectile_reference')['tests'],
+            ['LiberatorAttackOutputTest'])
 
     def test_stratagem_promotions_are_exactly_the_tested_members(self):
         by_field = {}
@@ -76,8 +97,9 @@ class LiveEvidenceTests(unittest.TestCase):
     def test_status_promotion_covers_only_projectile_direct_hit_rows(self):
         player = [f for w in self.player['weapons'] for f in w['fields'] if f.get('statusSlot')]
         for field in player:
+            # Rows a weapon may not fire (charge / heat levels, spawned entities) do not inherit the promotion.
             projectile = field['backing'].get('settings') == 'damage' and field.get('writeScope') == \
-                'shared_projectile_damage_definition'
+                'shared_projectile_damage_definition' and field['effect']['activeSource'] == 'ACTIVE_DIRECT'
             self.assertEqual(bool(field.get('liveEvidence')), projectile, field['semanticFieldId'])
             self.assertEqual(field.get('acknowledgement') is None, projectile)
         support = [f for f in self.support['fieldInstances']

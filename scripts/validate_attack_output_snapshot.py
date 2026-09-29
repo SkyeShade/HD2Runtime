@@ -145,13 +145,25 @@ local worker=coroutine.create(function()
   rejects(function()ammo_patch(output(name))end,'INCOMPATIBLE_OUTPUT_FAMILY',name)
   result.rejections[name]='INCOMPATIBLE_OUTPUT_FAMILY'
  end
- rejects(function()ammo_patch(output('EAT-700 Expendable Napalm'),{allow_unverified_reference=false})end,
-  'allow_unverified_reference','cross-class reference acknowledgement')
- rejects(function()ammo_patch(projectile('LAS-58 Talon'),{allow_unverified_effect=false})end,
-  'allow_unverified_effect','ammunition effect acknowledgement')
+ -- Live-proven scope (sdk/LiveEvidenceCatalog.json): the Liberator's ammunition needs no allow_unverified_effect, and
+ -- exactly its EAT-700 and GL-52 compositions need no cross-class acknowledgement. Everything else still does.
+ ammo_patch(projectile('LAS-58 Talon'),{allow_unverified_effect=false,allow_unverified_reference=false})
+ for _,name in ipairs({'EAT-700 Expendable Napalm','GL-52 De-Escalator'})do
+  local spec=ammo_patch(output(name),{allow_unverified_effect=false,allow_unverified_reference=false})
+  assert(spec.changes[1].cross_class,name..' is no longer cross-class')
+ end
+ result.provenWithoutAcknowledgement={'LAS-58 Talon','EAT-700 Expendable Napalm','GL-52 De-Escalator'}
+ rejects(function()ammo_patch(output('R-36 Eruptor'),{allow_unverified_reference=false})end,
+  'allow_unverified_reference','unproven cross-class reference acknowledgement')
+ rejects(function()ammo_patch(output('R-36 Eruptor'),{allow_unverified_effect=false})end,
+  'allow_unverified_effect','unproven cross-class effect acknowledgement')
+ rejects(function()weapons.validate_patch({id='x',target={resource='player_weapon',path='ammunition',
+  weapon='SG-225 Breaker'},field='ammunition.projectile',expect={resource='player_weapon',path='ammunition_projectile',
+  weapon='SG-225 Breaker'},value=projectile('LAS-58 Talon'),allow_shared=true})end,'allow_unverified_effect',
+  'unproven ammunition effect acknowledgement')
  rejects(function()ammo_patch(projectile('LAS-58 Talon'),{allow_shared=false})end,'allow_shared',
   'ammunition shared acknowledgement')
- result.rejections.acknowledgements=3
+ result.rejections.acknowledgements=4
  rejects(function()weapons.validate_patch({id='x',target={resource='player_weapon',path='ammunition',weapon=CONTROL},
   field='ammunition.projectile',expect={resource='player_weapon',path='ammunition_projectile',weapon=CONTROL},
   value=projectile('LAS-58 Talon'),allow_shared=true,allow_unverified_effect=true})end,'NO_AMMUNITION_SOURCE',

@@ -630,6 +630,7 @@
    "baseValue": 297,
    "compatibilityClass": "explosive_impact_and_expiry",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -740,6 +741,7 @@
    "baseValue": 62,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -773,6 +775,7 @@
    "baseValue": 318,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -828,6 +831,7 @@
    "baseValue": 309,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile (+0 patched by REVOLVER 13x40mm. FULL METAL JACKET); which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -839,6 +843,7 @@
    "baseValue": 237,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -960,6 +965,7 @@
    "baseValue": 299,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null
@@ -1125,6 +1131,7 @@
    "baseValue": 262,
    "compatibilityClass": "conventional_plain",
    "previouslyWritable": true,
+   "candidatesAgree": true,
    "status": "AMBIGUOUS",
    "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
    "mechanism": null

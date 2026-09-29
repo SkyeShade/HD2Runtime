@@ -288,9 +288,11 @@ local worker=coroutine.create(function()
  check('fields a target does not expose stay unavailable',rejects({patch={id='other',allow_unverified_effect=true,
   target=hd2.booster('Vitality Enhancement'):tuning(),field=hd2.fields.booster.stamina_scale,
   expect=1.3,value=stamina}},'not exposed'))
- local ok,why=pcall(hd2.patch,{id='one-shot',allow_unverified_effect=true,target=hd2.booster('Vitality Enhancement'):tuning(),
+ -- Registration isolation: the refusal is a logged, rejected handle, never a raised error that aborts the addon.
+ local refused=hd2.patch({id='one-shot',allow_unverified_effect=true,target=hd2.booster('Vitality Enhancement'):tuning(),
   field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vitality})
- check('one-shot operations refuse option handles',not ok and tostring(why):find('require hd2.ensure',1,true)~=nil)
+ check('one-shot operations refuse option handles',refused.status=='rejected'
+  and tostring(refused.error):find('require hd2.ensure',1,true)~=nil)
 
  -- The menu saves applied values only while its native integration is active (in game on the
  -- supported build); outside the game it keeps them in memory. Reading saved values is covered above.

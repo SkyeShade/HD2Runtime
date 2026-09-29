@@ -216,8 +216,10 @@ class StatusTests(unittest.TestCase):
         hatchet = slots('CQC-5 Combat Hatchet')          # melee row
         self.assertTrue(hatchet and all(f['acknowledgement'] == 'allow_unverified_effect' for f in hatchet.values()))
         promoted = [f for w in self.player.values() for f in w['fields'] if f.get('statusSlot')]
-        self.assertEqual(sum(1 for f in promoted if f.get('liveEvidence')), 141)
-        self.assertEqual(sum(1 for f in promoted if f.get('acknowledgement')), 35)
+        # 12 slots sit on rows their weapon may not fire (charge / heat levels, spawned entities: see each field's
+        # effect); they keep allow_unverified_effect and do not inherit the projectile status promotion.
+        self.assertEqual(sum(1 for f in promoted if f.get('liveEvidence')), 129)
+        self.assertEqual(sum(1 for f in promoted if f.get('acknowledgement')), 47)
         self.assertEqual(set(liberator['damage.status_1_type']['allowedValues']), ATTACHABLE)
         observed = {s['semanticId']: s.get('liveObserved') for s in self.catalog['statuses']}
         self.assertEqual(observed['fire'][0]['test'], 'LiberatorFireStatus')

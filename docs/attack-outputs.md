@@ -221,9 +221,21 @@ Five proof levels are kept separate:
    - Reprimand → Talon: pass on all four (`weapon_projectile_reference_direct`, live-proven).
    - Liberator → Talon: donor works, write succeeded, host does not read it, no change
      (`weapon_projectile_reference_dormant_member`, live-failed; the member is now read-only).
-   - Liberator EAT-700 and GL-52 (first build): unproven. They wrote the same dormant member, so they say nothing
-     about those outputs (`attack_output_cross_class`, pending).
-   - Liberator ammunition source: pending the rebuilt `LiberatorAttackOutputTest`.
+   - Liberator EAT-700 and GL-52 (first build): unproven, and superseded. They wrote the same dormant member.
+   - Liberator ammunition source, rebuilt `LiberatorAttackOutputTest`: **pass** for EAT-700 Napalm and GL-52 Arc
+     (impact). The donor packages loaded automatically, the Liberator fired the donor projectiles, and the GL-52
+     impact released its arc (`weapon_ammunition_projectile_reference` and `attack_output_cross_class`, live-proven).
+   - Reprimand → Talon passed again on the active-source build.
+
+**What the passes promote, and what they do not.** Only the tested scope:
+- the Liberator's own ammunition row (RIFLE 5,5x50mm. FULL METAL JACKET) no longer needs `allow_unverified_effect`;
+  `allow_shared` stays;
+- exactly the Liberator × EAT-700 and Liberator × GL-52 compositions need no cross-class acknowledgement
+  (`provenCompositions` in the catalog);
+- the EAT-700 and GL-52 outputs are live-proven as donors (`liveProof.donorOutput`).
+
+The other five INDIRECT weapons use the same kind of mechanism but their own ammunition rows, which no test exercised,
+so they keep `allow_unverified_effect`. Every other cross-class pair keeps both acknowledgements.
 
 ## Validation
 
@@ -248,5 +260,5 @@ The packaged runtime (`scripts/validate_packaged_runtime.py`) runs, from the bui
 ## Live test
 
 The test mod is `LiberatorAttackOutputTest`, a Mod Options choice with Vanilla, LAS-58 Talon (control), EAT-700 Napalm
-and GL-52 Arc (impact), all written to the Liberator's ammunition source. It is built only. See its README for the
-order of the test (the ammunition delta applies when the weapon is built) and how to read each outcome.
+and GL-52 Arc (impact), all written to the Liberator's ammunition source. EAT-700 and GL-52 passed live (2026-09-29).
+The Talon control was not reported. See its README for how to read each outcome.

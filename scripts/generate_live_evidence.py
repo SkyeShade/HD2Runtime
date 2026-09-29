@@ -42,10 +42,14 @@ def build():
     families = registry['families']
     for session in registry['sessions']:
         for test in session['tests']:
-            if test['family'] not in families:
-                raise ValueError('live test names an unknown family: ' + test['family'])
-            if families[test['family']]['status'] != RESULT_STATUS[test['result']]:
-                raise ValueError(f"family {test['family']} status disagrees with test {test['mod']}")
+            for name in live_evidence.families_of(test):
+                if name not in families:
+                    raise ValueError('live test names an unknown family: ' + name)
+                # A superseded run stays in the record but no longer decides its family's status.
+                if not test.get('supersededBy') and families[name]['status'] != RESULT_STATUS[test['result']]:
+                    raise ValueError(f"family {name} status disagrees with test {test['mod']}")
+            if test.get('supersededBy') and test['supersededBy'] not in {s['id'] for s in registry['sessions']}:
+                raise ValueError(f"test {test['mod']} is superseded by an unknown session")
             if test.get('evidence') and set(test['evidence']) != set(EVIDENCE):
                 raise ValueError(f"test {test['mod']} evidence must name exactly {EVIDENCE}")
     for name, entry in families.items():
@@ -103,7 +107,8 @@ def build():
             '| --- | --- | --- | --- | --- |']
         for test in session['tests']:
             writes = '; '.join(f"{w['target']}: `{w['field']}` {w['from']} → {w['to']}" for w in test['writes'])
-            mod = test['mod'] + (f" ({test['choice']})" if test.get('choice') else '')
+            mod = test['mod'] + (f" ({test['choice']})" if test.get('choice') else '') + (
+                f" (superseded by {test['supersededBy']})" if test.get('supersededBy') else '')
             observation = test['observation'] + (' ' + test['hostPath'] if test.get('hostPath') else '')
             lines.append(f"| {mod} | {RESULT_LABEL[test['result']]} | {writes} | {evidence_text(test)} | "
                 f"{observation} |")

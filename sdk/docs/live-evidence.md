@@ -20,8 +20,8 @@ Composition tests record four separate facts: the donor output works, the refere
 | `structure_health` | inconclusive | `entity.health`, `zone.health` | Health of enemy structures. Writes require allow_unverified_effect until a structure live test passes. | added `allow_unverified_effect` |
 | `weapon_projectile_reference_direct` | live-proven | `attack.<role>.projectile` | Projectile-reference replacement on player attacks whose written member is their active projectile source (ACTIVE_DIRECT in sdk/AttackOutputCapabilities.json projectileSources). Proven on the SMG-32 Reprimand. The structural rule that classifies the other ACTIVE_DIRECT attacks (no customization delta patches a projectile member, no other selector) is checked against the Reprimand (positive) and Liberator (negative) controls. | unchanged |
 | `weapon_projectile_reference_dormant_member` | live-failed | `attack.<role>.projectile` | Writing the base ProjectileWeapon +0 member of an attack whose default ammunition customization patches that member at weapon build. Withdrawn: those fields are read-only with DORMANT_PROJECTILE_REFERENCE and point to weapon:ammunition():projectile(). | unchanged |
-| `weapon_ammunition_projectile_reference` | pending | `ammunition.projectile` | Replacing the projectile of a weapon's default ammunition customization, its active source when the ammunition delta patches ProjectileWeapon +0. Requires allow_shared and allow_unverified_effect. | unchanged |
-| `attack_output_cross_class` | pending | `attack.<role>.projectile`, `ammunition.projectile` | A projectile output from another structural class (rocket, arc grenade) on a projectile host. Requires allow_unverified_reference and allow_unverified_effect. | unchanged |
+| `weapon_ammunition_projectile_reference` | live-proven | `ammunition.projectile` | The AR-23 Liberator's default ammunition, RIFLE 5,5x50mm. FULL METAL JACKET: its entity delta row that patches ProjectileWeapon +0 when the weapon is built. An edited row is consumed in play. Only this delta row is proven; allow_shared stays required (an ammunition definition applies to every weapon that equips it). | removed `allow_unverified_effect (AR-23 Liberator ammunition only)` |
+| `attack_output_cross_class` | live-proven | `attack.<role>.projectile`, `ammunition.projectile` | Exactly two compositions on the AR-23 Liberator's ammunition source: the EAT-700 Expendable Napalm output (explosive_shrapnel) and the GL-52 De-Escalator output (explosive_arc). Both donor outputs render and function with their chains (napalm, arc on impact) when the Liberator fires them. | removed `allow_unverified_reference, allow_unverified_effect (these two compositions only)` |
 
 ## Notes
 
@@ -42,14 +42,19 @@ Composition tests record four separate facts: the donor output works, the refere
 
 **`weapon_projectile_reference_direct`**
 - Observation: Same-class replacement never required an acknowledgement; this family records the host path.
+- Observation: Re-confirmed on the active-source build (session projectile-source-correction-2026-09-29).
 - Not promoted (still need `allow_unverified_effect`): cross-class outputs (allow_unverified_reference and allow_unverified_effect), attacks whose source is INDIRECT, AMBIGUOUS or BLOCKED (read-only).
 
 **`weapon_projectile_reference_dormant_member`**
 - Analysis: A structural reference existing, and a guarded write landing, did not prove that firing reads it. The Liberator fires its FULL METAL JACKET ammunition delta; see docs/attack-outputs.md.
 
+**`weapon_ammunition_projectile_reference`**
+- Not promoted (still need `allow_unverified_effect`): the other INDIRECT weapons (JAR-5 Dominator, R-63 Diligence, SG-225 Breaker, P-2 Peacemaker, P-19 Redeemer): the same kind of mechanism, but different ammunition delta rows that no test exercised; they keep allow_unverified_effect, timing: whether an edit reaches a Liberator that was already built, or only the next one built, was not reported.
+- Next tests: `one INDIRECT weapon other than the Liberator (for example the SG-225 Breaker) to test whether the path generalises`.
+
 **`attack_output_cross_class`**
-- Observation: The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member, so they carry no evidence either way about those outputs.
-- Next tests: `LiberatorAttackOutputTest`.
+- Observation: The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member; they stay recorded, superseded, as host-path history.
+- Not promoted (still need `allow_unverified_effect`): every other host and output pair, including the same outputs on other hosts.
 
 ## Session coverage-pass-2026-09-29
 
@@ -79,5 +84,17 @@ Every operation logged: `target resolved`, `APPLIED`.
 | --- | --- | --- | --- | --- |
 | AssetTestReprimandTalonProjectile | pass | SMG-32 Reprimand / primary attack: `attack.projectile` SMG-32 Reprimand projectile → LAS-58 Talon projectile | yes / yes / yes / yes | With nobody carrying the Talon, the Reprimand fired Talon bolts with correct visuals and function. Edits the mod made to the Talon projectile were observable through the swap. |
 | Liberator -> Talon projectile swap (user-built; new and older API) | fail | AR-23 Liberator / primary attack: `attack.projectile` AR-23 Liberator projectile → LAS-58 Talon projectile | yes / yes / no / no | Runtime resolved and wrote the reference; the Liberator kept firing its normal bullet. The same result with the older projectile-swap API. Explained offline (research/active-projectile-sources-F5FEE03DCFDB.json): the Liberator's default ammunition customization, RIFLE 5,5x50mm. FULL METAL JACKET, patches ProjectileWeapon +0 when the weapon is built, so the written base member is dormant. The Reprimand has no ammunition customization. The Talon output itself is live-proven by the Reprimand test. |
-| LiberatorAttackOutputTest (pre-correction build) (EAT-700 Napalm) | unproven | AR-23 Liberator / primary attack: `attack.projectile` AR-23 Liberator projectile → EAT-700 Expendable Napalm output | ? / ? / no / ? | Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the EAT-700 output. |
-| LiberatorAttackOutputTest (pre-correction build) (GL-52 Arc (impact)) | unproven | AR-23 Liberator / primary attack: `attack.projectile` AR-23 Liberator projectile → GL-52 De-Escalator output | ? / ? / no / ? | Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the GL-52 output. |
+| LiberatorAttackOutputTest (pre-correction build) (EAT-700 Napalm) (superseded by projectile-source-correction-2026-09-29) | unproven | AR-23 Liberator / primary attack: `attack.projectile` AR-23 Liberator projectile → EAT-700 Expendable Napalm output | ? / ? / no / ? | Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the EAT-700 output. |
+| LiberatorAttackOutputTest (pre-correction build) (GL-52 Arc (impact)) (superseded by projectile-source-correction-2026-09-29) | unproven | AR-23 Liberator / primary attack: `attack.projectile` AR-23 Liberator projectile → GL-52 De-Escalator output | ? / ? / no / ? | Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the GL-52 output. |
+
+## Session projectile-source-correction-2026-09-29
+
+Runtime: HD2Runtime 0.27.0 active-source test build (commit 834716f, build/test-artifacts/coverage-live-tests/HD2Runtime-0.27.0-runtime-active-source-test.zip).
+
+Every operation logged: `target resolved`, `APPLIED`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| LiberatorAttackOutputTest (EAT-700 Napalm) | pass | AR-23 Liberator / default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET): `ammunition.projectile` AR-23 Liberator bullet → EAT-700 Expendable Napalm output | yes / yes / yes / yes | The donor package loaded automatically and the Liberator fired the EAT-700 napalm projectile: the ammunition-owned source is consumed in play. |
+| LiberatorAttackOutputTest (GL-52 Arc (impact)) | pass | AR-23 Liberator / default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET): `ammunition.projectile` AR-23 Liberator bullet → GL-52 De-Escalator output | yes / yes / yes / yes | The donor package loaded automatically and the Liberator fired the GL-52 projectile; its impact produced the donor arc behaviour. |
+| AssetTestReprimandTalonProjectile | pass | SMG-32 Reprimand / primary attack: `attack.projectile` SMG-32 Reprimand projectile → LAS-58 Talon projectile | yes / yes / yes / yes | Passed again on the active-source build: ACTIVE_DIRECT replacement still works after the active-source API changes. |

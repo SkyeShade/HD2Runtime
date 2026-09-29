@@ -150,7 +150,9 @@ class CatalogTests(unittest.TestCase):
             self.assertTrue(output['package']['known'] and output['package']['autoLoad'])
             self.assertEqual(output['acknowledgements']['crossClass'],
                 ['allow_unverified_reference', 'allow_unverified_effect'])
-            self.assertIsNone(output['liveProof'])
+            # Live-proven as donors: the Liberator fired both through its ammunition source.
+            self.assertEqual(output['liveProof'], {'donorOutput': 'live_proven', 'tests': ['LiberatorAttackOutputTest'],
+                'provenOnHosts': ['AR-23 Liberator']})
         # The Talon output is live-proven as a donor (fired by the Reprimand); the Liberator failure is host-path
         # evidence and does not count against it.
         self.assertEqual(self.outputs['LAS-58 Talon']['liveProof'], {'donorOutput': 'live_proven',
@@ -186,11 +188,21 @@ class CatalogTests(unittest.TestCase):
         kinds = {w['weapon']: w['kind'] for w in self.active['weapons']}
         self.assertTrue(all(kinds[n] == 'player_weapon' for n in hosts['componentHosts'] + hosts['ammunitionHosts']))
         live = hosts['hostLiveProof']
-        self.assertEqual([r['result'] for r in live['SMG-32 Reprimand']], ['PASS'])
-        self.assertIn('FAIL', [r['result'] for r in live['AR-23 Liberator']])
+        self.assertEqual([r['result'] for r in live['SMG-32 Reprimand']], ['PASS', 'PASS'])
+        liberator = {(r['result'], r['family'], r['superseded']) for r in live['AR-23 Liberator']}
+        self.assertIn(('FAIL', 'weapon_projectile_reference_dormant_member', False), liberator)
+        self.assertIn(('PASS', 'weapon_ammunition_projectile_reference', False), liberator)
+        self.assertIn(('UNPROVEN', 'attack_output_cross_class', True), liberator)
         ammunition = {a['weapon']: a for a in self.catalog['ammunitionSources']}
-        self.assertEqual(ammunition['AR-23 Liberator']['acknowledgements'], ['allow_shared', 'allow_unverified_effect'])
-        self.assertEqual(ammunition['AR-23 Liberator']['liveProof'], 'pending')
+        # Only the Liberator's own ammunition row is live-proven; the other INDIRECT weapons stay pending.
+        self.assertEqual(ammunition['AR-23 Liberator']['acknowledgements'], ['allow_shared'])
+        self.assertEqual(ammunition['AR-23 Liberator']['liveProof'], 'live_proven')
+        for name in ('JAR-5 Dominator', 'P-19 Redeemer', 'P-2 Peacemaker', 'R-63 Diligence', 'SG-225 Breaker'):
+            self.assertEqual((ammunition[name]['acknowledgements'], ammunition[name]['liveProof']),
+                (['allow_shared', 'allow_unverified_effect'], 'pending'), name)
+        self.assertEqual([(c['host'], c['output'], c['mechanism']) for c in self.catalog['provenCompositions']],
+            [('AR-23 Liberator', 'output/v1/projectile/eat-700-expendable-napalm', 'ammunition'),
+             ('AR-23 Liberator', 'output/v1/projectile/gl-52-de-escalator', 'ammunition')])
         self.assertEqual(ammunition['P-2 Peacemaker']['sharedWithWeapons'], ['MP-98 Knight', 'P-19 Redeemer'])
 
     def test_writable_projectile_fields_are_active_sources(self):
@@ -256,8 +268,17 @@ assert(spec.changes[1].cross_class and spec.asset_dependencies[1].name:find('exp
 swap(hd2.attack_output('GL-52 De-Escalator'))
 assert(swap(ammo:projectile(),{allow_unverified_reference=false}).changes[1].self_reference)
 rejects(function()swap(talon,{allow_shared=false})end,'allow_shared')
-rejects(function()swap(talon,{allow_unverified_effect=false})end,'allow_unverified_effect')
-rejects(function()swap(eat,{allow_unverified_reference=false})end,'allow_unverified_reference')
+-- Live-proven scope: the Liberator's ammunition and its EAT-700 / GL-52 compositions need no acknowledgement.
+swap(talon,{allow_unverified_effect=false,allow_unverified_reference=false})
+swap(eat,{allow_unverified_effect=false,allow_unverified_reference=false})
+swap(hd2.attack_output('GL-52 De-Escalator'),{allow_unverified_effect=false,allow_unverified_reference=false})
+-- Anything outside it keeps both: another output on the Liberator, and another weapon's ammunition.
+local eruptor=hd2.attack_output('R-36 Eruptor')
+rejects(function()swap(eruptor,{allow_unverified_reference=false})end,'allow_unverified_reference')
+rejects(function()swap(eruptor,{allow_unverified_effect=false})end,'allow_unverified_effect')
+local breaker=hd2.weapon('SG-225 Breaker'):ammunition()
+rejects(function()patches.validate{id='b',target=breaker,field=hd2.fields.ammunition.projectile,
+ expect=breaker:projectile(),value=talon,allow_shared=true}end,'allow_unverified_effect')
 for _,name in ipairs({'LAS-98 Laser Cannon','LAS-13 Trident','ARC-3 Arc Thrower'})do
  rejects(function()swap(hd2.attack_output(name))end,'INCOMPATIBLE_OUTPUT_FAMILY')
 end
@@ -325,7 +346,9 @@ class ValidationTests(unittest.TestCase):
             self.assertEqual(rejections[name], 'INCOMPATIBLE_OUTPUT_FAMILY')
         self.assertEqual(rejections['dormantMember'], 'DORMANT_PROJECTILE_REFERENCE')
         self.assertEqual((rejections['acknowledgements'], rejections['staleSource'], rejections['hostMagazinePattern'],
-            rejections['staleDefaultAmmunition'], rejections['noAmmunitionSource']), (3, 1, 1, 1, 'SMG-32 Reprimand'))
+            rejections['staleDefaultAmmunition'], rejections['noAmmunitionSource']), (4, 1, 1, 1, 'SMG-32 Reprimand'))
+        self.assertEqual(record['provenWithoutAcknowledgement'],
+            ['LAS-58 Talon', 'EAT-700 Expendable Napalm', 'GL-52 De-Escalator'])
 
     def test_packaged_scenarios(self):
         import validate_packaged_runtime as packaged

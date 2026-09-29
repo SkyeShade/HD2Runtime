@@ -31,6 +31,15 @@ PROJECTILE_MEMBERS=ROOT/'research/player-projectile-members-F5FEE03DCFDB.json'
 JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
 AMMO_JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAmmoCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/player_weapon_authoring.lua'
+OWNERSHIP=ROOT/'research/field-ownership-F5FEE03DCFDB.json'
+EFFECT_REASON={
+    'ACTIVE_DIRECT':'A settings row the game reads when the projectile, explosion or damage is used.',
+    'ACTIVE_AT_INSTANTIATION':('A component member the game copies into the weapon when it builds it (base plus '
+        'customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already '
+        'built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).'),
+    'AMBIGUOUS':'The effective value depends on state Runtime cannot prove offline.',
+    'OVERRIDDEN':'A default customization item overwrites this member when the weapon is built.',
+    'DORMANT_OR_METADATA':'Derived or descriptive; the gameplay path does not read this value.'}
 
 
 def lua(value):
@@ -613,6 +622,101 @@ def build(catalog_path=CATALOG):
             'fixtureFallback':'disabled'}}
 
 
+UNVERIFIED_ROW=('Runtime cannot establish that this weapon fires this projectile row (see effect.reason); the write '
+    'lands but may not change this weapon in play.')
+
+
+def settings_row_sources(value):
+    """Whether each settings row a weapon's fields write is a row that weapon fires.
+
+    Rows are read when used (ACTIVE_DIRECT) only if the attack's fired projectile is established. A weapon that fires
+    a spawned entity, or whose charge / heat levels select their own projectiles, may never fire the row its
+    projectile reference names: rows no level fires are DORMANT_OR_METADATA, rows only some levels fire and entity
+    rows are AMBIGUOUS. Both keep writing (the definition may be shared with a weapon that does fire it) but require
+    allow_unverified_effect and do not inherit live proof. Applied before the runtime table is generated."""
+    from generate_attack_outputs import ACTIVE, active_sources
+    sources=active_sources()[1]
+    weapons={e['weapon']:e for e in json.loads(ACTIVE.read_text())['weapons']}
+    rows={}
+    for weapon in value['weapons']:
+        entry=weapons.get(weapon['name'])or{}
+        roles=sources.get(weapon['name'],{})
+        levels=entry.get('heatLevelProjectiles')or entry.get('chargeLevelProjectiles')or[]
+        levels=[v for v in levels if v]
+        base=(entry.get('base')or{}).get('projType')
+        for field in weapon['fields']:
+            backing=field.get('backing')or{}
+            if backing.get('kind')!='settings':
+                continue
+            branch=backing.get('branch')
+            source=(roles.get(branch)or roles.get('feed_'+str(branch)))if branch else None
+            status,reason='ACTIVE_DIRECT',None
+            if entry.get('base',{}).get('projectileEntity'):
+                status,reason='AMBIGUOUS',('The weapon fires a spawned entity (ProjectileWeapon ProjectileEntity), so this '
+                    'projectile row is not established as what it fires.')
+            elif levels:
+                kind='heat'if entry.get('heatLevelProjectiles')else'charge'
+                if base in levels:
+                    status,reason='AMBIGUOUS',(f'Only the {kind} levels that name this projectile fire it; the other '
+                        f'levels fire their own projectiles ({", ".join(str(v) for v in levels if v!=base)}).')
+                else:
+                    status,reason='DORMANT_OR_METADATA',(f'Every {kind} level fires another projectile '
+                        f'({", ".join(str(v) for v in levels)}); this weapon never fires this row, which it names only '
+                        'through its base reference' + (' and shares with ' + ', '.join(field['sharedWithWeapons'])
+                        if field.get('sharedWithWeapons') else '') + '.')
+            elif source and source['status']=='BLOCKED'and not source.get('candidatesAgree'):
+                status,reason='AMBIGUOUS','The attack fires through another selector: '+source['reason']
+            elif source and source['status']=='AMBIGUOUS'and not source.get('candidatesAgree'):
+                reason=('Fired with the default equipment; '+source['reason'])
+            rows[(weapon['name'],field['semanticFieldId'])]=(status,reason)
+            if status!='ACTIVE_DIRECT'and field.get('editable'):
+                field['acknowledgement']='allow_unverified_effect'
+                field['acknowledgementReason']=UNVERIFIED_ROW+' '+reason
+                field.pop('liveEvidence',None)
+    return rows
+
+
+def annotate_effects(value,rows):
+    """Public proof model per field: APPLIED only means the guarded write was verified; `effect` says whether the
+    written definition is the one gameplay uses (active source), when it takes effect, and what is live-proven."""
+    ownership={(row['weapon'],row['field']):row for row in json.loads(OWNERSHIP.read_text())['fields']}
+    for weapon in value['weapons']:
+        for field in weapon['fields']:
+            backing=field.get('backing')or{}
+            if backing.get('kind')=='component':
+                row=ownership.get((weapon['name'],field['semanticFieldId']))
+                status=row['status']if row else'AMBIGUOUS'
+                effect={'activeSource':status,'appliesWhen':'weapon_build','instantiationOnly':True,
+                    'activeSourceProven':status=='ACTIVE_AT_INSTANTIATION'}
+                if status=='AMBIGUOUS'and row:
+                    effect['overriddenWhenEquipped']=row['owner']['options']
+                    effect['reason']=('Equipping '+', '.join(row['owner']['options'])+' overwrites this member at '
+                        'weapon build; the value applies while an option that does not patch it is equipped.')
+                elif status=='OVERRIDDEN':
+                    effect['overriddenBy']=row['owner']['item']
+            elif backing.get('kind')=='settings':
+                status,reason=rows[(weapon['name'],field['semanticFieldId'])]
+                effect={'activeSource':status,'appliesWhen':'use','instantiationOnly':False,
+                    'activeSourceProven':status=='ACTIVE_DIRECT'}
+                if reason:
+                    effect['reason']=reason
+            elif field.get('derivedReadOnly')or field.get('derived'):
+                effect={'activeSource':'DORMANT_OR_METADATA','appliesWhen':None,'instantiationOnly':None,
+                    'activeSourceProven':True}
+            else:
+                continue
+            effect.setdefault('reason',EFFECT_REASON[effect['activeSource']])
+            effect['writeVerifiedOnApply']=bool(field.get('editable'))
+            effect['gameplayEffectProven']=bool(field.get('liveEvidence'))
+            effect['unverifiedEffect']=field.get('acknowledgement')=='allow_unverified_effect'
+            field['effect']=effect
+    counts=Counter(f['effect']['activeSource']for w in value['weapons']for f in w['fields']if f.get('effect'))
+    editable=Counter(f['effect']['activeSource']for w in value['weapons']for f in w['fields']
+        if f.get('effect')and f['editable'])
+    value['summary']['effect']={'fieldInstances':dict(sorted(counts.items())),
+        'editableFieldInstances':dict(sorted(editable.items()))}
+
+
 def api_constant(field_id,legacy):
     domain,name=field_id.split('.',1)
     constant=name.replace('.','_')
@@ -623,6 +727,7 @@ def api_constant(field_id,legacy):
 
 def outputs(catalog_path=CATALOG):
     value=build(catalog_path)
+    rows=settings_row_sources(value)
     # The Lua constant for each field, so authors never pick a legacy fixed-resource constant by accident.
     legacy={}
     for resource in json.loads((ROOT/'schemas/sdk.json').read_text())['resources'].values():
@@ -656,9 +761,13 @@ def outputs(catalog_path=CATALOG):
         'discrepancies':ammo_source['discrepancies'],
         'weapons':ammo_source['weapons'],
         'safety':value['safety']}
+    runtime_lua='-- Generated from schemas/player_weapon_fields.json and reviewed snapshot output; do not edit.\nreturn '\
+        +lua(migration_overlay.apply('player_weapon_authoring', runtime))+'\n'
+    # The effect model is public metadata only; the runtime table carries just the acknowledgements it enforces.
+    annotate_effects(value,rows)
     return {JSON_OUTPUT:json.dumps(value,indent=2)+'\n',
         AMMO_JSON_OUTPUT:json.dumps(ammo,indent=2)+'\n',
-        LUA_OUTPUT:'-- Generated from schemas/player_weapon_fields.json and reviewed snapshot output; do not edit.\nreturn '+lua(migration_overlay.apply('player_weapon_authoring', runtime))+'\n'}
+        LUA_OUTPUT:runtime_lua}
 
 
 def generate(check=False,catalog_path=CATALOG):

@@ -47,11 +47,16 @@
   "mode": "snapshot-overlay",
   "proofScope": "guarded write mechanics; the host firing path is the active projectile source, not these bytes",
   "protectionChanges": 16,
+  "provenWithoutAcknowledgement": [
+    "LAS-58 Talon",
+    "EAT-700 Expendable Napalm",
+    "GL-52 De-Escalator"
+  ],
   "rejections": {
     "ARC-3 Arc Thrower": "INCOMPATIBLE_OUTPUT_FAMILY",
     "LAS-13 Trident": "INCOMPATIBLE_OUTPUT_FAMILY",
     "LAS-98 Laser Cannon": "INCOMPATIBLE_OUTPUT_FAMILY",
-    "acknowledgements": 3,
+    "acknowledgements": 4,
     "dormantMember": "DORMANT_PROJECTILE_REFERENCE",
     "hostMagazinePattern": 1,
     "noAmmunitionSource": "SMG-32 Reprimand",

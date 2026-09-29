@@ -378,20 +378,34 @@ names the flag.
 
 Logs are in `%LOCALAPPDATA%\CowboyBingus\Helldivers2\Logs\`:
 
-- `BingusSharedLoader.log`: was your mod found and started? Script errors,
-  including requests the runtime rejects when your mod calls it, appear here.
-- `HD2Runtime.log`: what the runtime did.
+- `BingusSharedLoader.log`: was your mod found and started? Script errors appear here.
+- `HD2Runtime.log`: what the runtime did. Its first line names the Runtime that actually loaded:
+  `[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)`. If the version is not the one you expect, the wrong Runtime
+  is installed.
 
 ```
+[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)
+[HD2Runtime] ensure my-other-id rejected: field is not exposed for SG-20 Halt: damage.no_such_field
 [HD2Runtime] patch my-id target resolved
 [HD2Runtime] patch my-id target not ready (TARGET_UNAVAILABLE); retry 2/6 in 5 update seconds
 [HD2Runtime] patch my-id REJECTED code=CONFLICT reason=...
 [HD2Runtime] ensure my-id verified status=APPLIED cycle=1 next=60 ...
 [HD2Runtime] ensure my-id drift detected (...); full guarded resolution
+[HD2Runtime] 42 registered operations settled in 61 s: 41 applied, 1 rejected, 0 other (see earlier lines)
 ```
 
-`APPLIED` means your value was written. `ALREADY_DESIRED` means it already had
-your value.
+`APPLIED` means your value was written (the guarded write was verified). `ALREADY_DESIRED` means it already had
+your value. Neither proves the game uses that value: each field's `effect` in the capability catalog says whether the
+written definition is the one gameplay reads, and when.
+
+- **One rejected request does not stop the others.** A request that fails validation logs `<kind> <id> rejected:
+  <reason>` and returns a handle with `status='rejected'`; every other operation your mod declares still registers.
+- **Weapon values apply to weapons built after the write.** Component values (magazine, heat, handling, fire rate,
+  projectile reference, backpack ammo) are copied into a weapon or backpack when the game builds it. A weapon you
+  already hold keeps its copy until it is rebuilt: redeploy, reinforce, or call in a new support weapon. Projectile,
+  damage and explosion values are read when used.
+- **A large mod takes a while to apply.** Operations resolve one at a time (about 1 to 2 seconds each at 60 fps). Wait
+  for `N registered operations settled` before deploying, or weapons built earlier keep the old values.
 
 ## 11. Common problems
 
@@ -404,7 +418,9 @@ your value.
 | unknown name, or ambiguous candidates | The name does not exist, or several objects match and the runtime will not guess. | Copy exact names from a capability file, or use the semantic ID. |
 | `requires allow_shared=true` (or another flag) | See section 9. | Decide deliberately. |
 | Missing or broken vehicle weapon after a mount swap | The swapped weapon's assets were not loaded. | A known risk of `allow_unverified_reference`; revert the swap. |
-| Nothing happens | Check `BingusSharedLoader.log`: mod not found, a script error, or a dependency/version check failure. | Enable Bingus and HD2Runtime; check `min_version`. |
+| Nothing happens | Check `BingusSharedLoader.log`: mod not found, a script error, or a dependency/version check failure. | Enable Bingus and HD2Runtime; check `min_version` and the version line at the top of `HD2Runtime.log`. |
+| `APPLIED` but no change in play | The weapon was built before the write, or the field is not what this weapon uses. | Rebuild the weapon (redeploy); check the field's `effect.activeSource` (AMBIGUOUS / DORMANT_OR_METADATA / OVERRIDDEN explain why). |
+| `<id> rejected:` for one operation | That one request failed validation; the reason follows. | Fix or remove that operation; the others still apply. |
 | `projectile objects only accept...`, or "legacy fixed-resource field" | A damage field was used on the wrong target, or a legacy constant. | Damage goes on `weapon:attack('primary'):projectile()`, with `player_standard_damage`, `player_durable_damage` and `ap_*`. |
 | `transaction spans multiple backing objects` | The changes belong to different objects. | Use a plan: one operation per object. |
 | `one plan phase cannot mix ...` | One phase holds, for example, a stratagem and a weapon. | Split them into phases. |

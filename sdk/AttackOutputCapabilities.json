@@ -919,14 +919,14 @@
    "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
    "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
    "acknowledgements": [
-    "allow_shared",
-    "allow_unverified_effect"
+    "allow_shared"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
-   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
-   "liveProof": "pending"
+   "effectReason": null,
+   "liveProof": "live_proven"
   },
   {
    "weapon": "JAR-5 Dominator",
@@ -941,7 +941,8 @@
     "allow_unverified_effect"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
    "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
    "liveProof": "pending"
@@ -961,7 +962,8 @@
     "allow_unverified_effect"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
    "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
    "liveProof": "pending"
@@ -982,7 +984,8 @@
     "allow_unverified_effect"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
    "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
    "liveProof": "pending"
@@ -1000,7 +1003,8 @@
     "allow_unverified_effect"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
    "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
    "liveProof": "pending"
@@ -1018,10 +1022,25 @@
     "allow_unverified_effect"
    ],
    "crossClassAcknowledgements": [
-    "allow_unverified_reference"
+    "allow_unverified_reference",
+    "allow_unverified_effect"
    ],
    "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
    "liveProof": "pending"
+  }
+ ],
+ "provenCompositions": [
+  {
+   "host": "AR-23 Liberator",
+   "output": "output/v1/projectile/eat-700-expendable-napalm",
+   "mechanism": "ammunition",
+   "acknowledgementsRequired": []
+  },
+  {
+   "host": "AR-23 Liberator",
+   "output": "output/v1/projectile/gl-52-de-escalator",
+   "mechanism": "ammunition",
+   "acknowledgementsRequired": []
   }
  ],
  "hostModel": {
@@ -1071,19 +1090,36 @@
      "test": "Liberator -> Talon projectile swap (user-built; new and older API)",
      "result": "FAIL",
      "family": "weapon_projectile_reference_dormant_member",
-     "hostReadsReference": false
+     "hostReadsReference": false,
+     "superseded": false
     },
     {
      "test": "LiberatorAttackOutputTest (pre-correction build) (EAT-700 Napalm)",
      "result": "UNPROVEN",
      "family": "attack_output_cross_class",
-     "hostReadsReference": false
+     "hostReadsReference": false,
+     "superseded": true
     },
     {
      "test": "LiberatorAttackOutputTest (pre-correction build) (GL-52 Arc (impact))",
      "result": "UNPROVEN",
      "family": "attack_output_cross_class",
-     "hostReadsReference": false
+     "hostReadsReference": false,
+     "superseded": true
+    },
+    {
+     "test": "LiberatorAttackOutputTest (EAT-700 Napalm)",
+     "result": "PASS",
+     "family": "weapon_ammunition_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "LiberatorAttackOutputTest (GL-52 Arc (impact))",
+     "result": "PASS",
+     "family": "weapon_ammunition_projectile_reference",
+     "hostReadsReference": true,
+     "superseded": false
     }
    ],
    "SMG-32 Reprimand": [
@@ -1091,7 +1127,15 @@
      "test": "AssetTestReprimandTalonProjectile",
      "result": "PASS",
      "family": "weapon_projectile_reference_direct",
-     "hostReadsReference": true
+     "hostReadsReference": true,
+     "superseded": false
+    },
+    {
+     "test": "AssetTestReprimandTalonProjectile",
+     "result": "PASS",
+     "family": "weapon_projectile_reference_direct",
+     "hostReadsReference": true,
+     "superseded": false
     }
    ]
   },
@@ -4471,7 +4515,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "LiberatorAttackOutputTest"
+    ],
+    "provenOnHosts": [
+     "AR-23 Liberator"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/faf-14-spear",
@@ -4664,7 +4716,15 @@
     ]
    },
    "ownerFiresThisProjectile": "fires_reference",
-   "liveProof": null
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "LiberatorAttackOutputTest"
+    ],
+    "provenOnHosts": [
+     "AR-23 Liberator"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/gr-8-recoilless-rifle",

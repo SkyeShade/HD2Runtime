@@ -61,6 +61,26 @@ def source_reason(row):
     return reason
 
 
+def ammunition_proven(weapon):
+    """Live evidence for one weapon's ammunition source: only the weapons whose own delta row a test exercised."""
+    family = live_evidence.family('weapon_ammunition_projectile_reference')
+    if family['status'] != 'live_proven' or weapon not in family.get('provenWeapons', []):
+        return None
+    return live_evidence.proven('weapon_ammunition_projectile_reference')
+
+
+def proven_compositions():
+    """host -> {output semantic id: mechanism} for cross-class compositions a user test proved in play."""
+    family = live_evidence.family('attack_output_cross_class')
+    result = {}
+    if family['status'] != 'live_proven':
+        return result
+    for item in family.get('provenCompositions', []):
+        output = 'output/v1/projectile/' + slug(item['output'])
+        result.setdefault(item['host'], {})[output] = item['mechanism']
+    return result
+
+
 def active_sources():
     """(research, sources, ammunition, by_weapon) from the active projectile source research."""
     active = json.loads(ACTIVE.read_text(encoding='utf-8'))
@@ -69,7 +89,7 @@ def active_sources():
     for row in active['attackFields']:
         sources.setdefault(row['weapon'], {})[row['role']] = {'status': row['status'], 'mechanism': row['mechanism'],
             'member': row['backing'], 'reason': row['reason'], 'previouslyWritable': row['previouslyWritable'],
-            'compatibilityClass': row['compatibilityClass']}
+            'compatibilityClass': row['compatibilityClass'], 'candidatesAgree': row.get('candidatesAgree', False)}
     ammunition = {}
     for entry in active['weapons']:
         source = entry['activeSource']
@@ -87,7 +107,9 @@ def active_sources():
             'compatibilityClass': source['compatibilityClass'],
             'currentDefault': {'weapon': entry['weapon'], 'projectileType': source['value']},
             'referenceSettings': source['settings'], 'editable': True,
-            'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': AMMUNITION_EFFECT,
+            'acknowledgement': None if ammunition_proven(entry['weapon']) else 'allow_unverified_effect',
+            'acknowledgementReason': None if ammunition_proven(entry['weapon']) else AMMUNITION_EFFECT,
+            'liveEvidence': ammunition_proven(entry['weapon']),
             'affectsMultipleWeapons': True, 'sharedWithWeapons': shared, 'sharedReason': AMMUNITION_SHARED,
             'writeScope': 'ammunition_definition', 'appliesWhen': 'weapon_build',
             # Entity delta coordinates, re-proven live (domains/attachment_writes.prove) before every write.
@@ -116,7 +138,8 @@ def host_live_proof(weapon):
     runs = [test for session in live_evidence.load()['sessions'] for test in session['tests']
         if test.get('host') == weapon and test.get('evidence')]
     return [{'test': run['mod'] + (' (' + run['choice'] + ')' if run.get('choice') else ''), 'result': run['result'],
-        'family': run['family'], 'hostReadsReference': run['evidence']['hostReadsReference']} for run in runs] or None
+        'family': run['family'], 'hostReadsReference': run['evidence']['hostReadsReference'],
+        'superseded': bool(run.get('supersededBy'))} for run in runs] or None
 
 
 def owner_source(entry):
@@ -237,8 +260,14 @@ def outputs():
         elif primary['mechanism'] == 'ammunition' and name in ammunition:
             hosts[name] = {'kind': 'player_weapon', 'class': ammunition[name]['compatibilityClass'],
                 'mechanism': 'ammunition'}
+    compositions = proven_compositions()
+    for host, pairs in compositions.items():
+        for output, mechanism in pairs.items():
+            if output not in runtime_outputs or (hosts.get(host) or {}).get('mechanism') != mechanism:
+                raise ValueError(f'proven composition {host} / {output} is not a catalogued host and output')
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
-        'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'crossClassReason': UNVERIFIED_REFERENCE})
+        'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'provenCompositions': compositions,
+        'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']
     public_sources = []
     for name, roles in sorted(sources.items()):
@@ -257,9 +286,11 @@ def outputs():
     public_ammunition = [{'weapon': name, 'semanticId': a['id'], 'item': a['item'],
         'compatibilityClass': a['compatibilityClass'], 'sharedWithWeapons': a['sharedWithWeapons'],
         'sharedReason': a['sharedReason'], 'appliesWhen': 'weapon build (the ammunition delta is applied when the '
-            'weapon is built)', 'acknowledgements': ['allow_shared', 'allow_unverified_effect'],
-        'crossClassAcknowledgements': ['allow_unverified_reference'], 'effectReason': a['acknowledgementReason'],
-        'liveProof': live_evidence.family('weapon_ammunition_projectile_reference')['status']}
+            'weapon is built)',
+        'acknowledgements': ['allow_shared'] + ([] if ammunition_proven(name) else ['allow_unverified_effect']),
+        'crossClassAcknowledgements': ['allow_unverified_reference', 'allow_unverified_effect'],
+        'effectReason': a['acknowledgementReason'],
+        'liveProof': 'live_proven' if ammunition_proven(name) else 'pending'}
         for name, a in sorted(ammunition.items())]
     classified = active['summary']
     document = {'contract': CONTRACT, 'schemaVersion': 2,
@@ -292,6 +323,9 @@ def outputs():
                 'previouslyWritableAttackFieldsByStatus': classified['previouslyWritableAttackFieldsByStatus']}},
         'projectileSources': public_sources,
         'ammunitionSources': public_ammunition,
+        'provenCompositions': [{'host': host, 'output': output, 'mechanism': mechanism,
+            'acknowledgementsRequired': []} for host, pairs in sorted(compositions.items())
+            for output, mechanism in sorted(pairs.items())],
         'hostModel': {'componentHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'component'),
             'ammunitionHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'ammunition'),
             'rule': ('A projectile output needs a player attack whose fired projectile Runtime can write. component: '

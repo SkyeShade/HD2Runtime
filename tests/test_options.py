@@ -150,7 +150,10 @@ for _,call in ipairs({'patch','transaction','plan'})do
   changes={{field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vit}}}
   or{id='i',operations={{id='o',allow_unverified_effect=true,target=vitality_target(),
   field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vit}}}
- fails(hd2[call],'require hd2.ensure',request)
+ -- Refused at registration as a logged, rejected handle (never a raised error that aborts the mod).
+ local refused=hd2[call](request)
+ assert(refused.status=='rejected'and tostring(refused.error):find('require hd2.ensure',1,true),tostring(refused.error))
+ assert(count(call..' i rejected: option-bound values require hd2.ensure')>=1)
 end
 local w=start({enabled=on,patch={id='ok',allow_unverified_effect=true,target=vitality_target(),
  field=hd2.fields.booster.damage_taken_scale,expect=0.9,value=vit}})
