@@ -92,8 +92,8 @@ class UserReportFixtureTests(unittest.TestCase):
         self.assertEqual(len(self.names), 22)
         for name, results in self.results.items():
             failed = {r['id']: r['error'] for r in results if not r['ok']}
-            # The only refusal: the Purifier row its charge levels fire only when charged (AMBIGUOUS; a ModBuilder
-            # re-export adds allow_unverified_effect).
+            # The only refusal: the Purifier row its charge levels fire only when charged (AMBIGUOUS, so it now needs
+            # allow_unverified_effect, which ModBuilder emits once its SDK catalog carries the acknowledgement).
             expected = {PURIFIER_DRAG} if any(r['id'] == PURIFIER_DRAG for r in results) else set()
             self.assertEqual(set(failed), expected, name)
             for error in failed.values():
