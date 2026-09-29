@@ -1,0 +1,241 @@
+[HD2Runtime] ensure plan-33b190c6a083c6d50265b0eb scheduled interval=60
+[HD2Runtime] ensure plan-52fef800f1d806e95b20bd0e scheduled interval=60
+[HD2Runtime] ensure plan-927c292c50c6a092e2670412 scheduled interval=60
+[HD2Runtime] ensure plan-ee6a992eef0ef245203dbad0 scheduled interval=60
+[HD2Runtime] ensure gui-object-fbc7d8d91daeb06c9336b057 scheduled interval=60
+[HD2Runtime] ensure plan-ba459a00161d51049d7ffa03 scheduled interval=60
+[HD2Runtime] ensure plan-978a3a452b01199799d56d4e scheduled interval=60
+[HD2Runtime] ensure plan-9f876f9594c0d6096bc994e6 scheduled interval=60
+[HD2Runtime] ensure plan-5039a431b0a7f5040b4c5405 scheduled interval=60
+[HD2Runtime] ensure plan-b8bf731863e1ed46f96e24a1 scheduled interval=60
+[HD2Runtime] ensure plan-6cf6d05467abf999ea04abd0 scheduled interval=60
+[HD2Runtime] ensure plan-15e01e913898d405c8ba83d0 scheduled interval=60
+[HD2Runtime] ensure plan-3fc2c7091b495d4379d0c635 scheduled interval=60
+[HD2Runtime] ensure plan-66de5d5f5a2ba2838ce38c93 scheduled interval=60
+[HD2Runtime] ensure plan-92deb7696017a04af68eac9e scheduled interval=60
+[HD2Runtime] ensure plan-139ad78f6ac51bbce9798c6a scheduled interval=60
+[HD2Runtime] ensure plan-d75226cfdc1eca55131b7066 scheduled interval=60
+[HD2Runtime] ensure plan-c42907540e0a70a3afb23984 scheduled interval=60
+[HD2Runtime] ensure plan-c057239ae7338a2cac947806 scheduled interval=60
+[HD2Runtime] ensure gui-object-64f6c65514d7e06d97274943 scheduled interval=60
+[HD2Runtime] ensure plan-7a61558c4fc099f23691b16b scheduled interval=60
+[HD2Runtime] ensure plan-627f873d8aa109fc148645e3 scheduled interval=60
+[HD2Runtime] ensure plan-6060aaf95eaaae9bf7911a39 scheduled interval=60
+[HD2Runtime] ensure plan-19f1d1bd8e45e1c2faa5199b scheduled interval=60
+[HD2Runtime] ensure plan-52d640ec403136f00edb280e scheduled interval=60
+[HD2Runtime] ensure plan-34260e0fae5a66bb4f60b0a9 scheduled interval=60
+[HD2Runtime] ensure plan-859317fa5ec2dd5af9ebe6fc scheduled interval=60
+[HD2Runtime] ensure plan-8bdcbfd54df87d7b8c42a916 scheduled interval=60
+[HD2Runtime] ensure plan-705113935eb8df8172b17816 scheduled interval=60
+[HD2Runtime] ensure plan-8bc3a21b6c6a12bb23748ac0 scheduled interval=60
+[HD2Runtime] ensure plan-c255453477177324eddd4baa scheduled interval=60
+[HD2Runtime] ensure plan-11b1220e7671e9f9a233a291 scheduled interval=60
+[HD2Runtime] ensure plan-ee8d19d894b383c5048ffe0b scheduled interval=60
+[HD2Runtime] ensure plan-425227efe69f4e869ddde06b scheduled interval=60
+[HD2Runtime] ensure plan-13ba65c97abb1d4d12e15bdb scheduled interval=60
+[HD2Runtime] ensure plan-2a3ef2e1b5a695c39236611a scheduled interval=60
+[HD2Runtime] ensure gui-object-e6dbf0c61d24d901c3e62e19 scheduled interval=60
+[HD2Runtime] ensure gui-object-94254f52a6627e32c8ae7f7a scheduled interval=60
+[HD2Runtime] ensure gui-object-c4d996fd2b98f4f57ec41558 scheduled interval=60
+[HD2Runtime] ensure gui-object-655b820d42562b3479d47c93 scheduled interval=60
+[HD2Runtime] ensure gui-object-707d656ec51584e3d4403dcb scheduled interval=60
+[HD2Runtime] ensure gui-object-d6d786cbec9c9f61ccbba805 scheduled interval=60
+[HD2Runtime] transaction gui-object-d6d786cbec9c9f61ccbba805 targets resolved
+[HD2Runtime] damage.ap_direct 2 -> 3
+[HD2Runtime] damage.durable_damage 12 -> 14
+[HD2Runtime] damage.standard_damage 45 -> 39
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-d6d786cbec9c9f61ccbba805 APPLIED
+[HD2Runtime] ensure gui-object-d6d786cbec9c9f61ccbba805 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] transaction gui-object-707d656ec51584e3d4403dcb targets resolved
+[HD2Runtime] damage.ap_direct 3 -> 4
+[HD2Runtime] damage.ap_large 3 -> 4
+[HD2Runtime] damage.ap_slight 3 -> 4
+[HD2Runtime] damage.durable_damage 35 -> 42
+[HD2Runtime] damage.standard_damage 70 -> 50
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-707d656ec51584e3d4403dcb APPLIED
+[HD2Runtime] ensure gui-object-707d656ec51584e3d4403dcb verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] transaction gui-object-655b820d42562b3479d47c93 targets resolved
+[HD2Runtime] damage.durable_damage 11 -> 25
+[HD2Runtime] damage.standard_damage 42 -> 34
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-655b820d42562b3479d47c93 APPLIED
+[HD2Runtime] ensure gui-object-655b820d42562b3479d47c93 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] transaction gui-object-c4d996fd2b98f4f57ec41558 targets resolved
+[HD2Runtime] damage.ap_direct 2 -> 3
+[HD2Runtime] damage.ap_large 2 -> 3
+[HD2Runtime] damage.ap_slight 2 -> 3
+[HD2Runtime] damage.durable_damage 20 -> 34
+[HD2Runtime] damage.standard_damage 55 -> 46
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-c4d996fd2b98f4f57ec41558 APPLIED
+[HD2Runtime] ensure gui-object-c4d996fd2b98f4f57ec41558 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] transaction gui-object-94254f52a6627e32c8ae7f7a targets resolved
+[HD2Runtime] damage.status_1_strength 2 -> 3
+[HD2Runtime] damage.status_2_strength 3 -> 4
+[HD2Runtime] damage.status_3_strength 1 -> 2
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-94254f52a6627e32c8ae7f7a APPLIED
+[HD2Runtime] ensure gui-object-94254f52a6627e32c8ae7f7a verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] transaction gui-object-e6dbf0c61d24d901c3e62e19 targets resolved
+[HD2Runtime] damage.durable_damage 45 -> 105
+[HD2Runtime] damage.standard_damage 220 -> 140
+[HD2Runtime] damage.status_1_strength 3 -> 6
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] transaction gui-object-e6dbf0c61d24d901c3e62e19 APPLIED
+[HD2Runtime] ensure gui-object-e6dbf0c61d24d901c3e62e19 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-2a3ef2e1b5a695c39236611a APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-2a3ef2e1b5a695c39236611a verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-13ba65c97abb1d4d12e15bdb APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-13ba65c97abb1d4d12e15bdb verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-425227efe69f4e869ddde06b APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-425227efe69f4e869ddde06b verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-ee8d19d894b383c5048ffe0b APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-ee8d19d894b383c5048ffe0b verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-11b1220e7671e9f9a233a291 APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-11b1220e7671e9f9a233a291 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-c255453477177324eddd4baa APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-c255453477177324eddd4baa verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-8bc3a21b6c6a12bb23748ac0 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-8bc3a21b6c6a12bb23748ac0 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-705113935eb8df8172b17816 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-705113935eb8df8172b17816 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-8bdcbfd54df87d7b8c42a916 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-8bdcbfd54df87d7b8c42a916 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-859317fa5ec2dd5af9ebe6fc APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-859317fa5ec2dd5af9ebe6fc verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-34260e0fae5a66bb4f60b0a9 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-34260e0fae5a66bb4f60b0a9 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-52d640ec403136f00edb280e APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-52d640ec403136f00edb280e verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-19f1d1bd8e45e1c2faa5199b APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-19f1d1bd8e45e1c2faa5199b verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-6060aaf95eaaae9bf7911a39 APPLIED phases=1 writes=9 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-6060aaf95eaaae9bf7911a39 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-627f873d8aa109fc148645e3 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-627f873d8aa109fc148645e3 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-7a61558c4fc099f23691b16b APPLIED phases=1 writes=6 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-7a61558c4fc099f23691b16b verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] patch gui-object-64f6c65514d7e06d97274943 target resolved
+[HD2Runtime] projectile.drag 1.5 -> 0.80000000000000004
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] patch gui-object-64f6c65514d7e06d97274943 APPLIED
+[HD2Runtime] ensure gui-object-64f6c65514d7e06d97274943 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-c057239ae7338a2cac947806 APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-c057239ae7338a2cac947806 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-c42907540e0a70a3afb23984 APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-c42907540e0a70a3afb23984 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-d75226cfdc1eca55131b7066 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-d75226cfdc1eca55131b7066 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-139ad78f6ac51bbce9798c6a APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-139ad78f6ac51bbce9798c6a verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-92deb7696017a04af68eac9e APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-92deb7696017a04af68eac9e verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-66de5d5f5a2ba2838ce38c93 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-66de5d5f5a2ba2838ce38c93 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-3fc2c7091b495d4379d0c635 APPLIED phases=1 writes=7 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-3fc2c7091b495d4379d0c635 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-15e01e913898d405c8ba83d0 APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-15e01e913898d405c8ba83d0 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-6cf6d05467abf999ea04abd0 APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-6cf6d05467abf999ea04abd0 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-b8bf731863e1ed46f96e24a1 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-b8bf731863e1ed46f96e24a1 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-5039a431b0a7f5040b4c5405 APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-5039a431b0a7f5040b4c5405 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-9f876f9594c0d6096bc994e6 APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-9f876f9594c0d6096bc994e6 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-978a3a452b01199799d56d4e APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-978a3a452b01199799d56d4e verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-ba459a00161d51049d7ffa03 APPLIED phases=1 writes=3 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-ba459a00161d51049d7ffa03 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] patch gui-object-fbc7d8d91daeb06c9336b057 target resolved
+[HD2Runtime] arc.range 25 -> 35
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] patch gui-object-fbc7d8d91daeb06c9336b057 APPLIED
+[HD2Runtime] ensure gui-object-fbc7d8d91daeb06c9336b057 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-ee6a992eef0ef245203dbad0 APPLIED phases=1 writes=9 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-ee6a992eef0ef245203dbad0 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-927c292c50c6a092e2670412 APPLIED phases=1 writes=6 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-927c292c50c6a092e2670412 verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-52fef800f1d806e95b20bd0e APPLIED phases=1 writes=5 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-52fef800f1d806e95b20bd0e verified status=APPLIED cycle=1 next=60 steady=byte-check
+[HD2Runtime] plan plan-33b190c6a083c6d50265b0eb APPLIED phases=1 writes=4 protection_changes=0
+[HD2Runtime] non_target_bytes_unchanged=true
+[HD2Runtime] protection_restored=true
+[HD2Runtime] ensure plan-33b190c6a083c6d50265b0eb verified status=APPLIED cycle=1 next=60 steady=byte-check
