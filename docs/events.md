@@ -345,6 +345,13 @@ In game, add the `ReadProcessMemory` calls themselves: about 6 bulk reads for th
 entities), about 7 for the game state, and about 15 per player for the players source, i.e. well under half a
 millisecond per tick at 60 fps with a full squad. The stats source reads 21 KB ten times a second.
 
+Re-measured after the identity snapshots (400 entities, interleaved with the previous build on the same, busier
+machine): steady ticks 0.087-0.115 ms against 0.080-0.116 ms; busy ticks after warm-up 0.10-0.36 ms against
+0.09-0.33 ms. A busy tick allocates about 40% more (53 KB against 38 KB for 30 events: the identity fields and the
+read-only positions), and the first busy ticks of a session include the JIT compiling the new payload paths
+(0.7-0.9 ms, once). An unchanged entity costs one comparison per tick; its identity and handle are built once, when it
+first produces an event.
+
 - Nothing polls until a mod subscribes, starts a timer or binds a key; the update watch detaches when the last one
   is gone. A mod context (`hd2.mod`) keeps the game-state source running so its `mission` table resets on real
   mission boundaries.
