@@ -60,7 +60,9 @@ class ExampleTests(unittest.TestCase):
         texts = set(sources.values())
         for project in (ROOT / 'examples/projects').iterdir():
             if (project / 'src/addon.lua').is_file():
-                self.assertIn((project / 'src/addon.lua').read_text(encoding='utf-8'), texts, project.name)
+                # Each scenario runs the addon exactly as its built ZIP ships it: inside the SDK addon wrapper.
+                self.assertIn(module.example(project.name), texts, project.name)
+                self.assertIn((project / 'src/addon.lua').read_text(encoding='utf-8'), module.example(project.name))
 
     def test_template_teaches_a_typed_field(self):
         source = (ROOT / 'starter/src/addon.lua').read_text()

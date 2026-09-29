@@ -155,4 +155,10 @@ M.mod=scripting.mod
 M.players=scripting.players
 M.game_state=scripting.game_state
 M.local_player=scripting.local_player
+M.entities=scripting.entities
+-- Gameplay actions an event script can perform (api/actions.lua): exported without wrappers so the calling mod is
+-- their owner.
+local actions=require('hd2runtime/api/actions')
+M.actions={heal=actions.heal,status=actions.status}
+M.explosions=actions.explosions
 return M

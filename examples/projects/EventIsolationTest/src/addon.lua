@@ -3,7 +3,7 @@ local hd2=require('mods/skyeshade/hd2runtime')
 -- subscriber on the same event must still run every time, and the failure must be logged with the mod id, the
 -- event name and the error. Press F9 in game, then read HD2Runtime.log.
 assert(hd2.events and hd2.mod,'EventIsolationTest needs an HD2Runtime build with the event system (hd2.events)')
-local mod=hd2.mod('mods/hd2runtime_examples/event_isolation_test')
+local mod=hd2.mod()   -- the SDK wrapper runs this file as the mod's own resource id
 local presses,ticks=0,0
 
 -- key_down: the failing subscriber runs first (higher priority) and never gets disabled (max_failures=0), so every

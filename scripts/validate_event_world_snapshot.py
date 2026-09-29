@@ -73,7 +73,14 @@ local index=corpses and corpses.origins[602]
 out.corpses.of602=index and world_module.corpse_entity(world,corpses,index,4194863)or false
 out.corpses.wrongUnit=index and world_module.corpse_entity(world,corpses,index,4194864)or false
 old=handles.entity({id=602,type='4D1C334D294DFA97'})
-out.handle602={valid=old:is_valid(),reason=old:describe().reason}
+out.handle602={valid=old:is_valid(),reason=old:describe().reason,semantic_id=old.semantic_id}
+-- Explosion identity: every weapon explosion hd2.explosions can request has a settings record carrying its type.
+out.explosions={}
+for _,item in ipairs(natives.explosion.weapons)do
+ out.explosions[#out.explosions+1]={weapon=item.weapon,type=item.type,
+  settings=world_module.explosion_settings(world,item.type)~=nil}
+end
+out.explosionQueue=world.view.u32(world.view.pointer(world.game+natives.explosion.queue)+natives.explosion.count)
 -- A tampered pin: the proof must fail (the read overlay flips one byte of the first pinned instruction).
 local pin=natives.pins[1]
 local base=pin.module=='exe'and world.exe or world.game
@@ -124,6 +131,10 @@ def validate(snapshots=SNAPSHOTS):
             problems.append('stat totals unreadable')
         if report['corpses']['count'] is None:
             problems.append('corpse manager unreadable')
+        if not all(item['settings'] for item in report['explosions']) or report['explosionQueue'] is None:
+            problems.append('explosion settings or queue unreadable')
+        if report['handle602']['semantic_id'] != 'entity/v1/helldivers/avatar_helldiver':
+            problems.append('avatar semantic id')
         if phase == 'reinforced':
             if report['corpses']['of602'] != 851 or report['corpses']['wrongUnit']:
                 problems.append('the first avatar is not linked to its corpse on its own unit')

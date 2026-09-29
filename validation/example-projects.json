@@ -1,5 +1,5 @@
 {
-  "examples": 76,
+  "examples": 78,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1602,6 +1602,19 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "HeavyDevastatorDelayedExplosionTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
     "IncendiaryFire": {
       "baselineChanges": 2,
       "calls": [
@@ -2412,6 +2425,19 @@
       "versionReasons": [
         "typed writes -> 0.23.2",
         "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "PlayerKillCreditedExample": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
     "RecoillessProof": {

@@ -34,7 +34,7 @@ M.NATIVE={source='native'}        -- the shared cause of native gameplay events 
 
 local state={now=0,frame=0,epoch=0,in_mission=false,sequence=0,depth=0,current=nil,
     lists={},by_key={},timers={},timer_keys={},queue={},queue_count=0,sources={},source_order={},
-    contexts={},mission_tables={},watch=nil,pollers={}}
+    contexts={},mission_tables={},watch=nil,pollers={},scopes={}}
 M.state=state
 
 local function emit(message)pcall(log.emit,'[HD2Runtime] '..message)end
@@ -53,18 +53,42 @@ local function traceback(message)
     return text
 end
 
--- Owner identity: an explicit owner, else the calling chunk when it is a mod resource ('mods/author/name').
+-- Owner identity, most specific first:
+--   1. an explicit owner (opts.owner, a mod context's id);
+--   2. the mod scope entered with run_as (the SDK addon wrapper runs a mod's startup inside its own resource id);
+--   3. the mod whose callback, timer or keybind is running now (registrations made from inside a callback);
+--   4. the calling chunk when it is a mod resource ('mods/author/name');
+--   5. 'unknown'.
+local function valid_owner(owner)
+    return type(owner)=='string'and#owner>0 and#owner<=128 and not owner:find('[%c]')
+end
 function M.owner(explicit,level)
     if explicit~=nil then
-        assert(type(explicit)=='string'and#explicit>0 and#explicit<=128 and not explicit:find('[%c]'),
-            'owner must be a mod id string')
+        assert(valid_owner(explicit),'owner must be a mod id string')
         return explicit
     end
+    local scope=state.scopes[#state.scopes]
+    if scope then return scope end
+    local current=state.current and state.current.owner
+    if current and current~='unknown'then return current end
     local info=debug and debug.getinfo and debug.getinfo((level or 2)+1,'S')
     local source=info and info.source or''
     source=source:gsub('^[@=]',''):gsub('%.lua$','')
     if source:match('^mods/[%w_/]+$')then return source end
     return 'unknown'
+end
+-- Run fn(...) with `owner` as the mod every registration inside it belongs to (nested scopes stack). Errors
+-- propagate after the scope is left.
+function M.run_as(owner,fn,...)
+    assert(valid_owner(owner),'run_as needs a mod id string')
+    assert(type(fn)=='function','run_as needs a function')
+    local scopes=state.scopes
+    scopes[#scopes+1]=owner
+    local depth=#scopes
+    local results={pcall(fn,...)}
+    for index=#scopes,depth,-1 do scopes[index]=nil end
+    if not results[1]then error(results[2],0)end
+    return unpack(results,2,table.maxn(results))
 end
 
 ---------------------------------------------------------------------------------------------------- the watch --
@@ -534,6 +558,7 @@ function M.reset_for_tests()
     for k in pairs(state.timer_keys)do state.timer_keys[k]=nil end
     for k in pairs(state.pollers)do state.pollers[k]=nil end
     for k in pairs(state.mission_tables)do state.mission_tables[k]=nil end
+    for k in pairs(state.scopes)do state.scopes[k]=nil end
     state.now,state.frame,state.epoch,state.in_mission,state.depth,state.current=0,0,0,false,0,nil
     state.queue_count=0
     for _,source in ipairs(state.source_order)do

@@ -11,21 +11,29 @@ it causes is reported by `player_healed` with this mod as the cause.
 ## How to test
 
 1. Deploy on a mission. `HD2Runtime.log` shows `[mods/hd2runtime_examples/kill_heal_test] mission started`.
-2. Take some damage (below 125 health), then kill an enemy with any weapon.
-3. The log shows `killed <enemy>: heal +25 requested` and then `player healed +25 -> <health> / 125, cause mod
-   mods/hd2runtime_examples/kill_heal_test`. Your health bar rises by 25 (less when you were within 25 of full).
+2. Take some damage (below 125 health), then kill enemies with any weapon.
+3. Every kill credited to anyone logs one line with what the event observed:
+
+   ```
+   kill: enemy/v1/automatons/conscript_tier_3 (Marauder) observed=corpse corpse=1234 killer=local player -> heal +25 requested
+   player healed +25 -> 105 / 125, cause mod mods/hd2runtime_examples/kill_heal_test
+   ```
+
+   - `observed=corpse`: the game had already replaced the enemy by its corpse when Runtime polled (the corpse id is
+     logged); `observed=dead_state`: Runtime saw the enemy's dead state first (`corpse=nil`).
+   - `killer=local player`, `killer=peer <id>` (a teammate) or `killer=nobody`.
 
 | Situation | Expected |
 | --- | --- |
-| You kill an enemy while hurt | Health +25 (capped at maximum); log lines above |
-| You kill an enemy at full health | No change (`heal +0`) |
-| A teammate kills the enemy | No heal (the kill is credited to them) |
-| An enemy dies to the environment (fall, fire with no creditor) | No heal |
-| You destroy something that is not an enemy (for example a drilling charge) | `local kill of a non-enemy`: no heal |
-| You are downed or dead | Refused: `the avatar is downed or dead` |
+| You kill an enemy while hurt | `-> heal +25 requested`, then `player healed`; the health bar rises by 25 (capped) |
+| You kill an enemy at full health | `-> heal +0 requested`, no bar change |
+| A teammate kills the enemy | `killer=peer ...` `-> no heal (not credited to the local player)` |
+| You destroy something that is not an enemy | `-> no heal (not an enemy)` |
+| You are downed or dead | `-> heal refused: the avatar is downed or dead` |
 
-Report the log lines around a kill, and whether the health bar visibly moved. If a heal was requested but the bar did
-not move, say whether you were host (the `mission started (host ...)` line).
+Report a few kill lines (with their `observed=` values: how many were `corpse` and how many `dead_state`), and whether
+the health bar visibly moved. If a heal was requested but the bar did not move, say whether you were host (the
+`mission started (host ...)` line).
 
 ## Limits
 

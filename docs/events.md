@@ -1,5 +1,8 @@
 # Gameplay scripting: events, handles, timers and keybinds
 
+This is the reference: how each event is observed, what is proven and what is not. For writing a mod, start with
+[event-scripting.md](event-scripting.md) (payload lifetime, identities, timers, ownership, actions, examples).
+
 Internal design notes for the first event-driven scripting layer. Public release notes are not written yet.
 
 ## Why events are polled
@@ -30,8 +33,8 @@ and the LuaLS stubs). Subscribing to a name that is not in it, or to a `blocked`
 | Event | Source | Phase | Payload highlights |
 | --- | --- | --- | --- |
 | `mission_started` / `mission_ended` | game_state | state | `mission` epoch, `host`, `mode`; `duration` on end |
-| `player_spawned` / `player_died` | players | post | `player`, `local_player`, `avatar`, `position` (death: last position read alive) |
-| `entity_spawned` | health | post | `entity`, `type`, `name`, `enemy`, `faction`, `avatar` |
+| `player_spawned` / `player_died` | players | post | `player`, `local_player`, `avatar`, `avatar_id`, `avatar_semantic_id`, `position` (death: last position read alive), `observed` on death |
+| `entity_spawned` | health | post | `entity`, `entity_id`, `type`, `semantic_id`, `name`, `display_name`, `enemy`, `faction`, `kind`, `avatar`, `unit_id`, `network_id` |
 | `entity_died` | health | post | the above + `killer`, `local_killer`, `killer_peer`, `position`, `max_health`, `observed` (`dead_state` or `corpse`), `corpse_id` |
 | `entity_killed` | health | post | `entity_died` with a creditor (a player the game credits) |
 | `entity_damaged` / `player_damaged` | health | post | `damage` (health lost this tick), `health`, `attacker`, `local_attacker`, `downed` |
@@ -41,8 +44,15 @@ and the LuaLS stubs). Subscribing to a name that is not in it, or to a `blocked`
 | `key_down` / `key_up` | input | post | `binding`, `key`, `owner` |
 | `entity_damage_pre` | — | blocked | see [Damage](#damage) |
 
-Every payload also carries `event` (its name), `time`, `frame`, `mission` and `cause`. `name`, when present, is the
-entity's catalogued name.
+Every payload also carries `event` (its name), `time`, `frame`, `mission` and `cause`. Every health event carries the
+entity identity fields listed for `entity_spawned`. Positions are read-only `HD2Position` snapshots.
+
+**Identity.** `semantic_id` is the stable identity of the entity type (`domains/event_entities.lua`,
+`scripts/generate_event_entities.py`): the enemy catalog's semantic id for its 177 classes
+(`enemy/v1/<faction>/<class>`), else `entity/v1/<faction or folder>/<path leaf>` for a known resource path, else
+`entity/v1/unresolved/<type hash>`. `display_name` is the wiki name only where the enemy catalog proves a one-to-one
+match (21 classes); `name` is the catalogued class or path name. Identity is resolved once per entity when it is first
+seen, from a table keyed by type: no catalog scan per event.
 
 ## Native sources
 
@@ -167,14 +177,34 @@ this machine owns the avatar. A downed or dead avatar is refused (the function w
 matched to the next observed `player_healed` of that avatar, which then carries the mod's cause. A direct write of
 the health field is never used: it would skip synced health and the network messages.
 
-**Explosions are blocked.** Research found the game's local explosion request (game.dll `0x13C0A80`: it appends to a
-256-entry queue that the game's own update drains; the hellpod-impact explosions call it with a literal
-ExplosionType) but not enough to call it safely: the Hellbomb's own explosion identity is not proven (the Hellbomb
-entity has no explosive component naming one), and beyond the position and type the request takes a source entity, a
-64-bit id, a pointer to a constant block and several flags whose meaning is not established. Runtime does not guess a
-15-argument native call, and never fakes an explosion by editing another explosion's definition.
-`examples/projects/DeathHellbombTest` proves the death side (event, snapshot, host flag, recursion guard) and logs the
-blocked step.
+**Explosions** (`hd2.explosions.spawn(weapon, {position = ...})`): the game's own explosion request, game.dll
+`0x13C0A80`, called from the update callback through one adapter function (`runtime/windows_write.lua`
+`native_explosion`). `research/event-actions-F5FEE03DCFDB.json` (`scripts/research_event_actions.py`) proves:
+
+- **The request.** It appends one explosion to the game's queue (`game+0x346D558`: count `+0x20`, 256 entries of
+  0x98 bytes from `+0x28`) and refuses a full queue itself. Arguments 1..6 are the queue, a pointer to the position,
+  the ExplosionType, the source entity, the owner entity and the creditor peer id (pinned stores into the entry).
+- **The template.** Runtime passes arguments 7..15 as 0, null, 1, 0, null, null, null, 0, 0: six of the game's 31
+  call sites pass exactly this, and most others differ only in optional arrays and pointers.
+- **The identity.** The queue drain resolves the type through the settings table `game+0x37CC920` (bounded by
+  0x1A7). In all four mission snapshots (and the three ship snapshots, `validation/event-world-snapshot.json`) the
+  entry of each of the 13 catalogued weapon explosions points at a record carrying that type, damage type and radii.
+- **The semantics.** The snapshots hold a stale R-36 Eruptor request: type 158 (its catalogued explosion), source =
+  the Eruptor weapon entity, owner = the local avatar, creditor = the local peer.
+
+Before each call Runtime re-proves the request's exact prologue bytes, reads the queue count, checks that the type's
+settings record carries that type, and checks the position and the entities. The API accepts only the 13 catalogued
+weapon explosions with a known package (`hd2.explosions.list()`), loads that package through the proven asset gate
+when it is not resident, and requires a mission and host authority (a client's request would be local, and the
+host's synced health overwrites it). Source and owner are the local avatar and the creditor the local peer, like a
+shot of the player's own weapon. Requests are rate-limited per mod (6 at once, 1 per second): the game does not say
+which explosion killed an entity, so a chain of explosions and deaths cannot be traced by cause. No network message
+call was found in the drain; whether other machines see the effect is unproven. Not live-tested yet.
+
+**The Hellbomb is still blocked**: no Hellbomb request was captured and the Hellbomb entity names no explosion type,
+so its identity is unproven and `hd2.explosions.spawn('B-100 Portable Hellbomb', ...)` is refused
+(`UNKNOWN_EXPLOSION`). Runtime never fakes an explosion by editing another explosion's definition.
+`examples/projects/DeathHellbombTest` proves the death side and logs that refusal.
 
 ## Script values: event-driven definition changes
 
@@ -187,15 +217,18 @@ per-hit modifier until one exists (`examples/projects/KillStackDamageTest`).
 ## Subscriptions
 
 ```lua
-local mod = hd2.mod('mods/author/my_mod')          -- one context per mod; same object on every call
-local sub = mod:on('player_died', function(event)
-    mod:log('died at ' .. tostring(event.position and event.position.x))
+local mod = hd2.mod()                               -- this mod's context; same object on every call
+local sub = hd2.events.on('player_died', function(event)
+    mod:log('died at ' .. tostring(event.position))
 end, {id = 'announce'})                            -- id: idempotent registration
 sub:disable(); sub:enable(); sub:unsubscribe()
 ```
 
-`hd2.events.on(name, callback, opts)` works too; its owner is the calling mod resource (the chunk name), else
-`opts.owner`, else `unknown`. Use `hd2.mod` so logs and causes always name the mod.
+**Ownership** (`runtime/events.lua` `M.owner`), most specific first: an explicit `opts.owner` or a mod context's id;
+the mod scope entered with `hd2.events.run_as(id, fn)` (the SDK addon wrapper runs every mod's startup as its
+resource id); the mod whose callback, timer or keybind is running (a registration made inside a callback); the
+calling chunk when it is a mod resource; else `unknown`. `hd2.mod()` without an id uses the same rule and refuses
+`unknown`. Every subscription, timer, keybind and action therefore names its mod in logs, failures and causes.
 
 | Option | Meaning |
 | --- | --- |
@@ -334,6 +367,12 @@ millisecond per tick at 60 fps with a full squad. The stats source reads 21 KB t
   cause, destruction and id reuse, the death-position snapshot, deaths seen through the corpse (reported once, with
   the last creditor and the corpse's position; a despawn or a corpse on another unit is not a death), damage,
   `player_fired` and `player_kill_credited` per source, the FFI read path, and constant reads per tick.
+- `tests/test_event_scripting.py`: hand-written scripting on the fixture world: a corpse-observed death keeps its
+  identity and read-only position for a timer that fires after the entity is destroyed (with zero game reads),
+  mission cleanup cancels delayed callbacks for good, per-mod ownership of subscriptions, timers, keybinds and
+  callback-started timers, isolation between mods, per-source names and an unnamed shared source, every guard of the
+  explosion action (unknown or raw ids, unknown packages, no mission, not host, full queue, rate limit, cause depth,
+  changed request function, asset wait), and the example mods run exactly as their built ZIPs wrap them.
 - `scripts/validate_event_world_snapshot.py` (`validation/event-world-snapshot.json`): the production modules on all
   seven retained snapshots, including the reinforced avatar, the corpse that replaced the first one, the invalid
   handle to it, the per-source stats and the mission-end teardown.

@@ -101,8 +101,18 @@
     },
     {
      "name": "position",
-     "type": "HD2Vector3|nil",
+     "type": "HD2Position|nil",
      "doc": "Avatar position when observed."
+    },
+    {
+     "name": "avatar_id",
+     "type": "integer|nil",
+     "doc": "Engine entity id of the avatar (a snapshot)."
+    },
+    {
+     "name": "avatar_semantic_id",
+     "type": "string|nil",
+     "doc": "The avatar type's semantic id."
     }
    ]
   },
@@ -136,8 +146,23 @@
     },
     {
      "name": "position",
-     "type": "HD2Vector3|nil",
+     "type": "HD2Position|nil",
      "doc": "Death position: read at death while the unit exists, else the last position read alive."
+    },
+    {
+     "name": "avatar_id",
+     "type": "integer|nil",
+     "doc": "Engine entity id of the avatar (a snapshot)."
+    },
+    {
+     "name": "avatar_semantic_id",
+     "type": "string|nil",
+     "doc": "The avatar type's semantic id."
+    },
+    {
+     "name": "observed",
+     "type": "\"dead_state\"|\"avatar_removed\"",
+     "doc": "How the death was seen: the avatar's health record reached the dead state, or the avatar was gone before that was seen."
     }
    ]
   },
@@ -152,7 +177,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -178,6 +203,36 @@
      "name": "avatar",
      "type": "boolean",
      "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
     }
    ]
   },
@@ -192,7 +247,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -218,6 +273,36 @@
      "name": "avatar",
      "type": "boolean",
      "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
     },
     {
      "name": "killer",
@@ -236,7 +321,7 @@
     },
     {
      "name": "position",
-     "type": "HD2Vector3|nil",
+     "type": "HD2Position|nil",
      "doc": "Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone."
     },
     {
@@ -267,7 +352,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -295,6 +380,36 @@
      "doc": "A Helldiver avatar."
     },
     {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
+    },
+    {
      "name": "killer",
      "type": "HD2PlayerHandle|nil",
      "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health)."
@@ -311,7 +426,7 @@
     },
     {
      "name": "position",
-     "type": "HD2Vector3|nil",
+     "type": "HD2Position|nil",
      "doc": "Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone."
     },
     {
@@ -342,7 +457,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -368,6 +483,36 @@
      "name": "avatar",
      "type": "boolean",
      "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
     },
     {
      "name": "damage",
@@ -417,7 +562,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -443,6 +588,36 @@
      "name": "avatar",
      "type": "boolean",
      "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
     },
     {
      "name": "player",
@@ -492,7 +667,7 @@
     {
      "name": "entity",
      "type": "HD2EntityHandle",
-     "doc": "The entity (live queries fail once the game destroys it)."
+     "doc": "The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead."
     },
     {
      "name": "type",
@@ -518,6 +693,36 @@
      "name": "avatar",
      "type": "boolean",
      "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "entity_id",
+     "type": "integer",
+     "doc": "Engine entity id (a snapshot: stays readable after the entity is destroyed)."
+    },
+    {
+     "name": "semantic_id",
+     "type": "string",
+     "doc": "Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown."
+    },
+    {
+     "name": "display_name",
+     "type": "string|nil",
+     "doc": "The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed."
+    },
+    {
+     "name": "kind",
+     "type": "\"enemy\"|\"structure\"|nil",
+     "doc": "The enemy catalog's kind of this class."
+    },
+    {
+     "name": "unit_id",
+     "type": "integer|nil",
+     "doc": "Engine unit id of its body (the corpse keeps it after the death)."
+    },
+    {
+     "name": "network_id",
+     "type": "integer|nil",
+     "doc": "Network id (nil when the entity has none)."
     },
     {
      "name": "player",
@@ -717,6 +922,31 @@
      "avatar",
      "boolean",
      ""
+    ],
+    [
+     "semantic_id",
+     "string",
+     "Stable identity (see hd2.entities)."
+    ],
+    [
+     "display_name",
+     "string|nil",
+     "Proven wiki name only."
+    ],
+    [
+     "kind",
+     "\"enemy\"|\"structure\"|nil",
+     ""
+    ],
+    [
+     "unit",
+     "integer|nil",
+     "Engine unit id (snapshot)."
+    ],
+    [
+     "network_id",
+     "integer|nil",
+     "Network id (snapshot)."
     ]
    ],
    "methods": [
@@ -765,7 +995,7 @@
     {
      "name": "position",
      "params": [],
-     "returns": "HD2Vector3|nil",
+     "returns": "HD2Position|nil",
      "doc": "Root position now (nil once gone)."
     },
     {
@@ -773,6 +1003,27 @@
      "params": [],
      "returns": "table",
      "doc": ""
+    },
+    {
+     "name": "is",
+     "params": [
+      [
+       "ids",
+       "string|table<string, boolean>"
+      ],
+      [
+       "...",
+       "string"
+      ]
+     ],
+     "returns": "boolean",
+     "doc": "True when its semantic id is one of the given ids (or in a set). Static: works after it is gone."
+    },
+    {
+     "name": "identity",
+     "params": [],
+     "returns": "table",
+     "doc": "The identity snapshot as a plain table."
     }
    ]
   },
@@ -835,7 +1086,7 @@
     {
      "name": "position",
      "params": [],
-     "returns": "HD2Vector3|nil",
+     "returns": "HD2Position|nil",
      "doc": "The avatar's position now."
     },
     {
@@ -1291,6 +1542,37 @@
       "params": [],
       "returns": "boolean",
       "doc": ""
+     },
+     {
+      "name": "run_as",
+      "params": [
+       [
+        "owner",
+        "string"
+       ],
+       [
+        "fn",
+        "fun(...): any"
+       ],
+       [
+        "...",
+        "any"
+       ]
+      ],
+      "returns": "any",
+      "doc": "Run fn as the given mod: every subscription, timer, keybind and action inside belongs to it (the SDK addon wrapper runs each startup this way)."
+     },
+     {
+      "name": "owner",
+      "params": [],
+      "returns": "string",
+      "doc": "The mod a registration made now belongs to."
+     },
+     {
+      "name": "mission_id",
+      "params": [],
+      "returns": "integer, boolean",
+      "doc": "The current mission id (the event.mission of this mission) and whether a mission is in progress."
      }
     ]
    },
@@ -1404,7 +1686,7 @@
        ],
        [
         "callback",
-        "fun()"
+        "fun(timer: HD2Timer)"
        ],
        [
         "opts",
@@ -1423,7 +1705,7 @@
        ],
        [
         "callback",
-        "fun()"
+        "fun(timer: HD2Timer)"
        ],
        [
         "opts",
@@ -1481,6 +1763,21 @@
       ],
       "returns": "HD2ScriptValue",
       "doc": "A script value owned by this mod (the same object for the same id)."
+     },
+     {
+      "name": "run",
+      "params": [
+       [
+        "fn",
+        "fun(...): any"
+       ],
+       [
+        "...",
+        "any"
+       ]
+      ],
+      "returns": "any",
+      "doc": "Run fn as this mod."
      }
     ]
    },
@@ -1608,6 +1905,277 @@
       "Kills (player_kill_credited)."
      ]
     ]
+   },
+   "HD2Position": {
+    "doc": "A read-only position snapshot (metres). Every subscriber and every delayed callback that kept it reads the same values; writing a field raises. tostring(p) formats it.",
+    "fields": [
+     [
+      "x",
+      "number",
+      ""
+     ],
+     [
+      "y",
+      "number",
+      ""
+     ],
+     [
+      "z",
+      "number",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "copy",
+      "params": [],
+      "returns": "HD2Vector3",
+      "doc": "A plain table you can change."
+     },
+     {
+      "name": "unpack",
+      "params": [],
+      "returns": "number, number, number",
+      "doc": "x, y, z."
+     },
+     {
+      "name": "distance",
+      "params": [
+       [
+        "other",
+        "HD2Vector3|HD2Position"
+       ]
+      ],
+      "returns": "number",
+      "doc": "Distance in metres."
+     }
+    ]
+   },
+   "HD2EntityIdentity": {
+    "doc": "The identity of an entity type (hd2.entities).",
+    "fields": [
+     [
+      "id",
+      "string",
+      "Semantic id."
+     ],
+     [
+      "type",
+      "string",
+      "Type hash (16 hex digits)."
+     ],
+     [
+      "name",
+      "string|nil",
+      "Catalogued name (wiki name, class name or path leaf)."
+     ],
+     [
+      "display_name",
+      "string|nil",
+      "Proven wiki name only."
+     ],
+     [
+      "faction",
+      "string|nil",
+      ""
+     ],
+     [
+      "kind",
+      "\"enemy\"|\"structure\"|nil",
+      ""
+     ],
+     [
+      "enemy",
+      "boolean",
+      "Its death counts as an enemy kill (KillScore > 0)."
+     ],
+     [
+      "avatar",
+      "boolean",
+      "A Helldiver avatar."
+     ]
+    ]
+   },
+   "HD2Entities": {
+    "doc": "hd2.entities: the identity catalog of every entity type with health. Offline.",
+    "methods": [
+     {
+      "name": "describe",
+      "params": [
+       [
+        "value",
+        "string"
+       ]
+      ],
+      "returns": "HD2EntityIdentity|nil",
+      "doc": "A semantic id or a type hash; nil when unknown (use it to check your ids at load time)."
+     },
+     {
+      "name": "list",
+      "params": [
+       [
+        "filter",
+        "{faction?: string, kind?: string, enemy?: boolean}|nil"
+       ]
+      ],
+      "returns": "HD2EntityIdentity[]",
+      "doc": "Every catalogued identity matching the filter, sorted by id."
+     }
+    ]
+   },
+   "HD2ActionHandle": {
+    "doc": "A gameplay action a mod requested. A refusal never raises: status is refused with a code and a reason.",
+    "fields": [
+     [
+      "kind",
+      "string",
+      "'explosion', 'explosion_assets'."
+     ],
+     [
+      "owner",
+      "string",
+      "The mod that requested it."
+     ],
+     [
+      "status",
+      "\"pending\"|\"waiting_for_assets\"|\"ready\"|\"requested\"|\"refused\"|\"cancelled\"",
+      "requested: the game accepted the request this frame."
+     ],
+     [
+      "code",
+      "string|nil",
+      "Why it was refused (UNKNOWN_EXPLOSION, ASSET_UNKNOWN, ASSET_UNAVAILABLE, NOT_IN_MISSION, HOST_ONLY, NO_LOCAL_AVATAR, RATE_LIMITED, CAUSE_DEPTH, QUEUE_FULL, INVALID_POSITION, EXPLOSION_UNAVAILABLE)."
+     ],
+     [
+      "reason",
+      "string|nil",
+      ""
+     ],
+     [
+      "explosion",
+      "string|nil",
+      "The explosion (weapon name)."
+     ],
+     [
+      "position",
+      "HD2Position|nil",
+      ""
+     ],
+     [
+      "cause",
+      "HD2EventCause|nil",
+      "The event the action reacted to."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "requested",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     },
+     {
+      "name": "cancel",
+      "params": [],
+      "returns": "HD2ActionHandle",
+      "doc": "Only while waiting for assets."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2ExplosionOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "position",
+      "HD2Vector3|HD2Position",
+      "World position (an event position works as it is)."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod)."
+     ]
+    ]
+   },
+   "HD2Explosions": {
+    "doc": "hd2.explosions: request a catalogued explosion (docs/event-scripting.md).",
+    "methods": [
+     {
+      "name": "spawn",
+      "params": [
+       [
+        "explosion",
+        "HD2WeaponName|HD2Explosion"
+       ],
+       [
+        "opts",
+        "HD2ExplosionOptions"
+       ]
+      ],
+      "returns": "HD2ActionHandle",
+      "doc": "Request the weapon's catalogued explosion at a position. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused."
+     },
+     {
+      "name": "of",
+      "params": [
+       [
+        "weapon",
+        "HD2WeaponName"
+       ]
+      ],
+      "returns": "HD2Explosion|nil, string|nil",
+      "doc": "The weapon's catalogued explosion handle (impact, else expiry)."
+     },
+     {
+      "name": "prepare",
+      "params": [
+       [
+        "explosion",
+        "HD2WeaponName|HD2Explosion"
+       ]
+      ],
+      "returns": "HD2ActionHandle",
+      "doc": "Load the explosion assets now (status ready or waiting_for_assets)."
+     },
+     {
+      "name": "list",
+      "params": [],
+      "returns": "{weapon: string, type: integer, assets_known: boolean}[]",
+      "doc": "Every explosion hd2.explosions can request."
+     }
+    ]
+   },
+   "HD2Actions": {
+    "doc": "hd2.actions: what event scripts can make the game do.",
+    "methods": [
+     {
+      "name": "heal",
+      "params": [
+       [
+        "amount",
+        "number"
+       ],
+       [
+        "opts",
+        "{owner?: string}|nil"
+       ]
+      ],
+      "returns": "number|nil, string|nil",
+      "doc": "Heal the local player (clamped to maximum health)."
+     },
+     {
+      "name": "status",
+      "params": [],
+      "returns": "table",
+      "doc": "Every action: available or blocked, with the reason."
+     }
+    ]
    }
   },
   "functions": [
@@ -1620,7 +2188,7 @@
      ],
      [
       "callback",
-      "fun()"
+      "fun(timer: HD2Timer)"
      ],
      [
       "opts",
@@ -1628,7 +2196,7 @@
      ]
     ],
     "returns": "HD2Timer",
-    "doc": "Run once after a delay (0 = the next update tick). Game time."
+    "doc": "Run once after a delay in game seconds (fractions work; 0 = the next update tick; math.random(1, 10) gives a random delay). The timer belongs to the calling mod; scope=mission cancels it when the mission ends."
    },
    {
     "name": "every",
@@ -1639,7 +2207,7 @@
      ],
      [
       "callback",
-      "fun()"
+      "fun(timer: HD2Timer)"
      ],
      [
       "opts",
@@ -1658,7 +2226,7 @@
      ]
     ],
     "returns": "HD2ModContext",
-    "doc": "The scripting context of one mod (the same object on every call)."
+    "doc": "The scripting context of one mod (the same object on every call). With no id: the calling mod (the SDK wrapper scope or the running callback); it refuses to guess."
    },
    {
     "name": "players",
@@ -1688,6 +2256,21 @@
    [
     "input",
     "HD2Input",
+    ""
+   ],
+   [
+    "entities",
+    "HD2Entities",
+    ""
+   ],
+   [
+    "explosions",
+    "HD2Explosions",
+    ""
+   ],
+   [
+    "actions",
+    "HD2Actions",
     ""
    ]
   ]
