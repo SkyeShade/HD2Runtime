@@ -90,14 +90,26 @@ class UserReportFixtureTests(unittest.TestCase):
 
     def test_every_exported_operation_validates(self):
         self.assertEqual(len(self.names), 22)
+        over_limit = set()
         for name, results in self.results.items():
             failed = {r['id']: r['error'] for r in results if not r['ok']}
-            # The only refusal: the Purifier row its charge levels fire only when charged (AMBIGUOUS, so it now needs
-            # allow_unverified_effect, which ModBuilder emits once its SDK catalog carries the acknowledgement).
+            # Refusals: the Purifier row its charge levels fire only when charged (AMBIGUOUS, so it now needs
+            # allow_unverified_effect, which ModBuilder emits once its SDK catalog carries the acknowledgement), and a
+            # Maxigun backpack capacity above the game's 1023 deposit limit (docs/backpack-ammo.md).
             expected = {PURIFIER_DRAG} if any(r['id'] == PURIFIER_DRAG for r in results) else set()
+            for op, error in failed.items():
+                if 'deposit.capacity' in error:
+                    self.assertIn('(1 to 1023): the live deposit amount is the engine network field', error)
+                    expected.add(op)
+                    over_limit.add(name)
+                else:
+                    self.assertIn('allow_unverified_effect', error)
             self.assertEqual(set(failed), expected, name)
-            for error in failed.values():
-                self.assertIn('allow_unverified_effect', error)
+        # Exactly the variants that set the backpack to 1500 rounds.
+        self.assertEqual(over_limit, {name for name in self.names if 'deposit.capacity,expect=1000,value=1500'
+            in (GENERATED / (name + '.lua')).read_text(encoding='utf-8')})
+        self.assertEqual(over_limit, {'C-original-plus-maxigun-backpack', 'E2-maxigun-plus-backpack',
+            'E3-backpack-only'})
         self.assertTrue(all(r['ok'] for r in self.results['F-SG-20-Halt']))
         self.assertEqual({r['id'] for r in self.results['F-SG-20-Halt']}, {HALT_PRIMARY,
             'gui-object-a2877e602fe56952c82a3500', 'gui-object-2a64b61fd1fed19c196b1ab7'})

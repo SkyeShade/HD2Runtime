@@ -717,6 +717,9 @@ def build(catalog_path=CATALOG):
             'requiresLaterPlanPhase':False,'targetFrom':None}
 
     instances=[];operation_groups=defaultdict(list)
+    # Exact (weapon, field) pairs a live test promoted (schemas/live_evidence.json provenTargets).
+    import live_evidence
+    live_targets=live_evidence.proven_targets()
     for weapon_name,weapon in runtime_weapons.items():
         public_weapon=public_weapon_by_name[weapon_name];public_weapon['fieldInstanceKeys']=[]
         for field in weapon['fields']:
@@ -782,7 +785,9 @@ def build(catalog_path=CATALOG):
                     'allowSharedRequired':object_meta['requiresSharedAcknowledgement'],
                     'acknowledgement':field.get('acknowledgement'),
                     'acknowledgementReason':field.get('acknowledgementReason')},
-                **({'liveEvidence':field['liveEvidence']}if field.get('liveEvidence')else{}),
+                **({'liveEvidence':field['liveEvidence']}if field.get('liveEvidence')else
+                    {'liveEvidence':live_targets[(weapon_name,field['semanticFieldId'])]}
+                    if(weapon_name,field['semanticFieldId'])in live_targets else{}),
                 'resolution':resolution_metadata(weapon_name,field),
                 'provenance':{'identity':'unique reviewed support-weapon runtime identity',
                     'semantics':'shared player/support field schema',

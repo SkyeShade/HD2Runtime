@@ -1,7 +1,7 @@
 """Publish the central live-test evidence (schemas/live_evidence.json).
 
 - sdk/LiveEvidenceCatalog.json: every in-game test session, test, result and observation, and every capability
-  family with its status (live_proven / not_tested / inconclusive / live_failed / pending), scope and the
+  family with its status (live_proven / live_partial / not_tested / inconclusive / live_failed / pending), scope and the
   acknowledgement change it made. Composition tests also record the four-part host-path evidence (donor output works,
   reference write succeeded, host reads the reference, gameplay output changed).
   Fields of a live-proven family carry a compact `liveEvidence` reference in their own catalogs.
@@ -22,11 +22,11 @@ JSON_OUTPUT = ROOT / 'sdk/LiveEvidenceCatalog.json'
 MD_OUTPUT = ROOT / 'docs/live-evidence.md'
 CONTRACT = 'hd2runtime.live_evidence.v1'
 RESULT_LABEL = {'PASS': 'pass', 'NOT_TESTED': 'not tested', 'INCONCLUSIVE': 'inconclusive', 'FAIL': 'fail',
-    'UNPROVEN': 'unproven'}
+    'UNPROVEN': 'unproven', 'PARTIAL': 'partial'}
 # The family status each test result implies. A family's tests must all agree with its status.
 RESULT_STATUS = {'PASS': 'live_proven', 'NOT_TESTED': 'not_tested', 'INCONCLUSIVE': 'inconclusive',
-    'FAIL': 'live_failed', 'UNPROVEN': 'pending'}
-STATUSES = ('live_proven', 'not_tested', 'inconclusive', 'live_failed', 'pending')
+    'FAIL': 'live_failed', 'UNPROVEN': 'pending', 'PARTIAL': 'live_partial'}
+STATUSES = ('live_proven', 'live_partial', 'not_tested', 'inconclusive', 'live_failed', 'pending')
 EVIDENCE = ('donorOutputWorks', 'referenceWriteSucceeded', 'hostReadsReference', 'gameplayOutputChanged')
 
 
@@ -53,6 +53,9 @@ def build():
             if test.get('evidence') and set(test['evidence']) != set(EVIDENCE):
                 raise ValueError(f"test {test['mod']} evidence must name exactly {EVIDENCE}")
     for name, entry in families.items():
+        for target in entry.get('provenTargets') or []:
+            if set(target) != {'target', 'field'} or entry['status'] != 'live_proven':
+                raise ValueError('provenTargets need target and field, on a live_proven family: ' + name)
         if entry['status'] == 'live_proven' and not any(t['result'] == 'PASS' for t in live_evidence.tests(name)):
             raise ValueError('live_proven family without a passing test: ' + name)
     summary = {'sessions': len(registry['sessions']),
@@ -101,8 +104,10 @@ def build():
                 lines.append('- Next tests: ' + ', '.join(f'`{t}`' for t in entry['nextTests']) + '.')
             lines.append('')
     for session in registry['sessions']:
-        lines += [f"## Session {session['id']}", '', f"Runtime: {session['runtime']}.", '',
-            'Every operation logged: ' + ', '.join(f'`{s}`' for s in session['logSignals']) + '.', '',
+        lines += [f"## Session {session['id']}", '', f"Runtime: {session['runtime']}.", '']
+        if session['logSignals']:
+            lines += ['Every operation logged: ' + ', '.join(f'`{s}`' for s in session['logSignals']) + '.', '']
+        lines += [
             '| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |',
             '| --- | --- | --- | --- | --- |']
         for test in session['tests']:

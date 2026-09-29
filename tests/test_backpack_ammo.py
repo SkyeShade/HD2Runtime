@@ -79,12 +79,15 @@ assert(backpack.backpack=='M-1000 Maxigun Backpack')
 assert(backpack:describe().feeds.supportWeapon=='M-1000 Maxigun')
 assert(backpack:weapon().weapon=='M-1000 Maxigun')
 assert(maxigun:describe().ammoBackpack=='M-1000 Maxigun Backpack')
-rejects({id='a',target=backpack,field=hd2.fields.deposit.capacity,expect=1000,value=2000},'allow_unverified_effect')
+rejects({id='a',target=backpack,field=hd2.fields.deposit.capacity,expect=1000,value=1023},'allow_unverified_effect')
 patches.validate{id='a',allow_unverified_effect=true,target=backpack,field=hd2.fields.deposit.capacity,
- expect=1000,value=2000}
+ expect=1000,value=1023}
 rejects({id='b',allow_unverified_effect=true,target=backpack,field=hd2.fields.deposit.capacity,expect=1000,value=0},
  'reviewed range')
-rejects({id='c',allow_unverified_effect=true,target=backpack,field=hd2.fields.deposit.capacity,expect=999,value=2000},
+-- Above the engine's 10-bit live-amount limit (research/deposit-limits-F5FEE03DCFDB.json).
+rejects({id='e',allow_unverified_effect=true,target=backpack,field=hd2.fields.deposit.capacity,expect=1000,value=1024},
+ '(1 to 1023): the live deposit amount is the engine network field')
+rejects({id='c',allow_unverified_effect=true,target=backpack,field=hd2.fields.deposit.capacity,expect=999,value=1023},
  'expect differs')
 rejects({id='d',allow_unverified_effect=true,target=hd2.backpack('B-1 Supply Pack'),field=hd2.fields.deposit.capacity,
  expect=4,value=6},'read-only')

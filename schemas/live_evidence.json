@@ -7,7 +7,8 @@
     "not_tested": "The write applied cleanly in game but the effect was not observed; stays offline-proven with its acknowledgement.",
     "inconclusive": "The write applied cleanly but the observation cannot confirm or refute the effect; stays offline-proven, acknowledgement required.",
     "live_failed": "A user-run test applied the write cleanly but the intended effect did not occur. The capability is withdrawn for exactly that scope (read-only, with the reason) until the cause is corrected and re-tested.",
-    "pending": "Not yet shown in game: built for a live test that has not run, or run only against a source later found not to be consumed. Writes keep their acknowledgements."
+    "pending": "Not yet shown in game: built for a live test that has not run, or run only against a source later found not to be consumed. Writes keep their acknowledgements.",
+    "live_partial": "A user-run test showed the write consumed in play, but part of the intended effect did not hold (a separate limit or state caps it). The capability keeps its acknowledgement; the observation is recorded as reported and its cause is investigated before any semantics change."
   },
   "evidenceModel": {
     "donorOutputWorks": "the donor projectile or output renders and functions when some host fires it",
@@ -111,6 +112,45 @@
          "evidence": {"donorOutputWorks": true, "referenceWriteSucceeded": true, "hostReadsReference": true, "gameplayOutputChanged": true},
          "observation": "Passed again on the active-source build: ACTIVE_DIRECT replacement still works after the active-source API changes."}
       ]
+    },
+    {
+      "id": "effect-diagnostics-2026-09-29",
+      "date": "2026-09-29",
+      "runtime": "HD2Runtime 0.27.0 user-report test build (commit aaabb0a, build/test-artifacts/coverage-live-tests/HD2Runtime-0.27.0-runtime-user-report-test.zip) with RuntimeEffectDiagnostics 0.1.0",
+      "logSignals": [],
+      "tests": [
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-ma5c-magazine", "choice": "MA5C magazine 60", "result": "PASS", "family": "weapon_magazine_capacity",
+         "writes": [{"target": "MA5C Assault Rifle", "field": "magazine.capacity", "from": 32, "to": 60}],
+         "observation": "The MA5C magazine held 60 rounds. Whether it changed on a weapon already held or only after a rebuild was not reported."},
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-halt-damage", "choice": "Halt flechette damage x10", "result": "PASS", "family": "weapon_projectile_damage",
+         "writes": [{"target": "SG-20 Halt / feed_primary projectile damage", "field": "damage.primary.standard_damage", "from": 35, "to": 350}],
+         "observation": "Halt flechette (primary feed) damage rose tenfold, which also confirms the corrected feed-field resolution in play."},
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-sickle-heat", "choice": "Sickle overheats in 5 shots", "result": "PASS", "family": "weapon_heat_per_shot",
+         "writes": [{"target": "LAS-16 Sickle", "field": "heat.heat_per_shot", "from": 1.15, "to": 20}],
+         "observation": "The LAS-16 Sickle overheated after about 5 shots."},
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-maxigun-damage", "choice": "Maxigun damage x10", "result": "PASS", "family": "weapon_projectile_damage",
+         "writes": [{"target": "M-1000 Maxigun / primary projectile damage", "field": "damage.primary.standard_damage", "from": 80, "to": 800}],
+         "observation": "M-1000 Maxigun damage rose tenfold."},
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-precision-cooldown", "choice": "Precision Strike cooldown 5 s", "result": "PASS", "family": "stratagem_definition_cooldown",
+         "writes": [{"target": "Orbital Precision Strike", "field": "stratagem.definition_cooldown", "from": 80, "to": 5}],
+         "observation": "The Orbital Precision Strike was ready again 5 seconds after use."},
+        {"mod": "RuntimeEffectDiagnostics", "operation": "diag-maxigun-backpack", "choice": "Maxigun backpack 3000", "result": "PARTIAL", "family": "backpack_deposit_ammo",
+         "writes": [{"target": "M-1000 Maxigun Backpack", "field": "deposit.capacity", "from": 1000, "to": 3000},
+                    {"target": "M-1000 Maxigun Backpack", "field": "deposit.start_amount", "from": 1000, "to": 3000},
+                    {"target": "M-1000 Maxigun Backpack", "field": "deposit.refill_amount", "from": 500, "to": 1500}],
+         "observation": "A new call-in first showed 3000 rounds. After firing briefly the current ammunition snapped to about 1017 (about 7-8 rounds fired from 1024); a resupply refilled only to 1024; the UI could show 1024 / 3000. The configured capacity is consumed, but the active ammunition state has a separate effective maximum near 1024."}
+      ]
+    },
+    {
+      "id": "ballistic-shield-report-2026-09-29",
+      "date": "2026-09-29",
+      "runtime": "HD2Runtime 0.27.0 (user-built mod writing the SH-20 Ballistic Shield backpack's entity.armor)",
+      "logSignals": [],
+      "tests": [
+        {"mod": "SH-20 armor edit (user-built)", "operation": "sh20-entity-armor", "result": "FAIL", "family": "backpack_shield_default_armor",
+         "writes": [{"target": "SH-20 Ballistic Shield Backpack", "field": "entity.armor", "from": 4, "to": 5}],
+         "observation": "The MG-206 HMG (armor penetration 4) still damaged the shield after its armor was set to 5."}
+      ]
     }
   ],
   "families": {
@@ -189,6 +229,57 @@
       "tests": ["LiberatorAttackOutputTest"], "acknowledgementRemoved": "allow_unverified_reference, allow_unverified_effect (these two compositions only)",
       "observations": ["The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member; they stay recorded, superseded, as host-path history."],
       "notPromoted": ["every other host and output pair, including the same outputs on other hosts"]
+    },
+    "weapon_magazine_capacity": {
+      "status": "live_proven", "domain": "player_weapon", "fields": ["magazine.capacity"],
+      "scope": "The MA5C Assault Rifle's WeaponMagazineComponent capacity: a component member copied into the weapon when it is built (ACTIVE_AT_INSTANTIATION).",
+      "provenTargets": [{"target": "MA5C Assault Rifle", "field": "magazine.capacity"}],
+      "tests": ["RuntimeEffectDiagnostics"], "acknowledgementRemoved": null,
+      "notPromoted": ["magazine.capacity of every other weapon: the same member, but only the MA5C was tested", "magazine attachments (hd2.weapon_attachment targets)"],
+      "nextTests": ["report whether a magazine change reaches a weapon already held or only a freshly built one"]
+    },
+    "weapon_heat_per_shot": {
+      "status": "live_proven", "domain": "player_weapon", "fields": ["heat.heat_per_shot"],
+      "scope": "The LAS-16 Sickle's heat per shot: a WeaponHeat component member copied into the weapon when it is built.",
+      "provenTargets": [{"target": "LAS-16 Sickle", "field": "heat.heat_per_shot"}],
+      "tests": ["RuntimeEffectDiagnostics"], "acknowledgementRemoved": null,
+      "notPromoted": ["heat fields of every other weapon, including the LAS-17 Double-Edge Sickle"]
+    },
+    "weapon_projectile_damage": {
+      "status": "live_proven", "domain": "player_weapon, support_weapon", "fields": ["damage.<branch>.standard_damage"],
+      "scope": "Standard damage of two projectile DamageInfo rows, read when a projectile hits: the SG-20 Halt's primary (flechette) feed, reached through the corrected feed_primary field resolution, and the M-1000 Maxigun's primary projectile.",
+      "provenTargets": [{"target": "SG-20 Halt", "field": "damage.primary.standard_damage"}, {"target": "M-1000 Maxigun", "field": "damage.primary.standard_damage"}],
+      "tests": ["RuntimeEffectDiagnostics"], "acknowledgementRemoved": null,
+      "notPromoted": ["other DamageInfo fields and every other weapon's damage row", "the SG-20 Halt's alternate (stun) feed"]
+    },
+    "stratagem_definition_cooldown": {
+      "status": "live_proven", "domain": "stratagem", "fields": ["stratagem.definition_cooldown"],
+      "scope": "The Orbital Precision Strike's StratagemDefinition cooldown (+104), read when the stratagem is used: the next call-in was ready 5 s after use. The same member carried the historical Shield Generator Relay cooldown proof.",
+      "provenTargets": [{"target": "Orbital Precision Strike", "field": "stratagem.definition_cooldown"}],
+      "tests": ["RuntimeEffectDiagnostics"], "acknowledgementRemoved": null,
+      "notPromoted": ["the cooldown of every other stratagem: the same member, not individually tested"]
+    },
+    "backpack_deposit_ammo": {
+      "status": "live_partial", "domain": "backpack", "fields": ["deposit.capacity", "deposit.start_amount", "deposit.refill_amount"],
+      "scope": "The M-1000 Maxigun Backpack's DepositComponent ammunition (capacity, start and refill).",
+      "provenTargets": [],
+      "tests": ["RuntimeEffectDiagnostics"], "acknowledgementRemoved": null,
+      "observations": ["Capacity 3000 is consumed: a new call-in first shows 3000 rounds.", "The active ammunition state is capped near 1024: firing snaps it to about 1017 and a resupply refills only to 1024, while the UI keeps the configured 3000 as its maximum."],
+      "analysis": "Proven offline (research/deposit-limits-F5FEE03DCFDB.json): the live amount is the engine network field remaining, type deposit_value (int, 10 bits, min 0). The owning peer's field validator clamps it to 0..1023 and writes the clamped value back into the live count on every change, solo included. The HUD maximum is start_amount. Runtime now bounds the three deposit fields to 1023 and refuses larger values.",
+      "notPromoted": ["deposit capacity, start and refill amounts up to 1023: not yet shown in game"],
+      "nextTests": ["RuntimeEffectDiagnostics test 5 (1023 control; does the HUD read 1023 or 1024 at full?) and test 7 (start 800: the HUD maximum)"]
+    },
+    "backpack_shield_default_armor": {
+      "status": "live_failed", "domain": "backpack", "fields": ["entity.armor"],
+      "scope": "The SH-20 Ballistic Shield Backpack's default-zone armor (HealthComponentData record 292 +280).",
+      "tests": ["SH-20 armor edit (user-built)"], "acknowledgementRemoved": null,
+      "analysis": "Every hit on the shield plate resolves to damage zone 0 \"shield\", whose own armor (+736) stayed 4; AP 4 against armor 4 is the equal case (65% damage). The default zone is only a fallback for hit actors no zone lists (research/ballistic-shield-F5FEE03DCFDB.json). Withdrawn: the field is read-only and points to :damage_zone('shield') zone.armor."
+    },
+    "backpack_shield_zone_armor": {
+      "status": "pending", "domain": "backpack", "fields": ["zone.armor"],
+      "scope": "The SH-20 Ballistic Shield Backpack's shield-plate armor: damage zone 0 \"shield\" (+736), copied into a shield when it spawns.",
+      "tests": [], "acknowledgementRemoved": null,
+      "nextTests": ["BallisticShieldArmorTest: zone armor 5 on a newly called-in SH-20; the AP 4 HMG must do no damage, an AP 5 Railgun must break it in about 5 hits, and a shield spawned before the write must still take about 45 per HMG bullet"]
     }
   }
 }
