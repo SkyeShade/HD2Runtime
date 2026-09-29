@@ -53,7 +53,9 @@
                 "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-ap-extreme/83def801c2ddf1a0",
                 "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-demolition/390553631bd110e3",
                 "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-stagger/a13e95c63a2961c9",
-                "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-push-force/e2b0ca2c3d9129e2"
+                "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-push-force/e2b0ca2c3d9129e2",
+                "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-type/509d9c9d1cdf6d3d",
+                "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-strength/31330877bf183739"
               ],
               "explosion": []
             },
@@ -147,7 +149,9 @@
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-ap-extreme/ca82e917850b4672",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-demolition/0a4e1c61298ae546",
                 "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-stagger/03b39f075060a981",
-                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-push-force/81cdda32891f7289"
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-push-force/81cdda32891f7289",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-type/4cb1b85baa6f70f9",
+                "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-strength/671bbf8f59d72c5d"
               ],
               "explosion": []
             },
@@ -312,7 +316,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-ap-extreme/dcbf42be6e9ad197",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-demolition/0b631c97be6b319e",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-stagger/85c0d3833768ac79",
-                "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-push-force/7a7223d8d23a0a4e"
+                "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-push-force/7a7223d8d23a0a4e",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-status-1-type/ff737cdd9fa353ee",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-status-1-strength/2d535d5ffaf98b30"
               ],
               "explosion": [
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-inner-radius/084c8f38932999f0",
@@ -326,7 +332,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-ap-extreme/47e7a3bbf266afe4",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-demolition/4a3cb36b33351b3b",
                 "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-stagger/afb1c6f535a2e0bf",
-                "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-push-force/c9fd2af377b1f15d"
+                "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-push-force/c9fd2af377b1f15d",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-type/774fb33bc076d809",
+                "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-strength/99eea12e466492f7"
               ]
             },
             "values": {
@@ -402,7 +410,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-ap-extreme/a8ef4935a179dca2",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-demolition/0270beaa940a7da3",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-stagger/48c307734358d378",
-                "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-push-force/b96de1ef3a256331"
+                "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-push-force/b96de1ef3a256331",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-status-1-type/a94d668ee3086ec8",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-status-1-strength/87c5bc403846ae80"
               ],
               "explosion": [
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-inner-radius/4cb4e0cf08fa6d51",
@@ -416,7 +426,9 @@
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-ap-extreme/c7ffe01cb329ff7b",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-demolition/1abb61af7f8fad1b",
                 "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-stagger/4a2db8fb2790b6fd",
-                "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-push-force/1f33a36d14f265d8"
+                "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-push-force/1f33a36d14f265d8",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-type/aa731248e8f5f57d",
+                "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-strength/41653c8be929444f"
               ]
             },
             "values": {
@@ -486,7 +498,12 @@
                 "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-ap-extreme/1c55a2b2bb9fad8c",
                 "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-demolition/8522a3bd348c5140",
                 "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-stagger/35988e68092fa0c3",
-                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-push-force/91535fc0eda20a7f"
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-push-force/91535fc0eda20a7f",
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-1-type/ee9d38bd42a0b1ae",
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-2-type/1b9a842e8f6cc7d0",
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-3-type/ab8d2bb4d2e1ed67",
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-type/ab86d75995961432",
+                "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-strength/5eaab817b39959b7"
               ],
               "explosion": []
             },
@@ -565,7 +582,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-ap-extreme/d71ca4ab870bb2d5",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-demolition/139efbb66b1fb8e8",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-stagger/a601bcd7cf78a3d6",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-push-force/58940d6642220798"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-push-force/58940d6642220798",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-status-1-type/ef142d9aadc2dd3e",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-status-1-strength/817cd6af7e70599f"
               ],
               "explosion": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-inner-radius/47e1905b6b28b42a",
@@ -579,7 +598,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-ap-extreme/e6a4040f036813ef",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-demolition/5baddae9ca13a2e8",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-stagger/033ae3ff0f95a794",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-push-force/6ea79b9975576455"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-push-force/6ea79b9975576455",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-type/078a33b1352a9ee3",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-strength/5290b7da3f47b5ef"
               ]
             },
             "values": {
@@ -659,7 +680,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-ap-extreme/d4144d484d8192d1",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-demolition/2e447b2c36e1c0d9",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-stagger/519da83c659dc704",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-push-force/c2e0470aea8cd1f6"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-push-force/c2e0470aea8cd1f6",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-status-1-type/788803dfd39fb7d6",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-status-1-strength/730981a9245ea1d7"
               ],
               "explosion": [
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-inner-radius/095b6ffa9a25442e",
@@ -673,7 +696,9 @@
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-ap-extreme/fff27526cf3295ec",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-demolition/c2e0f3b6e7a60856",
                 "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-stagger/c8f96814503f6ada",
-                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-push-force/d78a557162028992"
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-push-force/d78a557162028992",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-type/f09c616639fabc29",
+                "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-strength/9e9c57b09ecc1f9a"
               ]
             },
             "values": {
@@ -759,7 +784,9 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-ap-extreme/4811df7d6bce061e",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-demolition/4e56f8258604b945",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-stagger/9b1dcaf707ce0027",
-                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-push-force/7bd28515ae3b840d"
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-push-force/7bd28515ae3b840d",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-status-1-type/660b77a926d4b879",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-status-1-strength/e81102cf1b74d577"
               ],
               "explosion": [
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-inner-radius/c93a7190b0ca312b",
@@ -773,7 +800,9 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-ap-extreme/43ef120dda0f12fa",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-demolition/d66cdd07ccaa3487",
                 "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-stagger/2dfc4b747ffd7543",
-                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-push-force/0d8c5cae9969f52a"
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-push-force/0d8c5cae9969f52a",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-type/eec81e253157c5e3",
+                "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-strength/0f08c5e7ac5a176c"
               ]
             },
             "values": {
@@ -847,7 +876,9 @@
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-ap-extreme/0d690f24f45b575c",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-demolition/ff8e26a8169bb082",
                 "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-stagger/813b62553d60b458",
-                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-push-force/defb119f473164f7"
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-push-force/defb119f473164f7",
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-type/b9b467bd45d1d13d",
+                "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-strength/89d3588bdaeca380"
               ],
               "explosion": []
             },
@@ -929,7 +960,9 @@
                 "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-ap-extreme/590303a4537addc9",
                 "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-demolition/a894d0b887bba56e",
                 "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-stagger/4edc90ca36f1ecc3",
-                "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-push-force/99c0d980d660f160"
+                "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-push-force/99c0d980d660f160",
+                "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-type/2db0baed1c77c0ac",
+                "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-strength/76524c1c2839a23e"
               ],
               "explosion": []
             },
@@ -1015,7 +1048,9 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-ap-extreme/112af1821611cf62",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-demolition/5d6109ab21e497aa",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-stagger/af157c380b05a845",
-                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-push-force/a354662097fa86a8"
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-push-force/a354662097fa86a8",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-status-1-type/76c03685aa180fe3",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-status-1-strength/a6daa47f8df3b7b4"
               ],
               "explosion": [
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-inner-radius/6fa778f2480782f3",
@@ -1029,7 +1064,9 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-ap-extreme/6ca6e6d7e4d918d4",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-demolition/5fd894e7d0782f65",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-stagger/1effd1a16b237b35",
-                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-push-force/24af9a4a1a40fd36"
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-push-force/24af9a4a1a40fd36",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-type/fd19b585aadf0d76",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-strength/5b2ac2d2a1d0d1f4"
               ]
             },
             "values": {
@@ -1107,7 +1144,9 @@
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-ap-extreme/c52f7069be7335c1",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-demolition/3390e2bfb1cdeb26",
                 "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-stagger/8232d81be5359cfc",
-                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-push-force/9901d4f492ffbe9c"
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-push-force/9901d4f492ffbe9c",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-type/06b22278e52cd42b",
+                "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-strength/25cf0c2aaee04d9e"
               ],
               "explosion": []
             },
@@ -1193,7 +1232,9 @@
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-ap-extreme/6abac244edcf8be5",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-demolition/12da98b417bd13bd",
                 "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-stagger/a5d5e0ba861a37b2",
-                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-push-force/ec8994e97835723d"
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-push-force/ec8994e97835723d",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-type/61e160fed6374cd0",
+                "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-strength/5e6329aa5cd42ffd"
               ],
               "explosion": []
             },
@@ -1265,7 +1306,12 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-ap-extreme/0e1684a76f5bf699",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-demolition/7add98d10dc2c424",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-stagger/ddbeb7b08da70e36",
-                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-push-force/4f5d9a7fe924eb17"
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-push-force/4f5d9a7fe924eb17",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-1-type/71ecfdea565351fc",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-2-type/0666a5f1c1418d2c",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-3-type/17d6cddb4c43a014",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-type/b3574475c2118a1e",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-strength/82813dd86567bc96"
               ],
               "explosion": []
             },
@@ -1334,7 +1380,9 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-ap-extreme/126c93b1eacbee2d",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-demolition/71a0ab7266d62504",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-stagger/57c2b44dbe644218",
-                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-push-force/3587c6b2bac249c1"
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-push-force/3587c6b2bac249c1",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-status-1-type/f6c36df3ad64eb85",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-status-1-strength/b81910d612c66050"
               ],
               "explosion": [
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-inner-radius/1962cd72d4aae000",
@@ -1348,7 +1396,9 @@
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-ap-extreme/4e498df15737e584",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-demolition/9213f417fb80b3d7",
                 "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-stagger/7d731ebbbbbab0d1",
-                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-push-force/7186078834ea2cc0"
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-push-force/7186078834ea2cc0",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-type/53d69360f24a5b2b",
+                "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-strength/d7e0dbd25e704a08"
               ]
             },
             "values": {
@@ -1429,7 +1479,9 @@
                 "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-ap-extreme/1618caed9f999d6f",
                 "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-demolition/02d2da2017b8f943",
                 "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-stagger/e55906cdef2d2bb8",
-                "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-push-force/da1f8cee3e0551bc"
+                "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-push-force/da1f8cee3e0551bc",
+                "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-type/9578352e232449fb",
+                "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-strength/7677589ed7231a68"
               ],
               "explosion": []
             },
@@ -1515,7 +1567,9 @@
                 "vehicle-field/v1/gater-oil-rig-turret/damage-primary-ap-extreme/0869778079f8eeb3",
                 "vehicle-field/v1/gater-oil-rig-turret/damage-primary-demolition/4b6a9099ae65ed44",
                 "vehicle-field/v1/gater-oil-rig-turret/damage-primary-stagger/08d2b02795d51820",
-                "vehicle-field/v1/gater-oil-rig-turret/damage-primary-push-force/b11214e987d8a571"
+                "vehicle-field/v1/gater-oil-rig-turret/damage-primary-push-force/b11214e987d8a571",
+                "vehicle-field/v1/gater-oil-rig-turret/damage-primary-status-1-type/02c1148abdf416ff",
+                "vehicle-field/v1/gater-oil-rig-turret/damage-primary-status-1-strength/4cf8f613f8ee7cbe"
               ],
               "explosion": [
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-inner-radius/fb159e2e4652a412",
@@ -1529,7 +1583,9 @@
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-ap-extreme/623306e0c5173357",
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-demolition/02c2ee2f1be358bd",
                 "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-stagger/66cc1b86b966f652",
-                "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-push-force/5881acd8174916a3"
+                "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-push-force/5881acd8174916a3",
+                "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-type/c0166c05873b1b55",
+                "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-strength/9832450fa28acd42"
               ]
             },
             "values": {
@@ -2131,6 +2187,64 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-type/509d9c9d1cdf6d3d",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "M-103 Supply FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-103-supply-frv-gun/damage-primary-status-1-strength/31330877bf183739",
+      "weapon": "M-103 Supply FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-103-supply-frv/gun/18a6239872b90606",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "M-103 Supply FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "AR-23P Liberator Penetrator",
+        "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_weapon",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/weapon-fire-rate/87d4420394cdb4f8",
       "weapon": "TD-110 Maelstrom / attach_tank_gun",
       "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
@@ -2666,6 +2780,54 @@
       "unit": "force",
       "type": "integer",
       "baseline": 20,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-type/4cb1b85baa6f70f9",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-attach-tank-gun/damage-primary-status-1-strength/671bbf8f59d72c5d",
+      "weapon": "TD-110 Maelstrom / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/attach-tank-gun/32ca1423838ffc4f",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / attach_tank_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -3610,6 +3772,60 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-status-1-type/ff737cdd9fa353ee",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / slot_3",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom (slot 4)",
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/damage-primary-status-1-strength/2d535d5ffaf98b30",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / slot_3",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom (slot 4)",
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-inner-radius/084c8f38932999f0",
       "weapon": "TD-110 Maelstrom / slot_3",
       "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
@@ -3922,6 +4138,60 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom (slot 4)",
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-type/774fb33bc076d809",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-110 Maelstrom / slot_3",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "TD-110 Maelstrom (slot 4)",
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-3/explosion-impact-damage-status-1-strength/99eea12e466492f7",
+      "weapon": "TD-110 Maelstrom / slot_3",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-3/896596ef3aa91fe4",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-110 Maelstrom / slot_3",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -4525,6 +4795,58 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-status-1-type/a94d668ee3086ec8",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / slot_4",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/damage-primary-status-1-strength/87c5bc403846ae80",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-110 Maelstrom / slot_4",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-inner-radius/4cb4e0cf08fa6d51",
       "weapon": "TD-110 Maelstrom / slot_4",
       "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
@@ -4826,6 +5148,58 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-type/aa731248e8f5f57d",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-110 Maelstrom / slot_4",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "MLS-4X Commando"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-110-maelstrom-slot-4/explosion-impact-damage-status-1-strength/41653c8be929444f",
+      "weapon": "TD-110 Maelstrom / slot_4",
+      "weaponSemanticId": "vehicle-weapon/v1/td-110-maelstrom/slot-4/896596ef3aa91fe4",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-110 Maelstrom / slot_4",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -5191,6 +5565,146 @@
       "unit": "force",
       "type": "integer",
       "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "EXO-51 Lumberer Exosuit (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-1-type/ee9d38bd42a0b1ae",
+      "weapon": "M-104 Incinerator FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-104-incinerator-frv/gun/f2d5d48b5c5d9105",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-104 Incinerator FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "EXO-51 Lumberer Exosuit (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-2-type/1b9a842e8f6cc7d0",
+      "weapon": "M-104 Incinerator FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-104-incinerator-frv/gun/f2d5d48b5c5d9105",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-104 Incinerator FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "flamer_slowed",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "EXO-51 Lumberer Exosuit (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-3-type/ab8d2bb4d2e1ed67",
+      "weapon": "M-104 Incinerator FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-104-incinerator-frv/gun/f2d5d48b5c5d9105",
+      "semanticFieldId": "damage.primary.status_3_type",
+      "apiFieldConstant": "hd2.fields.damage.status_3_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-104 Incinerator FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire_panic",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "EXO-51 Lumberer Exosuit (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-type/ab86d75995961432",
+      "weapon": "M-104 Incinerator FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-104-incinerator-frv/gun/f2d5d48b5c5d9105",
+      "semanticFieldId": "damage.primary.status_4_type",
+      "apiFieldConstant": "hd2.fields.damage.status_4_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-104 Incinerator FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "EXO-51 Lumberer Exosuit (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-104-incinerator-frv-gun/damage-primary-status-4-strength/5eaab817b39959b7",
+      "weapon": "M-104 Incinerator FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-104-incinerator-frv/gun/f2d5d48b5c5d9105",
+      "semanticFieldId": "damage.primary.status_4_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_4_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "M-104 Incinerator FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -5876,6 +6390,68 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-status-1-type/ef142d9aadc2dd3e",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 1)",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/damage-primary-status-1-strength/817cd6af7e70599f",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 1)",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-inner-radius/47e1905b6b28b42a",
       "weapon": "EXO-49 Emancipator Exosuit / left_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
@@ -6232,6 +6808,68 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 1)",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-type/078a33b1352a9ee3",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 1)",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-left-gun/explosion-impact-damage-status-1-strength/5290b7da3f47b5ef",
+      "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/left-gun/ddc315055228c4b9",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-49 Emancipator Exosuit / left_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -6920,6 +7558,68 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-status-1-type/788803dfd39fb7d6",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 0)",
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/damage-primary-status-1-strength/730981a9245ea1d7",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 0)",
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-inner-radius/095b6ffa9a25442e",
       "weapon": "EXO-49 Emancipator Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
@@ -7276,6 +7976,68 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 0)",
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-type/f09c616639fabc29",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "unnamed entity",
+        "EXO-49 Emancipator Exosuit (slot 0)",
+        "unnamed entity",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-49-emancipator-exosuit-right-gun/explosion-impact-damage-status-1-strength/9e9c57b09ecc1f9a",
+      "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-49-emancipator-exosuit/right-gun/cf39babb19b65919",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-49 Emancipator Exosuit / right_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -7883,6 +8645,54 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-status-1-type/660b77a926d4b879",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/damage-primary-status-1-strength/e81102cf1b74d577",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-inner-radius/c93a7190b0ca312b",
       "weapon": "EXO-45 Patriot Exosuit / left_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
@@ -8162,6 +8972,54 @@
       "unit": "force",
       "type": "integer",
       "baseline": 70,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-type/eec81e253157c5e3",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-left-gun/explosion-impact-damage-status-1-strength/0f08c5e7ac5a176c",
+      "weapon": "EXO-45 Patriot Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/left-gun/ec3d03f002281375",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-45 Patriot Exosuit / left_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -8888,6 +9746,74 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-type/b9b467bd45d1d13d",
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-45 Patriot Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/turret/gatling_turret",
+        "content/fac_helldivers/hellpod/turret/power_generated_gatling_turret",
+        "content/fac_super_earth/tutorial/target_turret",
+        "content/fac_helldivers/hellpod/turret_machinegun_gpmg/turret_machinegun_gpmg",
+        "MG-43 Machine Gun",
+        "unnamed entity",
+        "unnamed entity",
+        "content/fac_super_earth/tutorial/safety_turret",
+        "content/fac_helldivers/hellpod/turret/tutorial_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-45-patriot-exosuit-right-gun/damage-primary-status-1-strength/89d3588bdaeca380",
+      "weapon": "EXO-45 Patriot Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-45-patriot-exosuit/right-gun/bfa845a09a9539b3",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-45 Patriot Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/turret/gatling_turret",
+        "content/fac_helldivers/hellpod/turret/power_generated_gatling_turret",
+        "content/fac_super_earth/tutorial/target_turret",
+        "content/fac_helldivers/hellpod/turret_machinegun_gpmg/turret_machinegun_gpmg",
+        "MG-43 Machine Gun",
+        "unnamed entity",
+        "unnamed entity",
+        "content/fac_super_earth/tutorial/safety_turret",
+        "content/fac_helldivers/hellpod/turret/tutorial_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/weapon-fire-rate/9a0b4e3b603116a5",
       "weapon": "M-102 Gunner FRV / gun",
       "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
@@ -9488,6 +10414,66 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-type/2db0baed1c77c0ac",
+      "weapon": "M-102 Gunner FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "M-102 Gunner FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) (slot 0)",
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun",
+        "TD-220 Bastion MK XVI (slot 1)"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/m-102-gunner-frv-gun/damage-primary-status-1-strength/76524c1c2839a23e",
+      "weapon": "M-102 Gunner FRV / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/m-102-gunner-frv/gun/e74771601e2480a5",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "M-102 Gunner FRV / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) (slot 0)",
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun",
+        "TD-220 Bastion MK XVI (slot 1)"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/weapon-fire-rate/87c5ef71e4b10e2f",
       "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
       "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
@@ -10032,6 +11018,54 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-status-1-type/76c03685aa180fe3",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/damage-primary-status-1-strength/a6daa47f8df3b7b4",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-inner-radius/6fa778f2480782f3",
       "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
       "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
@@ -10311,6 +11345,54 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-type/fd19b585aadf0d76",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun/explosion-impact-damage-status-1-strength/5b2ac2d2a1d0d1f4",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun/0af7a2aac4fb4231",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -10870,6 +11952,64 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-type/06b22278e52cd42b",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) (slot 0)",
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/td-220-bastion-mk-xvi-attach-tank-gun-mg/damage-primary-status-1-strength/25cf0c2aaee04d9e",
+      "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+      "weaponSemanticId": "vehicle-weapon/v1/td-220-bastion-mk-xvi/attach-tank-gun-mg/60cb0b945b402189",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "TD-220 Bastion MK XVI / attach_tank_gun_mg",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "FRV (Super Earth variant) (slot 0)",
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/weapon-fire-rate/09e7c77c723995d8",
       "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
@@ -11368,6 +12508,54 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-type/61e160fed6374cd0",
+      "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-55-breakthrough-exosuit-right-gun/damage-primary-status-1-strength/5e6329aa5cd42ffd",
+      "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-55-breakthrough-exosuit/right-gun/28bafd2833f70d7a",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-55 Breakthrough Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/weapon-capacity/c1d5d29d50708723",
       "weapon": "EXO-51 Lumberer Exosuit / left_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
@@ -11791,6 +12979,146 @@
       "unit": "force",
       "type": "integer",
       "baseline": 5,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "M-104 Incinerator FRV (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-1-type/71ecfdea565351fc",
+      "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "M-104 Incinerator FRV (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-2-type/0666a5f1c1418d2c",
+      "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
+      "semanticFieldId": "damage.primary.status_2_type",
+      "apiFieldConstant": "hd2.fields.damage.status_2_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "flamer_slowed",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "M-104 Incinerator FRV (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-3-type/17d6cddb4c43a014",
+      "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
+      "semanticFieldId": "damage.primary.status_3_type",
+      "apiFieldConstant": "hd2.fields.damage.status_3_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "fire_panic",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "M-104 Incinerator FRV (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-type/b3574475c2118a1e",
+      "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
+      "semanticFieldId": "damage.primary.status_4_type",
+      "apiFieldConstant": "hd2.fields.damage.status_4_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "B/FLAM-80 Cremator",
+        "M-104 Incinerator FRV (slot 0)",
+        "content/fac_helldivers/hellpod/flamethrower_turret/flamethrower_turret"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-left-gun/damage-primary-status-4-strength/82813dd86567bc96",
+      "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/left-gun/97bbecbdc360e4b5",
+      "semanticFieldId": "damage.primary.status_4_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_4_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "attack",
+        "weapon": "EXO-51 Lumberer Exosuit / left_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -12401,6 +13729,58 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-status-1-type/f6c36df3ad64eb85",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/antitank_emplacement/antitank_emplacement"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/damage-primary-status-1-strength/b81910d612c66050",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/antitank_emplacement/antitank_emplacement"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-inner-radius/1962cd72d4aae000",
       "weapon": "EXO-51 Lumberer Exosuit / right_gun",
       "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
@@ -12702,6 +14082,58 @@
       "unit": "force",
       "type": "integer",
       "baseline": 40,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/antitank_emplacement/antitank_emplacement"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-type/53d69360f24a5b2b",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/hellpod/antitank_emplacement/antitank_emplacement"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/exo-51-lumberer-exosuit-right-gun/explosion-impact-damage-status-1-strength/d7e0dbd25e704a08",
+      "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+      "weaponSemanticId": "vehicle-weapon/v1/exo-51-lumberer-exosuit/right-gun/0530612be128916d",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "EXO-51 Lumberer Exosuit / right_gun",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -13284,6 +14716,64 @@
       "unit": "force",
       "type": "integer",
       "baseline": 20,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun",
+        "TD-220 Bastion MK XVI (slot 1)"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-type/9578352e232449fb",
+      "weapon": "FRV (Super Earth variant) / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "FRV (Super Earth variant) / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "unnamed entity",
+        "MG-206 Heavy Machine Gun",
+        "MG-206 Heavy Machine Gun",
+        "TD-220 Bastion MK XVI (slot 1)"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/frv-super-earth-variant-gun/damage-primary-status-1-strength/7677589ed7231a68",
+      "weapon": "FRV (Super Earth variant) / gun",
+      "weaponSemanticId": "vehicle-weapon/v1/frv-super-earth-variant/gun/e74771601e2480a5",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "FRV (Super Earth variant) / gun",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
       "writable": true,
       "scope": "shared_damage",
       "allowSharedRequired": true,
@@ -13917,6 +15407,64 @@
       "backingComponent": "damage"
     },
     {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/damage-primary-status-1-type/02c1148abdf416ff",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "damage.primary.status_1_type",
+      "apiFieldConstant": "hd2.fields.damage.status_1_type",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "primary"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg",
+        "content/fac_helldivers/vehicles/lav/armaments/lav_autocannon/lav_autocannon",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/damage-primary-status-1-strength/4cf8f613f8ee7cbe",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "damage.primary.status_1_strength",
+      "apiFieldConstant": "hd2.fields.damage.status_1_strength",
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "projectile_reference",
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "primary"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg",
+        "content/fac_helldivers/vehicles/lav/armaments/lav_autocannon/lav_autocannon",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "damage"
+    },
+    {
       "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-inner-radius/fb159e2e4652a412",
       "weapon": "GATER Oil Rig / turret",
       "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
@@ -14263,18 +15811,76 @@
       "acknowledgement": "allow_unverified_effect",
       "gameplayEvidence": null,
       "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-type/c0166c05873b1b55",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "explosion.impact.damage.status_1_type",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "impact"
+      },
+      "displayName": "Status applied",
+      "unit": null,
+      "type": "status_reference",
+      "baseline": "none",
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg",
+        "content/fac_helldivers/vehicles/lav/armaments/lav_autocannon/lav_autocannon",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
+    },
+    {
+      "instanceKey": "vehicle-field/v1/gater-oil-rig-turret/explosion-impact-damage-status-1-strength/9832450fa28acd42",
+      "weapon": "GATER Oil Rig / turret",
+      "weaponSemanticId": "vehicle-weapon/v1/gater-oil-rig/turret/b8db0fabca90376d",
+      "semanticFieldId": "explosion.impact.damage.status_1_strength",
+      "apiFieldConstant": null,
+      "target": {
+        "resource": "vehicle_weapon",
+        "path": "explosion",
+        "weapon": "GATER Oil Rig / turret",
+        "attack": "impact"
+      },
+      "displayName": "Status strength",
+      "unit": "factor",
+      "type": "number",
+      "baseline": 0.0,
+      "writable": true,
+      "scope": "shared_damage",
+      "allowSharedRequired": true,
+      "otherConsumers": [
+        "content/fac_helldivers/vehicles/shuttle_gunship/turrets/shuttle_gunship_turret_hmg",
+        "content/fac_helldivers/vehicles/lav/armaments/lav_autocannon/lav_autocannon",
+        "unnamed entity",
+        "unnamed entity"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "gameplayEvidence": null,
+      "backingComponent": "explosion_damage"
     }
   ],
   "summary": {
     "vehicles": 11,
     "weaponMounts": 18,
-    "fieldInstances": 480,
-    "writableFieldInstances": 480,
+    "fieldInstances": 536,
+    "writableFieldInstances": 536,
     "weaponLocalFields": 106,
     "sharedMountedWeaponFields": 26,
-    "sharedFields": 374,
+    "sharedFields": 430,
     "gameplayProvenFields": 27,
-    "unverifiedEffectFields": 453,
+    "unverifiedEffectFields": 509,
     "byField": {
       "damage.primary.ap_direct": 17,
       "damage.primary.ap_extreme": 17,
@@ -14285,6 +15891,12 @@
       "damage.primary.push_force": 17,
       "damage.primary.stagger": 17,
       "damage.primary.standard_damage": 17,
+      "damage.primary.status_1_strength": 15,
+      "damage.primary.status_1_type": 17,
+      "damage.primary.status_2_type": 2,
+      "damage.primary.status_3_type": 2,
+      "damage.primary.status_4_strength": 2,
+      "damage.primary.status_4_type": 2,
       "entity.armor": 13,
       "entity.health": 13,
       "explosion.impact.damage.ap_direct": 8,
@@ -14296,6 +15908,8 @@
       "explosion.impact.damage.push_force": 8,
       "explosion.impact.damage.stagger": 8,
       "explosion.impact.damage.standard_damage": 8,
+      "explosion.impact.damage.status_1_strength": 8,
+      "explosion.impact.damage.status_1_type": 8,
       "explosion.impact.inner_radius": 8,
       "explosion.impact.outer_radius": 8,
       "explosion.impact.shockwave_radius": 8,

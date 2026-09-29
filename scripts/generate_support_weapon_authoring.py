@@ -15,6 +15,7 @@ from migration import overlay as migration_overlay  # noqa: E402  build-migratio
 import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
+import status_fields
 import support_callin_linkage
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -184,6 +185,11 @@ def build(catalog_path=CATALOG):
                         record['recordType'])].add(weapon['name'])
 
     def definition(field_id):
+        # Status slots share one definition per role: damage.status_type / damage.status_strength.
+        field_id=re.sub(r'\.status_\d+_type$','.status_type',field_id)
+        field_id=re.sub(r'\.status_\d+_strength$','.status_strength',field_id)
+        if re.match(r'^explosion\.[^.]+\.damage\.status_(type|strength)$',field_id):
+            field_id='damage.x.'+field_id.split('.')[-1]
         parts=field_id.split('.')
         if parts[0]in('projectile','damage','arc','beam','status')and len(parts)>2:
             return definitions[parts[0]+'.'+'.'.join(parts[2:])]
@@ -233,6 +239,17 @@ def build(catalog_path=CATALOG):
             fields.append(make_field(field_id,values.get(key),
                 settings('explosion_damage'if prefix=='explosion'else'damage',record,
                     offset,storage,role,linkage,**extra),target))
+        # Status slots (see scripts/status_fields.py): typed references for used slots plus the attachment slot.
+        for spec in status_fields.slot_specs(record['recordType']):
+            if spec['role']=='strength'and not spec['attach']:continue
+            field_id=('explosion.'+role+'.damage.'if prefix=='explosion'else prefix+'.'+role+'.')+spec['suffix']
+            backing=settings('explosion_damage'if prefix=='explosion'else'damage',record,spec['offset'],
+                spec['storage'],role,linkage,**extra)
+            backing.update(status_fields.backing_extra(spec))
+            slot_field=make_field(field_id,spec['current'],backing,target)
+            if spec['role']=='type':slot_field['type']='status_reference'
+            slot_field.update(status_fields.type_extra(spec))
+            fields.append(slot_field)
 
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
@@ -632,8 +649,10 @@ def build(catalog_path=CATALOG):
 
     def api_constant(field_id):
         domain=field_id.split('.',1)[0]
-        constant=next(name for name,value in api_constants[domain].items()if value==field_id)
-        return 'hd2.fields.'+domain+'.'+constant
+        constant=next((name for name,value in api_constants[domain].items()if value==field_id),None)
+        # Slot-qualified status IDs have no schema definition of their own; scripts/generate_sdk.py publishes
+        # them under the plain name.
+        return 'hd2.fields.'+domain+'.'+(constant or field_id.split('.',1)[1].replace('.','_'))
 
     object_fields=defaultdict(list)
     for weapon_name,weapon in runtime_weapons.items():
@@ -700,6 +719,9 @@ def build(catalog_path=CATALOG):
         public_weapon=public_weapon_by_name[weapon_name];public_weapon['fieldInstanceKeys']=[]
         for field in weapon['fields']:
             field_id=definition(field['semanticFieldId'])['id'];target=field['target']
+            if field['backing'].get('statusSlot'):
+                # Status slots publish their slot-qualified ID (damage.status_2_type), like player weapons.
+                field_id=canonical_public_field_id(field['semanticFieldId'])
             role=target.get('attack');attack=weapon['attacks'].get(role)or{}
             object_key=backing_object_key(field['backing']);object_meta=backing_objects[object_key]
             instance_key=descriptor_instance_key(weapon_name,field,field_id)

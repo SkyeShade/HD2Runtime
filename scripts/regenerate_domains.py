@@ -15,7 +15,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-ORDER = ('apply_projectile_residency', 'generate_weapon_composition', 'generate_support_weapon_sdk',
+ORDER = ('apply_projectile_residency', 'generate_status_catalog', 'generate_weapon_composition', 'generate_support_weapon_sdk',
     'generate_support_weapon_authoring', 'generate_entity_authoring', 'generate_attachment_authoring',
     'generate_booster_authoring',
     'generate_stratagem_authoring', 'generate_weapon_authoring', 'generate_fire_mode_authoring',

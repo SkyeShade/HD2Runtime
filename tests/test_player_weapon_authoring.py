@@ -32,6 +32,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                     self.assertIn(key,field)
                 if field['semanticFieldId']=='fire_mode.burst_rounds':
                     self.assertEqual((field['min'],field['max']),(1,10))
+                elif field.get('statusAttach')and field['type']=='number':
+                    self.assertEqual((field['min'],field['max']),(0,1000))
                 else:
                     self.assertIsNone(field['min']);self.assertIsNone(field['max'])
                 if field['semanticFieldId']=='weapon.default_fire_mode':

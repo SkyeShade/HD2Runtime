@@ -482,6 +482,8 @@ class Engine:
         old = source_bytes[b['offset']:b['offset'] + b['width']]
         new = row_bytes[offset:offset + b['width']]
         self._baseline(result, field, old, new)
+        if b.get('enum') == 'status':
+            self._status_table(result)
         result.target = {'kind': 'settings', 'settings': kind, 'recordType': target_type, 'group': group_t.group,
             'row': row, 'offset': offset, 'storage': b['storage'], 'width': b['width']}
 
@@ -623,6 +625,24 @@ class Engine:
         result.flag('UNCHECKED', 'game.dll-resident booster table: a new game.dll must be re-proven by '
             'scripts/research_booster_native.py')
         result.distinguish.append('re-run the booster native research on the new game.dll')
+
+    def _status_table(self, result):
+        """A status_reference slot holds a status *identity* (domains/status_catalog.lua maps semantic IDs to this
+        build's StatusEffectType values). It carries forward only when both builds' status tables are available and
+        identical row for row (pointers masked); otherwise the catalog could name the wrong status."""
+        if not hasattr(self, '_status_verdict'):
+            table_s, table_t = self.S.settings_table('status'), self.T.settings_table('status')
+            if table_s is None or table_t is None:
+                self._status_verdict = ('UNCHECKED', 'status reference: a view has no status table (snapshot-only), '
+                    'so status identities cannot be proven')
+            else:
+                rows_s = {kind: masked(table_s.layout, raw) for _, kind, raw in table_s.rows}
+                rows_t = {kind: masked(table_t.layout, raw) for _, kind, raw in table_t.rows}
+                self._status_verdict = None if rows_s == rows_t else ('BLOCKED', 'status table changed between '
+                    'builds; re-run scripts/research_status_effects.py and regenerate the status catalog')
+        if self._status_verdict:
+            result.flag(*self._status_verdict)
+            result.failed.append('status table identical')
 
     # shared checks -------------------------------------------------------------------------------------------------
     def _layout(self, result, old, new, evidence):

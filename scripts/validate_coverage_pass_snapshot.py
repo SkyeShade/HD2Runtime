@@ -1,0 +1,162 @@
+"""Exercise the coverage-pass mappings through the production write domains on the retained snapshot.
+
+On a copy-on-write memory overlay of the snapshot (no game process, no real writes):
+
+Status slots (DamageInfo status references):
+- attach Stun Medium (strength 2, the AR-32 Pacifier / SMG-72 Pummeler value) to the M-1000 Maxigun's bullets and
+  Fire (strength 2, the AR-2 Coyote value) to the AR-23 Liberator's bullets: the type and strength land in the first
+  empty slot, the inverse restores both, and the rest of the row is untouched;
+- swap a used slot's status (Coyote fire -> stun_small), clear the last used slot (FLAM-40 fire_panic -> none);
+- reject: a status no player-side attack applies, clearing a slot that is not the last used one, a missing
+  allow_unverified_effect, a hole in the slot packing (slot 1 emptied by a third party) and a stale status catalog
+  (the live row no longer carries the catalogued name).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from validate_entity_authoring_snapshot import SNAPSHOT, lua, sources
+import validate_attachment_authoring_snapshot as overlay_source
+
+OUTPUT = ROOT / 'validation/coverage-pass-snapshot.json'
+OVERLAY = overlay_source.PROGRAM[:overlay_source.PROGRAM.index('local region')]
+
+PROGRAM = OVERLAY.replace("local domain=require('hd2runtime/domains/attachment_writes')\n", '').replace(
+    "local database=require('hd2runtime/domains/attachment_authoring')\n", '') + r'''
+local weapons=require('hd2runtime/domains/player_weapon_writes')
+local status_catalog=require('hd2runtime/domains/status_catalog')
+local function resolve(domain,spec)
+ local reader=Reader.new(runtime)
+ local resolved=domain.capture(runtime,reader,spec)
+ local plan=domain.prepare(resolved,reader,spec);reader.verify()
+ return plan,resolved
+end
+local function rejects(fn,needle,label)
+ local ok,why=pcall(fn)
+ assert(not ok,label..' was not rejected')
+ assert(tostring(why):find(needle,1,true),label..' rejected for the wrong reason: '..tostring(why))
+end
+local result={status='VALIDATED',mode='snapshot-overlay',snapshot=SNAPSHOT_NAME,fixtureFallback='disabled',
+ statusSlots={attached={},swapped={},cleared={},rejections={}}}
+local function target(resource,weapon,path)
+ return {resource=resource,path=path or'projectile_reference',weapon=weapon,attack='primary'}
+end
+local function transaction(t,changes,extra)
+ local request={id='coverage-status',target=t,changes=changes,allow_shared=true,allow_unverified_effect=true}
+ for k,v in pairs(extra or{})do if v==false then request[k]=nil else request[k]=v end end
+ return weapons.validate_transaction(request)
+end
+-- Apply, read back, verify the untouched bytes of the row, and restore through the guarded inverse.
+local function round_trip(spec,label)
+ local plan=resolve(weapons,spec)
+ local applied=guarded.apply(runtime,plan)
+ assert(applied.status=='APPLIED'and applied.non_target_bytes_unchanged,label..' write failed: '..tostring(applied.reason))
+ for _,part in ipairs(plan.changes)do
+  assert(runtime.read(part.owner.base+part.offset,#part.desired)==part.desired,label..' write did not land')
+ end
+ local restored=guarded.apply(runtime,guarded.inverse(plan))
+ assert(restored.status=='APPLIED',label..' rollback failed')
+ for _,part in ipairs(plan.changes)do
+  assert(runtime.read(part.owner.base+part.offset,#part.before)==part.before,label..' rollback did not restore')
+ end
+ return plan,applied
+end
+local worker=coroutine.create(function()
+ local s=result.statusSlots
+ -- Attachment into the first empty slot.
+ for _,case in ipairs({
+   {key='maxigun_stun',resource='support_weapon',weapon='M-1000 Maxigun',type='damage.status_1_type',
+    strength='damage.status_1_strength',status='stun_medium',value=2},
+   {key='liberator_fire',resource='player_weapon',weapon='AR-23 Liberator',type='damage.status_1_type',
+    strength='damage.status_1_strength',status='fire',value=2}})do
+  reset()
+  local spec=transaction(target(case.resource,case.weapon),{
+   {field=case.type,expect='none',value=case.status},{field=case.strength,expect=0,value=case.value}})
+  local plan,applied=round_trip(spec,case.key)
+  local type_part,strength_part=plan.changes[1],plan.changes[2]
+  assert(b.u32(type_part.desired,0)==status_catalog.statuses[case.status].nativeType,case.key..' type encoding')
+  assert(strength_part.offset==type_part.offset+4,case.key..' strength is not the slot companion')
+  s.attached[case.key]={weapon=case.weapon,status=case.status,strength=case.value,writes=applied.writes,
+   slot=1,before=b.hex(type_part.before..strength_part.before),after=b.hex(type_part.desired..strength_part.desired)}
+  -- The same write without acknowledging the unverified effect is rejected before any memory access.
+  rejects(function()transaction(target(case.resource,case.weapon),{{field=case.type,expect='none',value=case.status}},
+   {allow_unverified_effect=false})end,'allow_unverified_effect',case.key..' acknowledgement')
+  s.rejections.acknowledgement=(s.rejections.acknowledgement or 0)+1
+ end
+ -- Swapping a used slot's status.
+ reset()
+ local coyote=target('player_weapon','AR-2 Coyote')
+ local plan=round_trip(transaction(coyote,{{field='damage.status_1_type',expect='fire',value='stun_small'}}),'coyote swap')
+ s.swapped.coyote={from='fire',to='stun_small',writes=#plan.changes}
+ -- Clearing the last used slot; clearing an earlier one is rejected.
+ reset()
+ local flamer=target('support_weapon','FLAM-40 Flamethrower','attack')
+ plan=round_trip(transaction(flamer,{{field='damage.status_3_type',expect='fire_panic',value='none'}}),'flamer clear')
+ s.cleared.flamethrower={slot=3,from='fire_panic'}
+ rejects(function()transaction(flamer,{{field='damage.status_1_type',expect='fire',value='none'}})end,
+  'cannot be cleared','clearing a middle slot')
+ s.rejections.middleSlotClear=1
+ -- A status no player-side attack applies.
+ rejects(function()transaction(coyote,{{field='damage.status_1_type',expect='fire',value='electric'}})end,
+  'not attachable','electric')
+ s.rejections.notAttachable=1
+ -- A hole in the packing: a third party empties slot 1 before slot 2 is attached.
+ reset()
+ local spec=transaction(coyote,{{field='damage.status_2_type',expect='none',value='gas'}})
+ local _,resolved=resolve(weapons,spec)
+ local slot_field
+ for _,field in ipairs(require('hd2runtime/domains/player_weapon_authoring').weapons['AR-2 Coyote'].fields)do
+  if field.semanticFieldId=='damage.status_2_type'then slot_field=field end
+ end
+ local row=assert(resolved.roots.damage.records[slot_field.backing.recordType],'Coyote DamageInfo absent')
+ poke(resolved.roots.damage.owner.base+row.offset+44,b.encode(0,'u32'))
+ rejects(function()resolve(weapons,spec)end,'CONFLICT: status slot 1 is now empty','packing hole')
+ s.rejections.packingHole=1
+ reset()
+ -- A stale catalog: the live row must still carry the catalogued name.
+ local name=status_catalog.statuses.fire.name
+ status_catalog.statuses.fire.name='Not Fire'
+ local ok,why=pcall(function()resolve(weapons,transaction(coyote,{{field='damage.status_1_type',expect='fire',
+  value='stun_small'}}))end)
+ status_catalog.statuses.fire.name=name
+ assert(not ok and tostring(why):find('status catalog is stale',1,true),'stale catalog accepted: '..tostring(why))
+ s.rejections.staleCatalog=1
+ reset()
+ result.writes=counts.writes;result.protectionChanges=counts.protection_changes
+ source.close()
+ return result
+end)
+local ok,out
+repeat ok,out=coroutine.resume(worker)until not ok or coroutine.status(worker)=='dead'
+assert(ok,out);return json.encode(out)
+'''
+
+
+def validate(snapshot):
+    sys.path.insert(0, str(ROOT / 'sdk'))
+    from tools.lua_runner import execute
+    preload = '\n'.join('package.preload[' + lua(name) + ']=function(...) return assert(loadstring('
+        + lua(body) + ',' + lua(name) + '))(...) end' for name, body in sources().items())
+    program = (preload + '\nlocal SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal SNAPSHOT_NAME='
+        + lua(Path(snapshot).name) + '\n' + PROGRAM)
+    return json.loads(execute(program.encode()))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--snapshot', type=Path, default=SNAPSHOT)
+    parser.add_argument('--output', type=Path, default=OUTPUT)
+    args = parser.parse_args()
+    result = validate(args.snapshot)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', newline='\n')
+    print(json.dumps(result, indent=2, sort_keys=True))
+
+
+if __name__ == '__main__':
+    main()

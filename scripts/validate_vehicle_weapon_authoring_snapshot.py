@@ -53,10 +53,20 @@ local function public_id(field)
  if not role then return field.semanticFieldId end
  return (field.semanticFieldId:gsub('^(%a+)%.'..role..'%.','%1.'))
 end
+local status_catalog=require('hd2runtime/domains/status_catalog')
 local function changed_value(field)
  local value=field.currentDefault
+ if field.type=='status_reference'then
+  -- Another attachable status (a used slot) or the first one (the empty attachment slot).
+  for _,candidate in ipairs(field.allowedValues)do if candidate~=value then return candidate end end
+ end
  if field.type=='integer'then return value+1 end
  return value==0 and 1 or value*1.25
+end
+-- A third-party value that is neither the reviewed nor the desired bytes.
+local function third_party(field)
+ if field.type=='status_reference'then return b.encode(9999,'u32')end
+ return b.encode(field.currentDefault+7,field.backing.storage)
 end
 local function round_trip(domain,spec,label)
  local plan=resolve(domain,spec)
@@ -104,7 +114,7 @@ local worker=coroutine.create(function()
    plan=round_trip(weapons,spec,label)
    result.changedWrites=result.changedWrites+1;result.rollbacks=result.rollbacks+1
    local part=plan.changes[1]
-   poke(part.owner.base+part.offset,b.encode(field.currentDefault+7,field.backing.storage))
+   poke(part.owner.base+part.offset,third_party(field))
    rejects(function()resolve(weapons,spec)end,'CONFLICT',label..' conflict')
    result.conflictRejections=result.conflictRejections+1
    reset()

@@ -37,6 +37,11 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   firing) on every resolved player and support weapon (see `docs/weapon-movement.md`)
 - Minefield explosions for all four mine stratagems (`hd2.stratagem(name):mine()`), and Cremator, EAT-17 and
   LAS-98 damage authoring
+- Sentry turret motion and targeting range (`hd2.stratagem(name):deployed_entity():turret()` / `:targeting()`),
+  and every sentry's deployed lifetime (see `docs/stratagem-authoring.md`)
+- Status effects as typed references on every player, support and mounted-weapon damage object: swap the
+  status an attack applies or attach one to an attack that has none (see `docs/status-effects.md` and
+  `sdk/StatusEffectCatalog.json`)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
