@@ -150,6 +150,14 @@ def build(research_path=RESEARCH):
 
     racks_public, racks_runtime, by_stratagem, by_stratagem_id = [], {}, {}, {}
     field_count = 0
+    # Exact (rack, slot, pickup) triples a user-run test showed working (package residency live tests). Only these
+    # replacements drop allow_unverified_reference; every other combination keeps it.
+    semantic_by_name = {item['name']: item['semanticId'] for item in pickups}
+    live_triples = {}
+    for pair in residency_evidence.live_pairs():
+        if pair['pickup'] not in semantic_by_name:
+            raise ValueError('live-verified pair names an unknown pickup: ' + pair['pickup'])
+        live_triples.setdefault((pair['rack'], pair['slot']), set()).add(pair['pickup'])
     for rack in research['racks']:
         name = rack_names[rack['resource']]
         semantic = 'pod-rack/v1/' + slug(name) + '/' + digest({'rack': rack['resource']})
@@ -179,18 +187,21 @@ def build(research_path=RESEARCH):
             number = slot['index'] + 1
             current = pickup_by_resource.get(slot['item']) if slot['item'] else None
             authored = blocked is None and slot['index'] < AUTHORED_SLOTS
+            live_names = sorted(live_triples.get((name, number), ())) if authored else []
             view = {'slot': number, 'active': slot['active'],
                 'current': None if not slot['item'] else ({'pickup': current[0]['semanticId'], 'name': current[0]['name'],
                     'category': current[0]['category']} if current else {'pickup': None, 'name': None, 'category': None}),
                 'applyDeltas': slot['applyDeltas'], 'rackSide': slot['rackSide'], 'writable': authored,
                 'reason': None if authored else (blocked or 'Slots 5 to 8 carry no rack side in weapon racks; not authored.'),
-                'acknowledgements': acks if authored else []}
+                'acknowledgements': acks if authored else [],
+                # Replacements live-verified in exactly this slot: allow_unverified_reference is not required for them.
+                'liveVerifiedPickups': live_names}
             slots_public.append(view)
             if authored:
                 field_count += 1
                 slots_runtime[str(number)] = {'index': slot['index'], 'current': current[0]['semanticId'] if current
                     else ('empty' if not slot['item'] else None), 'resource': slot['item'] or '0x0000000000000000',
-                    'active': slot['active']}
+                    'active': slot['active'], 'live': {semantic_by_name[n]: True for n in live_names}}
                 if slot['item'] and not current:
                     raise ValueError(name + ': authored slot holds an untyped entity')
         count_writable = blocked is None
@@ -246,7 +257,8 @@ def build(research_path=RESEARCH):
         'packageResidency': pod_family,
         'residencyVersusCompatibility': ('Package loading resolves missing assets only. Whether a replacement '
             'behaves correctly from a given pod is slot compatibility, which stays unverified '
-            '(allow_unverified_reference) except for the live-verified pairs.'),
+            '(allow_unverified_reference) except for the live-verified pairs: a slot\'s liveVerifiedPickups need no '
+            'allow_unverified_reference in exactly that slot.'),
         'liveVerifiedPairs': residency_evidence.live_pairs(),
         'racks': racks_public, 'pickups': pickups, 'summary': summary,
         'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False, 'writesDuringGeneration': 0}}

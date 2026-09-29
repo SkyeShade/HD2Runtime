@@ -98,8 +98,9 @@ def build():
             if entry.get('analysis'):
                 lines.append(f"- Analysis: {entry['analysis']}")
             if entry.get('notPromoted'):
-                lines.append('- Not promoted (still need `allow_unverified_effect`): '
-                    + ', '.join(entry['notPromoted']) + '.')
+                # Families without an effect acknowledgement (actions, events, pod pairs) name what still applies.
+                note = entry.get('notPromotedNote') or 'still need `allow_unverified_effect`'
+                lines.append('- Not promoted (' + note + '): ' + ', '.join(entry['notPromoted']) + '.')
             if entry.get('nextTests'):
                 lines.append('- Next tests: ' + ', '.join(f'`{t}`' for t in entry['nextTests']) + '.')
             lines.append('')

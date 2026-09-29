@@ -64,6 +64,21 @@
         "The Pelican did not deliver the FRV in this test, so the mount was never observed.",
         "Not evidence for or against package loading; Bastion-cannon-on-FRV mount compatibility is a separate, unverified question."
       ]
+    },
+    {
+      "id": "E",
+      "project": "ResupplyTest",
+      "sha256": "b8f083f3f984ec95e61ee5ac6735d1fb469d7a51d1851eae21cf18ccc9240d78",
+      "family": "pod_payload_pickup",
+      "result": "PASS",
+      "donorCarried": false,
+      "runtime": {"commit": "0daf33a", "artifact": "build/test-artifacts/task3-live-tests/HD2Runtime-0.27.0-runtime-task3-test.zip", "note": "Task 3 test build (unbumped 0.27.0), a later session than the tests above."},
+      "objects": ["pickup/pickup/v1/grenade-box/5ad3b36a5d3adbb7"],
+      "pairs": [{"rack": "Resupply pod", "slot": 1, "pickup": "Grenade Box"}, {"rack": "Resupply pod", "slot": 2, "pickup": "Grenade Box"}, {"rack": "Resupply pod", "slot": 3, "pickup": "Grenade Box"}, {"rack": "Resupply pod", "slot": 4, "pickup": "Grenade Box"}],
+      "observations": [
+        "The Grenade Box payload worked in the landed Resupply pod (all four written slots).",
+        "The donor assets loaded correctly; the Resupply operations settled 2/2 applied."
+      ]
     }
   ]
 }

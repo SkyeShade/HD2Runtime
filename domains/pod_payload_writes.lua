@@ -64,7 +64,9 @@ local function validate_change(rack,slot,target,item,request)
         local expected=pickup_of(item.expect,'expect');local desired=pickup_of(item.value,'value')
         assert(identity_of(expected)==slot.current,'expect differs from the reviewed slot item for '..rack.name
             ..' slot '..target.slot)
-        assert(identity_of(desired)==slot.current or request.allow_unverified_reference==true,
+        -- A replacement live-verified in exactly this slot (slot.live) needs no reference acknowledgement.
+        local live=desired~='empty'and slot.live and slot.live[desired.semanticId]
+        assert(identity_of(desired)==slot.current or request.allow_unverified_reference==true or live==true,
             'replacement requires allow_unverified_reference=true ('..database.unverifiedReason..')')
         -- A non-vanilla replacement's assets are loaded through the game's own package system first
         -- (core/assets); the write waits until they are resident.

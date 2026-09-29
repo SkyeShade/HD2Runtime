@@ -19,15 +19,21 @@
   "note": "A failed host is host-path evidence, never evidence against the donor output. null means the test did not establish that part."
  },
  "summary": {
-  "sessions": 5,
-  "tests": 23,
-  "passed": 16,
+  "sessions": 6,
+  "tests": 29,
+  "passed": 22,
   "families": {
    "live_proven": [
     "attack_output_cross_class",
     "enemy_main_health",
     "enemy_zone_armor",
+    "event_action_explosion_named",
+    "event_action_projectile",
+    "event_action_status",
+    "event_player_died_position",
+    "event_weapon_in_hand",
     "minefield_salvos",
+    "pod_payload_pair",
     "sentry_targeting_range",
     "sentry_turret_turn_speed",
     "stratagem_definition_cooldown",
@@ -358,12 +364,20 @@
     {
      "target": "Orbital Precision Strike",
      "field": "stratagem.definition_cooldown"
+    },
+    {
+     "target": "Resupply",
+     "field": "stratagem.definition_cooldown"
     }
    ],
    "tests": [
-    "RuntimeEffectDiagnostics"
+    "RuntimeEffectDiagnostics",
+    "ResupplyTest"
    ],
    "acknowledgementRemoved": null,
+   "observations": [
+    "Resupply (the AmmoRack mission stratagem) was ready again 5 s after use with its cooldown set to 5 (task 3)."
+   ],
    "notPromoted": [
     "the cooldown of every other stratagem: the same member, not individually tested"
    ]
@@ -418,6 +432,150 @@
    "acknowledgementRemoved": null,
    "nextTests": [
     "BallisticShieldArmorTest: zone armor 5 on a newly called-in SH-20; the AP 4 HMG must do no damage, an AP 5 Railgun must break it in about 5 hits, and a shield spawned before the write must still take about 45 per HMG bullet"
+   ]
+  },
+  "pod_payload_pair": {
+   "status": "live_proven",
+   "domain": "pod_payload",
+   "fields": [
+    "payload.entity"
+   ],
+   "scope": "Exact drop-pod (rack, slot, pickup) triples shown working in game with the donor loaded automatically: Resupply pod slots 1-4 <- Grenade Box (ResupplyTest), plus the earlier MG-43 Machine Gun pod slot 1 <- Grenade Box and M-105 Stalwart pod slot 2 <- EAT-700 Expendable Napalm (package residency tests D and A).",
+   "provenTargets": [
+    {
+     "target": "Resupply pod slot 1 <- Grenade Box",
+     "field": "payload.entity"
+    },
+    {
+     "target": "Resupply pod slot 2 <- Grenade Box",
+     "field": "payload.entity"
+    },
+    {
+     "target": "Resupply pod slot 3 <- Grenade Box",
+     "field": "payload.entity"
+    },
+    {
+     "target": "Resupply pod slot 4 <- Grenade Box",
+     "field": "payload.entity"
+    }
+   ],
+   "tests": [
+    "ResupplyTest"
+   ],
+   "acknowledgementRemoved": "allow_unverified_reference",
+   "notPromotedNote": "still need allow_unverified_reference",
+   "notPromoted": [
+    "every other rack, slot or pickup combination",
+    "allow_shared stays required on the shared Resupply rack (a scope acknowledgement, not an unverified one)"
+   ]
+  },
+  "event_action_explosion_named": {
+   "status": "live_proven",
+   "domain": "event_actions",
+   "fields": [
+    "hd2.explosions.spawn"
+   ],
+   "scope": "hd2.explosions.spawn('Hellbomb') by the mission host: the NUX-223 Hellbomb detonation (ExplosionType 242) at a position, gameplay-proven on host.",
+   "provenTargets": [
+    {
+     "target": "NUX-223 Hellbomb",
+     "field": "hd2.explosions.spawn"
+    }
+   ],
+   "tests": [
+    "DeathHellbombTest"
+   ],
+   "acknowledgementRemoved": null,
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "the B-100 Portable Hellbomb (type 125)",
+    "the 13 weapon explosions (same request, not tested)",
+    "what other players see (no network send was found; propagation unproven)",
+    "client requests (refused HOST_ONLY)"
+   ]
+  },
+  "event_player_died_position": {
+   "status": "live_proven",
+   "domain": "events",
+   "fields": [
+    "player_died.position"
+   ],
+   "scope": "player_died for the local player in a mission, with its death-position snapshot used after the avatar is gone (DeathHellbombTest). A death event reported before the mission started was refused by the explosion action with NOT_IN_MISSION.",
+   "tests": [
+    "DeathHellbombTest"
+   ],
+   "acknowledgementRemoved": null,
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "other players' deaths"
+   ]
+  },
+  "event_action_projectile": {
+   "status": "live_proven",
+   "domain": "event_actions",
+   "fields": [
+    "hd2.projectiles.spawn"
+   ],
+   "scope": "hd2.projectiles.spawn('R-36 Eruptor') by the mission host: the game's own FireProjectile, fired and repeated, gameplay-proven on host.",
+   "provenTargets": [
+    {
+     "target": "R-36 Eruptor",
+     "field": "hd2.projectiles.spawn"
+    }
+   ],
+   "tests": [
+    "ProjectileActionTest"
+   ],
+   "acknowledgementRemoved": null,
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "every other catalogued projectile type",
+    "what other players see (no network send was found; propagation unproven)",
+    "client requests (refused HOST_ONLY)"
+   ]
+  },
+  "event_action_status": {
+   "status": "live_proven",
+   "domain": "event_actions",
+   "fields": [
+    "hd2.status.apply"
+   ],
+   "scope": "hd2.status.apply(enemy, 'fire', {buildup = 100}) by the mission host: the fire status visibly applied to a live enemy through the game's status request queue.",
+   "provenTargets": [
+    {
+     "target": "fire",
+     "field": "hd2.status.apply"
+    }
+   ],
+   "tests": [
+    "StatusActionTest"
+   ],
+   "acknowledgementRemoved": null,
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "the other 10 allowlisted statuses",
+    "what other players see and client routing (unproven)"
+   ]
+  },
+  "event_weapon_in_hand": {
+   "status": "live_proven",
+   "domain": "events",
+   "fields": [
+    "player:equipped_weapon",
+    "weapon_equipped",
+    "weapon_unequipped",
+    "weapon_changed"
+   ],
+   "scope": "The local player's weapon in hand: primary and secondary switches detected correctly, the three events matched the actual switches, and uncatalogued held items were reported as uncatalogued (no name).",
+   "tests": [
+    "EquippedWeaponEventTest"
+   ],
+   "acknowledgementRemoved": null,
+   "notPromotedNote": "offline-proven only",
+   "notPromoted": [
+    "the inferred slot labels support, held_item and unknown (slot_proven stays false)",
+    "death and reinforce transitions (not reported)",
+    "remote players (not read; unproven)"
    ]
   }
  },
@@ -944,6 +1102,85 @@
       }
      ],
      "observation": "The MG-206 HMG (armor penetration 4) still damaged the shield after its armor was set to 5."
+    }
+   ]
+  },
+  {
+   "id": "task3-actions-2026-09-29",
+   "date": "2026-09-29",
+   "runtime": "HD2Runtime 0.27.0 task 3 test build (commit 0daf33a, build/test-artifacts/task3-live-tests/HD2Runtime-0.27.0-runtime-task3-test.zip), hosting",
+   "logSignals": [
+    "HD2Runtime 0.27.0 initialized (API 1)",
+    "2 registered operations settled: 2 applied (ResupplyTest)"
+   ],
+   "tests": [
+    {
+     "mod": "ResupplyTest",
+     "operation": "resupply-cooldown",
+     "choice": "Resupply cooldown 5 s",
+     "result": "PASS",
+     "family": "stratagem_definition_cooldown",
+     "writes": [
+      {
+       "target": "Resupply",
+       "field": "stratagem.definition_cooldown",
+       "from": 180,
+       "to": 5
+      }
+     ],
+     "observation": "The Resupply stratagem was ready again 5 seconds after use."
+    },
+    {
+     "mod": "ResupplyTest",
+     "operation": "resupply-payload",
+     "choice": "Resupply payload: grenade boxes",
+     "result": "PASS",
+     "family": "pod_payload_pair",
+     "writes": [
+      {
+       "target": "Resupply pod slots 1-4",
+       "field": "payload.entity",
+       "from": "Supply Box",
+       "to": "Grenade Box"
+      }
+     ],
+     "observation": "The landed Resupply pod held Grenade Boxes and they worked; the Grenade Box package loaded automatically (package residency test E)."
+    },
+    {
+     "mod": "DeathHellbombTest",
+     "operation": "death-hellbomb",
+     "result": "PASS",
+     "families": [
+      "event_action_explosion_named",
+      "event_player_died_position"
+     ],
+     "family": "event_action_explosion_named",
+     "writes": [],
+     "observation": "Dying in a real mission detonated the NUX-223 Hellbomb at the saved death position. The avatar-removal death reported before the mission started was refused with NOT_IN_MISSION, as designed."
+    },
+    {
+     "mod": "ProjectileActionTest",
+     "operation": "F6 fire",
+     "result": "PASS",
+     "family": "event_action_projectile",
+     "writes": [],
+     "observation": "F6 fired the R-36 Eruptor projectile through hd2.projectiles.spawn; repeated requests worked."
+    },
+    {
+     "mod": "StatusActionTest",
+     "operation": "fire on damage",
+     "result": "PASS",
+     "family": "event_action_status",
+     "writes": [],
+     "observation": "The fire status (buildup 100) visibly applied to a live enemy."
+    },
+    {
+     "mod": "EquippedWeaponEventTest",
+     "operation": "weapon switches",
+     "result": "PASS",
+     "family": "event_weapon_in_hand",
+     "writes": [],
+     "observation": "Primary and secondary switches were detected correctly; weapon_equipped, weapon_unequipped and weapon_changed matched the actual switches; uncatalogued held items were reported as uncatalogued (no name), not misidentified."
     }
    ]
   }

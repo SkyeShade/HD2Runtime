@@ -93,7 +93,7 @@ class AssetLoadingTests(unittest.TestCase):
         results = {t['id']: (t['family'], t['result'], t['donorCarried']) for t in live['tests']}
         self.assertEqual(results, {'A': ('pod_payload_pickup', 'PASS', False),
             'B': ('projectile_reference', 'PASS', False), 'C': ('vehicle_mount', 'INCONCLUSIVE', False),
-            'D': ('pod_payload_pickup', 'PASS', False)})
+            'D': ('pod_payload_pickup', 'PASS', False), 'E': ('pod_payload_pickup', 'PASS', False)})
         catalog = self.research['catalog']
         for test in live['tests']:
             for key in test['objects']:
@@ -125,7 +125,12 @@ class AssetLoadingTests(unittest.TestCase):
                 if slot.get('writable'):
                     self.assertIn('allow_unverified_reference', slot['acknowledgements'])
         self.assertEqual({(p['rack'], p['slot'], p['pickup']) for p in pods['liveVerifiedPairs']},
-            {('M-105 Stalwart pod', 2, 'EAT-700 Expendable Napalm'), ('MG-43 Machine Gun pod', 1, 'Grenade Box')})
+            {('M-105 Stalwart pod', 2, 'EAT-700 Expendable Napalm'), ('MG-43 Machine Gun pod', 1, 'Grenade Box')}
+            | {('Resupply pod', slot, 'Grenade Box') for slot in (1, 2, 3, 4)})
+        # Exactly those triples are published as live-verified slot pickups (no reference acknowledgement there).
+        live = {(rack['name'], slot['slot'], name) for rack in pods['racks'] for slot in rack['slots']
+            for name in slot['liveVerifiedPickups']}
+        self.assertEqual(live, {(p['rack'], p['slot'], p['pickup']) for p in pods['liveVerifiedPairs']})
         projectiles = json.loads((ROOT / 'sdk/ProjectileCompositionCapabilities.json').read_text())
         residency = {w['weapon']: a['residency'] for w in projectiles['weapons'] for a in w['attacks']}
         talon = residency['LAS-58 Talon']
@@ -176,9 +181,12 @@ end
 local rack=hd2.pod_rack('M-105 Stalwart pod')
 one(patches.validate{id='a',target=rack:slot(2),field=hd2.fields.payload.entity,expect=rack:slot(2):current(),
  value=hd2.pickup('EAT-700 Expendable Napalm'),allow_unverified_reference=true},'expendable_napalm_launcher')
--- the acknowledgement is still required (reference semantics remain unverified)
-local ok,why=pcall(patches.validate,{id='a2',target=rack:slot(2),field=hd2.fields.payload.entity,
- expect=rack:slot(2):current(),value=hd2.pickup('EAT-700 Expendable Napalm')})
+-- live test A verified exactly this slot and pickup: no reference acknowledgement there
+patches.validate{id='a2',target=rack:slot(2),field=hd2.fields.payload.entity,expect=rack:slot(2):current(),
+ value=hd2.pickup('EAT-700 Expendable Napalm')}
+-- the same pickup in the untested slot 1 still needs it (reference semantics remain unverified there)
+local ok,why=pcall(patches.validate,{id='a4',target=rack:slot(1),field=hd2.fields.payload.entity,
+ expect=rack:slot(1):current(),value=hd2.pickup('EAT-700 Expendable Napalm')})
 assert(not ok and tostring(why):find('allow_unverified_reference',1,true),tostring(why))
 -- restoring the vanilla occupant needs nothing
 local vanilla=patches.validate{id='a3',target=rack:slot(1),field=hd2.fields.payload.entity,

@@ -11,7 +11,7 @@
     "pod_payload_pickup": {
       "description": "A drop-pod rack slot referencing a pickup from another package.",
       "packageResidency": "LIVE_PROVEN",
-      "basis": "Live: the replacement loaded and worked with nobody carrying the donor item (tests D, A).",
+      "basis": "Live: the replacement loaded and worked with nobody carrying the donor item (tests D, A, E).",
       "liveBuild": "F5FEE03DCFDB",
       "liveTests": [
         {
@@ -22,6 +22,11 @@
         {
           "id": "A",
           "project": "AssetTestStalwartPodEat700",
+          "result": "PASS"
+        },
+        {
+          "id": "E",
+          "project": "ResupplyTest",
           "result": "PASS"
         }
       ]
@@ -107,6 +112,17 @@
         "observations": [
           "The Pelican did not deliver the FRV in this test, so the mount was never observed.",
           "Not evidence for or against package loading; Bastion-cannon-on-FRV mount compatibility is a separate, unverified question."
+        ]
+      },
+      {
+        "id": "E",
+        "project": "ResupplyTest",
+        "family": "pod_payload_pickup",
+        "result": "PASS",
+        "donorCarried": false,
+        "observations": [
+          "The Grenade Box payload worked in the landed Resupply pod (all four written slots).",
+          "The donor assets loaded correctly; the Resupply operations settled 2/2 applied."
         ]
       }
     ]

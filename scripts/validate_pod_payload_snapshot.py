@@ -150,6 +150,12 @@ local worker=coroutine.create(function()
   allow_shared=true})
  assert(guarded.apply(runtime,resolve(restore)).status=='ALREADY_DESIRED','restoring vanilla needs no reference ack')
  result.scenarios.restore_vanilla={acknowledgement='allow_shared only (vanilla occupant)'}
+ -- A live-verified triple (ResupplyTest: Resupply pod slot 1 <- Grenade Box) needs no reference acknowledgement in
+ -- exactly that slot; the same pickup in a rack where it was never tested still does.
+ local resupply='Resupply pod'
+ assert(pods.racks[resupply].slots['1'].live[pickup('Grenade Box')],'the Resupply live pair is not published')
+ scenario('live_verified_pair',{id='s6',target=slot_target(resupply,1),field=FIELD,
+  expect=pods.racks[resupply].slots['1'].current,value=pickup('Grenade Box'),allow_shared=true})
  local rail='RS-422 Railgun pod'
  scenario('ordinary_support_pod',{id='s6',target=slot_target(rail,1),field=FIELD,
   expect=pods.racks[rail].slots['1'].current,value=SUPPLY,allow_unverified_reference=true})
@@ -179,6 +185,9 @@ local worker=coroutine.create(function()
  reject('field on wrong target',function()domain.validate_patch({id='r5',target={resource='pod_rack',rack=rail,
   path='rack'},field=FIELD,expect=pods.racks[rail].slots['1'].current,value=SUPPLY,allow_unverified_reference=true})end,
   'slot field')
+ reject('live-verified pickup outside its tested slot',function()domain.validate_patch({id='r6',
+  target=slot_target(EAT,1),field=FIELD,expect=vanilla,value=pickup('Grenade Box'),allow_shared=true})end,
+  'allow_unverified_reference')
  -- Tampered live state.
  local spec=domain.validate_patch({id='t',target=slot_target(rail,1),field=FIELD,
   expect=pods.racks[rail].slots['1'].current,value=SUPPLY,allow_unverified_reference=true})

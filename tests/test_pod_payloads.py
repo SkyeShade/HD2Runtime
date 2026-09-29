@@ -61,9 +61,11 @@ class PodPayloadTests(unittest.TestCase):
                     'acknowledgementRejections'):
             self.assertEqual(result[key], 192, key)
         self.assertEqual((result['racks'], result['spawnCounts'], result['sharedRejections']), (48, 48, 24))
-        self.assertEqual(len(result['rejections']), 8)
+        self.assertEqual(len(result['rejections']), 9)
+        self.assertIn('live-verified pickup outside its tested slot', result['rejections'])
         for key in ('surplus_eat_support_weapon', 'surplus_eat_consumable', 'two_different_slots', 'same_entity_twice',
-                    'restore_vanilla', 'ordinary_support_pod', 'weapon_backpack_pod', 'package_risk_replacement'):
+                    'restore_vanilla', 'ordinary_support_pod', 'weapon_backpack_pod', 'package_risk_replacement',
+                    'live_verified_pair'):
             self.assertIn(key, result['scenarios'])
 
     def test_lua_api_and_guards(self):
