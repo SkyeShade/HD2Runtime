@@ -17,14 +17,13 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import generate_entity_authoring  # noqa: E402
+import package_residency_evidence as evidence  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/package-residency-F5FEE03DCFDB.json'
 LUA_OUTPUT = ROOT / 'domains/package_residency.lua'
 JSON_OUTPUT = ROOT / 'sdk/AssetDependencyCapabilities.json'
 CONTRACT = 'hd2runtime.asset_dependencies.v1'
-# Native semantics that are proven offline; the in-game effect of an automatic load is not yet live-tested.
-LIVE_TESTED = False
 
 
 def outputs(research_path=RESEARCH):
@@ -33,22 +32,29 @@ def outputs(research_path=RESEARCH):
     g, e = loader['gameDll'], loader['engine']
     packages, dependencies, by_resource = {}, {}, {}
     public = []
+    live_objects = set(evidence.live_objects())
+    live_packages = set(evidence.live_packages(research['catalog']))
     for key, item in research['catalog'].items():
         dep = item['dependency']
         known = bool(item['known'])
+        name = (dep or {}).get('name')
         entry = {'key': key, 'label': item['label'], 'kind': item['kind'],
             'packageDependency': {'known': known, 'autoLoadSupported': known,
-                'derivation': (dep or {}).get('via'), 'package': ((dep or {}).get('name') or '').rsplit('/', 1)[-1]
-                    or None,
-                'liveTested': LIVE_TESTED,
+                'derivation': (dep or {}).get('via'), 'package': name.rsplit('/', 1)[-1] if name else None,
+                'packageNamed': bool(name) if known else None,
+                'liveTested': key in live_objects,
+                'packageLiveLoaded': known and dep['package'] in live_packages,
                 'blocker': None if known else ('No loadout package owns this object and no vanilla holder with a '
                     'package references it, so Runtime cannot name the assets it needs.')}}
         public.append(entry)
         if not known:
             continue
         pid = dep['package']
-        packages[pid] = {'name': dep['name'], 'inBundleDatabase': dep['inBundleDatabase']}
-        dependencies[key] = {'package': pid, 'via': dep['via'], 'label': item['label']}
+        # Some packages are proven by identity but their name is not reversed; they get a display name only.
+        packages.setdefault(pid, {'name': name or 'unnamed loadout package of ' + item['label'],
+            'named': bool(name), 'inBundleDatabase': dep['inBundleDatabase']})
+        dependencies[key] = dict({'package': pid, 'via': dep['via'], 'label': item['label']},
+            **({'live': True} if key in live_objects else {}))
         by_resource.setdefault(item['resource'], pid)
     runtime = {'version': 1, 'build': research['build'],
         'loader': {'requestRva': g['requestRva'], 'releaseRva': g['releaseRva'],
@@ -65,7 +71,11 @@ def outputs(research_path=RESEARCH):
         'byResource': dict(sorted(by_resource.items())),
         'policy': {'retain': 'session', 'maxHeldPackages': 64, 'loadTimeoutSeconds': 90,
             'pollSeconds': 0.25, 'refcountFillLimit': 0.75}}
-    summary = dict(research['summary'], liveTested=LIVE_TESTED, packages=len(packages))
+    summary = dict(research['summary'], packages=len(packages),
+        unnamedPackages=sum(not p['named'] for p in packages.values()),
+        liveTestedObjects=len(live_objects), liveLoadedPackages=len(live_packages),
+        liveProvenFamilies=sorted(k for k, v in evidence.families().items() if v['packageResidency'] == 'LIVE_PROVEN'))
+    live = evidence.live()
     document = {'contract': CONTRACT, 'schemaVersion': 1, 'build': research['build'],
         'model': ['A reference swap only works in game when the replacement\'s assets are resident. Helldivers 2 '
             'loads an item\'s generated loadout package when some player carries the item (or level generation '
@@ -74,6 +84,14 @@ def outputs(research_path=RESEARCH):
             'Runtime requests the same package through the game\'s own reference-counted package system before '
             'it writes such a reference, waits until the engine reports it resident, and only then applies the '
             'write (status WAITING_FOR_ASSETS while loading, ASSET_UNAVAILABLE if it cannot).'],
+        'residencyVersusCompatibility': ('packageDependency answers only whether Runtime can load the assets a '
+            'reference needs. Whether the game behaves correctly with that reference in that slot is a separate '
+            'question answered by each domain (for example allow_unverified_reference on pod and mount swaps).'),
+        'referenceFamilies': evidence.families(),
+        'liveEvidence': {'recorded': live['recorded'], 'runtimeCommit': live['runtime']['commit'],
+            'control': live['control'], 'tests': [{'id': t['id'], 'project': t['project'], 'family': t['family'],
+                'result': t['result'], 'donorCarried': t['donorCarried'], 'observations': t['observations']}
+                for t in live['tests']]},
         'policy': runtime['policy'], 'summary': summary, 'objects': public,
         'safety': {'arbitraryPackages': False, 'callerSuppliedIdentities': False, 'writes': 0}}
     return {LUA_OUTPUT: '-- Generated by scripts/generate_package_residency.py; do not edit.\nreturn '

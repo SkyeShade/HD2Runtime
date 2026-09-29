@@ -344,9 +344,11 @@ def build(research_path=RESEARCH):
                     reason=None if allowed else 'No discovered compatible replacement identity.',
                     extra={'allowedValues': allowed, 'acknowledgement': 'allow_unverified_reference',
                         'valueKind': 'mounted_weapon_semantic_id',
-                        'residencyWarning': ('The runtime rewrites the typed mount reference only; it does not '
-                            'load packages. A replacement from a different package may be absent when this '
-                            'vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed.')})
+                        'residencyWarning': ('Package residency: when the replacement comes from another '
+                            'package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE '
+                            'otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount '
+                            'compatibility is separate and unverified: FRVWeaponSwap verified the write live, '
+                            'but in-game firing and rendering of a swapped mount are unconfirmed.')})
                 entry['instanceKey'] = descriptor['instanceKey']
                 runtime_mounts[mount_id] = {'slot': slot['slot'], 'current': weapon['semanticId'], 'role': role}
             else:

@@ -16,6 +16,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+import package_residency_evidence  # noqa: E402
+import apply_projectile_residency  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'sdk'))
@@ -588,19 +590,7 @@ def analyze(raw):
                     'consumers': record['consumers'],
                     'scalarWriteScope': 'shared_projectile_definition',
                     'weaponLocalOverrideProven': False},
-                'residency': ({'classification': 'SOURCE_WEAPON_REQUIRED',
-                    'evidence': 'Observed gameplay control: projectile is invisible until LAS-58 Talon is equipped.',
-                    'preloadSupported': False,
-                    'reason': 'No reviewed Bingus or native resource-loader contract is available.'}
-                    if name == 'LAS-58 Talon' else
-                    {'classification': 'SELF_CONTAINED',
-                    'evidence': 'Observed Reprimand to JAR-5 gameplay swap remained functional.',
-                    'preloadSupported': False, 'reason': None}
-                    if name == 'JAR-5 Dominator' else
-                    {'classification': 'DEPENDENCY_UNRESOLVED',
-                    'evidence': 'No equipped/unequipped residency pair exists in the current snapshot set.',
-                    'preloadSupported': False,
-                    'reason': 'Resource bundle/package ownership is not structurally proven.'}),
+                'residency': package_residency_evidence.projectile_residency(name, role),
                 'targetBacking': ({'component': component, 'offset': offset, 'width': 4,
                     'storage': 'u32', 'recordIndex': owner['recordIndex'],
                     'indexRow': owner['indexRow'], 'ownerCount': owner['ownerCount'],
@@ -731,10 +721,7 @@ def analyze(raw):
             'sharedTargetPolicy': 'fail_closed; no shared target selector is promoted in this pass'},
         'compatibleSourcesByClass': dict(sorted(compatible_sources.items())),
         'sharedProjectileGroups': shared_projectile_groups,
-        'residencyPolicy': {'preloadApiAvailable': False,
-            'knownSourceWeaponRequired': ['LAS-58 Talon'],
-            'unknownSourcesRemain': sum(attack['residency']['classification']=='DEPENDENCY_UNRESOLVED'
-                for weapon in projectile_weapons for attack in weapon['attacks'])},
+        'residencyPolicy': apply_projectile_residency.residency_policy(projectile_weapons),
         'weapons': projectile_weapons}
 
     fire_groups = defaultdict(list)

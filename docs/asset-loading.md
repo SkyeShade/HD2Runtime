@@ -8,6 +8,10 @@ question mark, and the projectile is invisible or broken.
 HD2Runtime 0.27 loads those packages automatically, through the same native system the game uses for
 loadouts. Mod authors never see or pass package IDs.
 
+**Status: live-proven in game** (2026-09-29) for pod-payload pickups and projectile references. In all three
+passing tests the donor item was not carried by anyone and the replacement loaded and worked. See
+[Live results](#live-results).
+
 ## The model (proven offline on build F5FEE03DCFDB)
 
 - Each item has a generated loadout package (`packages/generated/loadout/<item>`), named by
@@ -42,6 +46,9 @@ loadouts. Mod authors never see or pass package IDs.
    - 260 with a known dependency: 253 own a package, and 7 use the package of the vanilla holder;
    - 71 unknown.
 
+   Some packages are proven by their identity in the build, but their name has not been recovered. These
+   are loaded the same way. The public metadata marks them `packageNamed=false` and shows no name.
+
    A dependency is published only when it is structurally proven. It is never inferred transitively.
 2. **Dependency collection.** A validated patch, transaction or plan records the packages its new
    references need:
@@ -67,8 +74,9 @@ loadouts. Mod authors never see or pass package IDs.
    - the budget (64 packages per session) is spent;
    - the runtime cannot request packages.
 
-   Runtime never writes a reference to assets it could not confirm resident, so it produces no silent purple
-   objects.
+   For a known dependency, Runtime never writes a reference to assets it could not confirm resident, so it
+   produces no silent purple objects. Unknown dependencies are covered under
+   [Reference semantics versus package residency](#reference-semantics-versus-package-residency).
 
 ### Retention and ownership
 
@@ -101,12 +109,15 @@ backpacks, mounted-weapon candidates and projectile handles. There is deliberate
 - `known`;
 - `autoLoadSupported`;
 - `derivation`;
-- `package` (short name only);
-- `liveTested`;
+- `package` (short name only; null when the name is not recovered);
+- `packageNamed`;
+- `liveTested` (this object was the replacement in a passing live test);
+- `packageLiveLoaded` (its package was loaded live);
 - `blocker`.
 
-It contains no hashes. Tools such as HD2RuntimeGUI should show objects with `known=false` as "may appear as
-a missing asset".
+It also publishes `referenceFamilies`, the proof level of package loading per reference family, and
+`liveEvidence`. It contains no hashes. Tools such as HD2RuntimeGUI should show objects with `known=false`
+as "may appear as a missing asset".
 
 ## Reference semantics versus package residency
 
@@ -117,10 +128,25 @@ These are two separate questions, and the loader answers only the second:
 | Does the game behave correctly with this reference in this slot (pod rack, mount, attack)? | Gameplay evidence per slot | `allow_unverified_reference` stays required where it was |
 | Are the referenced assets loaded? | Package residency (this page) | None: loaded automatically, or `ASSET_UNAVAILABLE` |
 
+Package residency proof level per reference family (`referenceFamilies`):
+
+| Family | Package residency | Reference / slot compatibility |
+| --- | --- | --- |
+| Pod-payload pickup | **Live-proven** (tests A and D) | Unverified in general (`allow_unverified_reference`); the two tested rack/pickup pairs are published as `liveVerifiedPairs` |
+| Projectile reference | **Live-proven** (test B) | Unchanged: only approved compatibility classes can be swapped |
+| Explosion reference | Offline-proven; same loader path and source-weapon packages as projectile references | Unchanged |
+| Vehicle mount | Offline-proven; live test C was inconclusive | Unverified (`allow_unverified_reference`) |
+
+A reference whose package is unknown gets no automatic load. The write behaves as before 0.27, gated by
+the same acknowledgement. The pod catalog and the projectile catalog mark these entries `UNRESOLVED`.
+
 Pod swaps to non-vanilla pickups and mount swaps still require `allow_unverified_reference`, because their
 gameplay semantics remain unverified. LAS-58 Talon was previously blocked as a projectile source
 (`SOURCE_WEAPON_REQUIRED`), since the only failure observed was missing assets. Its package is now known, so
-the swap is accepted and loads `laser_pistol` first. Sources whose dependency remains unknown stay rejected.
+the swap is accepted and loads `laser_pistol` first; this was confirmed live. The composition catalogs now
+classify every source with a known package as `PACKAGE_AUTO_LOADED` and keep the pre-loader observation in
+`observedWithoutLoader`. A source observed to need its own package whose package is unknown stays
+rejected.
 
 ## Lifecycle
 
@@ -161,16 +187,32 @@ asset for an object whose authority is the host. Runtime makes no claim about re
 - `scripts/validate_packaged_runtime.py` runs the four asset-test examples from the built ZIP with a
   simulated loader. Each requests its package once, waits, then applies.
 
-## Live tests still required
+## Live results
 
-The native semantics are proven offline. The in-game effect has not been live-tested (`liveTested=false`).
+Recorded in `research/package-residency-live-evidence.json`. Runtime commit `cff6d0f` was run from the
+test build in `build/test-artifacts/assets-0.27/`. In every test, nobody carried the donor item.
 
-| Project | Checks |
-| --- | --- |
-| **A** `AssetTestStalwartPodEat700` | Nobody brings EAT-700. The Stalwart pod should contain two real EAT-700s. |
-| **B** `AssetTestReprimandTalonProjectile` | Nobody brings the Talon. Reprimand shots should be visible Talon lasers with damage. |
-| **C** `AssetTestFrvBastionCannon` | Nobody brings a Bastion. The FRV gunner mount should show the Bastion cannon; gameplay semantics are still unverified. |
-| **D** `AssetTestMg43PodGrenadeBox` | The MG-43 pod's second item should be a Grenade Box that can be picked up. |
+| Test | Project | Family | Result |
+| --- | --- | --- | --- |
+| A | `AssetTestStalwartPodEat700` | Pod-payload pickup | **Pass.** The pod spawned a real, usable EAT-700 instead of the purple question mark. |
+| B | `AssetTestReprimandTalonProjectile` | Projectile reference | **Pass.** The Reprimand fired the Talon projectile with correct visuals and function. |
+| D | `AssetTestMg43PodGrenadeBox` | Pod-payload pickup | **Pass.** The Grenade Box spawned correctly and could be picked up. |
+| C | `AssetTestFrvBastionCannon` | Vehicle mount | **Inconclusive.** The Pelican did not deliver the FRV, so the mount was never observed. |
 
-Record `[HD2Runtime] assets for <id> requested/resident` log lines, and test once solo and once with a
-client that does not have the mod.
+Before 0.27 these swaps wrote a valid reference, but the assets were missing unless someone equipped the
+donor item. With the loader, the donor item no longer needs to be in the mission.
+
+### Vehicle mounts
+
+A vehicle-mount live test is not required for 0.27.0. Mount swaps still require
+`allow_unverified_reference`, and the mount family is published as offline-proven only. The mount path uses
+the same gate and native request as the live-proven families. The Bastion-cannon-on-FRV case also mixes in
+an unverified mount-compatibility question.
+
+A later test, if wanted: M-102 Gunner FRV `slot_0` ← the M-103 Supply FRV gun. This is the same FRV
+chassis and weapon family, and the gun lives in a different package (`ammo_rack_mounted_turret`).
+
+### Still worth testing
+
+- A client without the mod joining a host with the mod (multiplayer caveat above).
+- An explosion-reference swap from another weapon's package.

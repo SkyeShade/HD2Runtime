@@ -35,9 +35,9 @@ function M.describe(target)
         return {key=key,known=false,autoLoadSupported=false,liveTested=false,
             blocker='no loadout package owns this object and no vanilla holder with a package references it'}
     end
-    local name=database.packages[item.package].name
-    return {key=key,known=true,autoLoadSupported=true,derivation=item.via,liveTested=false,
-        package=name:match('[^/]+$'),retain=database.policy.retain}
+    local package=database.packages[item.package]
+    return {key=key,known=true,autoLoadSupported=true,derivation=item.via,liveTested=item.live==true,
+        package=package.named and package.name:match('[^/]+$')or nil,retain=database.policy.retain}
 end
 
 local function dependencies_for(request)

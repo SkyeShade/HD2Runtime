@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "build": "F5FEE03DCFDB",
+  "recorded": "2026-09-29",
+  "source": "In-game live test session reported by the project owner",
+  "runtime": {
+    "commit": "cff6d0f",
+    "artifact": "build/test-artifacts/assets-0.27/HD2Runtime-0.26.1-runtime.zip",
+    "sha256": "675218b2b0c3b7ba0d800e5db01d07fae0ea2599796cc96330bd4cfc209178f5",
+    "note": "Unbumped test build (0.26.1 file name) containing the 0.27.0 automatic asset loading."
+  },
+  "control": "Before automatic loading, the reference swaps were valid but produced broken or purple placeholder assets unless some player equipped the donor item; equipping the donor separately made them work.",
+  "tests": [
+    {
+      "id": "B",
+      "project": "AssetTestReprimandTalonProjectile",
+      "sha256": "796f3e1f8949e3666495ce86aade03c89982d75f2888fc419273473f4005be7d",
+      "family": "projectile_reference",
+      "result": "PASS",
+      "donorCarried": false,
+      "objects": ["player_weapon/LAS-58 Talon"],
+      "observations": [
+        "Nobody equipped the LAS-58 Talon.",
+        "The SMG-32 Reprimand fired the Talon projectile correctly; visuals and function worked."
+      ]
+    },
+    {
+      "id": "D",
+      "project": "AssetTestMg43PodGrenadeBox",
+      "sha256": "65e7c780781f259ca999a8cb233273e84e5c469229c71855e81af41ede3c65a0",
+      "family": "pod_payload_pickup",
+      "result": "PASS",
+      "donorCarried": false,
+      "objects": ["pickup/pickup/v1/grenade-box/5ad3b36a5d3adbb7"],
+      "pairs": [{"rack": "MG-43 Machine Gun pod", "slot": 1, "pickup": "Grenade Box"}],
+      "observations": [
+        "The Grenade Box spawned correctly from the MG-43 pod.",
+        "The pickup was usable."
+      ]
+    },
+    {
+      "id": "A",
+      "project": "AssetTestStalwartPodEat700",
+      "sha256": "f5f8271aa9f7d26ef95ff2089ef79f7de9b76ba8befdc50affa7271a0be9d749",
+      "family": "pod_payload_pickup",
+      "result": "PASS",
+      "donorCarried": false,
+      "objects": ["pickup/pickup/v1/eat-700-expendable-napalm/bff4b15f31d35c94"],
+      "pairs": [{"rack": "M-105 Stalwart pod", "slot": 2, "pickup": "EAT-700 Expendable Napalm"}],
+      "observations": [
+        "Nobody brought or equipped the EAT-700.",
+        "The pod spawned a real, usable EAT-700 instead of the purple question-mark placeholder."
+      ]
+    },
+    {
+      "id": "C",
+      "project": "AssetTestFrvBastionCannon",
+      "sha256": "6d9a8e4e4624198272d008e7c5b5d2cef6906cd95ea154316106997cd3e7e3e7",
+      "family": "vehicle_mount",
+      "result": "INCONCLUSIVE",
+      "donorCarried": false,
+      "objects": ["mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437"],
+      "observations": [
+        "The Pelican did not deliver the FRV in this test, so the mount was never observed.",
+        "Not evidence for or against package loading; Bastion-cannon-on-FRV mount compatibility is a separate, unverified question."
+      ]
+    }
+  ]
+}

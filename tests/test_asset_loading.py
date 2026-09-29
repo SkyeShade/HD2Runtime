@@ -67,10 +67,11 @@ class AssetLoadingTests(unittest.TestCase):
         self.assertNotRegex(json.dumps(self.public).lower(), re.compile(r'0x[0-9a-f]{8,}'))
         for item in self.public['objects']:
             dependency = item['packageDependency']
-            self.assertEqual(set(dependency), {'known', 'autoLoadSupported', 'derivation', 'package', 'liveTested',
-                'blocker'})
-            self.assertFalse(dependency['liveTested'])
+            self.assertEqual(set(dependency), {'known', 'autoLoadSupported', 'derivation', 'package', 'packageNamed',
+                'liveTested', 'packageLiveLoaded', 'blocker'})
             self.assertEqual(dependency['known'], dependency['blocker'] is None)
+            if dependency['liveTested']:
+                self.assertTrue(dependency['packageLiveLoaded'])
         metadata = json.loads((ROOT / 'sdk/metadata.json').read_text())
         functions = metadata['api']['functions']
         self.assertIn('require_assets', functions)
@@ -79,6 +80,64 @@ class AssetLoadingTests(unittest.TestCase):
         stub = (ROOT / 'sdk/stubs/mods/skyeshade/hd2runtime.lua').read_text()
         self.assertIn('function hd2.require_assets(request) end', stub)
         self.assertNotIn('load_package', (ROOT / 'api/hd2.lua').read_text())
+
+    def test_live_evidence(self):
+        live = json.loads((ROOT / 'research/package-residency-live-evidence.json').read_text())
+        results = {t['id']: (t['family'], t['result'], t['donorCarried']) for t in live['tests']}
+        self.assertEqual(results, {'A': ('pod_payload_pickup', 'PASS', False),
+            'B': ('projectile_reference', 'PASS', False), 'C': ('vehicle_mount', 'INCONCLUSIVE', False),
+            'D': ('pod_payload_pickup', 'PASS', False)})
+        catalog = self.research['catalog']
+        for test in live['tests']:
+            for key in test['objects']:
+                self.assertTrue(catalog[key]['known'], key)
+        families = self.public['referenceFamilies']
+        self.assertEqual({k: v['packageResidency'] for k, v in families.items()}, {
+            'pod_payload_pickup': 'LIVE_PROVEN', 'projectile_reference': 'LIVE_PROVEN',
+            'explosion_reference': 'OFFLINE_PROVEN', 'vehicle_mount': 'OFFLINE_PROVEN'})
+        objects = {o['key']: o['packageDependency'] for o in self.public['objects']}
+        self.assertEqual(sorted(k for k, v in objects.items() if v['liveTested']), [
+            'pickup/pickup/v1/eat-700-expendable-napalm/bff4b15f31d35c94',
+            'pickup/pickup/v1/grenade-box/5ad3b36a5d3adbb7', 'player_weapon/LAS-58 Talon'])
+        self.assertTrue(objects['support_weapon/EAT-700 Expendable Napalm']['packageLiveLoaded'])
+        self.assertFalse(objects['support_weapon/EAT-700 Expendable Napalm']['liveTested'])
+        bastion = 'mounted_weapon/mounted-weapon/v1/td-220-bastion-mk-xvi-attach-tank-gun-weapon/e90a7fd19ec0d437'
+        self.assertFalse(objects[bastion]['liveTested'])
+        self.assertEqual(self.public['summary']['liveProvenFamilies'], ['pod_payload_pickup', 'projectile_reference'])
+
+    def test_residency_separated_from_compatibility(self):
+        pods = json.loads((ROOT / 'sdk/PodPayloadCapabilities.json').read_text())
+        pickups = {p['name']: p for p in pods['pickups']}
+        self.assertEqual(pickups['EAT-700 Expendable Napalm']['packageDependency']['packageResidency'], 'LIVE_PROVEN')
+        self.assertEqual(pickups['Supply Box']['packageDependency']['packageResidency'], 'ALWAYS_RESIDENT')
+        self.assertEqual(pickups['Health Pack (pod)']['packageDependency']['packageResidency'], 'UNRESOLVED')
+        # slot compatibility is untouched: the acknowledgement is still published for every authored slot
+        self.assertEqual(pickups['Grenade Box']['compatibility'], 'UNVERIFIED_REFERENCE')
+        for rack in pods['racks']:
+            for slot in rack['slots']:
+                if slot.get('writable'):
+                    self.assertIn('allow_unverified_reference', slot['acknowledgements'])
+        self.assertEqual({(p['rack'], p['slot'], p['pickup']) for p in pods['liveVerifiedPairs']},
+            {('M-105 Stalwart pod', 2, 'EAT-700 Expendable Napalm'), ('MG-43 Machine Gun pod', 1, 'Grenade Box')})
+        projectiles = json.loads((ROOT / 'sdk/ProjectileCompositionCapabilities.json').read_text())
+        residency = {w['weapon']: a['residency'] for w in projectiles['weapons'] for a in w['attacks']}
+        talon = residency['LAS-58 Talon']
+        self.assertEqual((talon['classification'], talon['package'], talon['liveTested'],
+            talon['observedWithoutLoader']), ('PACKAGE_AUTO_LOADED', 'laser_pistol', True, 'SOURCE_WEAPON_REQUIRED'))
+        self.assertEqual(residency['GP-31 Grenade Pistol']['classification'], 'DEPENDENCY_UNRESOLVED')
+        policy = projectiles['residencyPolicy']
+        self.assertTrue(policy['automaticPackageLoading'])
+        attacks = sum(len(w['attacks']) for w in projectiles['weapons'])
+        self.assertEqual(policy['autoLoadedSources'] + policy['unknownSourcesRemain'], attacks)
+        self.assertNotIn('No reviewed Bingus', json.dumps(projectiles))
+        vehicles = (ROOT / 'sdk/VehicleAuthoringCapabilities.json').read_text()
+        self.assertNotIn('it does not load packages', vehicles)
+        self.assertIn('Mount compatibility is separate and unverified', vehicles)
+        spec_ = importlib.util.spec_from_file_location('apply_projectile_residency',
+            ROOT / 'scripts/apply_projectile_residency.py')
+        module = importlib.util.module_from_spec(spec_)
+        spec_.loader.exec_module(module)
+        self.assertFalse(module.generate(check=True))
 
     def test_snapshot_validation(self):
         result = json.loads((ROOT / 'validation/asset-residency-snapshot.json').read_text())
@@ -160,6 +219,13 @@ assert(eat.known and eat.autoLoadSupported and eat.package=='expendable_napalm_l
 assert(not tostring(eat.package):find('0x',1,true))
 local talon=hd2.asset_dependency(hd2.weapon('LAS-58 Talon'))
 assert(talon.known and talon.package=='laser_pistol')
+assert(eat.liveTested==true and talon.liveTested==true)
+assert(hd2.asset_dependency(hd2.support_weapon('EAT-700 Expendable Napalm')).liveTested==false)
+-- a package proven by identity but without a recovered name: known, no name published, never crashes
+local rover=hd2.asset_dependency(hd2.backpack('AX/LAS-5 Rover'))
+assert(rover.known and rover.package==nil,tostring(rover.package))
+local rover_dependency=assets.dependency(rover.key)
+assert(type(rover_dependency.name)=='string'and rover_dependency.name:find('unnamed loadout package',1,true))
 local supply=hd2.asset_dependency(hd2.pickup('Supply Box'))
 assert(not supply.known and not supply.autoLoadSupported and supply.blocker)
 assert(not hd2.asset_dependency({resource='package',id='0x5D68E55823ACD1BF'}).known)
@@ -207,7 +273,7 @@ return 'ok'
     def test_docs_and_release_wiring(self):
         docs = (ROOT / 'docs/asset-loading.md').read_text(encoding='utf-8')
         for needle in ('ASSET_UNAVAILABLE', 'waiting_for_assets', 'allow_unverified_reference', 'Multiplayer',
-                       'Live tests still required'):
+                       'Live results', 'Live-proven', 'not required for 0.27.0'):
             self.assertIn(needle, docs)
         self.assertEqual((ROOT / 'sdk/docs/asset-loading.md').read_text(encoding='utf-8'), docs)
         self.assertIn('generate_package_residency', (ROOT / 'scripts/regenerate_domains.py').read_text())

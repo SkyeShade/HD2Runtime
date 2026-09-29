@@ -22,7 +22,42 @@
     "UNVERIFIED_REFERENCE": "Standalone typed pickup never placed in a vanilla rack.",
     "INCOMPATIBLE": "Not a typed pickup (deployables, objectives, primaries, sidearms); never offered."
   },
-  "packageRisk": "Low when the pickup is the vanilla occupant, is always resident, or its package key is in the rack's residentPackages; otherwise high: its assets may not be loaded when the pod spawns.",
+  "packageRisk": "Resolved by automatic loading when pickups[].packageDependency.autoLoadSupported is true: Runtime loads the pickup's package before writing the slot and rejects the write with ASSET_UNAVAILABLE if it cannot. Otherwise low only when the pickup is the vanilla occupant, is always resident, or its package key is in the rack's residentPackages.",
+  "packageResidency": {
+    "description": "A drop-pod rack slot referencing a pickup from another package.",
+    "packageResidency": "LIVE_PROVEN",
+    "basis": "Live: the replacement loaded and worked with nobody carrying the donor item (tests D, A).",
+    "liveBuild": "F5FEE03DCFDB",
+    "liveTests": [
+      {
+        "id": "D",
+        "project": "AssetTestMg43PodGrenadeBox",
+        "result": "PASS"
+      },
+      {
+        "id": "A",
+        "project": "AssetTestStalwartPodEat700",
+        "result": "PASS"
+      }
+    ]
+  },
+  "residencyVersusCompatibility": "Package loading resolves missing assets only. Whether a replacement behaves correctly from a given pod is slot compatibility, which stays unverified (allow_unverified_reference) except for the live-verified pairs.",
+  "liveVerifiedPairs": [
+    {
+      "rack": "MG-43 Machine Gun pod",
+      "slot": 1,
+      "pickup": "Grenade Box",
+      "test": "D",
+      "project": "AssetTestMg43PodGrenadeBox"
+    },
+    {
+      "rack": "M-105 Stalwart pod",
+      "slot": 2,
+      "pickup": "EAT-700 Expendable Napalm",
+      "test": "A",
+      "project": "AssetTestStalwartPodEat700"
+    }
+  ],
   "racks": [
     {
       "name": "RL-77 Airburst Rocket Launcher pod",
@@ -7411,7 +7446,16 @@
       "residency": {
         "packageKey": "package/c85ad8f2f8504ff9",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "ammo_box",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7438,6 +7482,15 @@
         "alwaysResident": false,
         "basis": "No own loadout package; its assets load with the racks that deliver it."
       },
+      "packageDependency": {
+        "known": false,
+        "alwaysResident": false,
+        "autoLoadSupported": false,
+        "package": null,
+        "packageResidency": "UNRESOLVED",
+        "liveTested": false,
+        "blocker": "No own loadout package is proven for this pickup; Runtime cannot load it, and its assets are present only when a rack that delivers it is loaded."
+      },
       "packageOwners": []
     },
     {
@@ -7462,7 +7515,16 @@
       "residency": {
         "packageKey": "package/7a46545f755d2e2e",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "drone_mg_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7487,7 +7549,16 @@
       "residency": {
         "packageKey": "package/0f9b8a8e088e1995",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "guard_dog_stun_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7512,7 +7583,16 @@
       "residency": {
         "packageKey": "package/1664e4c6e3907fc5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7537,7 +7617,16 @@
       "residency": {
         "packageKey": "package/34ab2efc2561fb76",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7562,7 +7651,16 @@
       "residency": {
         "packageKey": "package/c8b858c4d693afbb",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "drone_gas_projector_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7587,7 +7685,16 @@
       "residency": {
         "packageKey": "package/871a807aeb666321",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "air_burst_rocket_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7612,7 +7719,16 @@
       "residency": {
         "packageKey": "package/a1c28eccf5f9ba1f",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "automatic_cannon_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7638,7 +7754,16 @@
       "residency": {
         "packageKey": "package/fd1d6373f17d5f8d",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "ammo_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7663,7 +7788,16 @@
       "residency": {
         "packageKey": "package/171050c33f0079b1",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "hellbomb_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7688,7 +7822,16 @@
       "residency": {
         "packageKey": "package/7c2f95d09dfd5776",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7711,7 +7854,16 @@
       "residency": {
         "packageKey": "package/0a28db021eb4a651",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "ballistic_shield_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7736,7 +7888,16 @@
       "residency": {
         "packageKey": "package/55c5db58f5d33eb6",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7759,7 +7920,16 @@
       "residency": {
         "packageKey": "package/cde4870838df6b8d",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7784,7 +7954,16 @@
       "residency": {
         "packageKey": "package/701dfd19d35bb8d5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7809,7 +7988,16 @@
       "residency": {
         "packageKey": "package/61e88459a093ed07",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7834,7 +8022,16 @@
       "residency": {
         "packageKey": "package/5f38461d09d86b73",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7859,7 +8056,16 @@
       "residency": {
         "packageKey": "package/694936daba7d0436",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "displacement_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7885,7 +8091,16 @@
       "residency": {
         "packageKey": "package/a5584410ed94bfb3",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "jumppack_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7910,7 +8125,16 @@
       "residency": {
         "packageKey": "package/864eb5abdbf777ef",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "hover_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7935,7 +8159,16 @@
       "residency": {
         "packageKey": "package/81b5ebd3396d8a29",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7960,7 +8193,16 @@
       "residency": {
         "packageKey": "package/05eb153552395d34",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "medic_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -7985,7 +8227,16 @@
       "residency": {
         "packageKey": "package/10c6a7cd512c2e2f",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "recoilless_rifle_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8010,7 +8261,16 @@
       "residency": {
         "packageKey": "package/0a28db021eb4a651",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "ballistic_shield_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8035,7 +8295,16 @@
       "residency": {
         "packageKey": "package/a234d71fd6d71d13",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "energy_shield_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8060,7 +8329,16 @@
       "residency": {
         "packageKey": "package/17da1a9bf2e4872c",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "directional_energy_shield_backpack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8085,7 +8363,16 @@
       "residency": {
         "packageKey": "package/2ecfa14a39edbaa7",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "grenade_box",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": true,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8110,7 +8397,16 @@
       "residency": {
         "packageKey": "package/a7d9ce0308863533",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "health_pack",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8138,6 +8434,15 @@
         "packageKey": null,
         "alwaysResident": false,
         "basis": "No own loadout package; its assets load with the racks that deliver it."
+      },
+      "packageDependency": {
+        "known": false,
+        "alwaysResident": false,
+        "autoLoadSupported": false,
+        "package": null,
+        "packageResidency": "UNRESOLVED",
+        "liveTested": false,
+        "blocker": "No own loadout package is proven for this pickup; Runtime cannot load it, and its assets are present only when a rack that delivers it is loaded."
       },
       "packageOwners": [
         "package/b5fdabaaada3cb78"
@@ -8169,6 +8474,15 @@
         "alwaysResident": true,
         "basis": "Delivered by an always-available mission stratagem (Resupply)."
       },
+      "packageDependency": {
+        "known": false,
+        "alwaysResident": true,
+        "autoLoadSupported": false,
+        "package": null,
+        "packageResidency": "ALWAYS_RESIDENT",
+        "liveTested": false,
+        "blocker": null
+      },
       "packageOwners": [
         "package/b47a5b89aa65ddeb"
       ]
@@ -8196,7 +8510,16 @@
       "residency": {
         "packageKey": "package/58e8ba62bc2607c5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "energy_weapon_shark",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8223,7 +8546,16 @@
       "residency": {
         "packageKey": "package/25cdc440d9bb7140",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "automatic_cannon",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8251,7 +8583,16 @@
       "residency": {
         "packageKey": "package/fb43f7760103544f",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "sniper_rifle",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8278,7 +8619,16 @@
       "residency": {
         "packageKey": "package/d6b8b5e0fbc87ad5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "arc_thrower",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8305,7 +8655,16 @@
       "residency": {
         "packageKey": "package/7c2f95d09dfd5776",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8332,7 +8691,16 @@
       "residency": {
         "packageKey": "package/55c5db58f5d33eb6",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8359,7 +8727,16 @@
       "residency": {
         "packageKey": "package/7e844ccbfc29d9cb",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "melee_flag",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8386,7 +8763,16 @@
       "residency": {
         "packageKey": "package/0a106aa1daf0e1ca",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "melee_sledge_hammer",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8411,7 +8797,16 @@
       "residency": {
         "packageKey": "package/4d6b5a2560b156b5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "survival_shovel",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8438,7 +8833,16 @@
       "residency": {
         "packageKey": "package/7cd5018632e0d6bb",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "melee_chainsaw_greatsword",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8465,6 +8869,15 @@
         "alwaysResident": false,
         "basis": "No own loadout package; its assets load with the racks that deliver it."
       },
+      "packageDependency": {
+        "known": false,
+        "alwaysResident": false,
+        "autoLoadSupported": false,
+        "package": null,
+        "packageResidency": "UNRESOLVED",
+        "liveTested": false,
+        "blocker": "No own loadout package is proven for this pickup; Runtime cannot load it, and its assets are present only when a rack that delivers it is loaded."
+      },
       "packageOwners": []
     },
     {
@@ -8490,7 +8903,16 @@
       "residency": {
         "packageKey": "package/b8e2f1a97e6546b0",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "lat_oneshot",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8517,7 +8939,16 @@
       "residency": {
         "packageKey": "package/23c02097d0a1c24b",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "expendable_massive_rocket_launcher",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8544,7 +8975,16 @@
       "residency": {
         "packageKey": "package/287d32da6761ab8d",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "expendable_napalm_launcher",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": true,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8571,7 +9011,16 @@
       "residency": {
         "packageKey": "package/701dfd19d35bb8d5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8599,7 +9048,16 @@
       "residency": {
         "packageKey": "package/5bc4b5de60e1e120",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "flamethrower",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8626,7 +9084,16 @@
       "residency": {
         "packageKey": "package/a57f0dd4abba8e32",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "grenade_launcher",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8653,7 +9120,16 @@
       "residency": {
         "packageKey": "package/5f38461d09d86b73",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8680,7 +9156,16 @@
       "residency": {
         "packageKey": "package/b5a8d8a293af167e",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "grenade_launcher_tactical",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8707,7 +9192,16 @@
       "residency": {
         "packageKey": "package/482b11b2733cba9d",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "recoilless_rifle",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8734,7 +9228,16 @@
       "residency": {
         "packageKey": "package/adabb0b8315a84ff",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "laser_cannon",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8761,7 +9264,16 @@
       "residency": {
         "packageKey": "package/adabb0b8315a84ff",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "laser_cannon",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8788,7 +9300,16 @@
       "residency": {
         "packageKey": "package/81b5ebd3396d8a29",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8815,7 +9336,16 @@
       "residency": {
         "packageKey": "package/e3b4ecfe56d2e48c",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "lmg_stalwart",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8842,7 +9372,16 @@
       "residency": {
         "packageKey": "package/4bcaa183dc2b01e7",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "heavy_mg",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8867,7 +9406,16 @@
       "residency": {
         "packageKey": "package/4bcaa183dc2b01e7",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "heavy_mg",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8895,7 +9443,16 @@
       "residency": {
         "packageKey": "package/8b9d007bf87fe6d5",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "machinegun",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8922,7 +9479,16 @@
       "residency": {
         "packageKey": "package/4e2ab3d616307b9f",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "expendable_machinegun",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8949,7 +9515,16 @@
       "residency": {
         "packageKey": "package/14ed4126c5836fad",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "laser_guided_missile_launcher",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -8976,6 +9551,15 @@
         "alwaysResident": false,
         "basis": "No own loadout package; its assets load with the racks that deliver it."
       },
+      "packageDependency": {
+        "known": false,
+        "alwaysResident": false,
+        "autoLoadSupported": false,
+        "package": null,
+        "packageResidency": "UNRESOLVED",
+        "liveTested": false,
+        "blocker": "No own loadout package is proven for this pickup; Runtime cannot load it, and its assets are present only when a rack that delivers it is loaded."
+      },
       "packageOwners": []
     },
     {
@@ -9001,7 +9585,16 @@
       "residency": {
         "packageKey": "package/d040bd54e7895741",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "plasma_blaster",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9028,7 +9621,16 @@
       "residency": {
         "packageKey": "package/5ca87dbb2592aaf0",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9055,7 +9657,16 @@
       "residency": {
         "packageKey": "package/77642c12e2ab5664",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "railgun",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9082,7 +9693,16 @@
       "residency": {
         "packageKey": "package/751d6b3058136eed",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "harpoon_gun",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9107,7 +9727,16 @@
       "residency": {
         "packageKey": "package/ff990afd7b15f18b",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "shotgun_doublebarrel",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9134,7 +9763,16 @@
       "residency": {
         "packageKey": "package/6dde33f329e052a4",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": "shoulder_mounted_camera",
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     },
@@ -9161,7 +9799,16 @@
       "residency": {
         "packageKey": "package/61e88459a093ed07",
         "alwaysResident": false,
-        "basis": "Own loadout package; resident only when that package is loaded."
+        "basis": "Own loadout package; Runtime loads it before writing a slot that references this pickup."
+      },
+      "packageDependency": {
+        "known": true,
+        "alwaysResident": false,
+        "autoLoadSupported": true,
+        "package": null,
+        "packageResidency": "LIVE_PROVEN",
+        "liveTested": false,
+        "blocker": null
       },
       "packageOwners": []
     }

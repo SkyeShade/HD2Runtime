@@ -273,6 +273,13 @@ migrations. The runtime never reads them.
 - Refreshing `schemas/current.lua` (the runtime profile's native table descriptors and stratagem RVAs) for a
   new game.dll.
 - game.dll-resident booster tables: re-run `scripts/research_booster_native.py`.
+- Automatic asset loading (`domains/package_residency.lua`): re-run `scripts/research_package_residency.py`
+  against a new-build snapshot, then `scripts/regenerate_domains.py`. The research re-derives the loader
+  functions and engine layout from code patterns. Until then, `core/assets` fails closed: the loader's
+  code-byte proofs fail, and reference swaps that need another package are rejected with
+  `ASSET_UNAVAILABLE`, keeping the vanilla reference. Writes without a package dependency are unaffected.
+  Live evidence (`research/package-residency-live-evidence.json`) is recorded against build F5FEE03DCFDB;
+  re-run the live asset tests on the new build before relying on it.
 - Stratagem settings rows that no weapon or entity chain reaches (eagle and orbital payloads). They are proven
   only when their content is unchanged.
 - Customization-catalog and unlock-list attachment compatibility, and stratagem icons. The migration reads
