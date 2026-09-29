@@ -1,0 +1,2625 @@
+{
+  "contract": "hd2runtime.weapon.presentation.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.27.0",
+  "nativeModel": {
+    "traits": "LoadoutEntryComponent +12: five localization string IDs, shown in slot order; 0 = empty. The armory localizes each non-zero ID; nothing derives a label from gameplay values.",
+    "refresh": "Traits are built into the item view model when a menu presenter builds its items (on enter); an open menu keeps the labels it built.",
+    "stats": "Stat rows (WeaponStatType) are computed from component data and customization at menu build; there is no stored display value.",
+    "gameplaySeparation": "The labels are presentation only: no gameplay reader of LoadoutEntry +12 was found; changing them never changes damage or penetration."
+  },
+  "fields": {
+    "traits": {
+      "constant": "hd2.fields.presentation.traits",
+      "type": "ordered list of trait semantic IDs (at most five, shown in order)",
+      "acknowledgement": "allow_unverified_effect"
+    },
+    "armorPenetration": {
+      "constant": "hd2.fields.presentation.armor_penetration",
+      "choices": [
+        "none",
+        "light",
+        "medium",
+        "heavy",
+        "light_anti_tank",
+        "anti_tank"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "rule": "replaces the single penetration label in place, adds one in the first empty slot, or removes it (none); the other traits never change"
+    }
+  },
+  "penetrationChoices": [
+    {
+      "value": "none",
+      "label": null
+    },
+    {
+      "value": "light",
+      "label": "LIGHT ARMOR PENETRATING"
+    },
+    {
+      "value": "medium",
+      "label": "MEDIUM ARMOR PENETRATING"
+    },
+    {
+      "value": "heavy",
+      "label": "HEAVY ARMOR PENETRATING"
+    },
+    {
+      "value": "light_anti_tank",
+      "label": "LIGHT ANTI-TANK"
+    },
+    {
+      "value": "anti_tank",
+      "label": "ANTI-TANK"
+    }
+  ],
+  "gameplaySeparation": "Presentation only. Gameplay penetration is damage.ap_* on the projectile (and explosion) DamageInfo; no native rule derives one from the other, so Runtime never changes a label when AP changes.",
+  "refresh": "Menus build their trait labels when they open; reopen the armory or loadout screen after a change.",
+  "stats": "The stat rows (damage, capacity, recoil, fire rate, ...) are computed from gameplay data when a menu builds the item: there is no stored display value to edit.",
+  "traits": [
+    {
+      "semanticId": "medium_armor_penetrating",
+      "label": "MEDIUM ARMOR PENETRATING",
+      "labelEnGb": "MEDIUM ARMOUR PENETRATING",
+      "languages": 15,
+      "weapons": 43
+    },
+    {
+      "semanticId": "one_handed",
+      "label": "ONE HANDED",
+      "labelEnGb": "ONE HANDED",
+      "languages": 15,
+      "weapons": 37
+    },
+    {
+      "semanticId": "light_armor_penetrating",
+      "label": "LIGHT ARMOR PENETRATING",
+      "labelEnGb": "LIGHT ARMOUR PENETRATING",
+      "languages": 15,
+      "weapons": 37
+    },
+    {
+      "semanticId": "explosive",
+      "label": "EXPLOSIVE",
+      "labelEnGb": "EXPLOSIVE",
+      "languages": 15,
+      "weapons": 32
+    },
+    {
+      "semanticId": "anti_tank",
+      "label": "ANTI-TANK",
+      "labelEnGb": "ANTI-TANK",
+      "languages": 15,
+      "weapons": 18
+    },
+    {
+      "semanticId": "rounds_reload",
+      "label": "ROUNDS RELOAD",
+      "labelEnGb": "ROUNDS RELOAD",
+      "languages": 15,
+      "weapons": 17
+    },
+    {
+      "semanticId": "incendiary_7d01a114",
+      "label": "INCENDIARY",
+      "labelEnGb": "INCENDIARY",
+      "languages": 15,
+      "weapons": 12
+    },
+    {
+      "semanticId": "stun",
+      "label": "STUN",
+      "labelEnGb": "STUN",
+      "languages": 15,
+      "weapons": 10
+    },
+    {
+      "semanticId": "heavy_armor_penetrating",
+      "label": "HEAVY ARMOR PENETRATING",
+      "labelEnGb": "HEAVY ARMOUR PENETRATING",
+      "languages": 15,
+      "weapons": 10
+    },
+    {
+      "semanticId": "stationary_reload",
+      "label": "STATIONARY RELOAD",
+      "labelEnGb": "STATIONARY RELOAD",
+      "languages": 15,
+      "weapons": 9
+    },
+    {
+      "semanticId": "sticky",
+      "label": "STICKY",
+      "labelEnGb": "STICKY",
+      "languages": 15,
+      "weapons": 8
+    },
+    {
+      "semanticId": "heat",
+      "label": "HEAT",
+      "labelEnGb": "HEAT",
+      "languages": 15,
+      "weapons": 8
+    },
+    {
+      "semanticId": "guided",
+      "label": "GUIDED",
+      "labelEnGb": "GUIDED",
+      "languages": 15,
+      "weapons": 7
+    },
+    {
+      "semanticId": "melee",
+      "label": "MELEE",
+      "labelEnGb": "MELEE",
+      "languages": 15,
+      "weapons": 6
+    },
+    {
+      "semanticId": "expendable",
+      "label": "EXPENDABLE",
+      "labelEnGb": "EXPENDABLE",
+      "languages": 15,
+      "weapons": 5
+    },
+    {
+      "semanticId": "team_weapon",
+      "label": "TEAM WEAPON",
+      "labelEnGb": "TEAM WEAPON",
+      "languages": 15,
+      "weapons": 5
+    },
+    {
+      "semanticId": "suppressed",
+      "label": "SUPPRESSED",
+      "labelEnGb": "SUPPRESSED",
+      "languages": 15,
+      "weapons": 4
+    },
+    {
+      "semanticId": "light_anti_tank",
+      "label": "LIGHT ANTI-TANK",
+      "labelEnGb": "LIGHT ANTI-TANK",
+      "languages": 15,
+      "weapons": 4
+    },
+    {
+      "semanticId": "beam",
+      "label": "BEAM",
+      "labelEnGb": "BEAM",
+      "languages": 15,
+      "weapons": 3
+    },
+    {
+      "semanticId": "chargeup",
+      "label": "CHARGEUP",
+      "labelEnGb": "CHARGEUP",
+      "languages": 15,
+      "weapons": 2
+    },
+    {
+      "semanticId": "incendiary_a5f02451",
+      "label": "INCENDIARY",
+      "labelEnGb": "INCENDIARY",
+      "languages": 15,
+      "weapons": 2
+    },
+    {
+      "semanticId": "caustic",
+      "label": "CAUSTIC",
+      "labelEnGb": "CAUSTIC",
+      "languages": 15,
+      "weapons": 2
+    },
+    {
+      "semanticId": "arc",
+      "label": "ARC",
+      "labelEnGb": "ARC",
+      "languages": 15,
+      "weapons": 2
+    },
+    {
+      "semanticId": "stimulative",
+      "label": "STIMULATIVE",
+      "labelEnGb": "STIMULATIVE",
+      "languages": 15,
+      "weapons": 1
+    }
+  ],
+  "weapons": [
+    {
+      "kind": "player",
+      "weapon": "AR-11 Arbitrator",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-2 Coyote",
+      "traits": [
+        "incendiary_7d01a114",
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "INCENDIARY",
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23 Liberator",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23A Liberator Carbine",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23C Liberator Concussive",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23P Liberator Penetrator",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-32 Pacifier",
+      "traits": [
+        "medium_armor_penetrating",
+        "stun"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "STUN"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-59 Suppressor",
+      "traits": [
+        "light_armor_penetrating",
+        "suppressed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "SUPPRESSED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-61 Tenderizer",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR/GL-21 One-Two",
+      "traits": [
+        "light_armor_penetrating",
+        "explosive"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "ARC-12 Blitzer",
+      "traits": [
+        "medium_armor_penetrating",
+        "arc"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ARC"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "BR-14 Adjudicator",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CB-9 Exploding Crossbow",
+      "traits": [
+        "medium_armor_penetrating",
+        "explosive",
+        "one_handed"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "EXPLOSIVE",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-19 Stun Lance",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "stun",
+        "melee"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "STUN",
+        "MELEE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-2 Saber",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "melee"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "MELEE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-30 Stun Baton",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "stun",
+        "melee"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "STUN",
+        "MELEE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-42 Machete",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "melee"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "MELEE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The weapon roots list different traits.",
+        "armorPenetration": "The weapon roots list different traits."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-5 Combat Hatchet",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "melee"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "MELEE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CQC-73 Entrenchment Tool",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "melee",
+        "stun"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "MELEE",
+        "STUN"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The weapon roots list different traits.",
+        "armorPenetration": "The weapon roots list different traits."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "DBS-2 Double Freedom",
+      "traits": [
+        "medium_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "FLAM-66 Torcher",
+      "traits": [
+        "incendiary_7d01a114"
+      ],
+      "labels": [
+        "INCENDIARY"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GL-15 Evictor",
+      "traits": [
+        "medium_armor_penetrating",
+        "explosive",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "EXPLOSIVE",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GP-20 Ultimatum",
+      "traits": [
+        "anti_tank",
+        "one_handed",
+        "explosive"
+      ],
+      "labels": [
+        "ANTI-TANK",
+        "ONE HANDED",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GP-31 Grenade Pistol",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "JAR-5 Dominator",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-12 Sai",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "heat"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "HEAT"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-13 Trident",
+      "traits": [
+        "light_armor_penetrating",
+        "heat"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "HEAT"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-16 Sickle",
+      "traits": [
+        "light_armor_penetrating",
+        "heat"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "HEAT"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "traits": [
+        "light_armor_penetrating",
+        "medium_armor_penetrating",
+        "heavy_armor_penetrating",
+        "heat"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "MEDIUM ARMOR PENETRATING",
+        "HEAVY ARMOR PENETRATING",
+        "HEAT"
+      ],
+      "armorPenetration": null,
+      "writable": {
+        "traits": true,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": "The weapon shows several penetration labels (LIGHT ARMOR PENETRATING, MEDIUM ARMOR PENETRATING, HEAVY ARMOR PENETRATING); edit them through presentation.traits."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-5 Scythe",
+      "traits": [
+        "light_armor_penetrating",
+        "beam",
+        "heat"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "BEAM",
+        "HEAT"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
+        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-58 Talon",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "heat"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "HEAT"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-7 Dagger",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "beam",
+        "heat"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "BEAM",
+        "HEAT"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M6C/SOCOM Pistol",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "suppressed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "SUPPRESSED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M7S SMG",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "suppressed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "SUPPRESSED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M90A Shotgun",
+      "traits": [
+        "light_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "MA5C Assault Rifle",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "MP-98 Knight",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-11 Stim Pistol",
+      "traits": [
+        "one_handed",
+        "rounds_reload",
+        "stimulative"
+      ],
+      "labels": [
+        "ONE HANDED",
+        "ROUNDS RELOAD",
+        "STIMULATIVE"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-113 Verdict",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-19 Redeemer",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-2 Peacemaker",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-33 Missile Pistol",
+      "traits": [
+        "medium_armor_penetrating",
+        "anti_tank",
+        "one_handed",
+        "guided",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ANTI-TANK",
+        "ONE HANDED",
+        "GUIDED",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": null,
+      "writable": {
+        "traits": true,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": "The weapon shows several penetration labels (MEDIUM ARMOR PENETRATING, ANTI-TANK); edit them through presentation.traits."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-34 Breacher",
+      "traits": [
+        "one_handed",
+        "anti_tank",
+        "sticky",
+        "explosive"
+      ],
+      "labels": [
+        "ONE HANDED",
+        "ANTI-TANK",
+        "STICKY",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-35 Re-Educator",
+      "traits": [
+        "one_handed",
+        "caustic",
+        "heavy_armor_penetrating"
+      ],
+      "labels": [
+        "ONE HANDED",
+        "CAUSTIC",
+        "HEAVY ARMOR PENETRATING"
+      ],
+      "armorPenetration": "heavy",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-4 Senator",
+      "traits": [
+        "heavy_armor_penetrating",
+        "one_handed",
+        "rounds_reload"
+      ],
+      "labels": [
+        "HEAVY ARMOR PENETRATING",
+        "ONE HANDED",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "heavy",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-69 Veto",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-72 Crisper",
+      "traits": [
+        "incendiary_7d01a114",
+        "one_handed"
+      ],
+      "labels": [
+        "INCENDIARY",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
+        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-92 Warrant",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "guided"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "GUIDED"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P/40-K Bolt Pistol",
+      "traits": [
+        "heavy_armor_penetrating",
+        "explosive",
+        "one_handed"
+      ],
+      "labels": [
+        "HEAVY ARMOR PENETRATING",
+        "EXPLOSIVE",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "heavy",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-1 Scorcher",
+      "traits": [
+        "medium_armor_penetrating",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-101 Purifier",
+      "traits": [
+        "medium_armor_penetrating",
+        "chargeup",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "CHARGEUP",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-15 Loyalist",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "chargeup",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "CHARGEUP",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "traits": [
+        "medium_armor_penetrating",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-2 Amendment",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-2124 Constitution",
+      "traits": [
+        "medium_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-36 Eruptor",
+      "traits": [
+        "heavy_armor_penetrating",
+        "explosive"
+      ],
+      "labels": [
+        "HEAVY ARMOR PENETRATING",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "heavy",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-4 Hyena",
+      "traits": [
+        "medium_armor_penetrating",
+        "incendiary_7d01a114"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "INCENDIARY"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-6 Deadeye",
+      "traits": [
+        "medium_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-63 Diligence",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-72 Censor",
+      "traits": [
+        "light_armor_penetrating",
+        "suppressed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "SUPPRESSED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-20 Halt",
+      "traits": [
+        "light_armor_penetrating",
+        "medium_armor_penetrating",
+        "rounds_reload",
+        "stun"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD",
+        "STUN"
+      ],
+      "armorPenetration": null,
+      "writable": {
+        "traits": true,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": "The weapon shows several penetration labels (LIGHT ARMOR PENETRATING, MEDIUM ARMOR PENETRATING); edit them through presentation.traits."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-22 Bushwhacker",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "rounds_reload"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225 Breaker",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225IE Breaker Incendiary",
+      "traits": [
+        "light_armor_penetrating",
+        "incendiary_a5f02451"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "INCENDIARY"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-451 Cookout",
+      "traits": [
+        "light_armor_penetrating",
+        "rounds_reload",
+        "incendiary_a5f02451"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ROUNDS RELOAD",
+        "INCENDIARY"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8 Punisher",
+      "traits": [
+        "light_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8P Punisher Plasma",
+      "traits": [
+        "medium_armor_penetrating",
+        "explosive"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "EXPLOSIVE"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8S Slugger",
+      "traits": [
+        "medium_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-97 Sweeper",
+      "traits": [
+        "medium_armor_penetrating",
+        "rounds_reload"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ROUNDS RELOAD"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-203 Gallant",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-32 Reprimand",
+      "traits": [
+        "medium_armor_penetrating"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-37 Defender",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The trait labels the armory and loadout menus show (five localization string IDs); presentation only, independent of gameplay.",
+        "armorPenetration": "The penetration label the armory shows (LIGHT/MEDIUM/HEAVY ARMOR PENETRATING, LIGHT ANTI-TANK, ANTI-TANK); presentation only. Gameplay penetration is damage.ap_* on the projectile."
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-72 Pummeler",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "stun"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "STUN"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG/FLAM-34 Stoker",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed",
+        "incendiary_7d01a114"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED",
+        "INCENDIARY"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "StA-11 SMG",
+      "traits": [
+        "light_armor_penetrating",
+        "one_handed"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING",
+        "ONE HANDED"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "StA-52 Assault Rifle",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "VG-70 Variable",
+      "traits": [
+        "light_armor_penetrating"
+      ],
+      "labels": [
+        "LIGHT ARMOR PENETRATING"
+      ],
+      "armorPenetration": "light",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "40-K Meltagun",
+      "traits": [
+        "anti_tank"
+      ],
+      "labels": [
+        "ANTI-TANK"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "AC-8 Autocannon",
+      "traits": [
+        "team_weapon",
+        "rounds_reload",
+        "light_anti_tank"
+      ],
+      "labels": [
+        "TEAM WEAPON",
+        "ROUNDS RELOAD",
+        "LIGHT ANTI-TANK"
+      ],
+      "armorPenetration": "light_anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "APW-1 Anti-Materiel Rifle",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "ARC-3 Arc Thrower",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "B/FLAM-80 Cremator",
+      "traits": [
+        "incendiary_7d01a114"
+      ],
+      "labels": [
+        "INCENDIARY"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "B/MD C4 Pack",
+      "traits": [
+        "anti_tank",
+        "sticky"
+      ],
+      "labels": [
+        "ANTI-TANK",
+        "STICKY"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "CQC-1 One True Flag",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "stun"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "STUN"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "CQC-20 Breaching Hammer",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": null,
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The weapon roots list different traits.",
+        "armorPenetration": "The weapon roots list different traits."
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "CQC-72 Entrenchment Tool",
+      "traits": [
+        "medium_armor_penetrating",
+        "one_handed",
+        "melee",
+        "stun"
+      ],
+      "labels": [
+        "MEDIUM ARMOR PENETRATING",
+        "ONE HANDED",
+        "MELEE",
+        "STUN"
+      ],
+      "armorPenetration": "medium",
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "The weapon roots list different traits.",
+        "armorPenetration": "The weapon roots list different traits."
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "CQC-9 Defoliation Tool",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-17 Expendable Anti-Tank",
+      "traits": [
+        "anti_tank",
+        "expendable"
+      ],
+      "labels": [
+        "ANTI-TANK",
+        "EXPENDABLE"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-411 Leveller",
+      "traits": [
+        null,
+        "expendable"
+      ],
+      "labels": [
+        "EXPENDABLE"
+      ],
+      "armorPenetration": null,
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "A listed tag has no string in any loaded strings table.",
+        "armorPenetration": "A listed tag has no string in any loaded strings table."
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-700 Expendable Napalm",
+      "traits": [
+        null,
+        "expendable"
+      ],
+      "labels": [
+        "EXPENDABLE"
+      ],
+      "armorPenetration": null,
+      "writable": {
+        "traits": false,
+        "armorPenetration": false
+      },
+      "reason": {
+        "traits": "A listed tag has no string in any loaded strings table.",
+        "armorPenetration": "A listed tag has no string in any loaded strings table."
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "FAF-14 Spear",
+      "traits": [
+        "team_weapon",
+        "anti_tank",
+        "guided"
+      ],
+      "labels": [
+        "TEAM WEAPON",
+        "ANTI-TANK",
+        "GUIDED"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "FLAM-40 Flamethrower",
+      "traits": [
+        "incendiary_7d01a114"
+      ],
+      "labels": [
+        "INCENDIARY"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-21 Grenade Launcher",
+      "traits": [
+        "stationary_reload"
+      ],
+      "labels": [
+        "STATIONARY RELOAD"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-28 Belt-Fed Grenade Launcher",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-52 De-Escalator",
+      "traits": [
+        "stationary_reload"
+      ],
+      "labels": [
+        "STATIONARY RELOAD"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GR-8 Recoilless Rifle",
+      "traits": [
+        "team_weapon",
+        "anti_tank"
+      ],
+      "labels": [
+        "TEAM WEAPON",
+        "ANTI-TANK"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "LAS-98 Laser Cannon",
+      "traits": [
+        "stationary_reload"
+      ],
+      "labels": [
+        "STATIONARY RELOAD"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "LAS-99 Quasar Cannon",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "M-1000 Maxigun",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "M-105 Stalwart",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MG-206 Heavy Machine Gun",
+      "traits": [
+        "stationary_reload"
+      ],
+      "labels": [
+        "STATIONARY RELOAD"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MG-43 Machine Gun",
+      "traits": [
+        "stationary_reload"
+      ],
+      "labels": [
+        "STATIONARY RELOAD"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MGX-42 Bullet Storm",
+      "traits": [
+        "expendable"
+      ],
+      "labels": [
+        "EXPENDABLE"
+      ],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MLS-4X Commando",
+      "traits": [
+        "light_anti_tank",
+        "expendable",
+        "guided"
+      ],
+      "labels": [
+        "LIGHT ANTI-TANK",
+        "EXPENDABLE",
+        "GUIDED"
+      ],
+      "armorPenetration": "light_anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MS-11 Solo Silo",
+      "traits": null,
+      "writable": false,
+      "reason": "No LoadoutEntry record: the item is not listed by the armory."
+    },
+    {
+      "kind": "support",
+      "weapon": "PLAS-45 Epoch",
+      "traits": [
+        "stationary_reload",
+        "anti_tank"
+      ],
+      "labels": [
+        "STATIONARY RELOAD",
+        "ANTI-TANK"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "RL-77 Airburst Rocket Launcher",
+      "traits": [
+        "team_weapon",
+        "anti_tank"
+      ],
+      "labels": [
+        "TEAM WEAPON",
+        "ANTI-TANK"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "RS-422 Railgun",
+      "traits": [
+        "light_anti_tank"
+      ],
+      "labels": [
+        "LIGHT ANTI-TANK"
+      ],
+      "armorPenetration": "light_anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "S-11 Speargun",
+      "traits": [
+        "light_anti_tank"
+      ],
+      "labels": [
+        "LIGHT ANTI-TANK"
+      ],
+      "armorPenetration": "light_anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "SG-88 Break-Action Shotgun",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "StA-X3 W.A.S.P. Launcher",
+      "traits": [
+        "team_weapon",
+        "anti_tank",
+        "guided"
+      ],
+      "labels": [
+        "TEAM WEAPON",
+        "ANTI-TANK",
+        "GUIDED"
+      ],
+      "armorPenetration": "anti_tank",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "TX-41 Sterilizer",
+      "traits": [],
+      "labels": [],
+      "armorPenetration": "none",
+      "writable": {
+        "traits": true,
+        "armorPenetration": true
+      },
+      "reason": {
+        "traits": null,
+        "armorPenetration": null
+      }
+    }
+  ],
+  "summary": {
+    "weapons": 115,
+    "traitsWritable": 103,
+    "armorPenetrationWritable": 100,
+    "namedTraits": 24,
+    "unnamedTraits": 2,
+    "byPenetration": {
+      "None": 7,
+      "anti_tank": 10,
+      "heavy": 4,
+      "light": 32,
+      "light_anti_tank": 4,
+      "medium": 38,
+      "none": 20
+    }
+  }
+}

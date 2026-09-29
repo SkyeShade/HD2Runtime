@@ -2362,11 +2362,13 @@
    {
     "name": "MG-43 Machine Gun",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
      "weapon"
@@ -2376,52 +2378,66 @@
    {
     "name": "M-105 Stalwart",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "APW-1 Anti-Materiel Rifle",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 41,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "EAT-17 Expendable Anti-Tank",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 53,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "GR-8 Recoilless Rifle",
     "resolved": true,
-    "writableFields": 46,
+    "writableFields": 49,
     "writableDomains": [
      "damage",
      "explosion",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
      "weapon"
@@ -2431,10 +2447,11 @@
    {
     "name": "FLAM-40 Flamethrower",
     "resolved": true,
-    "writableFields": 29,
+    "writableFields": 31,
     "writableDomains": [
      "damage",
      "magazine",
+     "presentation",
      "status",
      "weapon"
     ],
@@ -2443,10 +2460,12 @@
    {
     "name": "AC-8 Autocannon",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 50,
     "writableDomains": [
      "damage",
      "explosion",
+     "function_ammo",
+     "presentation",
      "projectile",
      "reload",
      "rounds",
@@ -2457,24 +2476,29 @@
    {
     "name": "MG-206 Heavy Machine Gun",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 40,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "MLS-4X Commando",
     "resolved": true,
-    "writableFields": 28,
+    "writableFields": 30,
     "writableDomains": [
      "explosion",
      "magazine",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": [
@@ -2488,11 +2512,13 @@
    {
     "name": "RL-77 Airburst Rocket Launcher",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 50,
     "writableDomains": [
      "damage",
      "explosion",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
      "weapon"
@@ -2502,13 +2528,16 @@
    {
     "name": "FAF-14 Spear",
     "resolved": true,
-    "writableFields": 32,
+    "writableFields": 37,
     "writableDomains": [
      "explosion",
      "fire_mode",
+     "fire_rate",
      "magazine",
+     "presentation",
      "reload",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "projectile.dragFactor",
@@ -2521,11 +2550,12 @@
    {
     "name": "RS-422 Railgun",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 40,
     "writableDomains": [
      "charge",
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
      "weapon"
@@ -2537,10 +2567,11 @@
    {
     "name": "StA-X3 W.A.S.P. Launcher",
     "resolved": true,
-    "writableFields": 29,
+    "writableFields": 31,
     "writableDomains": [
      "explosion",
      "magazine",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": [
@@ -2554,12 +2585,13 @@
    {
     "name": "LAS-98 Laser Cannon",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 35,
     "writableDomains": [
      "beam",
      "damage",
      "heat",
      "heatsink",
+     "presentation",
      "reload",
      "status",
      "weapon"
@@ -2571,26 +2603,31 @@
    {
     "name": "GL-21 Grenade Launcher",
     "resolved": true,
-    "writableFields": 48,
+    "writableFields": 53,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "ARC-3 Arc Thrower",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "arc",
      "charge",
      "damage",
+     "presentation",
      "status",
      "weapon"
     ],
@@ -2602,15 +2639,18 @@
    {
     "name": "LAS-99 Quasar Cannon",
     "resolved": true,
-    "writableFields": 52,
+    "writableFields": 57,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "function_ammo",
      "heat",
      "heatsink",
+     "presentation",
      "projectile",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "magsFromAmmoBox"
@@ -2619,9 +2659,10 @@
    {
     "name": "SG-88 Break-Action Shotgun",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 36,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "reload",
      "rounds",
@@ -2649,10 +2690,11 @@
    {
     "name": "TX-41 Sterilizer",
     "resolved": true,
-    "writableFields": 28,
+    "writableFields": 30,
     "writableDomains": [
      "damage",
      "magazine",
+     "presentation",
      "status",
      "weapon"
     ],
@@ -2661,9 +2703,10 @@
    {
     "name": "CQC-1 One True Flag",
     "resolved": true,
-    "writableFields": 22,
+    "writableFields": 24,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": [
@@ -2674,27 +2717,31 @@
    {
     "name": "GL-52 De-Escalator",
     "resolved": true,
-    "writableFields": 49,
+    "writableFields": 53,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "reload",
      "rounds",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "PLAS-45 Epoch",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 52,
     "writableDomains": [
      "charge",
      "damage",
      "explosion",
      "magazine",
+     "presentation",
      "projectile",
      "weapon"
     ],
@@ -2705,31 +2752,38 @@
    {
     "name": "S-11 Speargun",
     "resolved": true,
-    "writableFields": 55,
+    "writableFields": 60,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "reload",
      "status",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "EAT-700 Expendable Napalm",
     "resolved": true,
-    "writableFields": 52,
+    "writableFields": 56,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
      "projectile",
      "status",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
@@ -2745,9 +2799,10 @@
    {
     "name": "CQC-9 Defoliation Tool",
     "resolved": true,
-    "writableFields": 22,
+    "writableFields": 24,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -2755,10 +2810,11 @@
    {
     "name": "M-1000 Maxigun",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 36,
     "writableDomains": [
      "damage",
      "deposit",
+     "presentation",
      "projectile",
      "reload",
      "weapon",
@@ -2769,9 +2825,10 @@
    {
     "name": "B/MD C4 Pack",
     "resolved": true,
-    "writableFields": 14,
+    "writableFields": 16,
     "writableDomains": [
-     "explosion"
+     "explosion",
+     "presentation"
     ],
     "uncoveredStats": [
      "capacity",
@@ -2793,29 +2850,35 @@
    {
     "name": "EAT-411 Leveller",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 51,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
      "projectile",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "GL-28 Belt-Fed Grenade Launcher",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 51,
     "writableDomains": [
      "damage",
      "deposit",
      "explosion",
      "fire_mode",
+     "function_ammo",
+     "presentation",
      "projectile",
      "reload",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "fireRateRpm"
@@ -2824,10 +2887,11 @@
    {
     "name": "B/FLAM-80 Cremator",
     "resolved": true,
-    "writableFields": 28,
+    "writableFields": 30,
     "writableDomains": [
      "damage",
      "deposit",
+     "presentation",
      "status",
      "weapon"
     ],
@@ -2836,10 +2900,11 @@
    {
     "name": "MGX-42 Bullet Storm",
     "resolved": true,
-    "writableFields": 31,
+    "writableFields": 33,
     "writableDomains": [
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "weapon"
     ],
@@ -2848,12 +2913,13 @@
    {
     "name": "40-K Meltagun",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "beam",
      "charge",
      "damage",
      "magazine",
+     "presentation",
      "status",
      "weapon"
     ],
@@ -2973,13 +3039,17 @@
    {
     "name": "AR-23 Liberator",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -2992,14 +3062,18 @@
    {
     "name": "AR-23P Liberator Penetrator",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3012,14 +3086,18 @@
    {
     "name": "AR-23C Liberator Concussive",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3032,27 +3110,33 @@
    {
     "name": "BR-14 Adjudicator",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "AR-61 Tenderizer",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 41,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3062,14 +3146,18 @@
    {
     "name": "AR-23A Liberator Carbine",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3082,28 +3170,36 @@
    {
     "name": "StA-52 Assault Rifle",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "AR-32 Pacifier",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 40,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3116,40 +3212,49 @@
    {
     "name": "MA5C Assault Rifle",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 42,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "AR-2 Coyote",
     "resolved": true,
-    "writableFields": 39,
+    "writableFields": 44,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "AR/GL-21 One-Two",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 38,
     "writableDomains": [
      "attack",
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3159,14 +3264,18 @@
    {
     "name": "AR-59 Suppressor",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3179,11 +3288,12 @@
    {
     "name": "AR-11 Arbitrator",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "attack",
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3193,53 +3303,65 @@
    {
     "name": "R-63 Diligence",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 41,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "R-63CS Diligence Counter Sniper",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 42,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "R-2124 Constitution",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "R-6 Deadeye",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3250,29 +3372,37 @@
    {
     "name": "R-2 Amendment",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 42,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "R-72 Censor",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 38,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3285,13 +3415,17 @@
    {
     "name": "R-4 Hyena",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3304,13 +3438,16 @@
    {
     "name": "MP-98 Knight",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 37,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3350,13 +3487,17 @@
    {
     "name": "SMG-72 Pummeler",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 40,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3369,55 +3510,68 @@
    {
     "name": "SMG-32 Reprimand",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "StA-11 SMG",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "M7S SMG",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "SMG/FLAM-34 Stoker",
     "resolved": true,
-    "writableFields": 31,
+    "writableFields": 33,
     "writableDomains": [
      "attack",
      "damage",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3433,14 +3587,18 @@
    {
     "name": "SMG-203 Gallant",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3453,9 +3611,10 @@
    {
     "name": "SG-8 Punisher",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3466,13 +3625,17 @@
    {
     "name": "SG-225 Breaker",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3485,10 +3648,11 @@
    {
     "name": "SG-8S Slugger",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 38,
     "writableDomains": [
      "attack",
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3499,14 +3663,18 @@
    {
     "name": "SG-225SP Breaker Spray&Pray",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3519,13 +3687,17 @@
    {
     "name": "SG-225IE Breaker Incendiary",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 39,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3538,23 +3710,27 @@
    {
     "name": "SG-451 Cookout",
     "resolved": true,
-    "writableFields": 39,
+    "writableFields": 44,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "SG-20 Halt",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 38,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3565,10 +3741,11 @@
    {
     "name": "DBS-2 Double Freedom",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 38,
     "writableDomains": [
      "attack",
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3579,9 +3756,10 @@
    {
     "name": "M90A Shotgun",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3592,9 +3770,10 @@
    {
     "name": "SG-97 Sweeper",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -3605,47 +3784,58 @@
    {
     "name": "R-36 Eruptor",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 55,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "CB-9 Exploding Crossbow",
     "resolved": true,
-    "writableFields": 49,
+    "writableFields": 54,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "GL-15 Evictor",
     "resolved": true,
-    "writableFields": 49,
+    "writableFields": 54,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
@@ -3672,32 +3862,40 @@
    {
     "name": "PLAS-1 Scorcher",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 55,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "LAS-16 Sickle",
     "resolved": true,
-    "writableFields": 40,
+    "writableFields": 46,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "heat",
      "heatsink",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "magsFromAmmoBox"
@@ -3706,26 +3904,31 @@
    {
     "name": "SG-8P Punisher Plasma",
     "resolved": true,
-    "writableFields": 49,
+    "writableFields": 55,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "ARC-12 Blitzer",
     "resolved": true,
-    "writableFields": 33,
+    "writableFields": 35,
     "writableDomains": [
      "arc",
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -3733,11 +3936,12 @@
    {
     "name": "PLAS-101 Purifier",
     "resolved": true,
-    "writableFields": 46,
+    "writableFields": 48,
     "writableDomains": [
      "damage",
      "explosion",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3747,12 +3951,13 @@
    {
     "name": "PLAS-39 Accelerator Rifle",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 49,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3762,15 +3967,18 @@
    {
     "name": "LAS-17 Double-Edge Sickle",
     "resolved": true,
-    "writableFields": 39,
+    "writableFields": 43,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
      "heat",
      "heatsink",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "magsFromAmmoBox"
@@ -3779,12 +3987,13 @@
    {
     "name": "LAS-13 Trident",
     "resolved": true,
-    "writableFields": 30,
+    "writableFields": 32,
     "writableDomains": [
      "beam",
      "damage",
      "heat",
      "heatsink",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": [
@@ -3794,31 +4003,39 @@
    {
     "name": "R/40-K Hot-Shot Marksman Rifle",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 44,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "LAS-12 Sai",
     "resolved": true,
-    "writableFields": 40,
+    "writableFields": 46,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "heat",
      "heatsink",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "magsFromAmmoBox"
@@ -3827,24 +4044,29 @@
    {
     "name": "JAR-5 Dominator",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 41,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "FLAM-66 Torcher",
     "resolved": true,
-    "writableFields": 32,
+    "writableFields": 34,
     "writableDomains": [
      "damage",
      "magazine",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -3852,11 +4074,12 @@
    {
     "name": "VG-70 Variable",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "attack",
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3866,10 +4089,14 @@
    {
     "name": "P-2 Peacemaker",
     "resolved": true,
-    "writableFields": 14,
+    "writableFields": 20,
     "writableDomains": [
      "fire_mode",
-     "weapon"
+     "fire_rate",
+     "function_ammo",
+     "presentation",
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3889,10 +4116,14 @@
    {
     "name": "P-19 Redeemer",
     "resolved": true,
-    "writableFields": 15,
+    "writableFields": 20,
     "writableDomains": [
      "fire_mode",
-     "weapon"
+     "fire_rate",
+     "function_ammo",
+     "presentation",
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "capacity",
@@ -3912,39 +4143,47 @@
    {
     "name": "P-4 Senator",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 42,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "P-113 Verdict",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "P-92 Warrant",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 36,
     "writableDomains": [
      "damage",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -3954,38 +4193,46 @@
    {
     "name": "M6C/SOCOM Pistol",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 43,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "P-69 Veto",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 42,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "CQC-19 Stun Lance",
     "resolved": true,
-    "writableFields": 24,
+    "writableFields": 26,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -3993,9 +4240,10 @@
    {
     "name": "CQC-30 Stun Baton",
     "resolved": true,
-    "writableFields": 24,
+    "writableFields": 26,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -4003,9 +4251,10 @@
    {
     "name": "CQC-5 Combat Hatchet",
     "resolved": true,
-    "writableFields": 22,
+    "writableFields": 24,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -4013,9 +4262,10 @@
    {
     "name": "CQC-2 Saber",
     "resolved": true,
-    "writableFields": 22,
+    "writableFields": 24,
     "writableDomains": [
      "damage",
+     "presentation",
      "weapon"
     ],
     "uncoveredStats": []
@@ -4098,10 +4348,11 @@
    {
     "name": "SG-22 Bushwhacker",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 37,
     "writableDomains": [
      "attack",
      "damage",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
@@ -4133,23 +4384,27 @@
    {
     "name": "P-11 Stim Pistol",
     "resolved": true,
-    "writableFields": 26,
+    "writableFields": 31,
     "writableDomains": [
      "fire_mode",
+     "fire_rate",
+     "presentation",
      "projectile",
      "rounds",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "PLAS-15 Loyalist",
     "resolved": true,
-    "writableFields": 42,
+    "writableFields": 44,
     "writableDomains": [
      "damage",
      "explosion",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -4165,32 +4420,40 @@
    {
     "name": "GP-20 Ultimatum",
     "resolved": true,
-    "writableFields": 48,
+    "writableFields": 54,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "LAS-58 Talon",
     "resolved": true,
-    "writableFields": 40,
+    "writableFields": 46,
     "writableDomains": [
      "attack",
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "heat",
      "heatsink",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": [
      "magsFromAmmoBox"
@@ -4199,25 +4462,30 @@
    {
     "name": "P-35 Re-Educator",
     "resolved": true,
-    "writableFields": 41,
+    "writableFields": 47,
     "writableDomains": [
      "damage",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "P-33 Missile Pistol",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 48,
     "writableDomains": [
      "damage",
      "explosion",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
      "weapon"
@@ -4227,31 +4495,38 @@
    {
     "name": "P/40-K Bolt Pistol",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 55,
     "writableDomains": [
      "attack",
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
+     "function_ammo",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    },
    {
     "name": "P-34 Breacher",
     "resolved": true,
-    "writableFields": 49,
+    "writableFields": 54,
     "writableDomains": [
      "damage",
      "explosion",
      "fire_mode",
+     "fire_rate",
      "magazine",
+     "presentation",
      "projectile",
      "terminal",
-     "weapon"
+     "weapon",
+     "weapon_function"
     ],
     "uncoveredStats": []
    }

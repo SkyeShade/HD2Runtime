@@ -1,0 +1,157 @@
+{
+  "contract": "hd2runtime.output_composition.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.27.0",
+  "question": "Can a projectile weapon fire another family output (a beam) while keeping its own weapon?",
+  "routes": {
+    "reference_swap": "A ProjectileType reference cannot name a BeamType (AttackOutputCapabilities).",
+    "component_composition": "Clone or attach the donor output component to the host entity.",
+    "event_action": "Suppress the host output on firing and emit the donor output from an event action."
+  },
+  "blockers": [
+    {
+      "id": "MEMBERSHIP_PACKED",
+      "route": "component_composition",
+      "detail": "The Liberator component list (23 components) is followed immediately by the next entity list; all 1909 lists are packed with zero slack, so adding a BeamWeaponComponent overwrites another entity."
+    },
+    {
+      "id": "COMPONENT_INDEX_HASHED",
+      "route": "component_composition",
+      "detail": "BeamWeaponComponentData is a 46-row hash index (23 used, 24 records); a new membership needs a hashed row and a record, and no safe allocation for either exists."
+    },
+    {
+      "id": "TRIGGER_PREFERS_PROJECTILE",
+      "route": "component_composition",
+      "detail": "The trigger dispatch routes a weapon with the projectile flag to its projectile trigger and never to its beam trigger, so a Liberator owning both would still fire bullets."
+    },
+    {
+      "id": "BEAM_IS_ENTITY_STATE",
+      "route": "event_action",
+      "detail": "A beam is the firing flag of an entity own beam_weapon instance; there is no request taking a beam type, origin or direction, and the call writes out of bounds for an entity without a beam instance."
+    },
+    {
+      "id": "NO_PRE_FIRE_HOOK",
+      "route": "event_action",
+      "detail": "Events are polled after the game has fired (player_fired from the stats table, 10 Hz); native output cannot be suppressed without a code hook."
+    },
+    {
+      "id": "REFERENCE_FAMILY",
+      "route": "reference_swap",
+      "detail": "A ProjectileType reference cannot name a BeamType (research/attack-outputs): INCOMPATIBLE_OUTPUT_FAMILY."
+    }
+  ],
+  "verdicts": [
+    {
+      "host": "AR-23 Liberator",
+      "donor": "LAS-5 Scythe",
+      "outputId": null,
+      "beamKind": null,
+      "status": "blocked",
+      "routes": {
+        "reference_swap": "blocked",
+        "component_composition": "blocked",
+        "event_action": "blocked"
+      },
+      "blockers": [
+        "MEMBERSHIP_PACKED",
+        "COMPONENT_INDEX_HASHED",
+        "TRIGGER_PREFERS_PROJECTILE",
+        "BEAM_IS_ENTITY_STATE",
+        "NO_PRE_FIRE_HOOK",
+        "REFERENCE_FAMILY"
+      ]
+    },
+    {
+      "host": "AR-23 Liberator",
+      "donor": "LAS-98 Laser Cannon",
+      "outputId": "output/v1/beam/las-98-laser-cannon",
+      "beamKind": "continuous_beam",
+      "status": "blocked",
+      "routes": {
+        "reference_swap": "blocked",
+        "component_composition": "blocked",
+        "event_action": "blocked"
+      },
+      "blockers": [
+        "MEMBERSHIP_PACKED",
+        "COMPONENT_INDEX_HASHED",
+        "TRIGGER_PREFERS_PROJECTILE",
+        "BEAM_IS_ENTITY_STATE",
+        "NO_PRE_FIRE_HOOK",
+        "REFERENCE_FAMILY"
+      ]
+    },
+    {
+      "host": "AR-23 Liberator",
+      "donor": "LAS-13 Trident",
+      "outputId": "output/v1/beam/las-13-trident",
+      "beamKind": "pulsed_multi_beam",
+      "status": "blocked",
+      "routes": {
+        "reference_swap": "blocked",
+        "component_composition": "blocked",
+        "event_action": "blocked"
+      },
+      "blockers": [
+        "MEMBERSHIP_PACKED",
+        "COMPONENT_INDEX_HASHED",
+        "TRIGGER_PREFERS_PROJECTILE",
+        "BEAM_IS_ENTITY_STATE",
+        "NO_PRE_FIRE_HOOK",
+        "REFERENCE_FAMILY"
+      ]
+    }
+  ],
+  "beamLifecycle": {
+    "start": "the wielder trigger sets the beam instance firing flag",
+    "stop": "releasing the trigger clears it",
+    "continuous": "LAS-5 and LAS-98 (BeamFireMode 4) beam while the flag is set; the Trident (BeamFireMode 6) fires its pulse per trigger (research/attack-outputs)",
+    "heat": "the owner WeaponHeat instance (or, on the 40-K Meltagun, its magazine and charge)",
+    "networking": "not traced; the beam instance belongs to the owner entity"
+  },
+  "ownership": {
+    "beamEntities": 23,
+    "beamWithHeat": 22,
+    "magazineFedBeams": [
+      "40-K Meltagun"
+    ]
+  },
+  "membership": {
+    "entityLists": 1909,
+    "packedWithZeroSlack": 1909
+  },
+  "nativeMultipleOutputs": [
+    {
+      "kind": "player",
+      "weapon": "SG-20 Halt",
+      "mechanism": "rounds_magazine"
+    },
+    {
+      "kind": "support",
+      "weapon": "AC-8 Autocannon",
+      "mechanism": "programmable_ammo"
+    },
+    {
+      "kind": "support",
+      "weapon": "GR-8 Recoilless Rifle",
+      "mechanism": "programmable_ammo"
+    },
+    {
+      "kind": "support",
+      "weapon": "RL-77 Airburst Rocket Launcher",
+      "mechanism": "programmable_ammo"
+    }
+  ],
+  "beamAction": {
+    "available": false,
+    "reason": "A beam is the firing flag of an entity own beam_weapon instance; there is no request taking a beam type, origin or direction, and the call writes out of bounds for an entity without a beam instance."
+  },
+  "summary": {
+    "requestedCompositions": 3,
+    "blocked": 3,
+    "magazineFedBeamPrecedent": [
+      "40-K Meltagun"
+    ],
+    "nativeSelectableOutputs": 4
+  }
+}

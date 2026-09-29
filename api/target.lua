@@ -197,6 +197,112 @@ function M.new(describe)
         return setmetatable({resource='weapon_attachment',attachment=entry.semanticId,path='magazine'},
             {__index=methods})
     end
+    -- Rate-of-fire modes, feeds and presentation (domains/weapon_modes.lua, domains/weapon_presentation.lua): read views
+    -- over the weapon's own field descriptors. Writes use the weapon target and hd2.fields.fire_rate.modes,
+    -- hd2.fields.weapon_function.*, hd2.fields.function_ammo.projectile and hd2.fields.presentation.*.
+    local weapon_modes=require('hd2runtime/domains/weapon_modes')
+    local presentation_catalog=require('hd2runtime/domains/weapon_presentation')
+    local SLOT_ORDER={'y','z','x'}
+    local function field_of(entry,id)
+        for _,field in ipairs(entry and entry.fields or{})do if field.semanticFieldId==id then return field end end
+    end
+    local function rate_modes(entry,kind,name)
+        local field=field_of(entry,'fire_rate.modes')
+        local modes_entry=weapon_modes.feeds[kind..':'..name]
+        if not field then
+            return {weapon=name,state=modes_entry and modes_entry.fireRateState or'absent',modes={},writable=false,
+                reason='rate-of-fire modes are not authored for '..name..' (see WeaponFireRateCapabilities.json)'}
+        end
+        local modes={}
+        for index,rpm in ipairs(field.currentDefault or{})do
+            modes[index]={index=index,rpm=rpm,slot=SLOT_ORDER[index],default=index==1,enabled=true}
+        end
+        local binding
+        if not field.selectorBound and field.bindableInputs and field.bindableInputs[1]then
+            binding={field='weapon_function.'..field.bindableInputs[1],expect='none',value='rate_of_fire'}
+        end
+        return {weapon=name,state=field.fireRateState,modes=modes,maxModes=field.maxModes,
+            selector={bound=field.selectorBound==true,input=field.selectorInput,bindableInputs=copy(field.bindableInputs)},
+            nativeSlots=copy(field.nativeSlots),field='fire_rate.modes',expect=copy(field.currentDefault),
+            writable=field.editable==true,reason=field.reason,range={min=field.min,max=field.max},
+            binding=binding,acknowledgements={'allow_unverified_effect'},
+            overriddenWhenEquipped=copy(field.overriddenWhenEquipped)}
+    end
+    local function rate_mode(entry,kind,name,index)
+        local view=rate_modes(entry,kind,name)
+        return assert(view.modes[index],name..' has no rate-of-fire mode '..tostring(index)..' ('..#view.modes
+            ..' native)')
+    end
+    local function function_projectile_handle(kind,name,feed)
+        local methods={};function methods.describe()return copy(feed)end
+        return setmetatable({resource=kind=='player'and'player_weapon'or'support_weapon',path='function_projectile',
+            weapon=name},{__index=methods})
+    end
+    local feed_handle
+    local function feed_list(kind,name)
+        local entry=weapon_modes.feeds[kind..':'..name]
+        local result={}
+        for index,feed in ipairs(entry and entry.feeds or{})do result[index]=feed_handle(kind,name,feed.id)end
+        return result
+    end
+    feed_handle=function(kind,name,id)
+        local entry=assert(weapon_modes.feeds[kind..':'..name],'no reviewed feeds for '..name)
+        local feed
+        for _,item in ipairs(entry.feeds)do if item.id==id or item.index==id then feed=item end end
+        assert(feed,'unknown feed for '..name..': '..tostring(id)..' (see weapon:feeds())')
+        local methods={}
+        function methods.describe()return copy(feed)end
+        -- The projectile this feed fires: the handle its projectile and damage fields are edited through, or for a
+        -- programmable feed the handle that restores its native projectile.
+        function methods.projectile()
+            if feed.mechanism=='programmable_ammo'then
+                assert(feed.nativeProjectile,name..' has no native programmable projectile; give it one with '
+                    ..'hd2.fields.function_ammo.projectile (see feed:source())')
+                return function_projectile_handle(kind,name,feed)
+            end
+            if kind=='player'then return attack_target(name,feed.attackRole or'primary'):projectile()end
+            return builders.support_weapon(name):attack('primary'):projectile()
+        end
+        -- Where this feed's projectile is written, like attack:projectile_source().
+        function methods.source()
+            if feed.mechanism=='programmable_ammo'then
+                local binding
+                if feed.requiresBinding and feed.selector.bindableInputs[1]then
+                    binding={field='weapon_function.'..feed.selector.bindableInputs[1],expect='none',
+                        value='programmable_ammo'}
+                end
+                return {weapon=name,feed=feed.id,mechanism=feed.mechanism,writable=feed.writable==true,
+                    target=kind=='player'and builders.weapon(name)or builders.support_weapon(name),
+                    field='function_ammo.projectile',expect=feed.nativeProjectile and methods.projectile()or'none',
+                    binding=binding,acknowledgements={'allow_unverified_effect','allow_unverified_reference'},
+                    reason=feed.reason}
+            end
+            if kind=='player'and feed.mechanism=='projectile'then return projectile_source(name,'primary')end
+            return {weapon=name,feed=feed.id,mechanism=feed.mechanism,writable=false,
+                reason=feed.projectileSource and feed.projectileSource.reason or nil}
+        end
+        return setmetatable({resource=kind=='player'and'player_weapon'or'support_weapon',path='feed',weapon=name,
+            feed=feed.id},{__index=methods})
+    end
+    local function presentation_view(entry,name)
+        local traits=field_of(entry,'presentation.traits');local penetration=field_of(entry,'presentation.armor_penetration')
+        local shown={}
+        for index,id in ipairs(traits and traits.currentDefault or{})do
+            shown[index]={id=id,label=presentation_catalog.traits[id]}
+        end
+        local all={};for id in pairs(presentation_catalog.traits)do all[#all+1]=id end
+        table.sort(all)
+        local missing='not writable for '..name..' (see WeaponPresentationCapabilities.json)'
+        return {weapon=name,traits=shown,armorPenetration=penetration and penetration.currentDefault or nil,
+            fields={traits='presentation.traits',armorPenetration='presentation.armor_penetration'},
+            writable={traits=traits and traits.editable==true or false,
+                armorPenetration=penetration and penetration.editable==true or false},
+            reason={traits=traits and traits.reason or(not traits and missing)or nil,
+                armorPenetration=penetration and penetration.reason or(not penetration and missing)or nil},
+            choices={armorPenetration=penetration and copy(penetration.allowedValues)or nil,traits=all},
+            labels=copy(presentation_catalog.penetration),acknowledgements={'allow_unverified_effect'},
+            refresh='Menus build their trait labels when they open: reopen the armory or loadout screen.'}
+    end
     local function player_target(name,legacy)
         local weapon=player_weapons.weapons[name]
         local graph=composition.weapons[name]
@@ -225,6 +331,14 @@ function M.new(describe)
             result.modeSet=copy(fire_mode_table.weapons['player:'..name])
             return result
         end
+        -- The native rate-of-fire modes in selector order (the first is the default, weapon.fire_rate).
+        function methods.fire_rate_modes()return rate_modes(weapon,'player',name)end
+        function methods.fire_rate_mode(_,index)return rate_mode(weapon,'player',name,index)end
+        -- Selectable ammunition/output sources: rounds magazines, the ProgrammableAmmo projectile.
+        function methods.feeds()return feed_list('player',name)end
+        function methods.feed(_,id)return feed_handle('player',name,id)end
+        -- The armory trait labels (presentation only).
+        function methods.presentation()return presentation_view(weapon,name)end
         function methods.magazine_options()
             local result={};local category=attachment_category(graph,'Magazine')
             for _,option in ipairs(category and category.options or graph.magazine.observed_options)do
@@ -412,6 +526,11 @@ function M.new(describe)
         function methods.projectile(_,identity)return methods.attack(nil,identity):projectile()end
         function methods.explosion(_,identity)return methods.attack(nil,identity):explosion()end
         function methods.fire_modes()return {modeSet=copy(fire_mode_table.weapons['support:'..name])}end
+        function methods.fire_rate_modes()return rate_modes(support_authoring.weapons[name],'support',name)end
+        function methods.fire_rate_mode(_,index)return rate_mode(support_authoring.weapons[name],'support',name,index)end
+        function methods.feeds()return feed_list('support',name)end
+        function methods.feed(_,id)return feed_handle('support',name,id)end
+        function methods.presentation()return presentation_view(support_authoring.weapons[name],name)end
         return setmetatable({resource='support_weapon',path='weapon',weapon=name},{__index=methods})
     end
     local legacy_stratagem=builders.stratagem

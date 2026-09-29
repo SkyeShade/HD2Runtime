@@ -42,7 +42,8 @@ class LiveEvidenceTests(unittest.TestCase):
             'live_partial': ['backpack_deposit_ammo'],
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
-            'pending': ['backpack_shield_zone_armor']})
+            'pending': ['backpack_shield_zone_armor', 'weapon_fire_rate_modes_native', 'weapon_fire_rate_selector_added',
+                'weapon_presentation_traits', 'weapon_programmable_ammo_added', 'weapon_rounds_feed_capacity']})
         self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (29, 22))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':

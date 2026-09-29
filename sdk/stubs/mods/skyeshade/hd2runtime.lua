@@ -520,6 +520,61 @@ function HD2Weapon:attachment_options(category) end
 ---@param identity string
 ---@return HD2AttachmentOption
 function HD2Weapon:attachment(category, identity) end
+
+---@class HD2FireRateMode
+---@field index integer 1 = the default rate
+---@field rpm number
+---@field slot "x"|"y"|"z" The native slot (the selector visits y, z, x)
+---@field default boolean
+---@field enabled boolean
+
+---@class HD2FireRateModes
+---@field weapon string
+---@field state "selectable"|"addable"|"single_rate"|"blocked"|"absent"
+---@field modes HD2FireRateMode[] In selector order; the first is the default (weapon.fire_rate)
+---@field maxModes integer At most 3: the native storage
+---@field expect number[] The expect of hd2.fields.fire_rate.modes
+---@field selector table {bound, input, bindableInputs}
+---@field binding table? {field, expect, value}: the weapon_function change a selector-less weapon adds with 2+ rates
+---@field writable boolean
+---@field reason string?
+
+---The native rates of fire (three slots) as the rate-of-fire selector visits them. Write them with
+---hd2.fields.fire_rate.modes (allow_unverified_effect=true); weapons without a selector add one with the
+---returned binding in the same transaction.
+---@return HD2FireRateModes
+function HD2Weapon:fire_rate_modes() end
+---@param index integer
+---@return HD2FireRateMode
+function HD2Weapon:fire_rate_mode(index) end
+
+---@class HD2Feed
+---@field resource "player_weapon"|"support_weapon"
+---@field path "feed"
+---@field weapon string
+---@field feed "primary"|"alternate"|"programmable"
+local HD2Feed = {}
+---mechanism (projectile, rounds_magazine, programmable_ammo), selector, capacity field, writability.
+---@return table
+function HD2Feed:describe() end
+---The projectile this feed fires: its projectile/damage fields for projectile and rounds feeds, the
+---restore handle of a native programmable projectile.
+---@return HD2ProjectileReference|table
+function HD2Feed:projectile() end
+---Where the feed projectile is written: {target, field, expect, binding?, acknowledgements, writable}.
+---@return table
+function HD2Feed:source() end
+---Selectable ammunition/output sources: the normal projectile or two rounds magazines, then a
+---ProgrammableAmmo projectile (hd2.fields.function_ammo.projectile).
+---@return HD2Feed[]
+function HD2Weapon:feeds() end
+---@param id "primary"|"alternate"|"programmable"|integer
+---@return HD2Feed
+function HD2Weapon:feed(id) end
+---The armory trait labels: {traits, armorPenetration, choices, writable, reason}; presentation only.
+---Write hd2.fields.presentation.armor_penetration or hd2.fields.presentation.traits.
+---@return table
+function HD2Weapon:presentation() end
 ---@alias HD2SupportWeaponName "40-K Meltagun"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"M-1000 Maxigun"|"M-105 Stalwart"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"StA-X3 W.A.S.P. Launcher"|"TX-41 Sterilizer"
 ---@alias HD2SupportAttackName "40-K MELTAGUN B"|"AC-8 P"|"AC-8 P IE"|"AC-8 P1"|"AC-8 P1 IE"|"AC-8 P2"|"APW-1 P"|"AR-23 P"|"ARC-3 ARC THROWER A"|"B/FLAM-80 CREMATOR S"|"B/MD C4 PACK E"|"BurningHeavy"|"CQC-1 ONE TRUE FLAG_dm"|"CQC-20 BREACHING HAMMER IE"|"CQC-20 BREACHING HAMMER_dm"|"CQC-72 ENTRENCHMENT TOOL_dm"|"CQC-9 DEFOLIATION TOOL_dm"|"EAT-17 BACKBLAST E"|"EAT-17 P"|"EAT-17 P IE"|"EAT-411 P"|"EAT-411 P IE"|"EAT-700 P"|"EAT-700 P IE"|"EAT-700 P1"|"EAT-700 P1 IE"|"FAF-14 P"|"FAF-14 P IE"|"FLAM-40 FLAMETHROWER S"|"Fire"|"Fire Panic"|"FlamerSlowed"|"GL-21 P"|"GL-21 P IE"|"GL-28 P"|"GL-28 P IE"|"GL-52 P"|"GL-52 P IE"|"GL-52 P IE A"|"GR-8 BACKBLAST E"|"GR-8 P"|"GR-8 P IE"|"GR-8 P1"|"GR-8 P1 IE"|"Gas"|"Gas Confusion"|"Gas Confusion Var2"|"Gas Var2"|"LAS-98 LASER CANNON B"|"LAS-99 P"|"LAS-99 P IE"|"M-1000 P"|"MG-206 P"|"MG-43 P"|"MGX-42 P"|"MLS-4X BACKBLAST E"|"MLS-4X P"|"MLS-4X P IE"|"P3"|"P3 IE"|"PLAS-45 EPOCH Overcharge E"|"PLAS-45 P"|"PLAS-45 P IE"|"RL-77 P"|"RL-77 P IE"|"RL-77 P1"|"RL-77 P1 IE"|"RL-77 P2"|"RL-77 P2 IE"|"RL-77 P3"|"RS-422 P"|"RS-422 RAILGUN Overcharge E"|"Railgun Max Charge"|"S-11 P"|"S-11 P E"|"SG-88 P"|"SWP SOLO SILO E"|"SWP SOLO SILO EImpact"|"StA-X3 P"|"StA-X3 P IE"|"StA-X3 P1"|"StA-X3 P1 IE"|"Stun Small"|"TX-41 STERILIZER S"|"detonation"|"feed_primary"|"impact"|"primary"|"primary_expiry"|"primary_impact"|"primary_impact_status_32"|"primary_impact_status_5"|"primary_status_37"|"primary_status_42"|"primary_status_43"|"primary_status_44"|"primary_status_45"|"primary_status_5"|"primary_status_6"|"primary_status_67"
 
@@ -584,6 +639,20 @@ function HD2SupportWeapon:explosion(identity) end
 ---The backpack that stores this weapon's ammunition (backpack-fed weapons only).
 ---@return HD2Backpack
 function HD2SupportWeapon:backpack() end
+---@return table
+function HD2SupportWeapon:fire_modes() end
+---@return HD2FireRateModes
+function HD2SupportWeapon:fire_rate_modes() end
+---@param index integer
+---@return HD2FireRateMode
+function HD2SupportWeapon:fire_rate_mode(index) end
+---@return HD2Feed[]
+function HD2SupportWeapon:feeds() end
+---@param id "primary"|"alternate"|"programmable"|integer
+---@return HD2Feed
+function HD2SupportWeapon:feed(id) end
+---@return table
+function HD2SupportWeapon:presentation() end
 ---@alias HD2StratagemAuthoringName "40-K Meltagun"|"A/AC-8 Autocannon Sentry"|"A/ARC-3 Tesla Tower"|"A/FLAM-40 Flame Sentry"|"A/G-16 Gatling Sentry"|"A/GM-17 Gas Mortar Sentry"|"A/LAS-98 Laser Sentry"|"A/M-12 Mortar Sentry"|"A/M-23 EMS Mortar Sentry"|"A/MG-43 Machine Gun Sentry"|"A/MLS-4X Rocket Sentry"|"AC-8 Autocannon"|"APW-1 Anti-Materiel Rifle"|"ARC-3 Arc Thrower"|"AX/AR-23 Guard Dog"|"AX/ARC-3 K-9"|"AX/FLAM-75 Hot Dog"|"AX/LAS-5 Rover"|"AX/TX-13 Dog Breath"|"B-1 Supply Pack"|"B-100 Portable Hellbomb"|"B/FLAM-80 Cremator"|"B/MD C4 Pack"|"CQC-1 One True Flag"|"CQC-20 Breaching Hammer"|"CQC-72 Entrenchment Tool"|"CQC-9 Defoliation Tool"|"E/AT-12 Anti-Tank Emplacement"|"E/GL-21 Grenadier Battlement"|"E/MG-101 HMG Emplacement"|"EAT-17 Expendable Anti-Tank"|"EAT-411 Leveller"|"EAT-700 Expendable Napalm"|"EXO-45 Patriot Exosuit"|"EXO-49 Emancipator Exosuit"|"EXO-51 Lumberer Exosuit"|"EXO-55 Breakthrough Exosuit"|"Eagle 110mm Rocket Pods"|"Eagle 500kg Bomb"|"Eagle Airstrike"|"Eagle Cluster Bomb"|"Eagle Gas Airstrike"|"Eagle Napalm Airstrike"|"Eagle Smoke Strike"|"Eagle Strafing Run"|"FAF-14 Spear"|"FLAM-40 Flamethrower"|"FX-12 Shield Generator Relay"|"GL-21 Grenade Launcher"|"GL-28 Belt-Fed Grenade Launcher"|"GL-52 De-Escalator"|"GR-8 Recoilless Rifle"|"LAS-98 Laser Cannon"|"LAS-99 Quasar Cannon"|"LIFT-182 Warp Pack"|"LIFT-850 Jump Pack"|"LIFT-860 Hover Pack"|"M-1000 Maxigun"|"M-102 Gunner FRV"|"M-103 Supply FRV"|"M-104 Incinerator FRV"|"M-105 Stalwart"|"MD-17 Anti-Tank Mines"|"MD-6 Anti-Personnel Minefield"|"MD-8 Gas Mines"|"MD-I4 Incendiary Mines"|"MG-206 Heavy Machine Gun"|"MG-43 Machine Gun"|"MGX-42 Bullet Storm"|"MLS-4X Commando"|"MS-11 Solo Silo"|"Orbital 120mm HE Barrage"|"Orbital 380mm HE Barrage"|"Orbital Airburst Strike"|"Orbital EMS Strike"|"Orbital Gas Strike"|"Orbital Gatling Barrage"|"Orbital Laser"|"Orbital Napalm Barrage"|"Orbital Precision Strike"|"Orbital Railcannon Strike"|"Orbital Smoke Strike"|"Orbital Walking Barrage"|"PLAS-45 Epoch"|"RL-77 Airburst Rocket Launcher"|"RS-422 Railgun"|"Resupply"|"S-11 Speargun"|"SG-88 Break-Action Shotgun"|"SH-20 Ballistic Shield Backpack"|"SH-32 Shield Generator Pack"|"SH-51 Directional Shield"|"StA-X3 W.A.S.P. Launcher"|"TD-110 Maelstrom"|"TD-220 Bastion MK XVI"|"TX-41 Sterilizer"
 ---@alias HD2StratagemAttackRole "beam"|"beam_damage"|"delivery_1_projectile"|"delivery_1_projectile_damage"|"delivery_1_projectile_expiry"|"delivery_1_projectile_expiry_damage"|"delivery_1_projectile_expiry_shrapnel"|"delivery_1_projectile_expiry_shrapnel_damage"|"delivery_1_projectile_expiry_shrapnel_impact"|"delivery_1_projectile_expiry_shrapnel_impact_damage"|"delivery_1_projectile_impact"|"delivery_1_projectile_impact_damage"|"delivery_1_projectile_impact_damage_status_1"|"delivery_1_projectile_impact_damage_status_2"|"delivery_1_projectile_impact_shrapnel"|"delivery_1_projectile_impact_shrapnel_damage"|"delivery_1_projectile_impact_shrapnel_impact"|"delivery_1_projectile_impact_shrapnel_impact_damage"|"delivery_2_projectile"|"delivery_2_projectile_damage"|"delivery_2_projectile_impact"|"delivery_2_projectile_impact_damage"|"delivery_2_projectile_impact_damage_status_1"|"delivery_2_projectile_impact_damage_status_2"|"delivery_3_projectile"|"delivery_3_projectile_damage"|"delivery_3_projectile_impact"|"delivery_3_projectile_impact_damage"|"delivery_3_projectile_impact_damage_status_1"|"delivery_3_projectile_impact_damage_status_2"|"delivery_4_projectile"|"delivery_4_projectile_damage"|"mine"|"mine_damage"|"mine_damage_status_1"|"mine_damage_status_2"|"primary"|"primary_damage"|"primary_damage_status_1"|"primary_damage_status_2"|"primary_damage_status_3"|"primary_expiry"|"primary_expiry_damage"|"primary_expiry_damage_status_1"|"primary_impact"|"primary_impact_damage"|"primary_impact_damage_status_1"|"primary_impact_damage_status_2"
 
@@ -1307,6 +1376,12 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field burst_rounds "fire_mode.burst_rounds"
 ---@field modes "fire_mode.modes"
 
+---@class HD2Fields_fire_rate
+---@field modes "fire_rate.modes"
+
+---@class HD2Fields_function_ammo
+---@field projectile "function_ammo.projectile"
+
 ---@class HD2Fields_heat
 ---@field capacity "heat.capacity"
 ---@field cool_per_second "heat.cool_per_second"
@@ -1329,6 +1404,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field magazines_from_supply "magazine.magazines_from_supply"
 ---@field spare_magazines "magazine.spare_magazines"
 ---@field starting_magazines "magazine.starting_magazines"
+
+---@class HD2Fields_presentation
+---@field armor_penetration "presentation.armor_penetration"
+---@field traits "presentation.traits"
 
 ---@class HD2Fields_reload
 ---@field duration "reload.duration"
@@ -1355,6 +1434,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field feed_primary_impact_explosion "terminal.feed_primary.impact.explosion"
 ---@field primary_expiry_explosion "terminal.primary.expiry.explosion"
 ---@field primary_impact_explosion "terminal.primary.impact.explosion"
+
+---@class HD2Fields_weapon_function
+---@field left "weapon_function.left"
+---@field right "weapon_function.right"
 
 ---@class HD2Fields_windup
 ---@field wind_down_seconds "windup.wind_down_seconds"
@@ -1457,13 +1540,17 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field charge HD2Fields_charge
 ---@field explosion HD2Fields_explosion
 ---@field fire_mode HD2Fields_fire_mode
+---@field fire_rate HD2Fields_fire_rate
+---@field function_ammo HD2Fields_function_ammo
 ---@field heat HD2Fields_heat
 ---@field heatsink HD2Fields_heatsink
 ---@field magazine HD2Fields_magazine
+---@field presentation HD2Fields_presentation
 ---@field reload HD2Fields_reload
 ---@field rounds HD2Fields_rounds
 ---@field status HD2Fields_status
 ---@field terminal HD2Fields_terminal
+---@field weapon_function HD2Fields_weapon_function
 ---@field windup HD2Fields_windup
 ---@field entity HD2Fields_entity
 ---@field eagle HD2Fields_eagle

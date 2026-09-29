@@ -32,6 +32,8 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
                     self.assertIn(key,field)
                 if field['semanticFieldId']=='fire_mode.burst_rounds':
                     self.assertEqual((field['min'],field['max']),(1,10))
+                elif field['semanticFieldId']=='fire_rate.modes':
+                    self.assertEqual((field['min'],field['max']),(1,3000))
                 elif field.get('statusAttach')and field['type']=='number':
                     self.assertEqual((field['min'],field['max']),(0,1000))
                 else:
@@ -48,7 +50,9 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         for name in ('P-2 Peacemaker','P-19 Redeemer'):
             editable=[f['semanticFieldId'] for f in by_name[name]['fields'] if f['editable']]
             self.assertTrue(editable)
-            self.assertTrue(all(field.startswith(('weapon.','fire_mode.')) for field in editable))
+            # Weapon-level fields only: the customization-owned projectile fields fail closed.
+            self.assertTrue(all(field.startswith(('weapon.','fire_mode.','fire_rate.','weapon_function.',
+                'function_ammo.','presentation.')) for field in editable))
 
     def test_derived_and_shared_metadata_are_explicit(self):
         fields=[field for weapon in CAPABILITIES['weapons'] for field in weapon['fields']]
@@ -59,8 +63,9 @@ class PlayerWeaponAuthoringTests(unittest.TestCase):
         for field in fields:
             if field['editable']:
                 self.assertIn('backing',field)
-                # fire_mode.modes spans the four packed FireMode slots.
-                self.assertIn(field['backing']['width'],(16,) if field['type']=='fire_mode_set' else (1,4))
+                # Native slot lists span their slots: four FireMode slots, three rate slots, five trait tags.
+                widths={'fire_mode_set':(16,),'fire_rate_set':(12,),'trait_set':(20,),'armor_penetration_label':(20,)}
+                self.assertIn(field['backing']['width'],widths.get(field['type'],(1,4)))
 
     def test_ammo_capability_matrix_covers_all_player_weapons(self):
         summary=AMMO_CAPABILITIES['summary']
@@ -218,7 +223,7 @@ for name,weapon in pairs(db.weapons)do
     local changes={}
     for _,field in ipairs(weapon.fields)do
         if field.editable and field.type~='projectile_reference'
-            and field.type~='explosion_reference'
+            and field.type~='explosion_reference'and field.type~='function_projectile_reference'
             and not field.semanticFieldId:match('^explosion%.') then
             local value=field.currentDefault
             if field.writeKind=='reorder_native_mode_vector'then

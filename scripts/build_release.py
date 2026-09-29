@@ -19,6 +19,8 @@ import generate_attachment_authoring
 import generate_booster_authoring
 import generate_weapon_composition
 import generate_fire_mode_authoring
+import generate_weapon_modes
+import generate_weapon_presentation
 import generate_vehicle_weapon_authoring
 import generate_pod_payload_authoring
 import generate_throwable_authoring
@@ -112,6 +114,8 @@ def main():
     generate_enemy_authoring.generate(check=True)
     generate_live_evidence.generate(check=True)
     generate_attack_outputs.generate(check=True)
+    generate_weapon_modes.generate(check=True)
+    generate_weapon_presentation.generate(check=True)
     generate_events.generate(check=True)
     generate_event_natives.generate(check=True)
     generate_event_entities.generate(check=True)
@@ -172,6 +176,13 @@ def main():
     report['fire_mode_authoring_validation']={key:value for key,value in json.loads(
         (ROOT/'validation/fire-mode-authoring-snapshot.json').read_text()).items() if key!='weapons'}
     report['weapon_fire_modes']=json.loads((ROOT/'sdk/WeaponFireModeCapabilities.json').read_text())['summary']
+    report['weapon_modes_validation']={key:value for key,value in json.loads(
+        (ROOT/'validation/weapon-modes-snapshot.json').read_text()).items() if key!='weapons'}
+    report['weapon_fire_rates']=json.loads((ROOT/'sdk/WeaponFireRateCapabilities.json').read_text())['summary']
+    report['weapon_feeds']=json.loads((ROOT/'sdk/WeaponFeedCapabilities.json').read_text())['summary']
+    report['weapon_presentation']=json.loads((ROOT/'sdk/WeaponPresentationCapabilities.json').read_text(
+        encoding='utf-8'))['summary']
+    report['output_composition']=json.loads((ROOT/'sdk/OutputCompositionCapabilities.json').read_text())['summary']
     ammo_research=json.loads((ROOT/'research/backpack-ammo-F5FEE03DCFDB.json').read_text())
     report['backpack_ammo']={'backpackFedWeapons':{item['supportWeapon']:{'capacity':item['deposit']['values']['0'],
         'startAmount':item['deposit']['values']['4'],'refillAmount':item['deposit']['values']['8'],

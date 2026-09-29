@@ -49,7 +49,13 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
             identity=(backing['kind'],backing.get('component'),backing.get('settings'),
                 backing.get('recordIndex'),backing.get('group'),backing.get('row'),
                 backing['offset'],backing['width'])
-            if field['type']=='projectile_reference':
+            if field['type']=='function_projectile_reference':
+                # The ProgrammableAmmo projectile: "none", or the weapon's own native one (restore handle).
+                own={'resource':'player_weapon','path':'function_projectile','weapon':weapon['name']}
+                expect=own if field['currentDefault']['projectileType'] else 'none'
+                change={'field':field['semanticFieldId'],'expect':expect,'value':expect}
+                target={'resource':'player_weapon','path':'weapon','weapon':weapon['name']}
+            elif field['type']=='projectile_reference':
                 role=field['referenceRole']
                 handle={'resource':'player_weapon','path':'projectile_reference',
                     'weapon':weapon['name'],'attack':role}
@@ -85,10 +91,17 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
             if force_single:
                 batches.append({'target':target,'changes':[change],'identities':{identity},'exclusive':True})
                 continue
+            # Differently sized views of the same bytes (fire_rate.modes and weapon.fire_rate, the two presentation
+            # fields) are never combined in one plan: overlapping byte ranges of one record go to separate batches.
+            span=(identity[:6],backing['offset'],backing['offset']+backing['width'])
+            def overlaps(batch):
+                return any(other[0]==span[0] and other[1]<span[2] and span[1]<other[2] for other in batch['spans'])
             for batch in batches:
-                if not batch.get('exclusive') and batch['target']==target and len(batch['changes'])<32 and identity not in batch['identities']:
-                    batch['changes'].append(change);batch['identities'].add(identity);placed=True;break
-            if not placed:batches.append({'target':target,'changes':[change],'identities':{identity}})
+                if not batch.get('exclusive') and batch['target']==target and len(batch['changes'])<32 \
+                        and identity not in batch['identities'] and not overlaps(batch):
+                    batch['changes'].append(change);batch['identities'].add(identity);batch['spans'].append(span)
+                    placed=True;break
+            if not placed:batches.append({'target':target,'changes':[change],'identities':{identity},'spans':[span]})
         audit.append({'name':weapon['name'],'blocked':weapon['ordinaryWritesBlocked'],
             'batches':[{'target':batch['target'],'changes':batch['changes']} for batch in batches]})
     sources=module_sources()
@@ -133,9 +146,11 @@ for _,weapon in ipairs(audit)do
                             'fire mode plan count='..#plan.changes..' already='..tostring(plan.changes[1].already_desired)
                             ..' labels='..table.concat(labels,','))
                     else
-                        -- fire_mode.modes prepares as its four FireMode slots.
+                        -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags.
+                        local SLOTS={['fire_mode.modes']=3,['fire_rate.modes']=2,['presentation.traits']=4,
+                            ['presentation.armor_penetration']=4}
                         local expected=#changes
-                        for _,change in ipairs(changes)do if change.field=='fire_mode.modes'then expected=expected+3 end end
+                        for _,change in ipairs(changes)do expected=expected+(SLOTS[change.field]or 0)end
                         assert(#plan.changes==expected)
                         local guarded_result=guarded.apply(source,plan)
                         assert(guarded_result.status=='ALREADY_DESIRED'and guarded_result.writes==0

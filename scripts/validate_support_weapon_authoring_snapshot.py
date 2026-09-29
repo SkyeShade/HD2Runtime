@@ -43,14 +43,29 @@ def validate(snapshot=DEFAULT_SNAPSHOT,output=DEFAULT_OUTPUT):
     for weapon in runtime['weapons'].values():
         if weapon['ordinaryWritesBlocked']:
             audit.append({'name':weapon['name'],'blocked':True,'batches':[]});continue
-        grouped={}
+        batches=[]
         for field in weapon['fields']:
             if not field['acceptedForWrites']:continue
-            target=field['target'];key=json.dumps(target,sort_keys=True)
-            grouped.setdefault(key,{'target':target,'changes':[]})['changes'].append({
-                'field':public_field(field),'expect':field['currentDefault'],
-                'value':field['currentDefault']})
-        audit.append({'name':weapon['name'],'blocked':False,'batches':list(grouped.values())})
+            target=field['target'];backing=field['backing']
+            expect=field['currentDefault']
+            if field['type']=='function_projectile_reference':
+                # The ProgrammableAmmo projectile: "none", or the weapon's own native one (restore handle).
+                expect=({'resource':'support_weapon','path':'function_projectile','weapon':weapon['name']}
+                    if expect['projectileType'] else 'none')
+            # Differently sized views of the same bytes (fire_rate.modes and weapon.fire_rate, the two presentation
+            # fields) are never combined in one plan: overlapping byte ranges of one record go to separate batches.
+            owner=(backing['kind'],backing.get('component'),backing.get('settings'),backing.get('recordIndex'),
+                backing.get('group'),backing.get('row'))
+            span=(owner,backing['offset'],backing['offset']+backing['width'])
+            change={'field':public_field(field),'expect':expect,'value':expect}
+            for batch in batches:
+                if batch['target']==target and len(batch['changes'])<32 and not any(other[0]==owner
+                        and other[1]<span[2] and span[1]<other[2] for other in batch['spans']):
+                    batch['changes'].append(change);batch['spans'].append(span);break
+            else:
+                batches.append({'target':target,'changes':[change],'spans':[span]})
+        audit.append({'name':weapon['name'],'blocked':False,
+            'batches':[{'target':batch['target'],'changes':batch['changes']} for batch in batches]})
     sources=module_sources()
     preload='\n'.join('package.preload['+lua(name)+']=function(...) return assert(loadstring('
         +lua(body)+','+lua(name)+'))(...) end'for name,body in sources.items())
@@ -80,9 +95,11 @@ for _,weapon in ipairs(audit)do
      target=batch.target,changes=batch.changes}
     local reader=Reader.new(source);local resolved=domain.capture(source,reader,spec)
     local plan=domain.prepare(resolved,reader,spec);reader.verify()
-    -- fire_mode.modes prepares as its four FireMode slots.
+    -- Native slot lists prepare as their slots: four FireMode slots, three rate slots, five tags.
+    local SLOTS={['fire_mode.modes']=3,['fire_rate.modes']=2,['presentation.traits']=4,
+     ['presentation.armor_penetration']=4}
     local expected=#batch.changes
-    for _,change in ipairs(batch.changes)do if change.field=='fire_mode.modes'then expected=expected+3 end end
+    for _,change in ipairs(batch.changes)do expected=expected+(SLOTS[change.field]or 0)end
     assert(#plan.changes==expected,'physical support field count changed')
     local checked=guarded.apply(source,plan)
     assert(checked.status=='ALREADY_DESIRED'and checked.writes==0

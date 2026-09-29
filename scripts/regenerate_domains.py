@@ -20,7 +20,8 @@ ORDER = ('apply_projectile_residency', 'generate_live_evidence', 'generate_statu
     'generate_booster_authoring',
     'generate_stratagem_authoring', 'generate_weapon_authoring', 'generate_fire_mode_authoring',
     'generate_vehicle_weapon_authoring', 'generate_pod_payload_authoring', 'generate_throwable_authoring',
-    'generate_package_residency', 'generate_weapon_movement', 'generate_enemy_authoring', 'generate_attack_outputs', 'generate_sdk')
+    'generate_package_residency', 'generate_weapon_movement', 'generate_enemy_authoring', 'generate_attack_outputs', 'generate_weapon_modes',
+    'generate_weapon_presentation', 'generate_sdk')
 
 
 def main(argv=None):
