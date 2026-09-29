@@ -275,6 +275,7 @@ def main():
     parser.add_argument('--output', type=Path, default=OUTPUT)
     parallel.add_argument(parser)
     args = parser.parse_args()
+    parallel.configure(args.jobs)
     result = validate(args.snapshot, args.jobs)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')

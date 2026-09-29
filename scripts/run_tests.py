@@ -282,6 +282,7 @@ def main(argv=None):
             raise SystemExit(2)
         sys.stdout.write('\n' + MARKER + json.dumps(report) + '\n')
         return
+    parallel.configure(args.jobs)
     result = run(args.pattern, args.jobs, args.verbose, sys.stderr)
     if args.json:
         args.json.write_text(json.dumps({k: v for k, v in result.items() if k != 'text'}, indent=1) + '\n')

@@ -729,6 +729,7 @@ def main():
     parser.add_argument('--output', type=Path, help='write the JSON report here')
     parallel.add_argument(parser)
     args = parser.parse_args()
+    parallel.configure(args.jobs)
     try:
         result = validate(args.zip, args.snapshot, args.scenario, args.jobs)
     except AssertionError as error:

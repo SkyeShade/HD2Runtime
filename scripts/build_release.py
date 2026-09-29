@@ -84,6 +84,7 @@ def main():
         help='folder for the release ZIPs and report (default build/; use a scratch folder for test builds)')
     parallel.add_argument(parser)
     args=parser.parse_args()
+    parallel.configure(args.jobs)
     out=args.output;out.mkdir(parents=True,exist_ok=True)
     apply_projectile_residency.generate(check=True)
     generate_weapon_composition.generate(check=True)
