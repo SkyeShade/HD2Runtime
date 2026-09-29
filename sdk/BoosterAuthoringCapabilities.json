@@ -1,7 +1,7 @@
 {
   "contract": "hd2runtime.booster.guarded_authoring.v2",
   "schemaVersion": 2,
-  "hd2RuntimeVersion": "0.26.1",
+  "hd2RuntimeVersion": "0.27.0",
   "canonicalCollection": "fieldInstances",
   "nativeModel": {
     "identity": "game.dll's own Booster enum-name table (value-indexed, None..Count), validated against the type library's alias length for every value.",

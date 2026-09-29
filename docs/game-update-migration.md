@@ -46,7 +46,7 @@ tables in the snapshot, so the datalibrary also supplies the table contents.
 ### 2. Migrate
 
 ```powershell
-py scripts/migrate_build.py --from-runtime 0.26.1 `
+py scripts/migrate_build.py --from-runtime 0.27.0 `
   --snapshot "$env:LOCALAPPDATA\HD2Runtime\local_research\snapshots\<new>-<timestamp>.hd2snap" `
   --datalibrary <path-to-new>\datalibrary
 ```
@@ -176,7 +176,7 @@ target coordinates aborts the apply ("unsafe stale writes"). The result is recor
 ### 7. Validate
 
 ```powershell
-py scripts/migrate_build.py --from-runtime 0.26.1 --snapshot <new snapshot> --label post-profile
+py scripts/migrate_build.py --from-runtime 0.27.0 --snapshot <new snapshot> --label post-profile
 py scripts/validate_migration.py validation/migrations/<new>
 ```
 

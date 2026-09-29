@@ -126,7 +126,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -152,7 +152,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -181,7 +181,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -206,7 +206,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1244,7 +1244,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1269,11 +1269,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.1",
+      "requiredMinVersion": "0.27.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "throwable target -> 0.26.1",
+        "throwable target -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1310,7 +1310,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1336,11 +1336,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.1",
+      "requiredMinVersion": "0.27.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "throwable target -> 0.26.1",
+        "throwable target -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1981,7 +1981,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -1995,11 +1995,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.1",
+      "requiredMinVersion": "0.27.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "throwable target -> 0.26.1",
+        "throwable target -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2250,7 +2250,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [
@@ -2275,11 +2275,11 @@
         }
       ],
       "problems": [],
-      "requiredMinVersion": "0.26.1",
+      "requiredMinVersion": "0.27.0",
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
-        "throwable target -> 0.26.1",
+        "throwable target -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2332,7 +2332,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": {},
@@ -2357,7 +2357,7 @@
       "calls": [
         "ensure"
       ],
-      "minVersion": "0.26.1",
+      "minVersion": "0.27.0",
       "operations": [
         {
           "acknowledgements": [

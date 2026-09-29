@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "contract": "hd2runtime.support_weapon.read_only.v1",
-  "hd2RuntimeVersion": "0.26.1",
+  "hd2RuntimeVersion": "0.27.0",
   "gameFingerprints": {
     "dll": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
     "exe": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06"

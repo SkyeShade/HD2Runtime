@@ -40,6 +40,13 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 
 Unsupported or ambiguous values remain read-only rather than being modified speculatively.
 
+Version 0.27.0 loads assets automatically for cross-package reference swaps. When a swap points at an item
+nobody carries (an EAT-700 in a Stalwart pod, Talon projectiles on the Reprimand, a Grenade Box in the MG-43
+pod), Runtime loads that item's package through Helldivers 2's own package loader first, waits until it is
+resident, and only then writes. If it cannot, the write fails safely with `ASSET_UNAVAILABLE`. These three
+cases were live-tested. It also adds throwable authoring for all 23 throwable-slot items. See
+`docs/releases/0.27.0.md` and `docs/asset-loading.md`.
+
 Version 0.26.1 is a documentation and example correctness release. The examples, ModTemplate, SDK project
 templates and getting-started guide now teach the current typed API (damage on the projectile, per-angle armor
 penetration, patch vs transaction vs plan), and every shipped example is validated against the current SDK on
