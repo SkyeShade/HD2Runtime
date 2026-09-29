@@ -806,14 +806,15 @@ function M.new(describe)
         local enemy_writes=require('hd2runtime/domains/enemy_writes')
         local entry=assert(enemy_writes.entry(identity),'unknown reviewed '..kind..': '..tostring(identity))
         assert(kind=='enemy'or entry.kind==kind,tostring(identity)..' is an enemy unit; use hd2.enemy')
-        local function public_fields(path,zone)
+        local function public_fields(path,zone,attack)
             local result={}
             for _,field in ipairs(entry.fields)do
-                if field.path==path and field.zone==zone then
+                if field.path==path and field.zone==zone and field.attack==attack then
                     local descriptor=enemy_writes.descriptor(entry,field)
                     result[#result+1]={semanticFieldId=field.id,currentDefault=field.currentDefault,
                         editable=descriptor.editable,reason=field.reason,shared=descriptor.shared,
-                        min=descriptor.min,max=descriptor.max,acknowledgement=descriptor.acknowledgement}
+                        min=descriptor.min,max=descriptor.max,acknowledgement=descriptor.acknowledgement,
+                        sharedWithClasses=descriptor.sharedWithClasses}
                 end
             end
             return result
@@ -834,13 +835,46 @@ function M.new(describe)
             end
             return setmetatable({resource='enemy',enemy=entry.name,path='damage_zone',zone=zone.id},{__index=sub})
         end
+        -- Attacks: the DamageInfo row each mounted weapon reaches (slot_<n>, slot_<n>_impact / _expiry for its
+        -- explosions, slot_<n>_spray), or a wiki attack name the row matches exactly on all nine values.
+        local function attack_identity(value)
+            for _,attack in ipairs(entry.attacks or{})do if attack.id==value then return attack end end
+            local found
+            for _,attack in ipairs(entry.attacks or{})do
+                for _,name in ipairs(attack.wikiAttacks)do
+                    if name==value then found=found or attack end
+                end
+            end
+            return found or error('unknown attack for '..entry.name..': '..tostring(value),0)
+        end
+        local function attack_target(attack)
+            local sub={}
+            function sub.describe()
+                return {name=entry.name,attack=attack.id,mountSlot=attack.slot,role=attack.role,
+                    wikiAttacks=copy(attack.wikiAttacks),rowWikiMatches=copy(attack.rowWikiMatches),
+                    sharedWithClasses=copy(attack.reviewedClassesReachingRow),
+                    fields=public_fields('attack',nil,attack.id)}
+            end
+            return setmetatable({resource='enemy',enemy=entry.name,path='attack',attack=attack.id},{__index=sub})
+        end
         function methods.describe()
-            local zones={}
+            local zones,attacks={},{}
             for _,zone in ipairs(entry.zones)do
                 zones[#zones+1]={id=zone.id,nativeName=zone.name,wikiZone=zone.wikiZone}
             end
+            for _,attack in ipairs(entry.attacks or{})do
+                attacks[#attacks+1]={id=attack.id,mountSlot=attack.slot,role=attack.role,
+                    wikiAttacks=copy(attack.wikiAttacks)}
+            end
             return {name=entry.name,className=entry.className,wikiName=entry.wikiName,kind=entry.kind,
-                faction=entry.faction,semanticId=entry.semanticId,zones=zones,fields=public_fields('entity')}
+                faction=entry.faction,semanticId=entry.semanticId,zones=zones,attacks=attacks,
+                fields=public_fields('entity')}
+        end
+        function methods.attack(_,identity_)return attack_target(attack_identity(identity_))end
+        function methods.attacks()
+            local result={}
+            for _,attack in ipairs(entry.attacks or{})do result[#result+1]=attack_target(attack)end
+            return result
         end
         function methods.zones()
             local result={}

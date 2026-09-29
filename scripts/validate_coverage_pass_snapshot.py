@@ -146,9 +146,11 @@ local worker=coroutine.create(function()
   local groups,order={},{}
   for _,field in ipairs(entry.fields)do
    if field.editable==false then e.readOnly=e.readOnly+1 else
-    local key=field.path..':'..tostring(field.zone)
+    local key=field.path..':'..tostring(field.zone)..':'..tostring(field.attack)
     if not groups[key]then groups[key]={id='enemy-noop',target={resource='enemy',enemy=name,path=field.path,
-     zone=field.zone},allow_shared=true,allow_unverified_effect=true,changes={}};order[#order+1]=key end
+     zone=field.zone,attack=field.attack},allow_shared=true,allow_unverified_effect=true,changes={}}
+     order[#order+1]=key end
+    if field.attack then e.attackFields=(e.attackFields or 0)+1 end
     local changes=groups[key].changes
     changes[#changes+1]={field=field.id,expect=field.currentDefault,value=field.currentDefault}
    end
@@ -206,6 +208,27 @@ local worker=coroutine.create(function()
  rejects(function()enemies.validate_patch({id='x',target={resource='enemy',enemy='Charger',path='damage_zone',
   zone=sentinel.zone},field='zone.health',expect=-1,value=100})end,'read-only','uses-main-health zone')
  e.rejections.sentinel=1
+ -- Attacks: shared DamageInfo rows reached through the class's own mount chain.
+ local rockets={resource='enemy',enemy='Gunship',path='attack',attack='slot_0'}
+ enemy_round_trip('gunship_rocket_damage',rockets,'damage.standard_damage',30,3,
+  {allow_shared=true,allow_unverified_effect=true})
+ enemy_round_trip('bile_bombard_explosion_damage',{resource='enemy',enemy='boomer',path='attack',
+  attack='slot_1_impact'},'damage.standard_damage',200,20,{allow_shared=true,allow_unverified_effect=true})
+ rejects(function()enemies.validate_patch({id='x',target=rockets,allow_unverified_effect=true,
+  field='damage.standard_damage',expect=30,value=3})end,'allow_shared','attack allow_shared')
+ e.rejections.attackShared=1
+ rejects(function()enemies.validate_patch({id='x',target=rockets,allow_shared=true,
+  field='damage.standard_damage',expect=30,value=3})end,'allow_unverified_effect','attack acknowledgement')
+ e.rejections.attackAcknowledgement=1
+ -- A third party repointing the Gunship's mount slot breaks the chain: the write is refused before any byte moves.
+ reset()
+ local spec=enemies.validate_patch({id='chain',target=rockets,allow_shared=true,allow_unverified_effect=true,
+  field='damage.standard_damage',expect=30,value=3})
+ local _,resolved=resolve(enemies,spec)
+ local mount=resolved.catalog.record(resolved.candidate,'MountComponentData')
+ poke(mount.owner.base+mount.offset,string.rep('\0',8))
+ rejects(function()resolve(enemies,spec)end,'no longer holds the reviewed weapon','broken mount chain')
+ e.rejections.brokenMountChain=1
  reset()
  -- Mine deployer counts: a reduction lands and rolls back; an increase past the launch sockets is rejected.
  local stratagems=require('hd2runtime/domains/stratagem_writes')

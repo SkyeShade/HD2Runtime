@@ -1,5 +1,5 @@
 {
-  "examples": 66,
+  "examples": 67,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1110,6 +1110,44 @@
           "id": "enemy-armor-zone-test",
           "mode": "patch",
           "path": "damage_zone",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "EnemyAttackDamageTest": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shell",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "splash",
+          "mode": "transaction",
+          "path": "attack",
           "resource": "enemy"
         }
       ],

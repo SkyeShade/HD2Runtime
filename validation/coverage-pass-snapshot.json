@@ -1,15 +1,24 @@
 {
   "enemies": {
+    "attackFields": 765,
     "classes": 177,
-    "fields": 7981,
+    "fields": 8746,
     "readOnly": 1319,
     "rejections": {
       "acknowledgement": 1,
+      "attackAcknowledgement": 1,
+      "attackShared": 1,
+      "brokenMountChain": 1,
       "range": 1,
       "sentinel": 1,
       "staleExpect": 1
     },
     "roundTrips": {
+      "bile_bombard_explosion_damage": {
+        "field": "damage.standard_damage",
+        "from": 200,
+        "to": 20
+      },
       "charger_head_armor": {
         "field": "zone.armor",
         "from": 4,
@@ -24,6 +33,11 @@
         "field": "entity.health",
         "from": 1500,
         "to": 150
+      },
+      "gunship_rocket_damage": {
+        "field": "damage.standard_damage",
+        "from": 30,
+        "to": 3
       },
       "warrior_head_health": {
         "field": "zone.health",
@@ -97,5 +111,5 @@
       }
     }
   },
-  "writes": 24
+  "writes": 28
 }

@@ -457,7 +457,15 @@ def outputs():
         '---@param identity string|integer Zone id ("zone_0"), native zone name, wiki zone label or index.',
         '---@return HD2EnemyZone','function HD2Enemy:zone(identity) end',
         '---@return HD2EnemyZone[]','function HD2Enemy:damage_zones() end',
-        '---@param identity string|integer','---@return HD2EnemyZone','function HD2Enemy:damage_zone(identity) end']
+        '---@param identity string|integer','---@return HD2EnemyZone','function HD2Enemy:damage_zone(identity) end',
+        '','---@class HD2EnemyAttack','---@field resource "enemy"','---@field path "attack"','---@field enemy string',
+        '---@field attack string','local HD2EnemyAttack = {}',
+        '---DamageInfo fields of the row this attack reaches (hd2.fields.damage.player_standard_damage, ap_direct, ...).',
+        '---Shared settings rows: writes need allow_shared=true and allow_unverified_effect=true.',
+        '---@return table','function HD2EnemyAttack:describe() end',
+        '---@param identity string Attack id ("slot_0", "slot_0_impact", "slot_1_spray") or an exactly matched wiki attack name.',
+        '---@return HD2EnemyAttack','function HD2Enemy:attack(identity) end',
+        '---@return HD2EnemyAttack[]','function HD2Enemy:attacks() end']
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
     stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
