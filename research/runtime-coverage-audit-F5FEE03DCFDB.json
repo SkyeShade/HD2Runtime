@@ -1,0 +1,4521 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "writes": 0,
+ "method": "Reviewed map from each wiki stat to the Runtime semantic fields that author it; a stat is covered when a writable field exists, whatever its number.",
+ "stratagems": {
+  "wikiStratagems": 82,
+  "resolved": 60,
+  "withWritableFields": 60,
+  "statCoverage": {
+   "bombsPerSalvo": {
+    "stated": 10,
+    "covered": 0,
+    "note": "Barrage delivery arrays are preserved as structure."
+   },
+   "callInTimeSeconds": {
+    "stated": 76,
+    "covered": 0,
+    "note": "The resolved spawn-time scalar does not reproduce the call-in time across families."
+   },
+   "capacity": {
+    "stated": 25,
+    "covered": 20,
+    "note": null
+   },
+   "cooldownSeconds": {
+    "stated": 76,
+    "covered": 60,
+    "note": null
+   },
+   "durationSeconds": {
+    "stated": 1,
+    "covered": 1,
+    "note": "Proven for the orbital laser only."
+   },
+   "rearmTimeSeconds": {
+    "stated": 9,
+    "covered": 8,
+    "note": null
+   },
+   "salvos": {
+    "stated": 14,
+    "covered": 4,
+    "note": "Proven for the four minefields only; barrage salvos have no scalar owner."
+   },
+   "targetingRadiusMeters": {
+    "stated": 11,
+    "covered": 1,
+    "note": "Only the orbital laser search radius is proven."
+   },
+   "trackingSpeedMetersPerSecond": {
+    "stated": 1,
+    "covered": 1,
+    "note": "The orbital laser movement speed (10 m/s, equal to the wiki)."
+   },
+   "uses": {
+    "stated": 74,
+    "covered": 60,
+    "note": null
+   }
+  },
+  "runtimeOnly": [
+   "40-K Meltagun",
+   "AC-8 Autocannon",
+   "APW-1 Anti-Materiel Rifle",
+   "ARC-3 Arc Thrower",
+   "B/FLAM-80 Cremator",
+   "B/MD C4 Pack",
+   "CQC-1 One True Flag",
+   "CQC-20 Breaching Hammer",
+   "CQC-72 Entrenchment Tool",
+   "CQC-9 Defoliation Tool",
+   "EAT-17 Expendable Anti-Tank",
+   "EAT-411 Leveller",
+   "EAT-700 Expendable Napalm",
+   "FAF-14 Spear",
+   "FLAM-40 Flamethrower",
+   "GL-21 Grenade Launcher",
+   "GL-28 Belt-Fed Grenade Launcher",
+   "GL-52 De-Escalator",
+   "GR-8 Recoilless Rifle",
+   "LAS-98 Laser Cannon",
+   "LAS-99 Quasar Cannon",
+   "M-1000 Maxigun",
+   "M-105 Stalwart",
+   "MG-206 Heavy Machine Gun",
+   "MG-43 Machine Gun",
+   "MGX-42 Bullet Storm",
+   "MLS-4X Commando",
+   "MS-11 Solo Silo",
+   "PLAS-45 Epoch",
+   "RL-77 Airburst Rocket Launcher",
+   "RS-422 Railgun",
+   "S-11 Speargun",
+   "SG-88 Break-Action Shotgun",
+   "StA-X3 W.A.S.P. Launcher",
+   "TX-41 Sterilizer"
+  ],
+  "stratagems": [
+   {
+    "name": "Orbital Precision Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital Gatling Barrage",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 3
+   },
+   {
+    "name": "Orbital Gas Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Orbital 120mm HE Barrage",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital Airburst Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Orbital Smoke Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 19,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital EMS Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 3
+   },
+   {
+    "name": "Orbital 380mm HE Barrage",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital Walking Barrage",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital Laser",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 15,
+    "writableDomains": [
+     "damage",
+     "orbital",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "durationSeconds": true,
+     "targetingRadiusMeters": true,
+     "callInTimeSeconds": false,
+     "trackingSpeedMetersPerSecond": true
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Orbital Napalm Barrage",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": false,
+     "targetingRadiusMeters": false,
+     "callInTimeSeconds": false,
+     "bombsPerSalvo": false
+    },
+    "uncoveredStats": [
+     "bombsPerSalvo",
+     "callInTimeSeconds",
+     "salvos",
+     "targetingRadiusMeters"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Orbital Railcannon Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Eagle Gas Airstrike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 31,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Eagle Strafing Run",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "capacity": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "capacity"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Eagle Airstrike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "capacity": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "capacity"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Eagle Cluster Bomb",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Eagle Smoke Strike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 20,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Eagle Napalm Airstrike",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 31,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 4
+   },
+   {
+    "name": "Eagle 110mm Rocket Pods",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 2
+   },
+   {
+    "name": "Eagle 500kg Bomb",
+    "family": "offensive",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "eagle",
+     "explosion",
+     "projectile",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "rearmTimeSeconds": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 3
+   },
+   {
+    "name": "B-1 Supply Pack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "LIFT-850 Jump Pack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 4,
+    "writableDomains": [
+     "jump",
+     "recharge",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SH-20 Ballistic Shield Backpack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 4,
+    "writableDomains": [
+     "entity",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "AX/AR-23 Guard Dog",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "capacity"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "AX/LAS-5 Rover",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SH-32 Shield Generator Pack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 4,
+    "writableDomains": [
+     "shield",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SH-51 Directional Shield",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 4,
+    "writableDomains": [
+     "entity",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "AX/FLAM-75 Hot Dog",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "B-100 Portable Hellbomb",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "AX/ARC-3 K-9",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "LIFT-860 Hover Pack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 3,
+    "writableDomains": [
+     "recharge",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "AX/TX-13 Dog Breath",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "LIFT-182 Warp Pack",
+    "family": "backpack",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "M-103 Supply FRV",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "mount",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "TD-110 Maelstrom",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 46,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "mount",
+     "projectile",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "M-104 Incinerator FRV",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 27,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "mount",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "EXO-49 Emancipator Exosuit",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 44,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "mount",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "EXO-45 Patriot Exosuit",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 45,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "mount",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "M-102 Gunner FRV",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 31,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "mount",
+     "projectile",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "TD-220 Bastion MK XVI",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 45,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "mount",
+     "projectile",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "EXO-55 Breakthrough Exosuit",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 27,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "mount",
+     "projectile",
+     "reload",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "capacity"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "EXO-51 Lumberer Exosuit",
+    "family": "vehicle",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 48,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "mount",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/MG-43 Machine Gun Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 34,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "payload",
+     "projectile",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/G-16 Gatling Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 34,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "payload",
+     "projectile",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/AC-8 Autocannon Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 46,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "payload",
+     "projectile",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/M-12 Mortar Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 46,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "payload",
+     "projectile",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/MLS-4X Rocket Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 46,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "payload",
+     "projectile",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/ARC-3 Tesla Tower",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "arc",
+     "damage",
+     "entity",
+     "magazine",
+     "payload",
+     "status",
+     "stratagem",
+     "targeting",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "arc",
+     "damage",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/M-23 EMS Mortar Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 48,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "payload",
+     "projectile",
+     "status",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/LAS-98 Laser Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 35,
+    "writableDomains": [
+     "beam",
+     "damage",
+     "entity",
+     "heat",
+     "heatsink",
+     "payload",
+     "status",
+     "stratagem",
+     "targeting",
+     "turret",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "beam",
+     "damage",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/FLAM-40 Flame Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 30,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "payload",
+     "status",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "A/GM-17 Gas Mortar Sentry",
+    "family": "sentry",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 48,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "payload",
+     "projectile",
+     "status",
+     "stratagem",
+     "targeting",
+     "turret",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "MD-6 Anti-Personnel Minefield",
+    "family": "mine",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 18,
+    "writableDomains": [
+     "entity",
+     "explosion",
+     "minefield",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "explosion"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "MD-I4 Incendiary Mines",
+    "family": "mine",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 20,
+    "writableDomains": [
+     "entity",
+     "explosion",
+     "minefield",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "explosion",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "MD-17 Anti-Tank Mines",
+    "family": "mine",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 18,
+    "writableDomains": [
+     "entity",
+     "explosion",
+     "minefield",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "explosion"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "FX-12 Shield Generator Relay",
+    "family": "emplacement",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 10,
+    "writableDomains": [
+     "entity",
+     "payload",
+     "shield",
+     "stratagem",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "E/MG-101 HMG Emplacement",
+    "family": "emplacement",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 26,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "magazine",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "E/GL-21 Grenadier Battlement",
+    "family": "emplacement",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 4,
+    "writableDomains": [
+     "entity",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "capacity": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "capacity"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "MD-8 Gas Mines",
+    "family": "mine",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 20,
+    "writableDomains": [
+     "entity",
+     "explosion",
+     "minefield",
+     "status",
+     "stratagem"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "salvos": true,
+     "capacity": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "explosion",
+     "status"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "E/AT-12 Anti-Tank Emplacement",
+    "family": "emplacement",
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 38,
+    "writableDomains": [
+     "damage",
+     "entity",
+     "explosion",
+     "magazine",
+     "projectile",
+     "stratagem",
+     "weapon",
+     "zone"
+    ],
+    "stats": {
+     "cooldownSeconds": true,
+     "uses": true,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds"
+    ],
+    "attackBranchesWritable": [
+     "damage",
+     "explosion",
+     "projectile"
+    ],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Eagle Rearm",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "rearmTimeSeconds": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "rearmTimeSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Call In Super Destroyer",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {},
+    "uncoveredStats": [],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SoS Beacon",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Resupply",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Reinforce",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false
+    },
+    "uncoveredStats": [
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Cargo Container",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "NUX-223 Hellbomb",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Seismic Probe",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Tectonic Drill",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Upload Data",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Reinforcement Pods",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {},
+    "uncoveredStats": [],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Aquifer Drill",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Portable Comms Relay",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Prospecting Drill",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Hive Breaker Drill",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Activate E-711 Extraction Drill",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Dark Fluid Vessel",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SEAF Artillery",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false
+    },
+    "uncoveredStats": [
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Tactical Video Camera",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false
+    },
+    "uncoveredStats": [
+     "cooldownSeconds"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "SSSD Delivery",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "cooldownSeconds": false,
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "cooldownSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Super Earth Flag",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {
+     "uses": false,
+     "callInTimeSeconds": false
+    },
+    "uncoveredStats": [
+     "callInTimeSeconds",
+     "uses"
+    ],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   },
+   {
+    "name": "Orbital Illumination Flare",
+    "family": "mission",
+    "resolved": false,
+    "rootResolution": null,
+    "writableFields": 0,
+    "writableDomains": [],
+    "stats": {},
+    "uncoveredStats": [],
+    "attackBranchesWritable": [],
+    "wikiAttacks": 0
+   }
+  ]
+ },
+ "supportWeapons": {
+  "wikiWeapons": 35,
+  "resolved": 35,
+  "withWritableFields": 34,
+  "statCoverage": {
+   "capacity": {
+    "stated": 32,
+    "covered": 26,
+    "note": "Effective magazine capacity owned by a default customization option stays read-only."
+   },
+   "damage.durable": {
+    "stated": 35,
+    "covered": 34,
+    "note": null
+   },
+   "damage.standard": {
+    "stated": 35,
+    "covered": 34,
+    "note": null
+   },
+   "ergonomics": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   },
+   "fireRateRpm": {
+    "stated": 27,
+    "covered": 20,
+    "note": null
+   },
+   "horizontalRecoil": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   },
+   "magsFromAmmoBox": {
+    "stated": 27,
+    "covered": 21,
+    "note": "Derived by the game from the supply refill; authored through it."
+   },
+   "magsFromSupply": {
+    "stated": 27,
+    "covered": 21,
+    "note": null
+   },
+   "projectile.dragFactor": {
+    "stated": 23,
+    "covered": 20,
+    "note": null
+   },
+   "projectile.gravityFactor": {
+    "stated": 23,
+    "covered": 20,
+    "note": null
+   },
+   "projectile.initialVelocityMetersPerSecond": {
+    "stated": 23,
+    "covered": 20,
+    "note": null
+   },
+   "projectile.massGrams": {
+    "stated": 23,
+    "covered": 20,
+    "note": null
+   },
+   "projectile.pelletCount": {
+    "stated": 1,
+    "covered": 1,
+    "note": null
+   },
+   "projectile.penetrationSlowdown": {
+    "stated": 23,
+    "covered": 20,
+    "note": null
+   },
+   "recoil": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   },
+   "spareMagazines": {
+    "stated": 20,
+    "covered": 18,
+    "note": null
+   },
+   "spread": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   },
+   "startingMagazines": {
+    "stated": 20,
+    "covered": 18,
+    "note": null
+   },
+   "sway": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   },
+   "verticalRecoil": {
+    "stated": 33,
+    "covered": 32,
+    "note": null
+   }
+  },
+  "weapons": [
+   {
+    "name": "MG-43 Machine Gun",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "M-105 Stalwart",
+    "resolved": true,
+    "writableFields": 33,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "APW-1 Anti-Materiel Rifle",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "EAT-17 Expendable Anti-Tank",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "GR-8 Recoilless Rifle",
+    "resolved": true,
+    "writableFields": 46,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "FLAM-40 Flamethrower",
+    "resolved": true,
+    "writableFields": 29,
+    "writableDomains": [
+     "damage",
+     "magazine",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AC-8 Autocannon",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "projectile",
+     "reload",
+     "rounds",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "MG-206 Heavy Machine Gun",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "MLS-4X Commando",
+    "resolved": true,
+    "writableFields": 28,
+    "writableDomains": [
+     "explosion",
+     "magazine",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown"
+    ]
+   },
+   {
+    "name": "RL-77 Airburst Rocket Launcher",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "FAF-14 Spear",
+    "resolved": true,
+    "writableFields": 32,
+    "writableDomains": [
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown"
+    ]
+   },
+   {
+    "name": "RS-422 Railgun",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "charge",
+     "damage",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "fireRateRpm"
+    ]
+   },
+   {
+    "name": "StA-X3 W.A.S.P. Launcher",
+    "resolved": true,
+    "writableFields": 29,
+    "writableDomains": [
+     "explosion",
+     "magazine",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown"
+    ]
+   },
+   {
+    "name": "LAS-98 Laser Cannon",
+    "resolved": true,
+    "writableFields": 33,
+    "writableDomains": [
+     "beam",
+     "damage",
+     "heat",
+     "heatsink",
+     "reload",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "GL-21 Grenade Launcher",
+    "resolved": true,
+    "writableFields": 48,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "ARC-3 Arc Thrower",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "arc",
+     "charge",
+     "damage",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "fireRateRpm"
+    ]
+   },
+   {
+    "name": "LAS-99 Quasar Cannon",
+    "resolved": true,
+    "writableFields": 52,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "heat",
+     "heatsink",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-88 Break-Action Shotgun",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "damage",
+     "projectile",
+     "reload",
+     "rounds",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-72 Entrenchment Tool",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "fireRateRpm",
+     "horizontalRecoil",
+     "recoil",
+     "spread",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "TX-41 Sterilizer",
+    "resolved": true,
+    "writableFields": 28,
+    "writableDomains": [
+     "damage",
+     "magazine",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-1 One True Flag",
+    "resolved": true,
+    "writableFields": 22,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "fireRateRpm"
+    ]
+   },
+   {
+    "name": "GL-52 De-Escalator",
+    "resolved": true,
+    "writableFields": 49,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "projectile",
+     "reload",
+     "rounds",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "PLAS-45 Epoch",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "charge",
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "fireRateRpm"
+    ]
+   },
+   {
+    "name": "S-11 Speargun",
+    "resolved": true,
+    "writableFields": 55,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "reload",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "EAT-700 Expendable Napalm",
+    "resolved": true,
+    "writableFields": 52,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "MS-11 Solo Silo",
+    "resolved": true,
+    "writableFields": 14,
+    "writableDomains": [
+     "explosion"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-9 Defoliation Tool",
+    "resolved": true,
+    "writableFields": 22,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "M-1000 Maxigun",
+    "resolved": true,
+    "writableFields": 31,
+    "writableDomains": [
+     "damage",
+     "projectile",
+     "reload",
+     "weapon",
+     "windup"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply"
+    ]
+   },
+   {
+    "name": "B/MD C4 Pack",
+    "resolved": true,
+    "writableFields": 14,
+    "writableDomains": [
+     "explosion"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply"
+    ]
+   },
+   {
+    "name": "CQC-20 Breaching Hammer",
+    "resolved": true,
+    "writableFields": 25,
+    "writableDomains": [
+     "damage",
+     "magazine",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "EAT-411 Leveller",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "GL-28 Belt-Fed Grenade Launcher",
+    "resolved": true,
+    "writableFields": 44,
+    "writableDomains": [
+     "damage",
+     "explosion",
+     "fire_mode",
+     "projectile",
+     "reload",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "fireRateRpm",
+     "magsFromAmmoBox",
+     "magsFromSupply"
+    ]
+   },
+   {
+    "name": "B/FLAM-80 Cremator",
+    "resolved": true,
+    "writableFields": 25,
+    "writableDomains": [
+     "damage",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply"
+    ]
+   },
+   {
+    "name": "MGX-42 Bullet Storm",
+    "resolved": true,
+    "writableFields": 31,
+    "writableDomains": [
+     "damage",
+     "magazine",
+     "projectile",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "40-K Meltagun",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "beam",
+     "charge",
+     "damage",
+     "magazine",
+     "status",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "fireRateRpm"
+    ]
+   }
+  ]
+ },
+ "playerWeapons": {
+  "wikiWeapons": 80,
+  "resolved": 80,
+  "withWritableFields": 73,
+  "statCoverage": {
+   "capacity": {
+    "stated": 66,
+    "covered": 45,
+    "note": "Effective magazine capacity owned by a default customization option stays read-only."
+   },
+   "damage.durable": {
+    "stated": 79,
+    "covered": 70,
+    "note": null
+   },
+   "damage.standard": {
+    "stated": 79,
+    "covered": 70,
+    "note": null
+   },
+   "ergonomics": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   },
+   "fireRateRpm": {
+    "stated": 68,
+    "covered": 66,
+    "note": null
+   },
+   "horizontalRecoil": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   },
+   "magsFromAmmoBox": {
+    "stated": 58,
+    "covered": 31,
+    "note": "Derived by the game from the supply refill; authored through it."
+   },
+   "magsFromSupply": {
+    "stated": 58,
+    "covered": 31,
+    "note": null
+   },
+   "projectile.dragFactor": {
+    "stated": 68,
+    "covered": 64,
+    "note": null
+   },
+   "projectile.gravityFactor": {
+    "stated": 68,
+    "covered": 64,
+    "note": null
+   },
+   "projectile.initialVelocityMetersPerSecond": {
+    "stated": 68,
+    "covered": 64,
+    "note": null
+   },
+   "projectile.massGrams": {
+    "stated": 68,
+    "covered": 64,
+    "note": null
+   },
+   "projectile.pelletCount": {
+    "stated": 11,
+    "covered": 11,
+    "note": null
+   },
+   "projectile.penetrationSlowdown": {
+    "stated": 68,
+    "covered": 64,
+    "note": null
+   },
+   "recoil": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   },
+   "spareMagazines": {
+    "stated": 58,
+    "covered": 31,
+    "note": null
+   },
+   "spread": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   },
+   "startingMagazines": {
+    "stated": 58,
+    "covered": 31,
+    "note": null
+   },
+   "sway": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   },
+   "verticalRecoil": {
+    "stated": 80,
+    "covered": 73,
+    "note": null
+   }
+  },
+  "weapons": [
+   {
+    "name": "AR-23 Liberator",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "AR-23P Liberator Penetrator",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "AR-23C Liberator Concussive",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "BR-14 Adjudicator",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR-61 Tenderizer",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR-23A Liberator Carbine",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "StA-52 Assault Rifle",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR-32 Pacifier",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "MA5C Assault Rifle",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR-2 Coyote",
+    "resolved": true,
+    "writableFields": 39,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR/GL-21 One-Two",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "AR-59 Suppressor",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "AR-11 Arbitrator",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-63 Diligence",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-63CS Diligence Counter Sniper",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-2124 Constitution",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-6 Deadeye",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-2 Amendment",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-72 Censor",
+    "resolved": true,
+    "writableFields": 33,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "R-4 Hyena",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "MP-98 Knight",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SMG-37 Defender",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "capacity",
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "fireRateRpm",
+     "horizontalRecoil",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown",
+     "recoil",
+     "spareMagazines",
+     "spread",
+     "startingMagazines",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "SMG-72 Pummeler",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SMG-32 Reprimand",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "StA-11 SMG",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "M7S SMG",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "SMG/FLAM-34 Stoker",
+    "resolved": true,
+    "writableFields": 31,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SMG-203 Gallant",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-8 Punisher",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "SG-225 Breaker",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-8S Slugger",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "SG-225SP Breaker Spray&Pray",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-225IE Breaker Incendiary",
+    "resolved": true,
+    "writableFields": 34,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-451 Cookout",
+    "resolved": true,
+    "writableFields": 39,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "SG-20 Halt",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "DBS-2 Double Freedom",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "M90A Shotgun",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "SG-97 Sweeper",
+    "resolved": true,
+    "writableFields": 36,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "R-36 Eruptor",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CB-9 Exploding Crossbow",
+    "resolved": true,
+    "writableFields": 49,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "GL-15 Evictor",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "LAS-5 Scythe",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "horizontalRecoil",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "recoil",
+     "spareMagazines",
+     "spread",
+     "startingMagazines",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "PLAS-1 Scorcher",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "LAS-16 Sickle",
+    "resolved": true,
+    "writableFields": 40,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "heat",
+     "heatsink",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "SG-8P Punisher Plasma",
+    "resolved": true,
+    "writableFields": 49,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "ARC-12 Blitzer",
+    "resolved": true,
+    "writableFields": 33,
+    "writableDomains": [
+     "arc",
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "PLAS-101 Purifier",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "PLAS-39 Accelerator Rifle",
+    "resolved": true,
+    "writableFields": 47,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "LAS-17 Double-Edge Sickle",
+    "resolved": true,
+    "writableFields": 40,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "heat",
+     "heatsink",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "LAS-13 Trident",
+    "resolved": true,
+    "writableFields": 30,
+    "writableDomains": [
+     "beam",
+     "damage",
+     "heat",
+     "heatsink",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "R/40-K Hot-Shot Marksman Rifle",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "LAS-12 Sai",
+    "resolved": true,
+    "writableFields": 40,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "heat",
+     "heatsink",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "JAR-5 Dominator",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "FLAM-66 Torcher",
+    "resolved": true,
+    "writableFields": 32,
+    "writableDomains": [
+     "damage",
+     "magazine",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "VG-70 Variable",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-2 Peacemaker",
+    "resolved": true,
+    "writableFields": 14,
+    "writableDomains": [
+     "fire_mode",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "damage.durable",
+     "damage.standard",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "P-19 Redeemer",
+    "resolved": true,
+    "writableFields": 15,
+    "writableDomains": [
+     "fire_mode",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "damage.durable",
+     "damage.standard",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "P-4 Senator",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-113 Verdict",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-92 Warrant",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "M6C/SOCOM Pistol",
+    "resolved": true,
+    "writableFields": 37,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-69 Veto",
+    "resolved": true,
+    "writableFields": 38,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-19 Stun Lance",
+    "resolved": true,
+    "writableFields": 24,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-30 Stun Baton",
+    "resolved": true,
+    "writableFields": 24,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-5 Combat Hatchet",
+    "resolved": true,
+    "writableFields": 22,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-2 Saber",
+    "resolved": true,
+    "writableFields": 22,
+    "writableDomains": [
+     "damage",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "CQC-42 Machete",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "horizontalRecoil",
+     "recoil",
+     "spread",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "CQC-73 Entrenchment Tool",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "horizontalRecoil",
+     "recoil",
+     "spread",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "LAS-7 Dagger",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "horizontalRecoil",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "recoil",
+     "spareMagazines",
+     "spread",
+     "startingMagazines",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "GP-31 Grenade Pistol",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "capacity",
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "fireRateRpm",
+     "horizontalRecoil",
+     "projectile.dragFactor",
+     "projectile.gravityFactor",
+     "projectile.initialVelocityMetersPerSecond",
+     "projectile.massGrams",
+     "projectile.penetrationSlowdown",
+     "recoil",
+     "spread",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "SG-22 Bushwhacker",
+    "resolved": true,
+    "writableFields": 35,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-72 Crisper",
+    "resolved": true,
+    "writableFields": 0,
+    "writableDomains": [],
+    "uncoveredStats": [
+     "capacity",
+     "damage.durable",
+     "damage.standard",
+     "ergonomics",
+     "horizontalRecoil",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "recoil",
+     "spareMagazines",
+     "spread",
+     "startingMagazines",
+     "sway",
+     "verticalRecoil"
+    ]
+   },
+   {
+    "name": "P-11 Stim Pistol",
+    "resolved": true,
+    "writableFields": 27,
+    "writableDomains": [
+     "attack",
+     "fire_mode",
+     "projectile",
+     "rounds",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "PLAS-15 Loyalist",
+    "resolved": true,
+    "writableFields": 43,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "capacity",
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "GP-20 Ultimatum",
+    "resolved": true,
+    "writableFields": 48,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "LAS-58 Talon",
+    "resolved": true,
+    "writableFields": 40,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "fire_mode",
+     "heat",
+     "heatsink",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": [
+     "magsFromAmmoBox",
+     "magsFromSupply",
+     "spareMagazines",
+     "startingMagazines"
+    ]
+   },
+   {
+    "name": "P-35 Re-Educator",
+    "resolved": true,
+    "writableFields": 41,
+    "writableDomains": [
+     "damage",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-33 Missile Pistol",
+    "resolved": true,
+    "writableFields": 48,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P/40-K Bolt Pistol",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   },
+   {
+    "name": "P-34 Breacher",
+    "resolved": true,
+    "writableFields": 50,
+    "writableDomains": [
+     "attack",
+     "damage",
+     "explosion",
+     "fire_mode",
+     "magazine",
+     "projectile",
+     "terminal",
+     "weapon"
+    ],
+    "uncoveredStats": []
+   }
+  ]
+ },
+ "enemies": {
+  "wikiEnemyPages": 83,
+  "wikiStructurePages": 34,
+  "runtimeClasses": 177,
+  "runtimeEnemies": 138,
+  "runtimeStructures": 39,
+  "wikiNamed": 21,
+  "classesWithCandidates": 75,
+  "unresolvedWikiPages": 96,
+  "healthFields": 9300,
+  "writableFields": 8746,
+  "attacks": 85,
+  "classesWithAttacks": 38,
+  "attackFields": 765,
+  "wikiAttacksByDelivery": {
+   "Ability": 4,
+   "DeathExplosion": 44,
+   "Melee": 100,
+   "Ranged": 71,
+   "Throwable": 15
+  },
+  "wikiRangedAttacksMatchedExactly": 12,
+  "wikiRangedAttacksWithNineValues": 71,
+  "notMapped": [
+   "melee and ability attacks (no mount chain)",
+   "death explosions",
+   "beams (Harvester)",
+   "movement, detection and AI members (deliberately not attempted)"
+  ]
+ },
+ "other": {
+  "throwables": {
+   "wiki": 23,
+   "runtime": 23,
+   "writable": 23,
+   "writableFields": 388
+  },
+  "boosters": {
+   "wiki": 20,
+   "runtime": 20,
+   "writable": 19,
+   "fields": 42
+  },
+  "vehicles": {
+   "wiki": 9,
+   "runtime": 11,
+   "writableFields": 718,
+   "mountedWeaponsDiscovered": 79
+  },
+  "statusEffects": {
+   "catalogued": 71,
+   "attachable": 11
+  }
+ },
+ "outputFamilies": {
+  "writableFieldsByCatalog": {
+   "player_weapons": {
+    "projectile": 400,
+    "explosion": 144,
+    "damage": 639,
+    "statusSlot": 172,
+    "status": 0,
+    "beam": 2,
+    "arc": 8,
+    "spray": 0,
+    "terminal": 130
+   },
+   "support_weapons": {
+    "projectile": 125,
+    "explosion": 216,
+    "damage": 261,
+    "statusSlot": 115,
+    "status": 20,
+    "beam": 4,
+    "arc": 6,
+    "spray": 0,
+    "terminal": 0
+   },
+   "stratagems": {
+    "projectile": 210,
+    "explosion": 498,
+    "damage": 414,
+    "statusSlot": 0,
+    "status": 48,
+    "beam": 2,
+    "arc": 6,
+    "spray": 0,
+    "terminal": 0
+   },
+   "vehicle_weapons": {
+    "projectile": 99,
+    "explosion": 96,
+    "damage": 153,
+    "statusSlot": 56,
+    "status": 0,
+    "beam": 0,
+    "arc": 0,
+    "spray": 0,
+    "terminal": 0
+   },
+   "enemies": {
+    "projectile": 0,
+    "explosion": 0,
+    "damage": 765,
+    "statusSlot": 0,
+    "status": 0,
+    "beam": 0,
+    "arc": 0,
+    "spray": 0,
+    "terminal": 0
+   },
+   "throwables": {
+    "explosion": 249,
+    "damage": 9,
+    "status": 16,
+    "projectile": 30
+   }
+  },
+  "gaps": [
+   {
+    "family": "beam",
+    "detail": "player beam weapons: 1 of 3 with damage writes; 6 beam mounted weapons discovered"
+   },
+   {
+    "family": "spray",
+    "detail": "player spray/flame weapons: 1 of 2; enemy sprays with no DamageInfo of their own are not published"
+   },
+   {
+    "family": "melee",
+    "detail": "player melee: 4 of 6; enemy melee attacks have no structural owner"
+   },
+   {
+    "family": "arc",
+    "detail": "player arc weapons: 1 of 1; 4 arc mounted weapons discovered"
+   },
+   {
+    "family": "status",
+    "detail": "status references on player, support and mounted weapons; not yet on stratagem, throwable, booster or enemy attacks"
+   }
+  ]
+ },
+ "nativeOnlyCandidates": [
+  {
+   "rank": 1,
+   "member": "Enemy attack ProjectileSettings / ExplosionSettings (velocity, radii) and DamageInfo status slots",
+   "where": "rows already reached by the proven enemy mount chains",
+   "evidence": "Same rows, same members as player weapons; chain re-proven live for DamageInfo today",
+   "missing": "Only packaging: one target per backing object (projectile / explosion / status) on enemy attacks",
+   "risk": "low"
+  },
+  {
+   "rank": 2,
+   "member": "Minefield floats +8 / +12 / +16 / +28 (arming, trigger, spacing candidates)",
+   "where": "MinefieldComponent of the four mine deployers (0.001 / 0.2 / 0.25 / 0; AT 1.0 / 0.2 / 0.2 / 0)",
+   "evidence": "Typed f32 members with hidden name lengths 12 / 19 / 8 / 19; AT differs as its slower arming would",
+   "missing": "Any stated arming or trigger value (the wiki states none) or a live A/B test",
+   "risk": "medium"
+  },
+  {
+   "rank": 3,
+   "member": "Thrower slot floats +240..+280 (throw distance band 5-15 / 7-17 / 7-15.5 m, angles)",
+   "where": "ThrowerComponent slot 0 of the mine deployers and the caltrops grenade",
+   "evidence": "Typed f32 members; the min/max pairs differ per mine as spread would",
+   "missing": "The wiki only says \"10-20 meters\"; needs a live measurement",
+   "risk": "medium"
+  },
+  {
+   "rank": 4,
+   "member": "TurretComponent +16 / +36 / +40",
+   "where": "Every turreted sentry and enemy turret",
+   "evidence": "Typed members beside the proven turn speeds and limits",
+   "missing": "No published table value; needs a live test",
+   "risk": "medium"
+  },
+  {
+   "rank": 5,
+   "member": "SensorEye field-of-view members and targeting/retarget timers",
+   "where": "SensorEyeComponent (after +0 range) and the sentry targeting components",
+   "evidence": "Typed members; retarget/search delays are plausible from layout only",
+   "missing": "No wiki statement; timers need a live observation",
+   "risk": "medium"
+  },
+  {
+   "rank": 6,
+   "member": "HellpodPayload +0",
+   "where": "Every deployable payload",
+   "evidence": "Beside the gameplay-proven lifetime (+4)",
+   "missing": "Meaning unknown; no stated value correlates",
+   "risk": "high"
+  },
+  {
+   "rank": 7,
+   "member": "Enemy melee / ability attacks (Charger ram, Stalker tongue, Bile Titan vomit, Hulk flamer)",
+   "where": "Not reached by any mount chain; melee/ability systems",
+   "evidence": "The wiki lists damage for 71 ranged and many melee attacks; rows with equal values exist",
+   "missing": "A structural owner linking the class to the row (a value match alone is not identity)",
+   "risk": "high"
+  },
+  {
+   "rank": 8,
+   "member": "Enemy movement speed, detection and aggression members",
+   "where": "Enemy AI / locomotion components",
+   "evidence": "None independent",
+   "missing": "Everything; deliberately not attempted (speculative AI fields)",
+   "risk": "high"
+  },
+  {
+   "rank": 9,
+   "member": "Stratagem call-in time",
+   "where": "StratagemDefinition spawn-time scalar",
+   "evidence": "A spawn-time member exists",
+   "missing": "It does not reproduce the wiki call-in time across families",
+   "risk": "high"
+  }
+ ]
+}

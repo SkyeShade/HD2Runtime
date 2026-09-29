@@ -499,5 +499,17 @@ return 'ok'
 
 
 
+class CoverageAuditTests(unittest.TestCase):
+    def test_audit_is_fresh_against_the_catalogs(self):
+        import audit_runtime_coverage as audit
+        if not audit.WIKI.is_dir():
+            self.skipTest('scraped wiki datasets not present')
+        audit.main(['--check'])
+        report = json.loads(audit.JSON_OUTPUT.read_text())
+        self.assertEqual(report['writes'], 0)
+        self.assertEqual(report['enemies']['attacks'], 85)
+        self.assertEqual(report['stratagems']['statCoverage']['salvos']['covered'], 4)
+
+
 if __name__ == '__main__':
     unittest.main()
