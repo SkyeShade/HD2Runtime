@@ -386,7 +386,7 @@ def main():
             'Client-side behaviour: every snapshot is from the host.',
         ],
         'writes': 0, 'protectionChanges': 0}
-    OUTPUT.write_text(json.dumps(report, indent=1) + '\n')
+    OUTPUT.write_text(json.dumps(report, indent=1) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps({'pairs': len(pairs), 'handles': handle_check, 'deadInMission': findings['entityDeath'][
         'deadRecordsInMission'], 'killsVsCorpses': findings['entityDeath']['killsVersusEnemyCorpses']}, indent=1))
 
