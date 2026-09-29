@@ -43,6 +43,7 @@ def outputs():
     booster_authoring=json.loads((ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())
     throwable_authoring=json.loads((ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())
     enemy_authoring=json.loads((ROOT/'sdk/EnemyAuthoringCapabilities.json').read_text())
+    attack_outputs=json.loads((ROOT/'sdk/AttackOutputCapabilities.json').read_text())
     asset_dependencies=json.loads((ROOT/'sdk/AssetDependencyCapabilities.json').read_text())
     weapon_movement=json.loads((ROOT/'sdk/WeaponMovementCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
@@ -179,7 +180,9 @@ def outputs():
         '---@field path "attack"','---@field weapon HD2WeaponName','---@field attack HD2AttackRole',
         'local HD2PlayerAttack = {}','---@return HD2ProjectileReference',
         'function HD2PlayerAttack:projectile() end','---@return table',
-        'function HD2PlayerAttack:describe() end','',
+        'function HD2PlayerAttack:describe() end',
+        '---The output this attack emits, by native family (see sdk/AttackOutputCapabilities.json).',
+        '---@return HD2AttackOutput','function HD2PlayerAttack:output() end','',
         '---@class HD2ProjectileReference','---@field resource "player_weapon"',
         '---@field path "projectile_reference"','---@field weapon HD2WeaponName',
         '---@field attack HD2AttackRole','local HD2ProjectileReference = {}',
@@ -235,7 +238,8 @@ def outputs():
         '---@return table','function HD2SupportAttack:describe() end',
         '---@return HD2SupportProjectile','function HD2SupportAttack:projectile() end',
         '---@return HD2SupportExplosion','function HD2SupportAttack:explosion() end',
-        '---@return HD2SupportAttack','function HD2SupportAttack:damage() end','',
+        '---@return HD2SupportAttack','function HD2SupportAttack:damage() end',
+        '---@return HD2AttackOutput','function HD2SupportAttack:output() end','',
         '---@class HD2SupportProjectile','---@field resource "support_weapon"',
         '---@field path "projectile_reference"','---@field weapon HD2SupportWeaponName',
         '---@field attack string','local HD2SupportProjectile = {}','---@return table',
@@ -467,6 +471,15 @@ def outputs():
         '---@param identity string Attack id ("slot_0", "slot_0_impact", "slot_0_projectile", "slot_0_impact_explosion") or an exactly matched wiki attack name.',
         '---@return HD2EnemyAttack','function HD2Enemy:attack(identity) end',
         '---@return HD2EnemyAttack[]','function HD2Enemy:attacks() end']
+    alias('HD2AttackOutputId',sorted({o['semanticId'] for o in attack_outputs['outputs']}
+        |{o['owner']['name'] for o in attack_outputs['outputs']}))
+    stub+=['','---@class HD2AttackOutput','---@field resource "attack_output"','---@field output string',
+        'local HD2AttackOutput = {}',
+        '---Family (projectile, beam, arc, spray, melee), owner, structural class and whether a projectile host can',
+        '---reference it. Use as the value of hd2.fields.attack.projectile on weapon:attack(role); cross-class',
+        '---outputs need allow_unverified_reference=true and allow_unverified_effect=true; beam and arc outputs',
+        '---fail closed (INCOMPATIBLE_OUTPUT_FAMILY).',
+        '---@return table','function HD2AttackOutput:describe() end']
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
     stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
@@ -529,7 +542,12 @@ def outputs():
         '---@param name HD2StructureName','---@return HD2Enemy','function hd2.structure(name) end',
         '---Reviewed enemy / structure names, optionally filtered by kind and faction.',
         '---@param filter? {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}',
-        '---@return string[]','function hd2.enemies(filter) end']
+        '---@return string[]','function hd2.enemies(filter) end',
+        '---A catalogued attack output by semantic ID or owner weapon name (see docs/attack-outputs.md).',
+        '---@param identity HD2AttackOutputId','---@return HD2AttackOutput','function hd2.attack_output(identity) end',
+        '---Catalogued attack output IDs, optionally filtered.',
+        '---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}',
+        '---@return string[]','function hd2.attack_outputs(filter) end']
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
         for name,kind in spec['params']:stub.append('---@param '+name+' '+kind)
@@ -582,6 +600,7 @@ def outputs():
             'sdk/docs/status-effects.md':(ROOT/'docs/status-effects.md').read_text(encoding='utf-8'),
             'sdk/docs/enemy-authoring.md':(ROOT/'docs/enemy-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/live-evidence.md':(ROOT/'docs/live-evidence.md').read_text(encoding='utf-8'),
+            'sdk/docs/attack-outputs.md':(ROOT/'docs/attack-outputs.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),

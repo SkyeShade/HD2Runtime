@@ -33,9 +33,21 @@ local function each_change(kind,spec,fn)
         for index,change in ipairs(spec.changes or{})do fn('#'..index,change)end
     end
 end
+-- What a change will write. Scalars carry their encoded bytes; typed reference changes (projectile / explosion
+-- references, attack outputs) are encoded only when their source is re-proven live, so their identity is the
+-- selected source.
+local function desired_key(change)
+    if change.desired~=nil then return tostring(change.desired)end
+    local selector=change.desired_selector
+    if selector then
+        return 'ref:'..tostring(selector.output or'')..'|'..tostring(selector.weapon or'')..'|'
+            ..tostring(selector.attack or'')..'|'..tostring(selector.phase or'')..'|'..tostring(selector.is_null or'')
+    end
+    return 'value:'..tostring(change.value)
+end
 local function signature(kind,spec,enabled)
     local parts={enabled and'on'or'off'}
-    each_change(kind,spec,function(key,change)parts[#parts+1]=key..'='..tostring(change.desired)end)
+    each_change(kind,spec,function(key,change)parts[#parts+1]=key..'='..desired_key(change)end)
     return table.concat(parts,'\n')
 end
 

@@ -149,8 +149,18 @@ local function same_list(a,c)
     for index=1,#a do if a[index]~=c[index]then return false end end
     return true
 end
+-- Catalogued attack outputs (domains/attack_outputs.lua): family-aware, never a common abstraction.
+local function attack_outputs()return require('hd2runtime/domains/attack_outputs')end
+local function output_selector(value,label)
+    for key in pairs(value)do assert(key=='resource'or key=='output',
+        label..' contains unsupported attack output identity')end
+    local output=assert(type(value.output)=='string'and attack_outputs().outputs[value.output],
+        label..' names an unknown attack output: '..tostring(value.output))
+    return {output=output.id,entry=output}
+end
 local function reference_selector(value,label)
     assert(type(value)=='table',label..' must be a projectile reference handle')
+    if value.resource=='attack_output'then return output_selector(value,label)end
     for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon'or key=='attack',
         label..' contains unsupported projectile reference identity')end
     assert(value.resource=='player_weapon'and value.path=='projectile_reference'
@@ -174,7 +184,8 @@ end
 local LEGACY_DAMAGE={armor_penetration='hd2.fields.damage.ap_direct, ap_slight, ap_large and ap_extreme '
     ..'(one field per impact angle)',standard_damage='hd2.fields.damage.player_standard_damage',
     durable_damage='hd2.fields.damage.player_durable_damage'}
-local function validate_change(weapon,item,allow_shared,role,path,phase,allow_unverified_effect)
+local function validate_change(weapon,item,allow_shared,role,path,phase,allow_unverified_effect,
+        allow_unverified_reference)
     assert(type(item)=='table','change must be a descriptor')
     for key in pairs(item)do assert(key=='field'or key=='expect'or key=='value',
         'unsupported change option: '..tostring(key))end
@@ -226,8 +237,35 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             'projectile reference role changed')
         local expected=reference_selector(item.expect,'expect')
         local desired=reference_selector(item.value,'value')
-        assert(expected.weapon==weapon.name and expected.attack==role,
+        assert(not expected.output and expected.weapon==weapon.name and expected.attack==role,
             'expect must be the target attack current projectile handle')
+        if desired.output then
+            -- A catalogued output: only the projectile family can be referenced by a projectile host.
+            local output=desired.entry
+            if output.family~='projectile'then
+                error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
+                    ..tostring(output.reason),0)
+            end
+            assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            local cross=output.compatibilityClass~=field.compatibilityClass
+            if cross then
+                local host=attack_outputs().hosts[weapon.name]
+                assert(host,'CROSS_CLASS_HOST_REJECTED: '..weapon.name..' is not a magazine-fed projectile host '
+                    ..'(its rounds are not all selected by its projectile reference)')
+                assert(allow_unverified_reference,'cross-class attack output requires allow_unverified_reference=true: '
+                    ..output.id..' ('..attack_outputs().crossClassReason..')')
+                assert(allow_unverified_effect,'cross-class attack output requires allow_unverified_effect=true: '
+                    ..output.id..' ('..attack_outputs().crossClassReason..')')
+            end
+            local source={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
+                backing=output.backing,currentDefault={projectileType=output.currentDefault},
+                referenceSettings=output.referenceSettings}
+            local dependency=source_dependency(weapon.name,output.owner.name,'primary')
+            return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+                semantic_aliases={item.field},expect=item.expect,value=item.value,
+                expected_selector=expected,desired_selector=desired,source_descriptor=source,
+                source_resource=output.resource,cross_class=cross,host_proof=cross,asset_dependency=dependency}
+        end
         local source_weapon=assert(database.weapons[desired.weapon],
             'unknown projectile source weapon: '..desired.weapon)
         assert(not source_weapon.ordinaryWritesBlocked,
@@ -249,6 +287,8 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected_selector=expected,desired_selector=desired,source_descriptor=source,
+            -- The host's own projectile: the reviewed baseline, whatever another output currently holds.
+            self_reference=expected.weapon==desired.weapon and expected.attack==desired.attack,
             asset_dependency=dependency}
     end
     if field.type=='explosion_reference'then
@@ -334,14 +374,15 @@ end
 function M.validate_patch(request)
     assert(type(request)=='table','patch requires a descriptor')
     local allowed={id=true,target=true,field=true,expect=true,value=true,diagnostic=true,allow_shared=true,
-        allow_unverified_effect=true}
+        allow_unverified_effect=true,allow_unverified_reference=true}
     for key in pairs(request)do assert(allowed[key],'unsupported patch option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
     local selected=database_for(kind)
     local weapon=assert(selected.weapons[name],'unknown reviewed weapon')
     assert(not weapon.ordinaryWritesBlocked,weapon.blockReason)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
-        request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true)
+        request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true,
+        request.allow_unverified_reference==true)
     return {kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
         ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,
@@ -353,7 +394,7 @@ end
 function M.validate_transaction(request)
     assert(type(request)=='table','transaction requires a descriptor')
     local allowed={id=true,target=true,changes=true,diagnostic=true,allow_shared=true,
-        allow_unverified_effect=true}
+        allow_unverified_effect=true,allow_unverified_reference=true}
     for key in pairs(request)do assert(allowed[key],'unsupported transaction option: '..tostring(key))end
     id(request.id);local name,role,path,phase,kind=target_name(request.target)
     local selected=database_for(kind)
@@ -370,13 +411,14 @@ function M.validate_transaction(request)
     for _,item in ipairs(request.changes)do
         assert(not seen[item.field],'duplicate transaction field: '..tostring(item.field));seen[item.field]=true
         local change=validate_change(weapon,item,result.allow_shared,role,path,phase,
-            request.allow_unverified_effect==true)
+            request.allow_unverified_effect==true,request.allow_unverified_reference==true)
         local prior=canonical_seen[change.canonical_field]
         if prior then
             local same_desired=prior.desired==change.desired
             local same_expected=prior.expected==change.expected
             if prior.desired_selector or change.desired_selector then
                 same_desired=prior.desired_selector and change.desired_selector
+                    and prior.desired_selector.output==change.desired_selector.output
                     and prior.desired_selector.weapon==change.desired_selector.weapon
                     and prior.desired_selector.attack==change.desired_selector.attack
                     and prior.desired_selector.phase==change.desired_selector.phase
@@ -492,7 +534,9 @@ function M.capture_many(runtime,reader,specs)
             assert(chain.mountPath==spec.resource,'vehicle mount chain does not name the weapon owner')
         end
         for _,change in ipairs(spec.changes)do
-            if change.desired_selector and not change.desired_selector.is_null then
+            if change.source_resource then
+                resolved.reference_sources[change.canonical_field]=find_candidate(catalog,change.source_resource)
+            elseif change.desired_selector and not change.desired_selector.is_null then
                 local source=assert(selected.weapons[change.desired_selector.weapon],
                     'projectile source metadata missing')
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
@@ -708,13 +752,20 @@ function M.prepare(resolved,reader,spec)
         if change.descriptor.type=='projectile_reference'then
             local reviewed=change.descriptor.currentDefault.projectileType
             local expected=b.encode(reviewed,'u32')
-            local source_candidate=assert(resolved.reference_sources[change.canonical_field],
-                'projectile source was not freshly resolved')
-            local source_record=component_record_for(resolved,source_candidate,
-                change.source_descriptor.backing)
-            local source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
-            assert(source_type==change.source_descriptor.currentDefault.projectileType,
-                'CONFLICT: source projectile reference changed')
+            local source_type
+            if change.self_reference then
+                -- Restoring the host's own projectile: its reviewed type (the settings row is re-proven below);
+                -- the host record may legitimately hold another output this operation applied.
+                source_type=reviewed
+            else
+                local source_candidate=assert(resolved.reference_sources[change.canonical_field],
+                    'projectile source was not freshly resolved')
+                local source_record=component_record_for(resolved,source_candidate,
+                    change.source_descriptor.backing)
+                source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
+                assert(source_type==change.source_descriptor.currentDefault.projectileType,
+                    'CONFLICT: source projectile reference changed')
+            end
             local settings=assert(resolved.roots.projectile.records[source_type],
                 'source ProjectileSettings record absent')
             local reviewed_settings=change.source_descriptor.referenceSettings
@@ -722,6 +773,15 @@ function M.prepare(resolved,reader,spec)
                 and settings.kind==reviewed_settings.recordType
                 and settings.settings_type==reviewed_settings.settingsType,
                 'source ProjectileSettings identity changed')
+            if change.host_proof then
+                local ownership_map=resolved.candidate.ownership
+                assert(ownership_map.WeaponMagazineComponentData and not ownership_map.WeaponRoundsComponentData
+                    and not ownership_map.WeaponChargeComponentData and not ownership_map.WeaponHeatComponentData,
+                    'CROSS_CLASS_HOST_REJECTED: host fire/resource composition changed')
+                local magazine=resolved.catalog.record(resolved.candidate,'WeaponMagazineComponentData')
+                assert(magazine.bytes:sub(5,136)==string.rep('\0',132),
+                    'CROSS_CLASS_HOST_REJECTED: host magazine pattern selects other projectiles')
+            end
             change.expected=expected;change.desired=b.encode(source_type,'u32')
             source_identity={component=change.source_descriptor.backing.component,
                 record_index=change.source_descriptor.backing.recordIndex,

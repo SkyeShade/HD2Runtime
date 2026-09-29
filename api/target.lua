@@ -78,12 +78,43 @@ function M.new(describe)
         return setmetatable({resource='player_weapon',path='projectile_reference',weapon=name,
             attack=attack.role},{__index=methods})
     end
+    -- Attack outputs (domains/attack_outputs.lua): what an attack emits, by native family. There is no common
+    -- output reference: projectile outputs can replace a projectile host's reference; beam, arc, spray and
+    -- melee outputs are catalogued with the reason they cannot (see docs/attack-outputs.md).
+    local function attack_output_handle(identity)
+        local catalog=require('hd2runtime/domains/attack_outputs')
+        local id=catalog.outputs[identity]and identity or catalog.aliases[identity]
+        local output=assert(id and catalog.outputs[id],'unknown attack output: '..tostring(identity))
+        local methods={}
+        function methods.describe()
+            return {id=output.id,family=output.family,owner=copy(output.owner),
+                compatibilityClass=output.compatibilityClass,selectable=output.editable==true,reason=output.reason}
+        end
+        return setmetatable({resource='attack_output',output=output.id},{__index=methods})
+    end
+    function builders.attack_output(identity)return attack_output_handle(identity)end
+    -- Catalogued output IDs ({family=..., selectable=true} filters).
+    function builders.attack_outputs(filter)
+        local catalog=require('hd2runtime/domains/attack_outputs')
+        local ids={}
+        for id,output in pairs(catalog.outputs)do
+            if not filter or((not filter.family or output.family==filter.family)
+                and(filter.selectable==nil or(output.editable==true)==filter.selectable))then ids[#ids+1]=id end
+        end
+        table.sort(ids)
+        return ids
+    end
     local function attack_target(name,role)
         local attack=assert(composition.weapons[name].attacks[role],
             'unknown reviewed attack role for '..name..': '..tostring(role))
         local methods={}
         function methods.describe()return copy(attack)end
         function methods.projectile()return projectile_reference(name,attack.role)end
+        -- The output this weapon's attack emits (its family component's reference), as a typed handle.
+        function methods.output()
+            assert(attack.role=='primary','attack outputs are catalogued for the primary attack')
+            return attack_output_handle(name)
+        end
         return setmetatable({resource='player_weapon',path='attack',weapon=name,attack=attack.role},
             {__index=methods})
     end
@@ -286,6 +317,7 @@ function M.new(describe)
             assert(writable and writable.kind~='Status','attack has no directly owned DamageInfo')
             return self
         end
+        function methods.output()return attack_output_handle(name)end
         local identity={resource='support_weapon',path=writable and'attack'or'attack_read_only',weapon=name}
         if writable then identity.attack=role else identity.attack_index=index end
         return setmetatable(identity,{__index=methods})

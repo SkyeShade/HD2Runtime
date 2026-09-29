@@ -154,7 +154,11 @@ local function run_example(body,name)
   local function control(item)return item.default end
   page.slider=function(_,item)return control(item)end
   page.toggle=function(_,item)return control(item)end
-  page.choice=function(_,item)return control(item)end
+  -- A choice's value is values[default] (the index when values is omitted), as the real options API returns.
+  page.choice=function(_,item)
+   local index=item.default or 1
+   return item.values and item.values[index]or index
+  end
   return page
  end
  local wrapper=setmetatable({

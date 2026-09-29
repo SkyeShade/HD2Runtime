@@ -276,9 +276,13 @@ local function option(page,kind,spec)
         local values=spec.values
         if values==nil then values={};for index=1,#choices do values[index]=index end end
         assert(type(values)=='table'and#values==#choices,'choice values must list one value per choice')
+        -- A choice value is a finite number or a typed semantic reference handle (for example
+        -- weapon:attack(role):projectile() or hd2.attack_output(...)); either way the bound ensure validates
+        -- every value through the operation's normal guards when it is declared.
         for _,value in ipairs(values)do
-            assert(type(value)=='number'and value==value and value>-math.huge and value<math.huge,
-                'choice values must be finite numbers')
+            local reference=type(value)=='table'and getmetatable(value)~=nil and type(value.resource)=='string'
+            assert(reference or type(value)=='number'and value==value and value>-math.huge and value<math.huge,
+                'choice values must be finite numbers or semantic reference handles')
         end
         local default=spec.default==nil and 1 or spec.default
         assert(type(default)=='number'and default%1==0 and default>=1 and default<=#choices,

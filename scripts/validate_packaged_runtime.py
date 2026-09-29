@@ -329,7 +329,40 @@ def test_mod_ids(text):
     return text
 
 
+# LiberatorAttackOutputTest: one Mod Options choice selects a complete output composition. Every switch is one
+# owned transition of the Liberator's projectile reference; each donor package is requested once, before its write;
+# Vanilla restores the exact baseline; the run ends on a donor output so the reset check re-applies it.
+ATTACK_OUTPUT_LIVE = r'''
+return function(frame,watches,counts,lines)
+ local menu=rawget(_G,'ModOptionsMenu');local w=watches[1];local results={}
+ local ID='liberator_attack_output.output'
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function settle(runs)
+  local spent=0
+  while(w.runs<=runs or w.status=='running')and w.status~='blocked'and spent<20000 do frame();spent=spent+1 end
+  for _=1,20 do frame()end
+ end
+ step('vanilla default leaves the baseline untouched',w.status=='waiting'and w.runs==1 and counts.writes==0
+  and(counts.package_requests or 0)==0,tostring(w.status)..' writes='..counts.writes)
+ local function choose(index,label,packages)
+  local runs,writes=w.runs,counts.writes
+  menu.apply(ID,index);settle(runs)
+  step(label,w.status=='waiting'and w.result and w.result.status=='APPLIED'and counts.writes==writes+1
+   and(counts.package_requests or 0)==packages,
+   ('status=%s result=%s writes=%d packages=%d error=%s'):format(tostring(w.status),
+    tostring(w.result and w.result.status),counts.writes-writes,counts.package_requests or 0,tostring(w.error)))
+ end
+ choose(2,'EAT-700 napalm: donor package loaded, then one reference write',1)
+ choose(3,'EAT-700 -> GL-52 arc: owned transition, second donor package loaded',2)
+ choose(1,'GL-52 -> Vanilla restores the exact baseline',2)
+ choose(3,'Vanilla -> GL-52 again: package already held, no new request',2)
+ choose(2,'GL-52 -> EAT-700: complete composition switch',2)
+ return results
+end
+'''
+
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
+    'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 2},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
