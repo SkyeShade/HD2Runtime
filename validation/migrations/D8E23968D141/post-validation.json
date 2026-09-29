@@ -21,8 +21,8 @@
    "name": "generator freshness",
    "ok": true,
    "tail": [
-    "checked generate_enemy_authoring",
-    "checked generate_attack_outputs",
+    "checked generate_weapon_modes",
+    "checked generate_weapon_presentation",
     "checked generate_sdk"
    ]
   },
@@ -171,6 +171,15 @@
    ]
   },
   {
+   "name": "validate_weapon_modes_snapshot",
+   "ok": true,
+   "tail": [
+    "  },",
+    "  \"status\": \"VALIDATED\"",
+    "}"
+   ]
+  },
+  {
    "name": "examples",
    "ok": true,
    "tail": [
@@ -201,7 +210,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 598 tests in 44.171s",
+    "Ran 605 tests in 46.064s",
     "",
     "OK"
    ]
@@ -210,9 +219,9 @@
    "name": "packaged runtime",
    "ok": true,
    "tail": [
-    "example-terminal-explosion-swap PASS writes=1 reset_reapplied=True",
     "example-throwing-knife-damage PASS writes=3 reset_reapplied=True",
-    "example-unusual-sentry-proof PASS writes=3 reset_reapplied=None"
+    "example-unusual-sentry-proof PASS writes=3 reset_reapplied=None",
+    "example-weapon-presentation-test PASS writes=14 reset_reapplied=True"
    ]
   }
  ],
