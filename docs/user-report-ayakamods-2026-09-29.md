@@ -54,7 +54,7 @@ Runtime fails that assert and nothing registers at all; it cannot start partway.
 
 With the fixes, the exact project registers 133 operations and applies 132. The one refused is the PLAS-101 Purifier
 drag edit: its charge levels fire projectile 129 uncharged and 296 charged, so the edited row 296 only affects charged
-shots. It is now marked AMBIGUOUS and needs `allow_unverified_effect` (a re-export from ModBuilder adds it).
+shots. It is now marked AMBIGUOUS and needs `allow_unverified_effect`. ModBuilder emits that flag when its SDK catalog asks for it, so a re-export adds it once ModBuilder uses an SDK that carries this change; with the published 0.27.0 SDK the edit stays refused (and logged).
 
 | Reported | In the published 0.27.0 run | With this pass |
 | --- | --- | --- |
