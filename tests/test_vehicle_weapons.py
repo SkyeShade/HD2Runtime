@@ -65,8 +65,8 @@ class VehicleWeaponTests(unittest.TestCase):
         self.assertEqual(result['mountChainRejections'], result['vehicleWeapons'])
         self.assertTrue(result['independentArms'])
         uses = result['stratagemUses']
-        self.assertEqual(uses['checked'], 85)
-        self.assertEqual(uses['transitions'], {'finite_to_finite': 5, 'finite_to_unlimited': 4, 'unlimited_to_finite': 80})
+        self.assertEqual(uses['checked'], 86)  # every writable use count, Resupply included
+        self.assertEqual(uses['transitions'], {'finite_to_finite': 5, 'finite_to_unlimited': 4, 'unlimited_to_finite': 81})
         scenarios = result['scenarios']
         self.assertEqual(scenarios['frv_gun_capacity']['before'], '78000000')
         self.assertEqual(scenarios['frv_gun_capacity']['after'], '58020000')
