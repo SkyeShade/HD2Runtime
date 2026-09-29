@@ -1,0 +1,1 @@
+{"format":1,"name":"EnemyHealthTest","resource":"mods/hd2runtime_examples/enemy_health_test","guid":"c43d8d68-aee3-5197-9542-13809ebc3990","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.27.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

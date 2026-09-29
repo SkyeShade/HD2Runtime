@@ -1,5 +1,5 @@
 {
-  "examples": 62,
+  "examples": 65,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1095,6 +1095,54 @@
       "versionReasons": [
         "typed writes -> 0.23.2",
         "vehicle_weapon target -> 0.26.0"
+      ]
+    },
+    "EnemyArmorZoneTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "enemy-armor-zone-test",
+          "mode": "patch",
+          "path": "damage_zone",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "EnemyHealthTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "enemy-health-test",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
       ]
     },
     "EruptorExplosionRadius": {
@@ -2316,6 +2364,30 @@
           "path": "weapon",
           "resource": "player_weapon",
           "weapon": "LAS-16 Sickle"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "StructureHealthTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "structure-health-test",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
         }
       ],
       "problems": [],

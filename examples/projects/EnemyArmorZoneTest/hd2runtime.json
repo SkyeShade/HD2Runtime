@@ -1,0 +1,1 @@
+{"format":1,"name":"EnemyArmorZoneTest","resource":"mods/hd2runtime_examples/enemy_armor_zone_test","guid":"03463bba-ed8e-5d20-8c84-eb9487312384","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.27.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}
