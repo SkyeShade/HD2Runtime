@@ -143,7 +143,8 @@ title or fallback is an error.
 | `options:slider{id, label, min, max, step=1, default=min, description, gap}` | slider | number, snapped to `step` |
 | `options:choice{id, label, choices, values, default=1, description, gap}` | choice | `values[index]` (the index if `values` is omitted) |
 
-A choice's `values` may be numbers or typed semantic reference handles, such as `weapon:attack(role):projectile()` or
+A choice's `values` may be numbers, semantic names (letters, digits, `_`, `-` and `.`, such as the penetration label
+`'medium'`) or typed semantic reference handles, such as `weapon:attack(role):projectile()` or
 `hd2.attack_output(name)`. A choice of references selects between complete compositions of one reference field. For
 example, `LiberatorAttackOutputTest` switches the Liberator's projectile between its own bullet and two donor
 outputs. Each change is one owned transition, and a donor's assets are loaded before its write. See
@@ -162,7 +163,8 @@ A value from the menu or its saved file that is not usable is ignored and logged
 ### Binding an operation
 
 Pass a slider or choice handle as a field `value` anywhere in an ensured patch, transaction,
-or plan. Pass a toggle as `enabled`:
+or plan, or as an element of a list `value` (one slider per rate in `fire_rate.modes`, see `HMGFireRateModesTest`).
+Pass a toggle as `enabled`:
 
 ```lua
 hd2.ensure({enabled=toggle, transaction={id='firebomb', target=hd2.booster('Firebomb Hellpods'):explosion(),

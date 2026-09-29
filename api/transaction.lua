@@ -18,9 +18,16 @@ function M.start_spec(runtime,emit,spec,startup_delay)
     local assets=require('hd2runtime/core/assets').gate(runtime,spec,emit)
     watch.asset_dependencies=assets.dependencies
     local function log(message)pcall(emit,'[HD2Runtime] '..message)end
+    -- Readable log values: typed handles by identity, plain lists element by element.
     local function value_text(value)
-        if type(value)=='table'and value.weapon and value.attack then
-            return value.weapon..':'..value.attack
+        if type(value)~='table'then return tostring(value)end
+        if value.weapon and value.attack then return value.weapon..':'..value.attack end
+        if value.output then return value.output end
+        if value.weapon and value.path then return value.weapon..':'..value.path end
+        if getmetatable(value)==nil then
+            local parts={}
+            for index,item in ipairs(value)do parts[index]=value_text(item)end
+            return '{'..table.concat(parts,', ')..'}'
         end
         return tostring(value)
     end
