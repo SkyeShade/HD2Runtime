@@ -9,17 +9,18 @@ local M={}
 local DEBOUNCE=0.5 -- update seconds that coalesce a burst of option changes into one resolution
 
 -- Copy a request with every option handle replaced by its current value (or an override).
--- Handles may bind only a field `value`; target objects (tables with a metatable) are kept.
-local function materialize(value,key,found,override,baseline)
+-- Handles may bind only a field `value`, or an element of a list `value` (one slider per rate in fire_rate.modes);
+-- target objects (tables with a metatable) are kept.
+local function materialize(value,key,found,override,baseline,in_value)
     if options.is_handle(value)then
-        assert(key=='value','an option may only bind a field value, not '..tostring(key))
+        assert(key=='value'or in_value,'an option may only bind a field value, not '..tostring(key))
         if found then found[#found+1]=value end
         if override and override.handle==value then return override.value end
         return value:get()
     end
     if type(value)~='table'or getmetatable(value)~=nil then return value end
     local copy={}
-    for k,v in pairs(value)do copy[k]=materialize(v,k,found,override,baseline)end
+    for k,v in pairs(value)do copy[k]=materialize(v,k,found,override,baseline,in_value or k=='value')end
     -- Restore request: every change goes back to its reviewed baseline.
     if baseline and value.expect~=nil and value.value~=nil then copy.value=copy.expect end
     return copy
