@@ -33,8 +33,26 @@
     }
   },
   "fixtureFallback": "disabled",
+  "minefield": {
+    "rejections": {
+      "acknowledgement": 2,
+      "increase": 2
+    },
+    "roundTrips": {
+      "MD-17 Anti-Tank Mines": {
+        "field": "minefield.mines_per_salvo",
+        "from": 3,
+        "to": 1
+      },
+      "MD-6 Anti-Personnel Minefield": {
+        "field": "minefield.salvos",
+        "from": 6,
+        "to": 2
+      }
+    }
+  },
   "mode": "snapshot-overlay",
-  "protectionChanges": 16,
+  "protectionChanges": 24,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "statusSlots": {
@@ -79,5 +97,5 @@
       }
     }
   },
-  "writes": 20
+  "writes": 24
 }

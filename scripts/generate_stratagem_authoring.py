@@ -136,6 +136,9 @@ TURRET_UNVERIFIED = ('TurretComponent turn speeds and vertical limits equal the 
     'sentries, but no live write has confirmed the gameplay effect yet.')
 TURRET_LIMIT_UNVERIFIED = ('Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed '
     'enemy mounts: narrower arcs) but no published table or live write confirms them.')
+MINE_COUNT_UNVERIFIED = ('ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence '
+    '("six salvos of eight/three mines") on all four minefields and the launcher one-socket-per-mine array, but no '
+    'live write has confirmed the gameplay effect yet.')
 RANGE_UNVERIFIED = ('SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), '
     'but no live write has confirmed the gameplay effect yet.')
 USES_CAVEAT = ('Use counts are applied by the mission host; the HUD counter may keep its old value until the next '
@@ -537,6 +540,32 @@ def build():
                 entry['targeting'] = {'range': sensor_proof['native'], 'statement': statement,
                     'note': None if statement else ('Engagement distance may be set by the weapon (spray reach, arc '
                         'range); the sensor range bounds target acquisition only.')}
+            count = (item.get('mineChain') or {}).get('countProof') or {}
+            if count.get('exact') and 'ThrowerComponentData' in components:
+                thrower = count['thrower']
+                if thrower['recordIndex'] != components['ThrowerComponentData']['record_index']:
+                    raise ValueError('mine count proof disagrees with the deployer thrower: ' + item['name'])
+                target = dict(entity_target, path='minefield')
+                for field_id, key, offset in (('minefield.salvos', 'salvos', thrower['salvosOffset']),
+                        ('minefield.mines_per_salvo', 'perSalvo', thrower['perSalvoOffset'])):
+                    baseline = count['native'][key]
+                    add_field(entry, field_id, baseline,
+                        {'kind': 'ThrowerComponentData', 'component': 'ThrowerComponentData',
+                         'nativeIdentity': entity['resource'], 'recordIndex': thrower['recordIndex'],
+                         'indexRow': thrower['indexRow'], 'offset': offset, 'storage': 'u32', 'width': 4,
+                         'ownerCount': thrower['ownerCount'], 'uniqueOwner': thrower['uniqueOwner'],
+                         'recordSha256': thrower['recordSha256'],
+                         'consumers': [{'stratagem': item['name'], 'path': 'minefield'}]},
+                        target, provenance=('ThrowerComponent slot-0 member equal to the wiki deployment sentence and '
+                            'structured salvo/capacity fields; salvos x mines per salvo equals the launcher '
+                            'distinct launch sockets'),
+                        extra={'min': 1, 'max': baseline, 'acknowledgement': 'allow_unverified_effect',
+                            'acknowledgementReason': MINE_COUNT_UNVERIFIED})
+                entry['minefield'] = {'proof': count['wiki']['statement']['text'],
+                    'salvos': count['native']['salvos'], 'minesPerSalvo': count['native']['perSalvo'],
+                    'launchSockets': count['native']['distinctLaunchSockets'],
+                    'increase': ('blocked: the launcher has one launch socket per mine, so more mines than sockets '
+                        'would need nodes the model does not have')}
             lifetime = proofs.get('lifetime') or {}
             if lifetime.get('native') and 'HellpodPayloadComponentData' in components \
                     and item['name'] != 'FX-12 Shield Generator Relay':

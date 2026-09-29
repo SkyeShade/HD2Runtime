@@ -649,6 +649,17 @@ local HD2DeployedTargeting = {}
 function HD2DeployedTargeting:describe() end
 ---@return HD2DeployedTargeting
 function HD2DeployedEntity:targeting() end
+
+---@class HD2DeployedMinefield
+---@field resource "stratagem"
+---@field path "minefield"
+local HD2DeployedMinefield = {}
+---Mine deployer counts: minefield.salvos and minefield.mines_per_salvo (reductions only; one launch socket
+---per mine). Writes require allow_unverified_effect=true.
+---@return table
+function HD2DeployedMinefield:describe() end
+---@return HD2DeployedMinefield
+function HD2DeployedEntity:minefield() end
 ---@return HD2DeployedZone[]
 function HD2DeployedEntity:damage_zones() end
 ---@param zone string
@@ -1265,6 +1276,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_targeting
 ---@field range "targeting.range"
 
+---@class HD2Fields_minefield
+---@field salvos "minefield.salvos"
+---@field mines_per_salvo "minefield.mines_per_salvo"
+
 ---@class HD2Fields_zone
 ---@field armor "zone.armor"
 ---@field health "zone.health"
@@ -1344,6 +1359,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field eagle HD2Fields_eagle
 ---@field turret HD2Fields_turret
 ---@field targeting HD2Fields_targeting
+---@field minefield HD2Fields_minefield
 ---@field zone HD2Fields_zone
 ---@field jump HD2Fields_jump
 ---@field deposit HD2Fields_deposit

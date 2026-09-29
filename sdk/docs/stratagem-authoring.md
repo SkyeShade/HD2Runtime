@@ -74,10 +74,28 @@ names the reviewed row.
 | MD-17 Anti-Tank Mines | 3 / 7 / 14 | 2000 / 2000, AP 5 | — |
 | MD-8 Gas Mines | 2 / 6 / 6 | 3 / 3, AP 6 | two gas statuses, 6 s / 5 s |
 
+### Mine count
+
+`hd2.stratagem(name):deployed_entity():minefield()` exposes the deployer's salvo count (`minefield.salvos`) and mines
+per salvo (`minefield.mines_per_salvo`). They are ThrowerComponent throw slot 0, +40 and +44. Three independent proofs
+agree on all four minefields:
+- **Wiki.** The deployment sentence ("Six salvos of eight mines are deployed, totaling up to forty-eight"; "six salvos
+  of three" for the MD-17) and the structured Salvos/Capacity fields.
+- **Type library.** Both are typed u32 members of the throw-slot struct (hidden name lengths 11 and 15), fingerprinted
+  on every research run.
+- **Structure.** The slot's 48-entry launch-socket array holds exactly salvos × mines-per-salvo distinct sockets:
+  48 on the MD-6, MD-I4 and MD-8, and 18 on the MD-17. By contrast, the caltrops grenade, the only other thrower,
+  throws every item from its root node.
+
+Because there is one launch socket per mine, counts can only be reduced (range 1 to the vanilla value). More mines
+than sockets would need nodes the model does not have. Writes require `allow_unverified_effect`.
+Live test: `MinefieldSalvos` (MD-6 6 → 2 salvos, 48 → 16 mines; built only).
+
 Still read-only or unavailable:
-- **Mine count and spacing, trigger radius, and arming time.** The thrower's launch nodes, counts and
-  floats, and the Minefield floats, have no independent fingerprint. They are published read-only in
-  the research.
+- **Mine spacing, trigger radius and arming time.** The thrower's launch floats (e.g. 5/15, 7/17 and 7/15.5, likely
+  a throw-distance band) and the Minefield floats (0.001/1.0, 0.2, 0.25/0.2) have no wiki value to prove them
+  against. The wiki's only spacing statement ("flung 10-20 meters") matches none of them. They are published
+  read-only in the research.
 - **Trigger-to-detonation delay** (0.002 s). It is proven by layout on three mines, but the AT mine has no
   entity of its own.
 - **Lifetime and chain reaction.** No owner was found.

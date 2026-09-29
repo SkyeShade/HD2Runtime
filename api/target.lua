@@ -393,7 +393,7 @@ function M.new(describe)
             for _,field in ipairs(entry.fields)do
                 local path=field.target.path
                 if path=='deployed_entity' or path=='weapon' or path=='attack' or path=='shield'
-                    or path=='damage_zone' or path=='turret' or path=='targeting' then
+                    or path=='damage_zone' or path=='turret' or path=='targeting' or path=='minefield' then
                     result.fields[#result.fields+1]=public_field(field)end
             end
             for role,attack in pairs(entry.attacks)do
@@ -456,6 +456,7 @@ function M.new(describe)
                 if path=='shield'then result.shield=copy(entry.shield)end
                 if path=='turret'then result.turret=copy(entry.turret)end
                 if path=='targeting'then result.targeting=copy(entry.targeting)end
+                if path=='minefield'then result.minefield=copy(entry.minefield)end
                 return result
             end
             return setmetatable(target,{__index=sub})
@@ -472,6 +473,11 @@ function M.new(describe)
         function methods.targeting()
             assert(entry.targeting,'deployed entity has no reviewed targeting sensor: '..name)
             return sub_target('targeting')
+        end
+        -- Mine deployers: salvo count and mines per salvo (reductions only).
+        function methods.minefield()
+            assert(entry.minefield,'deployed entity is not a reviewed mine deployer: '..name)
+            return sub_target('minefield')
         end
         local function zone_identity(identity)
             for _,zone in ipairs(entry.damageZones or{})do

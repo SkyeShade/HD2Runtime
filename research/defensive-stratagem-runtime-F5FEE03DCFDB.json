@@ -51272,7 +51272,37 @@
             "16": 0.25,
             "28": 0.0
           },
-          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
+          "reason": "Spacing (throw distance), trigger radius, arming and lifetime candidates have no independent fingerprint (the wiki states none of them), so they are published read-only."
+        },
+        "countProof": {
+          "wiki": {
+            "statement": {
+              "text": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+              "salvos": 6,
+              "perSalvo": 8,
+              "total": 48
+            },
+            "structured": {
+              "salvos": 6,
+              "capacity": 8
+            }
+          },
+          "native": {
+            "salvos": 6,
+            "perSalvo": 8,
+            "distinctLaunchSockets": 48
+          },
+          "thrower": {
+            "recordIndex": 1,
+            "indexRow": 3,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2E8D1E454434A57E0A5D6C4D35D0F7A1C8134CD64FC1D7BD4ED4D590C2D2CF99",
+            "slot": 0,
+            "salvosOffset": 40,
+            "perSalvoOffset": 44
+          },
+          "exact": true
         }
       },
       "importedBranches": [
@@ -54134,7 +54164,37 @@
             "16": 0.25,
             "28": 0.0
           },
-          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
+          "reason": "Spacing (throw distance), trigger radius, arming and lifetime candidates have no independent fingerprint (the wiki states none of them), so they are published read-only."
+        },
+        "countProof": {
+          "wiki": {
+            "statement": {
+              "text": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+              "salvos": 6,
+              "perSalvo": 8,
+              "total": 48
+            },
+            "structured": {
+              "salvos": 6,
+              "capacity": 8
+            }
+          },
+          "native": {
+            "salvos": 6,
+            "perSalvo": 8,
+            "distinctLaunchSockets": 48
+          },
+          "thrower": {
+            "recordIndex": 3,
+            "indexRow": 1,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8B818D13D92F603A267485E9F0C7A920A81757377FB45E63918F6AB4D3AFE14C",
+            "slot": 0,
+            "salvosOffset": 40,
+            "perSalvoOffset": 44
+          },
+          "exact": true
         }
       },
       "importedBranches": [
@@ -56982,7 +57042,37 @@
             "16": 0.2,
             "28": 0.0
           },
-          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
+          "reason": "Spacing (throw distance), trigger radius, arming and lifetime candidates have no independent fingerprint (the wiki states none of them), so they are published read-only."
+        },
+        "countProof": {
+          "wiki": {
+            "statement": {
+              "text": "Six salvos of three mines are deployed, totaling up to eighteen",
+              "salvos": 6,
+              "perSalvo": 3,
+              "total": 18
+            },
+            "structured": {
+              "salvos": 6,
+              "capacity": 3
+            }
+          },
+          "native": {
+            "salvos": 6,
+            "perSalvo": 3,
+            "distinctLaunchSockets": 18
+          },
+          "thrower": {
+            "recordIndex": 4,
+            "indexRow": 0,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8FCA9C1CF0C9E4BB79A81B57BF22F2E8AD626FF56F10B11E676FC9EBFA3B302C",
+            "slot": 0,
+            "salvosOffset": 40,
+            "perSalvoOffset": 44
+          },
+          "exact": true
         }
       },
       "importedBranches": [
@@ -69899,7 +69989,37 @@
             "16": 0.25,
             "28": 0.0
           },
-          "reason": "Mine count, spacing, trigger radius, arming and lifetime candidates have no independent fingerprint (no scraped values, no reviewed code reader), so they are published read-only."
+          "reason": "Spacing (throw distance), trigger radius, arming and lifetime candidates have no independent fingerprint (the wiki states none of them), so they are published read-only."
+        },
+        "countProof": {
+          "wiki": {
+            "statement": {
+              "text": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+              "salvos": 6,
+              "perSalvo": 8,
+              "total": 48
+            },
+            "structured": {
+              "salvos": 6,
+              "capacity": 8
+            }
+          },
+          "native": {
+            "salvos": 6,
+            "perSalvo": 8,
+            "distinctLaunchSockets": 48
+          },
+          "thrower": {
+            "recordIndex": 2,
+            "indexRow": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "78BC19467ABE645A3790B6ACAF538176F25ADB7BFAB23568002B407C4FEAF8A9",
+            "slot": 0,
+            "salvosOffset": 40,
+            "perSalvoOffset": 44
+          },
+          "exact": true
         }
       },
       "importedBranches": [

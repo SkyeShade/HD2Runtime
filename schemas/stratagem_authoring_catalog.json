@@ -96679,6 +96679,116 @@
           "provenance": "exact importer correlation plus reviewed HealthComponentData main-health/default-armor layout"
         },
         {
+          "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_minefield_main:minefield.salvos",
+          "semanticFieldId": "minefield.salvos",
+          "displayName": "Mine salvos",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 6,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-6 Anti-Personnel Minefield",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xF00C349422E8E320",
+            "recordIndex": 1,
+            "indexRow": 3,
+            "offset": 40,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2E8D1E454434A57E0A5D6C4D35D0F7A1C8134CD64FC1D7BD4ED4D590C2D2CF99",
+            "consumers": [
+              {
+                "stratagem": "MD-6 Anti-Personnel Minefield",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:95fe95b193d3f1ab",
+          "operationGroup": "operation:6823b9b3f4d36e28",
+          "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-6 Anti-Personnel Minefield",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f364e93b842e6ec4",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 6,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_minefield_main:minefield.mines_per_salvo",
+          "semanticFieldId": "minefield.mines_per_salvo",
+          "displayName": "Mines per salvo",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 8,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-6 Anti-Personnel Minefield",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xF00C349422E8E320",
+            "recordIndex": 1,
+            "indexRow": 3,
+            "offset": 44,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2E8D1E454434A57E0A5D6C4D35D0F7A1C8134CD64FC1D7BD4ED4D590C2D2CF99",
+            "consumers": [
+              {
+                "stratagem": "MD-6 Anti-Personnel Minefield",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:95fe95b193d3f1ab",
+          "operationGroup": "operation:6823b9b3f4d36e28",
+          "planGroup": "plan:stratagem:md_6_anti_personnel_minefield",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-6 Anti-Personnel Minefield",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f364e93b842e6ec4",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 8,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
           "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_attack_main_mine_mine:explosion.inner_radius",
           "semanticFieldId": "explosion.inner_radius",
           "displayName": "Explosion inner radius",
@@ -97482,7 +97592,14 @@
         "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
         "triggerToDetonationSeconds": 0.002
       },
-      "damageZones": []
+      "damageZones": [],
+      "minefield": {
+        "proof": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+        "salvos": 6,
+        "minesPerSalvo": 8,
+        "launchSockets": 48,
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+      }
     },
     "MD-I4 Incendiary Mines": {
       "name": "MD-I4 Incendiary Mines",
@@ -97700,6 +97817,116 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "exact importer correlation plus reviewed HealthComponentData main-health/default-armor layout"
+        },
+        {
+          "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_minefield_main:minefield.salvos",
+          "semanticFieldId": "minefield.salvos",
+          "displayName": "Mine salvos",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 6,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-I4 Incendiary Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xBF32E12923A9A252",
+            "recordIndex": 3,
+            "indexRow": 1,
+            "offset": 40,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8B818D13D92F603A267485E9F0C7A920A81757377FB45E63918F6AB4D3AFE14C",
+            "consumers": [
+              {
+                "stratagem": "MD-I4 Incendiary Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ca352f36534c45cd",
+          "operationGroup": "operation:7b093c00cdd96f50",
+          "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-I4 Incendiary Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:e6cfd0be0f07ba03",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 6,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_minefield_main:minefield.mines_per_salvo",
+          "semanticFieldId": "minefield.mines_per_salvo",
+          "displayName": "Mines per salvo",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 8,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-I4 Incendiary Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xBF32E12923A9A252",
+            "recordIndex": 3,
+            "indexRow": 1,
+            "offset": 44,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8B818D13D92F603A267485E9F0C7A920A81757377FB45E63918F6AB4D3AFE14C",
+            "consumers": [
+              {
+                "stratagem": "MD-I4 Incendiary Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ca352f36534c45cd",
+          "operationGroup": "operation:7b093c00cdd96f50",
+          "planGroup": "plan:stratagem:md_i4_incendiary_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-I4 Incendiary Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:e6cfd0be0f07ba03",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 8,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
         },
         {
           "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_attack_main_mine_mine:explosion.inner_radius",
@@ -98700,7 +98927,14 @@
         "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
         "triggerToDetonationSeconds": 0.002
       },
-      "damageZones": []
+      "damageZones": [],
+      "minefield": {
+        "proof": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+        "salvos": 6,
+        "minesPerSalvo": 8,
+        "launchSockets": 48,
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+      }
     },
     "MD-17 Anti-Tank Mines": {
       "name": "MD-17 Anti-Tank Mines",
@@ -98918,6 +99152,116 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "exact importer correlation plus reviewed HealthComponentData main-health/default-armor layout"
+        },
+        {
+          "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_minefield_main:minefield.salvos",
+          "semanticFieldId": "minefield.salvos",
+          "displayName": "Mine salvos",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 6,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-17 Anti-Tank Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0x25A2FD037B6ED25C",
+            "recordIndex": 4,
+            "indexRow": 0,
+            "offset": 40,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8FCA9C1CF0C9E4BB79A81B57BF22F2E8AD626FF56F10B11E676FC9EBFA3B302C",
+            "consumers": [
+              {
+                "stratagem": "MD-17 Anti-Tank Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:af18ed07b1db781b",
+          "operationGroup": "operation:85d2cfcbdca69234",
+          "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-17 Anti-Tank Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:17d2a863841b9408",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 6,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_minefield_main:minefield.mines_per_salvo",
+          "semanticFieldId": "minefield.mines_per_salvo",
+          "displayName": "Mines per salvo",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 3,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-17 Anti-Tank Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0x25A2FD037B6ED25C",
+            "recordIndex": 4,
+            "indexRow": 0,
+            "offset": 44,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "8FCA9C1CF0C9E4BB79A81B57BF22F2E8AD626FF56F10B11E676FC9EBFA3B302C",
+            "consumers": [
+              {
+                "stratagem": "MD-17 Anti-Tank Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:af18ed07b1db781b",
+          "operationGroup": "operation:85d2cfcbdca69234",
+          "planGroup": "plan:stratagem:md_17_anti_tank_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-17 Anti-Tank Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:17d2a863841b9408",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 3,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
         },
         {
           "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_attack_main_mine_mine:explosion.inner_radius",
@@ -99693,7 +100037,14 @@
         "explosionAgreement": "deployer MinefieldComponent +24 only (mine unit has no entity settings)",
         "triggerToDetonationSeconds": null
       },
-      "damageZones": []
+      "damageZones": [],
+      "minefield": {
+        "proof": "Six salvos of three mines are deployed, totaling up to eighteen",
+        "salvos": 6,
+        "minesPerSalvo": 3,
+        "launchSockets": 18,
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+      }
     },
     "FX-12 Shield Generator Relay": {
       "name": "FX-12 Shield Generator Relay",
@@ -102292,6 +102643,116 @@
           "provenance": "exact importer correlation plus reviewed HealthComponentData main-health/default-armor layout"
         },
         {
+          "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_minefield_main:minefield.salvos",
+          "semanticFieldId": "minefield.salvos",
+          "displayName": "Mine salvos",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 6,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-8 Gas Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xA9982969137F3D77",
+            "recordIndex": 2,
+            "indexRow": 4,
+            "offset": 40,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "78BC19467ABE645A3790B6ACAF538176F25ADB7BFAB23568002B407C4FEAF8A9",
+            "consumers": [
+              {
+                "stratagem": "MD-8 Gas Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ec594a373e27d49c",
+          "operationGroup": "operation:ed2994d32b14dca2",
+          "planGroup": "plan:stratagem:md_8_gas_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-8 Gas Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:d9457c0e1ca3fcae",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 6,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_minefield_main:minefield.mines_per_salvo",
+          "semanticFieldId": "minefield.mines_per_salvo",
+          "displayName": "Mines per salvo",
+          "type": "integer",
+          "unit": "count",
+          "currentDefault": 8,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "MD-8 Gas Mines",
+            "path": "minefield",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "ThrowerComponentData",
+            "component": "ThrowerComponentData",
+            "nativeIdentity": "0xA9982969137F3D77",
+            "recordIndex": 2,
+            "indexRow": 4,
+            "offset": 44,
+            "storage": "u32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "78BC19467ABE645A3790B6ACAF538176F25ADB7BFAB23568002B407C4FEAF8A9",
+            "consumers": [
+              {
+                "stratagem": "MD-8 Gas Mines",
+                "path": "minefield"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ec594a373e27d49c",
+          "operationGroup": "operation:ed2994d32b14dca2",
+          "planGroup": "plan:stratagem:md_8_gas_mines",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "MD-8 Gas Mines",
+              "path": "minefield"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:d9457c0e1ca3fcae",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
+          "min": 1,
+          "max": 8,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+        },
+        {
           "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_attack_main_mine_mine:explosion.inner_radius",
           "semanticFieldId": "explosion.inner_radius",
           "displayName": "Explosion inner radius",
@@ -103435,7 +103896,14 @@
         "explosionAgreement": "mine entity ExplosiveComponent +36 == deployer MinefieldComponent +24",
         "triggerToDetonationSeconds": 0.002
       },
-      "damageZones": []
+      "damageZones": [],
+      "minefield": {
+        "proof": "Six salvos of eight mines are deployed, totaling up to forty-eight",
+        "salvos": 6,
+        "minesPerSalvo": 8,
+        "launchSockets": 48,
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+      }
     },
     "E/AT-12 Anti-Tank Emplacement": {
       "name": "E/AT-12 Anti-Tank Emplacement",

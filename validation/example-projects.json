@@ -1,5 +1,5 @@
 {
-  "examples": 65,
+  "examples": 66,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1805,6 +1805,32 @@
           "path": "projectile_reference",
           "resource": "support_weapon",
           "weapon": "M-1000 Maxigun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "MinefieldSalvos": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "minefield-salvos",
+          "mode": "patch",
+          "path": "minefield",
+          "resource": "stratagem"
         }
       ],
       "problems": [],

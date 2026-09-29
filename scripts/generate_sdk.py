@@ -316,6 +316,12 @@ def outputs():
         '---Sentry target acquisition: targeting.range (meters). Writes require allow_unverified_effect=true.',
         '---@return table','function HD2DeployedTargeting:describe() end',
         '---@return HD2DeployedTargeting','function HD2DeployedEntity:targeting() end',
+        '','---@class HD2DeployedMinefield','---@field resource "stratagem"','---@field path "minefield"',
+        'local HD2DeployedMinefield = {}',
+        '---Mine deployer counts: minefield.salvos and minefield.mines_per_salvo (reductions only; one launch socket',
+        '---per mine). Writes require allow_unverified_effect=true.',
+        '---@return table','function HD2DeployedMinefield:describe() end',
+        '---@return HD2DeployedMinefield','function HD2DeployedEntity:minefield() end',
         '---@return HD2DeployedZone[]','function HD2DeployedEntity:damage_zones() end',
         '---@param zone string','---@return HD2DeployedZone','function HD2DeployedEntity:damage_zone(zone) end']
     vehicle_names=[item['name'] for item in vehicle_authoring['vehicles']]

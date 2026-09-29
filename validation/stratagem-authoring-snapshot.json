@@ -1,9 +1,9 @@
 {
-  "fieldInstances": 1581,
+  "fieldInstances": 1589,
   "fixtureFallback": "disabled",
   "mode": "snapshot",
-  "objects": 400,
-  "physicalChanges": 1581,
+  "objects": 404,
+  "physicalChanges": 1589,
   "protectionChanges": 0,
   "researchWrites": 0,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
