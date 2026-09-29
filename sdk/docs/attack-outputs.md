@@ -257,6 +257,30 @@ The packaged runtime (`scripts/validate_packaged_runtime.py`) runs, from the bui
 - `example-liberator-attack-output-test`: the Mod Options choice through Talon, EAT-700, GL-52 and back to Vanilla,
   checking each package request and the exact ammunition baseline.
 
+## Cross-family composition (research)
+
+Can the Liberator keep its model, handling and trigger and fire a LAS-5 Scythe, LAS-98 Laser Cannon or LAS-13 Trident
+beam? `scripts/research_output_composition.py` (`research/output-composition-F5FEE03DCFDB.json`,
+`sdk/OutputCompositionCapabilities.json`) answers the next step after the reference swap, on the pinned entity table,
+game.dll code and the retained snapshots. All three compositions are **blocked**, on every route:
+
+| Route | Blocker |
+| --- | --- |
+| Reference swap | A ProjectileType reference cannot name a BeamType (`INCOMPATIBLE_OUTPUT_FAMILY`, above). |
+| Clone or attach the beam component | An entity's components are a packed u16 list inside EntitySettingsHashmap. All 1909 lists are laid end to end with zero slack, so a 24th Liberator component overwrites the next entity's list. Each component table's index is a hash table (resource mod capacity, linear probing: 0x514C10, 0x4F5C10); a new membership also needs a hashed row and a record. No safe allocation or ownership mechanism exists for either. |
+| ...and even then | The trigger dispatch (0x742550) reads the entity's output-family flags: a projectile weapon goes to its projectile trigger (0x612800), and only a weapon without one reaches the beam trigger (0x83F750). A Liberator with both components would still fire bullets. |
+| Event: suppress the shot, fire a beam | Events are polled after the game fires (`player_fired` from the stats table at 10 Hz): nothing runs before the dispatch, so native output cannot be suppressed without a code hook. |
+| A beam action (`hd2.beams.fire`) | A beam is not a request. 0x83F750(entity, firing) only sets the firing flag of that entity's own beam_weapon instance (0x70-byte records, +0x18); the per-frame update does the ray, damage, heat and audio. There is no BeamType, origin or direction argument and no beam queue like the explosion and projectile requests, and for an entity without a beam instance the call writes out of bounds. |
+
+- **Heat.** 22 of 23 beam entities own WeaponHeat. The 40-K Meltagun is the native magazine-fed beam (BeamWeapon +
+  WeaponCharge + WeaponMagazine + WeaponReload, no heat): a beam does not intrinsically need heat, but only as its
+  own entity's composition.
+- **Lifecycle.** A beam starts when its owner's trigger sets the instance flag and stops when it is cleared; the LAS-5
+  and LAS-98 beam while held (BeamFireMode 4), the Trident fires its pulse per trigger (BeamFireMode 6). Networking of
+  beam instances was not traced.
+- **What does work across families:** an explosion can release an arc (the GL-52 composition above), and a weapon can
+  gain a second, player-selectable projectile ([weapon feeds](weapon-feeds.md)).
+
 ## Live test
 
 The test mod is `LiberatorAttackOutputTest`, a Mod Options choice with Vanilla, LAS-58 Talon (control), EAT-700 Napalm

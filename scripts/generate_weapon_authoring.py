@@ -15,6 +15,8 @@ from migration import overlay as migration_overlay  # noqa: E402  build-migratio
 import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
+import weapon_mode_fields
+import presentation_fields
 import status_fields
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -223,6 +225,8 @@ def build(catalog_path=CATALOG):
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
+    weapon_mode_rows,_=weapon_mode_fields.load()
+    presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
     weapons=[]
     for name in sorted(identities):
         identity=identities[name];candidate=candidates[identity['bestCandidate']['resourceHash']]
@@ -269,6 +273,32 @@ def build(catalog_path=CATALOG):
             fields.append(fire_mode_fields.apply_burst(make_field(fire_mode_fields.BURST_FIELD,None,
                 component_backend(candidate,'WeaponDataComponentData',fire_mode_fields.BURST_OFFSET,'u32')),
                 fire,unique))
+        # Rate-of-fire modes, weapon-function input bindings and the ProgrammableAmmo projectile
+        # (research/weapon-functions-F5FEE03DCFDB.json).
+        modes=weapon_mode_rows.get(('player',name)) or {}
+        if (modes.get('fireRate') or {}).get('state') not in (None,'absent') and 'ProjectileWeaponComponentData' in ownership:
+            fields.append(weapon_mode_fields.apply_rates(make_field(weapon_mode_fields.RATES_FIELD,None,
+                component_backend(candidate,'ProjectileWeaponComponentData',weapon_mode_fields.RATES_OFFSET,
+                    'fire_rate_set')),modes,unique))
+        if modes.get('inputs') and 'WeaponDataComponentData' in ownership:
+            for side,field_id in weapon_mode_fields.INPUT_FIELDS.items():
+                fields.append(weapon_mode_fields.apply_input(make_field(field_id,None,
+                    component_backend(candidate,'WeaponDataComponentData',weapon_mode_fields.INPUT_OFFSETS[side],'u32')),
+                    modes,side,unique))
+        if (modes.get('functionAmmo') or {}).get('state') not in (None,'absent')                 and 'ProjectileWeaponComponentData' in ownership:
+            fields.append(weapon_mode_fields.apply_function_projectile(make_field(
+                weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,None,component_backend(candidate,
+                    'ProjectileWeaponComponentData',weapon_mode_fields.FUNCTION_PROJECTILE_OFFSET,'u32')),modes,unique))
+        # Armory presentation: the weapon's own LoadoutEntry trait tags (research/weapon-presentation-F5FEE03DCFDB.json).
+        presentation=presentation_rows.get(('player',name))
+        presentation_backing=presentation and presentation['state']!='absent' and presentation_fields.backing(
+            presentation,identity['bestCandidate']['resourceHash'],'trait_set')
+        if presentation_backing:
+            fields.append(presentation_fields.apply_traits(make_field(presentation_fields.TRAITS_FIELD,None,
+                presentation_backing),presentation,presentation_research,trait_values,unique))
+            fields.append(presentation_fields.apply_penetration(make_field(presentation_fields.PENETRATION_FIELD,None,
+                dict(presentation_backing,storage='armor_penetration_label')),presentation,presentation_research,
+                penetration_values,unique))
         fields.append(make_field('weapon.primary_fire_mode',resolved.get('primary_fire_mode'),
             component_backend(candidate,'WeaponDataComponentData',144,'u32'),editable=False,
             reason=definitions['weapon.primary_fire_mode']['reason']))
@@ -612,7 +642,7 @@ def build(catalog_path=CATALOG):
     summary['composition']=composition_source['summary']
     # writableTargetAttacks is the structural count; only attacks whose member is their active source stay writable.
     summary['composition']['projectile']['activeSourceWritableTargetAttacks']=sum(1 for w in weapons
-        for f in w['fields'] if f.get('referenceKind')=='projectile' and f['editable'])
+        for f in w['fields'] if f['type']=='projectile_reference' and f['editable'])
     return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':VERSION_FILE.read_text().strip(),
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             build_profile.SNAPSHOT_NAME,'summary':summary,
@@ -676,6 +706,10 @@ def settings_row_sources(value):
     return rows
 
 
+OWN_EFFECT_FIELDS={weapon_mode_fields.RATES_FIELD,*weapon_mode_fields.INPUT_FIELDS.values(),
+    weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD}
+
+
 def annotate_effects(value,rows):
     """Public proof model per field: APPLIED only means the guarded write was verified; `effect` says whether the
     written definition is the one gameplay uses (active source), when it takes effect, and what is live-proven."""
@@ -689,7 +723,11 @@ def annotate_effects(value,rows):
             if promoted and field.get('editable')and not field.get('liveEvidence'):
                 field['liveEvidence']=promoted
             backing=field.get('backing')or{}
-            if backing.get('kind')=='component':
+            if field['semanticFieldId'] in OWN_EFFECT_FIELDS and field.get('effect'):
+                # Fields whose own research established the effect (rate slots, bindings, function projectile,
+                # presentation) keep it; only the write and live-proof flags are refreshed below.
+                effect=dict(field['effect'])
+            elif backing.get('kind')=='component':
                 row=ownership.get((weapon['name'],field['semanticFieldId']))
                 status=row['status']if row else'AMBIGUOUS'
                 effect={'activeSource':status,'appliesWhen':'weapon_build','instantiationOnly':True,

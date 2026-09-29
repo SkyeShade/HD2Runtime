@@ -1,0 +1,3699 @@
+{
+  "contract": "hd2runtime.weapon.feeds.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.27.0",
+  "mechanisms": {
+    "projectile": "The weapon normal projectile (see attack:projectile_source() for where it lives).",
+    "rounds_magazine": "One of the two WeaponRounds magazines (primary +64, alternate +68), switched with the Magazine weapon function. Both are built into every weapon; their projectiles are set by its default ammunition customization.",
+    "programmable_ammo": "ProjectileWeapon +576: fired instead of the normal projectile while the ProgrammableAmmo weapon function is on (AC-8, GR-8, RL-77 natively)."
+  },
+  "notConflated": {
+    "fire_mode": "Fire modes (Automatic/Single/Burst) never select projectiles.",
+    "multiple_projectiles": "Pellets per shot are projectile.pellet_count on the projectile row.",
+    "submunitions": "Shrapnel and bomblets hang off the projectile impact explosion (explosion.shrapnel_*).",
+    "default_ammunition": "weapon:ammunition() is the customization that owns the normal projectile of six weapons.",
+    "output_family": "Beam, arc, spray and melee outputs are their own components (OutputCompositionCapabilities)."
+  },
+  "fields": {
+    "projectile": {
+      "constant": "hd2.fields.function_ammo.projectile",
+      "values": "\"none\", weapon:feed(id):projectile() (restore) or hd2.attack_output(name) (a projectile output)",
+      "acknowledgements": [
+        "allow_unverified_effect",
+        "allow_unverified_reference"
+      ]
+    },
+    "binding": {
+      "constants": [
+        "hd2.fields.weapon_function.left",
+        "hd2.fields.weapon_function.right"
+      ],
+      "value": "programmable_ammo",
+      "rule": "bound in the same transaction as function_ammo.projectile"
+    },
+    "capacity": "rounds.feed_capacity_1 / rounds.feed_capacity_2 (rounds magazines)"
+  },
+  "assets": "A donor output package loads automatically before function_ammo.projectile is written (0.27 loader).",
+  "weapons": [
+    {
+      "kind": "player",
+      "weapon": "AR-11 Arbitrator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": 11,
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-2 Coyote",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23 Liberator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23A Liberator Carbine",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23C Liberator Concussive",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-23P Liberator Penetrator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-32 Pacifier",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-59 Suppressor",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR-61 Tenderizer",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "rate_of_fire",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "AR/GL-21 One-Two",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": 11,
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "BR-14 Adjudicator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "CB-9 Exploding Crossbow",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "DBS-2 Double Freedom",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "fire_mode",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GL-15 Evictor",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GP-20 Ultimatum",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "GP-31 Grenade Pistol",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "JAR-5 Dominator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-12 Sai",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-16 Sickle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-17 Double-Edge Sickle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "LAS-58 Talon",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M6C/SOCOM Pistol",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M7S SMG",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "M90A Shotgun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "MA5C Assault Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "MP-98 Knight",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-11 Stim Pistol",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-113 Verdict",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-19 Redeemer",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-2 Peacemaker",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-33 Missile Pistol",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native_blocked",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": false,
+          "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+          "nativeProjectile": true,
+          "compatibilityClass": "explosive_impact_and_expiry",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-34 Breacher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-35 Re-Educator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-4 Senator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-69 Veto",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P-92 Warrant",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native_blocked",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": false,
+          "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+          "nativeProjectile": true,
+          "compatibilityClass": "conventional_plain",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "P/40-K Bolt Pistol",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-1 Scorcher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-101 Purifier",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-15 Loyalist",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "PLAS-39 Accelerator Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-2 Amendment",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-2124 Constitution",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-36 Eruptor",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-4 Hyena",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-6 Deadeye",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-63 Diligence",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-63CS Diligence Counter Sniper",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R-72 Censor",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "R/40-K Hot-Shot Marksman Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-20 Halt",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": "left",
+            "bound": true
+          },
+          "attackRole": "feed_primary",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_1",
+          "ownedBy": "SHOTGUN 10g. FLECHETTES",
+          "projectileSource": {
+            "status": "OVERRIDDEN",
+            "writable": false,
+            "reason": "The feed projectile is patched at every build by the default customization SHOTGUN 10g. FLECHETTES (WeaponRounds +64); rounds-feed projectile swaps are not authored yet. Edit the feed projectile itself through feed:projectile()."
+          }
+        },
+        {
+          "id": "alternate",
+          "index": 2,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": "left",
+            "bound": true
+          },
+          "attackRole": "feed_alternate",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_2",
+          "ownedBy": "SHOTGUN 10g. Stun ALTERNATE",
+          "projectileSource": {
+            "status": "OVERRIDDEN",
+            "writable": false,
+            "reason": "The feed projectile is patched at every build by the default customization SHOTGUN 10g. Stun ALTERNATE (WeaponRounds +68); rounds-feed projectile swaps are not authored yet. Edit the feed projectile itself through feed:projectile()."
+          }
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "magazine",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-22 Bushwhacker",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "fire_mode",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225 Breaker",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225IE Breaker Incendiary",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-225SP Breaker Spray&Pray",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-451 Cookout",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_primary",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_1",
+          "ownedBy": null,
+          "projectileSource": {
+            "status": "ACTIVE_AT_INSTANTIATION",
+            "writable": false,
+            "reason": "Rounds-feed projectile swaps are not authored yet."
+          }
+        },
+        {
+          "id": "alternate",
+          "index": 2,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_alternate",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_2",
+          "ownedBy": null,
+          "projectileSource": {
+            "status": "ACTIVE_AT_INSTANTIATION",
+            "writable": false,
+            "reason": "Rounds-feed projectile swaps are not authored yet."
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8 Punisher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_primary",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_1",
+          "ownedBy": "SHOTGUN 10g. BUCKSHOT",
+          "projectileSource": {
+            "status": "OVERRIDDEN",
+            "writable": false,
+            "reason": "The feed projectile is patched at every build by the default customization SHOTGUN 10g. BUCKSHOT (WeaponRounds +64); rounds-feed projectile swaps are not authored yet. Edit the feed projectile itself through feed:projectile()."
+          }
+        },
+        {
+          "id": "alternate",
+          "index": 2,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_alternate",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_2",
+          "ownedBy": null,
+          "projectileSource": {
+            "status": "ACTIVE_AT_INSTANTIATION",
+            "writable": false,
+            "reason": "Rounds-feed projectile swaps are not authored yet."
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8P Punisher Plasma",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-8S Slugger",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_primary",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_1",
+          "ownedBy": null,
+          "projectileSource": {
+            "status": "ACTIVE_AT_INSTANTIATION",
+            "writable": false,
+            "reason": "Rounds-feed projectile swaps are not authored yet."
+          }
+        },
+        {
+          "id": "alternate",
+          "index": 2,
+          "mechanism": "rounds_magazine",
+          "native": true,
+          "selector": {
+            "function": "magazine",
+            "input": null,
+            "bound": false
+          },
+          "attackRole": "feed_alternate",
+          "capacity": 8.0,
+          "capacityField": "rounds.feed_capacity_2",
+          "ownedBy": null,
+          "projectileSource": {
+            "status": "ACTIVE_AT_INSTANTIATION",
+            "writable": false,
+            "reason": "Rounds-feed projectile swaps are not authored yet."
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SG-97 Sweeper",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-203 Gallant",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-32 Reprimand",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-37 Defender",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG-72 Pummeler",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "SMG/FLAM-34 Stoker",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": 11,
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "StA-11 SMG",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "StA-52 Assault Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "player",
+      "weapon": "VG-70 Variable",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "fire_mode",
+        "right": "rate_of_fire"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "AC-8 Autocannon",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": true,
+          "compatibilityClass": "explosive_shrapnel",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "APW-1 Anti-Materiel Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-17 Expendable Anti-Tank",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-411 Leveller",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "EAT-700 Expendable Napalm",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "FAF-14 Spear",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-21 Grenade Launcher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-28 Belt-Fed Grenade Launcher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "rate_of_fire"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GL-52 De-Escalator",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "GR-8 Recoilless Rifle",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": true,
+          "compatibilityClass": "explosive_impact",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "LAS-99 Quasar Cannon",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left",
+              "right"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "M-1000 Maxigun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "M-105 Stalwart",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "rate_of_fire"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MG-206 Heavy Machine Gun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "rate_of_fire"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MG-43 Machine Gun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "rate_of_fire"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MGX-42 Bullet Storm",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "MLS-4X Commando",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "laser_guide",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "PLAS-45 Epoch",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "RL-77 Airburst Rocket Launcher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": true,
+          "compatibilityClass": "explosive_shrapnel",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "RS-422 Railgun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "fire_mode",
+        "right": "none"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "S-11 Speargun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": false,
+          "state": "addable",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": null,
+            "bound": false,
+            "bindableInputs": [
+              "left"
+            ]
+          },
+          "field": "function_ammo.projectile",
+          "writable": true,
+          "reason": null,
+          "nativeProjectile": false,
+          "compatibilityClass": null,
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": true
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "SG-88 Break-Action Shotgun",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        }
+      ],
+      "selectableNatively": false,
+      "inputs": {
+        "left": "none",
+        "right": "fire_mode"
+      }
+    },
+    {
+      "kind": "support",
+      "weapon": "StA-X3 W.A.S.P. Launcher",
+      "feeds": [
+        {
+          "id": "primary",
+          "index": 1,
+          "mechanism": "projectile",
+          "native": true,
+          "selector": null,
+          "attackRole": "primary",
+          "projectileSource": {
+            "status": "see attack:projectile_source()",
+            "writable": null
+          }
+        },
+        {
+          "id": "programmable",
+          "index": 2,
+          "mechanism": "programmable_ammo",
+          "native": true,
+          "state": "native_blocked",
+          "selector": {
+            "function": "programmable_ammo",
+            "input": "left",
+            "bound": true,
+            "bindableInputs": []
+          },
+          "field": "function_ammo.projectile",
+          "writable": false,
+          "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+          "nativeProjectile": true,
+          "compatibilityClass": "explosive_shrapnel",
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "requiresBinding": false
+        }
+      ],
+      "selectableNatively": true,
+      "inputs": {
+        "left": "programmable_ammo",
+        "right": "none"
+      }
+    }
+  ],
+  "summary": {
+    "weaponsWithFeeds": 91,
+    "nativeMultipleOutputs": [
+      "AC-8 Autocannon",
+      "GR-8 Recoilless Rifle",
+      "P-33 Missile Pistol",
+      "P-92 Warrant",
+      "RL-77 Airburst Rocket Launcher",
+      "SG-20 Halt",
+      "StA-X3 W.A.S.P. Launcher"
+    ],
+    "programmableAddable": [
+      "APW-1 Anti-Materiel Rifle",
+      "AR-2 Coyote",
+      "AR-23 Liberator",
+      "AR-23A Liberator Carbine",
+      "AR-23C Liberator Concussive",
+      "AR-23P Liberator Penetrator",
+      "AR-32 Pacifier",
+      "AR-59 Suppressor",
+      "BR-14 Adjudicator",
+      "CB-9 Exploding Crossbow",
+      "EAT-17 Expendable Anti-Tank",
+      "EAT-411 Leveller",
+      "EAT-700 Expendable Napalm",
+      "GL-21 Grenade Launcher",
+      "GL-28 Belt-Fed Grenade Launcher",
+      "GP-20 Ultimatum",
+      "JAR-5 Dominator",
+      "LAS-12 Sai",
+      "LAS-16 Sickle",
+      "LAS-58 Talon",
+      "LAS-99 Quasar Cannon",
+      "M-105 Stalwart",
+      "M6C/SOCOM Pistol",
+      "M7S SMG",
+      "MA5C Assault Rifle",
+      "MG-206 Heavy Machine Gun",
+      "P-113 Verdict",
+      "P-19 Redeemer",
+      "P-2 Peacemaker",
+      "P-35 Re-Educator",
+      "P/40-K Bolt Pistol",
+      "PLAS-1 Scorcher",
+      "R-2 Amendment",
+      "R-36 Eruptor",
+      "R-4 Hyena",
+      "R-63 Diligence",
+      "R-63CS Diligence Counter Sniper",
+      "R-72 Censor",
+      "R/40-K Hot-Shot Marksman Rifle",
+      "S-11 Speargun",
+      "SG-225 Breaker",
+      "SG-225IE Breaker Incendiary",
+      "SG-225SP Breaker Spray&Pray",
+      "SG-8P Punisher Plasma",
+      "SMG-203 Gallant",
+      "SMG-32 Reprimand",
+      "SMG-72 Pummeler",
+      "StA-11 SMG",
+      "StA-52 Assault Rifle"
+    ],
+    "programmableNativeWritable": [
+      "AC-8 Autocannon",
+      "GR-8 Recoilless Rifle",
+      "RL-77 Airburst Rocket Launcher"
+    ],
+    "roundsDualFeeds": [
+      "SG-20 Halt"
+    ],
+    "roundsAlternateWithoutSelector": [
+      "SG-451 Cookout",
+      "SG-8 Punisher",
+      "SG-8S Slugger"
+    ]
+  }
+}

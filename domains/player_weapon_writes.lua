@@ -34,7 +34,7 @@ local component_names={'ProjectileWeaponComponentData','WeaponDataComponentData'
     'MeleeWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'WeaponHeatComponentData','WeaponChargeComponentData','ExplosiveComponentData',
     'HellpodRackComponentData','WeaponLinkedAmmoComponentData','WeaponReloadComponentData',
-    'WeaponWindUpComponentData','HealthComponentData','MountComponentData'}
+    'WeaponWindUpComponentData','HealthComponentData','MountComponentData','LoadoutEntryComponentData'}
 -- Weapons whose default ammunition owns the fired projectile also re-prove their default customization.
 local ammunition_component_names={}
 for index,name in ipairs(component_names)do ammunition_component_names[index]=name end
@@ -175,6 +175,69 @@ local function mode_set(field,value,label)
     end
     for index=#value+1,4 do bytes[index]=b.encode(0,'u32')end
     return table.concat(bytes)
+end
+-- Native slot lists written slot by slot: every slot is conflict-checked, only changed slots are written, and no
+-- write crosses a slot. fire_mode_set: four FireMode slots; fire_rate_set: the three rate-of-fire slots X/Y/Z;
+-- trait_set and armor_penetration_label: the five LoadoutEntry trait tags.
+local SLOT_SETS={fire_mode_set=4,fire_rate_set=3,trait_set=5,armor_penetration_label=5}
+-- Rate-of-fire modes: rates in the order the ROF selector visits them from the default (Y -> Z -> X). The first rate
+-- is the default (native slot Y); a missing rate is an empty 0.0 slot, which the selector skips.
+local RATE_SLOTS={2,3,1}
+local function plain_list(value,label,noun)
+    assert(type(value)=='table'and getmetatable(value)==nil,label..' must be a list of '..noun)
+    local count=0;for _ in pairs(value)do count=count+1 end
+    assert(count==#value,label..' must be a list of '..noun)
+end
+local function rate_set(field,value,label)
+    plain_list(value,label,'rates of fire (rounds per minute)')
+    assert(#value>=1,label..' must list at least one rate of fire')
+    assert(#value<=field.maxModes,label..' lists '..#value..' rates; this weapon allows '..field.maxModes
+        ..(field.maxModes==1 and' (no rate-of-fire selector can be bound)'or' (three native slots)'))
+    local slots={0,0,0}
+    for index,rate in ipairs(value)do
+        assert(type(rate)=='number'and rate==rate and rate>-math.huge and rate<math.huge,
+            label..' rate '..index..' must be a finite number')
+        assert(rate>=field.min and rate<=field.max,label..' rate '..index..' is outside the reviewed range '
+            ..field.min..' to '..field.max..' rounds per minute')
+        slots[RATE_SLOTS[index]]=rate
+    end
+    return b.encode(slots[1],'f32')..b.encode(slots[2],'f32')..b.encode(slots[3],'f32')
+end
+local function encode_slots(values)
+    local bytes={};for index,value in ipairs(values)do bytes[index]=b.encode(value,'u32')end
+    return table.concat(bytes)
+end
+local function trait_set(field,value,label)
+    plain_list(value,label,'trait IDs')
+    assert(#value<=5,label..' lists '..#value..' traits; a weapon shows at most five')
+    local seen,tags={},{}
+    for index,trait in ipairs(value)do
+        local native=type(trait)=='string'and field.traitValues[trait]
+        assert(native,label..' names an unknown trait: '..tostring(trait)..' (see WeaponPresentationCapabilities.json)')
+        assert(not seen[trait],label..' lists '..trait..' twice');seen[trait]=true
+        tags[index]=native
+    end
+    for index=#value+1,5 do tags[index]=0 end
+    return encode_slots(tags)
+end
+-- The displayed armor-penetration label: replaces the weapon's single penetration tag in place, adds one in the first
+-- empty slot, or ('none') removes it and keeps the remaining tags packed. The other tags never change.
+local function penetration_tags(field,value,label)
+    assert(type(value)=='string'and(value=='none'or field.penetrationValues[value]),
+        label..' must be "none" or one of the native penetration labels (light, medium, heavy, light_anti_tank, '
+        ..'anti_tank)')
+    local tags={};for index=1,5 do tags[index]=field.nativeTags[index]end
+    local slot=field.penetrationSlot and field.penetrationSlot+1
+    if value=='none'then
+        if slot then table.remove(tags,slot);tags[5]=0 end
+    elseif slot then tags[slot]=field.penetrationValues[value]
+    else
+        local free
+        for index=1,5 do if tags[index]==0 then free=index;break end end
+        assert(free,label..': all five trait slots are used')
+        tags[free]=field.penetrationValues[value]
+    end
+    return encode_slots(tags)
 end
 local function same_list(a,c)
     if type(a)~='table'or type(c)~='table'or#a~=#c then return false end
@@ -398,6 +461,93 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             semantic_aliases={item.field},expect=item.expect,value=item.value,
             expected=b.encode(expected,'u32'),desired=b.encode(desired,'u32'),status_type=desired}
     end
+    if field.type=='fire_rate_set'then
+        -- The three native rate slots as the selector visits them; expect is the reviewed list, and its bytes are the
+        -- exact native slots.
+        assert(same_list(item.expect,field.currentDefault),'expect differs from the reviewed rates of fire for '
+            ..item.field)
+        rate_set(field,item.expect,'expect')
+        local native=field.nativeSlots
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,
+            expected=b.encode(native[1],'f32')..b.encode(native[2],'f32')..b.encode(native[3],'f32'),
+            desired=rate_set(field,item.value,'value'),rates=#item.value}
+    end
+    if field.type=='weapon_function'then
+        -- The WeaponFunctionType bound to one weapon-function input. Only an unbound input takes a binding, and only
+        -- a function this weapon can host (see hd2.weapon(name):fire_rate_modes() and weapon:feeds()).
+        assert(item.expect==field.currentDefault,'expect differs from the reviewed weapon function for '..item.field
+            ..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
+        local allowed=false
+        for _,name in ipairs(field.allowedValues or{})do if name==item.value then allowed=true end end
+        assert(allowed,item.field..' cannot bind '..tostring(item.value)..' on '..weapon.name..' (allowed: '
+            ..table.concat(field.allowedValues or{},', ')..')')
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,
+            expected=b.encode(field.functionValues[item.expect],'u32'),
+            desired=b.encode(field.functionValues[item.value],'u32'),binding=item.value}
+    end
+    if field.type=='trait_set'then
+        assert(same_list(item.expect,field.currentDefault),'expect differs from the reviewed traits for '..item.field)
+        local expected=encode_slots(field.nativeTags)
+        assert(trait_set(field,item.expect,'expect')==expected,'reviewed traits no longer match their native tags')
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,
+            expected=expected,desired=trait_set(field,item.value,'value')}
+    end
+    if field.type=='armor_penetration_label'then
+        assert(item.expect==field.currentDefault,'expect differs from the reviewed penetration label for '..item.field
+            ..': declared='..tostring(item.expect)..' reviewed='..tostring(field.currentDefault))
+        return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,
+            expected=encode_slots(field.nativeTags),desired=penetration_tags(field,item.value,'value')}
+    end
+    if field.type=='function_projectile_reference'then
+        -- The projectile a ProgrammableAmmo weapon function fires (ProjectileWeapon +576): "none" (no alternate
+        -- projectile), the weapon's own native one (weapon:feed(id):projectile()) or a donor attack output.
+        local function selector(value,label)
+            if value=='none'then return {none=true}end
+            assert(type(value)=='table',label..' must be "none", weapon:feed(id):projectile() or hd2.attack_output(name)')
+            if value.path=='function_projectile'then
+                for key in pairs(value)do assert(key=='resource'or key=='path'or key=='weapon',
+                    label..' contains unsupported function projectile identity')end
+                assert(value.weapon==weapon.name,label..' is another weapon function projectile')
+                return {self=true,weapon=weapon.name}
+            end
+            assert(value.resource=='attack_output',
+                label..' must be "none", weapon:feed(id):projectile() or hd2.attack_output(name)')
+            return output_selector(value,label)
+        end
+        local native=field.currentDefault.projectileType
+        local expected,desired=selector(item.expect,'expect'),selector(item.value,'value')
+        assert(native==0 and expected.none or native~=0 and expected.self,native==0
+            and'expect must be "none": '..weapon.name..' has no native function projectile'
+            or'expect must be the weapon feed projectile handle (weapon:feed(id):projectile())')
+        assert(not desired.none or native==0,'the native function projectile of '..weapon.name
+            ..' cannot be removed; restore it with its feed projectile handle')
+        assert(not desired.self or native~=0,weapon.name..' has no native function projectile to restore')
+        local change={field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
+            semantic_aliases={item.field},expect=item.expect,value=item.value,expected_selector=expected,
+            desired_selector=desired,source_descriptor=field,expected=b.encode(native,'u32')}
+        if desired.output then
+            local output=desired.entry
+            if output.family~='projectile'then
+                error('INCOMPATIBLE_OUTPUT_FAMILY: '..output.id..' is a '..output.family..' output. '
+                    ..tostring(output.reason),0)
+            end
+            assert(output.editable~=false and output.backing,'attack output is not selectable: '..output.id)
+            assert(allow_unverified_reference,'a function projectile requires allow_unverified_reference=true: '
+                ..output.id..' ('..tostring(field.acknowledgementReason)..')')
+            change.source_descriptor={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
+                backing=output.backing,currentDefault={projectileType=output.currentDefault},
+                referenceSettings=output.referenceSettings}
+            change.source_resource=output.resource
+            change.asset_dependency=source_dependency(weapon.name,output.owner.name,'primary')
+        else
+            change.desired=b.encode(desired.none and 0 or native,'u32')
+        end
+        return change
+    end
     if field.type=='fire_mode_set'then
         local expected=mode_set(field,item.expect,'expect');local desired=mode_set(field,item.value,'value')
         assert(same_list(item.expect,field.currentDefault),'expect differs from reviewed fire modes for '..item.field)
@@ -427,6 +577,36 @@ end
 local function id(value)
     assert(type(value)=='string'and#value>0 and#value<=64 and not value:find('[^%w_%-]'),'invalid operation id')
 end
+-- A selector binding and the modes it selects are written together, so nothing an operation writes is dormant: rates
+-- beyond the default need a bound rate-of-fire selector, a function projectile needs a bound ProgrammableAmmo
+-- selector, and binding either selector needs what it selects in the same operation.
+local function check_selector_pairs(weapon,changes)
+    local binds,rates,projectile={},nil,nil
+    for _,change in ipairs(changes)do
+        local kind=change.descriptor.type
+        if kind=='weapon_function'and change.binding~=change.expect then binds[change.binding]=change.field end
+        if kind=='fire_rate_set'then rates=change end
+        if kind=='function_projectile_reference'then projectile=change end
+    end
+    if rates and rates.rates>1 and not rates.descriptor.selectorBound then
+        assert(binds.rate_of_fire,'SELECTOR_REQUIRED: fire_rate.modes lists '..rates.rates..' rates, but '..weapon.name
+            ..' has no rate-of-fire selector; bind it in the same transaction (hd2.fields.weapon_function.'
+            ..table.concat(rates.descriptor.bindableInputs or{'left'},' or ')..' = "rate_of_fire")')
+    end
+    if binds.rate_of_fire then
+        assert(rates and rates.rates>1,'SELECTOR_REQUIRED: binding the rate-of-fire selector needs fire_rate.modes with '
+            ..'at least two rates in the same transaction')
+    end
+    if projectile and not projectile.desired_selector.none and not projectile.descriptor.selectorBound then
+        assert(binds.programmable_ammo,'SELECTOR_REQUIRED: function_ammo.projectile needs a bound ProgrammableAmmo '
+            ..'selector on '..weapon.name..'; bind it in the same transaction (hd2.fields.weapon_function.'
+            ..table.concat(projectile.descriptor.bindableInputs or{'left'},' or ')..' = "programmable_ammo")')
+    end
+    if binds.programmable_ammo then
+        assert(projectile and not projectile.desired_selector.none,'SELECTOR_REQUIRED: binding the ProgrammableAmmo '
+            ..'selector needs a function_ammo.projectile in the same transaction')
+    end
+end
 
 function M.validate_patch(request)
     assert(type(request)=='table','patch requires a descriptor')
@@ -440,6 +620,7 @@ function M.validate_patch(request)
     local change=validate_change(weapon,{field=request.field,expect=request.expect,value=request.value},
         request.allow_shared==true,role,path,phase,request.allow_unverified_effect==true,
         request.allow_unverified_reference==true)
+    check_selector_pairs(weapon,{change})
     return {kind=kind,id=request.id,weapon=name,
         resource=weapon.attackResource or weapon.resources[1],identity_resource=weapon.identityResource,
         ownership_chain=weapon.ownershipChain,root_rack=weapon.rootRack,mount_chain=weapon.mountChain,
@@ -496,6 +677,7 @@ function M.validate_transaction(request)
             canonical_seen[change.canonical_field]=change
         end
     end
+    check_selector_pairs(weapon,result.changes)
     result.asset_dependencies={}
     for _,change in ipairs(result.changes)do
         if change.asset_dependency then result.asset_dependencies[#result.asset_dependencies+1]=change.asset_dependency end
@@ -552,7 +734,9 @@ local function collect_needs(needed,spec)
             if linkage:find('arc',1,true)then add_need(needed,'arc',true)end
             if linkage:find('beam',1,true)then add_need(needed,'beam',true)end
         end
-        if change.descriptor.type=='projectile_reference'then add_need(needed,'projectile',true)end
+        if change.descriptor.type=='projectile_reference'or change.descriptor.type=='function_projectile_reference'then
+            add_need(needed,'projectile',true)
+        end
         if change.descriptor.type=='status_reference'then add_need(needed,'status',true)end
         if change.descriptor.type=='explosion_reference'or backing.settings=='explosion'
             or backing.settings=='explosion_damage'then
@@ -619,7 +803,8 @@ function M.capture_many(runtime,reader,specs)
         for _,change in ipairs(spec.changes)do
             if change.source_resource then
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,change.source_resource)
-            elseif change.desired_selector and not change.desired_selector.is_null then
+            elseif change.desired_selector and not change.desired_selector.is_null
+                and change.descriptor.type~='function_projectile_reference'then
                 local source=assert(selected.weapons[change.desired_selector.weapon],
                     'projectile source metadata missing')
                 resolved.reference_sources[change.canonical_field]=find_candidate(catalog,source.resources[1])
@@ -879,6 +1064,45 @@ function M.prepare(resolved,reader,spec)
                 projectile_type=source_type,settings_group=settings.group,
                 settings_row=settings.row,settings_type=settings.settings_type,
                 scope='projectile_reference_source'}
+        elseif change.descriptor.type=='function_projectile_reference'then
+            -- The host must still have the shape the research saw (the same rounds feed or none, no spawned entity, no
+            -- magazine pattern), so the ProgrammableAmmo override replaces exactly the projectile it fires.
+            local ownership_map=resolved.candidate.ownership
+            assert((ownership_map.WeaponRoundsComponentData~=nil)==(change.descriptor.hostRounds==true),
+                'FUNCTION_HOST_CHANGED: '..spec.weapon..' rounds feed changed')
+            local zero8=string.rep(string.char(0),8)
+            assert(record.bytes:sub(41,48)==zero8 and record.bytes:sub(585,592)==zero8,
+                'FUNCTION_HOST_CHANGED: '..spec.weapon..' now spawns an entity when it fires')
+            if ownership_map.WeaponMagazineComponentData then
+                local magazine=resolved.catalog.record(resolved.candidate,'WeaponMagazineComponentData')
+                assert(magazine.bytes:sub(5,136)==string.rep(string.char(0),132),
+                    'FUNCTION_HOST_CHANGED: a magazine pattern now selects the fired projectiles')
+            end
+            local source_type,reviewed_settings
+            if change.desired_selector.output then
+                local source_candidate=assert(resolved.reference_sources[change.canonical_field],
+                    'function projectile source was not freshly resolved')
+                local source_record=component_record_for(resolved,source_candidate,change.source_descriptor.backing)
+                source_type=b.u32(source_record.bytes,change.source_descriptor.backing.offset)
+                assert(source_type==change.source_descriptor.currentDefault.projectileType,
+                    'CONFLICT: source projectile reference changed')
+                reviewed_settings=change.source_descriptor.referenceSettings
+            else
+                source_type=b.u32(change.desired,0)
+                reviewed_settings=change.descriptor.referenceSettings
+            end
+            if source_type~=0 then
+                local settings=assert(resolved.roots.projectile.records[source_type],
+                    'function projectile ProjectileSettings record absent')
+                assert(reviewed_settings and settings.group==reviewed_settings.group
+                    and settings.row==reviewed_settings.row and settings.kind==reviewed_settings.recordType
+                    and settings.settings_type==reviewed_settings.settingsType,
+                    'function projectile ProjectileSettings identity changed')
+                source_identity={component='ProjectileSettings',projectile_type=source_type,
+                    settings_group=settings.group,settings_row=settings.row,settings_type=settings.settings_type,
+                    scope='function_projectile_source'}
+            end
+            change.desired=b.encode(source_type,'u32')
         elseif change.descriptor.type=='explosion_reference'then
             local reviewed=change.descriptor.currentDefault.explosionType
             local expected=b.encode(reviewed,'u32')
@@ -962,11 +1186,11 @@ function M.prepare(resolved,reader,spec)
             -- Entity delta data is byte-packed; the ammunition rows are aligned but opt in explicitly.
             packed=backing.kind=='entity_delta'or nil}
             if source_identity then item.chain[#item.chain+1]=source_identity end
-            if change.descriptor.type=='fire_mode_set'then
-                -- The four FireMode slots are written as four aligned 4-byte changes in one atomic
-                -- transaction: every slot is conflict-checked, only changed slots are written, and no
-                -- write crosses a page.
-                for slot=0,3 do
+            local slots=SLOT_SETS[change.descriptor.type]
+            if slots then
+                -- A native slot list is written as aligned 4-byte changes in one atomic transaction: every slot is
+                -- conflict-checked, only changed slots are written, and no write crosses a page.
+                for slot=0,slots-1 do
                     local at=slot*4+1
                     local part={label=change.field..'['..(slot+1)..']',
                         canonical_field=change.canonical_field..'['..(slot+1)..']',

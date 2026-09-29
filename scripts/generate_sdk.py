@@ -253,7 +253,38 @@ def outputs():
         '---@param category string','---@return HD2AttachmentOption[]',
         'function HD2Weapon:attachment_options(category) end','---@param category string',
         '---@param identity string','---@return HD2AttachmentOption',
-        'function HD2Weapon:attachment(category, identity) end']
+        'function HD2Weapon:attachment(category, identity) end',
+        '','---@class HD2FireRateMode','---@field index integer 1 = the default rate','---@field rpm number',
+        '---@field slot "x"|"y"|"z" The native slot (the selector visits y, z, x)','---@field default boolean',
+        '---@field enabled boolean','',
+        '---@class HD2FireRateModes','---@field weapon string',
+        '---@field state "selectable"|"addable"|"single_rate"|"blocked"|"absent"',
+        '---@field modes HD2FireRateMode[] In selector order; the first is the default (weapon.fire_rate)',
+        '---@field maxModes integer At most 3: the native storage','---@field expect number[] The expect of hd2.fields.fire_rate.modes',
+        '---@field selector table {bound, input, bindableInputs}',
+        '---@field binding table? {field, expect, value}: the weapon_function change a selector-less weapon adds with 2+ rates',
+        '---@field writable boolean','---@field reason string?','',
+        '---The native rates of fire (three slots) as the rate-of-fire selector visits them. Write them with',
+        '---hd2.fields.fire_rate.modes (allow_unverified_effect=true); weapons without a selector add one with the',
+        '---returned binding in the same transaction.','---@return HD2FireRateModes',
+        'function HD2Weapon:fire_rate_modes() end','---@param index integer','---@return HD2FireRateMode',
+        'function HD2Weapon:fire_rate_mode(index) end',
+        '','---@class HD2Feed','---@field resource "player_weapon"|"support_weapon"','---@field path "feed"',
+        '---@field weapon string','---@field feed "primary"|"alternate"|"programmable"','local HD2Feed = {}',
+        '---mechanism (projectile, rounds_magazine, programmable_ammo), selector, capacity field, writability.',
+        '---@return table','function HD2Feed:describe() end',
+        '---The projectile this feed fires: its projectile/damage fields for projectile and rounds feeds, the',
+        '---restore handle of a native programmable projectile.','---@return HD2ProjectileReference|table',
+        'function HD2Feed:projectile() end',
+        '---Where the feed projectile is written: {target, field, expect, binding?, acknowledgements, writable}.',
+        '---@return table','function HD2Feed:source() end',
+        '---Selectable ammunition/output sources: the normal projectile or two rounds magazines, then a',
+        '---ProgrammableAmmo projectile (hd2.fields.function_ammo.projectile).','---@return HD2Feed[]',
+        'function HD2Weapon:feeds() end','---@param id "primary"|"alternate"|"programmable"|integer',
+        '---@return HD2Feed','function HD2Weapon:feed(id) end',
+        '---The armory trait labels: {traits, armorPenetration, choices, writable, reason}; presentation only.',
+        '---Write hd2.fields.presentation.armor_penetration or hd2.fields.presentation.traits.',
+        '---@return table','function HD2Weapon:presentation() end']
     alias('HD2SupportWeaponName',list(support['weapons']))
     support_attack_names=[attack['name'] for weapon in support['weapons'].values()
         for attack in weapon['attackGraph']]
@@ -289,7 +320,13 @@ def outputs():
         '---@param identity integer|HD2SupportAttackName','---@return HD2SupportExplosion',
         'function HD2SupportWeapon:explosion(identity) end',
         '---The backpack that stores this weapon\'s ammunition (backpack-fed weapons only).',
-        '---@return HD2Backpack','function HD2SupportWeapon:backpack() end']
+        '---@return HD2Backpack','function HD2SupportWeapon:backpack() end',
+        '---@return table','function HD2SupportWeapon:fire_modes() end',
+        '---@return HD2FireRateModes','function HD2SupportWeapon:fire_rate_modes() end',
+        '---@param index integer','---@return HD2FireRateMode','function HD2SupportWeapon:fire_rate_mode(index) end',
+        '---@return HD2Feed[]','function HD2SupportWeapon:feeds() end',
+        '---@param id "primary"|"alternate"|"programmable"|integer','---@return HD2Feed',
+        'function HD2SupportWeapon:feed(id) end','---@return table','function HD2SupportWeapon:presentation() end']
     stratagem_names=[item['name'] for item in stratagem_authoring['stratagems']]
     stratagem_roles=[item['role'] for item in stratagem_authoring['attacks']]
     alias('HD2StratagemAuthoringName',stratagem_names)
@@ -654,6 +691,9 @@ def outputs():
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-reticles.md':(ROOT/'docs/weapon-reticles.md').read_text(encoding='utf-8'),
             'sdk/docs/fire-modes.md':(ROOT/'docs/fire-modes.md').read_text(encoding='utf-8'),
+            'sdk/docs/fire-rate-modes.md':(ROOT/'docs/fire-rate-modes.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-feeds.md':(ROOT/'docs/weapon-feeds.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-presentation.md':(ROOT/'docs/weapon-presentation.md').read_text(encoding='utf-8'),
             'sdk/docs/vehicle-weapons.md':(ROOT/'docs/vehicle-weapons.md').read_text(encoding='utf-8'),
             'sdk/docs/stratagem-uses.md':(ROOT/'docs/stratagem-uses.md').read_text(encoding='utf-8'),
             'sdk/tools/hd2_archive.py':(ROOT/'scripts/hd2_archive.py').read_text(encoding='utf-8')}

@@ -35,6 +35,11 @@ Composition tests record four separate facts: the donor output works, the refere
 | `event_action_projectile` | live-proven | `hd2.projectiles.spawn` | hd2.projectiles.spawn('R-36 Eruptor') by the mission host: the game's own FireProjectile, fired and repeated, gameplay-proven on host. | unchanged |
 | `event_action_status` | live-proven | `hd2.status.apply` | hd2.status.apply(enemy, 'fire', {buildup = 100}) by the mission host: the fire status visibly applied to a live enemy through the game's status request queue. | unchanged |
 | `event_weapon_in_hand` | live-proven | `player:equipped_weapon`, `weapon_equipped`, `weapon_unequipped`, `weapon_changed` | The local player's weapon in hand: primary and secondary switches detected correctly, the three events matched the actual switches, and uncatalogued held items were reported as uncatalogued (no name). | unchanged |
+| `weapon_fire_rate_modes_native` | pending | `fire_rate.modes` | Editing the three native rate-of-fire slots of the MG-206 Heavy Machine Gun (its own ProjectileWeapon record), each on its own. | unchanged |
+| `weapon_fire_rate_selector_added` | pending | `fire_rate.modes`, `weapon_function.left`, `weapon_function.right` | Filling empty rate-of-fire slots and binding the ROF weapon function to a free input (AR-23 Liberator, left input). | unchanged |
+| `weapon_rounds_feed_capacity` | pending | `rounds.feed_capacity_1`, `rounds.feed_capacity_2` | The SG-20 Halt magazine capacities per feed (WeaponRounds +72 / +76). | unchanged |
+| `weapon_programmable_ammo_added` | pending | `function_ammo.projectile`, `weapon_function.left` | Giving a weapon without it a ProgrammableAmmo selector and a donor function projectile (S-11 Speargun, left input). | unchanged |
+| `weapon_presentation_traits` | pending | `presentation.armor_penetration`, `presentation.traits` | The armory trait labels of a weapon loadout entry (localization string IDs), independent of gameplay. | unchanged |
 
 ## Notes
 

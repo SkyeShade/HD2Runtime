@@ -1,8 +1,36 @@
 {
-  "examples": 82,
+  "examples": 87,
   "failed": [],
   "mode": "snapshot",
   "results": {
+    "AddedFireRateModeTest": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-fire-rates",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "AntiTankEmplacementProof": {
       "baselineChanges": 4,
       "calls": [
@@ -1615,6 +1643,71 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "HMGFireRateModesTest": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "hmg-fire-rate-modes",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "MG-206 Heavy Machine Gun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "MG-206 Heavy Machine Gun -> 0.24.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "HaltFeedTest": {
+      "baselineChanges": 4,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "halt-feed-capacities",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "SG-20 Halt"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "halt-flechettes-burn",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "SG-20 Halt"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
     "HeavyDevastatorDelayedExplosionTest": {
       "baselineChanges": null,
       "calls": [],
@@ -2857,6 +2950,35 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "SpeargunGasStunTest": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "speargun-gas-stun",
+          "mode": "transaction",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "S-11 Speargun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "StatusActionTest": {
       "baselineChanges": null,
       "calls": [],
@@ -3136,6 +3258,45 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "WeaponPresentationTest": {
+      "baselineChanges": 9,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "concussive-gameplay-ap",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "concussive-displayed-ap",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "AR-23C Liberator Concussive"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
     },

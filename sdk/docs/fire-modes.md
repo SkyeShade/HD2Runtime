@@ -30,8 +30,9 @@ Answers to "what does enabling full-auto mean":
   mode slot. There is no flag, bitmask, reference or per-mode settings object.
 - **The default mode** is the first slot. Reordering the list changes it.
 - **Burst length** is one weapon-wide value. It applies whenever Burst is selected.
-- **Rate of fire** is one value per weapon (`weapon.fire_rate`), shared by every mode. There is no
-  per-mode rate.
+- **Rate of fire** is not per fire mode: every fire mode uses the weapon's current rate. The rate itself has three
+  native slots and its own selector (the ROF weapon function): see [rate-of-fire modes](fire-rate-modes.md).
+  `weapon.fire_rate` is the default slot.
 - **Switching modes in game** needs the fire-mode selector bound to an input. Weapons without it can
   only have one mode, so for them the one mode is replaced (for example Single to Automatic).
 

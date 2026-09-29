@@ -1,0 +1,697 @@
+{
+  "acknowledgementRejections": 112,
+  "adversarialRejections": 987,
+  "blockedRejections": 6,
+  "concussive": {
+    "record": 104,
+    "written": [
+      {
+        "after": "47c0e2b7",
+        "before": "1541ef11",
+        "offset": 12
+      }
+    ]
+  },
+  "conflictRejections": 160,
+  "fixtureFallback": "disabled",
+  "functions": {
+    "checked": 52,
+    "native": 3
+  },
+  "hmg": {
+    "bytesWritten": 12,
+    "record": 252,
+    "slots": [
+      "0000e143>0000af44",
+      "00001644>00004843",
+      "00803b44>00002f44"
+    ]
+  },
+  "liberator": {
+    "bytesWritten": 16,
+    "written": [
+      "ProjectileWeaponComponentData+12=00002f44",
+      "ProjectileWeaponComponentData+4=00806d44",
+      "ProjectileWeaponComponentData+8=0000e143",
+      "WeaponDataComponentData+184=02000000"
+    ]
+  },
+  "mode": "snapshot-overlay",
+  "neighbourChecks": 100,
+  "overlapRejected": true,
+  "presentation": {
+    "added": 19,
+    "checked": 100,
+    "removed": 81,
+    "replaced": 81,
+    "traits": 103
+  },
+  "rates": {
+    "added": 56,
+    "checked": 60,
+    "edited": 60,
+    "noops": 60
+  },
+  "rollbacks": 452,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "speargun": {
+    "assetDependency": {
+      "key": "support_weapon/GL-52 De-Escalator",
+      "label": "GL-52 De-Escalator",
+      "name": "packages/generated/loadout/grenade_launcher_tactical",
+      "package": "0x4FEE9CC13C0B4CEC",
+      "via": "own_loadout_package"
+    },
+    "written": [
+      "ProjectileWeaponComponentData+576=de000000",
+      "WeaponDataComponentData+184=08000000"
+    ]
+  },
+  "status": "VALIDATED",
+  "weapons": [
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "AR-11 Arbitrator"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-2 Coyote"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-23 Liberator"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-23A Liberator Carbine"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-23C Liberator Concussive"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-23P Liberator Penetrator"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-32 Pacifier"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "AR-59 Suppressor"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "rates": "selectable",
+      "weapon": "AR-61 Tenderizer"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "AR/GL-21 One-Two"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "ARC-12 Blitzer"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "BR-14 Adjudicator"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "CQC-19 Stun Lance"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "CQC-2 Saber"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "CQC-30 Stun Baton"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "CQC-5 Combat Hatchet"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "DBS-2 Double Freedom"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "player_weapon",
+      "weapon": "FLAM-66 Torcher"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "GL-15 Evictor"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "GP-20 Ultimatum"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "JAR-5 Dominator"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "LAS-12 Sai"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "LAS-13 Trident"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "LAS-16 Sickle"
+    },
+    {
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "LAS-17 Double-Edge Sickle"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "LAS-58 Talon"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "M6C/SOCOM Pistol"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "M7S SMG"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "M90A Shotgun"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "MA5C Assault Rifle"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "MP-98 Knight"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-11 Stim Pistol"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-113 Verdict"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-19 Redeemer"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-2 Peacemaker"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-34 Breacher"
+    },
+    {
+      "armorPenetration": "heavy",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-35 Re-Educator"
+    },
+    {
+      "armorPenetration": "heavy",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-4 Senator"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P-69 Veto"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "P-92 Warrant"
+    },
+    {
+      "armorPenetration": "heavy",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "PLAS-1 Scorcher"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "PLAS-101 Purifier"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "PLAS-15 Loyalist"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-2 Amendment"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-2124 Constitution"
+    },
+    {
+      "armorPenetration": "heavy",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-36 Eruptor"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-4 Hyena"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "R-6 Deadeye"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-63 Diligence"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-63CS Diligence Counter Sniper"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R-72 Censor"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "R/40-K Hot-Shot Marksman Rifle"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "SG-22 Bushwhacker"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SG-225 Breaker"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SG-225IE Breaker Incendiary"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SG-225SP Breaker Spray&Pray"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SG-451 Cookout"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "SG-8 Punisher"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SG-8P Punisher Plasma"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "SG-8S Slugger"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "player_weapon",
+      "weapon": "SG-97 Sweeper"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SMG-203 Gallant"
+    },
+    {
+      "armorPenetration": "medium",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SMG-32 Reprimand"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "SMG-72 Pummeler"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "SMG/FLAM-34 Stoker"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "StA-11 SMG"
+    },
+    {
+      "armorPenetration": "light",
+      "functionAmmo": "addable",
+      "kind": "player_weapon",
+      "rates": "addable",
+      "weapon": "StA-52 Assault Rifle"
+    },
+    {
+      "armorPenetration": "light",
+      "kind": "player_weapon",
+      "weapon": "VG-70 Variable"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "support_weapon",
+      "weapon": "40-K Meltagun"
+    },
+    {
+      "armorPenetration": "light_anti_tank",
+      "functionAmmo": "native",
+      "kind": "support_weapon",
+      "weapon": "AC-8 Autocannon"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "APW-1 Anti-Materiel Rifle"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "ARC-3 Arc Thrower"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "B/FLAM-80 Cremator"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "support_weapon",
+      "weapon": "B/MD C4 Pack"
+    },
+    {
+      "armorPenetration": "medium",
+      "kind": "support_weapon",
+      "weapon": "CQC-1 One True Flag"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "CQC-9 Defoliation Tool"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "EAT-17 Expendable Anti-Tank"
+    },
+    {
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "EAT-411 Leveller"
+    },
+    {
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "EAT-700 Expendable Napalm"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "FAF-14 Spear"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "FLAM-40 Flamethrower"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "GL-21 Grenade Launcher"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "weapon": "GL-28 Belt-Fed Grenade Launcher"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "GL-52 De-Escalator"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "functionAmmo": "native",
+      "kind": "support_weapon",
+      "weapon": "GR-8 Recoilless Rifle"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "LAS-98 Laser Cannon"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "weapon": "LAS-99 Quasar Cannon"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "M-1000 Maxigun"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "selectable",
+      "weapon": "M-105 Stalwart"
+    },
+    {
+      "armorPenetration": "none",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "selectable",
+      "weapon": "MG-206 Heavy Machine Gun"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "rates": "selectable",
+      "weapon": "MG-43 Machine Gun"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "MGX-42 Bullet Storm"
+    },
+    {
+      "armorPenetration": "light_anti_tank",
+      "kind": "support_weapon",
+      "weapon": "MLS-4X Commando"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "support_weapon",
+      "weapon": "PLAS-45 Epoch"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "functionAmmo": "native",
+      "kind": "support_weapon",
+      "weapon": "RL-77 Airburst Rocket Launcher"
+    },
+    {
+      "armorPenetration": "light_anti_tank",
+      "kind": "support_weapon",
+      "weapon": "RS-422 Railgun"
+    },
+    {
+      "armorPenetration": "light_anti_tank",
+      "functionAmmo": "addable",
+      "kind": "support_weapon",
+      "rates": "addable",
+      "weapon": "S-11 Speargun"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "SG-88 Break-Action Shotgun"
+    },
+    {
+      "armorPenetration": "anti_tank",
+      "kind": "support_weapon",
+      "weapon": "StA-X3 W.A.S.P. Launcher"
+    },
+    {
+      "armorPenetration": "none",
+      "kind": "support_weapon",
+      "weapon": "TX-41 Sterilizer"
+    }
+  ]
+}

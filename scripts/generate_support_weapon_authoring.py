@@ -15,6 +15,8 @@ from migration import overlay as migration_overlay  # noqa: E402  build-migratio
 import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
+import weapon_mode_fields
+import presentation_fields
 import status_fields
 import support_callin_linkage
 
@@ -256,6 +258,8 @@ def build(catalog_path=CATALOG):
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
+    weapon_mode_rows,_=weapon_mode_fields.load()
+    presentation_rows,presentation_research,trait_values,penetration_values=presentation_fields.load()
     runtime_weapons={};public_weapons=[]
     # A duplicate group is resolved only by research-proven call-in delivery plus an
     # exact scraped fingerprint. The call-in rack becomes the identity root and the
@@ -338,6 +342,42 @@ def build(catalog_path=CATALOG):
                 else:
                     for field_id in (fire_mode_fields.MODES_FIELD,fire_mode_fields.BURST_FIELD):
                         blocked.append({'field':field_id,'reason':fire['reason']})
+            # Rate-of-fire modes, weapon-function input bindings and the ProgrammableAmmo projectile
+            # (research/weapon-functions-F5FEE03DCFDB.json). Support fieldInstances are writable by contract: a field
+            # this weapon cannot author is a blocked declaration.
+            modes=weapon_mode_rows.get(('support',weapon['name']))or{}
+            mode_fields=[]
+            if weapon['fireRateDiagnosticOnly']and(modes.get('fireRate')or{}).get('state')not in(None,'absent'):
+                blocked.append({'field':weapon_mode_fields.RATES_FIELD,'reason':'Charge-controlled or diagnostic '
+                    'selector; its native rates are not exposed as ordinary RPM (as weapon.fire_rate).'})
+            if(modes.get('fireRate')or{}).get('state')not in(None,'absent')and'ProjectileWeaponComponentData'in ownership \
+                    and not weapon['fireRateDiagnosticOnly']:
+                mode_fields.append(weapon_mode_fields.apply_rates(make_field(weapon_mode_fields.RATES_FIELD,None,
+                    component(candidate,'ProjectileWeaponComponentData',weapon_mode_fields.RATES_OFFSET,'fire_rate_set'),
+                    target),modes,True))
+            if modes.get('inputs')and'WeaponDataComponentData'in ownership:
+                for side,field_id in weapon_mode_fields.INPUT_FIELDS.items():
+                    mode_fields.append(weapon_mode_fields.apply_input(make_field(field_id,None,
+                        component(candidate,'WeaponDataComponentData',weapon_mode_fields.INPUT_OFFSETS[side],'u32'),
+                        target),modes,side,True))
+            if(modes.get('functionAmmo')or{}).get('state')not in(None,'absent')\
+                    and'ProjectileWeaponComponentData'in ownership:
+                mode_fields.append(weapon_mode_fields.apply_function_projectile(make_field(
+                    weapon_mode_fields.FUNCTION_PROJECTILE_FIELD,None,component(candidate,'ProjectileWeaponComponentData',
+                        weapon_mode_fields.FUNCTION_PROJECTILE_OFFSET,'u32'),target),modes,True))
+            # Armory presentation: the delivered weapon's own LoadoutEntry trait tags.
+            presentation=presentation_rows.get(('support',weapon['name']))
+            presentation_backing=presentation and presentation['state']!='absent'and presentation_fields.backing(
+                presentation,candidate['resourceHash'],'trait_set')
+            if presentation_backing:
+                mode_fields.append(presentation_fields.apply_traits(make_field(presentation_fields.TRAITS_FIELD,None,
+                    presentation_backing,target),presentation,presentation_research,trait_values,True))
+                mode_fields.append(presentation_fields.apply_penetration(make_field(presentation_fields.PENETRATION_FIELD,
+                    None,dict(presentation_backing,storage='armor_penetration_label'),target),presentation,
+                    presentation_research,penetration_values,True))
+            for item in mode_fields:
+                if item['editable']:fields.append(item)
+                else:blocked.append({'field':item['semanticFieldId'],'reason':item['reason']})
             reticle=reticle_rows.get(('support',weapon['name']))
             if reticle and reticle['reticle']!='absent'and'WeaponDataComponentData'in ownership:
                 field=reticle_fields.apply(make_field(reticle_fields.FIELD,None,
@@ -735,6 +775,10 @@ def build(catalog_path=CATALOG):
             target_identity={'weapon':weapon_name,'targetPath':target['path'],'attackRole':role}
             operation_key='support-operation/v1/'+digest({'object':object_key,
                 'scope':backing_scope,'target':target_identity},20)
+            if field.get('operationGroup'):
+                # Fields written together across records (a selector binding and what it selects) share one group.
+                operation_key='support-operation/v1/'+digest({'group':field['operationGroup'],
+                    'target':target_identity},20)
             plan_key='support-plan/v1/'+slug(weapon_name)+'/'+digest(weapon_name,12)
             consumers=object_meta['affectedSemanticConsumers']
             reference=None
@@ -798,6 +842,24 @@ def build(catalog_path=CATALOG):
             if field_id==fire_mode_fields.MODES_FIELD:
                 instance['fireMode']={key:field.get(key) for key in ('fireModeState','nativeSlots','allowedModes',
                     'modeValues','maxModes','selector','evidence')}
+            # Public views carry semantic values only (no native IDs or code addresses; see the research files).
+            if field_id==weapon_mode_fields.RATES_FIELD:
+                instance['fireRate']={key:field.get(key) for key in ('fireRateState','nativeSlots','slotOrder','maxModes',
+                    'selectorBound','selectorInput','bindableInputs','min','max','overriddenWhenEquipped')}
+            if field_id in weapon_mode_fields.INPUT_FIELDS.values():
+                instance['weaponFunction']={key:field.get(key) for key in ('input','allowedValues')}
+            if field_id==weapon_mode_fields.FUNCTION_PROJECTILE_FIELD:
+                instance['functionAmmo']={key:field.get(key) for key in ('functionAmmoState','selectorBound',
+                    'selectorInput','bindableInputs','compatibilityClass')}
+                native=field['currentDefault']['projectileType']!=0
+                instance['value']['baseline']=instance['value']['expected']='native'if native else'none'
+                instance['value']['reference']['expectedSemanticReference']=(
+                    'weapon:feed("programmable"):projectile()'if native else'none')
+            if field_id in(presentation_fields.TRAITS_FIELD,presentation_fields.PENETRATION_FIELD):
+                instance['presentation']={key:field.get(key) for key in ('labels','allowedValues','maxTraits',
+                    'armorPenetrationState')if key in field}
+            if field.get('effect'):
+                instance['effect']=field['effect']
             if field_id==reticle_fields.FIELD:
                 instance['reticle']={key:field.get(key) for key in
                     ('reticleState','nativeValue','nativeName','encoding','evidence')}
