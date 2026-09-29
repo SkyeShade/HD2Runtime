@@ -44,7 +44,8 @@ end
 local function candidate(catalog,resource)
  for _,item in ipairs(catalog.candidates)do if item.resourceHash==resource then return item end end
 end
-local CHANGED={['deposit.capacity']=2000,['deposit.start_amount']=1500,['deposit.refill_amount']=750}
+-- Within the engine's 1023 live-amount limit (research/deposit-limits-F5FEE03DCFDB.json), unlike every vanilla value.
+local CHANGED={['deposit.capacity']=1023,['deposit.start_amount']=1020,['deposit.refill_amount']=750}
 local result={status='VALIDATED',mode='snapshot-overlay',snapshot=SNAPSHOT_NAME,fixtureFallback='disabled',
  backpacks={},fields=0,baselineMatches=0,noOps=0,changedWrites=0,rollbacks=0,conflictRejections=0,
  acknowledgementRejections=0,staleExpectRejections=0,rangeRejections=0,chainTamperRejections=0}

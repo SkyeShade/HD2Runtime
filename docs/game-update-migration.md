@@ -318,6 +318,12 @@ migrations. The runtime never reads them.
   `ASSET_UNAVAILABLE`, keeping the vanilla reference. Writes without a package dependency are unaffected.
   Live evidence (`research/package-residency-live-evidence.json`) is recorded against build F5FEE03DCFDB;
   re-run the live asset tests on the new build before relying on it.
+- Gameplay events (`domains/event_natives.lua`): every structure the event sources read is pinned to exact
+  instruction bytes in game.dll and the executable. On a new build the proof fails and every native event source is
+  `unavailable` (logged; timers, keybinds and the bus keep working). Re-run `scripts/research_event_combat.py` and
+  `scripts/research_event_state.py` on a new-build snapshot, then `scripts/generate_event_natives.py`,
+  `scripts/generate_event_entities.py` and `scripts/validate_event_world_snapshot.py`. The migration tooling does not
+  carry these proofs forward.
 - Stratagem settings rows that no weapon or entity chain reaches (eagle and orbital payloads). They are proven
   only when their content is unchanged.
 - Customization-catalog and unlock-list attachment compatibility, and stratagem icons. The migration reads
