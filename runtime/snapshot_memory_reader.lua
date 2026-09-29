@@ -4,6 +4,7 @@ local format=require('hd2runtime/core/snapshot_format')
 local M={}
 local function safe(value)return type(value)=='number'and value>=0 and value%1==0 and value<=9007199254740991 end
 local function lower(value)return tostring(value):lower()end
+local BLOCK,CACHE_BLOCKS,CACHED_READ=4096,16384,65536
 
 function M.open(path,options)
     options=options or{}
@@ -30,14 +31,41 @@ function M.open(path,options)
             'snapshot game.dll fingerprint differs from requested profile')end
     end
     local source={mode='snapshot',path=path,metadata=meta,historical_analysis=options.historical_analysis==true}
+    -- The snapshot file is immutable once opened, and every discovery walk re-reads the same small allocation
+    -- headers, so small reads are served from a bounded cache of file blocks instead of one seek+read each.
+    local blocks,cached=nil,0
+    local function block(index)
+        local data=blocks and blocks[index]
+        if data then return data end
+        if not blocks or cached>=CACHE_BLOCKS then blocks,cached={},0 end
+        assert(file:seek('set',index*BLOCK),'snapshot seek failed')
+        data=file:read(BLOCK)or''
+        blocks[index]=data;cached=cached+1
+        return data
+    end
+    local function cached_read(offset,length)
+        local first,last=math.floor(offset/BLOCK),math.floor((offset+length-1)/BLOCK)
+        local at=offset-first*BLOCK
+        if first==last then return block(first):sub(at+1,at+length)end
+        local parts={block(first):sub(at+1)}
+        for index=first+1,last do parts[#parts+1]=block(index)end
+        return table.concat(parts):sub(1,length)
+    end
+    -- Discovery walks the address space in order, so try the region after the previous hit before searching.
+    local hint=1
     local function containing(address)
+        local r=regions[hint]
+        if r and address>=r.base and address<r.base+r.size then return r end
+        r=regions[hint+1]
+        if r and address>=r.base and address<r.base+r.size then hint=hint+1;return r end
         local low,high=1,#regions
         while low<=high do
             local mid=math.floor((low+high)/2);local r=regions[mid]
             if address<r.base then high=mid-1
             elseif address>=r.base+r.size then low=mid+1
-            else return r end
+            else hint=mid;return r end
         end
+        hint=low-1
         return nil,low
     end
     function source.query(address)
@@ -61,8 +89,12 @@ function M.open(path,options)
         end
         if address+length>region.base+region.size then return nil,'snapshot read crosses region boundary'end
         local offset=region.data_offset+(address-region.base)
-        assert(file:seek('set',offset),'snapshot seek failed')
-        local bytes=file:read(length)
+        local bytes
+        if length<=CACHED_READ then bytes=cached_read(offset,length)
+        else
+            assert(file:seek('set',offset),'snapshot seek failed')
+            bytes=file:read(length)
+        end
         if not bytes or#bytes~=length then return nil,'truncated snapshot read'end
         return bytes
     end
@@ -81,7 +113,7 @@ function M.open(path,options)
         if not module then return nil end
         return {name=module.name,base=module.base,size=module.size,sha256=module.sha256}
     end
-    function source.close()if file then file:close();file=nil end end
+    function source.close()if file then file:close();file=nil end;blocks=nil end
     return source
 end
 return M

@@ -156,6 +156,9 @@ def rows(data: bytes, group: dict, stride: int) -> list[tuple[int, int, bytes]]:
     return [(i, start + i * stride, data[start + i * stride:start + (i + 1) * stride])
             for i in range(count)]
 
+_BYTE_ESCAPES = ['\\%03d' % b for b in range(256)]
+
+
 def lua(value):
     if isinstance(value, dict):
         return '{' + ','.join('['+lua(k)+']='+lua(v) for k, v in value.items()) + '}'
@@ -165,5 +168,5 @@ def lua(value):
     if value is None: return 'nil'
     if isinstance(value, (int, float)): return str(value)
     if isinstance(value, bytes):
-        return '"' + ''.join('\\%03d' % b for b in value) + '"'
+        return '"' + ''.join(map(_BYTE_ESCAPES.__getitem__, value)) + '"'
     return json.dumps(str(value), ensure_ascii=True)

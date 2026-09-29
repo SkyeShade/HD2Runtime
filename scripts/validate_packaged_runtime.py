@@ -30,6 +30,7 @@ from hd2_archive import resource_hash
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
+import parallel  # noqa: E402
 SNAPSHOT = build_profile.SNAPSHOT
 ENTRY = 'mods/skyeshade/hd2runtime'
 PACKAGE_MODULES = 'hd2runtime/runtime/package_modules'
@@ -429,15 +430,12 @@ def static_scan(resources):
         'names': names}
 
 
+_ESCAPES = [chr(byte) if 32 <= byte < 127 and byte not in (34, 92) else '\\%03d' % byte for byte in range(256)]
+
+
 def lua_bytes(data: bytes) -> str:
     """A Lua 5.1 string literal for arbitrary bytes."""
-    out = []
-    for byte in data:
-        if 32 <= byte < 127 and byte not in (34, 92):
-            out.append(chr(byte))
-        else:
-            out.append('\\%03d' % byte)
-    return '"' + ''.join(out) + '"'
+    return '"' + ''.join(map(_ESCAPES.__getitem__, data)) + '"'
 
 
 def lua(value): return lua_bytes(str(value).encode())
@@ -480,6 +478,7 @@ function runtime.query(at)
  local r,why=source.query(at)
  if not r or r.allocation_base==0 then return r,why end
  local low,high=r.base,r.base+r.size
+ if next(protection)==nil then return r end
  local pages={}
  for page in pairs(protection)do if page>=low and page<high then pages[#pages+1]=page end end
  if #pages==0 then return r end
@@ -627,21 +626,30 @@ return json.encode(report)
 '''
 
 
-def run_scenario(resources, names, scenario, addon, snapshot):
-    sys.path.insert(0, str(ROOT / 'sdk'))
-    from tools.lua_runner import execute
+def prelude(resources, names, snapshot):
+    """The scenario-independent head of every scenario program: archive resources, harness and fingerprints."""
     profile = resources[resource_hash('hd2runtime/schemas/current')].decode('latin-1')
     exe_sha = re.search(r'"exe_sha"\]="([0-9A-Fa-f]{64})"', profile).group(1)
     dll_sha = re.search(r'"dll_sha"\]="([0-9A-Fa-f]{64})"', profile).group(1)
     table = {name: resources[resource_hash(name)] for name in names + [ENTRY] if resource_hash(name) in resources}
-    program = ('local RESOURCES={' + ','.join('[' + lua(k) + ']=' + lua_bytes(v) for k, v in table.items()) + '}\n'
+    return ('local RESOURCES={' + ','.join('[' + lua(k) + ']=' + lua_bytes(v) for k, v in table.items()) + '}\n'
         + 'local HARNESS={' + ','.join('[' + lua(k) + ']=' + lua_bytes(v) for k, v in harness_sources().items()) + '}\n'
         + 'local SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal EXE_SHA=' + lua(exe_sha)
-        + '\nlocal DLL_SHA=' + lua(dll_sha) + '\nlocal ENTRY=' + lua(ENTRY) + '\nlocal WRITE_ADAPTER=' + lua(WRITE_ADAPTER)
-        + '\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon)
+        + '\nlocal DLL_SHA=' + lua(dll_sha) + '\nlocal ENTRY=' + lua(ENTRY) + '\nlocal WRITE_ADAPTER=' + lua(WRITE_ADAPTER))
+
+
+def scenario_program(scenario, addon):
+    """The scenario-specific tail that follows the prelude."""
+    return ('\nlocal SCENARIO=' + lua(scenario) + '\nlocal ADDON=' + lua(addon)
         + '\nlocal MENU=' + (lua(EXTRAS.get(scenario, {}).get('menu')) if EXTRAS.get(scenario, {}).get('menu') else 'nil')
         + '\nlocal AFTER=' + (lua(EXTRAS.get(scenario, {}).get('after')) if EXTRAS.get(scenario, {}).get('after') else 'nil')
         + '\nlocal AFTER_RESULTS\n' + PROGRAM)
+
+
+def run_scenario(resources, names, scenario, addon, snapshot, head=None):
+    sys.path.insert(0, str(ROOT / 'sdk'))
+    from tools.lua_runner import execute
+    program = (head or prelude(resources, names, snapshot)) + scenario_program(scenario, addon)
     return json.loads(execute(program.encode()))
 
 
@@ -677,8 +685,11 @@ def check(report):
     return failures
 
 
-def validate(zip_path, snapshot=SNAPSHOT, scenarios=None):
-    """Validate a built runtime ZIP; raise AssertionError with details on any failure."""
+def validate(zip_path, snapshot=SNAPSHOT, scenarios=None, jobs=None):
+    """Validate a built runtime ZIP; raise AssertionError with details on any failure.
+
+    Scenarios are independent Lua states, so they run in up to `jobs` worker processes. Reports are checked in
+    scenario order, so the result and any failure text do not depend on scheduling."""
     resources = archive_resources(zip_path)
     scan = static_scan(resources)
     result = {'artifact': Path(zip_path).name, 'static': {k: v for k, v in scan.items() if k != 'names'},
@@ -686,8 +697,11 @@ def validate(zip_path, snapshot=SNAPSHOT, scenarios=None):
     failures = ['unresolved module: ' + name for name in scan['unresolved']]
     if not scan['packageModuleList']:
         failures.append('package module list is missing: ' + PACKAGE_MODULES)
-    for name in scenarios or SCENARIOS:
-        report = run_scenario(resources, scan['names'], name, SCENARIOS[name](), snapshot)
+    names = list(scenarios or SCENARIOS)
+    head = prelude(resources, scan['names'], snapshot).encode()
+    reports = [json.loads(raw) for raw in parallel.lua_programs(
+        [['head', scenario_program(name, SCENARIOS[name]()).encode()] for name in names], {'head': head}, jobs)]
+    for name, report in zip(names, reports):
         problems = check(report)
         result['scenarios'][name] = {'passed': not problems, 'problems': problems,
             'watches': report.get('watches'), 'reset': report.get('reset', {}).get('reapplied'),
@@ -713,9 +727,10 @@ def main():
     parser.add_argument('--snapshot', type=Path, default=SNAPSHOT)
     parser.add_argument('--scenario', action='append', choices=sorted(SCENARIOS))
     parser.add_argument('--output', type=Path, help='write the JSON report here')
+    parallel.add_argument(parser)
     args = parser.parse_args()
     try:
-        result = validate(args.zip, args.snapshot, args.scenario)
+        result = validate(args.zip, args.snapshot, args.scenario, args.jobs)
     except AssertionError as error:
         print(error)
         raise SystemExit(1)

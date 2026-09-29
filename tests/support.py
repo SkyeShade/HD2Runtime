@@ -18,7 +18,18 @@ def modules():
     return ''.join(output)
 
 
+_FIXTURES = {}
+
+
 def fixture():
+    # The fixture program is a pure function of these two files, and most tests run it: build it once per content.
+    key = ((ROOT/'tests/fixtures/reference.json').read_bytes(), (ROOT/'tests/memory.lua').read_bytes())
+    if key not in _FIXTURES:
+        _FIXTURES[key] = _fixture()
+    return _FIXTURES[key]
+
+
+def _fixture():
     data = json.loads((ROOT/'tests/fixtures/reference.json').read_text())
     base = 0x6000000
     counts = [20,1,1,20,15,15,15,15,15,15,17]

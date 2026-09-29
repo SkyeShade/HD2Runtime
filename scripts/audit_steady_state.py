@@ -65,6 +65,7 @@ function runtime.query(at)
  local r,why=source.query(at)
  if not r or r.allocation_base==0 then return r,why end
  local low,high=r.base,r.base+r.size
+ if next(protection)==nil then return r end
  local pages={}
  for page in pairs(protection)do if page>=low and page<high then pages[#pages+1]=page end end
  if #pages==0 then return r end

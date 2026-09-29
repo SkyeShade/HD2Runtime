@@ -118,6 +118,9 @@ py -3.14 -B -m unittest discover -s tests -v
 py -3.14 -B scripts/build_live_validation.py
 ```
 
+`py -3.14 -B scripts/run_tests.py -v` runs the same suite on every core, one test class (or chunk of
+methods) per worker process, and reports the same tests, order and verdict. `--jobs 1` runs it serially.
+
 The builder requires a clean local source commit, verifies all seven installed
 file fingerprints in `schemas/build_files.json`, runs tests and packages only
 HD2Runtime modules. `HD2_GAME_ROOT` can select the owned installation. Tests use

@@ -201,6 +201,16 @@ Needing manual review:   …%
 Unsafe stale writes carried forward: 0
 ```
 
+The checks run in parallel, in two phases:
+
+1. Generator freshness, the snapshot validators and the examples run together. These rewrite the
+   `validation/*.json` records.
+2. Then the tests and the packaged runtime run. The tests read those records.
+
+Every check still runs in full, and checks are reported in the order above. `--jobs N` sets the worker count;
+the default is `HD2_JOBS`, or one worker per physical core (at most 16). `--jobs 1` runs serially. `--timings`
+prints the wall time of each phase and check. See "Validation performance" below.
+
 ### 8. Build
 
 1. Bump `VERSION` and write `docs/releases/<version>.md`.
@@ -214,6 +224,34 @@ py scripts/validate_migration.py validation/migrations/<new> --runtime-zip build
 
 The packaged validation runs the shipped archive on the game's `lua51.dll` with late resource lookups disabled.
 Do not tag or publish until it passes.
+
+`build_release.py` runs the tests, the example validation and the packaged-artifact validation concurrently, and
+raises their failures in that order. For a test build, `--output build/test-artifacts/<name>` writes the ZIPs and
+report there instead of over the published ZIPs in `build/`.
+
+## Validation performance
+
+Every tool in the pipeline takes `--jobs N` (`validate_migration.py`, `build_release.py`, `run_tests.py`,
+`validate_packaged_runtime.py`, and the vehicle-weapon and throwable snapshot validators). Results do not depend
+on the job count:
+
+- Workers' results are always collected and reported in request order.
+- `tests/test_parallel_validation.py` checks that `--jobs 1` and multi-worker runs agree.
+
+Things to know when changing the pipeline:
+
+- **Lua runs in worker processes, never threads.** All Lua states in one process share LuaJIT's low-address memory
+  arena (about 2 GB). A handful of concurrent validators exhausts it, and the process aborts with `0xE24C4A04`.
+- **Sharded validators** split their sorted object list with `shard()` (`scripts/sharded_validation.py`), and
+  each shard gets a fresh Lua state and overlay. Reports merge by summing counts. Any other value must agree
+  across shards, or the merge fails.
+- **`runtime/snapshot_memory_reader.lua` caches small reads** (4 KB blocks, at most 64 MB). The snapshot file is
+  immutable once opened. Every discovery walk re-reads the same allocation headers, and each uncached read was
+  a seek plus a system call. All checks run before the cache is consulted.
+- **Measure with `scripts/bench_validation.py`.** It records wall time, whole-process-tree CPU time and peak
+  commit.
+- **Prove engine changes with `scripts/capture_migration_fixtures.py`.** It captures same-build, cross-build and
+  synthetic migration outputs, and `--compare` checks two captures for equivalence.
 
 ## Caching and provenance
 

@@ -29,6 +29,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from validate_entity_authoring_snapshot import SNAPSHOT, lua, sources
+import parallel  # noqa: E402
+import sharded_validation  # noqa: E402
 
 OUTPUT = ROOT / 'validation/throwable-authoring-snapshot.json'
 
@@ -62,6 +64,7 @@ function runtime.query(at)
  local r,why=source.query(at)
  if not r or r.allocation_base==0 then return r,why end
  local low,high=r.base,r.base+r.size
+ if next(protection)==nil then return r end
  local pages={}
  for page in pairs(protection)do if page>=low and page<high then pages[#pages+1]=page end end
  if #pages==0 then return r end
@@ -145,6 +148,7 @@ local result={status='VALIDATED',throwables=0,targets=0,fieldChecks=0,readOnlyRe
  mode='snapshot-overlay',snapshot=SNAPSHOT_NAME}
 local worker=coroutine.create(function()
  local names={};for name in pairs(database.throwables)do names[#names+1]=name end;table.sort(names)
+ names=shard(names)
  for _,name in ipairs(names)do
   local entry=database.throwables[name];local any=false
   local labels={};for label in pairs(entry.targets)do labels[#labels+1]=label end;table.sort(labels)
@@ -255,22 +259,23 @@ assert(ok,out);return json.encode(out)
 '''
 
 
-def validate(snapshot):
-    sys.path.insert(0, str(ROOT / 'sdk'))
-    from tools.lua_runner import execute
+def validate(snapshot, jobs=None):
+    """Throwables are independent (every check starts from a reset overlay), so they are split across parallel
+    Lua states and the counts merged."""
     preload = '\n'.join('package.preload[' + lua(name) + ']=function(...) return assert(loadstring('
         + lua(body) + ',' + lua(name) + '))(...) end' for name, body in sources().items())
-    program = (preload + '\nlocal SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal SNAPSHOT_NAME='
-        + lua(Path(snapshot).name) + '\n' + PROGRAM)
-    return json.loads(execute(program.encode()))
+    head = (preload + '\nlocal SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal SNAPSHOT_NAME='
+        + lua(Path(snapshot).name) + '\n')
+    return sharded_validation.run(head, PROGRAM, jobs, extras=False)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--snapshot', type=Path, default=SNAPSHOT)
     parser.add_argument('--output', type=Path, default=OUTPUT)
+    parallel.add_argument(parser)
     args = parser.parse_args()
-    result = validate(args.snapshot)
+    result = validate(args.snapshot, args.jobs)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
     print(json.dumps(result, indent=2))
