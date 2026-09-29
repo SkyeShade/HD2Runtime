@@ -95,7 +95,11 @@ def field_patch(key, decision, tables, target_build):
                 'group': root['group'], 'row': root['row']}, 'set': {'group': target['group'], 'row': target['row']}}
     baseline = decision.get('baseline') or {}
     changed = baseline.get('old') != baseline.get('new')
-    if changed and _scalar(node.get('currentDefault')) and _scalar(baseline.get('new')):
+    # Semantic defaults (a weapon-function name, a penetration label, trait and rate lists, a function projectile) are
+    # derived from native values together with companion data (nativeTags, nativeSlots, penetrationSlot) by the field's
+    # own research: a changed native default is never carried as a raw value.
+    semantic = node.get('type') in SEMANTIC_DEFAULT_TYPES
+    if changed and not semantic and _scalar(node.get('currentDefault')) and _scalar(baseline.get('new')):
         values['currentDefault'] = baseline['new']
     elif changed and node.get('editable'):
         values.update(editable=False, reason=_readonly(dict(decision, reason='the new default is not a scalar the '
@@ -107,6 +111,10 @@ def field_patch(key, decision, tables, target_build):
         if current is not overlay.MISSING:
             guard[dotted] = current
     return {'key': key, 'path': locator['path'], 'guard': guard, 'set': values}
+
+
+SEMANTIC_DEFAULT_TYPES = {'weapon_function', 'armor_penetration_label', 'trait_set', 'fire_rate_set',
+    'function_projectile_reference'}
 
 
 def node_offset(locator):
