@@ -1,0 +1,5818 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "wikiImportedAt": "2026-09-29T00:44:23.790059+00:00",
+ "modes": {
+  "0": "timed_cookable",
+  "2": "armed_on_throw",
+  "3": "sticky_timed_cookable",
+  "4": "proximity"
+ },
+ "referenceIndex": {
+  "componentTablesWithTypedReferences": 27,
+  "references": 2123
+ },
+ "statusNames": {
+  "5": [
+   "Fire"
+  ],
+  "39": [
+   "Stun Large"
+  ]
+ },
+ "catalog": [
+  {
+   "name": "G-12 High Explosive",
+   "category": "Standard",
+   "family": "HighExplosive",
+   "designation": "G-12",
+   "wikiRevision": 126141,
+   "traits": [
+    "Heavy Armor Penetrating",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x6B11FC757618C57E",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 3.5,
+      "native": 3.5
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2.5,
+      "native": 2.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 9,
+      "native": 9.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 800,
+      "native": 800
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 800,
+      "native": 800
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/impact_grenade/impact_grenade",
+     "mismatches": 6,
+     "matches": 9
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x6B11FC757618C57E",
+    "path": "content/fac_helldivers/equipment/throwables/he_grenade/he_grenade",
+    "entityRow": 1406,
+    "throwable": {
+     "record": {
+      "recordIndex": 32,
+      "indexRow": 62,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 57,
+      "indexRow": 74,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 3.5,
+     "explosion": 175,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 175,
+     "group": 0,
+     "row": 87,
+     "values": {
+      "damageType": 357,
+      "inner": 2.5,
+      "outer": 7.0,
+      "shockwave": 9.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "951C1104C2332AF75DE550EC89C93A7B9F59BFE3783A57615F9E069D4EFC22E6"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 357,
+     "group": 1,
+     "row": 349,
+     "values": {
+      "damage": 800,
+      "durable": 800,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 30,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "E5311194E57DCBA1A2696CAE88D2403E71DDFBC6A1D6F61AB3D47AF09C3E79C2"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-12 High Explosive"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-12 High Explosive"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     3.5
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 800,
+    "durable": 800,
+    "ap": 4,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2.5,
+    "outer": 7,
+    "shockwave": 9,
+    "demolition": 30,
+    "stagger": 30,
+    "push": 40,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-6 Frag",
+   "category": "Standard",
+   "family": "Fragmentation",
+   "designation": "G-6",
+   "wikiRevision": 126327,
+   "traits": [
+    "Medium Armor Penetrating",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x4CE9EAB785A79B7B",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.4,
+      "native": 2.4
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 14,
+      "native": 14.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 500,
+      "native": 500
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 500,
+      "native": 500
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 25,
+      "native": 25
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.shrapnel_count",
+      "wiki": 35,
+      "native": 35
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/antitank_grenade/antitank_grenade",
+     "mismatches": 3,
+     "matches": 13
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x4CE9EAB785A79B7B",
+    "path": "content/fac_helldivers/equipment/throwables/frag_grenade/frag_grenade",
+    "entityRow": 2939,
+    "throwable": {
+     "record": {
+      "recordIndex": 30,
+      "indexRow": 11,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 6,
+     "fromSupply": 4
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 55,
+      "indexRow": 95,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 2.4,
+     "explosion": 257,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 257,
+     "group": 0,
+     "row": 75,
+     "values": {
+      "damageType": 335,
+      "inner": 4.0,
+      "outer": 10.0,
+      "shockwave": 14.0,
+      "shrapnelCount": 35,
+      "shrapnelProjectile": 201
+     },
+     "bytesSha256": "B2A1DF6E4B2C16C960DD6B36E841860DAB7188AE6F012E4F41F510565806605A"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 335,
+     "group": 1,
+     "row": 326,
+     "values": {
+      "damage": 500,
+      "durable": 500,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 20,
+      "stagger": 25,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "8172235641044AC53806166BB3F91BDBBB1A834375E05B6C366D04437525CFE0"
+    },
+    "submunition": {
+     "kind": "projectile",
+     "recordType": 201,
+     "group": 0,
+     "row": 301,
+     "values": {
+      "velocity": 30.0,
+      "mass": 100.0,
+      "drag": 0.4,
+      "gravity": 1.0,
+      "damageType": 189,
+      "impact": 0,
+      "expiry": 0
+     },
+     "bytesSha256": "B46007A393D5319ECE32CCFB31DDDBB4536D275ABE1CA941464358BD73CC0558"
+    },
+    "submunitionDamage": {
+     "kind": "damage",
+     "recordType": 189,
+     "group": 1,
+     "row": 193,
+     "values": {
+      "damage": 110,
+      "durable": 35,
+      "ap": [
+       3,
+       3,
+       2,
+       0
+      ],
+      "demolition": 10,
+      "stagger": 10,
+      "push": 20,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "C1BB32675360CB82522CDF928039175380D89254F04097847462591C42CC730F"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 2,
+     "rootEntities": 2,
+     "throwables": [
+      "G-6 Frag"
+     ],
+     "otherEntities": 1,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 5,
+     "rootEntities": 3,
+     "throwables": [
+      "G-6 Frag"
+     ],
+     "otherEntities": 2,
+     "settingsOnlyReferences": 10
+    },
+    "submunition": {
+     "directReferences": 12,
+     "rootEntities": 11,
+     "throwables": [
+      "G-6 Frag",
+      "G/SH-39 Shield",
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 8,
+     "settingsOnlyReferences": 11
+    },
+    "submunitionDamage": {
+     "directReferences": 1,
+     "rootEntities": 11,
+     "throwables": [
+      "G-6 Frag",
+      "G/SH-39 Shield",
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 8,
+     "settingsOnlyReferences": 11
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 6,
+    "fromSupply": 4,
+    "trigger": "Timed",
+    "fuses": [
+     2.4
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 500,
+    "durable": 500,
+    "ap": 3,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 4,
+    "outer": 10,
+    "shockwave": 14,
+    "demolition": 20,
+    "stagger": 25,
+    "push": 40,
+    "children": [
+     [
+      "AC-8 P2 x35",
+      "Shrapnel",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-10 Incendiary",
+   "category": "Standard",
+   "family": "Incendiary",
+   "designation": "G-10",
+   "wikiRevision": 123870,
+   "traits": [
+    "Incendiary",
+    "Explosive"
+   ],
+   "statusLabels": [
+    "Fire"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x04653AB33F3FFB44",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.9,
+      "native": 2.9
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 1,
+      "native": 1.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 9,
+      "native": 9.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 300,
+      "native": 300
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 300,
+      "native": 300
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 15,
+      "native": 15
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/incendiary_impact_grenade/incendiary_impact_grenade",
+     "mismatches": 5,
+     "matches": 10
+    }
+   },
+   "nativeStatusTypes": [
+    5
+   ],
+   "native": {
+    "resource": "0x04653AB33F3FFB44",
+    "path": "content/fac_helldivers/equipment/throwables/incendiary_grenade/incendiary_grenade",
+    "entityRow": 2884,
+    "throwable": {
+     "record": {
+      "recordIndex": 33,
+      "indexRow": 48,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 58,
+      "indexRow": 124,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 2.9,
+     "explosion": 224,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 224,
+     "group": 0,
+     "row": 81,
+     "values": {
+      "damageType": 338,
+      "inner": 1.0,
+      "outer": 7.0,
+      "shockwave": 9.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "BFA46BAF2EC8DC2207758742789B4759EB4ED8DDB3F01D2C5FDD789B22A6DB16"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 338,
+     "group": 1,
+     "row": 330,
+     "values": {
+      "damage": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 20,
+      "push": 15,
+      "element": 0,
+      "status": [
+       {
+        "slot": 0,
+        "type": 5,
+        "strength": 50.0
+       }
+      ]
+     },
+     "bytesSha256": "8D6E6C6E728DC2425A0710E9ECBD73F1AA71C98407980576B5621343DDADF7E2"
+    },
+    "statusDefinitions": {
+     "5": {
+      "kind": "status",
+      "recordType": 5,
+      "group": 0,
+      "row": 4,
+      "bytes": "42945AACA511C890C256B45C363AB7D1810AF739F994B28936235ADCECCF6F13",
+      "duration": 3.0
+     }
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-10 Incendiary"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 4,
+     "rootEntities": 2,
+     "throwables": [
+      "G-10 Incendiary"
+     ],
+     "otherEntities": 1,
+     "settingsOnlyReferences": 4
+    },
+    "status:5": {
+     "directReferences": 77,
+     "rootEntities": 65,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 60,
+     "settingsOnlyReferences": 100
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     2.9
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 300,
+    "durable": 300,
+    "ap": 3,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 1,
+    "outer": 7,
+    "shockwave": 9,
+    "demolition": 30,
+    "stagger": 20,
+    "push": 15,
+    "children": [
+     [
+      "Fire",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "TED-63 Dynamite",
+   "category": "Standard",
+   "family": "HighExplosive",
+   "designation": "TED-63",
+   "wikiRevision": 136234,
+   "traits": [
+    "Heavy Armor Penetrating",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x14368DC8784220B0",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 5,
+      "native": 5.0
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 6,
+      "native": 6.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 12,
+      "native": 12.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 16,
+      "native": 16.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 1000,
+      "native": 1000
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 1000,
+      "native": 1000
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/energy_shield_grenade/energy_shield_grenade",
+     "mismatches": 8,
+     "matches": 6
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x14368DC8784220B0",
+    "path": "content/fac_helldivers/equipment/throwables/dynamite/dynamite",
+    "entityRow": 176,
+    "throwable": {
+     "record": {
+      "recordIndex": 27,
+      "indexRow": 20,
+      "ownerCount": 1
+     },
+     "starting": 3,
+     "maximum": 4,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 52,
+      "indexRow": 82,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 5.0,
+     "explosion": 80,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 80,
+     "group": 0,
+     "row": 401,
+     "values": {
+      "damageType": 360,
+      "inner": 6.0,
+      "outer": 12.0,
+      "shockwave": 16.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "6E8F6A928D5A18BF5F6BB0F5DA494D8EFC38085F2C66B6E0A3D26351E8448B9F"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 360,
+     "group": 1,
+     "row": 352,
+     "values": {
+      "damage": 1000,
+      "durable": 1000,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "demolition": 40,
+      "stagger": 40,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "7F3F69247573CDF9487D65A990876872CD40A597411296F7F71EBECBF88791CF"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "TED-63 Dynamite"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "TED-63 Dynamite"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 3,
+    "maximum": 4,
+    "fromSupply": 2,
+    "trigger": "Timed",
+    "fuses": [
+     5,
+     15,
+     60
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 1000,
+    "durable": 1000,
+    "ap": 4,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 6,
+    "outer": 12,
+    "shockwave": 16,
+    "demolition": 40,
+    "stagger": 40,
+    "push": 40,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-7 Pineapple",
+   "category": "Standard",
+   "family": "Bomblet",
+   "designation": "G-7",
+   "wikiRevision": 134063,
+   "traits": [
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x075B19B068FB1045",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.4,
+      "native": 2.4
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 14,
+      "native": 14.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 300,
+      "native": 300
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 300,
+      "native": 300
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 25,
+      "native": 25
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.shrapnel_count",
+      "wiki": 18,
+      "native": 18
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/frag_grenade/frag_grenade",
+     "mismatches": 6,
+     "matches": 10
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x075B19B068FB1045",
+    "path": "content/fac_helldivers/equipment/throwables/cluster_frag_grenade/cluster_frag_grenade",
+    "entityRow": 70,
+    "throwable": {
+     "record": {
+      "recordIndex": 26,
+      "indexRow": 30,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 51,
+      "indexRow": 133,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 2.4,
+     "explosion": 8,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 8,
+     "group": 0,
+     "row": 76,
+     "values": {
+      "damageType": 336,
+      "inner": 4.0,
+      "outer": 10.0,
+      "shockwave": 14.0,
+      "shrapnelCount": 18,
+      "shrapnelProjectile": 210
+     },
+     "bytesSha256": "5A045D9C5B9E90782609C8B4BD4AB334511C5C1F166D9C7A68AE9C1BD9D1B56D"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 336,
+     "group": 1,
+     "row": 327,
+     "values": {
+      "damage": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 25,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "472AAE4BCF123C2FBE66141222314F4229DFF3059A19C4F68F4CBE699886FEFB"
+    },
+    "submunition": {
+     "kind": "projectile",
+     "recordType": 210,
+     "group": 0,
+     "row": 105,
+     "values": {
+      "velocity": 25.0,
+      "mass": 150.0,
+      "drag": 0.5,
+      "gravity": 4.0,
+      "damageType": 336,
+      "impact": 44,
+      "expiry": 44
+     },
+     "bytesSha256": "5B50C0FAE47E1CC188751449B17D002D3E416D5B2EF5D1D1C8CB509F58F85C23"
+    },
+    "submunitionDamage": {
+     "kind": "damage",
+     "recordType": 336,
+     "group": 1,
+     "row": 327,
+     "values": {
+      "damage": 300,
+      "durable": 300,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 25,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "472AAE4BCF123C2FBE66141222314F4229DFF3059A19C4F68F4CBE699886FEFB"
+    },
+    "submunitionExplosion": {
+     "kind": "explosion",
+     "recordType": 44,
+     "group": 0,
+     "row": 77,
+     "values": {
+      "damageType": 337,
+      "inner": 2.5,
+      "outer": 5.0,
+      "shockwave": 14.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "8CA59F5FFDB0231899065C5573574E60248189CB4DFEE51BA8292A360D3EE3DC"
+    },
+    "submunitionExplosionDamage": {
+     "kind": "damage",
+     "recordType": 337,
+     "group": 1,
+     "row": 328,
+     "values": {
+      "damage": 100,
+      "durable": 100,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 20,
+      "stagger": 25,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "A4A7B6237915E6FFC07FBBCD5B610D68C2112EE56404008A125DF306622E5564"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "submunition": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "submunitionDamage": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "submunitionExplosion": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "submunitionExplosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-7 Pineapple"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     2.4
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 300,
+    "durable": 300,
+    "ap": 3,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 4,
+    "outer": 10,
+    "shockwave": 14,
+    "demolition": 30,
+    "stagger": 25,
+    "push": 40,
+    "children": [
+     [
+      "G-7 P x18",
+      "Bomblet",
+      null
+     ],
+     [
+      "G-7 P IE",
+      "SubmunitionExplosion",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-16 Impact",
+   "category": "Special",
+   "family": "HighExplosive",
+   "designation": "G-16",
+   "wikiRevision": 126328,
+   "traits": [
+    "Heavy Armor Penetrating",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x7686544F539BB9B7",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2.5,
+      "native": 2.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 8,
+      "native": 8.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 400,
+      "native": 400
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 400,
+      "native": 400
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/self_destruct_drone/self_destruct_drone",
+     "mismatches": 3,
+     "matches": 11
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x7686544F539BB9B7",
+    "path": "content/fac_helldivers/equipment/throwables/impact_grenade/impact_grenade",
+    "entityRow": 2487,
+    "throwable": {
+     "record": {
+      "recordIndex": 11,
+      "indexRow": 31,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 19,
+      "indexRow": 26,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 342,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 342,
+     "group": 0,
+     "row": 89,
+     "values": {
+      "damageType": 358,
+      "inner": 2.5,
+      "outer": 7.0,
+      "shockwave": 8.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "B320743140B20CA979A9EC53365DBA833619B8F1A5760470CBD30C5C04A49585"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 358,
+     "group": 1,
+     "row": 351,
+     "values": {
+      "damage": 400,
+      "durable": 400,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 30,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "D3C94A37227B66BE7E75FB81A23E2BFFD2E385C440F220AF7082DD3471EB5248"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 4,
+      "indexRow": 34,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-16 Impact"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-16 Impact"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 400,
+    "durable": 400,
+    "ap": 4,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2.5,
+    "outer": 7,
+    "shockwave": 8,
+    "demolition": 30,
+    "stagger": 30,
+    "push": 40,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-3 Smoke",
+   "category": "Special",
+   "family": "Smoke",
+   "designation": "G-3",
+   "wikiRevision": 120276,
+   "traits": [
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x5DE8FD02A05B4B0A",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.4,
+      "native": 2.4
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 8,
+      "native": 8.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 8,
+      "native": 8.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 0,
+      "native": 0.0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": null,
+     "mismatches": 1,
+     "matches": 8
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x5DE8FD02A05B4B0A",
+    "path": "content/fac_helldivers/equipment/throwables/smoke_grenade/smoke_grenade",
+    "entityRow": 2826,
+    "throwable": {
+     "record": {
+      "recordIndex": 38,
+      "indexRow": 51,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 63,
+      "indexRow": 28,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 2.4,
+     "explosion": 28,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 28,
+     "group": 0,
+     "row": 275,
+     "values": {
+      "damageType": 0,
+      "inner": 8.0,
+      "outer": 8.0,
+      "shockwave": 0.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "7B3880121540BB3AF017AE8FD648BB68CFAA97015CDC8B0C0EBF64327B2CE34D"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-3 Smoke"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     2.4
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": null,
+    "durable": null,
+    "ap": null,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 8,
+    "outer": 8,
+    "shockwave": 0,
+    "demolition": null,
+    "stagger": null,
+    "push": null,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-23 Stun",
+   "category": "Special",
+   "family": "Stun",
+   "designation": "G-23",
+   "wikiRevision": 126725,
+   "traits": [
+    "Explosive",
+    "Stun"
+   ],
+   "statusLabels": [
+    "Stun Large"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x0080869506299773",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 1.8,
+      "native": 1.8
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 1,
+      "native": 1.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 15,
+      "native": 15.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 50,
+      "native": 50
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 0,
+      "native": 0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/arc_grenade/arc_grenade",
+     "mismatches": 3,
+     "matches": 12
+    }
+   },
+   "nativeStatusTypes": [
+    39
+   ],
+   "native": {
+    "resource": "0x0080869506299773",
+    "path": "content/fac_helldivers/equipment/throwables/flashbang/flashbang",
+    "entityRow": 1907,
+    "throwable": {
+     "record": {
+      "recordIndex": 29,
+      "indexRow": 7,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 54,
+      "indexRow": 47,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 1.8,
+     "explosion": 220,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 220,
+     "group": 0,
+     "row": 78,
+     "values": {
+      "damageType": 279,
+      "inner": 1.0,
+      "outer": 10.0,
+      "shockwave": 15.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "D54DBDF10814B0C68CB4CFD25FF201163C0953BCEA62E217014E4DE7CE42859A"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 279,
+     "group": 1,
+     "row": 270,
+     "values": {
+      "damage": 0,
+      "durable": 0,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "demolition": 0,
+      "stagger": 50,
+      "push": 0,
+      "element": 0,
+      "status": [
+       {
+        "slot": 0,
+        "type": 39,
+        "strength": 25.0
+       }
+      ]
+     },
+     "bytesSha256": "58FD3000679EE5D47C9C17AD04AB59A66546BE5D7A91A5E887A7530D723EBAAB"
+    },
+    "statusDefinitions": {
+     "39": {
+      "kind": "status",
+      "recordType": 39,
+      "group": 0,
+      "row": 38,
+      "bytes": "4348964EA1983C1DB34063FA6E6AEDE9178531C112B93D2F8E61D690046D0F80",
+      "duration": 5.0
+     }
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-23 Stun"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-23 Stun"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "status:39": {
+     "directReferences": 10,
+     "rootEntities": 6,
+     "throwables": [
+      "G-109 Urchin",
+      "G-23 Stun"
+     ],
+     "otherEntities": 4,
+     "settingsOnlyReferences": 11
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     1.8
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 0,
+    "durable": 0,
+    "ap": 6,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 1,
+    "outer": 10,
+    "shockwave": 15,
+    "demolition": 0,
+    "stagger": 50,
+    "push": 0,
+    "children": [
+     [
+      "Stun Large",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-123 Thermite",
+   "category": "Special",
+   "family": "Thermite",
+   "designation": "G-123",
+   "wikiRevision": 126403,
+   "traits": [
+    "Anti-Tank",
+    "Sticky"
+   ],
+   "statusLabels": [
+    "Thermite",
+    "Fire"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xC5C05FCB5747C799",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "sticky_timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "sticky_timed_cookable"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 1.5,
+      "native": 1.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 2.5,
+      "native": 2.5
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 7,
+      "native": 7
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [
+     "unnamed AI variant"
+    ],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge",
+     "mismatches": 9,
+     "matches": 6
+    }
+   },
+   "nativeStatusTypes": [
+    5,
+    12
+   ],
+   "native": {
+    "resource": "0xC5C05FCB5747C799",
+    "path": "content/fac_helldivers/equipment/throwables/sticky_grenade/sticky_grenade",
+    "entityRow": 1945,
+    "throwable": {
+     "record": {
+      "recordIndex": 39,
+      "indexRow": 65,
+      "ownerCount": 1
+     },
+     "starting": 2,
+     "maximum": 3,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 64,
+      "indexRow": 119,
+      "ownerCount": 1
+     },
+     "mode": 3,
+     "arming": 0.25,
+     "delay": 2.9,
+     "explosion": 201,
+     "impactExplosion": 0,
+     "timedStatus": [
+      {
+       "type": 5,
+       "value": 1.0
+      },
+      {
+       "type": 12,
+       "value": 1.0
+      }
+     ],
+     "timedStatusTemplate": "00000000050000000000803f0c0000000000803f000000000000803f000000000000803f000000000000d040678566d80000c03f00004040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 201,
+     "group": 0,
+     "row": 85,
+     "values": {
+      "damageType": 342,
+      "inner": 1.5,
+      "outer": 2.5,
+      "shockwave": 4.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "F56F97E0D58A3AC3D0EABE8827DC354015FDA8F2EBA3C9E7B5021F205152C503"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 342,
+     "group": 1,
+     "row": 333,
+     "values": {
+      "damage": 2000,
+      "durable": 2000,
+      "ap": [
+       7,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 20,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "1277902BF37408DFF6A8E18A6CC9F08F6763E48AC3101EEA43A159FAE30BAF40"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 15,
+      "indexRow": 16,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-123 Thermite"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 2,
+     "throwables": [
+      "G-123 Thermite"
+     ],
+     "otherEntities": 1,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 2,
+    "maximum": 3,
+    "fromSupply": 2,
+    "trigger": "Timed",
+    "fuses": [
+     2.9
+    ],
+    "cookable": true,
+    "sticky": true,
+    "role": "Explosion",
+    "damage": 2000,
+    "durable": 2000,
+    "ap": 7,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 1.5,
+    "outer": 2.5,
+    "shockwave": 4,
+    "demolition": 30,
+    "stagger": 20,
+    "push": 40,
+    "children": [
+     [
+      "Thermite",
+      "Status",
+      null
+     ],
+     [
+      "Fire",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-13 Incendiary Impact",
+   "category": "Special",
+   "family": "Incendiary",
+   "designation": "G-13",
+   "wikiRevision": 128954,
+   "traits": [
+    "Incendiary",
+    "Explosive"
+   ],
+   "statusLabels": [
+    "Fire"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xEB725C39FC38B87C",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 1,
+      "native": 1.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 9,
+      "native": 9.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 150,
+      "native": 150
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 150,
+      "native": 150
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 15,
+      "native": 15
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/incendiary_grenade/incendiary_grenade",
+     "mismatches": 4,
+     "matches": 10
+    }
+   },
+   "nativeStatusTypes": [
+    5
+   ],
+   "native": {
+    "resource": "0xEB725C39FC38B87C",
+    "path": "content/fac_helldivers/equipment/throwables/incendiary_impact_grenade/incendiary_impact_grenade",
+    "entityRow": 2172,
+    "throwable": {
+     "record": {
+      "recordIndex": 13,
+      "indexRow": 61,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 21,
+      "indexRow": 14,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 69,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 69,
+     "group": 0,
+     "row": 84,
+     "values": {
+      "damageType": 340,
+      "inner": 1.0,
+      "outer": 7.0,
+      "shockwave": 9.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "054C3FC7E645F1EA1FE989E5A5475AA913133F35E633BFCF6DC8780FFB149668"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 340,
+     "group": 1,
+     "row": 332,
+     "values": {
+      "damage": 150,
+      "durable": 150,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 20,
+      "push": 15,
+      "element": 0,
+      "status": [
+       {
+        "slot": 0,
+        "type": 5,
+        "strength": 100.0
+       }
+      ]
+     },
+     "bytesSha256": "421E8A5AACA60799D304711397F8C6D90E38A8E4AF4D262FF6189A825299EDF2"
+    },
+    "statusDefinitions": {
+     "5": {
+      "kind": "status",
+      "recordType": 5,
+      "group": 0,
+      "row": 4,
+      "bytes": "42945AACA511C890C256B45C363AB7D1810AF739F994B28936235ADCECCF6F13",
+      "duration": 3.0
+     }
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 6,
+      "indexRow": 5,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-13 Incendiary Impact"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-13 Incendiary Impact"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "status:5": {
+     "directReferences": 77,
+     "rootEntities": 65,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 60,
+     "settingsOnlyReferences": 100
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 150,
+    "durable": 150,
+    "ap": 3,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 1,
+    "outer": 7,
+    "shockwave": 9,
+    "demolition": 30,
+    "stagger": 20,
+    "push": 15,
+    "children": [
+     [
+      "Fire",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "K-2 Throwing Knife",
+   "category": "Special",
+   "family": "ThrowingKnife",
+   "designation": "K-2",
+   "wikiRevision": 120451,
+   "traits": [
+    "Medium Armor Penetrating"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xF7B35A9C5AE340B6",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 10,
+      "native": 10
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "damage.standard_damage",
+      "wiki": 300,
+      "native": 300
+     },
+     {
+      "fact": "damage.durable_damage",
+      "wiki": 150,
+      "native": 150
+     },
+     {
+      "fact": "damage.ap_direct",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "damage.demolition",
+      "wiki": 10,
+      "native": 10
+     },
+     {
+      "fact": "damage.stagger",
+      "wiki": 35,
+      "native": 35
+     },
+     {
+      "fact": "damage.push_force",
+      "wiki": 5,
+      "native": 5
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/zipper_grenade/zipper_grenade",
+     "mismatches": 9,
+     "matches": 1
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0xF7B35A9C5AE340B6",
+    "path": "content/fac_helldivers/equipment/throwables/throwing_knife/throwing_knife",
+    "entityRow": 182,
+    "throwable": {
+     "record": {
+      "recordIndex": 41,
+      "indexRow": 46,
+      "ownerCount": 1
+     },
+     "starting": 10,
+     "maximum": 20,
+     "fromSupply": 20
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "sticky": {
+     "record": {
+      "recordIndex": 17,
+      "indexRow": 29,
+      "ownerCount": 1
+     },
+     "damageType": 636
+    },
+    "directDamage": {
+     "kind": "damage",
+     "recordType": 636,
+     "group": 1,
+     "row": 628,
+     "values": {
+      "damage": 300,
+      "durable": 150,
+      "ap": [
+       3,
+       3,
+       3,
+       3
+      ],
+      "demolition": 10,
+      "stagger": 35,
+      "push": 5,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "14B98DA4B54686667CC84DB78D59AC5CC238596EB6F535B37DC26016019970D0"
+    }
+   },
+   "scope": {
+    "directDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "K-2 Throwing Knife"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 10,
+    "maximum": 20,
+    "fromSupply": 20,
+    "trigger": "None",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Damage",
+    "damage": 300,
+    "durable": 150,
+    "ap": 3,
+    "apSlight": 3,
+    "apLarge": 3,
+    "apExtreme": 3,
+    "inner": null,
+    "outer": null,
+    "shockwave": null,
+    "demolition": 10,
+    "stagger": 35,
+    "push": 5,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-4 Gas",
+   "category": "Special",
+   "family": "Gas",
+   "designation": "G-4",
+   "wikiRevision": 134066,
+   "traits": [
+    "Caustic",
+    "Explosive"
+   ],
+   "statusLabels": [
+    "Gas",
+    "Gas Confusion"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x0416984F4922757B",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "timed_cookable"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.9,
+      "native": 2.9
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2,
+      "native": 2.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 10,
+      "native": 10
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 10,
+      "native": 10
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/emp_grenade/emp_grenade",
+     "mismatches": 9,
+     "matches": 6
+    }
+   },
+   "nativeStatusTypes": [
+    42,
+    44
+   ],
+   "native": {
+    "resource": "0x0416984F4922757B",
+    "path": "content/fac_helldivers/equipment/throwables/gas_grenade/gas_grenade",
+    "entityRow": 1404,
+    "throwable": {
+     "record": {
+      "recordIndex": 31,
+      "indexRow": 55,
+      "ownerCount": 1
+     },
+     "starting": 3,
+     "maximum": 4,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 56,
+      "indexRow": 139,
+      "ownerCount": 1
+     },
+     "mode": 0,
+     "arming": 0.0,
+     "delay": 2.9,
+     "explosion": 177,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 177,
+     "group": 0,
+     "row": 159,
+     "values": {
+      "damageType": 449,
+      "inner": 2.0,
+      "outer": 7.0,
+      "shockwave": 7.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "8765A12208A6FF75305EF9B0EC58347E6D39FAA34D55229A71CE6A38FFB7856A"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 449,
+     "group": 1,
+     "row": 441,
+     "values": {
+      "damage": 3,
+      "durable": 3,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 10,
+      "push": 10,
+      "element": 5,
+      "status": [
+       {
+        "slot": 0,
+        "type": 42,
+        "strength": 100.0
+       },
+       {
+        "slot": 1,
+        "type": 44,
+        "strength": 100.0
+       }
+      ]
+     },
+     "bytesSha256": "1659EA4DA351DAA3BE99F3FBA34FE564CDE7DE60DB3F71A7A9D7B435D7842205"
+    },
+    "statusDefinitions": {
+     "42": {
+      "kind": "status",
+      "recordType": 42,
+      "group": 0,
+      "row": 41,
+      "bytes": "AE69F0FA502846B83B3BDBFBFF2E2259994A7AEB83464008EE8050A03E5183F8",
+      "duration": 6.0
+     },
+     "44": {
+      "kind": "status",
+      "recordType": 44,
+      "group": 0,
+      "row": 43,
+      "bytes": "122B1676B3C1375A3CD4AC6E86503B70AB3BF857A06D655192472C213611A46F",
+      "duration": 5.0
+     }
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-4 Gas"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 3,
+     "throwables": [
+      "G-4 Gas"
+     ],
+     "otherEntities": 2,
+     "settingsOnlyReferences": 0
+    },
+    "status:42": {
+     "directReferences": 10,
+     "rootEntities": 83,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-4 Gas",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 77,
+     "settingsOnlyReferences": 150
+    },
+    "status:44": {
+     "directReferences": 9,
+     "rootEntities": 83,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-4 Gas",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 77,
+     "settingsOnlyReferences": 148
+    }
+   },
+   "facts": {
+    "starting": 3,
+    "maximum": 4,
+    "fromSupply": 2,
+    "trigger": "Timed",
+    "fuses": [
+     2.9
+    ],
+    "cookable": true,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 3,
+    "durable": 3,
+    "ap": 6,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2,
+    "outer": 7,
+    "shockwave": 7,
+    "demolition": 30,
+    "stagger": 10,
+    "push": 10,
+    "children": [
+     [
+      "Gas",
+      "Status",
+      null
+     ],
+     [
+      "Gas Confusion",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-50 Seeker",
+   "category": "Special",
+   "family": "Seeker",
+   "designation": "G-50",
+   "wikiRevision": 135535,
+   "traits": [
+    "Heavy Armor Penetrating",
+    "Explosive",
+    "Guided"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x2D398D1EC35E0838",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 3.5,
+      "native": 3.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 8,
+      "native": 8.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 500,
+      "native": 500
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 500,
+      "native": 500
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/impact_grenade/impact_grenade",
+     "mismatches": 3,
+     "matches": 11
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x2D398D1EC35E0838",
+    "path": "content/fac_helldivers/equipment/throwables/self_destruct_drone/self_destruct_drone",
+    "entityRow": 2105,
+    "throwable": {
+     "record": {
+      "recordIndex": 37,
+      "indexRow": 49,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 62,
+      "indexRow": 126,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 385,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 385,
+     "group": 0,
+     "row": 399,
+     "values": {
+      "damageType": 344,
+      "inner": 3.5,
+      "outer": 7.0,
+      "shockwave": 8.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "AD8A7CAD90D31354E6D67D0E5B415B417272324677A8C4D1B0AF11FF8D8AE4B2"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 344,
+     "group": 1,
+     "row": 334,
+     "values": {
+      "damage": 500,
+      "durable": 500,
+      "ap": [
+       4,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 30,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "D0B88F83A7B3AEAEE23F0B37C73791FAED09ED04493F9F77A321D7560B652CA2"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-50 Seeker"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-50 Seeker"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 500,
+    "durable": 500,
+    "ap": 4,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 3.5,
+    "outer": 7,
+    "shockwave": 8,
+    "demolition": 30,
+    "stagger": 30,
+    "push": 40,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-142 Pyrotech",
+   "category": "Special",
+   "family": "Incendiary",
+   "designation": "G-142",
+   "wikiRevision": 125762,
+   "traits": [
+    "Incendiary",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x03F31CAF3A7D8F4E",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.9,
+      "native": 2.9
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2.5,
+      "native": 2.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 5,
+      "native": 5.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 7,
+      "native": 7.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 50,
+      "native": 50
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 50,
+      "native": 50
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 50,
+      "native": 50
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/caltrops_grenade/caltrops_grenade",
+     "mismatches": 8,
+     "matches": 7
+    }
+   },
+   "nativeStatusTypes": [
+    5
+   ],
+   "native": {
+    "resource": "0x03F31CAF3A7D8F4E",
+    "path": "content/fac_helldivers/equipment/throwables/zipper_grenade/zipper_grenade",
+    "entityRow": 3920,
+    "throwable": {
+     "record": {
+      "recordIndex": 42,
+      "indexRow": 34,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 6,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 66,
+      "indexRow": 116,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 2.9,
+     "explosion": 409,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 409,
+     "group": 0,
+     "row": 86,
+     "values": {
+      "damageType": 26,
+      "inner": 2.5,
+      "outer": 5.0,
+      "shockwave": 7.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "AFA8C286A6AB4E18201904C3AA822D463B266752CC3DE8C5D4384841C9013E95"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 26,
+     "group": 1,
+     "row": 27,
+     "values": {
+      "damage": 50,
+      "durable": 50,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 50,
+      "push": 40,
+      "element": 1,
+      "status": [
+       {
+        "slot": 0,
+        "type": 5,
+        "strength": 100.0
+       }
+      ]
+     },
+     "bytesSha256": "34B1F6DDFC1A0EBEBB12D0D5C204492AFFF00171C16DB04A6FDACA52EC2D7CDA"
+    },
+    "statusDefinitions": {
+     "5": {
+      "kind": "status",
+      "recordType": 5,
+      "group": 0,
+      "row": 4,
+      "bytes": "42945AACA511C890C256B45C363AB7D1810AF739F994B28936235ADCECCF6F13",
+      "duration": 3.0
+     }
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-142 Pyrotech"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-142 Pyrotech"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "status:5": {
+     "directReferences": 77,
+     "rootEntities": 65,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 60,
+     "settingsOnlyReferences": 100
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 6,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     2.9
+    ],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 50,
+    "durable": 50,
+    "ap": 3,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2.5,
+    "outer": 5,
+    "shockwave": 7,
+    "demolition": 30,
+    "stagger": 50,
+    "push": 40,
+    "children": [
+     [
+      "G-142 PYROTECH S",
+      "Spray",
+      null
+     ],
+     [
+      "Fire",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-109 Urchin",
+   "category": "Special",
+   "family": "Stun",
+   "designation": "G-109",
+   "wikiRevision": 134064,
+   "traits": [
+    "Sticky",
+    "Stun"
+   ],
+   "statusLabels": [
+    "Stun Large"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x3FA94F58F596BC0B",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 2.9,
+      "native": 2.9
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2,
+      "native": 2.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 1,
+      "native": 1.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 50,
+      "native": 50
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 0,
+      "native": 0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/flashbang/flashbang",
+     "mismatches": 5,
+     "matches": 10
+    }
+   },
+   "nativeStatusTypes": [
+    39
+   ],
+   "native": {
+    "resource": "0x3FA94F58F596BC0B",
+    "path": "content/fac_helldivers/equipment/throwables/sticky_stun_grenade/sticky_stun_grenade",
+    "entityRow": 3083,
+    "throwable": {
+     "record": {
+      "recordIndex": 40,
+      "indexRow": 67,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 65,
+      "indexRow": 121,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 2.9,
+     "explosion": 369,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 369,
+     "group": 0,
+     "row": 79,
+     "values": {
+      "damageType": 280,
+      "inner": 2.0,
+      "outer": 4.0,
+      "shockwave": 1.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "40FDC062D5B96C30AA4AAD2D01D49783AC010020D68881E33978720A12AE0F7C"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 280,
+     "group": 1,
+     "row": 271,
+     "values": {
+      "damage": 0,
+      "durable": 0,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "demolition": 0,
+      "stagger": 50,
+      "push": 0,
+      "element": 0,
+      "status": [
+       {
+        "slot": 0,
+        "type": 39,
+        "strength": 10.0
+       }
+      ]
+     },
+     "bytesSha256": "CBB14B3B62E545A62AF3D3051BA1AD78B88ECA014C3F5DE94D5B3C53B796EA71"
+    },
+    "statusDefinitions": {
+     "39": {
+      "kind": "status",
+      "recordType": 39,
+      "group": 0,
+      "row": 38,
+      "bytes": "4348964EA1983C1DB34063FA6E6AEDE9178531C112B93D2F8E61D690046D0F80",
+      "duration": 5.0
+     }
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 16,
+      "indexRow": 15,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-109 Urchin"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-109 Urchin"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    },
+    "status:39": {
+     "directReferences": 10,
+     "rootEntities": 6,
+     "throwables": [
+      "G-109 Urchin",
+      "G-23 Stun"
+     ],
+     "otherEntities": 4,
+     "settingsOnlyReferences": 11
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     2.9
+    ],
+    "cookable": false,
+    "sticky": true,
+    "role": "Explosion",
+    "damage": 0,
+    "durable": 0,
+    "ap": 6,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2,
+    "outer": 4,
+    "shockwave": 1,
+    "demolition": 0,
+    "stagger": 50,
+    "push": 0,
+    "children": [
+     [
+      "Stun Large",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-31 Arc",
+   "category": "Special",
+   "family": "Arc",
+   "designation": "G-31",
+   "wikiRevision": 132452,
+   "traits": [
+    "Explosive",
+    "Arc"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xDB922A7AFC42894B",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.fuse",
+      "wiki": 3,
+      "native": 3.0
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 1,
+      "native": 1.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 15,
+      "native": 15.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 0,
+      "native": 0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/flashbang/flashbang",
+     "mismatches": 3,
+     "matches": 12
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0xDB922A7AFC42894B",
+    "path": "content/fac_helldivers/equipment/throwables/arc_grenade/arc_grenade",
+    "entityRow": 2379,
+    "throwable": {
+     "record": {
+      "recordIndex": 4,
+      "indexRow": 87,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 12,
+      "indexRow": 122,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 3.0,
+     "explosion": 157,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 157,
+     "group": 0,
+     "row": 406,
+     "values": {
+      "damageType": 364,
+      "inner": 1.0,
+      "outer": 10.0,
+      "shockwave": 15.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "8CB640A7142B7EFDC15B9125250073977F0E31C197AF62A60731FD3AA6478C41"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 364,
+     "group": 1,
+     "row": 632,
+     "values": {
+      "damage": 0,
+      "durable": 0,
+      "ap": [
+       6,
+       0,
+       0,
+       0
+      ],
+      "demolition": 0,
+      "stagger": 0,
+      "push": 0,
+      "element": 2,
+      "status": []
+     },
+     "bytesSha256": "384459B021B34C04BEE82F3C68F6D32C9B4759A6C8A72A35DED1E973AE7FB975"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 2,
+      "indexRow": 11,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-31 Arc"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 2,
+     "rootEntities": 1,
+     "throwables": [
+      "G-31 Arc"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 1
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Timed",
+    "fuses": [
+     3
+    ],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 0,
+    "durable": 0,
+    "ap": 6,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 1,
+    "outer": 10,
+    "shockwave": 15,
+    "demolition": 0,
+    "stagger": 0,
+    "push": 0,
+    "children": [
+     [
+      "G-31 ARC E A",
+      "Arc",
+      null
+     ],
+     [
+      "Stun Small",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "TM-1 Lure Mine",
+   "category": "Special",
+   "family": "Mine",
+   "designation": "TM-1",
+   "wikiRevision": 136571,
+   "traits": [
+    "Anti-Tank",
+    "Sticky",
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xA20683199DFC19E8",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Proximity",
+      "native": "proximity"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "proximity"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2,
+      "native": 2.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 8,
+      "native": 8.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 12,
+      "native": 12.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 1000,
+      "native": 1000
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 1000,
+      "native": 1000
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 30,
+      "native": 30
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.shrapnel_count",
+      "wiki": 35,
+      "native": 35
+     },
+     {
+      "fact": "entity.health",
+      "wiki": 300,
+      "native": 300
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/dynamite/dynamite",
+     "mismatches": 10,
+     "matches": 6
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0xA20683199DFC19E8",
+    "path": "content/fac_helldivers/equipment/throwables/luring_mine/luring_mine",
+    "entityRow": 2536,
+    "throwable": {
+     "record": {
+      "recordIndex": 35,
+      "indexRow": 60,
+      "ownerCount": 1
+     },
+     "starting": 3,
+     "maximum": 4,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 60,
+      "indexRow": 60,
+      "ownerCount": 1
+     },
+     "mode": 4,
+     "arming": 0.0,
+     "delay": 0.4,
+     "explosion": 117,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 117,
+     "group": 0,
+     "row": 257,
+     "values": {
+      "damageType": 411,
+      "inner": 2.0,
+      "outer": 8.0,
+      "shockwave": 12.0,
+      "shrapnelCount": 35,
+      "shrapnelProjectile": 201
+     },
+     "bytesSha256": "D7F72BEC6A390BBD617C37AFCD2E54524EBE64925447537C4C9B5D2C20D84FA4"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 411,
+     "group": 1,
+     "row": 400,
+     "values": {
+      "damage": 1000,
+      "durable": 1000,
+      "ap": [
+       5,
+       0,
+       0,
+       0
+      ],
+      "demolition": 30,
+      "stagger": 30,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "0AA98C2E4646D8FBD02FDFA8A0BF3625AC1E586D369943D8C56645E224E2DEFA"
+    },
+    "submunition": {
+     "kind": "projectile",
+     "recordType": 201,
+     "group": 0,
+     "row": 301,
+     "values": {
+      "velocity": 30.0,
+      "mass": 100.0,
+      "drag": 0.4,
+      "gravity": 1.0,
+      "damageType": 189,
+      "impact": 0,
+      "expiry": 0
+     },
+     "bytesSha256": "B46007A393D5319ECE32CCFB31DDDBB4536D275ABE1CA941464358BD73CC0558"
+    },
+    "submunitionDamage": {
+     "kind": "damage",
+     "recordType": 189,
+     "group": 1,
+     "row": 193,
+     "values": {
+      "damage": 110,
+      "durable": 35,
+      "ap": [
+       3,
+       3,
+       2,
+       0
+      ],
+      "demolition": 10,
+      "stagger": 10,
+      "push": 20,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "C1BB32675360CB82522CDF928039175380D89254F04097847462591C42CC730F"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 13,
+      "indexRow": 1,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    },
+    "health": {
+     "record": {
+      "recordIndex": 305,
+      "indexRow": 252,
+      "ownerCount": 1
+     },
+     "health": 300
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "submunition": {
+     "directReferences": 12,
+     "rootEntities": 11,
+     "throwables": [
+      "G-6 Frag",
+      "G/SH-39 Shield",
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 8,
+     "settingsOnlyReferences": 11
+    },
+    "submunitionDamage": {
+     "directReferences": 1,
+     "rootEntities": 11,
+     "throwables": [
+      "G-6 Frag",
+      "G/SH-39 Shield",
+      "TM-1 Lure Mine"
+     ],
+     "otherEntities": 8,
+     "settingsOnlyReferences": 11
+    }
+   },
+   "facts": {
+    "starting": 3,
+    "maximum": 4,
+    "fromSupply": 2,
+    "trigger": "Proximity",
+    "fuses": [],
+    "cookable": false,
+    "sticky": true,
+    "role": "Explosion",
+    "damage": 1000,
+    "durable": 1000,
+    "ap": 5,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2,
+    "outer": 8,
+    "shockwave": 12,
+    "demolition": 30,
+    "stagger": 30,
+    "push": 40,
+    "children": [
+     [
+      "AC-8 P2 x35",
+      "Shrapnel",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": {
+     "mainHealth": {
+      "value": 300,
+      "raw": "300"
+     },
+     "mainArmor": {
+      "value": null,
+      "label": "Unarmored",
+      "raw": "Unarmored"
+     },
+     "durability": null,
+     "lifetimeSeconds": null,
+     "location": null,
+     "percentToMain": null,
+     "overflowCap": null,
+     "constitution": null,
+     "fatal": null,
+     "explosionDamageReduction": null,
+     "extraFields": {}
+    }
+   }
+  },
+  {
+   "name": "G-89 Smokescreen",
+   "category": "Special",
+   "family": "Smoke",
+   "designation": "G-89",
+   "wikiRevision": 120279,
+   "traits": [
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xDAB81B0D80B511C7",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 5,
+      "native": 5.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 5,
+      "native": 5.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 0,
+      "native": 0.0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/self_destruct_drone/self_destruct_drone",
+     "mismatches": 3,
+     "matches": 5
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0xDAB81B0D80B511C7",
+    "path": "content/fac_helldivers/equipment/throwables/impact_smoke_grenade/impact_smoke_grenade",
+    "entityRow": 455,
+    "throwable": {
+     "record": {
+      "recordIndex": 12,
+      "indexRow": 91,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 5,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 20,
+      "indexRow": 62,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 237,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 237,
+     "group": 0,
+     "row": 277,
+     "values": {
+      "damageType": 0,
+      "inner": 5.0,
+      "outer": 5.0,
+      "shockwave": 0.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "E8A284BDC674EA034AB5F09934621269B917227B0BD602AC9569D27FE6A6E978"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 5,
+      "indexRow": 12,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-89 Smokescreen"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 5,
+    "fromSupply": 3,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": null,
+    "durable": null,
+    "ap": null,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 5,
+    "outer": 5,
+    "shockwave": 0,
+    "demolition": null,
+    "stagger": null,
+    "push": null,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G/SH-39 Shield",
+   "category": "Special",
+   "family": "Shield",
+   "designation": "G/SH-39",
+   "wikiRevision": 135960,
+   "traits": [
+    "Sticky"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x1B9AC59697006337",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Timed",
+      "native": "sticky_timed_cookable"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": true,
+      "native": "sticky_timed_cookable"
+     },
+     {
+      "fact": "shield.durability",
+      "wiki": 1000,
+      "native": 1000.0
+     },
+     {
+      "fact": "shield.radius",
+      "wiki": 1.79999995,
+      "native": 1.8
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/gas_grenade/gas_grenade",
+     "mismatches": 3,
+     "matches": 5
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x1B9AC59697006337",
+    "path": "content/fac_helldivers/equipment/throwables/energy_shield_grenade/energy_shield_grenade",
+    "entityRow": 823,
+    "throwable": {
+     "record": {
+      "recordIndex": 28,
+      "indexRow": 15,
+      "ownerCount": 1
+     },
+     "starting": 3,
+     "maximum": 4,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 53,
+      "indexRow": 141,
+      "ownerCount": 1
+     },
+     "mode": 3,
+     "arming": 0.0,
+     "delay": 20.0,
+     "explosion": 159,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 159,
+     "group": 0,
+     "row": 270,
+     "values": {
+      "damageType": 353,
+      "inner": 0.4,
+      "outer": 4.0,
+      "shockwave": 8.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 201
+     },
+     "bytesSha256": "A643E575B64089D58DF5C36FCB7256DB761E2F83EEC69F9AE7B2BF33AF031A7C"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 353,
+     "group": 1,
+     "row": 343,
+     "values": {
+      "damage": 75,
+      "durable": 75,
+      "ap": [
+       3,
+       0,
+       0,
+       0
+      ],
+      "demolition": 20,
+      "stagger": 30,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "F5E75FC5347E1214AE3A08AB8CA48EAAA5BB53CDB18965481DC8B4CAE6B1E76D"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 11,
+      "indexRow": 30,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    },
+    "shield": {
+     "record": {
+      "recordIndex": 11,
+      "indexRow": 24,
+      "ownerCount": 1
+     },
+     "radius": 1.8,
+     "durability": 1000.0,
+     "delayA": 20.0,
+     "delayB": 20.0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G/SH-39 Shield"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G/SH-39 Shield"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 3,
+    "maximum": 4,
+    "fromSupply": 2,
+    "trigger": "Timed",
+    "fuses": [
+     0
+    ],
+    "cookable": true,
+    "sticky": true,
+    "role": null,
+    "damage": null,
+    "durable": null,
+    "ap": null,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": null,
+    "outer": null,
+    "shockwave": null,
+    "demolition": null,
+    "stagger": null,
+    "push": null,
+    "children": [],
+    "shield": {
+     "capacity": {
+      "value": 1000,
+      "unit": "hp",
+      "raw": "1000",
+      "source": "table",
+      "variant": null
+     },
+     "regen": {
+      "value": 0,
+      "unit": "shield/s",
+      "raw": "0 shield/s",
+      "source": "table",
+      "variant": null
+     },
+     "regenDelay": {
+      "value": 20,
+      "unit": "s",
+      "raw": "20 s",
+      "source": "table",
+      "variant": null
+     },
+     "brokenDelay": {
+      "value": 20,
+      "unit": "s",
+      "raw": "20 s",
+      "source": "table",
+      "variant": null
+     },
+     "radius": {
+      "value": 1.79999995,
+      "unit": "m",
+      "raw": "1.79999995 m",
+      "source": "table",
+      "variant": null
+     }
+    },
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-48 Giga Grenade",
+   "category": "Special",
+   "family": "HighExplosive",
+   "designation": "G-48",
+   "wikiRevision": 129943,
+   "traits": [
+    "Explosive"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x46333FC9E3D4BD34",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2,
+      "native": 2.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 12,
+      "native": 12.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 16,
+      "native": 16.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/at_self_destruct_drone/at_self_destruct_drone",
+     "mismatches": 6,
+     "matches": 8
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x46333FC9E3D4BD34",
+    "path": "content/fac_helldivers/equipment/throwables/at_explosive_grenade/at_explosive_grenade",
+    "entityRow": 3380,
+    "throwable": {
+     "record": {
+      "recordIndex": 5,
+      "indexRow": 32,
+      "ownerCount": 1
+     },
+     "starting": 2,
+     "maximum": 2,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 13,
+      "indexRow": 36,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 96,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 96,
+     "group": 0,
+     "row": 403,
+     "values": {
+      "damageType": 362,
+      "inner": 2.0,
+      "outer": 12.0,
+      "shockwave": 16.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "CC5BE85763E2CE11313F1E5C613CD148A6C66D19E8E72B81F019A5CB502FB93A"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 362,
+     "group": 1,
+     "row": 354,
+     "values": {
+      "damage": 2000,
+      "durable": 2000,
+      "ap": [
+       5,
+       5,
+       5,
+       4
+      ],
+      "demolition": 40,
+      "stagger": 40,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "3105CC80BD1A38435575060A8998FA38DCB43CE707CB35320A29A5ABB7746494"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 3,
+      "indexRow": 28,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-48 Giga Grenade"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-48 Giga Grenade"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 2,
+    "maximum": 2,
+    "fromSupply": 2,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 2000,
+    "durable": 2000,
+    "ap": 5,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2,
+    "outer": 12,
+    "shockwave": 16,
+    "demolition": 40,
+    "stagger": 40,
+    "push": 40,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G/40-K Melta Mine",
+   "category": "Special",
+   "family": "Mine",
+   "designation": "G/40-K",
+   "wikiRevision": 136621,
+   "traits": [
+    "Anti-Tank"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0xEE4C107B941AB7F4",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Proximity",
+      "native": "proximity"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "proximity"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 2.5,
+      "native": 2.5
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 6,
+      "native": 6.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 15,
+      "native": 15.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 2000,
+      "native": 2000
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 7,
+      "native": 7
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "entity.health",
+      "wiki": 150,
+      "native": 150
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/at_explosive_grenade/at_explosive_grenade",
+     "mismatches": 8,
+     "matches": 7
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0xEE4C107B941AB7F4",
+    "path": "content/fac_helldivers/equipment/throwables/mine_shark/mine_shark",
+    "entityRow": 2037,
+    "throwable": {
+     "record": {
+      "recordIndex": 36,
+      "indexRow": 6,
+      "ownerCount": 1
+     },
+     "starting": 3,
+     "maximum": 4,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 61,
+      "indexRow": 128,
+      "ownerCount": 1
+     },
+     "mode": 4,
+     "arming": 0.0,
+     "delay": 2.9,
+     "explosion": 368,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 368,
+     "group": 0,
+     "row": 261,
+     "values": {
+      "damageType": 410,
+      "inner": 2.5,
+      "outer": 6.0,
+      "shockwave": 15.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "5411CED7A2F85C64942FFC9475D95812C94193C9D26E8B999B8B4A0B83DEB585"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 410,
+     "group": 1,
+     "row": 399,
+     "values": {
+      "damage": 2000,
+      "durable": 2000,
+      "ap": [
+       7,
+       7,
+       7,
+       0
+      ],
+      "demolition": 40,
+      "stagger": 40,
+      "push": 40,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "D1E86B484AB655C5DAEF06B587714E0F133966D0016BA8902576B3D8F493E5CA"
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 14,
+      "indexRow": 6,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    },
+    "health": {
+     "record": {
+      "recordIndex": 306,
+      "indexRow": 646,
+      "ownerCount": 1
+     },
+     "health": 150
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G/40-K Melta Mine"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G/40-K Melta Mine"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 3,
+    "maximum": 4,
+    "fromSupply": 2,
+    "trigger": "Proximity",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 2000,
+    "durable": 2000,
+    "ap": 7,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 2.5,
+    "outer": 6,
+    "shockwave": 15,
+    "demolition": 40,
+    "stagger": 40,
+    "push": 40,
+    "children": [
+     [
+      "FLAMEWALL",
+      "Damage",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": {
+     "mainHealth": {
+      "value": 150,
+      "raw": "150"
+     },
+     "mainArmor": {
+      "value": null,
+      "label": "Unarmored",
+      "raw": "Unarmored"
+     },
+     "durability": null,
+     "lifetimeSeconds": null,
+     "location": null,
+     "percentToMain": null,
+     "overflowCap": null,
+     "constitution": null,
+     "fatal": null,
+     "explosionDamageReduction": null,
+     "extraFields": {}
+    }
+   }
+  },
+  {
+   "name": "G-8 Immolation",
+   "category": "Special",
+   "family": "Incendiary",
+   "designation": "G-8",
+   "wikiRevision": 136947,
+   "traits": [
+    "Incendiary"
+   ],
+   "statusLabels": [
+    "Fire"
+   ],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x5C14F27759DD3BE0",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 4,
+      "native": 4
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 6,
+      "native": 6
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 10,
+      "native": 10.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 20,
+      "native": 20
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 0,
+      "native": 0
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 0,
+      "native": 0
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/arc_grenade/arc_grenade",
+     "mismatches": 8,
+     "matches": 6
+    }
+   },
+   "nativeStatusTypes": [
+    5
+   ],
+   "native": {
+    "resource": "0x5C14F27759DD3BE0",
+    "path": "content/fac_helldivers/equipment/throwables/molotov_grenade/molotov_grenade",
+    "entityRow": 3040,
+    "throwable": {
+     "record": {
+      "recordIndex": 15,
+      "indexRow": 4,
+      "ownerCount": 1
+     },
+     "starting": 4,
+     "maximum": 6,
+     "fromSupply": 3
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": false,
+    "explosive": {
+     "record": {
+      "recordIndex": 23,
+      "indexRow": 7,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 32,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 32,
+     "group": 0,
+     "row": 82,
+     "values": {
+      "damageType": 339,
+      "inner": 4.0,
+      "outer": 10.0,
+      "shockwave": 10.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "64103F4F1E4DFA11B98EB1E0D6CC40C221A532D7A644F1308BF2FB2802CD44E6"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 339,
+     "group": 1,
+     "row": 331,
+     "values": {
+      "damage": 20,
+      "durable": 20,
+      "ap": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "demolition": 0,
+      "stagger": 40,
+      "push": 0,
+      "element": 0,
+      "status": [
+       {
+        "slot": 0,
+        "type": 5,
+        "strength": 100.0
+       }
+      ]
+     },
+     "bytesSha256": "88571D93107DF214D3A6FBEEF3C5485B39AFD326C1E202AEAF986E74DF19DC58"
+    },
+    "statusDefinitions": {
+     "5": {
+      "kind": "status",
+      "recordType": 5,
+      "group": 0,
+      "row": 4,
+      "bytes": "42945AACA511C890C256B45C363AB7D1810AF739F994B28936235ADCECCF6F13",
+      "duration": 3.0
+     }
+    },
+    "sticky": {
+     "record": {
+      "recordIndex": 7,
+      "indexRow": 0,
+      "ownerCount": 1
+     },
+     "damageType": 0
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-8 Immolation"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-8 Immolation"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "status:5": {
+     "directReferences": 77,
+     "rootEntities": 65,
+     "throwables": [
+      "G-10 Incendiary",
+      "G-123 Thermite",
+      "G-13 Incendiary Impact",
+      "G-142 Pyrotech",
+      "G-8 Immolation"
+     ],
+     "otherEntities": 60,
+     "settingsOnlyReferences": 100
+    }
+   },
+   "facts": {
+    "starting": 4,
+    "maximum": 6,
+    "fromSupply": 3,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 20,
+    "durable": 20,
+    "ap": 0,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 4,
+    "outer": 10,
+    "shockwave": 10,
+    "demolition": 0,
+    "stagger": 40,
+    "push": 0,
+    "children": [
+     [
+      "Fire",
+      "Status",
+      null
+     ]
+    ],
+    "shield": null,
+    "deployed": null
+   }
+  },
+  {
+   "name": "G-60 Anti-Tank Seeker",
+   "category": "Special",
+   "family": "Seeker",
+   "designation": "G-60",
+   "wikiRevision": 136870,
+   "traits": [
+    "Anti-Tank",
+    "Explosive",
+    "Guided"
+   ],
+   "statusLabels": [],
+   "identity": {
+    "status": "RESOLVED",
+    "resource": "0x8E325C933E55BF62",
+    "matchedFacts": [
+     {
+      "fact": "counts.starting",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "counts.maximum",
+      "wiki": 3,
+      "native": 3
+     },
+     {
+      "fact": "counts.fromSupply",
+      "wiki": 2,
+      "native": 2
+     },
+     {
+      "fact": "detonation.trigger",
+      "wiki": "Impact",
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "detonation.cookable",
+      "wiki": false,
+      "native": "armed_on_throw"
+     },
+     {
+      "fact": "explosion.inner_radius",
+      "wiki": 4,
+      "native": 4.0
+     },
+     {
+      "fact": "explosion.outer_radius",
+      "wiki": 12,
+      "native": 12.0
+     },
+     {
+      "fact": "explosion.shockwave_radius",
+      "wiki": 15,
+      "native": 15.0
+     },
+     {
+      "fact": "explosion.damage.standard_damage",
+      "wiki": 1800,
+      "native": 1800
+     },
+     {
+      "fact": "explosion.damage.durable_damage",
+      "wiki": 1800,
+      "native": 1800
+     },
+     {
+      "fact": "explosion.damage.ap",
+      "wiki": 5,
+      "native": 5
+     },
+     {
+      "fact": "explosion.damage.demolition",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.stagger",
+      "wiki": 40,
+      "native": 40
+     },
+     {
+      "fact": "explosion.damage.push_force",
+      "wiki": 45,
+      "native": 45
+     }
+    ],
+    "candidatesCompared": 29,
+    "throwableComponentOwners": 46,
+    "otherPerfectCandidatesOutsideArmory": [],
+    "nearestOtherCandidate": {
+     "path": "content/fac_helldivers/equipment/throwables/at_explosive_grenade/at_explosive_grenade",
+     "mismatches": 6,
+     "matches": 8
+    }
+   },
+   "nativeStatusTypes": [],
+   "native": {
+    "resource": "0x8E325C933E55BF62",
+    "path": "content/fac_helldivers/equipment/throwables/at_self_destruct_drone/at_self_destruct_drone",
+    "entityRow": 3938,
+    "throwable": {
+     "record": {
+      "recordIndex": 24,
+      "indexRow": 70,
+      "ownerCount": 1
+     },
+     "starting": 2,
+     "maximum": 3,
+     "fromSupply": 2
+    },
+    "loadout": true,
+    "armory": true,
+    "aiBehavior": true,
+    "explosive": {
+     "record": {
+      "recordIndex": 49,
+      "indexRow": 100,
+      "ownerCount": 1
+     },
+     "mode": 2,
+     "arming": 0.0,
+     "delay": 0.0,
+     "explosion": 351,
+     "impactExplosion": 0,
+     "timedStatus": [],
+     "timedStatusTemplate": "00000000000000000000803f000000000000803f000000000000803f000000000000803f0000000000004040000000000000803f00000040"
+    },
+    "explosion": {
+     "kind": "explosion",
+     "recordType": 351,
+     "group": 0,
+     "row": 400,
+     "values": {
+      "damageType": 345,
+      "inner": 4.0,
+      "outer": 12.0,
+      "shockwave": 15.0,
+      "shrapnelCount": 0,
+      "shrapnelProjectile": 0
+     },
+     "bytesSha256": "C121677C1F9FF09E8AEE58F47F82F35074B844FC3E072A5745CC906833E29F3A"
+    },
+    "explosionDamage": {
+     "kind": "damage",
+     "recordType": 345,
+     "group": 1,
+     "row": 335,
+     "values": {
+      "damage": 1800,
+      "durable": 1800,
+      "ap": [
+       5,
+       5,
+       5,
+       4
+      ],
+      "demolition": 40,
+      "stagger": 40,
+      "push": 45,
+      "element": 0,
+      "status": []
+     },
+     "bytesSha256": "04E95B20ECD29BE4FDE0B43DF367CC5D166DF2F38805798A312F8906198F93F9"
+    }
+   },
+   "scope": {
+    "explosion": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-60 Anti-Tank Seeker"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    },
+    "explosionDamage": {
+     "directReferences": 1,
+     "rootEntities": 1,
+     "throwables": [
+      "G-60 Anti-Tank Seeker"
+     ],
+     "otherEntities": 0,
+     "settingsOnlyReferences": 0
+    }
+   },
+   "facts": {
+    "starting": 2,
+    "maximum": 3,
+    "fromSupply": 2,
+    "trigger": "Impact",
+    "fuses": [],
+    "cookable": false,
+    "sticky": null,
+    "role": "Explosion",
+    "damage": 1800,
+    "durable": 1800,
+    "ap": 5,
+    "apSlight": null,
+    "apLarge": null,
+    "apExtreme": null,
+    "inner": 4,
+    "outer": 12,
+    "shockwave": 15,
+    "demolition": 40,
+    "stagger": 40,
+    "push": 45,
+    "children": [],
+    "shield": null,
+    "deployed": null
+   }
+  }
+ ],
+ "unmatchedThrowableEntities": [
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/emp_grenade/emp_grenade",
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/caltrops_grenade/caltrops_grenade",
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    5,
+    3
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": true,
+   "counts": [
+    3,
+    3,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/antitank_grenade/antitank_grenade",
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_cyborgs/equipment/weapons/conscript_grenade_he/conscript_grenade_he",
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/gas_mine/gas_mine",
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": true,
+   "counts": [
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    2,
+    3,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge",
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "path": "content/fac_cyborgs/equipment/weapons/conscript_grenade_he/conscript_grenade_incendiary",
+   "loadoutPackage": false,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/caltrops_grenade/caltrops_mine",
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_illuminate/equipment/weapons/jet_champion_grenade/jet_champion_grenade_he",
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": true,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    5,
+    3
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/grenade_base",
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": true,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": null,
+   "loadoutPackage": false,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    3,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/incendiary_mine/incendiary_mine",
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  },
+  {
+   "path": "content/fac_helldivers/equipment/throwables/contact_mine/contact_mine",
+   "loadoutPackage": true,
+   "armoryEntry": false,
+   "aiBehavior": false,
+   "counts": [
+    4,
+    4,
+    2
+   ]
+  }
+ ]
+}

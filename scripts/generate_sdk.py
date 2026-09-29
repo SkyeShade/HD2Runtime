@@ -40,6 +40,7 @@ def outputs():
     vehicle_authoring=json.loads((ROOT/'sdk/VehicleAuthoringCapabilities.json').read_text())
     backpack_authoring=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
     booster_authoring=json.loads((ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())
+    throwable_authoring=json.loads((ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
@@ -96,6 +97,13 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='booster_'+constant
         fields[domain][constant]=field_id
+    for definition in json.loads((ROOT/'schemas/throwable_fields.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        if field_id in fields.setdefault(domain,{}).values():continue
+        constant=ident(name)
+        if constant in fields[domain] and fields[domain][constant]!=field_id:
+            constant='throwable_'+constant
+        fields[domain][constant]=field_id
     header='-- Generated from schemas/sdk.json; do not edit. SHA256 '+digest+'\n'
     metadata={'version':schema['runtime_version'],'api_version':schema['api_version'],
               'types':types,'builders':schema['builders'],
@@ -112,6 +120,8 @@ def outputs():
               'backpack_authoring_summary':backpack_authoring['summary'],
               'booster_authoring_contract':booster_authoring['contract'],
               'booster_authoring_summary':booster_authoring['summary'],
+              'throwable_authoring_contract':throwable_authoring['contract'],
+              'throwable_authoring_summary':throwable_authoring['summary'],
               'magazine_attachment_contract':attachment_authoring['contract'],
               'magazine_attachment_summary':attachment_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
@@ -359,6 +369,43 @@ def outputs():
         '---@return HD2BoosterTarget','function HD2Booster:granted_stratagem() end',
         '---Entity the booster deploys (only where a native record is linked).',
         '---@return HD2BoosterTarget','function HD2Booster:deployed_entity() end']
+    alias('HD2ThrowableName',[item['name'] for item in throwable_authoring['throwables']]
+        +[item['semanticId'] for item in throwable_authoring['throwables']])
+    stub+=['','---@class HD2ThrowableTarget','---@field resource "throwable"',
+        '---@field path "detonation"|"explosion"|"status_effect"|"shrapnel"|"bomblets"|"bomblet_explosion"|"damage"|"entity"|"shield"',
+        '---@field throwable string','---@field status? string','local HD2ThrowableTarget = {}',
+        '---@return table','function HD2ThrowableTarget:describe() end',
+        '---Explosion targets: a status effect its DamageInfo applies (label such as "fire", or slot number).',
+        '---@param identity string|integer','---@return HD2ThrowableTarget',
+        'function HD2ThrowableTarget:status_effect(identity) end',
+        '---@return HD2ThrowableTarget[]','function HD2ThrowableTarget:status_effects() end',
+        '---Explosion targets: the shrapnel projectile the explosion spawns.',
+        '---@return HD2ThrowableTarget','function HD2ThrowableTarget:shrapnel() end',
+        '---Explosion targets: the bomblet projectile the explosion spawns.',
+        '---@return HD2ThrowableTarget','function HD2ThrowableTarget:bomblets() end',
+        '---Bomblet targets: the explosion each bomblet makes on impact/expiry.',
+        '---@return HD2ThrowableTarget','function HD2ThrowableTarget:explosion() end',
+        '','---@class HD2Throwable','---@field resource "throwable"','---@field path "throwable"',
+        '---@field throwable string','local HD2Throwable = {}',
+        '---Inventory counts (ThrowableComponent) and identity.',
+        '---@return table','function HD2Throwable:describe() end',
+        '---Fuse / detonation (ExplosiveComponent), where the throwable explodes.',
+        '---@return HD2ThrowableTarget','function HD2Throwable:detonation() end',
+        '---The explosion (ExplosionSettings and its DamageInfo).',
+        '---@return HD2ThrowableTarget','function HD2Throwable:explosion() end',
+        '---@param identity string|integer','---@return HD2ThrowableTarget',
+        'function HD2Throwable:status_effect(identity) end',
+        '---@return HD2ThrowableTarget[]','function HD2Throwable:status_effects() end',
+        '---Shrapnel projectile (e.g. G-6 Frag, TM-1 Lure Mine). Shared with other sources.',
+        '---@return HD2ThrowableTarget','function HD2Throwable:shrapnel() end',
+        '---Bomblet projectile (G-7 Pineapple); :explosion() reaches the explosion of each bomblet.',
+        '---@return HD2ThrowableTarget','function HD2Throwable:bomblets() end',
+        '---Direct-hit damage (K-2 Throwing Knife; no explosion).',
+        '---@return HD2ThrowableTarget','function HD2Throwable:damage() end',
+        '---Health of the deployed entity (mines).',
+        '---@return HD2ThrowableTarget','function HD2Throwable:entity() end',
+        '---Shield of the deployed entity (G/SH-39 Shield).',
+        '---@return HD2ThrowableTarget','function HD2Throwable:shield() end']
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
     stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
@@ -405,6 +452,8 @@ def outputs():
         'function hd2.support_weapon(name) end',
         '---@param name HD2BackpackName','---@return HD2Backpack','function hd2.backpack(name) end',
         '---@param name HD2BoosterName','---@return HD2Booster','function hd2.booster(name) end',
+        '---A throwable-slot item by name or semantic ID (see sdk/ThrowableAuthoringCapabilities.json).',
+        '---@param name HD2ThrowableName','---@return HD2Throwable','function hd2.throwable(name) end',
         '---@param identity HD2MagazineAttachmentId','---@return HD2WeaponAttachment',
         'function hd2.weapon_attachment(identity) end',
         '---A drop-pod rack by name or semantic ID (see sdk/PodPayloadCapabilities.json).',
@@ -459,6 +508,7 @@ def outputs():
             'sdk/docs/backpack-ammo.md':(ROOT/'docs/backpack-ammo.md').read_text(encoding='utf-8'),
             'sdk/docs/pod-payloads.md':(ROOT/'docs/pod-payloads.md').read_text(encoding='utf-8'),
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
+            'sdk/docs/throwable-authoring.md':(ROOT/'docs/throwable-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),

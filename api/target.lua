@@ -780,6 +780,87 @@ function M.new(describe)
         function methods.deployed_entity()return owned_target('deployed_entity')end
         return setmetatable({resource='booster',booster=entry.name,path='booster'},{__index=methods})
     end
+    -- Throwables: every accessor is a native record the throwable entity owns or reaches through
+    -- typed references (see sdk/ThrowableAuthoringCapabilities.json).
+    function builders.throwable(identity)
+        local throwable_authoring=require('hd2runtime/domains/throwable_authoring')
+        local entry=throwable_authoring.throwables[identity]
+        if not entry then
+            for _,candidate in pairs(throwable_authoring.throwables)do
+                if candidate.semanticId==identity then entry=candidate end
+            end
+        end
+        assert(entry,'unknown reviewed throwable: '..tostring(identity))
+        local function fields_of(owned)
+            local fields={}
+            for field_id,field in pairs(owned.fields)do
+                fields[#fields+1]={semanticFieldId=field_id,instanceKey=field.instanceKey,
+                    currentDefault=field.currentDefault,editable=field.editable,reason=field.reason,
+                    range=field.range,shared=field.shared,
+                    acknowledgements=field.editable and(field.shared and{'allow_shared','allow_unverified_effect'}
+                        or{'allow_unverified_effect'})or{}}
+            end
+            table.sort(fields,function(a,b)return a.semanticFieldId<b.semanticFieldId end)
+            return fields
+        end
+        local owned_target
+        local function status_keys()
+            local keys={}
+            for label,owned in pairs(entry.targets)do
+                if owned.path=='status_effect'then keys[#keys+1]=owned end
+            end
+            table.sort(keys,function(a,b)return a.slot<b.slot end)
+            return keys
+        end
+        local function status_target(identity_)
+            for _,owned in ipairs(status_keys())do
+                if owned.key==identity_ or owned.label==identity_ or owned.slot==identity_ then
+                    return owned_target('status_effect',owned.key)
+                end
+            end
+            error(entry.name..' has no reviewed status effect '..tostring(identity_),2)
+        end
+        function owned_target(path,key)
+            local label=key and path..':'..key or path
+            local owned=assert(entry.targets[label],entry.name..' has no reviewed '..path..' target')
+            local methods={}
+            function methods.describe()
+                return {throwable=entry.name,path=path,status=key,label=owned.label,fields=fields_of(owned)}
+            end
+            if path=='explosion'then
+                function methods.status_effect(_,identity_)return status_target(identity_)end
+                function methods.status_effects()
+                    local result={};for index,item in ipairs(status_keys())do
+                        result[index]=owned_target('status_effect',item.key)end
+                    return result
+                end
+                function methods.shrapnel()return owned_target('shrapnel')end
+                function methods.bomblets()return owned_target('bomblets')end
+            elseif path=='bomblets'then
+                function methods.explosion()return owned_target('bomblet_explosion')end
+            end
+            return setmetatable({resource='throwable',throwable=entry.name,path=path,status=key},
+                {__index=methods})
+        end
+        local methods={}
+        function methods.describe()
+            local targets={}
+            for label in pairs(entry.targets)do targets[#targets+1]=label end
+            table.sort(targets)
+            return {name=entry.name,semanticId=entry.semanticId,family=entry.family,category=entry.category,
+                identityStatus=entry.identityStatus,targets=targets,fields=fields_of(entry.targets.throwable)}
+        end
+        function methods.detonation()return owned_target('detonation')end
+        function methods.explosion()return owned_target('explosion')end
+        function methods.status_effect(_,identity_)return status_target(identity_)end
+        function methods.status_effects()return owned_target('explosion'):status_effects()end
+        function methods.shrapnel()return owned_target('shrapnel')end
+        function methods.bomblets()return owned_target('bomblets')end
+        function methods.damage()return owned_target('damage')end
+        function methods.entity()return owned_target('entity')end
+        function methods.shield()return owned_target('shield')end
+        return setmetatable({resource='throwable',throwable=entry.name,path='throwable'},{__index=methods})
+    end
     function builders.stratagem(name)
         local entry=stratagem_authoring.stratagems[name]
         if not entry then return legacy_stratagem(name)end

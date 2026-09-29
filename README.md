@@ -27,6 +27,9 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Shared-object detection and acknowledgement
 - Booster authoring for 19 of 20 boosters: native Booster definition table scalars, hellpod-impact explosions,
   stim and Dead Sprint statuses, the Surplus EAT stratagem, and the Armed Resupply Pods turret
+- Throwable authoring for all 23 throwable-slot items (`hd2.throwable`): inventory counts, fuses,
+  explosions, per-hit status and shared status definitions, frag shrapnel, Pineapple bomblets, the throwing
+  knife's direct hit, mine health and the throwable shield (see `docs/throwable-authoring.md`)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards

@@ -37,7 +37,7 @@ FIELD_FLOORS = {
 # Floors that apply only in one write domain: max_uses on a plain stratagem is new in 0.26.0, while the
 # booster's granted-stratagem max_uses has existed since 0.25.0.
 KIND_FIELD_FLOORS = {('stratagem', 'stratagem.max_uses'): '0.26.0'}
-RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0'}
+RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': '0.26.0', 'throwable': '0.26.1'}
 BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
     'granted_stratagem': '0.25.0'}
 DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
