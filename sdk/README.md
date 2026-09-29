@@ -1,6 +1,6 @@
 # HD2Runtime SDK and shared runtime
 
-For a first mod, use `HD2Runtime-ModTemplate-0.26.1.zip`. It is a standalone
+For a first mod, use `HD2Runtime-ModTemplate-0.27.0.zip`. It is a standalone
 open-folder Rider project with bundled stubs and a Windows builder; Python is not
 required. The CLI workflow below remains available for advanced authors and
 automated project generation. New authors should start with
@@ -33,6 +33,11 @@ ammo values are writable on the magazine attachment definitions themselves, with
 supersedes the older ammo-owner fields in `AttachmentOptionCapabilities.json`. See
 `docs/magazine-attachments.md` and `docs/attachment-preset-research.md`.
 
+0.27.0 adds automatic asset loading for cross-package reference swaps (`hd2.require_assets`,
+`hd2.asset_dependency`, `AssetDependencyCapabilities.json`; see `docs/asset-loading.md`) and throwable
+authoring (`hd2.throwable`, `ThrowableAuthoringCapabilities.json`; see `docs/throwable-authoring.md`). Package
+IDs never appear in the SDK. See `docs/releases/0.27.0.md`.
+
 0.26.1 corrects the examples and templates to the current typed API and validates every shipped example against
 this SDK on each release (see `docs/releases/0.26.1.md`). Damage and armor penetration belong to
 `weapon:attack('primary'):projectile()`; `PlayerWeaponAuthoringCapabilities.json` now lists each field's Lua
@@ -55,7 +60,7 @@ New in 0.26.0 (see `docs/releases/0.26.0.md`):
   replacement pickup catalog, and package-risk metadata (`docs/pod-payloads.md`).
 
 Install Bingus Shared Loader v15+ / API 1, then import the separate
-`HD2Runtime-0.26.1-runtime.zip` into your mod manager and enable it once. Each
+`HD2Runtime-0.27.0-runtime.zip` into your mod manager and enable it once. Each
 gameplay mod is its own package. The runtime contains no enabled gameplay preset,
 report addon or timer on load. It loads its guarded adapters only when requested.
 
