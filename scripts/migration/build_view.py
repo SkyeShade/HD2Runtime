@@ -149,10 +149,11 @@ class ComponentTable:
         self.owners = owners                  # resource -> (recordIndex, indexRow)
         self.records = records                # list[bytes]
         self.record_size = record_size
-        counts = {}
-        for record, _ in owners.values():
-            counts[record] = counts.get(record, 0) + 1
-        self.owner_count = counts
+        by_record = {}
+        for resource, (record, _) in owners.items():
+            by_record.setdefault(record, []).append(resource)
+        self.owner_count = {record: len(resources) for record, resources in by_record.items()}
+        self.by_record = {record: sorted(resources) for record, resources in by_record.items()}  # record -> owners
 
     def record(self, resource: int):
         entry = self.owners.get(resource)
@@ -162,7 +163,7 @@ class ComponentTable:
         return {'recordIndex': index, 'indexRow': row, 'ownerCount': self.owner_count[index], 'bytes': self.records[index]}
 
     def owners_of(self, record_index: int) -> list[int]:
-        return sorted(resource for resource, (index, _) in self.owners.items() if index == record_index)
+        return list(self.by_record.get(record_index, ()))
 
 
 class SettingsTable:

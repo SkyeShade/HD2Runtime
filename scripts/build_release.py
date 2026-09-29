@@ -1,5 +1,6 @@
 """Build the installed-once runtime, authoring-only SDK, and independent examples."""
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 from pathlib import Path
@@ -28,6 +29,7 @@ from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
 import validate_packaged_runtime
 import validate_examples
+import parallel
 
 ROOT=build.ROOT
 sys.path.insert(0,str(ROOT/'sdk'))
@@ -78,7 +80,11 @@ def build_starter(version,folder=None):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--luals',type=Path,help='Optional LuaLS executable for real type/completion checks')
+    parser.add_argument('--output',type=Path,default=ROOT/'build',
+        help='folder for the release ZIPs and report (default build/; use a scratch folder for test builds)')
+    parallel.add_argument(parser)
     args=parser.parse_args()
+    out=args.output;out.mkdir(parents=True,exist_ok=True)
     apply_projectile_residency.generate(check=True)
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
@@ -98,9 +104,19 @@ def main():
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'
     commit=revision();installed=verify_installed()
-    run=subprocess.run([sys.executable,'-B','-m','unittest','discover','-s','tests','-v'],cwd=ROOT,capture_output=True,text=True)
-    print(run.stderr,end='')
-    if run.returncode:raise RuntimeError('Release tests failed: '+run.stdout)
+    # The unit tests, the example validation and the shipped-artifact validation are independent (none writes
+    # what another reads), so they run concurrently; their verdicts are still raised in this order.
+    with ThreadPoolExecutor(max_workers=3) as pool,tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+        tests=pool.submit(subprocess.run,[sys.executable,'-B','scripts/run_tests.py','-v','--jobs',
+            str(parallel.resolve(args.jobs))],cwd=ROOT,capture_output=True,text=True)
+        examples=pool.submit(validate_examples.validate)
+        # Run the shipped artifact itself, with late resource lookup disabled as in game.
+        artifact=pool.submit(lambda:validate_packaged_runtime.validate(build_runtime(version,folder=folder),
+            jobs=args.jobs))
+        run=tests.result()
+        print(run.stderr,end='')
+        if run.returncode:raise RuntimeError('Release tests failed: '+run.stdout)
+        examples_report=examples.result();artifact_report=artifact.result()
     assert revision()==commit,'Source changed during build'
     report={'version':version,'commit':commit,'tests':run.stderr,'installed_files':installed,
             'deployed':False,'game_launched':False,'live_process_access':False,
@@ -191,7 +207,6 @@ def main():
         'EmancipatorAmmo','LumbererAmmo','M103TurretMagazine','PatriotExosuitBuffs','MaxigunBackpackAmmo','SurplusEatPodSwap']
     # Every shipped example (projects, live examples, the ModTemplate) must pass current Runtime validation,
     # including snapshot baselines, acknowledgements and minimum versions; a rotten example fails the release.
-    examples_report=validate_examples.validate()
     if examples_report['status']!='VALIDATED':
         raise RuntimeError('Example validation failed: '+', '.join(examples_report['failed']))
     report['example_validation']={'status':examples_report['status'],'examples':examples_report['examples'],
@@ -200,13 +215,10 @@ def main():
     if args.luals:
         from check_sdk_luals import check
         report['luals']={'sdk':check(args.luals),'starter':check(args.luals,ROOT/'starter')}
-    # Run the shipped artifact itself, with late resource lookup disabled as in game.
-    with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
-        report['runtime_artifact_validation']=validate_packaged_runtime.validate(
-            build_runtime(version,folder=folder))
+    report['runtime_artifact_validation']=artifact_report
     report_bytes=(json.dumps(report,indent=2)+'\n').encode()
-    runtime_zip=build_runtime(version,report_bytes)
-    sdk_zip=ROOT/'build'/('HD2Runtime-'+version+'-sdk.zip')
+    runtime_zip=build_runtime(version,report_bytes,folder=out)
+    sdk_zip=out/('HD2Runtime-'+version+'-sdk.zip')
     sdk_files={p.relative_to(ROOT/'sdk').as_posix():p.read_bytes() for p in (ROOT/'sdk').rglob('*')
                if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc'}
     from tools.snapshot_scan import bundle_bytes
@@ -214,7 +226,7 @@ def main():
     sdk_files['build-report.json']=report_bytes
     hd2.zip_files(sdk_zip,sdk_files)
     example_files={}
-    starter_zip=build_starter(version)
+    starter_zip=build_starter(version,folder=out)
     artifacts=[runtime_zip,sdk_zip,starter_zip]
     for project in sorted((ROOT/'examples/projects').iterdir()):
         if not project.is_dir():continue
@@ -223,10 +235,11 @@ def main():
             if path.is_file() and not {'build','__pycache__','.idea'}.intersection(path.relative_to(project).parts):
                 example_files[path.relative_to(ROOT/'examples/projects').as_posix()]=path.read_bytes()
     example_files['README.md']=b'Example source projects. Run python <SDK>/hd2.py configure <project> --sdk <SDK> after extraction, then python build.py. Install runtime once and each desired gameplay mod separately.\n'
-    examples_zip=ROOT/'build'/('HD2Runtime-'+version+'-example-projects.zip')
+    examples_zip=out/('HD2Runtime-'+version+'-example-projects.zip')
     hd2.zip_files(examples_zip,example_files);artifacts.append(examples_zip)
-    report['artifacts']=[{'file':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in artifacts]
-    (ROOT/'build/sdk-release-report.json').write_text(json.dumps(report,indent=2)+'\n')
+    report['artifacts']=[{'file':str(p.resolve().relative_to(ROOT) if p.resolve().is_relative_to(ROOT) else p),
+        'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in artifacts]
+    (out/'sdk-release-report.json').write_text(json.dumps(report,indent=2)+'\n')
     for p in artifacts:print(p)
     print('commit='+commit)
 

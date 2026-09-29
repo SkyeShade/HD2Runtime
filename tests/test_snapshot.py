@@ -9,6 +9,41 @@ from snapshot_support import snapshot_bytes, materialized_mapper_regions, RESERV
 
 
 class SnapshotReaderTests(unittest.TestCase):
+    def test_cached_reads_equal_file_bytes_across_blocks_regions_and_sizes(self):
+        """Small reads are served from a block cache; every read must still equal the file's bytes exactly."""
+        import random
+        rng = random.Random(7)
+        with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
+            path=Path(folder)/'blocks.hd2snap'
+            sizes=[0x3000,0x11000,0x2000,0x21000]
+            regions,base=[],0x100000
+            for size in sizes:
+                regions.append({'base':base,'size':size,'data':bytes(rng.randrange(256) for _ in range(size))})
+                base+=size+0x10000
+            snapshot_bytes(path,regions)
+            probes=[]
+            for region in regions:
+                for _ in range(40):
+                    length=rng.choice([1,4,28,4095,4096,4097,9000,65536,65537,70000])
+                    length=min(length,region['size'])
+                    at=rng.randrange(0,region['size']-length+1)
+                    probes.append((region['base']+at,length,region['data'][at:at+length].hex()))
+                probes.append((region['base']+region['size']-3,3,region['data'][-3:].hex()))
+            table='{'+','.join('{%d,%d,%s}'%(at,length,lua(hexed)) for at,length,hexed in probes)+'}'
+            result=run(f"""
+local s=require('hd2runtime/runtime/snapshot_memory_reader').open({lua(str(path))},{{historical_analysis=true}})
+local b=require('hd2runtime/core/bytes')
+for pass=1,2 do
+ for index,probe in ipairs({table})do
+  local got=assert(s.read(probe[1],probe[2]))
+  assert(b.hex(got):lower()==probe[3]:lower(),'read '..index..' pass '..pass..' differs')
+ end
+end
+local value,why=s.read({regions[0]['base']+sizes[0]-2},4)
+assert(not value and why:find('boundary',1,true))
+s.close();return 'ok'""")
+            self.assertEqual(result.decode(),'ok')
+
     def test_header_exact_reads_boundaries_allocation_modules_and_pointer(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'build') as folder:
             path=Path(folder)/'basic.hd2snap'

@@ -24,6 +24,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from validate_entity_authoring_snapshot import SNAPSHOT, lua, sources
 import validate_attachment_authoring_snapshot as overlay_source
+import parallel  # noqa: E402
+import sharded_validation  # noqa: E402
 
 OUTPUT = ROOT / 'validation/vehicle-weapon-authoring-snapshot.json'
 OVERLAY = overlay_source.PROGRAM[:overlay_source.PROGRAM.index('local region')]
@@ -80,6 +82,7 @@ local result={status='VALIDATED',mode='snapshot-overlay',snapshot=SNAPSHOT_NAME,
  scenarios={}}
 local worker=coroutine.create(function()
  local names={};for name in pairs(vehicles.weapons)do names[#names+1]=name end;table.sort(names)
+ names=shard(names)
  for _,name in ipairs(names)do
   local weapon=vehicles.weapons[name]
   result.vehicleWeapons=result.vehicleWeapons+1
@@ -137,6 +140,7 @@ local worker=coroutine.create(function()
    reset()
   end
  end
+ if EXTRAS then
  -- Explicit scenarios: FRV mounted gun, tank main cannon, tank MG, Exosuit arms.
  local function scenario(key,weapon,field,expect,value,options)
   reset()
@@ -237,6 +241,7 @@ local worker=coroutine.create(function()
    end
   end
  end
+ end
  reset()
  source.close()
  return result
@@ -247,22 +252,23 @@ assert(ok,out);return json.encode(out)
 '''
 
 
-def validate(snapshot):
-    sys.path.insert(0, str(ROOT / 'sdk'))
-    from tools.lua_runner import execute
+def validate(snapshot, jobs=None):
+    """Vehicle weapons are independent (every check starts from a reset overlay), so they are split across
+    parallel Lua states; the one-off scenarios and stratagem uses run once, in their own state."""
     preload = '\n'.join('package.preload[' + lua(name) + ']=function(...) return assert(loadstring('
         + lua(body) + ',' + lua(name) + '))(...) end' for name, body in sources().items())
-    program = (preload + '\nlocal SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal SNAPSHOT_NAME='
-        + lua(Path(snapshot).name) + '\nlocal hd2_target\n' + PROGRAM)
-    return json.loads(execute(program.encode()))
+    head = (preload + '\nlocal SNAPSHOT_PATH=' + lua(Path(snapshot).resolve()) + '\nlocal SNAPSHOT_NAME='
+        + lua(Path(snapshot).name) + '\nlocal hd2_target\n')
+    return sharded_validation.run(head, PROGRAM, jobs)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--snapshot', type=Path, default=SNAPSHOT)
     parser.add_argument('--output', type=Path, default=OUTPUT)
+    parallel.add_argument(parser)
     args = parser.parse_args()
-    result = validate(args.snapshot)
+    result = validate(args.snapshot, args.jobs)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + '\n', newline='\n')
     print(json.dumps(result, indent=2, sort_keys=True))

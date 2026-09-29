@@ -19,9 +19,19 @@ import build_profile  # noqa: E402  central build identity (schemas/build_profil
 SNAPSHOT = build_profile.SNAPSHOT
 
 
+class _Escapes(dict):
+    """str.translate table: printable ASCII other than quote and backslash is kept, anything else is \\ddd."""
+
+    def __missing__(self, code):
+        self[code] = chr(code) if 32 <= code < 127 and chr(code) not in '"\\' else '\\%03d' % code
+        return self[code]
+
+
+_ESCAPES = _Escapes()
+
+
 def _lua(value: str) -> str:
-    return '"' + ''.join(c if 32 <= ord(c) < 127 and c not in '"\\' else '\\%03d' % ord(c)
-        for c in value) + '"'
+    return '"' + value.translate(_ESCAPES) + '"'
 
 
 def _sources():
@@ -32,10 +42,21 @@ def _sources():
     return result
 
 
+_PRELOADS = {}
+
+
+def _preload() -> str:
+    """Every production module as package.preload entries, built once per distinct set of module sources."""
+    sources = tuple(_sources().items())
+    if sources not in _PRELOADS:
+        _PRELOADS[sources] = '\n'.join('package.preload[' + _lua(name) + ']=function(...) return assert(loadstring('
+            + _lua(body.decode('latin-1')) + ',' + _lua(name) + '))(...) end' for name, body in sources)
+    return _PRELOADS[sources]
+
+
 def region_bytes(key: str, snapshot: Path = SNAPSHOT) -> tuple[int, bytes]:
     """Return (allocation base, bytes) of the live allocation for a profile key."""
-    preload = '\n'.join('package.preload[' + _lua(name) + ']=function(...) return assert(loadstring('
-        + _lua(body.decode('latin-1')) + ',' + _lua(name) + '))(...) end' for name, body in _sources().items())
+    preload = _preload()
     program = preload + r'''
 local profile=require('hd2runtime/schemas/current')
 local source=require('hd2runtime/runtime/snapshot_memory_reader').open(''' + _lua(str(Path(snapshot).resolve())) + r''',{
@@ -75,8 +96,7 @@ def run_lua(body: str, snapshot: Path = SNAPSHOT) -> bytes:
     The body runs inside a coroutine and must return a string; the snapshot is closed
     afterwards. Used by research scripts that need the production parsers.
     """
-    preload = '\n'.join('package.preload[' + _lua(name) + ']=function(...) return assert(loadstring('
-        + _lua(data.decode('latin-1')) + ',' + _lua(name) + '))(...) end' for name, data in _sources().items())
+    preload = _preload()
     program = preload + r'''
 local profile=require('hd2runtime/schemas/current')
 local source=require('hd2runtime/runtime/snapshot_memory_reader').open(''' + _lua(str(Path(snapshot).resolve())) + r''',{

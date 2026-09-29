@@ -89,9 +89,7 @@ def map_offset(source_view, source_layout, target_view, target_layout, offset, w
     evidence is 'identical', 'signature' or 'ordinal'; raises LayoutError(LOST/AMBIGUOUS/BLOCKED)."""
     if source_layout is None or target_layout is None:
         raise LayoutError('LOST', 'record type absent from a type library')
-    if source_layout.size == target_layout.size and [_full(m) for m in source_layout.members] == [
-            _full(m) for m in target_layout.members] and _nested_identical(source_view, source_layout, target_view,
-            target_layout):
+    if _identical(source_view, source_layout, target_view, target_layout):
         return offset, 'identical'
     member = source_layout.member_at(offset)
     if member is None:
@@ -159,6 +157,18 @@ def _aligned(source_layout, target_layout):
 
 
 _ALIGN_CACHE = {}
+
+
+def _identical(source_view, source_layout, target_view, target_layout):
+    """Whether two record layouts (and every nested struct) are identical. Pure per pair of views, and asked once per
+    field, so it is memoized on the target view; the entry keeps its objects alive so the id() key stays unique."""
+    memo = target_view.__dict__.setdefault('_identical_memo', {})
+    key = (id(source_view), id(source_layout), id(target_layout))
+    if key not in memo:
+        memo[key] = (source_view, source_layout, target_layout, source_layout.size == target_layout.size
+            and [_full(m) for m in source_layout.members] == [_full(m) for m in target_layout.members]
+            and _nested_identical(source_view, source_layout, target_view, target_layout))
+    return memo[key][3]
 
 
 def _nested_identical(source_view, source_layout, target_view, target_layout, depth=0):
