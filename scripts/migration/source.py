@@ -18,13 +18,15 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 sys.path.insert(0, str(ROOT / 'sdk'))
 
 MODULES = ('player_weapon_authoring', 'support_weapon_authoring', 'vehicle_weapon_authoring', 'entity_authoring',
-    'stratagem_authoring', 'attachment_authoring', 'booster_authoring', 'pod_payload_authoring')
+    'stratagem_authoring', 'attachment_authoring', 'booster_authoring', 'pod_payload_authoring',
+    'throwable_authoring')
 SETTINGS_KIND = {'ProjectileSettings': 'projectile', 'DamageInfo': 'damage', 'ExplosionSettings': 'explosion',
     'StatusEffectSettings': 'status', 'ArcSettings': 'arc', 'BeamSettings': 'beam'}
 DOMAIN_LABEL = {'player_weapon_authoring': 'Player weapons', 'support_weapon_authoring': 'Support weapons',
     'vehicle_weapon_authoring': 'Vehicle weapons', 'entity_authoring': 'Vehicles and backpacks',
     'stratagem_authoring': 'Stratagems', 'attachment_authoring': 'Magazine attachments',
-    'booster_authoring': 'Boosters', 'pod_payload_authoring': 'Drop-pod payloads'}
+    'booster_authoring': 'Boosters', 'pod_payload_authoring': 'Drop-pod payloads',
+    'throwable_authoring': 'Throwables'}
 
 
 def git(*args) -> str:
@@ -221,6 +223,19 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
         records.append(_record('pod_payload_authoring', 'pod:' + name + ':spawn_count', name, 'payload.spawn_count',
             dict(base, offset=556, storage='u32', width=4), rack['spawnCount'], rack['writable'], rack['shared'],
             dict(locator, spawnCount=True), rack.get('reason')))
+    for name, throwable in sorted(((tables.get('throwable_authoring') or {}).get('throwables') or {}).items()):
+        resource = _int(throwable['resource'])
+        for label, owned in sorted((throwable.get('targets') or {}).items()):
+            for field_id, field in sorted((owned.get('fields') or {}).items()):
+                b = field['backing']
+                if b['kind'] == 'component':
+                    backing = _component(b, resource)
+                else:
+                    backing = _settings(b['settings'], b, [resource])
+                records.append(_record('throwable_authoring', field['instanceKey'], name, field_id, backing,
+                    field.get('currentDefault'), field.get('editable'), field.get('shared'),
+                    {'path': ['throwables', name, 'targets', label, 'fields', field_id],
+                     'guard': {'instanceKey': field['instanceKey']}}, field.get('reason')))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')

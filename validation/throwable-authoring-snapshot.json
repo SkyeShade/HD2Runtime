@@ -1,0 +1,36 @@
+{
+  "acknowledgementRejections": 692,
+  "alreadyDesired": 388,
+  "changedWrites": 388,
+  "conflictRejections": 388,
+  "fieldChecks": 388,
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "proofRejections": {
+    "chainLink": 78,
+    "componentOwnership": 71,
+    "wrongBuild": 71
+  },
+  "protectionChanges": 336,
+  "rangeRejections": 776,
+  "readOnlyRejections": 23,
+  "rollbacks": 388,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "staleExpectRejections": 388,
+  "status": "VALIDATED",
+  "targets": 83,
+  "targetsByPath": {
+    "bomblet_explosion": 1,
+    "bomblets": 1,
+    "damage": 1,
+    "detonation": 22,
+    "entity": 2,
+    "explosion": 22,
+    "shield": 1,
+    "shrapnel": 2,
+    "status_effect": 8,
+    "throwable": 23
+  },
+  "throwables": 23,
+  "writes": 776
+}

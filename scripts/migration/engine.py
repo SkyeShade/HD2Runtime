@@ -30,9 +30,10 @@ FORMATS = {'f32': '<f', 'u32': '<I', 'i32': '<i', 'u64': '<Q', 'i64': '<q', 'u8'
 COMPONENT_EDGES = {'ProjectileWeaponComponentData': ((0, 'projectile'),), 'ArcWeaponComponentData': ((0, 'arc'),),
     'BeamWeaponComponentData': ((0, 'beam'),), 'SprayWeaponComponentData': ((200, 'damage'),),
     'MeleeWeaponComponentData': ((12, 'damage'),), 'ExplosiveComponentData': ((36, 'explosion'), (40, 'explosion')),
-    'WeaponRoundsComponentData': ((64, 'projectile'), (68, 'projectile'))}
+    'WeaponRoundsComponentData': ((64, 'projectile'), (68, 'projectile')),
+    'StickyComponentData': ((44, 'damage'),)}
 SETTINGS_EDGES = {'projectile': ((60, 'damage'), (144, 'explosion'), (156, 'explosion')),
-    'explosion': ((4, 'damage'),), 'arc': ((36, 'damage'),), 'beam': ((12, 'damage'),)}
+    'explosion': ((4, 'damage'), (84, 'projectile')), 'arc': ((36, 'damage'),), 'beam': ((12, 'damage'),)}
 MAX_CHAIN = 3
 
 

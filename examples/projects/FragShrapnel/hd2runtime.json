@@ -1,0 +1,1 @@
+{"format":1,"name":"FragShrapnel","resource":"mods/hd2runtime_examples/frag_shrapnel","guid":"fbd26e5a-6971-538e-a0bb-457ab30d24c8","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.26.1","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

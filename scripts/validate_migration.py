@@ -33,7 +33,7 @@ SNAPSHOT_VALIDATORS = ('validate_entity_authoring_snapshot', 'validate_stratagem
     'validate_fire_mode_authoring_snapshot', 'validate_options_binding_snapshot', 'validate_pod_payload_snapshot',
     'validate_reticle_authoring_snapshot', 'validate_vehicle_weapon_authoring_snapshot',
     'validate_support_weapon_authoring_snapshot', 'validate_weapon_authoring_snapshot',
-    'validate_reference_recreations')
+    'validate_throwable_authoring_snapshot', 'validate_reference_recreations')
 
 
 def run(command, name):

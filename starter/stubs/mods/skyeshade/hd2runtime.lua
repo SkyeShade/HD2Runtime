@@ -791,6 +791,66 @@ function HD2Booster:granted_stratagem() end
 ---Entity the booster deploys (only where a native record is linked).
 ---@return HD2BoosterTarget
 function HD2Booster:deployed_entity() end
+---@alias HD2ThrowableName "G-10 Incendiary"|"G-109 Urchin"|"G-12 High Explosive"|"G-123 Thermite"|"G-13 Incendiary Impact"|"G-142 Pyrotech"|"G-16 Impact"|"G-23 Stun"|"G-3 Smoke"|"G-31 Arc"|"G-4 Gas"|"G-48 Giga Grenade"|"G-50 Seeker"|"G-6 Frag"|"G-60 Anti-Tank Seeker"|"G-7 Pineapple"|"G-8 Immolation"|"G-89 Smokescreen"|"G/40-K Melta Mine"|"G/SH-39 Shield"|"K-2 Throwing Knife"|"TED-63 Dynamite"|"TM-1 Lure Mine"|"throwable/v1/g-10-incendiary/1736e97d6edcce61"|"throwable/v1/g-109-urchin/1b511603e8da0354"|"throwable/v1/g-12-high-explosive/06eb3c818c823a96"|"throwable/v1/g-123-thermite/c2843f536cd7ad03"|"throwable/v1/g-13-incendiary-impact/15c4018f5a498687"|"throwable/v1/g-142-pyrotech/19647eadec46d6b8"|"throwable/v1/g-16-impact/9952735c29489c3e"|"throwable/v1/g-23-stun/058fac8f4d537dae"|"throwable/v1/g-3-smoke/ef4294e861d5d0aa"|"throwable/v1/g-31-arc/be684f24ecf5d82f"|"throwable/v1/g-4-gas/6b51845f7fe757ab"|"throwable/v1/g-40-k-melta-mine/0c5f1fb8cf91b5e6"|"throwable/v1/g-48-giga-grenade/85247d69b2820aa3"|"throwable/v1/g-50-seeker/4047998b4bd1a60b"|"throwable/v1/g-6-frag/f1e3b7ef6de8ab93"|"throwable/v1/g-60-anti-tank-seeker/5effccd40935511d"|"throwable/v1/g-7-pineapple/49b9f7e3894f382a"|"throwable/v1/g-8-immolation/d3eac31d7fb9efc6"|"throwable/v1/g-89-smokescreen/3c0123a31c2d9bfe"|"throwable/v1/g-sh-39-shield/48ef1fee1ed7957d"|"throwable/v1/k-2-throwing-knife/13af85feaa1ac06b"|"throwable/v1/ted-63-dynamite/af7d55bacbde8482"|"throwable/v1/tm-1-lure-mine/2a5ba3fcf9044b31"
+
+---@class HD2ThrowableTarget
+---@field resource "throwable"
+---@field path "detonation"|"explosion"|"status_effect"|"shrapnel"|"bomblets"|"bomblet_explosion"|"damage"|"entity"|"shield"
+---@field throwable string
+---@field status? string
+local HD2ThrowableTarget = {}
+---@return table
+function HD2ThrowableTarget:describe() end
+---Explosion targets: a status effect its DamageInfo applies (label such as "fire", or slot number).
+---@param identity string|integer
+---@return HD2ThrowableTarget
+function HD2ThrowableTarget:status_effect(identity) end
+---@return HD2ThrowableTarget[]
+function HD2ThrowableTarget:status_effects() end
+---Explosion targets: the shrapnel projectile the explosion spawns.
+---@return HD2ThrowableTarget
+function HD2ThrowableTarget:shrapnel() end
+---Explosion targets: the bomblet projectile the explosion spawns.
+---@return HD2ThrowableTarget
+function HD2ThrowableTarget:bomblets() end
+---Bomblet targets: the explosion each bomblet makes on impact/expiry.
+---@return HD2ThrowableTarget
+function HD2ThrowableTarget:explosion() end
+
+---@class HD2Throwable
+---@field resource "throwable"
+---@field path "throwable"
+---@field throwable string
+local HD2Throwable = {}
+---Inventory counts (ThrowableComponent) and identity.
+---@return table
+function HD2Throwable:describe() end
+---Fuse / detonation (ExplosiveComponent), where the throwable explodes.
+---@return HD2ThrowableTarget
+function HD2Throwable:detonation() end
+---The explosion (ExplosionSettings and its DamageInfo).
+---@return HD2ThrowableTarget
+function HD2Throwable:explosion() end
+---@param identity string|integer
+---@return HD2ThrowableTarget
+function HD2Throwable:status_effect(identity) end
+---@return HD2ThrowableTarget[]
+function HD2Throwable:status_effects() end
+---Shrapnel projectile (e.g. G-6 Frag, TM-1 Lure Mine). Shared with other sources.
+---@return HD2ThrowableTarget
+function HD2Throwable:shrapnel() end
+---Bomblet projectile (G-7 Pineapple); :explosion() reaches the explosion of each bomblet.
+---@return HD2ThrowableTarget
+function HD2Throwable:bomblets() end
+---Direct-hit damage (K-2 Throwing Knife; no explosion).
+---@return HD2ThrowableTarget
+function HD2Throwable:damage() end
+---Health of the deployed entity (mines).
+---@return HD2ThrowableTarget
+function HD2Throwable:entity() end
+---Shield of the deployed entity (G/SH-39 Shield).
+---@return HD2ThrowableTarget
+function HD2Throwable:shield() end
 ---@alias HD2MagazineAttachmentId "Jet Assisted Rifle 15mm. Drum Standard"|"Karbin Rifle Standard"|"Pistol 12x20mm. Standard"|"Pistol 9x20mm. Extended"|"Plasma Medium. Canister Extended"|"Plasma Medium. Canister Standard"|"Plasma Pistol. Canister Extended"|"Plasma Pistol. Canister Pistol"|"RIFLE 9x70mm. Extended"|"RIFLE 9x70mm. Standard"|"RIFLE Drake. Short"|"RIFLE Drake. Standard"|"RIFLE Justice. Extended"|"RIFLE Justice. Short"|"RIFLE Justice. Standard"|"Rifle 5,5x50mm. Drum"|"Rifle 5,5x50mm. Drum Carbine"|"Rifle 5,5x50mm. Extended"|"Rifle 5,5x50mm. Extended Fastreload"|"Rifle 5,5x50mm. Standard"|"Rifle 5,5x50mm. Standard Fastreload"|"Rifle 8x40mm Rifle Standard"|"SHOTGUN 12g. Drum"|"SHOTGUN 12g. Drum Light"|"SHOTGUN 12g. Magazine Extended"|"SHOTGUN 12g. Magazine Extended Light"|"SMG 12x25mm. Drum"|"SMG 12x25mm. Drum Pummeler"|"SMG 12x25mm. Extended"|"SMG 12x25mm. Extended Pummeler"|"SMG 12x25mm. Standard"|"SMG 12x25mm. Standard Pummeler"|"SMG 9x20mm. Top Mounted Extended"|"SMG 9x20mm. Top Mounted Extended Solvent"|"SMG 9x20mm. Top Mounted Standard"|"SMG 9x20mm. Top Mounted Standard Solvent"|"SMG Flamer Drum Magazine"|"SMG Flamer Extended Magazine"|"SMG Flamer Standard Magazine"|"Shotgun 12g. Magazine Standard"|"Shotgun 12g. Magazine Standard Light"|"Whisper Rifle 5,5x50mm. Drum"|"Whisper Rifle 5,5x50mm. Standard"|"weapon-attachment/v1/magazine/jet-assisted-rifle-15mm-drum-standard/d973eb6ff9b6c804"|"weapon-attachment/v1/magazine/karbin-rifle-standard/e2f9b6b1f2e8fddb"|"weapon-attachment/v1/magazine/pistol-12x20mm-standard/874261a0d16e5e00"|"weapon-attachment/v1/magazine/pistol-9x20mm-extended/98939255db31bed4"|"weapon-attachment/v1/magazine/plasma-medium-canister-extended/09729aaa96113627"|"weapon-attachment/v1/magazine/plasma-medium-canister-standard/f4fa14d4afd3ea71"|"weapon-attachment/v1/magazine/plasma-pistol-canister-extended/6ec0d8e8516cbc07"|"weapon-attachment/v1/magazine/plasma-pistol-canister-pistol/b427e5ddcd7ebe62"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum-carbine/00618531fc7a3692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum/fa499a29b375c6cf"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended-fastreload/b9d2c29a3b15b591"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended/bfc7127000978692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard-fastreload/b46fd3d0a10576b9"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard/272e4c5f18bbd39e"|"weapon-attachment/v1/magazine/rifle-8x40mm-rifle-standard/892779ea0d77aeb3"|"weapon-attachment/v1/magazine/rifle-9x70mm-extended/ac5002ad314cd5a3"|"weapon-attachment/v1/magazine/rifle-9x70mm-standard/cda05894170c4de9"|"weapon-attachment/v1/magazine/rifle-drake-short/a04c9bf6b8f34a03"|"weapon-attachment/v1/magazine/rifle-drake-standard/30c524ee2906dec4"|"weapon-attachment/v1/magazine/rifle-justice-extended/621a26851cfd19a2"|"weapon-attachment/v1/magazine/rifle-justice-short/9deab1113f78adfa"|"weapon-attachment/v1/magazine/rifle-justice-standard/c52443137e402fe8"|"weapon-attachment/v1/magazine/shotgun-12g-drum-light/6848f4e70d10b9a7"|"weapon-attachment/v1/magazine/shotgun-12g-drum/c1aeebcaa7c23988"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended-light/ce3ad89a45cec7a2"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended/95b6103970039345"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard-light/6304622136df620c"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard/f9f877be8deda58d"|"weapon-attachment/v1/magazine/smg-12x25mm-drum-pummeler/4fded5f56e190410"|"weapon-attachment/v1/magazine/smg-12x25mm-drum/568bc4a451110ca0"|"weapon-attachment/v1/magazine/smg-12x25mm-extended-pummeler/946ef6b4fae7c0de"|"weapon-attachment/v1/magazine/smg-12x25mm-extended/73a27ec123b6d632"|"weapon-attachment/v1/magazine/smg-12x25mm-standard-pummeler/ea054f1cc567db3b"|"weapon-attachment/v1/magazine/smg-12x25mm-standard/6c63bd137af2da1e"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended-solvent/11156cef840b147a"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended/176c9113b2833712"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard-solvent/80bf5c7ef57ea0e0"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard/fc9cc6afc9155eb2"|"weapon-attachment/v1/magazine/smg-flamer-drum-magazine/edd0b384b4ec7242"|"weapon-attachment/v1/magazine/smg-flamer-extended-magazine/a7609a0fd1736a11"|"weapon-attachment/v1/magazine/smg-flamer-standard-magazine/e68347c558fb8b96"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-drum/dc2b49810b002079"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-standard/16af29c8d0590809"
 
 ---@class HD2WeaponAttachment
@@ -1146,6 +1206,12 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field sample_drop_cap "booster.sample_drop_cap"
 ---@field burn_decay_bonus "booster.burn_decay_bonus"
 
+---@class HD2Fields_throwable
+---@field starting_count "throwable.starting_count"
+---@field max_count "throwable.max_count"
+---@field count_from_supply "throwable.count_from_supply"
+---@field explosion_delay "throwable.explosion_delay"
+
 ---@class HD2Fields
 ---@field weapon HD2Fields_weapon
 ---@field projectile HD2Fields_projectile
@@ -1181,6 +1247,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field mount HD2Fields_mount
 ---@field attachment HD2Fields_attachment
 ---@field booster HD2Fields_booster
+---@field throwable HD2Fields_throwable
 
 ---@class HD2Enum_projectile_type
 ---@field jar5 177
@@ -1243,6 +1310,10 @@ function hd2.backpack(name) end
 ---@param name HD2BoosterName
 ---@return HD2Booster
 function hd2.booster(name) end
+---A throwable-slot item by name or semantic ID (see sdk/ThrowableAuthoringCapabilities.json).
+---@param name HD2ThrowableName
+---@return HD2Throwable
+function hd2.throwable(name) end
 ---@param identity HD2MagazineAttachmentId
 ---@return HD2WeaponAttachment
 function hd2.weapon_attachment(identity) end

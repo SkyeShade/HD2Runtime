@@ -1,5 +1,5 @@
 {
-  "examples": 46,
+  "examples": 50,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1120,6 +1120,44 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "FragShrapnel": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shrapnel",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "throwable"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "starting",
+          "mode": "patch",
+          "path": "throwable",
+          "resource": "throwable"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "throwable target -> 0.26.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "HD2RuntimeOptionsTest": {
       "baselineChanges": 1,
       "calls": [
@@ -1145,6 +1183,45 @@
       "usesOptions": true,
       "versionReasons": [
         "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "IncendiaryFire": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "radius",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "throwable"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "fire",
+          "mode": "patch",
+          "path": "status_effect",
+          "resource": "throwable"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "throwable target -> 0.26.1",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1780,6 +1857,33 @@
         "weapon.third_person_reticle -> 0.26.0"
       ]
     },
+    "ShieldGrenadeDurability": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "shield-grenade",
+          "mode": "transaction",
+          "path": "shield",
+          "resource": "throwable"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "throwable target -> 0.26.1",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "ShieldRelayRecreation": {
       "baselineChanges": 6,
       "calls": [
@@ -2019,6 +2123,44 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ThrowingKnifeDamage": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.26.1",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "transaction",
+          "path": "damage",
+          "resource": "throwable"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "carry",
+          "mode": "patch",
+          "path": "throwable",
+          "resource": "throwable"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.1",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "throwable target -> 0.26.1",
         "typed writes -> 0.23.2"
       ]
     },
