@@ -777,7 +777,8 @@
     "writableFields": 4,
     "writableDomains": [
      "entity",
-     "stratagem"
+     "stratagem",
+     "zone"
     ],
     "stats": {
      "cooldownSeconds": true,

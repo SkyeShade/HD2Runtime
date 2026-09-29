@@ -680,8 +680,14 @@ def annotate_effects(value,rows):
     """Public proof model per field: APPLIED only means the guarded write was verified; `effect` says whether the
     written definition is the one gameplay uses (active source), when it takes effect, and what is live-proven."""
     ownership={(row['weapon'],row['field']):row for row in json.loads(OWNERSHIP.read_text())['fields']}
+    import live_evidence
+    live_targets=live_evidence.proven_targets()
     for weapon in value['weapons']:
         for field in weapon['fields']:
+            # Exact (weapon, field) pairs a live test promoted (schemas/live_evidence.json provenTargets).
+            promoted=live_targets.get((weapon['name'],field['semanticFieldId']))
+            if promoted and field.get('editable')and not field.get('liveEvidence'):
+                field['liveEvidence']=promoted
             backing=field.get('backing')or{}
             if backing.get('kind')=='component':
                 row=ownership.get((weapon['name'],field['semanticFieldId']))

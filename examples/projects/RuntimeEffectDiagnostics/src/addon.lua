@@ -35,15 +35,17 @@ operations[#operations+1]=hd2.ensure({enabled=test('maxigun_damage','Maxigun dam
     patch={id='diag-maxigun-damage',target=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile(),
         allow_shared=true,field=hd2.fields.damage.player_standard_damage,expect=80,value=800}})
 
--- 5. M-1000 Maxigun backpack: 1000 -> 3000 rounds carried and at delivery, supply refill 500 -> 1500.
-operations[#operations+1]=hd2.ensure({enabled=test('maxigun_backpack','Maxigun backpack 3000',
-        'Maxigun backpack capacity and starting rounds 1000 -> 3000, supply refill 500 -> 1500. Needs a newly '
-        ..'called-in Maxigun (its backpack is built on delivery).'),
+-- 5. M-1000 Maxigun backpack at the game's limit: 1023 carried, at delivery and from supply. A deposit's live amount
+-- is a 10-bit network field the game clamps to 1023 (docs/backpack-ammo.md); 3000 showed until the first shot, then
+-- about 1017. This control shows whether 1023 holds through firing and resupply, and what the HUD reads at full.
+operations[#operations+1]=hd2.ensure({enabled=test('maxigun_backpack','Maxigun backpack 1023',
+        'Maxigun backpack capacity, starting rounds and supply refill -> 1023 (the game limit). Needs a newly '
+        ..'called-in Maxigun.'),
     transaction={id='diag-maxigun-backpack',target=hd2.support_weapon('M-1000 Maxigun'):backpack(),
         allow_unverified_effect=true,changes={
-            {field=hd2.fields.deposit.capacity,expect=1000,value=3000},
-            {field=hd2.fields.deposit.start_amount,expect=1000,value=3000},
-            {field=hd2.fields.deposit.refill_amount,expect=500,value=1500}}}})
+            {field=hd2.fields.deposit.capacity,expect=1000,value=1023},
+            {field=hd2.fields.deposit.start_amount,expect=1000,value=1023},
+            {field=hd2.fields.deposit.refill_amount,expect=500,value=1023}}}})
 
 -- 6. Orbital Precision Strike cooldown: 80 -> 5 seconds (StratagemDefinition +104, the member the Shield Relay
 -- cooldown proof used).
@@ -51,5 +53,12 @@ operations[#operations+1]=hd2.ensure({enabled=test('precision_cooldown','Precisi
         'Orbital Precision Strike cooldown 80 -> 5 seconds. Try it on the next call-in.'),
     patch={id='diag-precision-cooldown',target=hd2.stratagem('Orbital Precision Strike'),
         field=hd2.fields.stratagem.definition_cooldown,expect=80,value=5}})
+
+-- 7. B/FLAM-80 Cremator backpack starting fuel 500 -> 400, capacity unchanged: the HUD's maximum should read 400 (the
+-- HUD shows start_amount), while a resupply can still fill the backpack to 500.
+operations[#operations+1]=hd2.ensure({enabled=test('cremator_start','Cremator backpack starts at 400',
+        'Cremator backpack starting fuel 500 -> 400 (capacity stays 500). Needs a newly called-in Cremator.'),
+    patch={id='diag-cremator-start',target=hd2.support_weapon('B/FLAM-80 Cremator'):backpack(),
+        allow_unverified_effect=true,field=hd2.fields.deposit.start_amount,expect=500,value=400}})
 
 return operations

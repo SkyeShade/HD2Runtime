@@ -103066,6 +103066,16 @@
         "acknowledgement": null,
         "acknowledgementReason": null
       },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_damage",
+        "tests": [
+          "RuntimeEffectDiagnostics"
+        ],
+        "date": "2026-09-29",
+        "target": "M-1000 Maxigun",
+        "field": "damage.primary.standard_damage"
+      },
       "resolution": {
         "rootChain": [
           "weapon_entity"

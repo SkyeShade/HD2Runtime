@@ -748,13 +748,40 @@ function M.new(describe)
         local entry=assert(entity_authoring.backpacks[name],'unknown reviewed backpack: '..tostring(name))
         local methods={}
         function methods.describe()
+            local zones={}
+            for zone,info in pairs(entry.zones or{})do zones[#zones+1]={zone=zone,index=info.index,name=info.name}end
+            table.sort(zones,function(a,b)return a.index<b.index end)
             return {name=name,semanticId=entry.semanticId,fields=fields_for(entry,'backpack'),
+                damageZones=#zones>0 and zones or nil,
                 feeds=entry.feeds and{supportWeapon=entry.feeds.weapon,relationship='backpack_ammo'}or nil}
         end
         -- The support weapon this backpack stores ammunition for, if any.
         function methods.weapon()
             assert(entry.feeds,name..' does not store ammunition for a support weapon')
             return builders.support_weapon(entry.feeds.weapon)
+        end
+        -- Reviewed damage zones (the SH-20's shield plate): zone id ('zone_0'), native zone name or index.
+        local function zone_target(zone)
+            local zone_methods={}
+            function zone_methods.describe()
+                local info=entry.zones[zone]
+                return {backpack=name,zone=zone,index=info.index,name=info.name,
+                    fields=fields_for(entry,'damage_zone','zone',zone)}
+            end
+            return setmetatable({resource='backpack',backpack=name,path='damage_zone',zone=zone},
+                {__index=zone_methods})
+        end
+        function methods.damage_zones()
+            local ids={};for zone,info in pairs(entry.zones or{})do ids[#ids+1]={zone,info.index}end
+            table.sort(ids,function(a,b)return a[2]<b[2]end)
+            local result={};for index,item in ipairs(ids)do result[index]=zone_target(item[1])end
+            return result
+        end
+        function methods.damage_zone(_,identity)
+            for zone,info in pairs(entry.zones or{})do
+                if identity==zone or identity==info.name or identity==info.index then return zone_target(zone)end
+            end
+            error('unknown reviewed damage zone for '..name..': '..tostring(identity),0)
         end
         return setmetatable({resource='backpack',backpack=name,path='backpack'},{__index=methods})
     end

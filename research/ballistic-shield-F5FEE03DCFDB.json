@@ -1,0 +1,1549 @@
+{
+ "schemaVersion": 1,
+ "question": "SH-20 Ballistic Shield entity.armor set to 5; the MG-206 HMG (AP 4) still damages the shield. Why?",
+ "source": {
+  "build": "F5FEE03DCFDB",
+  "datalibrary": "build profile F5FEE03DCFDB",
+  "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+  "typelibSha256": "4D04870D0A0D4DC1284998C72CDFA6F8FF6D21ABA0E36B6F758C6F73DD0417A4",
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "gameDllSha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "unpackedImageSha256": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5",
+  "writes": 0
+ },
+ "answer": {
+  "summary": "Runtime's entity.armor for the SH-20 writes the DEFAULT damage zone (record 292 +280). Every bullet that hits the shield resolves to damage zone 0 \"shield\" (it lists the hit actors \"damageable\" and \"collision\"), whose own armor (record 292 +736) stayed 4. HMG AP 4 vs armor 4 is the equal case: factor 0.65, so the shield still loses floor(0.65 * 69.5) = 45 HP per bullet. Armor 5 on zone 0 would give AP - armor = -1 -> factor 0 -> no damage.",
+  "activeField": {
+   "entity": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+   "resource": "0x967ED15E0BAE363B",
+   "component": "HealthComponentData",
+   "recordIndex": 292,
+   "indexRow": 157,
+   "zoneIndex": 0,
+   "zoneName": "shield",
+   "zoneActors": [
+    "damageable",
+    "collision"
+   ],
+   "member": "DamageableZoneInfo.armor (+216)",
+   "recordOffset": 736,
+   "storage": "u32",
+   "vanilla": 4,
+   "ownerCount": 1,
+   "sharedWith": [],
+   "guards": [
+    {
+     "offset": 616,
+     "hex": "e5d61ac6",
+     "role": "zone 0 name hash (\"shield\")"
+    },
+    {
+     "offset": 976,
+     "hex": "85bae899d191d4a300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+     "role": "zone 0 hit actors (\"damageable\", \"collision\", 22 empty slots)"
+    }
+   ]
+  },
+  "classification": {
+   "zone0.armor (+736)": "ACTIVE_AT_INSTANTIATION: copied into the health instance (+0x60) when the shield entity spawns; every plate hit reads that copy. Edits reach shields spawned after the write, not a shield already in the world.",
+   "entity.armor (+280, default zone)": "DORMANT_OR_METADATA for the SH-20 plate: also copied at spawn (instance +0x5c) but only consulted for hits on an actor no zone lists; the SH-20's only zone lists the shield actors. It equals zone 0 in vanilla (both 4), which is why the wiki \"Main / Heavy\" correlation looked right.",
+   "zone0.projectile_durable_resistance (+724), damage_multiplier (+716), ignore_armor_on_self (+748)": "ACTIVE_DIRECT: read from the definition record on every hit."
+  }
+ },
+ "layout": {
+  "indexRows": 1002,
+  "records": 502,
+  "recordSize": 22096,
+  "defaultZoneSize": 456,
+  "zoneSlots": 38,
+  "zoneStride": 552,
+  "zoneInfoSize": 456,
+  "defaultZoneOffset": 64,
+  "zoneBase": 520
+ },
+ "identity": {
+  "stratagem": {
+   "id": 3353508219,
+   "package": "0xFC1A5BF2F3FF15DF",
+   "payloads": [
+    "0x3A50B58B0553056A",
+    "0x73F8498BFFDCF415"
+   ],
+   "group": 0,
+   "row": 1,
+   "cooldown": 240,
+   "use_count": 4294967295,
+   "debugName": "BACKPACK. BALLISTIC SHIELD BACKPACK",
+   "identityBasis": "historical debug-name identity"
+  },
+  "rack": "0x3A50B58B0553056A",
+  "item": "0x967ED15E0BAE363B",
+  "components": [
+   "AbilityComponentData",
+   "AttachableComponentData",
+   "BackpackComponentData",
+   "CollisionEventComponentData",
+   "EncyclopediaEntryComponentData",
+   "EquipmentComponentData",
+   "HealthComponentData",
+   "HitEffectComponentData",
+   "HitReactComponentData",
+   "InteractableComponentData",
+   "LoadoutEntryComponentData",
+   "LoadoutPackageComponentData",
+   "MeleeShieldComponentData",
+   "NetworkPhysicsComponentData",
+   "PhysicsImpactEffectComponentData",
+   "SpottableComponentData",
+   "UnitComponentData",
+   "VisibilityMaskComponentData",
+   "WeaponDataComponentData",
+   "WieldableComponentData"
+  ],
+  "meleeShield": {
+   "recordIndex": 1,
+   "recordSize": 36,
+   "raw": "1d000000010000001e00000000008242000001000000000000000000d191d4a385bae899",
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack"
+   ],
+   "finding": "36-byte record (hit-effect type 29, a 65.0 float, flags, two thin hashes); no armor, health or AP member. Melee-block tuning, not on the projectile damage path."
+  },
+  "sameEntityWornHeldDropped": "One entity: the rack attaches only this item and it owns Backpack, Wieldable, Attachable, MeleeShield and Health; there is no separate held-shield unit with its own HealthComponent."
+ },
+ "healthComponent": {
+  "resource": "0x967ED15E0BAE363B",
+  "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack",
+  "recordIndex": 292,
+  "indexRow": 157,
+  "ownerCount": 1,
+  "owners": [
+   "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack"
+  ],
+  "recordSha256": "5571DF7C6297902DE23B87E8BF9256BE90F084F0D629E69E91E3C048566AF456",
+  "mainHealth": 1000,
+  "defaultZone": {
+   "recordOffsetOfZone": 64,
+   "zone_name": null,
+   "recordOffsets": {
+    "zone_name": 160,
+    "damage_multiplier": 260,
+    "damage_multiplier_dps": 264,
+    "projectile_durable_resistance": 268,
+    "armor": 280,
+    "armor_angle_check": 284,
+    "max_armor": 288,
+    "ignore_armor_on_self": 292,
+    "health": 296,
+    "affects_main_health": 312,
+    "affected_by_explosions": 387,
+    "explosive_damage_percentage": 388
+   },
+   "damage_multiplier": "Normal",
+   "damage_multiplier_dps": "Normal",
+   "projectile_durable_resistance": 0.7,
+   "armor": 4,
+   "armor_angle_check": 1,
+   "max_armor": 0,
+   "ignore_armor_on_self": 0,
+   "health": -1,
+   "affects_main_health": 1.0,
+   "affected_by_explosions": 0,
+   "explosive_damage_percentage": null
+  },
+  "zones": [
+   {
+    "recordOffsetOfZone": 520,
+    "zone_name": "shield",
+    "recordOffsets": {
+     "zone_name": 616,
+     "damage_multiplier": 716,
+     "damage_multiplier_dps": 720,
+     "projectile_durable_resistance": 724,
+     "armor": 736,
+     "armor_angle_check": 740,
+     "max_armor": 744,
+     "ignore_armor_on_self": 748,
+     "health": 752,
+     "affects_main_health": 768,
+     "affected_by_explosions": 843,
+     "explosive_damage_percentage": 844
+    },
+    "damage_multiplier": "Normal",
+    "damage_multiplier_dps": "Normal",
+    "projectile_durable_resistance": 0.7,
+    "armor": 4,
+    "armor_angle_check": 1,
+    "max_armor": 0,
+    "ignore_armor_on_self": 0,
+    "health": -1,
+    "affects_main_health": 1.0,
+    "affected_by_explosions": 0,
+    "explosive_damage_percentage": null,
+    "index": 0,
+    "actors": [
+     "damageable",
+     "collision"
+    ]
+   }
+  ]
+ },
+ "runtimeBinding": {
+  "domain": "domains\\entity_authoring.lua",
+  "fields": {
+   "entity.health": {
+    "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
+    "component": "HealthComponentData",
+    "recordIndex": 292,
+    "offset": 0,
+    "storage": "i32"
+   },
+   "entity.armor": {
+    "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor",
+    "component": "HealthComponentData",
+    "recordIndex": 292,
+    "offset": 280,
+    "storage": "u32"
+   }
+  },
+  "finding": "entity.armor is bound to offset 280 (default-zone armor), not to zone 0 armor at 736."
+ },
+ "healthDeltas": {
+  "count": 5,
+  "entries": [
+   {
+    "deltaResource": "0x06B4CD02F74344AA",
+    "path": null,
+    "healthOffsets": [
+     0
+    ]
+   },
+   {
+    "deltaResource": "0x1B5274DE83D64CB2",
+    "path": null,
+    "healthOffsets": [
+     0
+    ]
+   },
+   {
+    "deltaResource": "0x88A3AF6389DB2176",
+    "path": null,
+    "healthOffsets": [
+     0
+    ]
+   },
+   {
+    "deltaResource": "0xA5B8016B460CB1AF",
+    "path": null,
+    "healthOffsets": [
+     0
+    ]
+   },
+   {
+    "deltaResource": "0x08BF329410830631",
+    "path": null,
+    "healthOffsets": [
+     0,
+     20
+    ]
+   }
+  ],
+  "finding": "No entity delta touches any HealthComponent zone; none targets a shield."
+ },
+ "related": {
+  "SH-20 rack": {
+   "path": "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_ballistic_shield",
+   "resource": "0x3A50B58B0553056A",
+   "components": [
+    "HealthComponentData",
+    "HellpodPayloadComponentData",
+    "HellpodRackComponentData",
+    "LoadoutPackageComponentData",
+    "TagComponentData"
+   ],
+   "health": {
+    "recordIndex": 343,
+    "ownerCount": 1,
+    "mainHealth": 200,
+    "defaultZoneArmor": 2,
+    "zones": []
+   },
+   "rackItems": [
+    {
+     "resource": "0x967ED15E0BAE363B",
+     "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack/ballistic_shield_backpack"
+    }
+   ]
+  },
+  "SH-20 small rack": {
+   "path": "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_ballistic_shield_small",
+   "resource": "0x2AB2507588D54B8B",
+   "components": [
+    "HealthComponentData",
+    "HellpodPayloadComponentData",
+    "HellpodRackComponentData",
+    "LoadoutPackageComponentData",
+    "TagComponentData"
+   ],
+   "health": {
+    "recordIndex": 345,
+    "ownerCount": 1,
+    "mainHealth": 200,
+    "defaultZoneArmor": 2,
+    "zones": []
+   },
+   "rackItems": [
+    {
+     "resource": "0x5F9AEAC72B738298",
+     "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_small/ballistic_shield_backpack_small"
+    }
+   ]
+  },
+  "SH-20 mk2 variant": {
+   "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_mk2/ballistic_shield_backpack_mk2",
+   "resource": "0xF5C67AED5CB5ACA0",
+   "components": [
+    "BackpackComponentData",
+    "HealthComponentData",
+    "InteractableComponentData",
+    "LoadoutPackageComponentData"
+   ],
+   "health": {
+    "recordIndex": 293,
+    "ownerCount": 1,
+    "mainHealth": 400,
+    "defaultZoneArmor": 4,
+    "zones": []
+   }
+  },
+  "SH-20 small variant": {
+   "path": "content/fac_helldivers/equipment/backpacks/ballistic_shield_backpack_small/ballistic_shield_backpack_small",
+   "resource": "0x5F9AEAC72B738298",
+   "components": [
+    "BackpackComponentData",
+    "HealthComponentData",
+    "InteractableComponentData",
+    "LoadoutPackageComponentData"
+   ],
+   "health": {
+    "recordIndex": 294,
+    "ownerCount": 1,
+    "mainHealth": 400,
+    "defaultZoneArmor": 4,
+    "zones": []
+   }
+  },
+  "SH-51 backpack": {
+   "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield_backpack",
+   "resource": "0xA4E796F84801B40A",
+   "components": [
+    "BackpackComponentData",
+    "HealthComponentData",
+    "InteractableComponentData",
+    "LoadoutPackageComponentData"
+   ],
+   "health": {
+    "recordIndex": 296,
+    "ownerCount": 1,
+    "mainHealth": 400,
+    "defaultZoneArmor": 4,
+    "zones": []
+   }
+  },
+  "SH-51 deployed barrier": {
+   "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield",
+   "resource": "0xB56FA3F5510000AB",
+   "components": [
+    "HealthComponentData",
+    "LoadoutPackageComponentData",
+    "ShieldComponentData"
+   ],
+   "health": {
+    "recordIndex": 80,
+    "ownerCount": 1,
+    "mainHealth": 450,
+    "defaultZoneArmor": 1,
+    "zones": [
+     {
+      "index": 0,
+      "name": "body_front",
+      "armor": 1,
+      "maxArmor": 2,
+      "health": 450,
+      "actors": [
+       "c_collision"
+      ]
+     }
+    ]
+   }
+  },
+  "SH-51 rack": {
+   "path": "content/fac_helldivers/hellpod/weapon_rack/weapon_rack_directional_energy_shield",
+   "resource": "0x09183066C4EBCE28",
+   "components": [
+    "HealthComponentData",
+    "HellpodPayloadComponentData",
+    "HellpodRackComponentData",
+    "LoadoutPackageComponentData",
+    "TagComponentData"
+   ],
+   "health": {
+    "recordIndex": 353,
+    "ownerCount": 1,
+    "mainHealth": 200,
+    "defaultZoneArmor": 2,
+    "zones": []
+   },
+   "rackItems": [
+    {
+     "resource": "0xA4E796F84801B40A",
+     "path": "content/fac_helldivers/equipment/backpacks/directional_energy_shield/directional_energy_shield_backpack"
+    }
+   ]
+  },
+  "Exosuit shield": {
+   "path": "content/fac_helldivers/vehicles/combat_walker_shield/combat_walker_shield",
+   "resource": "0x65489809A8181B96",
+   "components": [
+    "HealthComponentData",
+    "TagComponentData",
+    "WeaponDataComponentData"
+   ],
+   "health": {
+    "recordIndex": 92,
+    "ownerCount": 1,
+    "mainHealth": 800,
+    "defaultZoneArmor": 3,
+    "zones": [
+     {
+      "index": 0,
+      "name": "0xFD7C9885",
+      "armor": 3,
+      "maxArmor": 0,
+      "health": -1,
+      "actors": [
+       "0xFA2FC3B2",
+       "0xFA2501BB",
+       "0xBB3CD5E8"
+      ]
+     },
+     {
+      "index": 1,
+      "name": "0xB0EF49F8",
+      "armor": 4,
+      "maxArmor": 0,
+      "health": 5000,
+      "actors": [
+       "0x436BF6B5"
+      ]
+     }
+    ]
+   }
+  },
+  "Automaton soldier shield": {
+   "path": "content/fac_cyborgs/equipment/weapons/soldier_shield/soldier_shield",
+   "resource": "0xF96257FCAE258CAA",
+   "components": [
+    "HealthComponentData"
+   ],
+   "health": {
+    "recordIndex": 51,
+    "ownerCount": 1,
+    "mainHealth": 800,
+    "defaultZoneArmor": 4,
+    "zones": [
+     {
+      "index": 0,
+      "name": "main",
+      "armor": 4,
+      "maxArmor": 0,
+      "health": 800,
+      "actors": [
+       "c_collision"
+      ]
+     }
+    ]
+   }
+  },
+  "Helldiver avatar": {
+   "path": "content/fac_helldivers/cha_avatar/avatar_helldiver",
+   "resource": "0x4D1C334D294DFA97",
+   "components": [
+    "HealthComponentData",
+    "InteractableComponentData",
+    "TagComponentData"
+   ],
+   "health": {
+    "recordIndex": 76,
+    "ownerCount": 1,
+    "mainHealth": 125,
+    "defaultZoneArmor": 0,
+    "zones": [
+     {
+      "index": 0,
+      "name": "head",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 85,
+      "actors": [
+       "head",
+       "neck"
+      ]
+     },
+     {
+      "index": 1,
+      "name": "body",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 60,
+      "actors": [
+       "chest",
+       "hips",
+       "spine1",
+       "spine2",
+       "boss"
+      ]
+     },
+     {
+      "index": 2,
+      "name": "arm_left",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 35,
+      "actors": [
+       "l_clavicle",
+       "l_shoulder",
+       "l_elbow",
+       "l_hand"
+      ]
+     },
+     {
+      "index": 3,
+      "name": "arm_right",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 35,
+      "actors": [
+       "r_clavicle",
+       "r_shoulder",
+       "r_hand",
+       "r_elbow"
+      ]
+     },
+     {
+      "index": 4,
+      "name": "leg_left",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 45,
+      "actors": [
+       "l_foot",
+       "l_knee",
+       "l_ball",
+       "l_thigh"
+      ]
+     },
+     {
+      "index": 5,
+      "name": "leg_right",
+      "armor": 0,
+      "maxArmor": 0,
+      "health": 45,
+      "actors": [
+       "r_foot",
+       "r_knee",
+       "r_ball",
+       "r_thigh"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "code": {
+  "zoneResolver_0x922060": [
+   {
+    "rva": "0x922067",
+    "bytes": "4c8d8a68020000",
+    "asm": "lea r9, [rdx + 0x268]",
+    "ripTarget": null,
+    "role": "zone[0].zone_name (+0x208 + 0x60) of the HealthComponent record"
+   },
+   {
+    "rva": "0x92207D",
+    "bytes": "498d8968010000",
+    "asm": "lea rcx, [r9 + 0x168]",
+    "ripTarget": null,
+    "role": "zone actor list (+0x1c8 = +456 of the zone)"
+   },
+   {
+    "rva": "0x92208A",
+    "bytes": "413bc3",
+    "asm": "cmp eax, r11d",
+    "ripTarget": null,
+    "role": "actor thin hash == hit actor"
+   },
+   {
+    "rva": "0x922096",
+    "bytes": "4183f818",
+    "asm": "cmp r8d, 0x18",
+    "ripTarget": null,
+    "role": "24 actors per zone"
+   },
+   {
+    "rva": "0x9220A1",
+    "bytes": "4981c128020000",
+    "asm": "add r9, 0x228",
+    "ripTarget": null,
+    "role": "next zone (552-byte stride)"
+   },
+   {
+    "rva": "0x9220A8",
+    "bytes": "4983fa26",
+    "asm": "cmp r10, 0x26",
+    "ripTarget": null,
+    "role": "38 zones"
+   },
+   {
+    "rva": "0x9220AE",
+    "bytes": "488d4240",
+    "asm": "lea rax, [rdx + 0x40]",
+    "ripTarget": null,
+    "role": "no zone lists the actor -> default zone (+64)"
+   },
+   {
+    "rva": "0x9220C0",
+    "bytes": "4869c828020000",
+    "asm": "imul rcx, rax, 0x228",
+    "ripTarget": null,
+    "role": "matched zone index * 552"
+   },
+   {
+    "rva": "0x9220C7",
+    "bytes": "488d8208020000",
+    "asm": "lea rax, [rdx + 0x208]",
+    "ripTarget": null,
+    "role": "matched zone = +520 + index * 552"
+   }
+  ],
+  "hitBuilder_0x12a15e0": [
+   {
+    "rva": "0x12A1D96",
+    "bytes": "e8955626ff",
+    "asm": "call 0x507430",
+    "ripTarget": null,
+    "role": "definition record by resource hash"
+   },
+   {
+    "rva": "0x12A1E61",
+    "bytes": "e8fa0168ff",
+    "asm": "call 0x922060",
+    "ripTarget": null,
+    "role": "resolve zone for the hit actor"
+   },
+   {
+    "rva": "0x12A1E71",
+    "bytes": "8b4860",
+    "asm": "mov ecx, dword ptr [rax + 0x60]",
+    "ripTarget": null,
+    "role": "zone_name -> event+0x7c"
+   },
+   {
+    "rva": "0x12A1E78",
+    "bytes": "8b88cc000000",
+    "asm": "mov ecx, dword ptr [rax + 0xcc]",
+    "ripTarget": null,
+    "role": "projectile_durable_resistance -> event+0x4c (per hit)"
+   },
+   {
+    "rva": "0x12A1E82",
+    "bytes": "8b88d8000000",
+    "asm": "mov ecx, dword ptr [rax + 0xd8]",
+    "ripTarget": null,
+    "role": "definition armor -> event+0x50 (provisional)"
+   },
+   {
+    "rva": "0x12A1E96",
+    "bytes": "8b88e0000000",
+    "asm": "mov ecx, dword ptr [rax + 0xe0]",
+    "ripTarget": null,
+    "role": "max_armor -> event+0x54"
+   },
+   {
+    "rva": "0x12A1F3A",
+    "bytes": "418b7c2460",
+    "asm": "mov edi, dword ptr [r12 + 0x60]",
+    "ripTarget": null,
+    "role": "resolved zone name"
+   },
+   {
+    "rva": "0x12A2316",
+    "bytes": "e8055626ff",
+    "asm": "call 0x507920",
+    "ripTarget": null,
+    "role": "settings record of the live health instance"
+   },
+   {
+    "rva": "0x12A231B",
+    "bytes": "4c69c3b8010000",
+    "asm": "imul r8, rbx, 0x1b8",
+    "ripTarget": null,
+    "role": "health instance index * 0x1b8"
+   },
+   {
+    "rva": "0x12A2325",
+    "bytes": "4d038558100000",
+    "asm": "add r8, qword ptr [r13 + 0x1058]",
+    "ripTarget": null,
+    "role": "health manager instance array"
+   },
+   {
+    "rva": "0x12A232C",
+    "bytes": "3bb8a0000000",
+    "asm": "cmp edi, dword ptr [rax + 0xa0]",
+    "ripTarget": null,
+    "role": "resolved zone is the default zone (+64 + 0x60)?"
+   },
+   {
+    "rva": "0x12A2334",
+    "bytes": "418b405c",
+    "asm": "mov eax, dword ptr [r8 + 0x5c]",
+    "ripTarget": null,
+    "role": "default zone -> INSTANCE armor +0x5c"
+   },
+   {
+    "rva": "0x12A2340",
+    "bytes": "4881c168020000",
+    "asm": "add rcx, 0x268",
+    "ripTarget": null,
+    "role": "walk zone names"
+   },
+   {
+    "rva": "0x12A2353",
+    "bytes": "4881c128020000",
+    "asm": "add rcx, 0x228",
+    "ripTarget": null,
+    "role": "zone stride"
+   },
+   {
+    "rva": "0x12A235A",
+    "bytes": "83f826",
+    "asm": "cmp eax, 0x26",
+    "ripTarget": null,
+    "role": "38 zones"
+   },
+   {
+    "rva": "0x12A2368",
+    "bytes": "418b448060",
+    "asm": "mov eax, dword ptr [r8 + rax*4 + 0x60]",
+    "ripTarget": null,
+    "role": "zone i -> INSTANCE armor +0x60 + 4*i"
+   },
+   {
+    "rva": "0x12A1FA3",
+    "bytes": "f3410f114650",
+    "asm": "movss dword ptr [r14 + 0x50], xmm0",
+    "ripTarget": null,
+    "role": "event+0x50 = float(instance armor)"
+   },
+   {
+    "rva": "0x12A228D",
+    "bytes": "410fb68424dc000000",
+    "asm": "movzx eax, byte ptr [r12 + 0xdc]",
+    "ripTarget": null,
+    "role": "armor_angle_check -> event+0x72"
+   },
+   {
+    "rva": "0x12A229A",
+    "bytes": "410fb68424e4000000",
+    "asm": "movzx eax, byte ptr [r12 + 0xe4]",
+    "ripTarget": null,
+    "role": "ignore_armor_on_self -> event+0x73 (per hit)"
+   },
+   {
+    "rva": "0x12A22A7",
+    "bytes": "418b8c24c4000000",
+    "asm": "mov ecx, dword ptr [r12 + 0xc4]",
+    "ripTarget": null,
+    "role": "damage_multiplier -> event+0x6c (per hit)"
+   }
+  ],
+  "projectileEvent_0x12a25b0": [
+   {
+    "rva": "0x12A2669",
+    "bytes": "e872efffff",
+    "asm": "call 0x12a15e0",
+    "ripTarget": null,
+    "role": "build hit event"
+   },
+   {
+    "rva": "0x12A2691",
+    "bytes": "f30f5cdc",
+    "asm": "subss xmm3, xmm4",
+    "ripTarget": null,
+    "role": "1 - durable share"
+   },
+   {
+    "rva": "0x12A26D1",
+    "bytes": "f30f588b98000000",
+    "asm": "addss xmm1, dword ptr [rbx + 0x98]",
+    "ripTarget": null,
+    "role": "(1-d)*standard + d*durable"
+   },
+   {
+    "rva": "0x12A26D9",
+    "bytes": "f30f118b98000000",
+    "asm": "movss dword ptr [rbx + 0x98], xmm1",
+    "ripTarget": null,
+    "role": "event+0x98 = durable-weighted damage"
+   }
+  ],
+  "instanceCreate_0x91d580": [
+   {
+    "rva": "0x91D61C",
+    "bytes": "e8ffa2beff",
+    "asm": "call 0x507920",
+    "ripTarget": null,
+    "role": "definition (or entity-delta copy) of the new instance"
+   },
+   {
+    "rva": "0x91D626",
+    "bytes": "4c69e9b8010000",
+    "asm": "imul r13, rcx, 0x1b8",
+    "ripTarget": null,
+    "role": "instance index * 0x1b8"
+   },
+   {
+    "rva": "0x91D637",
+    "bytes": "4c03af58100000",
+    "asm": "add r13, qword ptr [rdi + 0x1058]",
+    "ripTarget": null,
+    "role": "health manager instance array"
+   },
+   {
+    "rva": "0x91D740",
+    "bytes": "8b8618010000",
+    "asm": "mov eax, dword ptr [rsi + 0x118]",
+    "ripTarget": null,
+    "role": "definition default-zone armor (+280 = entity.armor)"
+   },
+   {
+    "rva": "0x91D74D",
+    "bytes": "4189455c",
+    "asm": "mov dword ptr [r13 + 0x5c], eax",
+    "ripTarget": null,
+    "role": "-> instance +0x5c"
+   },
+   {
+    "rva": "0x91D746",
+    "bytes": "488d9ee0020000",
+    "asm": "lea rbx, [rsi + 0x2e0]",
+    "ripTarget": null,
+    "role": "definition zone[0].armor (+736)"
+   },
+   {
+    "rva": "0x91D751",
+    "bytes": "498dbdf8000000",
+    "asm": "lea rdi, [r13 + 0xf8]",
+    "ripTarget": null,
+    "role": "instance zone arrays"
+   },
+   {
+    "rva": "0x91D75A",
+    "bytes": "41bc26000000",
+    "asm": "mov r12d, 0x26",
+    "ripTarget": null,
+    "role": "38 zones"
+   },
+   {
+    "rva": "0x91D770",
+    "bytes": "8b03",
+    "asm": "mov eax, dword ptr [rbx]",
+    "ripTarget": null,
+    "role": "zone[i].armor"
+   },
+   {
+    "rva": "0x91D772",
+    "bytes": "898768ffffff",
+    "asm": "mov dword ptr [rdi - 0x98], eax",
+    "ripTarget": null,
+    "role": "-> instance +0x60 + 4*i"
+   },
+   {
+    "rva": "0x91D7FD",
+    "bytes": "4883c704",
+    "asm": "add rdi, 4",
+    "ripTarget": null,
+    "role": "next instance slot"
+   },
+   {
+    "rva": "0x91D801",
+    "bytes": "4881c328020000",
+    "asm": "add rbx, 0x228",
+    "ripTarget": null,
+    "role": "next definition zone"
+   },
+   {
+    "rva": "0x91D808",
+    "bytes": "4983ec01",
+    "asm": "sub r12, 1",
+    "ripTarget": null,
+    "role": "loop"
+   }
+  ],
+  "instanceCreateRegistration": [
+   {
+    "rva": "0x53DE33",
+    "bytes": "e948f73d00",
+    "asm": "jmp 0x91d580",
+    "ripTarget": null,
+    "role": "component create thunk"
+   },
+   {
+    "rva": "0x55B994",
+    "bytes": "488d059524feff",
+    "asm": "lea rax, [rip - 0x1db6b]",
+    "ripTarget": "0x53DE30",
+    "role": "thunk address"
+   },
+   {
+    "rva": "0x55B99B",
+    "bytes": "48898150dcf000",
+    "asm": "mov qword ptr [rcx + 0xf0dc50], rax",
+    "ripTarget": null,
+    "role": "registered in the component create-callback table"
+   }
+  ],
+  "definitionLookup_0x507430_0x507920": [
+   {
+    "rva": "0x50743F",
+    "bytes": "4c8b90782bf100",
+    "asm": "mov r10, qword ptr [rax + 0xf12b78]",
+    "ripTarget": null,
+    "role": "loaded HealthComponentData table"
+   },
+   {
+    "rva": "0x507463",
+    "bytes": "69c0ea030000",
+    "asm": "imul eax, eax, 0x3ea",
+    "ripTarget": null,
+    "role": "1002 index rows"
+   },
+   {
+    "rva": "0x5074B1",
+    "bytes": "4869c150560000",
+    "asm": "imul rax, rcx, 0x5650",
+    "ripTarget": null,
+    "role": "record index * 22096"
+   },
+   {
+    "rva": "0x5074B8",
+    "bytes": "4805a03e0000",
+    "asm": "add rax, 0x3ea0",
+    "ripTarget": null,
+    "role": "records follow 1002 x 16-byte index rows"
+   },
+   {
+    "rva": "0x50797A",
+    "bytes": "498bbb70100000",
+    "asm": "mov rdi, qword ptr [r11 + 0x1070]",
+    "ripTarget": null,
+    "role": "per-instance override hash"
+   },
+   {
+    "rva": "0x5079D2",
+    "bytes": "4869c050560000",
+    "asm": "imul rax, rax, 0x5650",
+    "ripTarget": null,
+    "role": "override record"
+   },
+   {
+    "rva": "0x5079D9",
+    "bytes": "490383b0100000",
+    "asm": "add rax, qword ptr [r11 + 0x10b0]",
+    "ripTarget": null,
+    "role": "override array"
+   },
+   {
+    "rva": "0x5079EC",
+    "bytes": "e93ffaffff",
+    "asm": "jmp 0x507430",
+    "ripTarget": null,
+    "role": "no override -> definition"
+   },
+   {
+    "rva": "0x929B2D",
+    "bytes": "e8fed8bdff",
+    "asm": "call 0x507430",
+    "ripTarget": null,
+    "role": "override creation copies the definition"
+   },
+   {
+    "rva": "0x929B57",
+    "bytes": "e894ed7601",
+    "asm": "call 0x20988f0",
+    "ripTarget": null,
+    "role": "memcpy 0x5650"
+   },
+   {
+    "rva": "0x929B69",
+    "bytes": "e8d2b9beff",
+    "asm": "call 0x515540",
+    "ripTarget": null,
+    "role": "then applies an entity delta"
+   },
+   {
+    "rva": "0x50753E",
+    "bytes": "813c88e0000000",
+    "asm": "cmp dword ptr [rax + rcx*4], 0xe0",
+    "ripTarget": null,
+    "role": "delta component type 0xE0 = HealthComponentData"
+   }
+  ],
+  "damageFactor_0x129c9f0": [
+   {
+    "rva": "0x129CA3E",
+    "bytes": "e87dfdffff",
+    "asm": "call 0x129c7c0",
+    "ripTarget": null,
+    "role": "angle-selected AP"
+   },
+   {
+    "rva": "0x129CA54",
+    "bytes": "f3440f104b50",
+    "asm": "movss xmm9, dword ptr [rbx + 0x50]",
+    "ripTarget": null,
+    "role": "armor (instance copy)"
+   },
+   {
+    "rva": "0x129CA5A",
+    "bytes": "f30f103d0ea31201",
+    "asm": "movss xmm7, dword ptr [rip + 0x112a30e]",
+    "ripTarget": "0x23C6D70",
+    "role": "1.0"
+   },
+   {
+    "rva": "0x129CA64",
+    "bytes": "488b0db5a20802",
+    "asm": "mov rcx, qword ptr [rip + 0x208a2b5]",
+    "ripTarget": "0x3326D20",
+    "role": "avatar manager"
+   },
+   {
+    "rva": "0x129CADF",
+    "bytes": "e85cfeffff",
+    "asm": "call 0x129c940",
+    "ripTarget": null,
+    "role": "avatar only: armor-level curve"
+   },
+   {
+    "rva": "0x129CABC",
+    "bytes": "f3410f5cc1",
+    "asm": "subss xmm0, xmm9",
+    "ripTarget": null,
+    "role": "AP - armor"
+   },
+   {
+    "rva": "0x129CAC5",
+    "bytes": "0f2fc7",
+    "asm": "comiss xmm0, xmm7",
+    "ripTarget": null,
+    "role": ">= 1"
+   },
+   {
+    "rva": "0x129CACA",
+    "bytes": "0f28f7",
+    "asm": "movaps xmm6, xmm7",
+    "ripTarget": null,
+    "role": "-> factor 1.0"
+   },
+   {
+    "rva": "0x129CAFA",
+    "bytes": "410f2fc0",
+    "asm": "comiss xmm0, xmm8",
+    "ripTarget": null,
+    "role": ">= 0"
+   },
+   {
+    "rva": "0x129CB00",
+    "bytes": "f30f103574a01201",
+    "asm": "movss xmm6, dword ptr [rip + 0x112a074]",
+    "ripTarget": "0x23C6B7C",
+    "role": "-> factor 0.65; otherwise 0"
+   },
+   {
+    "rva": "0x129CB55",
+    "bytes": "807b7300",
+    "asm": "cmp byte ptr [rbx + 0x73], 0",
+    "ripTarget": null,
+    "role": "ignore_armor_on_self"
+   },
+   {
+    "rva": "0x129CB5B",
+    "bytes": "0f28f7",
+    "asm": "movaps xmm6, xmm7",
+    "ripTarget": null,
+    "role": "-> factor 1.0"
+   },
+   {
+    "rva": "0x129CB66",
+    "bytes": "f3410f59cb",
+    "asm": "mulss xmm1, xmm11",
+    "ripTarget": null,
+    "role": "factor * damage * event+0x94"
+   },
+   {
+    "rva": "0x129CB77",
+    "bytes": "e8fcc2e600",
+    "asm": "call 0x2108e78",
+    "ripTarget": null,
+    "role": "floor"
+   },
+   {
+    "rva": "0x129CB9A",
+    "bytes": "f30f590c81",
+    "asm": "mulss xmm1, dword ptr [rcx + rax*4]",
+    "ripTarget": null,
+    "role": "damage multiplier table [0, 1.5, 1, 0.75, 0.25]"
+   }
+  ],
+  "explosionFactor_0x129d180": [
+   {
+    "rva": "0x129D228",
+    "bytes": "f30f5c4750",
+    "asm": "subss xmm0, dword ptr [rdi + 0x50]",
+    "ripTarget": null,
+    "role": "AP - armor (same rule)"
+   },
+   {
+    "rva": "0x129D26D",
+    "bytes": "f30f103507991201",
+    "asm": "movss xmm6, dword ptr [rip + 0x1129907]",
+    "ripTarget": "0x23C6B7C",
+    "role": "0.65"
+   },
+   {
+    "rva": "0x129D275",
+    "bytes": "40387773",
+    "asm": "cmp byte ptr [rdi + 0x73], sil",
+    "ripTarget": null,
+    "role": "ignore_armor_on_self"
+   },
+   {
+    "rva": "0x129D346",
+    "bytes": "e8354768ff",
+    "asm": "call 0x921a80",
+    "ripTarget": null,
+    "role": "zone index by name"
+   },
+   {
+    "rva": "0x129D36C",
+    "bytes": "4038b043010000",
+    "asm": "cmp byte ptr [rax + 0x143], sil",
+    "ripTarget": null,
+    "role": "affected_by_explosions"
+   },
+   {
+    "rva": "0x129D37B",
+    "bytes": "480f45d0",
+    "asm": "cmovne rdx, rax",
+    "ripTarget": null,
+    "role": "zone explosive % if set, else the default zone"
+   }
+  ],
+  "apByAngle_0x129c7c0": [
+   {
+    "rva": "0x129C7CE",
+    "bytes": "f30f598288000000",
+    "asm": "mulss xmm0, dword ptr [rdx + 0x88]",
+    "ripTarget": null,
+    "role": "impact direction . surface normal"
+   },
+   {
+    "rva": "0x129C831",
+    "bytes": "f30f590df7ae1201",
+    "asm": "mulss xmm1, dword ptr [rip + 0x112aef7]",
+    "ripTarget": "0x23C7730",
+    "role": "radians -> degrees"
+   },
+   {
+    "rva": "0x129C83D",
+    "bytes": "85c0",
+    "asm": "test eax, eax",
+    "ripTarget": null,
+    "role": "event type 0 = projectile"
+   },
+   {
+    "rva": "0x129C8AC",
+    "bytes": "488b0d7d091d02",
+    "asm": "mov rcx, qword ptr [rip + 0x21d097d]",
+    "ripTarget": "0x346D230",
+    "role": "projectile angle thresholds"
+   },
+   {
+    "rva": "0x129C87A",
+    "bytes": "488b0db7091d02",
+    "asm": "mov rcx, qword ptr [rip + 0x21d09b7]",
+    "ripTarget": "0x346D238",
+    "role": "DPS angle thresholds"
+   },
+   {
+    "rva": "0x129C8DE",
+    "bytes": "f30f1084839c000000",
+    "asm": "movss xmm0, dword ptr [rbx + rax*4 + 0x9c]",
+    "ripTarget": null,
+    "role": "AP[direct, slight, large, extreme]"
+   }
+  ]
+ },
+ "constants": {
+  "values": {
+   "0x23C6D70": 1.0,
+   "0x23C6B7C": 0.65,
+   "0x23C7730": 57.2957764
+  },
+  "damageMultiplierTable": [
+   0.0,
+   1.5,
+   1.0,
+   0.75,
+   0.25
+  ],
+  "avatarArmorCurve": [
+   [
+    3.0,
+    0.65
+   ],
+   [
+    2.0,
+    0.75
+   ],
+   [
+    1.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.25
+   ],
+   [
+    -1.0,
+    1.66
+   ]
+  ]
+ },
+ "heap": {
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "gameDllBase": "0x7FFDBF790000",
+  "angleThresholdsDegrees": {
+   "projectile": [
+    25.0,
+    60.0,
+    80.0,
+    90.0
+   ],
+   "dps": [
+    25.0,
+    60.0,
+    80.0,
+    90.0
+   ]
+  },
+  "healthInstances": 1,
+  "healthOverrideCopies": 0,
+  "avatarManagerOccupants": [
+   {
+    "entity": "0xF9",
+    "healthResource": "0x4D1C334D294DFA97",
+    "path": "content/fac_helldivers/cha_avatar/avatar_helldiver"
+   }
+  ],
+  "note": "The retained snapshot is in the ship: one health instance (the Helldiver avatar), no override copies, and the avatar manager (whose armor-level curve replaces AP-vs-armor) holds only avatar_helldiver."
+ },
+ "damageModel": {
+  "rule": "factor = 1.0 if AP - armor >= 1; 0.65 if 0 <= AP - armor < 1; else 0. ignore_armor_on_self forces 1.0. Avatars (Helldivers) use the armor-level curve instead. damage = floor(factor * ((1-d)*standard + d*durable) * m) * multiplier[damage_multiplier]; d = zone durable share, m = event+0x94 (assumed 1.0 here).",
+  "apSelection": "AP[i] with i = first angle threshold >= the angle from the surface normal (projectile thresholds 25/60/80/90 degrees). Head-on hits use AP direct.",
+  "shieldPlate": {
+   "zone": 0,
+   "durableShare": 0.7,
+   "damageMultiplier": "Normal",
+   "mainHealth": 1000,
+   "zoneHealth": -1,
+   "note": "zone health -1: damage goes to the 1000 main pool (affects_main_health 1.0)."
+  },
+  "weapons": {
+   "APW-1 Anti-Materiel Rifle": {
+    "standard_damage": 450,
+    "durable_damage": 225,
+    "ap": [
+     4,
+     4,
+     4,
+     0
+    ],
+    "demolition": 20,
+    "damageRow": 205,
+    "damageType": 206,
+    "kind": "Projectile"
+   },
+   "LAS-99 Quasar Cannon": {
+    "standard_damage": 2000,
+    "durable_damage": 2000,
+    "ap": [
+     6,
+     6,
+     6,
+     3
+    ],
+    "demolition": 30,
+    "damageRow": 372,
+    "damageType": 383,
+    "kind": "Projectile"
+   },
+   "MG-206 Heavy Machine Gun": {
+    "standard_damage": 150,
+    "durable_damage": 35,
+    "ap": [
+     4,
+     4,
+     4,
+     0
+    ],
+    "demolition": 15,
+    "damageRow": 204,
+    "damageType": 205,
+    "kind": "Projectile"
+   },
+   "MG-43 Machine Gun": {
+    "standard_damage": 90,
+    "durable_damage": 23,
+    "ap": [
+     3,
+     3,
+     3,
+     1
+    ],
+    "demolition": 10,
+    "damageRow": 130,
+    "damageType": 125,
+    "kind": "Projectile"
+   },
+   "RS-422 Railgun": {
+    "standard_damage": 600,
+    "durable_damage": 225,
+    "ap": [
+     5,
+     5,
+     5,
+     5
+    ],
+    "demolition": 10,
+    "damageRow": 69,
+    "damageType": 64,
+    "kind": "Projectile"
+   }
+  },
+  "predictions": [
+   {
+    "weapon": "APW-1 Anti-Materiel Rifle",
+    "apDirect": 4,
+    "zone0Armor": 3,
+    "factor": 1.0,
+    "durableWeightedDamage": 292.5,
+    "damagePerHit": 292,
+    "hitsToBreak": 4
+   },
+   {
+    "weapon": "APW-1 Anti-Materiel Rifle",
+    "apDirect": 4,
+    "zone0Armor": 4,
+    "factor": 0.6499999761581421,
+    "durableWeightedDamage": 292.5,
+    "damagePerHit": 190,
+    "hitsToBreak": 6
+   },
+   {
+    "weapon": "APW-1 Anti-Materiel Rifle",
+    "apDirect": 4,
+    "zone0Armor": 5,
+    "factor": 0.0,
+    "durableWeightedDamage": 292.5,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "APW-1 Anti-Materiel Rifle",
+    "apDirect": 4,
+    "zone0Armor": 6,
+    "factor": 0.0,
+    "durableWeightedDamage": 292.5,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "LAS-99 Quasar Cannon",
+    "apDirect": 6,
+    "zone0Armor": 3,
+    "factor": 1.0,
+    "durableWeightedDamage": 2000.0,
+    "damagePerHit": 2000,
+    "hitsToBreak": 1
+   },
+   {
+    "weapon": "LAS-99 Quasar Cannon",
+    "apDirect": 6,
+    "zone0Armor": 4,
+    "factor": 1.0,
+    "durableWeightedDamage": 2000.0,
+    "damagePerHit": 2000,
+    "hitsToBreak": 1
+   },
+   {
+    "weapon": "LAS-99 Quasar Cannon",
+    "apDirect": 6,
+    "zone0Armor": 5,
+    "factor": 1.0,
+    "durableWeightedDamage": 2000.0,
+    "damagePerHit": 2000,
+    "hitsToBreak": 1
+   },
+   {
+    "weapon": "LAS-99 Quasar Cannon",
+    "apDirect": 6,
+    "zone0Armor": 6,
+    "factor": 0.6499999761581421,
+    "durableWeightedDamage": 2000.0,
+    "damagePerHit": 1300,
+    "hitsToBreak": 1
+   },
+   {
+    "weapon": "MG-206 Heavy Machine Gun",
+    "apDirect": 4,
+    "zone0Armor": 3,
+    "factor": 1.0,
+    "durableWeightedDamage": 69.5,
+    "damagePerHit": 69,
+    "hitsToBreak": 15
+   },
+   {
+    "weapon": "MG-206 Heavy Machine Gun",
+    "apDirect": 4,
+    "zone0Armor": 4,
+    "factor": 0.6499999761581421,
+    "durableWeightedDamage": 69.5,
+    "damagePerHit": 45,
+    "hitsToBreak": 23
+   },
+   {
+    "weapon": "MG-206 Heavy Machine Gun",
+    "apDirect": 4,
+    "zone0Armor": 5,
+    "factor": 0.0,
+    "durableWeightedDamage": 69.5,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "MG-206 Heavy Machine Gun",
+    "apDirect": 4,
+    "zone0Armor": 6,
+    "factor": 0.0,
+    "durableWeightedDamage": 69.5,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "MG-43 Machine Gun",
+    "apDirect": 3,
+    "zone0Armor": 3,
+    "factor": 0.6499999761581421,
+    "durableWeightedDamage": 43.1,
+    "damagePerHit": 28,
+    "hitsToBreak": 36
+   },
+   {
+    "weapon": "MG-43 Machine Gun",
+    "apDirect": 3,
+    "zone0Armor": 4,
+    "factor": 0.0,
+    "durableWeightedDamage": 43.1,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "MG-43 Machine Gun",
+    "apDirect": 3,
+    "zone0Armor": 5,
+    "factor": 0.0,
+    "durableWeightedDamage": 43.1,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "MG-43 Machine Gun",
+    "apDirect": 3,
+    "zone0Armor": 6,
+    "factor": 0.0,
+    "durableWeightedDamage": 43.1,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   },
+   {
+    "weapon": "RS-422 Railgun",
+    "apDirect": 5,
+    "zone0Armor": 3,
+    "factor": 1.0,
+    "durableWeightedDamage": 337.5,
+    "damagePerHit": 337,
+    "hitsToBreak": 3
+   },
+   {
+    "weapon": "RS-422 Railgun",
+    "apDirect": 5,
+    "zone0Armor": 4,
+    "factor": 1.0,
+    "durableWeightedDamage": 337.5,
+    "damagePerHit": 337,
+    "hitsToBreak": 3
+   },
+   {
+    "weapon": "RS-422 Railgun",
+    "apDirect": 5,
+    "zone0Armor": 5,
+    "factor": 0.6499999761581421,
+    "durableWeightedDamage": 337.5,
+    "damagePerHit": 219,
+    "hitsToBreak": 5
+   },
+   {
+    "weapon": "RS-422 Railgun",
+    "apDirect": 5,
+    "zone0Armor": 6,
+    "factor": 0.0,
+    "durableWeightedDamage": 337.5,
+    "damagePerHit": 0,
+    "hitsToBreak": null
+   }
+  ]
+ },
+ "recommendation": {
+  "api": "Bind the SH-20 armor to zone 0: expose hd2.backpack(SH-20):zone(\"shield\") with zone.armor (record 292 +736, vanilla 4), or remap the backpack's armor field to +736. Stop presenting +280 as the shield armor: classify it dormant (fallback-only) and gate it behind allow_unverified_effect, or write both +280 and +736 in one operation group. Document that the change applies to shields spawned after the write.",
+  "guards": "Re-prove at write time: record 292 unique owner, zone 0 name hash \"shield\", actors [\"damageable\", \"collision\"], expected armor 4."
+ },
+ "liveTest": {
+  "setup": "Apply the write, then call in a NEW SH-20 (a shield already spawned keeps its instance armor). Drop it or have a teammate hold it; shoot head-on (angle <= 25 degrees) and count hits. Use projectile weapons without explosions.",
+  "expected": [
+   "Vanilla control, zone 0 armor 4: HMG 45 per hit, breaks on hit 23; Railgun 337 per hit, breaks on 3.",
+   "Zone 0 armor 5 (new shield): HMG and APW-1 (AP 4) deal 0 and never break it; Railgun (AP 5) 219 per hit, breaks on 5.",
+   "Old shield spawned before the write: still HMG 45 per hit (proves instantiation semantics).",
+   "Zone 0 armor 3 (optional): HMG 69 per hit, breaks on 15; MG-43 (AP 3, 0 vs vanilla) 28 per hit.",
+   "Reproduce the report: entity.armor (+280) = 5 alone, new shield: HMG still 45 per hit."
+  ]
+ },
+ "unproven": [
+  "The shield unit's physics actor list was not decoded (bundles.*.nxa); zone 0 lists \"damageable\" and \"collision\". Any other hittable actor would fall back to the default zone.",
+  "event+0x94 (caller damage scale) is assumed 1.0; it changes hit counts, not the zero/non-zero outcome.",
+  "No live observation yet of zone 0 armor on the SH-20.",
+  "SH-51: entity.health/entity.armor bind the backpack body (record 296, no zones); the barrier is a separate entity (record 80, zone 0 body_front armor 1, max armor 2, 450 HP). Not traced here."
+ ]
+}

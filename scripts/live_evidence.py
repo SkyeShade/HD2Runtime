@@ -46,3 +46,25 @@ def proven(name: str) -> dict | None:
     runs = [run for run in tests(name, current=True) if run['result'] == 'PASS']
     return {'status': 'live_proven', 'family': name, 'tests': sorted({run['mod'] for run in runs}),
         'date': max(run['date'] for run in runs)}
+
+
+def proven_target(name: str, target: str, field: str) -> dict | None:
+    """Evidence for one exact (target, field) pair of a live-proven family scoped by `provenTargets`, else None. Only
+    the tested target is promoted; the same member on other targets stays unpromoted."""
+    evidence = proven(name)
+    if not evidence:
+        return None
+    if not any(item['target'] == target and item['field'] == field for item in family(name).get('provenTargets') or []):
+        return None
+    return dict(evidence, target=target, field=field)
+
+
+def proven_targets() -> dict:
+    """Every promoted (target, field) pair across families: {(target, field): evidence}."""
+    result = {}
+    for name, entry in load()['families'].items():
+        for item in entry.get('provenTargets') or []:
+            evidence = proven_target(name, item['target'], item['field'])
+            if evidence:
+                result[(item['target'], item['field'])] = evidence
+    return result

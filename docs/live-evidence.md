@@ -22,6 +22,13 @@ Composition tests record four separate facts: the donor output works, the refere
 | `weapon_projectile_reference_dormant_member` | live-failed | `attack.<role>.projectile` | Writing the base ProjectileWeapon +0 member of an attack whose default ammunition customization patches that member at weapon build. Withdrawn: those fields are read-only with DORMANT_PROJECTILE_REFERENCE and point to weapon:ammunition():projectile(). | unchanged |
 | `weapon_ammunition_projectile_reference` | live-proven | `ammunition.projectile` | The AR-23 Liberator's default ammunition, RIFLE 5,5x50mm. FULL METAL JACKET: its entity delta row that patches ProjectileWeapon +0 when the weapon is built. An edited row is consumed in play. Only this delta row is proven; allow_shared stays required (an ammunition definition applies to every weapon that equips it). | removed `allow_unverified_effect (AR-23 Liberator ammunition only)` |
 | `attack_output_cross_class` | live-proven | `attack.<role>.projectile`, `ammunition.projectile` | Exactly two compositions on the AR-23 Liberator's ammunition source: the EAT-700 Expendable Napalm output (explosive_shrapnel) and the GL-52 De-Escalator output (explosive_arc). Both donor outputs render and function with their chains (napalm, arc on impact) when the Liberator fires them. | removed `allow_unverified_reference, allow_unverified_effect (these two compositions only)` |
+| `weapon_magazine_capacity` | live-proven | `magazine.capacity` | The MA5C Assault Rifle's WeaponMagazineComponent capacity: a component member copied into the weapon when it is built (ACTIVE_AT_INSTANTIATION). | unchanged |
+| `weapon_heat_per_shot` | live-proven | `heat.heat_per_shot` | The LAS-16 Sickle's heat per shot: a WeaponHeat component member copied into the weapon when it is built. | unchanged |
+| `weapon_projectile_damage` | live-proven | `damage.<branch>.standard_damage` | Standard damage of two projectile DamageInfo rows, read when a projectile hits: the SG-20 Halt's primary (flechette) feed, reached through the corrected feed_primary field resolution, and the M-1000 Maxigun's primary projectile. | unchanged |
+| `stratagem_definition_cooldown` | live-proven | `stratagem.definition_cooldown` | The Orbital Precision Strike's StratagemDefinition cooldown (+104), read when the stratagem is used: the next call-in was ready 5 s after use. The same member carried the historical Shield Generator Relay cooldown proof. | unchanged |
+| `backpack_deposit_ammo` | live-partial | `deposit.capacity`, `deposit.start_amount`, `deposit.refill_amount` | The M-1000 Maxigun Backpack's DepositComponent ammunition (capacity, start and refill). | unchanged |
+| `backpack_shield_default_armor` | live-failed | `entity.armor` | The SH-20 Ballistic Shield Backpack's default-zone armor (HealthComponentData record 292 +280). | unchanged |
+| `backpack_shield_zone_armor` | pending | `zone.armor` | The SH-20 Ballistic Shield Backpack's shield-plate armor: damage zone 0 "shield" (+736), copied into a shield when it spawns. | unchanged |
 
 ## Notes
 
@@ -55,6 +62,29 @@ Composition tests record four separate facts: the donor output works, the refere
 **`attack_output_cross_class`**
 - Observation: The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member; they stay recorded, superseded, as host-path history.
 - Not promoted (still need `allow_unverified_effect`): every other host and output pair, including the same outputs on other hosts.
+
+**`weapon_magazine_capacity`**
+- Not promoted (still need `allow_unverified_effect`): magazine.capacity of every other weapon: the same member, but only the MA5C was tested, magazine attachments (hd2.weapon_attachment targets).
+- Next tests: `report whether a magazine change reaches a weapon already held or only a freshly built one`.
+
+**`weapon_heat_per_shot`**
+- Not promoted (still need `allow_unverified_effect`): heat fields of every other weapon, including the LAS-17 Double-Edge Sickle.
+
+**`weapon_projectile_damage`**
+- Not promoted (still need `allow_unverified_effect`): other DamageInfo fields and every other weapon's damage row, the SG-20 Halt's alternate (stun) feed.
+
+**`stratagem_definition_cooldown`**
+- Not promoted (still need `allow_unverified_effect`): the cooldown of every other stratagem: the same member, not individually tested.
+
+**`backpack_deposit_ammo`**
+- Observation: Capacity 3000 is consumed: a new call-in first shows 3000 rounds.
+- Observation: The active ammunition state is capped near 1024: firing snaps it to about 1017 and a resupply refills only to 1024, while the UI keeps the configured 3000 as its maximum.
+- Analysis: Proven offline (research/deposit-limits-F5FEE03DCFDB.json): the live amount is the engine network field remaining, type deposit_value (int, 10 bits, min 0). The owning peer's field validator clamps it to 0..1023 and writes the clamped value back into the live count on every change, solo included. The HUD maximum is start_amount. Runtime now bounds the three deposit fields to 1023 and refuses larger values.
+- Not promoted (still need `allow_unverified_effect`): deposit capacity, start and refill amounts up to 1023: not yet shown in game.
+- Next tests: `RuntimeEffectDiagnostics test 5 (1023 control; does the HUD read 1023 or 1024 at full?) and test 7 (start 800: the HUD maximum)`.
+
+**`backpack_shield_default_armor`**
+- Analysis: Every hit on the shield plate resolves to damage zone 0 "shield", whose own armor (+736) stayed 4; AP 4 against armor 4 is the equal case (65% damage). The default zone is only a fallback for hit actors no zone lists (research/ballistic-shield-F5FEE03DCFDB.json). Withdrawn: the field is read-only and points to :damage_zone('shield') zone.armor.
 
 ## Session coverage-pass-2026-09-29
 
@@ -98,3 +128,24 @@ Every operation logged: `target resolved`, `APPLIED`.
 | LiberatorAttackOutputTest (EAT-700 Napalm) | pass | AR-23 Liberator / default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET): `ammunition.projectile` AR-23 Liberator bullet → EAT-700 Expendable Napalm output | yes / yes / yes / yes | The donor package loaded automatically and the Liberator fired the EAT-700 napalm projectile: the ammunition-owned source is consumed in play. |
 | LiberatorAttackOutputTest (GL-52 Arc (impact)) | pass | AR-23 Liberator / default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET): `ammunition.projectile` AR-23 Liberator bullet → GL-52 De-Escalator output | yes / yes / yes / yes | The donor package loaded automatically and the Liberator fired the GL-52 projectile; its impact produced the donor arc behaviour. |
 | AssetTestReprimandTalonProjectile | pass | SMG-32 Reprimand / primary attack: `attack.projectile` SMG-32 Reprimand projectile → LAS-58 Talon projectile | yes / yes / yes / yes | Passed again on the active-source build: ACTIVE_DIRECT replacement still works after the active-source API changes. |
+
+## Session effect-diagnostics-2026-09-29
+
+Runtime: HD2Runtime 0.27.0 user-report test build (commit aaabb0a, build/test-artifacts/coverage-live-tests/HD2Runtime-0.27.0-runtime-user-report-test.zip) with RuntimeEffectDiagnostics 0.1.0.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| RuntimeEffectDiagnostics (MA5C magazine 60) | pass | MA5C Assault Rifle: `magazine.capacity` 32 → 60 |  | The MA5C magazine held 60 rounds. Whether it changed on a weapon already held or only after a rebuild was not reported. |
+| RuntimeEffectDiagnostics (Halt flechette damage x10) | pass | SG-20 Halt / feed_primary projectile damage: `damage.primary.standard_damage` 35 → 350 |  | Halt flechette (primary feed) damage rose tenfold, which also confirms the corrected feed-field resolution in play. |
+| RuntimeEffectDiagnostics (Sickle overheats in 5 shots) | pass | LAS-16 Sickle: `heat.heat_per_shot` 1.15 → 20 |  | The LAS-16 Sickle overheated after about 5 shots. |
+| RuntimeEffectDiagnostics (Maxigun damage x10) | pass | M-1000 Maxigun / primary projectile damage: `damage.primary.standard_damage` 80 → 800 |  | M-1000 Maxigun damage rose tenfold. |
+| RuntimeEffectDiagnostics (Precision Strike cooldown 5 s) | pass | Orbital Precision Strike: `stratagem.definition_cooldown` 80 → 5 |  | The Orbital Precision Strike was ready again 5 seconds after use. |
+| RuntimeEffectDiagnostics (Maxigun backpack 3000) | partial | M-1000 Maxigun Backpack: `deposit.capacity` 1000 → 3000; M-1000 Maxigun Backpack: `deposit.start_amount` 1000 → 3000; M-1000 Maxigun Backpack: `deposit.refill_amount` 500 → 1500 |  | A new call-in first showed 3000 rounds. After firing briefly the current ammunition snapped to about 1017 (about 7-8 rounds fired from 1024); a resupply refilled only to 1024; the UI could show 1024 / 3000. The configured capacity is consumed, but the active ammunition state has a separate effective maximum near 1024. |
+
+## Session ballistic-shield-report-2026-09-29
+
+Runtime: HD2Runtime 0.27.0 (user-built mod writing the SH-20 Ballistic Shield backpack's entity.armor).
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| SH-20 armor edit (user-built) | fail | SH-20 Ballistic Shield Backpack: `entity.armor` 4 → 5 |  | The MG-206 HMG (armor penetration 4) still damaged the shield after its armor was set to 5. |

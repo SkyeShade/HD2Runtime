@@ -77842,6 +77842,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.heat.heat_per_shot",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_heat_per_shot",
+            "tests": [
+              "RuntimeEffectDiagnostics"
+            ],
+            "date": "2026-09-29",
+            "target": "LAS-16 Sickle",
+            "field": "heat.heat_per_shot"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -77849,7 +77859,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -101636,6 +101646,16 @@
           "reason": null,
           "acceptedForWrites": true,
           "apiFieldConstant": "hd2.fields.magazine.capacity",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_magazine_capacity",
+            "tests": [
+              "RuntimeEffectDiagnostics"
+            ],
+            "date": "2026-09-29",
+            "target": "MA5C Assault Rifle",
+            "field": "magazine.capacity"
+          },
           "effect": {
             "activeSource": "ACTIVE_AT_INSTANTIATION",
             "appliesWhen": "weapon_build",
@@ -101643,7 +101663,7 @@
             "activeSourceProven": true,
             "reason": "A component member the game copies into the weapon when it builds it (base plus customization deltas, observed in snapshot memory): weapons built after the write use it; a weapon already built keeps its copy until it is rebuilt (redeploy, reinforce, re-equip).",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },
@@ -186589,6 +186609,16 @@
           "acceptedForWrites": true,
           "dynamicConsumersPossible": true,
           "apiFieldConstant": "hd2.fields.damage.primary_standard_damage",
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "weapon_projectile_damage",
+            "tests": [
+              "RuntimeEffectDiagnostics"
+            ],
+            "date": "2026-09-29",
+            "target": "SG-20 Halt",
+            "field": "damage.primary.standard_damage"
+          },
           "effect": {
             "activeSource": "ACTIVE_DIRECT",
             "appliesWhen": "use",
@@ -186596,7 +186626,7 @@
             "activeSourceProven": true,
             "reason": "A settings row the game reads when the projectile, explosion or damage is used.",
             "writeVerifiedOnApply": true,
-            "gameplayEffectProven": false,
+            "gameplayEffectProven": true,
             "unverifiedEffect": false
           }
         },

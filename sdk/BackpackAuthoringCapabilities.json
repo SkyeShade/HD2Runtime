@@ -99,6 +99,13 @@
     {
       "name": "SH-20 Ballistic Shield Backpack",
       "semanticId": "backpack/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c",
+      "damageZones": [
+        {
+          "zoneId": "zone_0",
+          "index": 0,
+          "name": "shield"
+        }
+      ],
       "callInStratagem": {
         "semanticId": "stratagem/v1/sh-20-ballistic-shield-backpack/ab534f79ef77ed2c",
         "name": "SH-20 Ballistic Shield Backpack",
@@ -127,12 +134,19 @@
             "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
             "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
           ]
+        },
+        {
+          "group": "shield_plate",
+          "fieldInstanceKeys": [
+            "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-damage-zone-zone-0:zone.armor"
+          ]
         }
       ],
       "blockedFields": [],
       "fieldInstanceKeys": [
         "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
-        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor",
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-damage-zone-zone-0:zone.armor"
       ]
     },
     {
@@ -1059,8 +1073,8 @@
       "type": "integer",
       "unit": "armor_class",
       "currentDefault": 4,
-      "editable": true,
-      "reason": null,
+      "editable": false,
+      "reason": "Default-zone armor: the game uses it only for a hit on a part no damage zone lists, and the shield plate is listed by its \"shield\" zone, so it does not change what bullets hitting the shield do (live-failed 2026-09-29: armor 5 here, the AP 4 HMG still damaged the shield). Use hd2.backpack('SH-20 Ballistic Shield Backpack'):damage_zone('shield') with zone.armor.",
       "target": {
         "resource": "backpack",
         "backpack": "SH-20 Ballistic Shield Backpack",
@@ -1094,7 +1108,74 @@
         ],
         "sharedTypedSchema": true
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "effect": {
+        "activeSource": "DORMANT_OR_METADATA",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "activeField": "damage_zone shield / zone.armor"
+      }
+    },
+    {
+      "instanceKey": "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-damage-zone-zone-0:zone.armor",
+      "semanticFieldId": "zone.armor",
+      "displayName": "Zone armor",
+      "type": "integer",
+      "unit": "armor_class",
+      "currentDefault": 4,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-20 Ballistic Shield Backpack",
+        "path": "damage_zone",
+        "zone": "zone_0"
+      },
+      "backingObjectId": "backing:685da4954088acc2",
+      "operationGroup": "operation:db339374b9be2706",
+      "planGroup": "plan:backpack:sh-20-ballistic-shield-backpack",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "backpack": "SH-20 Ballistic Shield Backpack"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:a926c84a2571adf4",
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "backingObjectKind": "HealthComponentData",
+      "domain": "zone",
+      "apiFieldConstant": "hd2.fields.zone.armor",
+      "planPhase": 1,
+      "dependsOn": [],
+      "evidence": {
+        "tier": "schema_proven",
+        "referenceMod": "BastionReArmored",
+        "proof": "research/armor-proof.md: the AP9 experiment succeeded in gameplay (Bastion)",
+        "provenOn": [
+          "TD-220 Bastion MK XVI"
+        ],
+        "sharedTypedSchema": true
+      },
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Armor of the \"shield\" damage zone, which every hit on the shield plate resolves to. Copied into the shield when it spawns: a shield already in the world keeps its armor. Not yet shown in game.",
+      "min": 0,
+      "max": 10,
+      "effect": {
+        "activeSource": "ACTIVE_AT_INSTANTIATION",
+        "activeSourceProven": true,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true,
+        "damageRule": "AP - armor >= 1: full damage; AP == armor: 65%; AP < armor: none"
+      },
+      "zoneActors": [
+        "damageable",
+        "collision"
+      ]
     },
     {
       "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
@@ -1479,7 +1560,15 @@
         ],
         "sharedTypedSchema": true
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Health of the SH-51 backpack body. The energy barrier is a separate entity with its own health record; which of the two the barrier's hits reach is not traced.",
+      "effect": {
+        "activeSource": "AMBIGUOUS",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
     },
     {
       "instanceKey": "backpack:sh-51-directional-shield:sh-51-directional-shield-backpack:entity.armor",
@@ -1523,7 +1612,15 @@
         ],
         "sharedTypedSchema": true
       },
-      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline"
+      "provenance": "current-build typed entity schema plus exact retained-snapshot baseline",
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "Default-zone armor of the SH-51 backpack body. The energy barrier is a separate entity with its own damage zone; which of the two the barrier's hits reach is not traced.",
+      "effect": {
+        "activeSource": "AMBIGUOUS",
+        "activeSourceProven": false,
+        "appliesWhen": "entity_spawn",
+        "instantiationOnly": true
+      }
     },
     {
       "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
@@ -2160,7 +2257,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 1,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2207,7 +2305,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2254,7 +2353,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2301,7 +2401,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 1,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2348,7 +2449,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2395,7 +2497,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2442,7 +2545,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 1,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2489,7 +2593,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     },
@@ -2536,7 +2641,8 @@
       "provenance": "call-in rack -> weapon linked ammo tag -> backpack TagComponent -> backpack DepositComponent; exact wiki capacity and supply fingerprints",
       "uiGroup": "backpack_ammo",
       "min": 0,
-      "max": 100000,
+      "max": 1023,
+      "rangeReason": "the live deposit amount is the engine network field deposit_value (10 bits): the game clamps it to 1023 on every write, so a larger value shows only until the first shot or resupply",
       "acknowledgement": "allow_unverified_effect",
       "acknowledgementReason": "The backpack DepositComponent is the proven ammunition store (exact capacity and supply fingerprints), but no edit has been confirmed in game yet."
     }
@@ -2598,7 +2704,8 @@
       "sharedScopeKey": "shared-scope:a926c84a2571adf4",
       "fieldInstances": [
         "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.health",
-        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor"
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-backpack:entity.armor",
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-damage-zone-zone-0:zone.armor"
       ]
     },
     {
@@ -2865,6 +2972,21 @@
       "allowSharedRequired": false
     },
     {
+      "operationGroup": "operation:db339374b9be2706",
+      "backingObjectId": "backing:685da4954088acc2",
+      "target": {
+        "resource": "backpack",
+        "backpack": "SH-20 Ballistic Shield Backpack",
+        "path": "damage_zone",
+        "zone": "zone_0"
+      },
+      "fieldInstances": [
+        "backpack:sh-20-ballistic-shield-backpack:sh-20-ballistic-shield-backpack-damage-zone-zone-0:zone.armor"
+      ],
+      "recommendedApi": "hd2.patch",
+      "allowSharedRequired": false
+    },
+    {
       "operationGroup": "operation:b539dca1f8f01109",
       "backingObjectId": "backing:afff02a887451eab",
       "target": {
@@ -3076,9 +3198,9 @@
   },
   "summary": {
     "backpacks": 16,
-    "fieldInstances": 40,
+    "fieldInstances": 41,
     "writableFieldInstances": 18,
-    "readOnlyFieldInstances": 22,
+    "readOnlyFieldInstances": 23,
     "backpacksWithWritableFields": 8,
     "writableByTier": {
       "gameplay_proven": 2,
@@ -3092,8 +3214,8 @@
     "fixtureFallback": "disabled"
   },
   "instanceAudit": {
-    "internalInstances": 40,
-    "publishedInstances": 40,
+    "internalInstances": 41,
+    "publishedInstances": 41,
     "missingInstances": 0,
     "unexpectedInstances": 0,
     "exactMatch": true

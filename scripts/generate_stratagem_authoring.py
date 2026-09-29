@@ -914,6 +914,13 @@ def build():
     for group in operation_groups.values():
         if len(group['fieldInstances']) > 1:
             group['recommendedApi'] = 'hd2.transaction'
+    # The cooldown of exactly the stratagems a live test promoted (schemas/live_evidence.json provenTargets).
+    for item in public_stratagems:
+        capability = item.get('cooldownCapability') or {}
+        promoted = capability.get('writable') and live_evidence.proven_target(
+            'stratagem_definition_cooldown', item['name'], 'stratagem.definition_cooldown')
+        if promoted:
+            capability['liveEvidence'] = promoted
     deployed_entities = []
     for item in public_stratagems:
         if item.get('deployedEntity'):

@@ -46,8 +46,11 @@ local function entry_for(target)
     assert(target.resource=='backpack','unsupported entity target')
     local entry=assert(type(target.backpack)=='string'and database.backpacks[target.backpack],
         'unknown reviewed backpack: '..tostring(target.backpack))
-    assert(target.path=='backpack','unsupported backpack target path')
-    for key in pairs(target)do assert(key=='resource'or key=='backpack'or key=='path',
+    if target.path=='damage_zone'then
+        assert(type(rawget(target,'zone'))=='string'and entry.zones and entry.zones[target.zone],
+            'damage zone identity required')
+    else assert(target.path=='backpack','unsupported backpack target path')end
+    for key in pairs(target)do assert(key=='resource'or key=='backpack'or key=='path'or key=='zone',
         'unsupported backpack target identity')end
     return entry,target.backpack
 end
@@ -105,7 +108,8 @@ local function validate_change(entry,target,item,request)
         'expect differs from reviewed current value for '..item.field)
     if field.min then
         assert(desired>=field.min and desired<=field.max,
-            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')'
+            ..(field.rangeReason and(': '..field.rangeReason)or''))
     end
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,storage),desired=b.encode(desired,storage),expect=expected,value=desired}
@@ -216,6 +220,12 @@ function M.prepare(resolved,reader,spec)
         assert(record.identity.ownerCount==backing.ownerCount
             and record.identity.uniqueOwner==backing.uniqueOwner,'entity component consumer scope changed')
         assert(backing.offset+backing.width<=#record.bytes,'field outside reviewed record')
+        -- Zone identity: the exact bytes that make this the reviewed zone (its name hash, its hit-actor list).
+        for _,guard in ipairs(backing.guards or{})do
+            local expected=b.unhex(guard.hex)
+            assert(record.bytes:sub(guard.offset+1,guard.offset+#expected)==expected,
+                'entity zone identity changed ('..change.field..' guard at +'..guard.offset..')')
+        end
         local current=record.bytes:sub(backing.offset+1,backing.offset+backing.width)
         local expected=ownership.expected(change,current)
         local offset=record.offset+backing.offset

@@ -28,11 +28,14 @@ class LiveEvidenceTests(unittest.TestCase):
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
             'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor', 'minefield_salvos',
-                'sentry_targeting_range', 'sentry_turret_turn_speed', 'weapon_ammunition_projectile_reference',
-                'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
+                'sentry_targeting_range', 'sentry_turret_turn_speed', 'stratagem_definition_cooldown',
+                'weapon_ammunition_projectile_reference', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
+                'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
+            'live_partial': ['backpack_deposit_ammo'],
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
-            'live_failed': ['weapon_projectile_reference_dormant_member'], 'pending': []})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (16, 11))
+            'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
+            'pending': ['backpack_shield_zone_armor']})
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (23, 16))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
@@ -134,6 +137,34 @@ class LiveEvidenceTests(unittest.TestCase):
             addon = (ROOT / 'examples/projects' / name / 'src/addon.lua').read_text()
             self.assertEqual('allow_unverified_effect=true' in addon, name in gated, name)
 
+
+    def test_effect_diagnostics_promote_exactly_the_tested_targets(self):
+        """The five passing diagnostics promote their exact (target, field) pairs and nothing else; the Maxigun backpack
+        is partial and keeps its acknowledgement."""
+        self.assertEqual(sorted(live_evidence.proven_targets()), [
+            ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
+            ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
+            ('SG-20 Halt', 'damage.primary.standard_damage')])
+        weapons = load('PlayerWeaponAuthoringCapabilities.json')
+        promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
+            if (f.get('liveEvidence') or {}).get('family') in ('weapon_magazine_capacity', 'weapon_heat_per_shot',
+                'weapon_projectile_damage'))
+        self.assertEqual(promoted, [('LAS-16 Sickle', 'heat.heat_per_shot'), ('MA5C Assault Rifle', 'magazine.capacity'),
+            ('SG-20 Halt', 'damage.primary.standard_damage')])
+        support = load('SupportWeaponAuthoringCapabilities.json')
+        promoted = [(f['supportWeapon'], f['qualifiedSemanticFieldId']) for f in support['fieldInstances']
+            if (f.get('liveEvidence') or {}).get('family') == 'weapon_projectile_damage']
+        self.assertEqual(promoted, [('M-1000 Maxigun', 'damage.primary.standard_damage')])
+        stratagems = load('StratagemAuthoringCapabilities.json')
+        promoted = [s['name'] for s in stratagems['stratagems'] if s['cooldownCapability'].get('liveEvidence')]
+        self.assertEqual(promoted, ['Orbital Precision Strike'])
+        backpack = self.registry['families']['backpack_deposit_ammo']
+        self.assertEqual((backpack['status'], backpack['provenTargets']), ('live_partial', []))
+        backpacks = load('BackpackAuthoringCapabilities.json')
+        for field in backpacks['fieldInstances']:
+            if field['semanticFieldId'].startswith('deposit.') and field['editable']:
+                self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+                self.assertNotIn('liveEvidence', field)
 
 if __name__ == '__main__':
     unittest.main()

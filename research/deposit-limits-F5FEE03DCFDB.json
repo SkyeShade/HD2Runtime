@@ -1,0 +1,2397 @@
+{
+ "schemaVersion": 1,
+ "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "modules": {
+  "gameDll": {
+   "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+   "unpackedImageSha256": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5"
+  },
+  "executable": {
+   "sha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+   "unpackedImageSha256": "D82A025683B8380AC9514E2CD2EC3A92EA572218073AE51154BC3C6008CD9271"
+  }
+ },
+ "names": {
+  "hash": "IdString32 = Murmur64A(name) >> 32",
+  "fields": {
+   "remaining": "0x69889752",
+   "drone": "0xA5AE4500"
+  },
+  "types": {
+   "deposit_value": "0x48B393D0",
+   "game_object_id": "0x733901B9"
+  },
+  "independentChecks": {
+   "bool": {
+    "hash": "0xE58CF2EF",
+    "kindBitsMin": [
+     0,
+     1,
+     0
+    ]
+   },
+   "uint16": {
+    "hash": "0x3F19A351",
+    "kindBitsMin": [
+     1,
+     16,
+     0
+    ]
+   },
+   "unsigned": {
+    "hash": "0x78E9B8EC",
+    "kindBitsMin": [
+     1,
+     32,
+     0
+    ]
+   }
+  }
+ },
+ "liveAmountLimit": {
+  "max": 1023,
+  "min": 0,
+  "bits": 10,
+  "fieldType": "deposit_value",
+  "field": "remaining",
+  "classification": "network schema (engine network_config field type), enforced by the engine on the owning peer, in place on its live state; not a game.dll constant and not a DepositComponent member",
+  "writableControl": null
+ },
+ "gameDll": {
+  "depositManager": 53634536,
+  "engineApi": 53633800,
+  "linkedAmmoManager": 53635752,
+  "weaponLinkerManager": 53635064,
+  "liveState": {
+   "array": "manager+0x50",
+   "stride": 8,
+   "+0": "live amount (u32)",
+   "+4": "drone game object id (network field drone)"
+  },
+  "displayState": {
+   "array": "manager+0x48",
+   "stride": 8,
+   "+0": "copy of the live amount",
+   "+4": "refill_style"
+  },
+  "fieldHashImmediates": {
+   "remaining": [
+    5456261,
+    8912006,
+    8912423,
+    8918202
+   ],
+   "drone": [
+    2743291,
+    5456318,
+    8909939,
+    8918259
+   ]
+  },
+  "proof": {
+   "depositManagerIdentity": [
+    {
+     "rva": 8920447,
+     "bytes": "488d15a29e9c01",
+     "asm": "lea rdx, [rip + 0x19c9ea2]",
+     "role": "\"DepositComponent\" name in the manager grow function",
+     "ripTarget": 35961896,
+     "string": "DepositComponent"
+    },
+    {
+     "rva": 8921757,
+     "bytes": "4c8d0554999c01",
+     "asm": "lea r8, [rip + 0x19c9954]",
+     "role": "\"deposit\" pool debug line ({ \"max\" : %u, \"capacity\" : 32 })",
+     "ripTarget": 35961848,
+     "string": "\"deposit\" : { \"max\" : %u, \"capacity\" : 32 }"
+    },
+    {
+     "rva": 8921784,
+     "bytes": "488b1d2943aa02",
+     "asm": "mov rbx, qword ptr [rip + 0x2aa4329]",
+     "role": "the next function (instance removal) uses the manager global",
+     "ripTarget": 53634536
+    }
+   ],
+   "definitionGetter": [
+    {
+     "rva": 5252914,
+     "bytes": "4c8b1daf3ee202",
+     "asm": "mov r11, qword ptr [rip + 0x2e23eaf]",
+     "role": "instance -> DepositComponent definition record lookup",
+     "ripTarget": 53634536
+    },
+    {
+     "rva": 8909179,
+     "bytes": "8b8880000000",
+     "asm": "mov ecx, dword ptr [rax + 0x80]",
+     "role": "definition +128 = refill_style"
+    }
+   ],
+   "createInitialAmount": [
+    {
+     "rva": 8918136,
+     "bytes": "498bce",
+     "asm": "mov rcx, r14",
+     "role": "instance"
+    },
+    {
+     "rva": 8918142,
+     "bytes": "e88d12c8ff",
+     "asm": "call 0x502710",
+     "role": "definition record"
+    },
+    {
+     "rva": 8918152,
+     "bytes": "8b4804",
+     "asm": "mov ecx, dword ptr [rax + 4]",
+     "role": "start_amount"
+    },
+    {
+     "rva": 8918157,
+     "bytes": "7902",
+     "asm": "jns 0x881491",
+     "role": "negative start_amount ..."
+    },
+    {
+     "rva": 8918159,
+     "bytes": "8b08",
+     "asm": "mov ecx, dword ptr [rax]",
+     "role": "... falls back to capacity"
+    },
+    {
+     "rva": 8918180,
+     "bytes": "890c02",
+     "asm": "mov dword ptr [rdx + rax], ecx",
+     "role": "live amount (manager+0x50 row) = initial amount"
+    },
+    {
+     "rva": 8918190,
+     "bytes": "890e",
+     "asm": "mov dword ptr [rsi], ecx",
+     "role": "the creation field value is a separate copy"
+    },
+    {
+     "rva": 8918198,
+     "bytes": "41c704c752978869",
+     "asm": "mov dword ptr [r15 + rax*8], 0x69889752",
+     "role": "creation field: remaining"
+    },
+    {
+     "rva": 8918215,
+     "bytes": "498974c708",
+     "asm": "mov qword ptr [r15 + rax*8 + 8], rsi",
+     "role": "points at the copy, not at the live amount"
+    },
+    {
+     "rva": 8918255,
+     "bytes": "41c704c70045aea5",
+     "asm": "mov dword ptr [r15 + rax*8], 0xa5ae4500",
+     "role": "creation field: drone"
+    },
+    {
+     "rva": 5456257,
+     "bytes": "41c704c452978869",
+     "asm": "mov dword ptr [r12 + rax*8], 0x69889752",
+     "role": "second creation builder: remaining"
+    },
+    {
+     "rva": 5456314,
+     "bytes": "41c704c40045aea5",
+     "asm": "mov dword ptr [r12 + rax*8], 0xa5ae4500",
+     "role": "second creation builder: drone"
+    }
+   ],
+   "consume": [
+    {
+     "rva": 8911387,
+     "bytes": "f6411401",
+     "asm": "test byte ptr [rcx + 0x14], 1",
+     "role": "instance owned by this peer?"
+    },
+    {
+     "rva": 8911995,
+     "bytes": "3bc1",
+     "asm": "cmp eax, ecx",
+     "role": "requested amount vs live amount"
+    },
+    {
+     "rva": 8911997,
+     "bytes": "0f87be000000",
+     "asm": "ja 0x87fd41",
+     "role": "not enough: nothing consumed"
+    },
+    {
+     "rva": 8912003,
+     "bytes": "2bc8",
+     "asm": "sub ecx, eax",
+     "role": "amount - consumed"
+    },
+    {
+     "rva": 8912005,
+     "bytes": "ba52978869",
+     "asm": "mov edx, 0x69889752",
+     "role": "field remaining"
+    },
+    {
+     "rva": 8912014,
+     "bytes": "42890ce8",
+     "asm": "mov dword ptr [rax + r13*8], ecx",
+     "role": "live amount written"
+    },
+    {
+     "rva": 8912022,
+     "bytes": "4e8d04e8",
+     "asm": "lea r8, [rax + r13*8]",
+     "role": "pointer to the live amount"
+    },
+    {
+     "rva": 8912034,
+     "bytes": "8b4910",
+     "asm": "mov ecx, dword ptr [rcx + 0x10]",
+     "role": "game object id of the instance"
+    },
+    {
+     "rva": 8912037,
+     "bytes": "e8369b7500",
+     "asm": "call 0xfd97e0",
+     "role": "queue field write"
+    },
+    {
+     "rva": 8912159,
+     "bytes": "b982e0a486",
+     "asm": "mov ecx, 0x86a4e082",
+     "role": "non-owner: request message to the owner"
+    },
+    {
+     "rva": 8912180,
+     "bytes": "e8f7e63500",
+     "asm": "call 0xbde430",
+     "role": "send"
+    },
+    {
+     "rva": 8912189,
+     "bytes": "462934e8",
+     "asm": "sub dword ptr [rax + r13*8], r14d",
+     "role": "non-owner: local prediction"
+    }
+   ],
+   "resupply": [
+    {
+     "rva": 8912360,
+     "bytes": "e82329c8ff",
+     "asm": "call 0x502710",
+     "role": "definition record"
+    },
+    {
+     "rva": 8912376,
+     "bytes": "8b18",
+     "asm": "mov ebx, dword ptr [rax]",
+     "role": "capacity"
+    },
+    {
+     "rva": 8912378,
+     "bytes": "8b4008",
+     "asm": "mov eax, dword ptr [rax + 8]",
+     "role": "refill_amount"
+    },
+    {
+     "rva": 8912389,
+     "bytes": "f30f59c2",
+     "asm": "mulss xmm0, xmm2",
+     "role": "refill_amount x caller-supplied scale (xmm2)"
+    },
+    {
+     "rva": 8912393,
+     "bytes": "f30f5fc8",
+     "asm": "maxss xmm1, xmm0",
+     "role": "at least 1.0"
+    },
+    {
+     "rva": 8912405,
+     "bytes": "f30f58c8",
+     "asm": "addss xmm1, xmm0",
+     "role": "+ live amount"
+    },
+    {
+     "rva": 8912427,
+     "bytes": "3bc3",
+     "asm": "cmp eax, ebx",
+     "role": "vs definition capacity"
+    },
+    {
+     "rva": 8912429,
+     "bytes": "0f42d8",
+     "asm": "cmovb ebx, eax",
+     "role": "min(amount + refill, capacity): the only code clamp"
+    },
+    {
+     "rva": 8912432,
+     "bytes": "891cf7",
+     "asm": "mov dword ptr [rdi + rsi*8], ebx",
+     "role": "live amount written"
+    },
+    {
+     "rva": 8912422,
+     "bytes": "ba52978869",
+     "asm": "mov edx, 0x69889752",
+     "role": "field remaining"
+    },
+    {
+     "rva": 8912450,
+     "bytes": "4c8d04f0",
+     "asm": "lea r8, [rax + rsi*8]",
+     "role": "pointer to the live amount"
+    },
+    {
+     "rva": 8912474,
+     "bytes": "e981997500",
+     "asm": "jmp 0xfd97e0",
+     "role": "queue field write"
+    }
+   ],
+   "fieldQueue": [
+    {
+     "rva": 16619543,
+     "bytes": "81f9ff7f0000",
+     "asm": "cmp ecx, 0x7fff",
+     "role": "no game object: skip"
+    },
+    {
+     "rva": 16619571,
+     "bytes": "488b9868010000",
+     "asm": "mov rbx, qword ptr [rax + 0x168]",
+     "role": "net API +0x168: exists and owned by this peer"
+    },
+    {
+     "rva": 16619590,
+     "bytes": "ffd3",
+     "asm": "call rbx",
+     "role": ""
+    },
+    {
+     "rva": 16619594,
+     "bytes": "7e58",
+     "asm": "jle 0xfd98a4",
+     "role": "not owned: not queued"
+    },
+    {
+     "rva": 16619601,
+     "bytes": "896c2420",
+     "asm": "mov dword ptr [rsp + 0x20], ebp",
+     "role": "entry +0 game object id"
+    },
+    {
+     "rva": 16619605,
+     "bytes": "44897c2424",
+     "asm": "mov dword ptr [rsp + 0x24], r15d",
+     "role": "entry +4 field hash"
+    },
+    {
+     "rva": 16619610,
+     "bytes": "4c89742428",
+     "asm": "mov qword ptr [rsp + 0x28], r14",
+     "role": "entry +8 value pointer (the live amount)"
+    }
+   ],
+   "fieldFlush": [
+    {
+     "rva": 16637696,
+     "bytes": "c644242800",
+     "asm": "mov byte ptr [rsp + 0x28], 0",
+     "role": "argument 6: log = 0"
+    },
+    {
+     "rva": 16637708,
+     "bytes": "c644242001",
+     "asm": "mov byte ptr [rsp + 0x20], 1",
+     "role": "argument 5: clamp = 1"
+    },
+    {
+     "rva": 16637713,
+     "bytes": "4c8b4b10",
+     "asm": "mov r9, qword ptr [rbx + 0x10]",
+     "role": "value pointer"
+    },
+    {
+     "rva": 16637717,
+     "bytes": "4d8b90a0000000",
+     "asm": "mov r10, qword ptr [r8 + 0xa0]",
+     "role": "net API +0xA0: validate and clamp"
+    },
+    {
+     "rva": 16637731,
+     "bytes": "41ffd2",
+     "asm": "call r10",
+     "role": ""
+    },
+    {
+     "rva": 16637759,
+     "bytes": "41ff92b8000000",
+     "asm": "call qword ptr [r10 + 0xb8]",
+     "role": "net API +0xB8: set field"
+    }
+   ],
+   "displayState": [
+    {
+     "rva": 8910319,
+     "bytes": "43390ce0",
+     "asm": "cmp dword ptr [r8 + r12*8], ecx",
+     "role": "per-frame: displayed copy (+0x48) vs live amount (+0x50)"
+    },
+    {
+     "rva": 8910348,
+     "bytes": "42890ce2",
+     "asm": "mov dword ptr [rdx + r12*8], ecx",
+     "role": "displayed copy follows the live amount"
+    },
+    {
+     "rva": 8915034,
+     "bytes": "4c8b15875daa02",
+     "asm": "mov r10, qword ptr [rip + 0x2aa5d87]",
+     "role": "amount getter",
+     "ripTarget": 53634536
+    },
+    {
+     "rva": 8915054,
+     "bytes": "8b04c8",
+     "asm": "mov eax, dword ptr [rax + rcx*8]",
+     "role": "returns the live amount"
+    }
+   ],
+   "weaponAmmoReadout": [
+    {
+     "rva": 7808802,
+     "bytes": "e829e11000",
+     "asm": "call 0x880850",
+     "role": "linked-ammo rounds = live deposit amount"
+    },
+    {
+     "rva": 7809159,
+     "bytes": "8b4004",
+     "asm": "mov eax, dword ptr [rax + 4]",
+     "role": "linked-ammo maximum = start_amount ..."
+    },
+    {
+     "rva": 7809164,
+     "bytes": "0f8941ffffff",
+     "asm": "jns 0x7727d3",
+     "role": ""
+    },
+    {
+     "rva": 7809170,
+     "bytes": "8b01",
+     "asm": "mov eax, dword ptr [rcx]",
+     "role": "... or capacity when start_amount is negative"
+    },
+    {
+     "rva": 7613257,
+     "bytes": "488b0d583fbe02",
+     "asm": "mov rcx, qword ptr [rip + 0x2be3f58]",
+     "role": "weapon rounds getter, linked-ammo branch",
+     "ripTarget": 53635752
+    },
+    {
+     "rva": 7613266,
+     "bytes": "e859fa0200",
+     "asm": "call 0x7725b0",
+     "role": ""
+    },
+    {
+     "rva": 7613302,
+     "bytes": "4c8b0d7b3cbe02",
+     "asm": "mov r9, qword ptr [rip + 0x2be3c7b]",
+     "role": "WeaponLinkerComponent lookup",
+     "ripTarget": 53635064
+    },
+    {
+     "rva": 7613521,
+     "bytes": "ffc5",
+     "asm": "inc ebp",
+     "role": "+1 only for a weapon with a valid linked unit"
+    },
+    {
+     "rva": 7787117,
+     "bytes": "4c8d058ccbad01",
+     "asm": "lea r8, [rip + 0x1adcb8c]",
+     "role": "\"weapon_linker\" pool debug line",
+     "ripTarget": 35954176,
+     "string": "\"weapon_linker\" : { \"max\" : %u, \"capacity\" : 256 }"
+    },
+    {
+     "rva": 7787144,
+     "bytes": "488b1d6995bb02",
+     "asm": "mov rbx, qword ptr [rip + 0x2bb9569]",
+     "role": "the next function uses the WeaponLinker manager global",
+     "ripTarget": 53635064
+    }
+   ]
+  }
+ },
+ "executable": {
+  "networkConfigSlot": 27329128,
+  "networkApi": {
+   "0xA0": 3457568,
+   "0xB8": 3458016,
+   "0x168": 3460944
+  },
+  "validator": 3455664,
+  "proof": {
+   "validatorIntClamp": [
+    {
+     "rva": 3455678,
+     "bytes": "488bfa",
+     "asm": "mov rdi, rdx",
+     "role": "field type descriptor"
+    },
+    {
+     "rva": 3455687,
+     "bytes": "0fb6520c",
+     "asm": "movzx edx, byte ptr [rdx + 0xc]",
+     "role": "kind (0 bool, 1 int, 2 float, ...)"
+    },
+    {
+     "rva": 3455700,
+     "bytes": "498bf0",
+     "asm": "mov rsi, r8",
+     "role": "value pointer (caller-owned)"
+    },
+    {
+     "rva": 3455845,
+     "bytes": "0fb64f0d",
+     "asm": "movzx ecx, byte ptr [rdi + 0xd]",
+     "role": "bits"
+    },
+    {
+     "rva": 3455849,
+     "bytes": "83f920",
+     "asm": "cmp ecx, 0x20",
+     "role": "32-bit ints are not range checked"
+    },
+    {
+     "rva": 3455858,
+     "bytes": "458b20",
+     "asm": "mov r12d, dword ptr [r8]",
+     "role": "value"
+    },
+    {
+     "rva": 3455864,
+     "bytes": "448b7710",
+     "asm": "mov r14d, dword ptr [rdi + 0x10]",
+     "role": "min"
+    },
+    {
+     "rva": 3455877,
+     "bytes": "412bd6",
+     "asm": "sub edx, r14d",
+     "role": "value - min"
+    },
+    {
+     "rva": 3455880,
+     "bytes": "d3e0",
+     "asm": "shl eax, cl",
+     "role": "1 << bits"
+    },
+    {
+     "rva": 3455882,
+     "bytes": "3bd0",
+     "asm": "cmp edx, eax",
+     "role": ""
+    },
+    {
+     "rva": 3455884,
+     "bytes": "0f8254060000",
+     "asm": "jb 0x34c1e6",
+     "role": "in range: accept"
+    },
+    {
+     "rva": 3455893,
+     "bytes": "418d7eff",
+     "asm": "lea edi, [r14 - 1]",
+     "role": ""
+    },
+    {
+     "rva": 3455897,
+     "bytes": "4103f8",
+     "asm": "add edi, r8d",
+     "role": "max = min + 2^bits - 1"
+    },
+    {
+     "rva": 3455931,
+     "bytes": "488d0dbee23201",
+     "asm": "lea rcx, [rip + 0x132e2be]",
+     "role": "\"... value %d as int out of range [%d..%d].\" (only when log = 1)",
+     "ripTarget": 23568000,
+     "string": "Game object `%s`, field index %d, value %d as int out of range [%d..%d]."
+    },
+    {
+     "rva": 3455958,
+     "bytes": "4038ac24d8000000",
+     "asm": "cmp byte ptr [rsp + 0xd8], bpl",
+     "role": "clamp flag (argument 6)"
+    },
+    {
+     "rva": 3455974,
+     "bytes": "3bc7",
+     "asm": "cmp eax, edi",
+     "role": ""
+    },
+    {
+     "rva": 3455976,
+     "bytes": "7f09",
+     "asm": "jg 0x34bbf3",
+     "role": "above max: max"
+    },
+    {
+     "rva": 3455983,
+     "bytes": "410f4cfe",
+     "asm": "cmovl edi, r14d",
+     "role": "below min: min"
+    },
+    {
+     "rva": 3455987,
+     "bytes": "893e",
+     "asm": "mov dword ptr [rsi], edi",
+     "role": "clamped value written back through the caller pointer"
+    }
+   ],
+   "validateByName": [
+    {
+     "rva": 3457662,
+     "bytes": "4c8d0c89",
+     "asm": "lea r9, [rcx + rcx*4]",
+     "role": "game object type row (stride 0x50) ..."
+    },
+    {
+     "rva": 3457670,
+     "bytes": "4c034d78",
+     "asm": "add r9, qword ptr [rbp + 0x78]",
+     "role": "... in config +0x78"
+    },
+    {
+     "rva": 3457674,
+     "bytes": "458b4118",
+     "asm": "mov r8d, dword ptr [r9 + 0x18]",
+     "role": "field count"
+    },
+    {
+     "rva": 3457683,
+     "bytes": "498b5138",
+     "asm": "mov rdx, qword ptr [r9 + 0x38]",
+     "role": "field name hashes"
+    },
+    {
+     "rva": 3457687,
+     "bytes": "393482",
+     "asm": "cmp dword ptr [rdx + rax*4], esi",
+     "role": "find the field by name"
+    },
+    {
+     "rva": 3457704,
+     "bytes": "498b4920",
+     "asm": "mov rcx, qword ptr [r9 + 0x20]",
+     "role": "field type indices"
+    },
+    {
+     "rva": 3457716,
+     "bytes": "488b4d18",
+     "asm": "mov rcx, qword ptr [rbp + 0x18]",
+     "role": "field types (config +0x18) ..."
+    },
+    {
+     "rva": 3457724,
+     "bytes": "4a8d14c1",
+     "asm": "lea rdx, [rcx + r8*8]",
+     "role": "... stride 0x18"
+    },
+    {
+     "rva": 3457728,
+     "bytes": "0fb68c2488000000",
+     "asm": "movzx ecx, byte ptr [rsp + 0x88]",
+     "role": "log flag passed through"
+    },
+    {
+     "rva": 3457740,
+     "bytes": "4d8bc6",
+     "asm": "mov r8, r14",
+     "role": "caller value pointer passed through"
+    },
+    {
+     "rva": 3457743,
+     "bytes": "0fb68c2480000000",
+     "asm": "movzx ecx, byte ptr [rsp + 0x80]",
+     "role": "clamp flag passed through"
+    },
+    {
+     "rva": 3457762,
+     "bytes": "e8c9f7ffff",
+     "asm": "call 0x34bab0",
+     "role": ""
+    }
+   ],
+   "networkConfigAnchor": [
+    {
+     "rva": 3458245,
+     "bytes": "488b059c3d6c01",
+     "asm": "mov rax, qword ptr [rip + 0x16c3d9c]",
+     "role": "network config holder",
+     "ripTarget": 27329128
+    },
+    {
+     "rva": 3458258,
+     "bytes": "488b08",
+     "asm": "mov rcx, qword ptr [rax]",
+     "role": "config"
+    },
+    {
+     "rva": 3458261,
+     "bytes": "448b4170",
+     "asm": "mov r8d, dword ptr [rcx + 0x70]",
+     "role": "game object type count"
+    },
+    {
+     "rva": 3458265,
+     "bytes": "488b5978",
+     "asm": "mov rbx, qword ptr [rcx + 0x78]",
+     "role": "game object types"
+    },
+    {
+     "rva": 3461031,
+     "bytes": "488905ba326c01",
+     "asm": "mov qword ptr [rip + 0x16c32ba], rax",
+     "role": "holder set at network startup",
+     "ripTarget": 27329128
+    }
+   ],
+   "ownedCheck": [
+    {
+     "rva": 3460962,
+     "bytes": "ff90f8000000",
+     "asm": "call qword ptr [rax + 0xf8]",
+     "role": "exists"
+    },
+    {
+     "rva": 3460993,
+     "bytes": "ff9070010000",
+     "asm": "call qword ptr [rax + 0x170]",
+     "role": "owned"
+    },
+    {
+     "rva": 4049281,
+     "bytes": "488d15a8372a01",
+     "asm": "lea rdx, [rip + 0x12a37a8]",
+     "role": "Lua name \"game_object_owned\" ...",
+     "ripTarget": 23593264,
+     "string": "game_object_owned"
+    },
+    {
+     "rva": 4049297,
+     "bytes": "488d15d8060000",
+     "asm": "lea rdx, [rip + 0x6d8]",
+     "role": "... bound to 0x3dd070 ...",
+     "ripTarget": 4051056
+    },
+    {
+     "rva": 4051105,
+     "bytes": "41ff9070010000",
+     "asm": "call qword ptr [r8 + 0x170]",
+     "role": "... which calls the same +0x170 slot"
+    }
+   ]
+  }
+ },
+ "networkConfig": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "networkApiSlots": {
+    "0xa0": 3457568,
+    "0xb8": 3458016,
+    "0x168": 3460944
+   },
+   "fieldTypeCount": 568,
+   "objectTypeCount": 1855,
+   "remainingCarriers": [
+    {
+     "objectType": 51,
+     "nameHash": "0x066C9036",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 90,
+     "nameHash": "0x0AB1DA38",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 114,
+     "nameHash": "0x0DFF968F",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 166,
+     "nameHash": "0x139293F3",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 260,
+     "nameHash": "0x219DA219",
+     "fieldCount": 13,
+     "remainingIndex": 9,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 291,
+     "nameHash": "0x24BFE86E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 403,
+     "nameHash": "0x32FD58BF",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 524,
+     "nameHash": "0x42EB8B5A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 539,
+     "nameHash": "0x447380D4",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 730,
+     "nameHash": "0x61EA0C42",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 754,
+     "nameHash": "0x66D03A73",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 788,
+     "nameHash": "0x6C17C3B1",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 862,
+     "nameHash": "0x764F37A0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 944,
+     "nameHash": "0x816A11E0",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1008,
+     "nameHash": "0x8B40A204",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1086,
+     "nameHash": "0x94FF3B20",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1099,
+     "nameHash": "0x96CB35D7",
+     "fieldCount": 65,
+     "remainingIndex": 63,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1165,
+     "nameHash": "0x9F9EF431",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1201,
+     "nameHash": "0xA42ACE6A",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1304,
+     "nameHash": "0xB32572A6",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1330,
+     "nameHash": "0xB5B092F9",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1361,
+     "nameHash": "0xB9EA8C7E",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1369,
+     "nameHash": "0xBB2729E9",
+     "fieldCount": 59,
+     "remainingIndex": 6,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1433,
+     "nameHash": "0xC4BF68FD",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1667,
+     "nameHash": "0xE80C471F",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1670,
+     "nameHash": "0xE866A492",
+     "fieldCount": 29,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1696,
+     "nameHash": "0xEC1B10BE",
+     "fieldCount": 11,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1705,
+     "nameHash": "0xEE341A1B",
+     "fieldCount": 13,
+     "remainingIndex": 11,
+     "remainingType": 472,
+     "droneType": 107
+    },
+    {
+     "objectType": 1760,
+     "nameHash": "0xF439BDCE",
+     "fieldCount": 55,
+     "remainingIndex": 5,
+     "remainingType": 472,
+     "droneType": 107
+    }
+   ],
+   "fieldTypes": {
+    "107": {
+     "index": 107,
+     "nameHash": 1933115833,
+     "kind": 1,
+     "bits": 15,
+     "min": 0,
+     "bytes": "b9013973ffff7f7f00000000010f00000000000000000000",
+     "name": "game_object_id"
+    },
+    "472": {
+     "index": 472,
+     "nameHash": 1219728336,
+     "kind": 1,
+     "bits": 10,
+     "min": 0,
+     "bytes": "d093b348ffff7f7f00000000010a00000000000000000000",
+     "name": "deposit_value"
+    }
+   },
+   "nameHashChecks": {
+    "uint16": [
+     [
+      1,
+      16,
+      0
+     ]
+    ],
+    "bool": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "unsigned": [
+     [
+      1,
+      32,
+      0
+     ]
+    ]
+   }
+  }
+ ],
+ "typeLibrary": {
+  "DepositComponent": [
+   {
+    "offset": 0,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 8
+   },
+   {
+    "offset": 4,
+    "storage": "INT32",
+    "size": 4,
+    "nameLength": 12
+   },
+   {
+    "offset": 8,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 13
+   },
+   {
+    "offset": 12,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 21
+   },
+   {
+    "offset": 16,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 26
+   },
+   {
+    "offset": 24,
+    "storage": "UINT64",
+    "size": 8,
+    "nameLength": 10
+   },
+   {
+    "offset": 32,
+    "storage": "ENUM_UINT32",
+    "size": 4,
+    "nameLength": 25
+   },
+   {
+    "offset": 36,
+    "storage": "ENUM_UINT32",
+    "size": 4,
+    "nameLength": 21
+   },
+   {
+    "offset": 40,
+    "storage": "UINT8",
+    "size": 1,
+    "nameLength": 18
+   },
+   {
+    "offset": 44,
+    "storage": "UINT32",
+    "size": 80,
+    "nameLength": 17
+   },
+   {
+    "offset": 124,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 33
+   },
+   {
+    "offset": 128,
+    "storage": "ENUM_UINT32",
+    "size": 4,
+    "nameLength": 12
+   },
+   {
+    "offset": 136,
+    "storage": "UINT64",
+    "size": 8,
+    "nameLength": 27
+   },
+   {
+    "offset": 144,
+    "storage": "UINT32",
+    "size": 4,
+    "nameLength": 18
+   },
+   {
+    "offset": 148,
+    "storage": "UINT8",
+    "size": 1,
+    "nameLength": 25
+   }
+  ],
+  "note": "No member other than capacity bounds the amount."
+ },
+ "depositDefinitions": [
+  {
+   "record": 0,
+   "owners": [
+    "0x35F50DEC0EC647C6"
+   ],
+   "capacity": 20,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  },
+  {
+   "record": 1,
+   "owners": [
+    "content/fac_helldivers/vehicles/oilrig/oil_rig"
+   ],
+   "capacity": 10,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  },
+  {
+   "record": 2,
+   "owners": [
+    "content/fac_helldivers/vehicles/tank/tank"
+   ],
+   "capacity": 10,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  },
+  {
+   "record": 3,
+   "owners": [
+    "content/objectives/obj_common/raise_flag/hellpod_flag"
+   ],
+   "capacity": 4,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  },
+  {
+   "record": 4,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/air_burst_rocket_backpack/air_burst_rocket_backpack"
+   ],
+   "capacity": 5,
+   "startAmount": -1,
+   "refillAmount": 3,
+   "refillStyle": 1
+  },
+  {
+   "record": 5,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/ammo_backpack/ammo_backpack"
+   ],
+   "capacity": 4,
+   "startAmount": 4,
+   "refillAmount": 1,
+   "refillStyle": 3
+  },
+  {
+   "record": 6,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/automatic_cannon_backpack/automatic_cannon_backpack"
+   ],
+   "capacity": 10,
+   "startAmount": -1,
+   "refillAmount": 5,
+   "refillStyle": 1
+  },
+  {
+   "record": 7,
+   "owners": [
+    "0x26BDDF070C31B275"
+   ],
+   "capacity": 15,
+   "startAmount": -1,
+   "refillAmount": 5,
+   "refillStyle": 1
+  },
+  {
+   "record": 8,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/belt_fed_grenade_launcher_backpack/belt_fed_grenade_launcher_backpack"
+   ],
+   "capacity": 120,
+   "startAmount": 120,
+   "refillAmount": 60,
+   "refillStyle": 1
+  },
+  {
+   "record": 9,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack"
+   ],
+   "capacity": 1,
+   "startAmount": 1,
+   "refillAmount": 0,
+   "refillStyle": 0
+  },
+  {
+   "record": 10,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/c4_charge_backpack/c4_charge_backpack"
+   ],
+   "capacity": 6,
+   "startAmount": 6,
+   "refillAmount": 3,
+   "refillStyle": 1
+  },
+  {
+   "record": 11,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/drone_flamethrower_backpack/drone_flamethrower_backpack"
+   ],
+   "capacity": 6,
+   "startAmount": 6,
+   "refillAmount": 6,
+   "refillStyle": 1
+  },
+  {
+   "record": 12,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/drone_gas_projector_backpack/drone_gas_projector_backpack"
+   ],
+   "capacity": 6,
+   "startAmount": 6,
+   "refillAmount": 6,
+   "refillStyle": 1
+  },
+  {
+   "record": 13,
+   "owners": [
+    "0xDFC8B9519169B67A"
+   ],
+   "capacity": 4,
+   "startAmount": 4,
+   "refillAmount": 2,
+   "refillStyle": 3
+  },
+  {
+   "record": 14,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/drone_mg/drone_mg_backpack"
+   ],
+   "capacity": 8,
+   "startAmount": 8,
+   "refillAmount": 8,
+   "refillStyle": 1
+  },
+  {
+   "record": 15,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_assault_rifle/drone_assault_rifle_backpack"
+   ],
+   "capacity": 4,
+   "startAmount": 4,
+   "refillAmount": 2,
+   "refillStyle": 3
+  },
+  {
+   "record": 16,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/drone_weapons/drone_laser_rifle/drone_laser_rifle_backpack"
+   ],
+   "capacity": 4,
+   "startAmount": 4,
+   "refillAmount": 2,
+   "refillStyle": 3
+  },
+  {
+   "record": 17,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_backpack/faf_missile_launcher_backpack"
+   ],
+   "capacity": 4,
+   "startAmount": -1,
+   "refillAmount": 2,
+   "refillStyle": 1
+  },
+  {
+   "record": 18,
+   "owners": [
+    "0x35B5AF8B1E859540"
+   ],
+   "capacity": 3,
+   "startAmount": -1,
+   "refillAmount": 2,
+   "refillStyle": 1
+  },
+  {
+   "record": 19,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/faf_missile_launcher_helghast_backpack/faf_missile_launcher_helghast_backpack"
+   ],
+   "capacity": 5,
+   "startAmount": -1,
+   "refillAmount": 3,
+   "refillStyle": 1
+  },
+  {
+   "record": 20,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/guard_dog_stun_backpack/guard_dog_stun_backpack"
+   ],
+   "capacity": 6,
+   "startAmount": 6,
+   "refillAmount": 6,
+   "refillStyle": 1
+  },
+  {
+   "record": 21,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/heavy_flamethrower_backpack/heavy_flamethrower_backpack"
+   ],
+   "capacity": 500,
+   "startAmount": 500,
+   "refillAmount": 250,
+   "refillStyle": 1
+  },
+  {
+   "record": 22,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/medic_backpack/medic_backpack"
+   ],
+   "capacity": 4,
+   "startAmount": 2,
+   "refillAmount": 1,
+   "refillStyle": 2
+  },
+  {
+   "record": 23,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/minigun_backpack/minigun_backpack"
+   ],
+   "capacity": 1000,
+   "startAmount": 1000,
+   "refillAmount": 500,
+   "refillStyle": 1
+  },
+  {
+   "record": 24,
+   "owners": [
+    "content/fac_helldivers/equipment/backpacks/recoilless_rifle_backpack/recoilless_rifle_backpack"
+   ],
+   "capacity": 5,
+   "startAmount": -1,
+   "refillAmount": 3,
+   "refillStyle": 1
+  },
+  {
+   "record": 25,
+   "owners": [
+    "0x1B00BCA55E364292"
+   ],
+   "capacity": 5,
+   "startAmount": -1,
+   "refillAmount": 3,
+   "refillStyle": 1
+  },
+  {
+   "record": 26,
+   "owners": [
+    "content/fac_helldivers/vehicles/frv_supply/frv_supply"
+   ],
+   "capacity": 8,
+   "startAmount": 8,
+   "refillAmount": 0,
+   "refillStyle": 0
+  },
+  {
+   "record": 27,
+   "owners": [
+    "content/fac_helldivers/vehicles/tank_storm/tank_storm"
+   ],
+   "capacity": 10,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  },
+  {
+   "record": 28,
+   "owners": [
+    "0x0801B6B3C5D12EBC"
+   ],
+   "capacity": 10,
+   "startAmount": -1,
+   "refillAmount": 20,
+   "refillStyle": 0
+  }
+ ],
+ "exposedDepositFields": [
+  {
+   "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "B-1 Supply Pack",
+   "default": 4,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "B-1 Supply Pack",
+   "default": 4,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-1-supply-pack:b-1-supply-pack-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "B-1 Supply Pack",
+   "default": 1,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "AX/AR-23 Guard Dog",
+   "default": 8,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "AX/AR-23 Guard Dog",
+   "default": 8,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-ar-23-guard-dog:ax-ar-23-guard-dog-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "AX/AR-23 Guard Dog",
+   "default": 8,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "AX/LAS-5 Rover",
+   "default": 4,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "AX/LAS-5 Rover",
+   "default": 4,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-las-5-rover:ax-las-5-rover-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "AX/LAS-5 Rover",
+   "default": 2,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "AX/FLAM-75 Hot Dog",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "AX/FLAM-75 Hot Dog",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-flam-75-hot-dog:ax-flam-75-hot-dog-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "AX/FLAM-75 Hot Dog",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "B-100 Portable Hellbomb",
+   "default": 1,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "B-100 Portable Hellbomb",
+   "default": 1,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-100-portable-hellbomb:b-100-portable-hellbomb-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "B-100 Portable Hellbomb",
+   "default": 0,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "AX/ARC-3 K-9",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "AX/ARC-3 K-9",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-arc-3-k-9:ax-arc-3-k-9-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "AX/ARC-3 K-9",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "AX/TX-13 Dog Breath",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "AX/TX-13 Dog Breath",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:ax-tx-13-dog-breath:ax-tx-13-dog-breath-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "AX/TX-13 Dog Breath",
+   "default": 6,
+   "editable": false,
+   "sdkMin": null,
+   "sdkMax": null,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "B/FLAM-80 Cremator Backpack",
+   "default": 500,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "B/FLAM-80 Cremator Backpack",
+   "default": 500,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:b-flam-80-cremator-backpack:b-flam-80-cremator-backpack-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "B/FLAM-80 Cremator Backpack",
+   "default": 250,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+   "default": 120,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+   "default": 120,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:gl-28-belt-fed-grenade-launcher-backpack:gl-28-belt-fed-grenade-launcher-backpack-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "GL-28 Belt-Fed Grenade Launcher Backpack",
+   "default": 60,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.capacity",
+   "field": "deposit.capacity",
+   "backpack": "M-1000 Maxigun Backpack",
+   "default": 1000,
+   "editable": true,
+   "sdkMin": 1,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.start_amount",
+   "field": "deposit.start_amount",
+   "backpack": "M-1000 Maxigun Backpack",
+   "default": 1000,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  },
+  {
+   "instanceKey": "backpack:m-1000-maxigun-backpack:m-1000-maxigun-backpack-backpack:deposit.refill_amount",
+   "field": "deposit.refill_amount",
+   "backpack": "M-1000 Maxigun Backpack",
+   "default": 500,
+   "editable": true,
+   "sdkMin": 0,
+   "sdkMax": 1023,
+   "effectiveLiveMax": 1023,
+   "sdkMaxExceedsLiveLimit": false
+  }
+ ],
+ "model": [
+  "live amount (u32, manager+0x50) starts at start_amount, or capacity when start_amount < 0",
+  "the creation message carries a clamped copy; the owner keeps the unclamped value until its next write",
+  "consume: amount -= n (owner); a non-owner asks the owner and predicts locally",
+  "resupply: amount = min(amount + max(1, refill_amount * scale), capacity)",
+  "every owner write queues (game object, remaining, &amount); only owned objects are queued",
+  "flush: engine validate(clamp=1) writes min(amount, 1023) back into the live amount, then sets the field",
+  "remaining is deposit_value = int, 10 bits, min 0 in every object type that carries it",
+  "the weapon readout shows the live amount over start_amount (capacity when start_amount < 0)"
+ ],
+ "writes": 0
+}

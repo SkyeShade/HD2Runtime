@@ -16,6 +16,7 @@ import support_callin_linkage
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
 BACKPACK_AMMO = ROOT / 'research/backpack-ammo-F5FEE03DCFDB.json'
+SHIELD_RESEARCH = ROOT / 'research/ballistic-shield-F5FEE03DCFDB.json'
 FIELDS = ROOT / 'schemas/entity_fields.json'
 VEHICLE_OUTPUT = ROOT / 'sdk/VehicleAuthoringCapabilities.json'
 BACKPACK_OUTPUT = ROOT / 'sdk/BackpackAuthoringCapabilities.json'
@@ -66,12 +67,68 @@ def backpack_key(name):
     return 'backpack/v1/' + slug(name) + '/' + digest(name)
 
 
-AMMO_RANGE = {'deposit.capacity': (1, 100000), 'deposit.start_amount': (0, 100000),
-    'deposit.refill_amount': (0, 100000)}
+# A deposit's live amount travels as the engine network field type deposit_value (int, 10 bits, min 0), and the
+# owning peer's field validator clamps the live count to 0..1023 in place on every write, solo included
+# (research/deposit-limits-F5FEE03DCFDB.json). Larger definitions show only until the first shot or resupply.
+DEPOSIT_LIMIT = 1023
+AMMO_RANGE = {'deposit.capacity': (1, DEPOSIT_LIMIT), 'deposit.start_amount': (0, DEPOSIT_LIMIT),
+    'deposit.refill_amount': (0, DEPOSIT_LIMIT)}
+AMMO_RANGE_REASON = ('the live deposit amount is the engine network field deposit_value (10 bits): the game clamps '
+    'it to 1023 on every write, so a larger value shows only until the first shot or resupply')
 AMMO_LABELS = {'deposit.capacity': 'Backpack ammo capacity', 'deposit.start_amount': 'Starting backpack ammo',
     'deposit.refill_amount': 'Backpack ammo from supply'}
 AMMO_UNVERIFIED = ('The backpack DepositComponent is the proven ammunition store (exact capacity and supply '
     'fingerprints), but no edit has been confirmed in game yet.')
+
+
+# SH-20 Ballistic Shield (research/ballistic-shield-F5FEE03DCFDB.json): every bullet that hits the shield resolves
+# to damage zone 0 "shield" (it lists the hit actors), whose own armor is the active plate armor. The default-zone
+# armor that entity.armor writes is consulted only for hits on an actor no zone lists. Both are copied into the
+# shield's health instance when it spawns.
+SHIELD_PLATE_REASON = ('Armor of the "shield" damage zone, which every hit on the shield plate resolves to. Copied '
+    'into the shield when it spawns: a shield already in the world keeps its armor. Not yet shown in game.')
+SHIELD_BODY_FIELDS = {
+    ('SH-20 Ballistic Shield Backpack', 'entity.armor'): {'readOnly': ('Default-zone armor: the game uses it only for '
+            'a hit on a part no damage zone lists, and the shield plate is listed by its "shield" zone, so it does not '
+            'change what bullets hitting the shield do (live-failed 2026-09-29: armor 5 here, the AP 4 HMG still '
+            "damaged the shield). Use hd2.backpack('SH-20 Ballistic Shield Backpack'):damage_zone('shield') with "
+            'zone.armor.'),
+        'effect': {'activeSource': 'DORMANT_OR_METADATA', 'activeSourceProven': True,
+            'appliesWhen': 'entity_spawn', 'instantiationOnly': True, 'activeField': 'damage_zone shield / zone.armor'}},
+    ('SH-51 Directional Shield', 'entity.health'): {'acknowledgement': 'allow_unverified_effect',
+        'acknowledgementReason': ('Health of the SH-51 backpack body. The energy barrier is a separate entity with its '
+            "own health record; which of the two the barrier's hits reach is not traced."),
+        'effect': {'activeSource': 'AMBIGUOUS', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
+            'instantiationOnly': True}},
+    ('SH-51 Directional Shield', 'entity.armor'): {'acknowledgement': 'allow_unverified_effect',
+        'acknowledgementReason': ('Default-zone armor of the SH-51 backpack body. The energy barrier is a separate '
+            "entity with its own damage zone; which of the two the barrier's hits reach is not traced."),
+        'effect': {'activeSource': 'AMBIGUOUS', 'activeSourceProven': False, 'appliesWhen': 'entity_spawn',
+            'instantiationOnly': True}},
+}
+
+
+def shield_plate(name, backpack, health):
+    """The SH-20's shield zone field, re-proven against the research: same entity, record and one owner."""
+    research = json.loads(SHIELD_RESEARCH.read_text(encoding='utf-8'))
+    active = research['answer']['activeField']
+    if backpack['resource'] != active['resource']:
+        return None
+    if (health['recordIndex'], health['indexRow']) != (active['recordIndex'], active['indexRow']) \
+            or active['ownerCount'] != 1 or health['ownerCount'] != 1 or active['zoneName'] != 'shield':
+        raise ValueError(name + ': shield zone research no longer matches the entity catalog')
+    index = active['zoneIndex']
+    if active['recordOffset'] != ZONE_BASE + index * ZONE_STRIDE + 216:
+        raise ValueError(name + ': shield zone armor offset changed')
+    return {'zoneId': zone_id(index), 'index': index, 'name': active['zoneName'], 'armor': active['vanilla'],
+        'armorOffset': active['recordOffset'], 'guards': [{'offset': g['offset'], 'hex': g['hex']}
+            for g in active['guards']],
+        'extra': {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': SHIELD_PLATE_REASON,
+            'min': 0, 'max': 10,
+            'effect': {'activeSource': 'ACTIVE_AT_INSTANTIATION', 'activeSourceProven': True,
+                'appliesWhen': 'entity_spawn', 'instantiationOnly': True,
+                'damageRule': 'AP - armor >= 1: full damage; AP == armor: 65%; AP < armor: none'},
+            'zoneActors': active['zoneActors']}}
 
 
 def backpack_ammo_name(weapon):
@@ -215,11 +272,15 @@ class Builder:
             item['acknowledgement'] = descriptor.get('acknowledgement')
             item['acknowledgementReason'] = descriptor.get('acknowledgementReason')
             item['min'], item['max'] = descriptor.get('min'), descriptor.get('max')
+            if descriptor.get('rangeReason'):
+                item['rangeReason'] = descriptor['rangeReason']
             for key in ('displayName', 'unit', 'uiGroup'):
                 if descriptor.get('uiGroup'):
                     item[key] = descriptor.get(key)
             item['backing'] = {key: backing[key] for key in ('component', 'resource', 'recordIndex', 'indexRow',
                 'ownerCount', 'uniqueOwner', 'offset', 'storage', 'width')}
+            if backing.get('guards'):
+                item['backing']['guards'] = backing['guards']
             result.append(item)
         return result
 
@@ -416,13 +477,28 @@ def build(research_path=RESEARCH):
             blocked.append({'field': 'shield recharge delay/rate', 'reason':
                 'Labels come from an external export only; no reference mod wrote them.'})
         health = components.get('HealthComponentData')
+        zones = {}
         if health:
             correlated = backpack['correlation'].get('mainHealth') and backpack['correlation'].get('mainArmor')
-            keys = [backpack_builder.add(name, target, field_id, health['values'][str(offset)],
-                component_backing(health, backpack['resource'], offset, storage, owners_of(health)),
-                editable=bool(correlated), reason=None if correlated else 'Wiki identity correlation absent.')['instanceKey']
-                for field_id, offset, storage in (('entity.health', 0, 'i32'), ('entity.armor', 280, 'u32'))]
+            keys = []
+            for field_id, offset, storage in (('entity.health', 0, 'i32'), ('entity.armor', 280, 'u32')):
+                extra = dict(SHIELD_BODY_FIELDS.get((name, field_id)) or {})
+                dormant = extra.pop('readOnly', None)
+                keys.append(backpack_builder.add(name, target, field_id, health['values'][str(offset)],
+                    component_backing(health, backpack['resource'], offset, storage, owners_of(health)),
+                    editable=bool(correlated) and not dormant,
+                    reason=dormant or (None if correlated else 'Wiki identity correlation absent.'),
+                    extra=extra or None)['instanceKey'])
             groups.append({'group': 'durability', 'fieldInstanceKeys': keys})
+            plate = shield_plate(name, backpack, health)
+            if plate:
+                zone_target = {'resource': 'backpack', 'backpack': name, 'path': 'damage_zone', 'zone': plate['zoneId']}
+                backing = component_backing(health, backpack['resource'], plate['armorOffset'], 'u32', owners_of(health))
+                backing['guards'] = plate['guards']
+                descriptor = backpack_builder.add(name, zone_target, 'zone.armor', plate['armor'], backing,
+                    extra=plate['extra'])
+                zones[plate['zoneId']] = {'index': plate['index'], 'name': plate['name']}
+                groups.append({'group': 'shield_plate', 'fieldInstanceKeys': [descriptor['instanceKey']]})
         deposit = components.get('DepositComponentData')
         if deposit:
             keys = [backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
@@ -435,6 +511,8 @@ def build(research_path=RESEARCH):
             blocked.append({'field': 'backpack behavior', 'reason':
                 'No typed backpack behavior component with reviewed semantics is owned by this entity.'})
         public_backpacks.append({'name': name, 'semanticId': backpack_key(name),
+            **({'damageZones': [{'zoneId': zone, 'index': info['index'], 'name': info['name']}
+                for zone, info in sorted(zones.items())]} if zones else {}),
             'callInStratagem': {'semanticId': support_callin_linkage.stratagem_key(name), 'name': name,
                 'relationship': 'call_in', 'known': True, 'provenance': 'historical debug-name identity'},
             'deliveryChain': ['stratagem_definition', 'hellpod_rack', 'backpack_entity'],
@@ -448,6 +526,7 @@ def build(research_path=RESEARCH):
             'entityRow': backpack['entityRow'],
             'rack': {'resource': backpack['stratagemRoot']['payloads'][0], 'recordIndex': rack['recordIndex'],
                 'indexRow': rack['indexRow']},
+            **({'zones': zones} if zones else {}),
             'fields': backpack_builder.runtime(name)}
 
     # Weapon-fed backpacks: the call-in rack delivers the support weapon with this backpack, and the weapon's
@@ -466,7 +545,8 @@ def build(research_path=RESEARCH):
             keys.append(backpack_builder.add(name, target, field_id, deposit['values'][str(offset)],
                 component_backing(deposit, item['backpackResource'], offset, storage, [name]),
                 extra={'displayName': AMMO_LABELS[field_id], 'unit': 'ammo', 'uiGroup': 'backpack_ammo',
-                    'min': low, 'max': high, 'acknowledgement': 'allow_unverified_effect',
+                    'min': low, 'max': high, 'rangeReason': AMMO_RANGE_REASON,
+                    'acknowledgement': 'allow_unverified_effect',
                     'acknowledgementReason': AMMO_UNVERIFIED,
                     'provenance': 'call-in rack -> weapon linked ammo tag -> backpack TagComponent -> '
                         'backpack DepositComponent; exact wiki capacity and supply fingerprints'})['instanceKey'])
