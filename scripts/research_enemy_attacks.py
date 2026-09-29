@@ -56,6 +56,23 @@ def wiki_tuple(attack):
     return None if any(value is None for value in values) else tuple(values)
 
 
+def wiki_explosion(attack):
+    """(standard damage, inner, outer, shockwave radius) of a wiki attack's explosion, or None if any is missing."""
+    explosion = attack.get('explosion') or {}
+    area = explosion.get('areaOfEffect') or {}
+    values = [((explosion.get('damage') or {}).get('standard') or {}).get('value')]
+    values += [(area.get(key) or {}).get('value') for key in ('innerRadiusMeters', 'outerRadiusMeters',
+        'shockwaveRadiusMeters')]
+    return None if any(value is None for value in values) else tuple(values)
+
+
+def explosion_tuple(damage_values, explosion_values):
+    if not damage_values or not explosion_values:
+        return None
+    return (damage_values['standard_damage'], round(explosion_values['inner_radius'], 4),
+        round(explosion_values['outer_radius'], 4), round(explosion_values['shockwave_radius'], 4))
+
+
 def resolve_settings(projectile_types, spray_types):
     preload = '\n'.join('package.preload[' + _lua(name) + ']=function(...) return assert(loadstring(' + _lua(body)
         + ',' + _lua(name) + '))(...) end' for name, body in _module_sources().items())
@@ -199,6 +216,17 @@ def build() -> dict:
         row = tuple(values[key] for key in DAMAGE_KEYS)
         return sorted({page + ': ' + attack['name'] for page, attack in ranged if wiki_tuple(attack) == row})
 
+    explosions = [(page['name'], attack) for page in wiki.values() for attack in page.get('attacks') or []
+        if wiki_explosion(attack)]
+
+    def explosion_matches(item, native, own_pages):
+        """Wiki attack explosions equal to this explosion (standard damage and all three radii)."""
+        if not native:
+            return []
+        pages = set([item['wikiName']] if item['wikiName'] else item['wikiCandidates'])
+        return sorted({(page if own_pages else page) + ': ' + attack['name'] for page, attack in explosions
+            if wiki_explosion(attack) == native and (not own_pages or page in pages)})
+
     def matches(item, values):
         """Wiki ranged attacks (of the class's named or candidate pages) whose nine values equal this row's."""
         if not values:
@@ -231,8 +259,17 @@ def build() -> dict:
             slot['damage'] = []
             for role, damage in branches:
                 hit = matches(item, damage.get('values'))
-                slot['damage'].append({'role': role, 'type': damage['type'], 'settings': damage.get('settings'),
-                    'values': damage.get('values'), 'wikiMatches': hit, 'rowWikiMatches': row_matches(damage.get('values'))})
+                entry = {'role': role, 'type': damage['type'], 'settings': damage.get('settings'),
+                    'values': damage.get('values'), 'wikiMatches': hit, 'rowWikiMatches': row_matches(damage.get('values'))}
+                if role.startswith('explosion_'):
+                    explosion = (p.get('explosions') or {}).get(role.replace('explosion_', '')) or {}
+                    native = explosion_tuple(damage.get('values'), explosion.get('values'))
+                    entry['explosionWikiMatches'] = explosion_matches(item, native, True)
+                    entry['explosionRowWikiMatches'] = explosion_matches(item, native, False)
+                    summary['explosionRows'] += 1
+                    summary['explosionRowsWikiMatchedForClass'] += bool(entry['explosionWikiMatches'])
+                    summary['explosionRowsWikiMatchedAnyPage'] += bool(entry['explosionRowWikiMatches'])
+                slot['damage'].append(entry)
                 summary['damageRows'] += 1
                 summary['wikiMatchedRows'] += bool(hit)
             summary['weaponSlots'] += bool(slot.get('family'))

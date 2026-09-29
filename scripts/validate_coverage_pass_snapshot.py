@@ -181,8 +181,7 @@ local worker=coroutine.create(function()
   assert(guarded.apply(runtime,guarded.inverse(plan)).status=='APPLIED',key..' rollback failed')
   assert(runtime.read(part.owner.base+part.offset,#part.before)==part.before,key..' rollback did not restore')
   -- A third-party value at the target is a CONFLICT.
-  poke(part.owner.base+part.offset,b.encode(expect+7,part.label:find('durable',1,true)and'f32'or
-   ((field:find('health',1,true)or field:find('constitution',1,true))and'i32'or'u32')))
+  poke(part.owner.base+part.offset,b.encode(expect+7,spec.changes[1].descriptor.backing.storage))
   rejects(function()resolve(enemies,spec)end,'CONFLICT',key..' conflict')
   reset()
   e.roundTrips[key]={field=field,from=expect,to=value}
@@ -214,6 +213,18 @@ local worker=coroutine.create(function()
   {allow_shared=true,allow_unverified_effect=true})
  enemy_round_trip('bile_bombard_explosion_damage',{resource='enemy',enemy='boomer',path='attack',
   attack='slot_1_impact'},'damage.standard_damage',200,20,{allow_shared=true,allow_unverified_effect=true})
+ local function baseline(enemy,attack,field_id)
+  for _,field in ipairs(enemy_db.enemies[enemy].fields)do
+   if field.attack==attack and field.id==field_id then return field.currentDefault end
+  end
+ end
+ local bombard_velocity=baseline('Rupture Spewer','slot_1_projectile','projectile.velocity')
+ enemy_round_trip('bile_bombard_velocity',{resource='enemy',enemy='Rupture Spewer',path='attack',
+  attack='slot_1_projectile'},'projectile.velocity',bombard_velocity,bombard_velocity/2,
+  {allow_shared=true,allow_unverified_effect=true})
+ local blast=baseline('Gunship','slot_0_impact_explosion','explosion.outer_radius')
+ enemy_round_trip('gunship_rocket_blast_radius',{resource='enemy',enemy='Gunship',path='attack',
+  attack='slot_0_impact_explosion'},'explosion.outer_radius',blast,blast*2,{allow_shared=true,allow_unverified_effect=true})
  rejects(function()enemies.validate_patch({id='x',target=rockets,allow_unverified_effect=true,
   field='damage.standard_damage',expect=30,value=3})end,'allow_shared','attack allow_shared')
  e.rejections.attackShared=1

@@ -254,7 +254,8 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
             if attack:
                 records.append(_record('enemy_authoring', 'enemy:' + name + ':attack:' + attack + ':' + field['id'],
                     name + '/attack/' + attack, field['id'],
-                    _settings('damage', field['backing'], [_int(attacks[attack]['weapon']['resource'])]),
+                    _settings(field['backing']['settings'], field['backing'],
+                        [_int(attacks[attack]['weapon']['resource'])]),
                     field.get('currentDefault'), field.get('editable', True), True, locator, field.get('reason')))
                 continue
             b = dict(health, **field['backing'])
