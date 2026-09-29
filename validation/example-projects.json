@@ -1,5 +1,5 @@
 {
-  "examples": 69,
+  "examples": 70,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1713,6 +1713,35 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "LiberatorAttackOutputTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "liberator-attack-output",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.25.1",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "in-game options -> 0.25.1",
         "typed writes -> 0.23.2"
       ]
     },

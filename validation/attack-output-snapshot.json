@@ -1,0 +1,45 @@
+{
+  "baselineProjectile": 276,
+  "compositions": {
+    "EAT-700 Expendable Napalm": {
+      "class": "explosive_shrapnel",
+      "crossClass": true,
+      "output": "output/v1/projectile/eat-700-expendable-napalm",
+      "package": "packages/generated/loadout/expendable_napalm_launcher",
+      "projectile": 259,
+      "writes": 1
+    },
+    "GL-52 De-Escalator": {
+      "class": "explosive_arc",
+      "crossClass": true,
+      "output": "output/v1/projectile/gl-52-de-escalator",
+      "package": "packages/generated/loadout/grenade_launcher_tactical",
+      "projectile": 222,
+      "writes": 1
+    },
+    "LAS-58 Talon": {
+      "class": "conventional_plain",
+      "crossClass": false,
+      "output": "output/v1/projectile/las-58-talon",
+      "package": "packages/generated/loadout/laser_pistol",
+      "projectile": 144,
+      "writes": 1
+    }
+  },
+  "fixtureFallback": "disabled",
+  "host": "AR-23 Liberator",
+  "mode": "snapshot-overlay",
+  "protectionChanges": 12,
+  "rejections": {
+    "ARC-3 Arc Thrower": "INCOMPATIBLE_OUTPUT_FAMILY",
+    "LAS-13 Trident": "INCOMPATIBLE_OUTPUT_FAMILY",
+    "LAS-98 Laser Cannon": "INCOMPATIBLE_OUTPUT_FAMILY",
+    "acknowledgements": 2,
+    "hostMagazinePattern": 1,
+    "nonHost": "GL-15 Evictor",
+    "staleSource": 1
+  },
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "writes": 6
+}

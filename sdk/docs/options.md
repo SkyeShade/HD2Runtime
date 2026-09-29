@@ -143,6 +143,12 @@ title or fallback is an error.
 | `options:slider{id, label, min, max, step=1, default=min, description, gap}` | slider | number, snapped to `step` |
 | `options:choice{id, label, choices, values, default=1, description, gap}` | choice | `values[index]` (the index if `values` is omitted) |
 
+A choice's `values` may be numbers or typed semantic reference handles, such as `weapon:attack(role):projectile()` or
+`hd2.attack_output(name)`. A choice of references selects between complete compositions of one reference field. For
+example, `LiberatorAttackOutputTest` switches the Liberator's projectile between its own bullet and two donor
+outputs. Each change is one owned transition, and a donor's assets are loaded before its write. See
+[attack outputs](attack-outputs.md).
+
 Declarations are checked against the menu's limits at startup and fail with a clear error.
 Registration happens on the first update ticks, whatever the load order. Each handle has:
 

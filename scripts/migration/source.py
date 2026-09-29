@@ -19,14 +19,15 @@ sys.path.insert(0, str(ROOT / 'sdk'))
 
 MODULES = ('player_weapon_authoring', 'support_weapon_authoring', 'vehicle_weapon_authoring', 'entity_authoring',
     'stratagem_authoring', 'attachment_authoring', 'booster_authoring', 'pod_payload_authoring',
-    'throwable_authoring', 'enemy_authoring')
+    'throwable_authoring', 'enemy_authoring', 'attack_outputs')
 SETTINGS_KIND = {'ProjectileSettings': 'projectile', 'DamageInfo': 'damage', 'ExplosionSettings': 'explosion',
     'StatusEffectSettings': 'status', 'ArcSettings': 'arc', 'BeamSettings': 'beam'}
 DOMAIN_LABEL = {'player_weapon_authoring': 'Player weapons', 'support_weapon_authoring': 'Support weapons',
     'vehicle_weapon_authoring': 'Vehicle weapons', 'entity_authoring': 'Vehicles and backpacks',
     'stratagem_authoring': 'Stratagems', 'attachment_authoring': 'Magazine attachments',
     'booster_authoring': 'Boosters', 'pod_payload_authoring': 'Drop-pod payloads',
-    'throwable_authoring': 'Throwables', 'enemy_authoring': 'Enemies and structures'}
+    'throwable_authoring': 'Throwables', 'enemy_authoring': 'Enemies and structures',
+    'attack_outputs': 'Attack outputs (projectile sources)'}
 
 
 def git(*args) -> str:
@@ -262,6 +263,13 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
             records.append(_record('enemy_authoring', 'enemy:' + name + ':' + (zone or 'entity') + ':' + field['id'],
                 name, field['id'], _component(b, _int(entry['resource'])), field.get('currentDefault'),
                 field.get('editable', True), not health['uniqueOwner'], locator, field.get('reason')))
+    # Attack-output sources: the owner's ProjectileWeapon reference a projectile host copies. Not writable fields of
+    # their own, but a moved owner record is rebound and a lost one makes the output unselectable.
+    for output_id, output in sorted(((tables.get('attack_outputs') or {}).get('outputs') or {}).items()):
+        if output.get('backing'):
+            records.append(_record('attack_outputs', 'output:' + output_id, output['owner']['name'], 'attack.output',
+                _component(output['backing'], _int(output['resource'])), output.get('currentDefault'),
+                output.get('editable', True), False, {'path': ['outputs', output_id], 'guard': {'id': output_id}}))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')

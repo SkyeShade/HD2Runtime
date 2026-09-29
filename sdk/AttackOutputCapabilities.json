@@ -1,0 +1,4329 @@
+{
+ "contract": "hd2runtime.attack_outputs.v1",
+ "schemaVersion": 1,
+ "hd2RuntimeVersion": "0.27.0",
+ "build": "F5FEE03DCFDB",
+ "model": {
+  "weaponComposition": "A weapon entity owns exactly one output-family component (ProjectileWeapon, BeamWeapon, ArcWeapon, SprayWeapon or MeleeWeapon) next to fire-control and resource components (WeaponData, WeaponMagazine / WeaponRounds / WeaponHeat / WeaponCharge, WeaponReload).",
+  "commonOutputAbstraction": false,
+  "outputReferences": {
+   "projectile": "ProjectileWeaponComponent +0 ProjectileType",
+   "beam": "BeamWeaponComponent +0 BeamType",
+   "arc": "ArcWeaponComponent +0 ArcType",
+   "spray": "SprayWeaponComponent +200 DamageInfoType",
+   "melee": "MeleeWeaponComponent +12 DamageInfoType"
+  },
+  "familyOwnedBehaviour": {
+   "ProjectileWeaponComponent": [
+    [
+     0,
+     "projectile_type (ProjectileType)"
+    ],
+    [
+     8,
+     "rounds per minute"
+    ],
+    [
+     36,
+     "infinite ammo"
+    ],
+    [
+     576,
+     "second ProjectileType"
+    ]
+   ],
+   "BeamWeaponComponent": [
+    [
+     0,
+     "beam_type (BeamType)"
+    ],
+    [
+     16,
+     "heat buildup (WeaponHeatBuildup)"
+    ],
+    [
+     100,
+     "beam fire mode (BeamFireMode)"
+    ],
+    [
+     104,
+     "int, len 16"
+    ],
+    [
+     108,
+     "int, len 19"
+    ],
+    [
+     112,
+     "f32, len 13"
+    ]
+   ],
+   "ArcWeaponComponent": [
+    [
+     0,
+     "arc_type (ArcType)"
+    ],
+    [
+     4,
+     "rounds per minute"
+    ],
+    [
+     8,
+     "infinite ammo"
+    ],
+    [
+     9,
+     "RPC-synced fire events"
+    ]
+   ]
+  },
+  "bridges": [
+   "ProjectileInfo +144 / +156 -> ExplosionType (impact / expiry)",
+   "ExplosionInfo +84 -> ProjectileType (shrapnel / submunition)",
+   "ExplosionInfo +120 -> ArcType (an explosion releases an arc)",
+   "BeamInfo +96 -> ExplosionType",
+   "WeaponChargeComponent +200 -> ExplosionType"
+  ],
+  "noBridgeTo": [
+   "BeamType (only BeamWeaponComponent, BeamInfo and the unembedded BeamPrisms type)"
+  ],
+  "proofLevels": {
+   "identity": "the owner weapon, its output-family component and settings row are re-proven live",
+   "assets": "the owner package is loaded through the 0.27 asset loader before the reference is written",
+   "structural": "projectile-family outputs only: one ProjectileType reference; cross-family is blocked",
+   "gameplay": "live-proven only by a user-run test (sdk/LiveEvidenceCatalog.json); none yet"
+  }
+ },
+ "hostModel": {
+  "projectileHosts": [
+   "APW-1 Anti-Materiel Rifle",
+   "AR-11 Arbitrator",
+   "AR-2 Coyote",
+   "AR-23 Liberator",
+   "AR-23A Liberator Carbine",
+   "AR-23C Liberator Concussive",
+   "AR-23P Liberator Penetrator",
+   "AR-32 Pacifier",
+   "AR-59 Suppressor",
+   "AR-61 Tenderizer",
+   "AR/GL-21 One-Two",
+   "BR-14 Adjudicator",
+   "CB-9 Exploding Crossbow",
+   "EAT-17 Expendable Anti-Tank",
+   "EAT-411 Leveller",
+   "EAT-700 Expendable Napalm",
+   "FAF-14 Spear",
+   "GL-21 Grenade Launcher",
+   "GP-20 Ultimatum",
+   "GR-8 Recoilless Rifle",
+   "JAR-5 Dominator",
+   "M-105 Stalwart",
+   "M6C/SOCOM Pistol",
+   "M7S SMG",
+   "MA5C Assault Rifle",
+   "MG-206 Heavy Machine Gun",
+   "MLS-4X Commando",
+   "MP-98 Knight",
+   "P-113 Verdict",
+   "P-19 Redeemer",
+   "P-2 Peacemaker",
+   "P-33 Missile Pistol",
+   "P-34 Breacher",
+   "P-35 Re-Educator",
+   "P-92 Warrant",
+   "P/40-K Bolt Pistol",
+   "PLAS-1 Scorcher",
+   "R-2 Amendment",
+   "R-36 Eruptor",
+   "R-4 Hyena",
+   "R-63 Diligence",
+   "R-63CS Diligence Counter Sniper",
+   "R-72 Censor",
+   "R/40-K Hot-Shot Marksman Rifle",
+   "RL-77 Airburst Rocket Launcher",
+   "S-11 Speargun",
+   "SG-225 Breaker",
+   "SG-225IE Breaker Incendiary",
+   "SG-225SP Breaker Spray&Pray",
+   "SG-8P Punisher Plasma",
+   "SMG-203 Gallant",
+   "SMG-32 Reprimand",
+   "SMG-72 Pummeler",
+   "SMG/FLAM-34 Stoker",
+   "StA-11 SMG",
+   "StA-52 Assault Rifle",
+   "StA-X3 W.A.S.P. Launcher",
+   "VG-70 Variable"
+  ],
+  "rule": "A cross-class projectile output needs a magazine-fed projectile host whose every round is ProjectileWeapon +0: a WeaponMagazine with an empty magazine pattern, and no WeaponRounds, WeaponCharge or WeaponHeat component that selects projectiles by ammo type, charge or heat level. The host keeps its magazine, ammo consumption, reload, RPM and handling; only +0 changes.",
+  "retained": {
+   "magazine": "WeaponMagazineComponent (unchanged)",
+   "reload": "WeaponReloadComponent",
+   "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only +0 changes)",
+   "handling": "WeaponDataComponent (recoil, spread, sway, ergonomics, fire modes)",
+   "liberator": {
+    "rpm": 640.0,
+    "infiniteAmmo": false,
+    "fireResource": [
+     "WeaponCustomizationComponentData",
+     "WeaponDataComponentData",
+     "WeaponMagazineComponentData",
+     "WeaponReloadComponentData"
+    ],
+    "magazinePatternEntries": 0,
+    "projectileHost": true
+   }
+  }
+ },
+ "liberatorCases": {
+  "LAS Beam": {
+   "donor": "LAS-98 Laser Cannon",
+   "status": "BLOCKED",
+   "reason": "A beam is fired only by a BeamWeaponComponent (BeamType at +0). No projectile, explosion or other settings member references a BeamType, and the Liberator entity owns a ProjectileWeaponComponent, not a BeamWeaponComponent. The beam component also owns its own firing behaviour (BeamFireMode, heat buildup) and the LAS-98 draws on WeaponHeat, which the Liberator does not have. A beam output would need the entity component composition itself changed, which is not a reference write and is not generated."
+  },
+  "Trident": {
+   "donor": "LAS-13 Trident",
+   "status": "BLOCKED",
+   "reason": "Same family boundary as the LAS beam. The Trident is one BeamWeaponComponent (BeamType 6) in BeamFireMode 6 (the continuous beams use 4), with +104 = 300, +108 = 2 and +112 = 0.15 where the continuous beams have 60 / 1 / 0, and a single-fire audio event instead of loop start/stop. No member counts beams: BeamInfo has none, and the BeamPrisms type (light/heavy BeamType with heat multipliers) exists in the type library but is embedded in no struct in this build. Beam count, spread, tick and pulse members are unidentified and stay read-only."
+  },
+  "EAT-700 Napalm": {
+   "donor": "EAT-700 Expendable Napalm",
+   "status": "SUPPORTED",
+   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), so replacing the Liberator's +0 reference is the whole composition. Everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain), so the swap is a cross-class reference and needs allow_unverified_reference and allow_unverified_effect.",
+   "writes": [
+    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+   ]
+  },
+  "ARC-3 Arc": {
+   "donor": "ARC-3 Arc Thrower",
+   "status": "BLOCKED",
+   "reason": "An arc is emitted by an ArcWeaponComponent (ArcType at +0; it also owns RPM and infinite ammo) or by an explosion (ExplosionInfo +120 ArcType). The ARC-3 arc (ArcType 7) is referenced by no explosion; its only consumer is the ARC-3's ArcWeaponComponent. Charge is ARC-3 fire control, not part of the arc output: the ARC-12 Blitzer fires arcs without a WeaponCharge component. Emitting the ARC-3 arc from the Liberator's muzzle would need an ArcWeaponComponent on the Liberator entity; emitting it at impact would need a shared explosion row re-pointed at ArcType 7, changing that explosion's owners. Neither is generated.",
+   "nativeAlternative": "Arc on impact: the GL-52 De-Escalator grenade (projectile 222) whose impact explosion (41) releases arc 15; a projectile-family swap, supported like the EAT-700."
+  },
+  "Arc on impact": {
+   "donor": "GL-52 De-Escalator",
+   "status": "SUPPORTED",
+   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120). Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
+   "writes": [
+    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+   ]
+  }
+ },
+ "summary": {
+  "outputs": 105,
+  "byFamily": {
+   "projectile": 89,
+   "beam": 3,
+   "arc": 2,
+   "spray": 4,
+   "melee": 7
+  },
+  "selectable": 78,
+  "projectileHosts": 58
+ },
+ "outputs": [
+  {
+   "semanticId": "output/v1/projectile/ar-11-arbitrator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-11 Arbitrator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_risk",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-2-coyote",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-2 Coyote"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-23-liberator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-23 Liberator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-23a-liberator-carbine",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-23A Liberator Carbine"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_patriot",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-23c-liberator-concussive",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-23C Liberator Concussive"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-23p-liberator-penetrator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-23P Liberator Penetrator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-32-pacifier",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-32 Pacifier"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_karbin",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-59-suppressor",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-59 Suppressor"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_whisper",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-61-tenderizer",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR-61 Tenderizer"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_rico",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ar-gl-21-one-two",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "AR/GL-21 One-Two"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_grenadier",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/arc/arc-12-blitzer",
+   "family": "arc",
+   "kind": "arc",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "ARC-12 Blitzer"
+   },
+   "emitter": "ArcWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Arc outputs are fired by their own ArcWeaponComponent (which also owns their cadence, RPM and infinite ammo); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "arc_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/br-14-adjudicator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "BR-14 Adjudicator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "battle_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/cb-9-exploding-crossbow",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "CB-9 Exploding Crossbow"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "crossbow_greyfax",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-19-stun-lance",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "CQC-19 Stun Lance"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "power_sword",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-2-saber",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "CQC-2 Saber"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "ceremonial_saber",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-30-stun-baton",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "CQC-30 Stun Baton"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "stun_baton",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-5-combat-hatchet",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "CQC-5 Combat Hatchet"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "hand_axe",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/dbs-2-double-freedom",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "DBS-2 Double Freedom"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "shotgun_double_freedom",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/flam-66-torcher",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "FLAM-66 Torcher"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "flamethrower_ripley",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gl-15-evictor",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "GL-15 Evictor"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pump_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gp-20-ultimatum",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "GP-20 Ultimatum"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "cricket_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/jar-5-dominator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "JAR-5 Dominator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "jet_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/las-12-sai",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-12 Sai"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_smg_blaster",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-13-trident",
+   "family": "beam",
+   "kind": "pulsed_multi_beam",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-13 Trident"
+   },
+   "emitter": "BeamWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/las-16-sickle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-16 Sickle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_rifle_long",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/las-17-double-edge-sickle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-17 Double-Edge Sickle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_rifle_long_hotshot",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/las-58-talon",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "LAS-58 Talon"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "laser_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m6c-socom-pistol",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "M6C/SOCOM Pistol"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "pistol_nacho",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m7s-smg",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "M7S SMG"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_nacho",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m90a-shotgun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "M90A Shotgun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "shotgun_nacho",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ma5c-assault-rifle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "MA5C Assault Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_nacho",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mp-98-knight",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "MP-98 Knight"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_defender",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-11-stim-pistol",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-11 Stim Pistol"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-113-verdict",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-113 Verdict"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "magnum_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-19-redeemer",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-19 Redeemer"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "automatic_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-2-peacemaker",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-2 Peacemaker"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "standard_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-33-missile-pistol",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-33 Missile Pistol"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "pistol_smart_missile",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-34-breacher",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-34 Breacher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "hornet_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-35-re-educator",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-35 Re-Educator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "caustic_dart_gun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-4-senator",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-4 Senator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "revolver_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-69-veto",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-69 Veto"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pistol_broomhandle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-92-warrant",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P-92 Warrant"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smart_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/p-40-k-bolt-pistol",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "P/40-K Bolt Pistol"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "pistol_shark",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/plas-1-scorcher",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "PLAS-1 Scorcher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "plasma_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/plas-101-purifier",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "PLAS-101 Purifier"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "plasma_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/plas-15-loyalist",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "PLAS-15 Loyalist"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "plasma_pistol",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/plas-39-accelerator-rifle",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "PLAS-39 Accelerator Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "sniper_rifle_helghast",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-2-amendment",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-2 Amendment"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "battle_rifle_ceremonial",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-2124-constitution",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-2124 Constitution"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "bolt_action_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-36-eruptor",
+   "family": "projectile",
+   "kind": "explosive_submunition",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-36 Eruptor"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "jet_rifle_phoenix",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-4-hyena",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-4 Hyena"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "marksman_rifle_vigilance",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-6-deadeye",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-6 Deadeye"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-63-diligence",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-63 Diligence"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "marksman_rifle_vigilance",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-63cs-diligence-counter-sniper",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-63CS Diligence Counter Sniper"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "marksman_rifle_vigilance",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-72-censor",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R-72 Censor"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "marksman_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/r-40-k-hot-shot-marksman-rifle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "R/40-K Hot-Shot Marksman Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "marksman_rifle_shark",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-20-halt",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-20 Halt"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pump_shotgun_stun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-22-bushwhacker",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-22 Bushwhacker"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-225-breaker",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-225 Breaker"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-225ie-breaker-incendiary",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-225IE Breaker Incendiary"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_shotgun_incendiary",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-225sp-breaker-spray-pray",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-225SP Breaker Spray&Pray"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-451-cookout",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-451 Cookout"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pump_shotgun_dragon",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-8-punisher",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-8 Punisher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pump_shotgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-8p-punisher-plasma",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-8P Punisher Plasma"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-8s-slugger",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-8S Slugger"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-97-sweeper",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SG-97 Sweeper"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "pump_shotgun_trench",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-203-gallant",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG-203 Gallant"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_solvent",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-32-reprimand",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG-32 Reprimand"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_rhino",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-72-pummeler",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG-72 Pummeler"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "personal_defense_weapon_pepper",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/smg-flam-34-stoker",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "SMG/FLAM-34 Stoker"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_flamer",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sta-11-smg",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "StA-11 SMG"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "smg_helghast",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sta-52-assault-rifle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "StA-52 Assault Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "assault_rifle_helghast",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/vg-70-variable",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "player_weapon",
+    "name": "VG-70 Variable"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "volley_gun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/40-k-meltagun",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "40-K Meltagun"
+   },
+   "emitter": "BeamWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "energy_weapon_shark",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/ac-8-autocannon",
+   "family": "projectile",
+   "kind": "explosive_submunition",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "AC-8 Autocannon"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "automatic_cannon",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/apw-1-anti-materiel-rifle",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "APW-1 Anti-Materiel Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "sniper_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/arc/arc-3-arc-thrower",
+   "family": "arc",
+   "kind": "arc",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "ARC-3 Arc Thrower"
+   },
+   "emitter": "ArcWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Arc outputs are fired by their own ArcWeaponComponent (which also owns their cadence, RPM and infinite ammo); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "arc_thrower",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/b-flam-80-cremator",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "B/FLAM-80 Cremator"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": false
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-1-one-true-flag",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "CQC-1 One True Flag"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "melee_flag",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-20-breaching-hammer",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "CQC-20 Breaching Hammer"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "melee_sledge_hammer",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/melee/cqc-9-defoliation-tool",
+   "family": "melee",
+   "kind": "melee",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "CQC-9 Defoliation Tool"
+   },
+   "emitter": "MeleeWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Melee outputs are fired by their own MeleeWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData"
+   ],
+   "package": {
+    "name": "melee_chainsaw_greatsword",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eat-17-expendable-anti-tank",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "EAT-17 Expendable Anti-Tank"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "lat_oneshot",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eat-411-leveller",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "EAT-411 Leveller"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "expendable_massive_rocket_launcher",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/eat-700-expendable-napalm",
+   "family": "projectile",
+   "kind": "explosive_submunition",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "EAT-700 Expendable Napalm"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "expendable_napalm_launcher",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/faf-14-spear",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "FAF-14 Spear"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/flam-40-flamethrower",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "FLAM-40 Flamethrower"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "flamethrower",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gl-21-grenade-launcher",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "GL-21 Grenade Launcher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "grenade_launcher",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gl-28-belt-fed-grenade-launcher",
+   "family": "projectile",
+   "kind": "explosive_submunition",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "GL-28 Belt-Fed Grenade Launcher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gl-52-de-escalator",
+   "family": "projectile",
+   "kind": "arc_on_impact",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "GL-52 De-Escalator"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_arc",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": true
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "grenade_launcher_tactical",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/gr-8-recoilless-rifle",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "GR-8 Recoilless Rifle"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "recoilless_rifle",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/beam/las-98-laser-cannon",
+   "family": "beam",
+   "kind": "continuous_beam",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "LAS-98 Laser Cannon"
+   },
+   "emitter": "BeamWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Beam outputs are fired by their own BeamWeaponComponent (which also owns their cadence, beam fire mode and heat buildup); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "manned_turret_laser",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/las-99-quasar-cannon",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "LAS-99 Quasar Cannon"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponHeat"
+   ],
+   "package": {
+    "name": "laser_cannon",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m-1000-maxigun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "M-1000 Maxigun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponWindUp"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/m-105-stalwart",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "M-105 Stalwart"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "lmg_stalwart",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mg-206-heavy-machine-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "MG-206 Heavy Machine Gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "heavy_mg",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mg-43-machine-gun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "MG-43 Machine Gun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "machinegun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mgx-42-bullet-storm",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "MGX-42 Bullet Storm"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "expendable_machinegun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/mls-4x-commando",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "MLS-4X Commando"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine"
+   ],
+   "package": {
+    "name": "laser_guided_missile_launcher",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/plas-45-epoch",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "PLAS-45 Epoch"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "plasma_blaster",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/rl-77-airburst-rocket-launcher",
+   "family": "projectile",
+   "kind": "explosive_submunition",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "RL-77 Airburst Rocket Launcher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_shrapnel",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": true,
+    "submunition": true,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/rs-422-railgun",
+   "family": "projectile",
+   "kind": "ballistic",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "RS-422 Railgun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "conventional_plain",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCharge",
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "railgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/s-11-speargun",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "S-11 Speargun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": true,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "harpoon_gun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sg-88-break-action-shotgun",
+   "family": "projectile",
+   "kind": "projectile",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "SG-88 Break-Action Shotgun"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "chain": {
+    "impactExplosion": false,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponReload",
+    "WeaponRounds"
+   ],
+   "package": {
+    "name": "shotgun_doublebarrel",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/projectile/sta-x3-w-a-s-p-launcher",
+   "family": "projectile",
+   "kind": "explosive",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "StA-X3 W.A.S.P. Launcher"
+   },
+   "emitter": "ProjectileWeapon",
+   "compatibilityClass": "explosive_impact",
+   "selectableAsProjectileReference": true,
+   "compatibleHostFamilies": [
+    "projectile"
+   ],
+   "requiredCoordinatedReferences": [],
+   "blockedReason": null,
+   "chain": {
+    "impactExplosion": true,
+    "expiryExplosion": false,
+    "submunition": false,
+    "arcOnImpact": false
+   },
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": null,
+    "known": false,
+    "autoLoad": true
+   },
+   "acknowledgements": {
+    "sameClass": [],
+    "crossClass": [
+     "allow_unverified_reference",
+     "allow_unverified_effect"
+    ]
+   },
+   "liveProof": null
+  },
+  {
+   "semanticId": "output/v1/spray/tx-41-sterilizer",
+   "family": "spray",
+   "kind": "spray",
+   "owner": {
+    "kind": "support_weapon",
+    "name": "TX-41 Sterilizer"
+   },
+   "emitter": "SprayWeapon",
+   "compatibilityClass": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "A projectile host references only ProjectileType. Spray outputs are fired by their own SprayWeaponComponent (which also owns their cadence); no projectile or explosion member can reference them, and adding the component to another weapon entity changes its composition, which Runtime does not do.",
+   "chain": null,
+   "ownerFireResource": [
+    "WeaponCustomization",
+    "WeaponData",
+    "WeaponMagazine",
+    "WeaponReload"
+   ],
+   "package": {
+    "name": "chemgun",
+    "known": true,
+    "autoLoad": true
+   },
+   "acknowledgements": null,
+   "liveProof": null
+  }
+ ],
+ "safety": {
+  "runtimeAddresses": false,
+  "nativeIdentifiers": false,
+  "writesDuringGeneration": 0
+ }
+}

@@ -49,6 +49,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
 - Minefield salvo count and mines per salvo (`hd2.stratagem(name):deployed_entity():minefield()`, reductions only)
 - Central live-test evidence: every in-game test, its result and the capability families it promoted to
   live-proven (see `docs/live-evidence.md` and `sdk/LiveEvidenceCatalog.json`)
+- Attack outputs (`hd2.attack_output(name)`, `attack:output()`): a family-aware catalog of what every weapon attack
+  emits. A magazine-fed projectile weapon can fire another weapon's projectile output (for example the EAT-700
+  napalm rocket) and keep its own magazine and fire control. Beam and arc outputs are catalogued with the reason no
+  projectile weapon can reference them (see `docs/attack-outputs.md` and `sdk/AttackOutputCapabilities.json`)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards
