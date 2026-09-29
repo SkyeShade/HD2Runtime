@@ -241,6 +241,27 @@ passed. No sentry timing member has independent evidence, so no search-interval 
 Nine vehicle and 13 backpack StratagemDefinitions are listed with writable cooldowns. Each carries a
 `delivers` link to the `hd2.vehicle` or `hd2.backpack` semantic ID of the entity it delivers.
 
+## Resupply
+
+```lua
+local resupply = hd2.stratagem('Resupply')
+hd2.ensure({patch = {id = 'fast-resupply', target = resupply,
+    field = hd2.fields.stratagem.definition_cooldown, expect = 180, value = 5}})
+local rack = resupply:delivery():rack()   -- the Resupply pod: four Supply Box slots
+```
+
+- **Identity** (`research/resupply-F5FEE03DCFDB.json`, `scripts/research_resupply.py`): the only StratagemInfo row of
+  native type AmmoRack (33), whose UI icon is `StratagemRessuply`. Its id, group, row, package and payload list are
+  identical in all seven retained snapshots. Family `mission`, always available.
+- **Fields:** cooldown (+104, 180 s) and mission uses (+80, unlimited), guarded like every other definition.
+- **Payload:** three (Resupply rack, hellpod) pairs of one rack; `delivers` links it to the `Resupply pod`
+  (`hd2.pod_rack`). The rack is shared with the Resupply reward variant (`allow_shared`).
+- **Live-proven** (ResupplyTest): a 5 s cooldown (ready again 5 s after use), and Grenade Boxes in pod slots 1-4
+  (package loaded automatically). Those four slot/pickup pairs need no `allow_unverified_reference`
+  (`docs/pod-payloads.md`).
+- **Not offered:** a medal payload. No medal pickup entity exists, and the one exploration-reward entity uses an
+  unproven interaction type and grants server-side account progression.
+
 ## Stratagem icon identity and catalog equipment
 
 `StratagemAuthoringCapabilities.json` publishes two presentation facts per stratagem. Neither changes write semantics.

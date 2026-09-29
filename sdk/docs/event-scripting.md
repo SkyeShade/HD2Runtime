@@ -210,7 +210,8 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
 - Chain reactions are bounded: at most 6 explosion requests at once per mod, refilled at 1 per second
   (`RATE_LIMITED`). The game does not say which explosion killed an enemy, so deaths it causes carry no mod cause.
 - `'Hellbomb'` is the real NUX-223 detonation (ExplosionType 242, 17 / 25 / 45 m, 10000 damage). Its type is a code
-  literal in the Hellbomb's behavior, and Runtime re-proves it at startup. Type 242 is also used by some mission
+  literal in the Hellbomb's behavior, and Runtime re-proves it at startup. It is live-proven on host (a death
+  detonated it at the saved position); the B-100 Portable Hellbomb and the weapon explosions are not live-tested. Type 242 is also used by some mission
   objectives: requesting it is safe, but editing its settings would change them too.
 
 ### Projectiles
@@ -232,6 +233,7 @@ hd2.projectiles.spawn('R-36 Eruptor', {position = {x = p.x, y = p.y, z = p.z + 2
 - Your avatar fires it and is credited with it. Each projectile also counts as a shot in your mission stats
   (`player_fired`), as the game counts it. Only the local player can be the firer (`FIRER_UNSUPPORTED`).
 - No network send was found: other players may not see the projectile itself, only its results.
+- Live-proven on host for the R-36 Eruptor only.
 - At most 12 at once and 4 per second per mod (`RATE_LIMITED`).
 
 ### Status effects
@@ -256,7 +258,7 @@ end)
   records per entity).
 - The target must still exist (`TARGET_GONE`). Your avatar is the instigator.
 - Not proven: that the status's visual effects are always loaded (the same statuses are applied by enemies and
-  environments whatever the players carry, so they are expected to be). Not live-tested yet.
+  environments whatever the players carry, so they are expected to be). Live-proven on host for `fire` only.
 
 ### The weapon in hand
 
@@ -279,6 +281,8 @@ end)
 - `weapon_equipped`, `weapon_unequipped` (with `reason`: `switched`, `emptied` or `avatar_changed`) and
   `weapon_changed` (`previous`, `current`) report every change, ten checks a second, for the local player only. The
   game's switch writes the selection and the item in hand in one call, so a check never sees half a switch.
+- Live-proven: primary and secondary switches and the three events, and uncatalogued items reported without a name.
+  Remote players are not read; the inferred slot labels stay `slot_proven = false`.
 
 This is **not** kill attribution. A weapon in hand when a kill is credited did not necessarily make it (grenades,
 stratagems and delayed explosions kill while another weapon is held). Use `player_kill_credited.sources` for that.

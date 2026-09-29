@@ -98,8 +98,17 @@ nobody carrying either item. Each pickup publishes `packageDependency`, with `pa
 `LIVE_PROVEN`, `ALWAYS_RESIDENT` or `UNRESOLVED`.
 
 Loading resolves missing assets only. Whether a pickup behaves correctly from a given pod remains
-unverified in general, so `allow_unverified_reference` is still required. The two tested pairs are published
-as `liveVerifiedPairs` for tools to show.
+unverified in general, so `allow_unverified_reference` is still required. The exact (rack, slot, pickup)
+triples a live test showed working are the exception. Each authored slot publishes them as
+`liveVerifiedPickups`, and a write of one of them into exactly that slot needs no `allow_unverified_reference`:
+
+- M-105 Stalwart pod slot 2 <- EAT-700 Expendable Napalm (test A);
+- MG-43 Machine Gun pod slot 1 <- Grenade Box (test D);
+- Resupply pod slots 1-4 <- Grenade Box (ResupplyTest).
+
+The same pickup in another slot or rack, or another pickup in these slots, keeps the acknowledgement.
+`allow_shared` stays required on shared racks (the MG-43 and Resupply pods): it is a scope acknowledgement, not an
+unverified one. All pairs are also listed in `liveVerifiedPairs`.
 
 ## Guards
 
@@ -112,7 +121,7 @@ Every write re-proves:
 - the replacement's typed pickup component and interaction.
 
 Required acknowledgements:
-- `allow_unverified_reference` for any non-vanilla slot item;
+- `allow_unverified_reference` for any non-vanilla slot item, except a live-verified pickup in its tested slot;
 - `allow_unverified_effect` for a spawn-count change;
 - `allow_shared` for every write to a shared rack.
 

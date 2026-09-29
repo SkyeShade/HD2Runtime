@@ -34,6 +34,7 @@
           "status": "live_proven",
           "family": "stratagem_definition_cooldown",
           "tests": [
+            "ResupplyTest",
             "RuntimeEffectDiagnostics"
           ],
           "date": "2026-09-29",
@@ -6381,7 +6382,18 @@
         "value": 180,
         "writable": true,
         "field": "hd2.fields.stratagem.definition_cooldown",
-        "unit": "seconds"
+        "unit": "seconds",
+        "liveEvidence": {
+          "status": "live_proven",
+          "family": "stratagem_definition_cooldown",
+          "tests": [
+            "ResupplyTest",
+            "RuntimeEffectDiagnostics"
+          ],
+          "date": "2026-09-29",
+          "target": "Resupply",
+          "field": "stratagem.definition_cooldown"
+        }
       },
       "maxUses": {
         "value": "unlimited",

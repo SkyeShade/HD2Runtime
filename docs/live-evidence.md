@@ -29,6 +29,12 @@ Composition tests record four separate facts: the donor output works, the refere
 | `backpack_deposit_ammo` | live-partial | `deposit.capacity`, `deposit.start_amount`, `deposit.refill_amount` | The M-1000 Maxigun Backpack's DepositComponent ammunition (capacity, start and refill). | unchanged |
 | `backpack_shield_default_armor` | live-failed | `entity.armor` | The SH-20 Ballistic Shield Backpack's default-zone armor (HealthComponentData record 292 +280). | unchanged |
 | `backpack_shield_zone_armor` | pending | `zone.armor` | The SH-20 Ballistic Shield Backpack's shield-plate armor: damage zone 0 "shield" (+736), copied into a shield when it spawns. | unchanged |
+| `pod_payload_pair` | live-proven | `payload.entity` | Exact drop-pod (rack, slot, pickup) triples shown working in game with the donor loaded automatically: Resupply pod slots 1-4 <- Grenade Box (ResupplyTest), plus the earlier MG-43 Machine Gun pod slot 1 <- Grenade Box and M-105 Stalwart pod slot 2 <- EAT-700 Expendable Napalm (package residency tests D and A). | removed `allow_unverified_reference` |
+| `event_action_explosion_named` | live-proven | `hd2.explosions.spawn` | hd2.explosions.spawn('Hellbomb') by the mission host: the NUX-223 Hellbomb detonation (ExplosionType 242) at a position, gameplay-proven on host. | unchanged |
+| `event_player_died_position` | live-proven | `player_died.position` | player_died for the local player in a mission, with its death-position snapshot used after the avatar is gone (DeathHellbombTest). A death event reported before the mission started was refused by the explosion action with NOT_IN_MISSION. | unchanged |
+| `event_action_projectile` | live-proven | `hd2.projectiles.spawn` | hd2.projectiles.spawn('R-36 Eruptor') by the mission host: the game's own FireProjectile, fired and repeated, gameplay-proven on host. | unchanged |
+| `event_action_status` | live-proven | `hd2.status.apply` | hd2.status.apply(enemy, 'fire', {buildup = 100}) by the mission host: the fire status visibly applied to a live enemy through the game's status request queue. | unchanged |
+| `event_weapon_in_hand` | live-proven | `player:equipped_weapon`, `weapon_equipped`, `weapon_unequipped`, `weapon_changed` | The local player's weapon in hand: primary and secondary switches detected correctly, the three events matched the actual switches, and uncatalogued held items were reported as uncatalogued (no name). | unchanged |
 
 ## Notes
 
@@ -74,6 +80,7 @@ Composition tests record four separate facts: the donor output works, the refere
 - Not promoted (still need `allow_unverified_effect`): other DamageInfo fields and every other weapon's damage row, the SG-20 Halt's alternate (stun) feed.
 
 **`stratagem_definition_cooldown`**
+- Observation: Resupply (the AmmoRack mission stratagem) was ready again 5 s after use with its cooldown set to 5 (task 3).
 - Not promoted (still need `allow_unverified_effect`): the cooldown of every other stratagem: the same member, not individually tested.
 
 **`backpack_deposit_ammo`**
@@ -85,6 +92,24 @@ Composition tests record four separate facts: the donor output works, the refere
 
 **`backpack_shield_default_armor`**
 - Analysis: Every hit on the shield plate resolves to damage zone 0 "shield", whose own armor (+736) stayed 4; AP 4 against armor 4 is the equal case (65% damage). The default zone is only a fallback for hit actors no zone lists (research/ballistic-shield-F5FEE03DCFDB.json). Withdrawn: the field is read-only and points to :damage_zone('shield') zone.armor.
+
+**`pod_payload_pair`**
+- Not promoted (still need allow_unverified_reference): every other rack, slot or pickup combination, allow_shared stays required on the shared Resupply rack (a scope acknowledgement, not an unverified one).
+
+**`event_action_explosion_named`**
+- Not promoted (offline-proven only): the B-100 Portable Hellbomb (type 125), the 13 weapon explosions (same request, not tested), what other players see (no network send was found; propagation unproven), client requests (refused HOST_ONLY).
+
+**`event_player_died_position`**
+- Not promoted (offline-proven only): other players' deaths.
+
+**`event_action_projectile`**
+- Not promoted (offline-proven only): every other catalogued projectile type, what other players see (no network send was found; propagation unproven), client requests (refused HOST_ONLY).
+
+**`event_action_status`**
+- Not promoted (offline-proven only): the other 10 allowlisted statuses, what other players see and client routing (unproven).
+
+**`event_weapon_in_hand`**
+- Not promoted (offline-proven only): the inferred slot labels support, held_item and unknown (slot_proven stays false), death and reinforce transitions (not reported), remote players (not read; unproven).
 
 ## Session coverage-pass-2026-09-29
 
@@ -149,3 +174,18 @@ Runtime: HD2Runtime 0.27.0 (user-built mod writing the SH-20 Ballistic Shield ba
 | Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
 | --- | --- | --- | --- | --- |
 | SH-20 armor edit (user-built) | fail | SH-20 Ballistic Shield Backpack: `entity.armor` 4 → 5 |  | The MG-206 HMG (armor penetration 4) still damaged the shield after its armor was set to 5. |
+
+## Session task3-actions-2026-09-29
+
+Runtime: HD2Runtime 0.27.0 task 3 test build (commit 0daf33a, build/test-artifacts/task3-live-tests/HD2Runtime-0.27.0-runtime-task3-test.zip), hosting.
+
+Every operation logged: `HD2Runtime 0.27.0 initialized (API 1)`, `2 registered operations settled: 2 applied (ResupplyTest)`.
+
+| Mod | Result | Writes | Donor / write / host reads / output changed | Observation |
+| --- | --- | --- | --- | --- |
+| ResupplyTest (Resupply cooldown 5 s) | pass | Resupply: `stratagem.definition_cooldown` 180 → 5 |  | The Resupply stratagem was ready again 5 seconds after use. |
+| ResupplyTest (Resupply payload: grenade boxes) | pass | Resupply pod slots 1-4: `payload.entity` Supply Box → Grenade Box |  | The landed Resupply pod held Grenade Boxes and they worked; the Grenade Box package loaded automatically (package residency test E). |
+| DeathHellbombTest | pass |  |  | Dying in a real mission detonated the NUX-223 Hellbomb at the saved death position. The avatar-removal death reported before the mission started was refused with NOT_IN_MISSION, as designed. |
+| ProjectileActionTest | pass |  |  | F6 fired the R-36 Eruptor projectile through hd2.projectiles.spawn; repeated requests worked. |
+| StatusActionTest | pass |  |  | The fire status (buildup 100) visibly applied to a live enemy. |
+| EquippedWeaponEventTest | pass |  |  | Primary and secondary switches were detected correctly; weapon_equipped, weapon_unequipped and weapon_changed matched the actual switches; uncatalogued held items were reported as uncatalogued (no name), not misidentified. |

@@ -14,6 +14,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
+import live_evidence  # noqa: E402
 
 SCHEMA = ROOT / 'schemas/events.json'
 ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'
@@ -49,22 +50,35 @@ def validate(schema: dict) -> None:
 def action_catalog() -> dict:
     """What event scripts can request, for tools (ModBuilder pickers): names only, no ids or addresses."""
     research = json.loads(ACTIONS.read_text(encoding='utf-8'))
-    common = {'hostOnly': True, 'inMissionOnly': True, 'creditedTo': 'local_player', 'liveTested': False}
+
+    def proven(family, target, field):
+        # Live-proven only for the exact identity a user-run test exercised (schemas/live_evidence.json).
+        return live_evidence.proven_target(family, target, field) is not None
+    common = {'hostOnly': True, 'inMissionOnly': True, 'creditedTo': 'local_player',
+        'otherPlayersSee': 'unproven (no network propagation proven)'}
+    weapons = sorted({item['weapon'] for item in research['catalogueTypes']})
+    projectile_weapons = sorted({item['weapon'] for item in research['projectile']['types']})
     return {
         'explosions': dict(common, api='hd2.explosions.spawn', rateLimit={'burst': 6, 'perSecond': 1},
             named=[{'name': item['name'], 'aliases': ['Hellbomb'] if item['type'] == 242 else ['Portable Hellbomb'],
-                'sharedType': bool(item['sharedType'])} for item in research['namedExplosions']],
-            weapons=sorted({item['weapon'] for item in research['catalogueTypes']}),
+                'sharedType': bool(item['sharedType']),
+                'liveProven': proven('event_action_explosion_named', item['name'], 'hd2.explosions.spawn')}
+                for item in research['namedExplosions']],
+            weapons=weapons,
+            liveProvenWeapons=[w for w in weapons if proven('event_action_explosion_named', w, 'hd2.explosions.spawn')],
             assets='Loaded automatically (the weapon\'s package; a Hellbomb\'s stratagem package).'),
         'projectiles': dict(common, api='hd2.projectiles.spawn', rateLimit={'burst': 12, 'perSecond': 4},
-            weapons=sorted({item['weapon'] for item in research['projectile']['types']}),
+            weapons=projectile_weapons,
+            liveProven=[w for w in projectile_weapons if proven('event_action_projectile', w, 'hd2.projectiles.spawn')],
             options={'position': 'required', 'direction': 'required, any non-zero length'},
             sideEffects=['Each projectile counts as a shot in the local player\'s stats.'],
             assets='Loaded automatically (the weapon\'s package).'),
         'statusEffects': dict(common, api='hd2.status.apply', creditedTo='local_player (instigator)',
             rateLimit={'burst': 10, 'perSecond': 5, 'perTargetBurst': 4, 'perTargetPerSecond': 2},
             statuses=[{'id': item['semanticId'], 'name': item['name'], 'family': item['family'],
-                'duration': item['duration']} for item in research['status']['allowlist']],
+                'duration': item['duration'],
+                'liveProven': proven('event_action_status', item['semanticId'], 'hd2.status.apply')}
+                for item in research['status']['allowlist']],
             options={'buildup': {'default': 100, 'min_exclusive': 0, 'max': 1000,
                 'meaning': 'Buildup added; the status starts at the target\'s susceptibility threshold.'},
                 'strength': 'refused: strength and duration are the status\'s own'},

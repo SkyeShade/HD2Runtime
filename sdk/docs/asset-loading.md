@@ -132,7 +132,7 @@ Package residency proof level per reference family (`referenceFamilies`):
 
 | Family | Package residency | Reference / slot compatibility |
 | --- | --- | --- |
-| Pod-payload pickup | **Live-proven** (tests A and D) | Unverified in general (`allow_unverified_reference`); the two tested rack/pickup pairs are published as `liveVerifiedPairs` |
+| Pod-payload pickup | **Live-proven** (tests A, D and E) | Unverified in general (`allow_unverified_reference`), except the exact live-verified (rack, slot, pickup) triples (`liveVerifiedPairs`, slot `liveVerifiedPickups`) |
 | Projectile reference | **Live-proven** (test B) | Unchanged: only approved compatibility classes can be swapped |
 | Explosion reference | Offline-proven; same loader path and source-weapon packages as projectile references | Unchanged |
 | Vehicle mount | Offline-proven; live test C was inconclusive | Unverified (`allow_unverified_reference`) |

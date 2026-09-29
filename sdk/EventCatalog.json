@@ -2565,7 +2565,7 @@
    "hostOnly": true,
    "inMissionOnly": true,
    "creditedTo": "local_player",
-   "liveTested": false,
+   "otherPlayersSee": "unproven (no network propagation proven)",
    "api": "hd2.explosions.spawn",
    "rateLimit": {
     "burst": 6,
@@ -2577,14 +2577,16 @@
      "aliases": [
       "Hellbomb"
      ],
-     "sharedType": true
+     "sharedType": true,
+     "liveProven": true
     },
     {
      "name": "B-100 Portable Hellbomb",
      "aliases": [
       "Portable Hellbomb"
      ],
-     "sharedType": false
+     "sharedType": false,
+     "liveProven": false
     }
    ],
    "weapons": [
@@ -2602,13 +2604,14 @@
     "R-36 Eruptor",
     "SG-8P Punisher Plasma"
    ],
+   "liveProvenWeapons": [],
    "assets": "Loaded automatically (the weapon's package; a Hellbomb's stratagem package)."
   },
   "projectiles": {
    "hostOnly": true,
    "inMissionOnly": true,
    "creditedTo": "local_player",
-   "liveTested": false,
+   "otherPlayersSee": "unproven (no network propagation proven)",
    "api": "hd2.projectiles.spawn",
    "rateLimit": {
     "burst": 12,
@@ -2682,6 +2685,9 @@
     "StA-52 Assault Rifle",
     "VG-70 Variable"
    ],
+   "liveProven": [
+    "R-36 Eruptor"
+   ],
    "options": {
     "position": "required",
     "direction": "required, any non-zero length"
@@ -2695,7 +2701,7 @@
    "hostOnly": true,
    "inMissionOnly": true,
    "creditedTo": "local_player (instigator)",
-   "liveTested": false,
+   "otherPlayersSee": "unproven (no network propagation proven)",
    "api": "hd2.status.apply",
    "rateLimit": {
     "burst": 10,
@@ -2708,67 +2714,78 @@
      "id": "fire",
      "name": "Fire",
      "family": "fire",
-     "duration": 3.0
+     "duration": 3.0,
+     "liveProven": true
     },
     {
      "id": "fire_panic",
      "name": "Fire_Panic",
      "family": "sense",
-     "duration": 1.0
+     "duration": 1.0,
+     "liveProven": false
     },
     {
      "id": "burning_heavy",
      "name": "BurningHeavy",
      "family": "fire",
-     "duration": 1.0
+     "duration": 1.0,
+     "liveProven": false
     },
     {
      "id": "stun_small",
      "name": "Stun Small",
      "family": "stun",
-     "duration": 1.5
+     "duration": 1.5,
+     "liveProven": false
     },
     {
      "id": "stun_medium",
      "name": "Stun Medium",
      "family": "stun",
-     "duration": 3.0
+     "duration": 3.0,
+     "liveProven": false
     },
     {
      "id": "stun_large",
      "name": "Stun Large",
      "family": "stun",
-     "duration": 5.0
+     "duration": 5.0,
+     "liveProven": false
     },
     {
      "id": "gas",
      "name": "Gas",
      "family": "gas",
-     "duration": 6.0
+     "duration": 6.0,
+     "liveProven": false
     },
     {
      "id": "gas_2",
      "name": "Gas",
      "family": "gas",
-     "duration": 10.0
+     "duration": 10.0,
+     "liveProven": false
     },
     {
      "id": "gas_confusion",
      "name": "Gas_Confusion",
      "family": "gas",
-     "duration": 5.0
+     "duration": 5.0,
+     "liveProven": false
     },
     {
      "id": "gas_confusion_2",
      "name": "Gas_Confusion",
      "family": "gas",
-     "duration": 9.0
+     "duration": 9.0,
+     "liveProven": false
     },
     {
      "id": "flamer_slowed",
      "name": "FlamerSlowed",
      "family": "slow",
-     "duration": 0.5
+     "duration": 0.5,
+     "liveProven": false
     }
    ],
    "options": {

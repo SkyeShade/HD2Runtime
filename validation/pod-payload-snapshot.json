@@ -13,12 +13,29 @@
     "wrong slot",
     "read-only rack",
     "field on wrong target",
+    "live-verified pickup outside its tested slot",
     "rack turned random",
     "slot lost its attach node",
     "replacement lost its pickup interaction"
   ],
   "rollbacks": 192,
   "scenarios": {
+    "live_verified_pair": {
+      "changes": [
+        {
+          "after": "9c4093f0",
+          "before": "79754f01",
+          "fieldOffset": 0
+        },
+        {
+          "after": "fb34af97",
+          "before": "ca1349a9",
+          "fieldOffset": 4
+        }
+      ],
+      "rack": "Resupply pod",
+      "writes": 2
+    },
     "ordinary_support_pod": {
       "changes": [
         {

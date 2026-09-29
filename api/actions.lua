@@ -543,15 +543,20 @@ function M.status()
             limits='the named Hellbomb explosions and catalogued weapon explosions, each with a known package; host '
                 ..'only; in a mission; credited to the '
                 ..'local player; '..M.EXPLOSION_BURST..' at once and '..M.EXPLOSION_REFILL..' per second per mod; '
-                ..'other players may not see the effect',live='not live-tested yet'},
+                ..'other players may not see the effect',
+            live='live-proven on host for the NUX-223 Hellbomb only; other explosions and what other players see are '
+                ..'not live-tested'},
         projectile={status='available',api='hd2.projectiles.spawn(weapon, {position=..., direction=...})',
             limits='catalogued weapon projectiles with a known package; host only; in a mission; fired and credited '
                 ..'by the local player (each counts as a shot); '..M.PROJECTILE_BURST..' at once and '
-                ..M.PROJECTILE_REFILL..' per second per mod; other players may not see it',live='not live-tested yet'},
+                ..M.PROJECTILE_REFILL..' per second per mod; other players may not see it',
+            live='live-proven on host for the R-36 Eruptor only; other projectiles and what other players see are '
+                ..'not live-tested'},
         status_effect={status='available',api='hd2.status.apply(entity, status, {buildup=...})',
             limits='statuses a player weapon applies; buildup, not strength; host only; in a mission; '
                 ..M.STATUS_BURST..' at once and '..M.STATUS_REFILL..' per second per mod, '
-                ..M.STATUS_PER_TARGET_BURST..' at once per target',live='not live-tested yet'},
+                ..M.STATUS_PER_TARGET_BURST..' at once per target',
+            live='live-proven on host for fire only; other statuses and what other players see are not live-tested'},
         spawn_entity={status='blocked',reason='the generic spawn (game.dll 0xFDC140) takes spawn parameters and '
             ..'network replication that are not proven'},
     }

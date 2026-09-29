@@ -50,7 +50,8 @@ class ResupplyTests(unittest.TestCase):
         self.assertEqual(fields['stratagem.max_uses']['backing']['offset'], 80)
         public = self.public['Resupply']
         self.assertTrue(public['cooldownCapability']['writable'])
-        self.assertNotIn('liveEvidence', public['cooldownCapability'])   # only Orbital Precision Strike is live-proven
+        # Live-proven for Resupply itself (ResupplyTest: ready again 5 s after use).
+        self.assertEqual(public['cooldownCapability']['liveEvidence']['target'], 'Resupply')
         rack = next(r for r in self.pods['racks'] if r['name'] == 'Resupply pod')
         self.assertEqual(public['delivers']['semanticId'], rack['semanticId'])
         consumer = next(c for c in rack['consumers'] if c['nativeType'] == 'AmmoRack')
@@ -75,8 +76,17 @@ assert(#swap.asset_dependencies==1,'the grenade box package is a declared depend
 local vanilla=patches.validate{id='vanilla',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value=supply,
  allow_shared=true}
 assert(#vanilla.asset_dependencies==0,'the resident supply box needs no package')
-rejects({id='a',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value=grenades,allow_shared=true},
+-- The Grenade Box is live-verified in exactly these four slots (ResupplyTest): no reference acknowledgement there.
+patches.validate{id='live',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value=grenades,
+ allow_shared=true}
+assert(table.concat(rack:slot(4):describe().live_verified,',')=='Grenade Box')
+-- Any other pickup here, or the Grenade Box in a rack where it was not tested, still needs it.
+rejects({id='a',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value=hd2.pickup('B-1 Supply Pack'),
+ allow_shared=true},'allow_unverified_reference')
+local rail=hd2.stratagem('RS-422 Railgun'):payload()
+rejects({id='a2',target=rail:slot(1),field=hd2.fields.payload.entity,expect=rail:slot(1):current(),value=grenades},
  'allow_unverified_reference')
+assert(#rail:slot(1):describe().live_verified==0)
 rejects({id='b',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value=grenades,
  allow_unverified_reference=true},'allow_shared')
 rejects({id='c',target=rack:slot(1),field=hd2.fields.payload.entity,expect=supply,value='0x30212B6E5858AEEF',

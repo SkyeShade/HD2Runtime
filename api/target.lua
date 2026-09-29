@@ -826,9 +826,13 @@ function M.new(describe)
                 ..' is not an authored payload slot')
             local slot_methods={}
             function slot_methods.describe()
+                -- Replacements live-verified in exactly this slot need no allow_unverified_reference.
+                local live={}
+                for semantic in pairs(slot.live or{})do live[#live+1]=pods.pickups[semantic].name end
+                table.sort(live)
                 return {rack=name,slot=number,active=slot.active,current=pickup_view(slot.current),
                     shared=rack.shared,acknowledgements=rack.shared and{'allow_unverified_reference','allow_shared'}
-                        or{'allow_unverified_reference'}}
+                        or{'allow_unverified_reference'},live_verified=live}
             end
             function slot_methods.current()
                 return slot.current=='empty'and'empty'or builders.pickup(slot.current)

@@ -120,6 +120,11 @@ catalogued name and faction. Peer ids are compared as two 32-bit halves: they ex
   (non-atomic) capture recorded that entity before the entity table saw it, so the reader reports nothing held
   instead of guessing.
 
+**Live-proven** (`examples/projects/EquippedWeaponEventTest`): primary and secondary switches were detected correctly,
+`weapon_equipped`, `weapon_unequipped` and `weapon_changed` matched the actual switches, and uncatalogued held items
+were reported as uncatalogued (no name). Still inferred: the `support`, `held_item` and `unknown` slot labels
+(`slot_proven = false`); not reported: death and reinforce transitions.
+
 Only the local player is read: the switch wields with `replicate = 0`, so whether other players' wielders are kept
 on this machine is not proven. The kill listener receives a source entity, but no record keeps it, so which weapon
 made a particular kill is still unavailable.
@@ -224,7 +229,8 @@ when it is not resident, and requires a mission and host authority (a client's r
 host's synced health overwrites it). Source and owner are the local avatar and the creditor the local peer, like a
 shot of the player's own weapon. Requests are rate-limited per mod (6 at once, 1 per second): the game does not say
 which explosion killed an entity, so a chain of explosions and deaths cannot be traced by cause. No network message
-call was found in the drain; whether other machines see the effect is unproven. Not live-tested yet.
+call was found in the drain; whether other machines see the effect is unproven. Live-proven on host only for the
+NUX-223 Hellbomb (below); the weapon explosions use the same request but are not live-tested.
 
 **Named explosions: the Hellbombs.** Neither Hellbomb names its explosion in data. The type is a code literal in the
 behavior of the entity that detonates, passed through two wrappers (game.dll 0x4C89C0, then 0x13C6D30) to the request.
@@ -249,7 +255,12 @@ asset gate like any other.
 Type 242 is also requested by several mission objectives (for example `cy_control_tower` and `refinery_terminal`).
 Requesting it changes nothing about them, but editing ExplosionSettings[242] would change them all. Runtime still
 never fakes an explosion by editing another explosion's definition. Inferred, not traced: who sends the "explode"
-event. Not live-tested yet (`examples/projects/DeathHellbombTest`).
+event.
+
+**Live-proven on host** (`examples/projects/DeathHellbombTest`, `docs/live-evidence.md`): dying in a real mission
+detonated the NUX-223 Hellbomb at the saved death position. The avatar-removal death reported before the mission
+started was refused with `NOT_IN_MISSION`, as designed. Not promoted: the B-100 Portable Hellbomb (type 125), what
+other players see, and client requests (refused `HOST_ONLY`).
 
 **Projectiles** (`hd2.projectiles.spawn(weapon, {position, direction})`): the game's own scalar projectile wrapper,
 game.dll `0x13A8F50` `FireProjectile(ignored, type, const float pos[3], const float dir[3], entity, target,
@@ -280,7 +291,8 @@ oldest slot. Unproven:
 - damage authority after a hit (a client spawn is refused);
 - whether other machines see the projectile (no network send was found).
 
-Not live-tested yet (`examples/projects/ProjectileActionTest`).
+**Live-proven on host for the R-36 Eruptor** (`examples/projects/ProjectileActionTest`): F6 fired it, repeatedly.
+Every other projectile type, what other players see, and client requests stay unproven.
 
 **Status effects** (`hd2.status.apply(entity, status, {buildup})`): the game's own status request queue, game.dll
 `0x129F170` `QueueStatusRequest(ignored, type, target, float buildup, instigator, variant)`, called through one
@@ -313,7 +325,8 @@ Unproven:
 - that the statuses' visual effect resources (three 64-bit hashes in each settings record) are always resident.
   They are expected to be, because enemies and environments apply the same statuses whatever the players carry.
 
-Not live-tested yet (`examples/projects/StatusActionTest`).
+**Live-proven on host for `fire`** (`examples/projects/StatusActionTest`): the status visibly applied to a live
+enemy. The other 10 allowlisted statuses, client routing, and what other players see stay unproven.
 
 ## Script values: event-driven definition changes
 

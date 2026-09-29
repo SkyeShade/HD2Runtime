@@ -14,6 +14,12 @@ def load(name):
     return json.loads((ROOT / 'sdk' / name).read_text())
 
 
+# Task 3 live results (schemas/live_evidence.json, session task3-actions-2026-09-29): the exact promoted pairs.
+TASK3_TARGETS = [('NUX-223 Hellbomb', 'hd2.explosions.spawn'), ('R-36 Eruptor', 'hd2.projectiles.spawn'),
+    ('Resupply', 'stratagem.definition_cooldown'), ('fire', 'hd2.status.apply')] + [
+    ('Resupply pod slot %d <- Grenade Box' % slot, 'payload.entity') for slot in (1, 2, 3, 4)]
+
+
 class LiveEvidenceTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -27,7 +33,9 @@ class LiveEvidenceTests(unittest.TestCase):
         generate_live_evidence.generate(check=True)
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
-            'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor', 'minefield_salvos',
+            'live_proven': ['attack_output_cross_class', 'enemy_main_health', 'enemy_zone_armor',
+                'event_action_explosion_named', 'event_action_projectile', 'event_action_status',
+                'event_player_died_position', 'event_weapon_in_hand', 'minefield_salvos', 'pod_payload_pair',
                 'sentry_targeting_range', 'sentry_turret_turn_speed', 'stratagem_definition_cooldown',
                 'weapon_ammunition_projectile_reference', 'weapon_heat_per_shot', 'weapon_magazine_capacity',
                 'weapon_projectile_damage', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
@@ -35,10 +43,32 @@ class LiveEvidenceTests(unittest.TestCase):
             'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
             'live_failed': ['backpack_shield_default_armor', 'weapon_projectile_reference_dormant_member'],
             'pending': ['backpack_shield_zone_armor']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (23, 16))
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (29, 22))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
+
+    def test_task3_promotes_exactly_the_tested_scopes(self):
+        """Task 3 (all five PASS): only the exact tested identities are promoted; untested identities, other players,
+        client requests and inferred slots stay unpromoted."""
+        families = self.registry['families']
+        scoped = {name: [(p['target'], p['field']) for p in families[name].get('provenTargets') or []]
+            for name in ('event_action_explosion_named', 'event_action_projectile', 'event_action_status')}
+        self.assertEqual(scoped, {'event_action_explosion_named': [('NUX-223 Hellbomb', 'hd2.explosions.spawn')],
+            'event_action_projectile': [('R-36 Eruptor', 'hd2.projectiles.spawn')],
+            'event_action_status': [('fire', 'hd2.status.apply')]})
+        for name in ('event_action_explosion_named', 'event_action_projectile', 'event_action_status'):
+            self.assertTrue(any('other players' in item for item in families[name]['notPromoted']), name)
+        self.assertIn('the B-100 Portable Hellbomb (type 125)', families['event_action_explosion_named']['notPromoted'])
+        weapon = families['event_weapon_in_hand']
+        self.assertIn('remote players (not read; unproven)', weapon['notPromoted'])
+        self.assertTrue(any('support, held_item and unknown' in item for item in weapon['notPromoted']))
+        self.assertEqual(families['pod_payload_pair']['acknowledgementRemoved'], 'allow_unverified_reference')
+        catalog = load('EventCatalog.json')['actions']
+        self.assertEqual([n['name'] for n in catalog['explosions']['named'] if n['liveProven']], ['NUX-223 Hellbomb'])
+        self.assertEqual(catalog['explosions']['liveProvenWeapons'], [])
+        self.assertEqual(catalog['projectiles']['liveProven'], ['R-36 Eruptor'])
+        self.assertEqual([s['id'] for s in catalog['statusEffects']['statuses'] if s['liveProven']], ['fire'])
 
     def test_host_path_evidence(self):
         """Composition tests keep donor, write, host-path and gameplay evidence apart; a failed host never counts
@@ -141,10 +171,10 @@ class LiveEvidenceTests(unittest.TestCase):
     def test_effect_diagnostics_promote_exactly_the_tested_targets(self):
         """The five passing diagnostics promote their exact (target, field) pairs and nothing else; the Maxigun backpack
         is partial and keeps its acknowledgement."""
-        self.assertEqual(sorted(live_evidence.proven_targets()), [
+        self.assertEqual(sorted(live_evidence.proven_targets()), sorted([
             ('LAS-16 Sickle', 'heat.heat_per_shot'), ('M-1000 Maxigun', 'damage.primary.standard_damage'),
             ('MA5C Assault Rifle', 'magazine.capacity'), ('Orbital Precision Strike', 'stratagem.definition_cooldown'),
-            ('SG-20 Halt', 'damage.primary.standard_damage')])
+            ('SG-20 Halt', 'damage.primary.standard_damage')] + TASK3_TARGETS))
         weapons = load('PlayerWeaponAuthoringCapabilities.json')
         promoted = sorted((w['name'], f['semanticFieldId']) for w in weapons['weapons'] for f in w['fields']
             if (f.get('liveEvidence') or {}).get('family') in ('weapon_magazine_capacity', 'weapon_heat_per_shot',
@@ -157,7 +187,7 @@ class LiveEvidenceTests(unittest.TestCase):
         self.assertEqual(promoted, [('M-1000 Maxigun', 'damage.primary.standard_damage')])
         stratagems = load('StratagemAuthoringCapabilities.json')
         promoted = [s['name'] for s in stratagems['stratagems'] if s['cooldownCapability'].get('liveEvidence')]
-        self.assertEqual(promoted, ['Orbital Precision Strike'])
+        self.assertEqual(sorted(promoted), ['Orbital Precision Strike', 'Resupply'])
         backpack = self.registry['families']['backpack_deposit_ammo']
         self.assertEqual((backpack['status'], backpack['provenTargets']), ('live_partial', []))
         backpacks = load('BackpackAuthoringCapabilities.json')
