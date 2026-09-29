@@ -41,6 +41,18 @@ function M.create()
         request(ffi.cast('void *',instance),ids,1)
         return true
     end
+    -- One native call, used only by runtime/event_world.lua after it re-proved the heal function's exact prologue
+    -- bytes and that the entity is the local player's living avatar: the game's own
+    -- AddHealthFraction(health manager, entity, fraction), which clamps to maximum health.
+    function runtime.native_heal(entry,manager,entity,fraction)
+        assert(type(entry)=='number'and entry>0 and entry<=9007199254740991
+            and type(manager)=='number'and manager>0 and manager<=9007199254740991
+            and type(entity)=='number'and entity>0 and entity<4294967296 and entity%1==0
+            and type(fraction)=='number'and fraction>0 and fraction<=1,'unsupported heal call')
+        local heal=ffi.cast('void (*)(void *, uint32_t, float)',entry)
+        heal(ffi.cast('void *',manager),entity,fraction)
+        return true
+    end
     return runtime
 end
 return M

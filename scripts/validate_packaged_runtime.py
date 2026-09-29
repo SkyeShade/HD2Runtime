@@ -407,7 +407,7 @@ return function(frame,watches,counts,lines)
 end
 '''
 
-# RuntimeEffectDiagnostics: six independent toggle-bound tests, all off at start. Each toggle applies only its own
+# RuntimeEffectDiagnostics: seven independent toggle-bound tests, all off at start. Each toggle applies only its own
 # operation; switching one off restores only that one; a later test never depends on an earlier one.
 DIAGNOSTICS_LIVE = r'''
 return function(frame,watches,counts,lines)
@@ -421,7 +421,8 @@ return function(frame,watches,counts,lines)
   for _=1,20 do frame()end
  end
  step('every test starts off; nothing is written',counts.writes==0,'writes='..counts.writes)
- local ids={'ma5c_magazine','halt_damage','sickle_heat','maxigun_damage','maxigun_backpack','precision_cooldown'}
+ local ids={'ma5c_magazine','halt_damage','sickle_heat','maxigun_damage','maxigun_backpack','precision_cooldown',
+  'cremator_start'}
  for index,id in ipairs(ids)do
   local w=watches[index];local runs,writes=w.runs,counts.writes
   menu.apply('runtime_effect_diagnostics.'..id,true);settle(w,runs)
@@ -442,7 +443,100 @@ return function(frame,watches,counts,lines)
 end
 '''
 
+# Gameplay scripting from the built ZIP on real snapshot memory (aboard the ship). The native world must prove every
+# pinned instruction against the snapshot's game.dll and executable; the sources then read the ship's real state.
+EVENTS_WORLD = r"""
+ local hd2=require('mods/skyeshade/hd2runtime')
+ for _=1,10 do frame()end
+ local unavailable=0
+ for _,line in ipairs(lines)do if line:find('event source')and line:find('unavailable')then unavailable=unavailable+1 end end
+ step('every event source proved its native structures on the snapshot',unavailable==0,table.concat(lines,' | '))
+ local state=hd2.game_state()
+ step('game state reads Ship',state and state.name=='Ship'and state.mission==false,tostring(state and state.name))
+ local player=hd2.local_player()
+ step('the local player and its avatar resolve',player~=nil and player:avatar()~=nil and player:health()==125,
+  tostring(player and player:health()))
+ local position=player and player:position()
+ step('the avatar position is finite',position~=nil and position.z==position.z,tostring(position and position.z))
+"""
+EVENT_ISOLATION_LIVE = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+""" + EVENTS_WORLD + r"""
+ local input=require('hd2runtime/runtime/input')
+ local down=false
+ input.set_backend({focused=function()return true end,down=function(code)return down and code==input.keys.F9 end})
+ for press=1,3 do down=true;frame();frame();down=false;frame()end
+ local failures,second=0,0
+ for _,line in ipairs(lines)do
+  if line:find('event key_down callback failed (mod mods/hd2runtime_examples/event_isolation_test',1,true)
+   and line:find('intentional failure',1,true)then failures=failures+1 end
+  if line:find('second subscriber ran after the failing one',1,true)then second=second+1 end
+ end
+ step('each press logs the failure with the mod and event',failures==3,'failures='..failures)
+ step('the second subscriber ran on every press',second==3,'second='..second)
+ for _=1,600 do frame()end
+ local disabled,healthy=0,0
+ for _,line in ipairs(lines)do
+  if line:find('repeating timer callback disabled (mod mods/hd2runtime_examples/event_isolation_test',1,true)then disabled=disabled+1 end
+  if line:find('healthy timer ran',1,true)then healthy=healthy+1 end
+ end
+ step('the failing timer is disabled once, the healthy one keeps running',disabled==1 and healthy>=3,
+  'disabled='..disabled..' healthy='..healthy)
+ return results
+end
+"""
+EVENT_WORLD_LIVE = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+""" + EVENTS_WORLD + r"""
+ local amount,why=hd2.local_player():heal(25)
+ step('heal is refused without a native-call adapter (never a fallback write)',amount==nil
+  and tostring(why):find('HEAL_UNAVAILABLE',1,true)~=nil,tostring(why))
+ step('no gameplay write happened',counts.writes==0,'writes='..counts.writes)
+ return results
+end
+"""
+KILL_STACK_LIVE = r"""
+return function(frame,watches,counts,lines)
+ local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+""" + EVENTS_WORLD + r"""
+ local mod=hd2.mod('mods/hd2runtime_examples/kill_stack_damage_test')
+ local damage=mod:value({id='liberator_damage',min=90,max=180,step=9,default=90})
+ local w=watches[1]
+ step('the bound ensure starts at the vanilla value',w.result and(w.result.status=='ALREADY_DESIRED'
+  or w.result.status=='APPLIED'),tostring(w.result and w.result.status))
+ local writes=counts.writes
+ damage:set(117)                                  -- three kills
+ local spent=0
+ while counts.writes==writes and spent<6000 do frame();spent=spent+1 end
+ for _=1,30 do frame()end
+ step('a script value change re-applies the guarded write',counts.writes>writes and w.result
+  and w.result.status=='APPLIED',('writes %d -> %d status %s'):format(writes,counts.writes,tostring(w.result and w.result.status)))
+ writes=counts.writes
+ damage:set(90)
+ spent=0
+ while counts.writes==writes and spent<6000 do frame();spent=spent+1 end
+ step('back to vanilla on reset',counts.writes>writes,('writes %d -> %d'):format(writes,counts.writes))
+ -- End boosted, so the harness's simulated game reset has a drift to re-apply.
+ writes=counts.writes
+ damage:set(108)
+ spent=0
+ while counts.writes==writes and spent<6000 do frame();spent=spent+1 end
+ step('boosted again',counts.writes>writes,('writes %d -> %d'):format(writes,counts.writes))
+ return results
+end
+"""
+
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
+    # Event-only mods observe the game and write nothing (readOnly: exactly zero overlay writes).
+    'example-event-isolation-test': {'after': EVENT_ISOLATION_LIVE, 'readOnly': True},
+    'example-kill-heal-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-death-hellbomb-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-kill-stack-damage-test': {'after': KILL_STACK_LIVE},
     'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 3},
     'example-runtime-effect-diagnostics': {'menu': MENU_STUB, 'after': DIAGNOSTICS_LIVE},
     'options-missing': {'after': OPTIONS_MISSING},
@@ -459,6 +553,10 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     # charge levels only partly fire now needs allow_unverified_effect, so it alone is refused (logged), not all.
     'user-report-full-project': {'watches': 133, 'frames': 200000, 'resetSeconds': 20000,
         'rejected': {'gui-object-64f6c65514d7e06d97274943': 'allow_unverified_effect'}},
+    # A Maxigun backpack of 1500 rounds exceeds the game's 1023 deposit limit: refused (logged), the Maxigun
+    # weapon operations still apply.
+    'user-report-maxigun-plus-backpack': {'rejected': {'entity-2f5a386db841be55d3be8e66':
+        'outside the reviewed range for deposit.capacity (1 to 1023)'}},
     'example-explosive-projectile-swap': {'packageRequests': 1},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
@@ -703,7 +801,8 @@ local function engine_searcher(name)
  lookups.startup=lookups.startup+1
  return assert(loadstring(body,'@'..name..'.lua'))
 end
-for name in pairs(package.preload)do package.preload[name]=nil end
+-- LuaJIT's built-in libraries stay available, as in the game; every archive resource must come from the engine.
+for name in pairs(package.preload)do if name~='ffi'and name~='bit'then package.preload[name]=nil end end
 local preload_searcher=package.loaders[1]
 for index=#package.loaders,1,-1 do package.loaders[index]=nil end
 package.loaders[1]=preload_searcher;package.loaders[2]=engine_searcher

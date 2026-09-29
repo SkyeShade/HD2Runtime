@@ -1,0 +1,2524 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "referenceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424,
+  "unpackedImageSha256": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5",
+  "textSha256": "373FD67E02BBF277494BFA8357ACBCBC5A7E2A309B5F0B20578C7B383996658B"
+ },
+ "exe": {
+  "sha256": "F5FEE03DCFDB2E553A4752C283590950AC13316B376D8196AA556FF0400D5F06",
+  "imageSize": 60719104,
+  "textSha256": "499E1B745D53560E33D4159715F443C52E98515DD35D10394E179D959B0AF59C"
+ },
+ "globals": {
+  "game": {
+   "Game": 53633856,
+   "EntityManager": 54968216,
+   "ComponentWorld": 54968264,
+   "game_mode": 53634720,
+   "game_mode_mission": 53636448,
+   "player": 53634152,
+   "avatar": 53636384,
+   "score": 53635808,
+   "health": 53634696,
+   "Session": 55037680
+  },
+  "exe": {
+   "UnitRegistry": 27328752,
+   "EntityManager": 28390840
+  }
+ },
+ "globalStoreSites": {
+  "3326340": [
+   5170532
+  ],
+  "33266A0": [
+   5669547
+  ],
+  "3326D60": [
+   5672263
+  ],
+  "3326688": [
+   5672445
+  ],
+  "3326AE0": [
+   5672473
+  ],
+  "3326D20": [
+   5672557
+  ],
+  "3326468": [
+   5672655
+  ],
+  "346BF98": [
+   16622422,
+   16625795
+  ],
+  "346BFC8": [
+   16622432,
+   16625806
+  ],
+  "347CEF0": [
+   20917158
+  ]
+ },
+ "chains": {
+  "gameState": {
+   "read": "u32 at ptr(game+0x3326340)+0xAC21C",
+   "values": {
+    "1": "Splash",
+    "2": "TitleScreen",
+    "3": "Ship",
+    "4": "Mission",
+    "5": "PrepareShip",
+    "6": "PrepareMission"
+   },
+   "nameTable": "const char* at game+0x2147F30 + 8*value (0..8 observed: ['None', 'Splash', 'TitleScreen', 'Ship', 'Mission', 'PrepareShip', 'PrepareMission', 'PrepareTestLevel', 'PrepareDebugMission'])",
+   "transitions": "written only by change_state (0xAB309C) and game init (0xAB499B); enter handlers are the StateX classes; StateGame block (Game+0x1FA08, 0x8C810 bytes) is zeroed on every enter of 4"
+  },
+  "inMission": {
+   "read": "gameState == 4 and u32 ptr(game+0x33266A0)+8 == 1 (game_mode component present)"
+  },
+  "gameModeType": {
+   "read": "u32 ptr(game+0x33266A0)+0x40",
+   "names": [
+    "None",
+    "Mission",
+    "Horde",
+    "Opportunity",
+    "Tutorial",
+    "Blitz",
+    "Gloom",
+    "Infiltration"
+   ]
+  },
+  "isHost": {
+   "read": "u32 flags at ptr(ptr(game+0x33266A0)+0x38)+0x14 bit0 (authority over the game-mode entity); only valid while game_mode count == 1"
+  },
+  "players": {
+   "manager": "ptr(game+0x3326468)",
+   "count": "+0x84",
+   "ownedPartition": "+0x88 (owned instances are stored first)",
+   "descriptor": "ptr at +0xE8 + 8*i -> {u64 type, u32 entity, u32 unit, u32 networkId, u32 flags}",
+   "peerId": "u64 at +0x2C8 + 0x38*i",
+   "lifecycleState": "u32 at +0x2E0 + 0x38*i (2 WaitingForRespawnTimer, 3 Spawned; 0/1 unnamed)",
+   "avatarNetworkId": "u32 at +0x3A8 + 0x20*i (0x7FFF none)",
+   "avatarEntity": "u32 at +0x108 + 0x70*i (written by set_player_avatar)",
+   "entityToIndexMap": "+0xD0",
+   "isLocal": "peerId == u64 ptr(game+0x347CEF0)+0xB398"
+  },
+  "avatars": {
+   "manager": "ptr(game+0x3326D20)",
+   "count": "+0x6C",
+   "ownedPartition": "+0x70",
+   "descriptor": "ptr at +0x110 + 8*i",
+   "entityToIndexMap": "+0xF8 {u64 slots, u32 cap, u32 empty, u32 mult}"
+  },
+  "networkIdToEntity": "em=ptr(game+0x346BF98); slot = map(em+0xF22EC8)[networkId]; entity = u32 em+0xF32F20+24*slot",
+  "entityId": "index = id & 0x3FFFFF, generation = (id >> 22) & 0xFF; engine destroy increments the generation byte; alive iff u8 ptr(ptr(exe+0x1B135B8)+0x88)[index] == generation. 0 = invalid.",
+  "unitId": "same packing; unit object = ptr(ptr(exe+0x1A100F0)+0x88)[index] iff index < u32 +0x98 and u8 ptr(+0xA0)[index] == generation; object+8 == unit id",
+  "unitPosition": "poses = ptr(object+0x88) (scene graph object+0x60, +0x28); node n matrix at poses + 64*n; translation floats at +0x30; node 0 = root. Guard: vtable[+0xE8] bytes 48 8D 41 60 C3",
+  "stats": {
+   "manager": "ptr(game+0x3326AE0)",
+   "playerToIndex": "map(+0x37D58)[player entity id] (player descriptor +8)",
+   "record": "+0x37D98 + 0x28*i = {u64 entries, u32 cap, u32 empty, u32 mult, pad, u64 sources}",
+   "entry": "0x14 bytes {u32 key, i32 value, f32 value, u8 flag}; slot = (key*mult + probe) & (cap-1)",
+   "sources": "0x40 blocks x 0x148 bytes: {u64 source id; 16 x {u32 key, i32, f32}} from +8",
+   "value": "int value = main[key] + sum(source entries with key) (get_stat 0x62CD30 with include_sources)"
+  }
+ },
+ "gameStateNames": [
+  "None",
+  "Splash",
+  "TitleScreen",
+  "Ship",
+  "Mission",
+  "PrepareShip",
+  "PrepareMission",
+  "PrepareTestLevel",
+  "PrepareDebugMission"
+ ],
+ "stateHandlers": {
+  "exit": {
+   "1": {
+    "block": 11218989,
+    "function": 11405616,
+    "logCategory": null,
+    "logMessage": null
+   },
+   "2": {
+    "block": 11219005,
+    "function": 11374064,
+    "logCategory": "StateTitleScreen",
+    "logMessage": null
+   },
+   "3": {
+    "block": 11219019,
+    "function": 11396832,
+    "logCategory": "StateShip",
+    "logMessage": "Shutdown: %p"
+   },
+   "4": {
+    "block": 11219035,
+    "function": 11329360,
+    "logCategory": "StateGame",
+    "logMessage": "on_exit()"
+   },
+   "5": {
+    "block": 11219049,
+    "function": 11295568,
+    "logCategory": "StatePrepareShip",
+    "logMessage": "on_exit"
+   },
+   "6": {
+    "block": 11219065,
+    "function": 11293664,
+    "logCategory": "StatePrepareMission",
+    "logMessage": "on_exit"
+   }
+  },
+  "enter": {
+   "1": {
+    "block": 11219179,
+    "function": 11400960,
+    "logCategory": "StateSplash",
+    "logMessage": "on_enter"
+   },
+   "2": {
+    "block": 11219196,
+    "function": 11360592,
+    "logCategory": "StateTitleScreen",
+    "logMessage": "on_enter"
+   },
+   "3": {
+    "block": 11219216,
+    "function": 11377184,
+    "logCategory": "StateShip",
+    "logMessage": "Setup: %p"
+   },
+   "4": {
+    "block": 11219233,
+    "function": 11296064,
+    "logCategory": "StateGame",
+    "logMessage": "On Enter"
+   },
+   "5": {
+    "block": 11219273,
+    "function": 11294128,
+    "logCategory": "StatePrepareShip",
+    "logMessage": "on_enter"
+   },
+   "6": {
+    "block": 11219290,
+    "function": 11291728,
+    "logCategory": "StatePrepareMission",
+    "logMessage": "on_enter"
+   }
+  }
+ },
+ "gameModeNames": [
+  "None",
+  "Mission",
+  "Horde",
+  "Opportunity",
+  "Tutorial",
+  "Blitz",
+  "Gloom",
+  "Infiltration"
+ ],
+ "strings": {
+  "2254530": "on game state change, Exit: %s, Enter: %s",
+  "2254B30": "Player %llx stuck in WaitingForRespawnTimer state while dead for %fs. Forcing recovery.",
+  "2254B90": "Player %llx stuck in Spawned state while dead for %fs. Forcing recovery.",
+  "2254E88": "on_mission_start - peer_id: %llx (self), loadout: %s",
+  "224C830": "\"game_mode\" : { \"max\" : %u, \"capacity\" : 1 }",
+  "224C898": "\"game_mode_mission\" : { \"max\" : %u, \"capacity\" : 1 }",
+  "2247520": "\"player\" : { \"max\" : %u, \"capacity\" : 4 }",
+  "224B2F8": "\"avatar\" : { \"max\" : %u, \"capacity\" : 8 }"
+ },
+ "stateMemberWrites": [
+  11219100,
+  11225499
+ ],
+ "stateMemberOtherUses": 348,
+ "statKeys": [
+  {
+   "key": "5C7A2930",
+   "summaryOffset": 0,
+   "telemetryName": "dealt_damage"
+  },
+  {
+   "key": "D494C5CC",
+   "summaryOffset": 4,
+   "telemetryName": "dealt_kills"
+  },
+  {
+   "key": "9D531956",
+   "summaryOffset": 8,
+   "telemetryName": "dealt_team_kills"
+  },
+  {
+   "key": "C7680A1B",
+   "summaryOffset": 12,
+   "telemetryName": "dealt_melee_kills"
+  },
+  {
+   "key": "B5800E01",
+   "summaryOffset": 16,
+   "telemetryName": "dealt_team_damage"
+  },
+  {
+   "key": "565790DA",
+   "summaryOffset": 20,
+   "telemetryName": "projectiles_fired"
+  },
+  {
+   "key": "897A5551",
+   "summaryOffset": 24,
+   "telemetryName": "projectiles_hit"
+  },
+  {
+   "key": "B6DCF3E1",
+   "summaryOffset": 28,
+   "telemetryName": "beam_active_time"
+  },
+  {
+   "key": "CC21D591",
+   "summaryOffset": 32,
+   "telemetryName": "beam_hit_time"
+  },
+  {
+   "key": "E88AC021",
+   "summaryOffset": 36,
+   "telemetryName": "distance_traveled"
+  },
+  {
+   "key": "C8256789",
+   "summaryOffset": 40,
+   "telemetryName": "stims_used"
+  },
+  {
+   "key": "2522346C",
+   "summaryOffset": 44,
+   "telemetryName": "used_stratagems"
+  },
+  {
+   "key": "4301B08A",
+   "summaryOffset": 48,
+   "telemetryName": "reinforcements_called"
+  },
+  {
+   "key": "B7A3D195",
+   "summaryOffset": 52,
+   "telemetryName": "received_damage"
+  },
+  {
+   "key": "6C34CF41",
+   "summaryOffset": 56,
+   "telemetryName": "received_revives"
+  },
+  {
+   "key": "9D6C8635",
+   "summaryOffset": 60,
+   "telemetryName": "received_deaths"
+  },
+  {
+   "key": "62048502",
+   "summaryOffset": 64,
+   "telemetryName": "alive"
+  },
+  {
+   "key": "2A68D824",
+   "summaryOffset": 65,
+   "telemetryName": "extracted"
+  },
+  {
+   "key": "34C576BB",
+   "summaryOffset": 66,
+   "telemetryName": "has_intel"
+  },
+  {
+   "key": "247A453E",
+   "summaryOffset": 67,
+   "telemetryName": null
+  },
+  {
+   "key": "BBD1E0F2",
+   "summaryOffset": 68,
+   "telemetryName": "mission_time"
+  },
+  {
+   "key": "2541B8F5",
+   "summaryOffset": 72,
+   "telemetryName": "insertion_time"
+  },
+  {
+   "key": "71631884",
+   "summaryOffset": 76,
+   "telemetryName": "war_time"
+  },
+  {
+   "key": "AFE4E742",
+   "summaryOffset": 80,
+   "telemetryName": "extraction_time"
+  },
+  {
+   "key": "E5DB5227",
+   "summaryOffset": 84,
+   "telemetryName": "dead_time"
+  }
+ ],
+ "telemetrySummaryFields": {
+  "0": "dealt_damage",
+  "4": "dealt_kills",
+  "8": "dealt_team_kills",
+  "C": "dealt_melee_kills",
+  "10": "dealt_team_damage",
+  "14": "projectiles_fired",
+  "18": "projectiles_hit",
+  "1C": "beam_active_time",
+  "20": "beam_hit_time",
+  "24": "distance_traveled",
+  "28": "stims_used",
+  "2C": "used_stratagems",
+  "30": "reinforcements_called",
+  "34": "received_damage",
+  "38": "received_revives",
+  "3C": "received_deaths",
+  "40": "alive",
+  "41": "extracted",
+  "42": "has_intel",
+  "44": "mission_time",
+  "48": "insertion_time",
+  "4C": "war_time",
+  "50": "extraction_time",
+  "54": "dead_time"
+ },
+ "addStatCallSites": [
+  {
+   "rva": 6474857,
+   "key": null,
+   "name": null
+  },
+  {
+   "rva": 6474932,
+   "key": null,
+   "name": null
+  },
+  {
+   "rva": 6475014,
+   "key": null,
+   "name": null
+  },
+  {
+   "rva": 6744086,
+   "key": "2522346C",
+   "name": "used_stratagems"
+  },
+  {
+   "rva": 6744150,
+   "key": "4301B08A",
+   "name": "reinforcements_called"
+  },
+  {
+   "rva": 6887926,
+   "key": "06F08CD4",
+   "name": null
+  },
+  {
+   "rva": 6992471,
+   "key": "4301B08A",
+   "name": "reinforcements_called"
+  },
+  {
+   "rva": 8445154,
+   "key": "565790DA",
+   "name": "projectiles_fired"
+  },
+  {
+   "rva": 9554196,
+   "key": "9D6C8635",
+   "name": "received_deaths"
+  },
+  {
+   "rva": 9562863,
+   "key": "E50320AE",
+   "name": null
+  },
+  {
+   "rva": 11323833,
+   "key": "6C34CF41",
+   "name": "received_revives"
+  },
+  {
+   "rva": 12101128,
+   "key": "4301B08A",
+   "name": "reinforcements_called"
+  },
+  {
+   "rva": 12264024,
+   "key": "4301B08A",
+   "name": "reinforcements_called"
+  },
+  {
+   "rva": 18650322,
+   "key": "C8256789",
+   "name": "stims_used"
+  },
+  {
+   "rva": 19529870,
+   "key": "D494C5CC",
+   "name": "dealt_kills"
+  },
+  {
+   "rva": 19530169,
+   "key": "BF1BCA93",
+   "name": null
+  },
+  {
+   "rva": 19530220,
+   "key": "9D531956",
+   "name": "dealt_team_kills"
+  },
+  {
+   "rva": 19531589,
+   "key": "C7680A1B",
+   "name": "dealt_melee_kills"
+  },
+  {
+   "rva": 19534259,
+   "key": "B7A3D195",
+   "name": "received_damage"
+  },
+  {
+   "rva": 19534322,
+   "key": "5C7A2930",
+   "name": "dealt_damage"
+  },
+  {
+   "rva": 19559514,
+   "key": "7F61EA5F",
+   "name": null
+  },
+  {
+   "rva": 20621315,
+   "key": "565790DA",
+   "name": "projectiles_fired"
+  },
+  {
+   "rva": 20636277,
+   "key": "897A5551",
+   "name": "projectiles_hit"
+  }
+ ],
+ "proofs": {
+  "gameStateMachine": [
+   {
+    "rva": 5170532,
+    "bytes": "48891dd57de302",
+    "asm": "mov qword ptr [rip + 0x2e37dd5], rbx",
+    "role": "Game object pointer stored once during game init",
+    "ripTarget": 53633856
+   },
+   {
+    "rva": 11242568,
+    "bytes": "4881c1f0490e00",
+    "asm": "add rcx, 0xe49f0",
+    "role": "entity manager is constructed inside the Game object (Game+0xE49F0)"
+   },
+   {
+    "rva": 5510146,
+    "bytes": "488b05374fde02",
+    "asm": "mov rax, qword ptr [rip + 0x2de4f37]",
+    "role": "reader loads the Game object",
+    "ripTarget": 53633856
+   },
+   {
+    "rva": 5510153,
+    "bytes": "83b81cc20a0004",
+    "asm": "cmp dword ptr [rax + 0xac21c], 4",
+    "role": "reader tests current state == 4 (Mission)"
+   },
+   {
+    "rva": 11218872,
+    "bytes": "4c8d3d41d054ff",
+    "asm": "lea r15, [rip - 0xab2fbf]",
+    "role": "change_state: r15 = image base",
+    "ripTarget": 0
+   },
+   {
+    "rva": 11218882,
+    "bytes": "488d1567157a01",
+    "asm": "lea rdx, [rip + 0x17a1567]",
+    "role": "log format \"on game state change, Exit: %s, Enter: %s\"",
+    "ripTarget": 35996976
+   },
+   {
+    "rva": 11218889,
+    "bytes": "448b811cc20a00",
+    "asm": "mov r8d, dword ptr [rcx + 0xac21c]",
+    "role": "old state"
+   },
+   {
+    "rva": 11218906,
+    "bytes": "4c8d34dd307f1402",
+    "asm": "lea r14, [rbx*8 + 0x2147f30]",
+    "role": "new state indexes the GameState name table"
+   },
+   {
+    "rva": 11218918,
+    "bytes": "4f8b84c7307f1402",
+    "asm": "mov r8, qword ptr [r15 + r8*8 + 0x2147f30]",
+    "role": "old state indexes the GameState name table"
+   },
+   {
+    "rva": 11218963,
+    "bytes": "8b871cc20a00",
+    "asm": "mov eax, dword ptr [rdi + 0xac21c]",
+    "role": "exit dispatch reads current state"
+   },
+   {
+    "rva": 11218971,
+    "bytes": "83f805",
+    "asm": "cmp eax, 5",
+    "role": "handled states are 1..6"
+   },
+   {
+    "rva": 11218976,
+    "bytes": "418b8c871433ab00",
+    "asm": "mov ecx, dword ptr [r15 + rax*4 + 0xab3314]",
+    "role": "exit jump table"
+   },
+   {
+    "rva": 11219100,
+    "bytes": "899f1cc20a00",
+    "asm": "mov dword ptr [rdi + 0xac21c], ebx",
+    "role": "the state write (one of two writers)"
+   },
+   {
+    "rva": 11219166,
+    "bytes": "418b8c872c33ab00",
+    "asm": "mov ecx, dword ptr [r15 + rax*4 + 0xab332c]",
+    "role": "enter jump table"
+   },
+   {
+    "rva": 11219235,
+    "bytes": "488d8f08fa0100",
+    "asm": "lea rcx, [rdi + 0x1fa08]",
+    "role": "StateGame block"
+   },
+   {
+    "rva": 11219242,
+    "bytes": "41b810c80800",
+    "asm": "mov r8d, 0x8c810",
+    "role": "StateGame block (0x8C810 bytes) is zeroed on every Mission enter"
+   },
+   {
+    "rva": 11219248,
+    "bytes": "e86b795d01",
+    "asm": "call 0x208aaa0",
+    "role": "memset"
+   },
+   {
+    "rva": 11225499,
+    "bytes": "c7871cc20a0001000000",
+    "asm": "mov dword ptr [rdi + 0xac21c], 1",
+    "role": "initial state = Splash (the other writer)"
+   }
+  ],
+  "componentWorld": [
+   {
+    "rva": 16622418,
+    "bytes": "488d4b40",
+    "asm": "lea rcx, [rbx + 0x40]",
+    "role": "component world = entity manager + 0x40"
+   },
+   {
+    "rva": 16622422,
+    "bytes": "48891d3b1c4902",
+    "asm": "mov qword ptr [rip + 0x2491c3b], rbx",
+    "role": "entity manager global",
+    "ripTarget": 54968216
+   },
+   {
+    "rva": 16622432,
+    "bytes": "48890d611c4902",
+    "asm": "mov qword ptr [rip + 0x2491c61], rcx",
+    "role": "component world global",
+    "ripTarget": 54968264
+   },
+   {
+    "rva": 16622453,
+    "bytes": "e8e67757ff",
+    "asm": "call 0x551b60",
+    "role": "component world construction"
+   },
+   {
+    "rva": 5577597,
+    "bytes": "e8ae660100",
+    "asm": "call 0x568230",
+    "role": "assigns every component-manager global"
+   },
+   {
+    "rva": 5669430,
+    "bytes": "488bd9",
+    "asm": "mov rbx, rcx",
+    "role": "rbx = component world"
+   },
+   {
+    "rva": 5669540,
+    "bytes": "488d8398080000",
+    "asm": "lea rax, [rbx + 0x898]",
+    "role": "game_mode manager = world + 0x898"
+   },
+   {
+    "rva": 5669547,
+    "bytes": "488905eee3db02",
+    "asm": "mov qword ptr [rip + 0x2dbe3ee], rax",
+    "role": "game_mode global",
+    "ripTarget": 53634720
+   },
+   {
+    "rva": 5672256,
+    "bytes": "488d8368147700",
+    "asm": "lea rax, [rbx + 0x771468]",
+    "role": "game_mode_mission manager = world + 0x771468"
+   },
+   {
+    "rva": 5672263,
+    "bytes": "48890512e0db02",
+    "asm": "mov qword ptr [rip + 0x2dbe012], rax",
+    "role": "game_mode_mission global",
+    "ripTarget": 53636448
+   },
+   {
+    "rva": 5672438,
+    "bytes": "488d8330627c00",
+    "asm": "lea rax, [rbx + 0x7c6230]",
+    "role": "health manager = world + 0x7C6230"
+   },
+   {
+    "rva": 5672445,
+    "bytes": "48890584d8db02",
+    "asm": "mov qword ptr [rip + 0x2dbd884], rax",
+    "role": "health global",
+    "ripTarget": 53634696
+   },
+   {
+    "rva": 5672466,
+    "bytes": "488d8368737c00",
+    "asm": "lea rax, [rbx + 0x7c7368]",
+    "role": "score manager = world + 0x7C7368"
+   },
+   {
+    "rva": 5672473,
+    "bytes": "488905c0dcdb02",
+    "asm": "mov qword ptr [rip + 0x2dbdcc0], rax",
+    "role": "score global",
+    "ripTarget": 53635808
+   },
+   {
+    "rva": 5672550,
+    "bytes": "488d8328619500",
+    "asm": "lea rax, [rbx + 0x956128]",
+    "role": "avatar manager = world + 0x956128"
+   },
+   {
+    "rva": 5672557,
+    "bytes": "488905acdedb02",
+    "asm": "mov qword ptr [rip + 0x2dbdeac], rax",
+    "role": "avatar global",
+    "ripTarget": 53636384
+   },
+   {
+    "rva": 5672648,
+    "bytes": "488d831808ea00",
+    "asm": "lea rax, [rbx + 0xea0818]",
+    "role": "player manager = world + 0xEA0818"
+   },
+   {
+    "rva": 5672655,
+    "bytes": "48890592d5db02",
+    "asm": "mov qword ptr [rip + 0x2dbd592], rax",
+    "role": "player global",
+    "ripTarget": 53634152
+   },
+   {
+    "rva": 16625795,
+    "bytes": "48890d0e0f4902",
+    "asm": "mov qword ptr [rip + 0x2490f0e], rcx",
+    "role": "re-point: entity manager global (no static caller)",
+    "ripTarget": 54968216
+   },
+   {
+    "rva": 16625802,
+    "bytes": "4883c140",
+    "asm": "add rcx, 0x40",
+    "role": "re-point: component world"
+   },
+   {
+    "rva": 16625806,
+    "bytes": "48890d330f4902",
+    "asm": "mov qword ptr [rip + 0x2490f33], rcx",
+    "role": "re-point: component world global",
+    "ripTarget": 54968264
+   },
+   {
+    "rva": 16625823,
+    "bytes": "e98cd158ff",
+    "asm": "jmp 0x568230",
+    "role": "re-point: every component-manager global follows"
+   }
+  ],
+  "gameMode": [
+   {
+    "rva": 9389360,
+    "bytes": "4c8b0d6921a302",
+    "asm": "mov r9, qword ptr [rip + 0x2a32169]",
+    "role": "game_mode add component",
+    "ripTarget": 53634720
+   },
+   {
+    "rva": 9389367,
+    "bytes": "418b4104",
+    "asm": "mov eax, dword ptr [r9 + 4]",
+    "role": "total"
+   },
+   {
+    "rva": 9389373,
+    "bytes": "83f801",
+    "asm": "cmp eax, 1",
+    "role": "capacity 1"
+   },
+   {
+    "rva": 9389415,
+    "bytes": "41ff4108",
+    "asm": "inc dword ptr [r9 + 8]",
+    "role": "live count +8"
+   },
+   {
+    "rva": 9389430,
+    "bytes": "410f4709",
+    "asm": "cmova ecx, dword ptr [r9]",
+    "role": "max (debug \"max\") at +0"
+   },
+   {
+    "rva": 9389441,
+    "bytes": "4b8954c138",
+    "asm": "mov qword ptr [r9 + r8*8 + 0x38], rdx",
+    "role": "entity descriptor pointer at +0x38"
+   },
+   {
+    "rva": 9389568,
+    "bytes": "448b09",
+    "asm": "mov r9d, dword ptr [rcx]",
+    "role": "debug print reads max at +0"
+   },
+   {
+    "rva": 9389580,
+    "bytes": "4c8d051d829501",
+    "asm": "lea r8, [rip + 0x195821d]",
+    "role": "\"game_mode\" : { \"max\" : %u, \"capacity\" : 1 }",
+    "ripTarget": 35964976
+   },
+   {
+    "rva": 11357226,
+    "bytes": "488b056f1a8502",
+    "asm": "mov rax, qword ptr [rip + 0x2851a6f]",
+    "role": "StateGame on_mission_start",
+    "ripTarget": 53634720
+   },
+   {
+    "rva": 11357233,
+    "bytes": "488d1dc8b352ff",
+    "asm": "lea rbx, [rip - 0xad4c38]",
+    "role": "rbx = image base",
+    "ripTarget": 0
+   },
+   {
+    "rva": 11357257,
+    "bytes": "8b4840",
+    "asm": "mov ecx, dword ptr [rax + 0x40]",
+    "role": "game mode type at +0x40"
+   },
+   {
+    "rva": 11357267,
+    "bytes": "488b84cbd0961402",
+    "asm": "mov rax, qword ptr [rbx + rcx*8 + 0x21496d0]",
+    "role": "type indexes the game-mode name table"
+   },
+   {
+    "rva": 11323157,
+    "bytes": "488b05849f8502",
+    "asm": "mov rax, qword ptr [rip + 0x2859f84]",
+    "role": "host-side respawn management gate",
+    "ripTarget": 53634720
+   },
+   {
+    "rva": 11323171,
+    "bytes": "397808",
+    "asm": "cmp dword ptr [rax + 8], edi",
+    "role": "a game mode exists"
+   },
+   {
+    "rva": 11323176,
+    "bytes": "488b4838",
+    "asm": "mov rcx, qword ptr [rax + 0x38]",
+    "role": "its descriptor"
+   },
+   {
+    "rva": 11323185,
+    "bytes": "f6411401",
+    "asm": "test byte ptr [rcx + 0x14], 1",
+    "role": "this peer has authority over the game mode"
+   }
+  ],
+  "gameModeMission": [
+   {
+    "rva": 9418821,
+    "bytes": "488b3d14b5a202",
+    "asm": "mov rdi, qword ptr [rip + 0x2a2b514]",
+    "role": "game_mode_mission add component",
+    "ripTarget": 53636448
+   },
+   {
+    "rva": 9418839,
+    "bytes": "83f801",
+    "asm": "cmp eax, 1",
+    "role": "capacity 1"
+   },
+   {
+    "rva": 9418989,
+    "bytes": "ff4750",
+    "asm": "inc dword ptr [rdi + 0x50]",
+    "role": "live count +0x50"
+   },
+   {
+    "rva": 9419001,
+    "bytes": "0f474f48",
+    "asm": "cmova ecx, dword ptr [rdi + 0x48]",
+    "role": "max +0x48"
+   },
+   {
+    "rva": 9419012,
+    "bytes": "4889acd780000000",
+    "asm": "mov qword ptr [rdi + rdx*8 + 0x80], rbp",
+    "role": "descriptor pointer +0x80"
+   },
+   {
+    "rva": 9419632,
+    "bytes": "448b4948",
+    "asm": "mov r9d, dword ptr [rcx + 0x48]",
+    "role": "debug print reads max +0x48"
+   },
+   {
+    "rva": 9419645,
+    "bytes": "4c8d05140d9501",
+    "asm": "lea r8, [rip + 0x1950d14]",
+    "role": "\"game_mode_mission\" : { \"max\" : %u, \"capacity\" : 1 }",
+    "ripTarget": 35965080
+   }
+  ],
+  "playerManager": [
+   {
+    "rva": 6343306,
+    "bytes": "488b1dd799d102",
+    "asm": "mov rbx, qword ptr [rip + 0x2d199d7]",
+    "role": "player add component",
+    "ripTarget": 53634152
+   },
+   {
+    "rva": 6343316,
+    "bytes": "8b8380000000",
+    "asm": "mov eax, dword ptr [rbx + 0x80]",
+    "role": "total"
+   },
+   {
+    "rva": 6343324,
+    "bytes": "83f804",
+    "asm": "cmp eax, 4",
+    "role": "capacity 4"
+   },
+   {
+    "rva": 6343340,
+    "bytes": "41803800",
+    "asm": "cmp byte ptr [r8], 0",
+    "role": "spawn-info authority byte selects the owned partition"
+   },
+   {
+    "rva": 6343388,
+    "bytes": "898388000000",
+    "asm": "mov dword ptr [rbx + 0x88], eax",
+    "role": "owned-partition count +0x88 (owned instances first)"
+   },
+   {
+    "rva": 6343467,
+    "bytes": "486bc238",
+    "asm": "imul rax, rdx, 0x38",
+    "role": "per-player block stride 0x38"
+   },
+   {
+    "rva": 6343474,
+    "bytes": "0f118418c8020000",
+    "asm": "movups xmmword ptr [rax + rbx + 0x2c8], xmm0",
+    "role": "per-player block at +0x2C8"
+   },
+   {
+    "rva": 6343522,
+    "bytes": "ff8384000000",
+    "asm": "inc dword ptr [rbx + 0x84]",
+    "role": "live count +0x84"
+   },
+   {
+    "rva": 6343543,
+    "bytes": "0f474b7c",
+    "asm": "cmova ecx, dword ptr [rbx + 0x7c]",
+    "role": "max +0x7C"
+   },
+   {
+    "rva": 6343550,
+    "bytes": "488d8bd0000000",
+    "asm": "lea rcx, [rbx + 0xd0]",
+    "role": "entity -> index map at +0xD0"
+   },
+   {
+    "rva": 6343557,
+    "bytes": "4889bcd3e8000000",
+    "asm": "mov qword ptr [rbx + rdx*8 + 0xe8], rdi",
+    "role": "descriptor pointers at +0xE8 + i*8"
+   },
+   {
+    "rva": 6344320,
+    "bytes": "448b497c",
+    "asm": "mov r9d, dword ptr [rcx + 0x7c]",
+    "role": "debug print reads max +0x7C"
+   },
+   {
+    "rva": 6344333,
+    "bytes": "4c8d058ca6c301",
+    "asm": "lea r8, [rip + 0x1c3a68c]",
+    "role": "\"player\" : { \"max\" : %u, \"capacity\" : 4 }",
+    "ripTarget": 35943712
+   },
+   {
+    "rva": 6473498,
+    "bytes": "488b0d479dcf02",
+    "asm": "mov rcx, qword ptr [rip + 0x2cf9d47]",
+    "role": "score index by peer id",
+    "ripTarget": 53634152
+   },
+   {
+    "rva": 6473508,
+    "bytes": "448b9184000000",
+    "asm": "mov r10d, dword ptr [rcx + 0x84]",
+    "role": "loop bound = live count"
+   },
+   {
+    "rva": 6473520,
+    "bytes": "4c8d89c8020000",
+    "asm": "lea r9, [rcx + 0x2c8]",
+    "role": "peer id of player 0"
+   },
+   {
+    "rva": 6473527,
+    "bytes": "493b11",
+    "asm": "cmp rdx, qword ptr [r9]",
+    "role": "u64 peer id compare"
+   },
+   {
+    "rva": 6473534,
+    "bytes": "4983c138",
+    "asm": "add r9, 0x38",
+    "role": "next player"
+   },
+   {
+    "rva": 6473553,
+    "bytes": "488b8cc1e8000000",
+    "asm": "mov rcx, qword ptr [rcx + rax*8 + 0xe8]",
+    "role": "matching player descriptor"
+   },
+   {
+    "rva": 11357340,
+    "bytes": "4c8b054d829a02",
+    "asm": "mov r8, qword ptr [rip + 0x29a824d]",
+    "role": "session",
+    "ripTarget": 55037680
+   },
+   {
+    "rva": 11357354,
+    "bytes": "488d15d7017801",
+    "asm": "lea rdx, [rip + 0x17801d7]",
+    "role": "\"on_mission_start - peer_id: %llx (self), loadout: %s\"",
+    "ripTarget": 35999368
+   },
+   {
+    "rva": 11357368,
+    "bytes": "4d8b8098b30000",
+    "asm": "mov r8, qword ptr [r8 + 0xb398]",
+    "role": "the (self) peer id = session+0xB398"
+   },
+   {
+    "rva": 20216802,
+    "bytes": "4a8b842ac8020000",
+    "asm": "mov rax, qword ptr [rdx + r13 + 0x2c8]",
+    "role": "telemetry: player peer id"
+   },
+   {
+    "rva": 20216810,
+    "bytes": "483b8798b30000",
+    "asm": "cmp rax, qword ptr [rdi + 0xb398]",
+    "role": "telemetry: is it the local peer"
+   },
+   {
+    "rva": 11321994,
+    "bytes": "4c8b35d7a18502",
+    "asm": "mov r14, qword ptr [rip + 0x285a1d7]",
+    "role": "StateGame per-player loop",
+    "ripTarget": 53634152
+   },
+   {
+    "rva": 11322981,
+    "bytes": "48c1e005",
+    "asm": "shl rax, 5",
+    "role": "avatar block stride 0x20"
+   },
+   {
+    "rva": 11322988,
+    "bytes": "428b9430a8030000",
+    "asm": "mov edx, dword ptr [rax + r14 + 0x3a8]",
+    "role": "avatar network id of player i"
+   },
+   {
+    "rva": 11322996,
+    "bytes": "e827d55000",
+    "asm": "call 0xfd9ba0",
+    "role": "network id -> avatar entity id"
+   },
+   {
+    "rva": 5093227,
+    "bytes": "488b05f6ace402",
+    "asm": "mov rax, qword ptr [rip + 0x2e4acf6]",
+    "role": "local avatar entity",
+    "ripTarget": 53634152
+   },
+   {
+    "rva": 5093237,
+    "bytes": "83b88800000000",
+    "asm": "cmp dword ptr [rax + 0x88], 0",
+    "role": "a locally-owned player exists"
+   },
+   {
+    "rva": 5093246,
+    "bytes": "8b90a8030000",
+    "asm": "mov edx, dword ptr [rax + 0x3a8]",
+    "role": "player 0 avatar network id"
+   },
+   {
+    "rva": 6322369,
+    "bytes": "4c6be070",
+    "asm": "imul r12, rax, 0x70",
+    "role": "set_player_avatar: owned block stride 0x70"
+   },
+   {
+    "rva": 6322613,
+    "bytes": "41899c2c08010000",
+    "asm": "mov dword ptr [r12 + rbp + 0x108], ebx",
+    "role": "avatar entity id at +0x108 + i*0x70"
+   },
+   {
+    "rva": 6322639,
+    "bytes": "e81c219d00",
+    "asm": "call 0xfd9af0",
+    "role": "entity id -> network id"
+   },
+   {
+    "rva": 6322644,
+    "bytes": "8987a8030000",
+    "asm": "mov dword ptr [rdi + 0x3a8], eax",
+    "role": "avatar network id at +0x3A8 + i*0x20"
+   },
+   {
+    "rva": 6342386,
+    "bytes": "c7842ba8030000ff7f0000",
+    "asm": "mov dword ptr [rbx + rbp + 0x3a8], 0x7fff",
+    "role": "avatar cleared: network id 0x7FFF"
+   },
+   {
+    "rva": 6327084,
+    "bytes": "486bc138",
+    "asm": "imul rax, rcx, 0x38",
+    "role": "set_player_state"
+   },
+   {
+    "rva": 6327116,
+    "bytes": "42899c08e0020000",
+    "asm": "mov dword ptr [rax + r9 + 0x2e0], ebx",
+    "role": "player lifecycle state at +0x2E0 + i*0x38"
+   },
+   {
+    "rva": 11322971,
+    "bytes": "4c8da0c8020000",
+    "asm": "lea r12, [rax + 0x2c8]",
+    "role": "stuck check: per-player block"
+   },
+   {
+    "rva": 11323251,
+    "bytes": "418b4c2418",
+    "asm": "mov ecx, dword ptr [r12 + 0x18]",
+    "role": "lifecycle state (+0x2E0)"
+   },
+   {
+    "rva": 11323273,
+    "bytes": "83e901",
+    "asm": "sub ecx, 1",
+    "role": "state 2 ->"
+   },
+   {
+    "rva": 11323276,
+    "bytes": "0f848b000000",
+    "asm": "je 0xacc81d",
+    "role": "... WaitingForRespawnTimer branch"
+   },
+   {
+    "rva": 11323282,
+    "bytes": "83f901",
+    "asm": "cmp ecx, 1",
+    "role": "state 3 ->"
+   },
+   {
+    "rva": 11323377,
+    "bytes": "488d1598837801",
+    "asm": "lea rdx, [rip + 0x1788398]",
+    "role": "\"Player %llx stuck in Spawned state while dead ...\" (state 3)",
+    "ripTarget": 35998608
+   },
+   {
+    "rva": 11323407,
+    "bytes": "41c744241801000000",
+    "asm": "mov dword ptr [r12 + 0x18], 1",
+    "role": "forced recovery to state 1"
+   },
+   {
+    "rva": 11323472,
+    "bytes": "488d15d9827801",
+    "asm": "lea rdx, [rip + 0x17882d9]",
+    "role": "\"... stuck in WaitingForRespawnTimer state ...\" (state 2)",
+    "ripTarget": 35998512
+   },
+   {
+    "rva": 11323136,
+    "bytes": "488b0d819f8502",
+    "asm": "mov rcx, qword ptr [rip + 0x2859f81]",
+    "role": "dead test on the avatar",
+    "ripTarget": 53634696
+   },
+   {
+    "rva": 11323143,
+    "bytes": "e844a9e5ff",
+    "asm": "call 0x927050",
+    "role": "health is_dead(avatar)"
+   },
+   {
+    "rva": 9597156,
+    "bytes": "4869c8b8010000",
+    "asm": "imul rcx, rax, 0x1b8",
+    "role": "health record stride"
+   },
+   {
+    "rva": 9597163,
+    "bytes": "498b8258100000",
+    "asm": "mov rax, qword ptr [r10 + 0x1058]",
+    "role": "health records"
+   },
+   {
+    "rva": 9597170,
+    "bytes": "83bc019c01000002",
+    "asm": "cmp dword ptr [rcx + rax + 0x19c], 2",
+    "role": "dead = record +0x19C >= 2"
+   }
+  ],
+  "avatarManager": [
+   {
+    "rva": 8630024,
+    "bytes": "488b3511beae02",
+    "asm": "mov rsi, qword ptr [rip + 0x2aebe11]",
+    "role": "avatar add component",
+    "ripTarget": 53636384
+   },
+   {
+    "rva": 8630037,
+    "bytes": "8b4668",
+    "asm": "mov eax, dword ptr [rsi + 0x68]",
+    "role": "total"
+   },
+   {
+    "rva": 8630042,
+    "bytes": "83f808",
+    "asm": "cmp eax, 8",
+    "role": "capacity 8"
+   },
+   {
+    "rva": 8630058,
+    "bytes": "453838",
+    "asm": "cmp byte ptr [r8], r15b",
+    "role": "spawn-info authority byte"
+   },
+   {
+    "rva": 8630095,
+    "bytes": "894670",
+    "asm": "mov dword ptr [rsi + 0x70], eax",
+    "role": "owned-partition count +0x70"
+   },
+   {
+    "rva": 8630320,
+    "bytes": "ff466c",
+    "asm": "inc dword ptr [rsi + 0x6c]",
+    "role": "live count +0x6C"
+   },
+   {
+    "rva": 8630332,
+    "bytes": "0f474e64",
+    "asm": "cmova ecx, dword ptr [rsi + 0x64]",
+    "role": "max +0x64"
+   },
+   {
+    "rva": 8630339,
+    "bytes": "488d8ef8000000",
+    "asm": "lea rcx, [rsi + 0xf8]",
+    "role": "entity -> index map at +0xF8"
+   },
+   {
+    "rva": 8630346,
+    "bytes": "4c89b4fe10010000",
+    "asm": "mov qword ptr [rsi + rdi*8 + 0x110], r14",
+    "role": "descriptor pointers at +0x110 + i*8"
+   },
+   {
+    "rva": 8631376,
+    "bytes": "448b4964",
+    "asm": "mov r9d, dword ptr [rcx + 0x64]",
+    "role": "debug print reads max +0x64"
+   },
+   {
+    "rva": 8631389,
+    "bytes": "4c8d0594fea001",
+    "asm": "lea r8, [rip + 0x1a0fe94]",
+    "role": "\"avatar\" : { \"max\" : %u, \"capacity\" : 8 }",
+    "ripTarget": 35959544
+   },
+   {
+    "rva": 2662198,
+    "bytes": "488b15e3cd0903",
+    "asm": "mov rdx, qword ptr [rip + 0x309cde3]",
+    "role": "iteration",
+    "ripTarget": 53636384
+   },
+   {
+    "rva": 2662222,
+    "bytes": "395a6c",
+    "asm": "cmp dword ptr [rdx + 0x6c], ebx",
+    "role": "bound = live count +0x6C"
+   },
+   {
+    "rva": 2662295,
+    "bytes": "488b8cda10010000",
+    "asm": "mov rcx, qword ptr [rdx + rbx*8 + 0x110]",
+    "role": "descriptor i"
+   },
+   {
+    "rva": 4918847,
+    "bytes": "488b15da5ee702",
+    "asm": "mov rdx, qword ptr [rip + 0x2e75eda]",
+    "role": "entity -> avatar index",
+    "ripTarget": 53636384
+   },
+   {
+    "rva": 4918860,
+    "bytes": "448b9200010000",
+    "asm": "mov r10d, dword ptr [rdx + 0x100]",
+    "role": "map capacity"
+   },
+   {
+    "rva": 4918867,
+    "bytes": "8b9a08010000",
+    "asm": "mov ebx, dword ptr [rdx + 0x108]",
+    "role": "map multiplier"
+   },
+   {
+    "rva": 4918873,
+    "bytes": "0fafd8",
+    "asm": "imul ebx, eax",
+    "role": "hash = key * multiplier"
+   },
+   {
+    "rva": 4918885,
+    "bytes": "488bbaf8000000",
+    "asm": "mov rdi, qword ptr [rdx + 0xf8]",
+    "role": "map slots {u32 key, u32 index}"
+   },
+   {
+    "rva": 4918892,
+    "bytes": "8bb204010000",
+    "asm": "mov esi, dword ptr [rdx + 0x104]",
+    "role": "empty key"
+   },
+   {
+    "rva": 4918914,
+    "bytes": "418d1418",
+    "asm": "lea edx, [r8 + rbx]",
+    "role": "probe"
+   },
+   {
+    "rva": 4918918,
+    "bytes": "4823d1",
+    "asm": "and rdx, rcx",
+    "role": "& (capacity - 1)"
+   }
+  ],
+  "entityManager": [
+   {
+    "rva": 16630161,
+    "bytes": "448bbe142ff300",
+    "asm": "mov r15d, dword ptr [rsi + 0xf32f14]",
+    "role": "free record cursor"
+   },
+   {
+    "rva": 16630168,
+    "bytes": "488d8eb0aef100",
+    "asm": "lea rcx, [rsi + 0xf1aeb0]",
+    "role": "entity id -> record map"
+   },
+   {
+    "rva": 16630180,
+    "bytes": "4e8d347de3651e00",
+    "asm": "lea r14, [r15*2 + 0x1e65e3]",
+    "role": "record = em + 0xF32F18 + slot*24"
+   },
+   {
+    "rva": 16630188,
+    "bytes": "4d03f7",
+    "asm": "add r14, r15",
+    "role": ""
+   },
+   {
+    "rva": 16630191,
+    "bytes": "4e8d34f6",
+    "asm": "lea r14, [rsi + r14*8]",
+    "role": ""
+   },
+   {
+    "rva": 16630203,
+    "bytes": "41895e08",
+    "asm": "mov dword ptr [r14 + 8], ebx",
+    "role": "descriptor +8 = entity id"
+   },
+   {
+    "rva": 16630207,
+    "bytes": "45894e0c",
+    "asm": "mov dword ptr [r14 + 0xc], r9d",
+    "role": "descriptor +0xC = unit id (0 until spawned)"
+   },
+   {
+    "rva": 16630211,
+    "bytes": "49893e",
+    "asm": "mov qword ptr [r14], rdi",
+    "role": "descriptor +0 = entity type hash (u64)"
+   },
+   {
+    "rva": 16630217,
+    "bytes": "41894610",
+    "asm": "mov dword ptr [r14 + 0x10], eax",
+    "role": "descriptor +0x10 = network id (0x7FFF none)"
+   },
+   {
+    "rva": 16630221,
+    "bytes": "45894e14",
+    "asm": "mov dword ptr [r14 + 0x14], r9d",
+    "role": "descriptor +0x14 flags"
+   },
+   {
+    "rva": 16630225,
+    "bytes": "44384d00",
+    "asm": "cmp byte ptr [rbp], r9b",
+    "role": "spawn-info authority byte"
+   },
+   {
+    "rva": 16630231,
+    "bytes": "41c7461401000000",
+    "asm": "mov dword ptr [r14 + 0x14], 1",
+    "role": "flags bit0 = created with authority"
+   },
+   {
+    "rva": 16630285,
+    "bytes": "3d00080000",
+    "asm": "cmp eax, 0x800",
+    "role": "2048 records"
+   },
+   {
+    "rva": 16630371,
+    "bytes": "81faff7f0000",
+    "asm": "cmp edx, 0x7fff",
+    "role": "no network id"
+   },
+   {
+    "rva": 16630379,
+    "bytes": "488d8ec82ef200",
+    "asm": "lea rcx, [rsi + 0xf22ec8]",
+    "role": "network id -> record map"
+   },
+   {
+    "rva": 16628966,
+    "bytes": "834e1401",
+    "asm": "or dword ptr [rsi + 0x14], 1",
+    "role": "authority gained"
+   },
+   {
+    "rva": 16629637,
+    "bytes": "836614fe",
+    "asm": "and dword ptr [rsi + 0x14], 0xfffffffe",
+    "role": "authority lost"
+   },
+   {
+    "rva": 16620452,
+    "bytes": "4c8b1ded234902",
+    "asm": "mov r11, qword ptr [rip + 0x24923ed]",
+    "role": "network id -> entity id",
+    "ripTarget": 54968216
+   },
+   {
+    "rva": 16620465,
+    "bytes": "81faff7f0000",
+    "asm": "cmp edx, 0x7fff",
+    "role": "0x7FFF = none"
+   },
+   {
+    "rva": 16620489,
+    "bytes": "458b93d02ef200",
+    "asm": "mov r10d, dword ptr [r11 + 0xf22ed0]",
+    "role": "map capacity"
+   },
+   {
+    "rva": 16620503,
+    "bytes": "418b9bd82ef200",
+    "asm": "mov ebx, dword ptr [r11 + 0xf22ed8]",
+    "role": "map multiplier"
+   },
+   {
+    "rva": 16620537,
+    "bytes": "498bbbc82ef200",
+    "asm": "mov rdi, qword ptr [r11 + 0xf22ec8]",
+    "role": "map slots"
+   },
+   {
+    "rva": 16620544,
+    "bytes": "418bb3d42ef200",
+    "asm": "mov esi, dword ptr [r11 + 0xf22ed4]",
+    "role": "empty key"
+   },
+   {
+    "rva": 16620617,
+    "bytes": "8b4004",
+    "asm": "mov eax, dword ptr [rax + 4]",
+    "role": "record slot"
+   },
+   {
+    "rva": 16620624,
+    "bytes": "488d80e4651e00",
+    "asm": "lea rax, [rax + 0x1e65e4]",
+    "role": "em + 0xF32F20 + slot*24 = descriptor +8"
+   },
+   {
+    "rva": 16620635,
+    "bytes": "8b00",
+    "asm": "mov eax, dword ptr [rax]",
+    "role": "entity id"
+   }
+  ],
+  "score": [
+   {
+    "rva": 6495130,
+    "bytes": "488b1d3f4fcf02",
+    "asm": "mov rbx, qword ptr [rip + 0x2cf4f3f]",
+    "role": "score add component",
+    "ripTarget": 53635808
+   },
+   {
+    "rva": 6495140,
+    "bytes": "8b83087d0300",
+    "asm": "mov eax, dword ptr [rbx + 0x37d08]",
+    "role": "total"
+   },
+   {
+    "rva": 6495148,
+    "bytes": "83f804",
+    "asm": "cmp eax, 4",
+    "role": "capacity 4"
+   },
+   {
+    "rva": 6495228,
+    "bytes": "488d0492",
+    "asm": "lea rax, [rdx + rdx*4]",
+    "role": "record stride 0x28"
+   },
+   {
+    "rva": 6495232,
+    "bytes": "0f1184c3987d0300",
+    "asm": "movups xmmword ptr [rbx + rax*8 + 0x37d98], xmm0",
+    "role": "stat record zeroed on component add"
+   },
+   {
+    "rva": 6495256,
+    "bytes": "ff830c7d0300",
+    "asm": "inc dword ptr [rbx + 0x37d0c]",
+    "role": "live count +0x37D0C"
+   },
+   {
+    "rva": 6495285,
+    "bytes": "898b047d0300",
+    "asm": "mov dword ptr [rbx + 0x37d04], ecx",
+    "role": "max +0x37D04"
+   },
+   {
+    "rva": 6495291,
+    "bytes": "488d8b587d0300",
+    "asm": "lea rcx, [rbx + 0x37d58]",
+    "role": "entity -> index map"
+   },
+   {
+    "rva": 6495298,
+    "bytes": "4889bcd3707d0300",
+    "asm": "mov qword ptr [rbx + rdx*8 + 0x37d70], rdi",
+    "role": "descriptor pointers (the PLAYER entity)"
+   },
+   {
+    "rva": 6495792,
+    "bytes": "448b89047d0300",
+    "asm": "mov r9d, dword ptr [rcx + 0x37d04]",
+    "role": "debug print reads max"
+   },
+   {
+    "rva": 6473572,
+    "bytes": "458b8b607d0300",
+    "asm": "mov r9d, dword ptr [r11 + 0x37d60]",
+    "role": "player entity -> score index (map capacity)"
+   },
+   {
+    "rva": 6473612,
+    "bytes": "498bbb587d0300",
+    "asm": "mov rdi, qword ptr [r11 + 0x37d58]",
+    "role": "map slots"
+   },
+   {
+    "rva": 6475071,
+    "bytes": "488b359a9dcf02",
+    "asm": "mov rsi, qword ptr [rip + 0x2cf9d9a]",
+    "role": "get_stat(peer, key, include_sources)",
+    "ripTarget": 53635808
+   },
+   {
+    "rva": 6475088,
+    "bytes": "e8bbf9ffff",
+    "asm": "call 0x62c710",
+    "role": "peer -> score index"
+   },
+   {
+    "rva": 6475120,
+    "bytes": "480557160000",
+    "asm": "add rax, 0x1657",
+    "role": "record = score + 0x37D98 + i*0x28"
+   },
+   {
+    "rva": 6475133,
+    "bytes": "488d0480",
+    "asm": "lea rax, [rax + rax*4]",
+    "role": ""
+   },
+   {
+    "rva": 6475137,
+    "bytes": "488d34c6",
+    "asm": "lea rsi, [rsi + rax*8]",
+    "role": ""
+   },
+   {
+    "rva": 6475144,
+    "bytes": "e8d34c1001",
+    "asm": "call 0x1731a60",
+    "role": "main table lookup"
+   },
+   {
+    "rva": 6475158,
+    "bytes": "8b7804",
+    "asm": "mov edi, dword ptr [rax + 4]",
+    "role": "int value at entry +4"
+   },
+   {
+    "rva": 6475170,
+    "bytes": "4c8b4e18",
+    "asm": "mov r9, qword ptr [rsi + 0x18]",
+    "role": "source array at record +0x18"
+   },
+   {
+    "rva": 6475216,
+    "bytes": "8b41fc",
+    "asm": "mov eax, dword ptr [rcx - 4]",
+    "role": "source entry key (block +8 + e*0x14)"
+   },
+   {
+    "rva": 6475227,
+    "bytes": "0339",
+    "asm": "add edi, dword ptr [rcx]",
+    "role": "source int value summed"
+   },
+   {
+    "rva": 6475231,
+    "bytes": "4883c114",
+    "asm": "add rcx, 0x14",
+    "role": "source entry stride"
+   },
+   {
+    "rva": 6475235,
+    "bytes": "83fa10",
+    "asm": "cmp edx, 0x10",
+    "role": "16 entries per source"
+   },
+   {
+    "rva": 6489002,
+    "bytes": "4981c548010000",
+    "asm": "add r13, 0x148",
+    "role": "source block stride"
+   },
+   {
+    "rva": 6489009,
+    "bytes": "4183fc40",
+    "asm": "cmp r12d, 0x40",
+    "role": "64 source blocks"
+   },
+   {
+    "rva": 24320618,
+    "bytes": "448b4108",
+    "asm": "mov r8d, dword ptr [rcx + 8]",
+    "role": "table capacity"
+   },
+   {
+    "rva": 24320624,
+    "bytes": "448b5110",
+    "asm": "mov r10d, dword ptr [rcx + 0x10]",
+    "role": "table multiplier"
+   },
+   {
+    "rva": 24320631,
+    "bytes": "440fafd2",
+    "asm": "imul r10d, edx",
+    "role": "hash = key * multiplier"
+   },
+   {
+    "rva": 24320644,
+    "bytes": "4c8b19",
+    "asm": "mov r11, qword ptr [rcx]",
+    "role": "table entries"
+   },
+   {
+    "rva": 24320647,
+    "bytes": "8b590c",
+    "asm": "mov ebx, dword ptr [rcx + 0xc]",
+    "role": "empty key"
+   },
+   {
+    "rva": 24320662,
+    "bytes": "4823d1",
+    "asm": "and rdx, rcx",
+    "role": "& (capacity - 1)"
+   },
+   {
+    "rva": 24320665,
+    "bytes": "488d0c92",
+    "asm": "lea rcx, [rdx + rdx*4]",
+    "role": "entry stride 0x14"
+   },
+   {
+    "rva": 6474189,
+    "bytes": "016804",
+    "asm": "add dword ptr [rax + 4], ebp",
+    "role": "add_stat: unattributed amount into the main table"
+   },
+   {
+    "rva": 6474214,
+    "bytes": "4c8b9ccfb07d0300",
+    "asm": "mov r11, qword ptr [rdi + rcx*8 + 0x37db0]",
+    "role": "add_stat: attributed amount into a source"
+   },
+   {
+    "rva": 6474298,
+    "bytes": "41016804",
+    "asm": "add dword ptr [r8 + 4], ebp",
+    "role": ""
+   },
+   {
+    "rva": 6494134,
+    "bytes": "ba02850462",
+    "asm": "mov edx, 0x62048502",
+    "role": "\"alive\" stat key"
+   },
+   {
+    "rva": 6494209,
+    "bytes": "c6400c00",
+    "asm": "mov byte ptr [rax + 0xc], 0",
+    "role": "alive = 0"
+   },
+   {
+    "rva": 6494406,
+    "bytes": "ba02850462",
+    "asm": "mov edx, 0x62048502",
+    "role": "\"alive\" stat key"
+   },
+   {
+    "rva": 6494481,
+    "bytes": "c6400c01",
+    "asm": "mov byte ptr [rax + 0xc], 1",
+    "role": "alive = 1"
+   }
+  ]
+ },
+ "exeProofs": {
+  "engineEntity": [
+   {
+    "rva": 551570,
+    "bytes": "e8d9d65700",
+    "asm": "call 0x604170",
+    "role": "engine EntityManager constructor"
+   },
+   {
+    "rva": 551575,
+    "bytes": "4889051acba801",
+    "asm": "mov qword ptr [rip + 0x1a8cb1a], rax",
+    "role": "engine EntityManager global",
+    "ripTarget": 28390840
+   },
+   {
+    "rva": 6308192,
+    "bytes": "c1e216",
+    "asm": "shl edx, 0x16",
+    "role": "make_entity(index, generation)"
+   },
+   {
+    "rva": 6308195,
+    "bytes": "8d040a",
+    "asm": "lea eax, [rdx + rcx]",
+    "role": "id = index + (generation << 22)"
+   },
+   {
+    "rva": 6309542,
+    "bytes": "4c8db180000000",
+    "asm": "lea r14, [rcx + 0x80]",
+    "role": "generation array {u32 size, u32 cap, u8 *data}"
+   },
+   {
+    "rva": 6309613,
+    "bytes": "c6040100",
+    "asm": "mov byte ptr [rcx + rax], 0",
+    "role": "new index starts at generation 0"
+   },
+   {
+    "rva": 6309717,
+    "bytes": "488b8388000000",
+    "asm": "mov rax, qword ptr [rbx + 0x88]",
+    "role": "create: generation bytes"
+   },
+   {
+    "rva": 6309731,
+    "bytes": "c1e216",
+    "asm": "shl edx, 0x16",
+    "role": "create: generation << 22"
+   },
+   {
+    "rva": 6309734,
+    "bytes": "4103d0",
+    "asm": "add edx, r8d",
+    "role": "create: + index"
+   },
+   {
+    "rva": 6309779,
+    "bytes": "81e2ffff3f00",
+    "asm": "and edx, 0x3fffff",
+    "role": "destroy: index = id & 0x3FFFFF"
+   },
+   {
+    "rva": 6309794,
+    "bytes": "c1e816",
+    "asm": "shr eax, 0x16",
+    "role": "destroy: generation = id >> 22"
+   },
+   {
+    "rva": 6309797,
+    "bytes": "3ad0",
+    "asm": "cmp dl, al",
+    "role": "destroy: 8-bit generation compare (stale handle ignored)"
+   },
+   {
+    "rva": 6309839,
+    "bytes": "fe0418",
+    "asm": "inc byte ptr [rax + rbx]",
+    "role": "destroy: generation++ invalidates every copy of the id"
+   }
+  ],
+  "unitRegistry": [
+   {
+    "rva": 551525,
+    "bytes": "e8d69b0e00",
+    "asm": "call 0x170640",
+    "role": "unit registry constructor"
+   },
+   {
+    "rva": 551541,
+    "bytes": "48890574969801",
+    "asm": "mov qword ptr [rip + 0x1989674], rax",
+    "role": "unit registry global",
+    "ripTarget": 27328752
+   },
+   {
+    "rva": 645327,
+    "bytes": "488b351a289701",
+    "asm": "mov rsi, qword ptr [rip + 0x197281a]",
+    "role": "unit_from_id",
+    "ripTarget": 27328752
+   },
+   {
+    "rva": 645336,
+    "bytes": "488d8ed0000000",
+    "asm": "lea rcx, [rsi + 0xd0]",
+    "role": "registry lock (shared)"
+   },
+   {
+    "rva": 645351,
+    "bytes": "25ffff3f00",
+    "asm": "and eax, 0x3fffff",
+    "role": "index = id & 0x3FFFFF"
+   },
+   {
+    "rva": 645356,
+    "bytes": "3b8698000000",
+    "asm": "cmp eax, dword ptr [rsi + 0x98]",
+    "role": "index < count (+0x98)"
+   },
+   {
+    "rva": 645370,
+    "bytes": "488b86a0000000",
+    "asm": "mov rax, qword ptr [rsi + 0xa0]",
+    "role": "generation bytes (+0xA0)"
+   },
+   {
+    "rva": 645377,
+    "bytes": "c1eb16",
+    "asm": "shr ebx, 0x16",
+    "role": "generation = id >> 22"
+   },
+   {
+    "rva": 645380,
+    "bytes": "381c01",
+    "asm": "cmp byte ptr [rcx + rax], bl",
+    "role": "8-bit generation compare"
+   },
+   {
+    "rva": 645385,
+    "bytes": "488b8688000000",
+    "asm": "mov rax, qword ptr [rsi + 0x88]",
+    "role": "unit objects (+0x88)"
+   },
+   {
+    "rva": 645392,
+    "bytes": "488b1cc8",
+    "asm": "mov rbx, qword ptr [rax + rcx*8]",
+    "role": "unit object"
+   },
+   {
+    "rva": 4224643,
+    "bytes": "488d15f61a2601",
+    "asm": "lea rdx, [rip + 0x1261af6]",
+    "role": "Lua table \"Unit\"",
+    "ripTarget": 23499136
+   },
+   {
+    "rva": 4224658,
+    "bytes": "488d151fa22701",
+    "asm": "lea rdx, [rip + 0x127a21f]",
+    "role": "Lua name \"world_position\"",
+    "ripTarget": 23599288
+   },
+   {
+    "rva": 4224674,
+    "bytes": "488d1567010000",
+    "asm": "lea rdx, [rip + 0x167]",
+    "role": "Unit.world_position implementation",
+    "ripTarget": 4225040
+   },
+   {
+    "rva": 4225102,
+    "bytes": "c1ef02",
+    "asm": "shr edi, 2",
+    "role": "Lua unit reference = unit id << 2"
+   },
+   {
+    "rva": 4225105,
+    "bytes": "2b1d450a5001",
+    "asm": "sub ebx, dword ptr [rip + 0x1500a45]",
+    "role": "node index - Lua base (1)",
+    "ripTarget": 26247836
+   },
+   {
+    "rva": 4225113,
+    "bytes": "e86260c9ff",
+    "asm": "call 0x9d8c0",
+    "role": "unit_from_id"
+   },
+   {
+    "rva": 4225124,
+    "bytes": "ff92e8000000",
+    "asm": "call qword ptr [rdx + 0xe8]",
+    "role": "scene graph = vtable[+0xE8](unit)"
+   },
+   {
+    "rva": 4225133,
+    "bytes": "48c1e206",
+    "asm": "shl rdx, 6",
+    "role": "node * 64 (float4x4)"
+   },
+   {
+    "rva": 4225137,
+    "bytes": "488b4828",
+    "asm": "mov rcx, qword ptr [rax + 0x28]",
+    "role": "world poses = scene graph +0x28"
+   },
+   {
+    "rva": 4225141,
+    "bytes": "4883c130",
+    "asm": "add rcx, 0x30",
+    "role": "translation row at +0x30"
+   }
+  ]
+ },
+ "unitSceneGraphAccessor": {
+  "vtableRva": 23555456,
+  "slot": 232,
+  "methodRva": 2873456,
+  "bytes": "488d4160c3"
+ },
+ "observations": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "gameDllBase": "7FFDBF790000",
+   "exeBase": "7FF6086D0000",
+   "gameState": {
+    "value": 3,
+    "name": "Ship",
+    "gameObjectMinusEntityManager": "E49F0"
+   },
+   "componentWorld": {
+    "worldMinusEntityManager": 64,
+    "managersAtProvenOffsets": true
+   },
+   "gameMode": {
+    "count": 0,
+    "type": 0,
+    "descriptor": null
+   },
+   "gameModeMission": {
+    "count": 0,
+    "descriptor": null
+   },
+   "players": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "localPeerId": "32B10D7BA1516C5C",
+    "players": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "peerId": "32B10D7BA1516C5C",
+      "isLocalPeer": true,
+      "ownedPartition": true,
+      "lifecycleState": 3,
+      "avatarNetworkId": 162,
+      "avatarEntityViaNetworkId": 249,
+      "avatarEntityOwnedBlock": 249,
+      "avatarFlagsWord": "00000101"
+     }
+    ]
+   },
+   "avatars": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "avatars": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "4D1C334D294DFA97",
+       "entity": 249,
+       "entityIndex": 249,
+       "entityGeneration": 0,
+       "unit": 2168,
+       "networkId": 162,
+       "flags": 1,
+       "authority": true
+      },
+      "mapIndex": 0,
+      "unit": {
+       "objectUnitId": 2168,
+       "vtableRva": "1676D80",
+       "sceneGraphMethodRva": "2BD870",
+       "sceneGraphMethodBytes": "488d4160c3",
+       "sceneGraphWord10Unproven": 107,
+       "rootTranslation": [
+        0.2964,
+        9.5137,
+        19.57
+       ],
+       "rootRotationRows": [
+        [
+         0.9973,
+         -0.0735,
+         0.0
+        ],
+        [
+         0.0735,
+         0.9973,
+         0.0
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "finite": true
+      }
+     }
+    ]
+   },
+   "score": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "players": [
+     {
+      "index": 0,
+      "playerEntity": 5,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "stats": {
+       "table": {
+        "capacity": 64,
+        "emptyKey": 0,
+        "multiplier": 2
+       },
+       "mainEntries": {
+        "distance_traveled": {
+         "key": 3901407265,
+         "int": 0,
+         "float": 71.2465,
+         "bool": 172
+        },
+        "alive": {
+         "key": 1644463362,
+         "int": 3173886936,
+         "float": 0.0,
+         "bool": 1
+        }
+       },
+       "sourceBlocksInUse": []
+      }
+     }
+    ]
+   },
+   "identity": {
+    "liveEntityRecords": 211,
+    "entityGenerationMatches": 211,
+    "entitiesWithNonzeroGeneration": 0,
+    "engineEntityIndices": 264,
+    "recordsWithUnit": 164,
+    "unitGenerationMatches": 164,
+    "unitRegistryCount": 4420,
+    "recordCursor": 228
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "gameDllBase": "7FFD9A740000",
+   "exeBase": "7FF6C3C50000",
+   "gameState": {
+    "value": 3,
+    "name": "Ship",
+    "gameObjectMinusEntityManager": "E49F0"
+   },
+   "componentWorld": {
+    "worldMinusEntityManager": 64,
+    "managersAtProvenOffsets": true
+   },
+   "gameMode": {
+    "count": 0,
+    "type": 0,
+    "descriptor": null
+   },
+   "gameModeMission": {
+    "count": 0,
+    "descriptor": null
+   },
+   "players": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "localPeerId": "32B10D7BA1516C5C",
+    "players": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "peerId": "32B10D7BA1516C5C",
+      "isLocalPeer": true,
+      "ownedPartition": true,
+      "lifecycleState": 3,
+      "avatarNetworkId": 162,
+      "avatarEntityViaNetworkId": 249,
+      "avatarEntityOwnedBlock": 249,
+      "avatarFlagsWord": "00000101"
+     }
+    ]
+   },
+   "avatars": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "avatars": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "4D1C334D294DFA97",
+       "entity": 249,
+       "entityIndex": 249,
+       "entityGeneration": 0,
+       "unit": 2132,
+       "networkId": 162,
+       "flags": 1,
+       "authority": true
+      },
+      "mapIndex": 0,
+      "unit": {
+       "objectUnitId": 2132,
+       "vtableRva": "1676D80",
+       "sceneGraphMethodRva": "2BD870",
+       "sceneGraphMethodBytes": "488d4160c3",
+       "sceneGraphWord10Unproven": 107,
+       "rootTranslation": [
+        -2.314,
+        -0.2301,
+        20.0538
+       ],
+       "rootRotationRows": [
+        [
+         0.0004,
+         1.0,
+         -0.0
+        ],
+        [
+         -1.0,
+         0.0004,
+         0.0
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "finite": true
+      }
+     }
+    ]
+   },
+   "score": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "players": [
+     {
+      "index": 0,
+      "playerEntity": 5,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "stats": {
+       "table": {
+        "capacity": 64,
+        "emptyKey": 0,
+        "multiplier": 2
+       },
+       "mainEntries": {
+        "distance_traveled": {
+         "key": 3901407265,
+         "int": 0,
+         "float": 5.0798,
+         "bool": 172
+        },
+        "alive": {
+         "key": 1644463362,
+         "int": 3183979480,
+         "float": 0.0,
+         "bool": 1
+        }
+       },
+       "sourceBlocksInUse": []
+      }
+     }
+    ]
+   },
+   "identity": {
+    "liveEntityRecords": 209,
+    "entityGenerationMatches": 209,
+    "entitiesWithNonzeroGeneration": 0,
+    "engineEntityIndices": 262,
+    "recordsWithUnit": 162,
+    "unitGenerationMatches": 162,
+    "unitRegistryCount": 2560,
+    "recordCursor": 226
+   }
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "gameDllBase": "7FFDBF790000",
+   "exeBase": "7FF6C3C50000",
+   "gameState": {
+    "value": 3,
+    "name": "Ship",
+    "gameObjectMinusEntityManager": "E49F0"
+   },
+   "componentWorld": {
+    "worldMinusEntityManager": 64,
+    "managersAtProvenOffsets": true
+   },
+   "gameMode": {
+    "count": 0,
+    "type": 0,
+    "descriptor": null
+   },
+   "gameModeMission": {
+    "count": 0,
+    "descriptor": null
+   },
+   "players": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "localPeerId": "32B10D7BA1516C5C",
+    "players": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "peerId": "32B10D7BA1516C5C",
+      "isLocalPeer": true,
+      "ownedPartition": true,
+      "lifecycleState": 3,
+      "avatarNetworkId": 162,
+      "avatarEntityViaNetworkId": 249,
+      "avatarEntityOwnedBlock": 249,
+      "avatarFlagsWord": "00000101"
+     }
+    ]
+   },
+   "avatars": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "avatars": [
+     {
+      "index": 0,
+      "descriptor": {
+       "type": "4D1C334D294DFA97",
+       "entity": 249,
+       "entityIndex": 249,
+       "entityGeneration": 0,
+       "unit": 2132,
+       "networkId": 162,
+       "flags": 1,
+       "authority": true
+      },
+      "mapIndex": 0,
+      "unit": {
+       "objectUnitId": 2132,
+       "vtableRva": "1676D80",
+       "sceneGraphMethodRva": "2BD870",
+       "sceneGraphMethodBytes": "488d4160c3",
+       "sceneGraphWord10Unproven": 107,
+       "rootTranslation": [
+        -0.505,
+        1.6576,
+        20.01
+       ],
+       "rootRotationRows": [
+        [
+         -0.9993,
+         0.0363,
+         0.0
+        ],
+        [
+         -0.0363,
+         -0.9993,
+         0.0
+        ],
+        [
+         0.0,
+         0.0,
+         1.0
+        ]
+       ],
+       "finite": true
+      }
+     }
+    ]
+   },
+   "score": {
+    "max": 1,
+    "total": 1,
+    "count": 1,
+    "ownedPartition": 1,
+    "players": [
+     {
+      "index": 0,
+      "playerEntity": 5,
+      "descriptor": {
+       "type": "CDC1F82CE3337A82",
+       "entity": 5,
+       "entityIndex": 5,
+       "entityGeneration": 0,
+       "unit": 0,
+       "networkId": 0,
+       "flags": 1,
+       "authority": true
+      },
+      "stats": {
+       "table": {
+        "capacity": 64,
+        "emptyKey": 0,
+        "multiplier": 2
+       },
+       "mainEntries": {
+        "distance_traveled": {
+         "key": 3901407265,
+         "int": 0,
+         "float": 22.0994,
+         "bool": 172
+        },
+        "alive": {
+         "key": 1644463362,
+         "int": 3108219864,
+         "float": 0.0,
+         "bool": 1
+        }
+       },
+       "sourceBlocksInUse": []
+      }
+     }
+    ]
+   },
+   "identity": {
+    "liveEntityRecords": 211,
+    "entityGenerationMatches": 211,
+    "entitiesWithNonzeroGeneration": 0,
+    "engineEntityIndices": 260,
+    "recordsWithUnit": 164,
+    "unitGenerationMatches": 164,
+    "unitRegistryCount": 2371,
+    "recordCursor": 226
+   }
+  }
+ ],
+ "pinnedBytesMismatchPerSnapshot": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": [],
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": [],
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": []
+ },
+ "communityHints": {
+  "actorList(game+0x3326D20)": "is the \"avatar\" component manager (capacity 8). Live count is +0x6C; +0x70 is the authority partition size (equal to the count only when every avatar is locally owned).",
+  "descriptorFlags&3==1": "bit0 = this peer has authority over the entity (set at creation / authority gain, cleared on loss). No code tests bit1 on player/avatar descriptors; its meaning is unproven.",
+  "unitRegistry(exe+0x1A100F0)": "confirmed: count +0x98, generation bytes +0xA0, objects +0x88, id = index | generation << 22 (8-bit generation compare), object+8 = id, poses ptr(object+0x88), translation +0x30.",
+  "pm+0xE8 as local player": "only index 0 and only when +0x88 (owned partition) >= 1; prefer the peer-id test."
+ },
+ "perTickReadCost": {
+  "gameState": "2 reads (8 B + 4 B)",
+  "gameMode": "2-3 reads (manager header 0x48 B, descriptor 24 B)",
+  "players": "1 read of 0x430 B (player manager) + 1 read per player descriptor (24 B) + 2 reads local peer",
+  "avatars": "1 read of 0x150 B + 1 per descriptor (24 B)",
+  "networkIdToEntity": "2 reads (map header 20 B, slot table cap*8 B) + 1 read (4 B) per player",
+  "unitPosition": "5-6 reads (registry header, generation byte, object pointer, object id, poses, 64 B)",
+  "stats": "per player: 2 reads (record 0x28 B, table cap*0x14 = 0x500 B); +1 read 0x5200 B when source totals (kills/shots) are needed"
+ },
+ "unproven": [
+  "Per-mission reset of the score tables: tables are zeroed when the score component is added to the player entity (0x631C00), but whether the player entity/score component is recreated for every mission (and on restart) was not observable; all snapshots are aboard the ship (distance_traveled already accumulates there).",
+  "Mission restart detection: no change_state call site targets 6 directly and no mission snapshot exists; whether a restart passes through a state other than 4 or recreates the game_mode entity is unproven. The game_mode entity id (descriptor +8, generation-checked) is the candidate instance key.",
+  "Mission-unique id/seed: Game+0x1FA10 is a PCG RNG state (advanced in place at 0x6C794C), not a mission id; no stable per-mission id was proven.",
+  "Mission sub-phase (drop/extraction/summary): game_mode_mission fields beyond count/descriptor (+0xAA8..+0xADB) were not decoded.",
+  "Host semantics: authority over the game-mode entity gates host-side respawn management (0xACC715..0xACC731); equating it with \"host\" is inferred, not live-verified.",
+  "Whether add_stat (kills/deaths/shots) runs on every peer or only on the authority for that event; which peers see remote players' stats.",
+  "Player lifecycle values 0 and 1 have no name in the binary; replication of the lifecycle state to clients is unproven (the avatar network id IS replicated: property 0x0F27C68E at 0x6079E9/0x60C708).",
+  "Stable HUD slot (0-3) per player: the manager index is not stable (owned-first partition, swap removal); no slot field was located.",
+  "Whether the avatar entity is destroyed at death or only on respawn (the stuck check shows a dead avatar can remain assigned in state 3); avatar entity id change on reinforce follows from set_player_avatar writing a new entity, not from an observation.",
+  "Descriptor flags bit1 meaning.",
+  "GameState names 7/8 (PrepareTestLevel, PrepareDebugMission) have no enter/exit handlers; where the name table ends is not framed by a Count entry.",
+  "Manager globals can be re-pointed at run time: 0xFDB080 stores a new entity manager and re-runs the global assignment (0x568230); it has no static caller (called through a runtime table), so when it runs is unknown. Runtime must re-read every global each tick and must not cache manager pointers.",
+  "The engine takes a shared lock around unit_from_id (exe 0x9D8D8); Runtime reads without it, so a concurrent registry grow can yield a stale object pointer (ReadProcessMemory still cannot fault)."
+ ],
+ "writes": 0,
+ "protectionChanges": 0
+}

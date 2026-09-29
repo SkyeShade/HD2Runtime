@@ -1,0 +1,3218 @@
+{
+ "schemaVersion": 1,
+ "sourceSnapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "callable": {
+  "heal_add_fraction": {
+   "rva": 9562400,
+   "prologue": "488bc4488958104889701848897820554154415541564157488d68a14881ecf00000000f2970c8",
+   "asm": [
+    "mov rax, rsp",
+    "mov qword ptr [rax + 0x10], rbx",
+    "mov qword ptr [rax + 0x18], rsi",
+    "mov qword ptr [rax + 0x20], rdi",
+    "push rbp",
+    "push r12",
+    "push r13",
+    "push r14",
+    "push r15",
+    "lea rbp, [rax - 0x5f]",
+    "sub rsp, 0xf0",
+    "movaps xmmword ptr [rax - 0x38], xmm6"
+   ],
+   "signature": "AddHealthFraction(mgr, u32 entity, float fraction)"
+  }
+ },
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424,
+  "unpackedImageSha256": "2C0020FD265BFFCF5F29A241F37232C3323BCE3ED8B26E055E8CEC8FB7FDCCB5",
+  "textSha256": "373FD67E02BBF277494BFA8357ACBCBC5A7E2A309B5F0B20578C7B383996658B"
+ },
+ "globals": {
+  "healthManager": {
+   "rva": 53634696,
+   "role": "HealthComponent manager (inline object; set once at 0x568DFD)"
+  },
+  "actorManager": {
+   "rva": 53636384,
+   "role": "player avatar (actor) manager; entity hash +0xF8, descriptors +0x110"
+  },
+  "playerManager": {
+   "rva": 53634152,
+   "role": "player list: count +0x84, peer ids +0x2C8 (stride 0x38), descriptors +0xE8"
+  },
+  "missionStats": {
+   "rva": 53635808,
+   "role": "mission stats manager: per-player stat maps and the 64-entry hit ring"
+  },
+  "damageSystem": {
+   "rva": 55037752,
+   "role": "damage system: FIFO queues, queue 0 = 4096 x 0x70 damage events"
+  },
+  "hitVerifyBuffer": {
+   "rva": 54973784,
+   "role": "deferred hit buffer (<=256 x 0xB0, <=64 drained per tick)"
+  },
+  "networkRoot": {
+   "rva": 54968216,
+   "role": "network root: GOID->entity hash, shared HealthComponentData table"
+  },
+  "localUser": {
+   "rva": 55037680,
+   "role": "local user; +0xB398 = local peer id (u64)"
+  },
+  "telemetry": {
+   "rva": 55037464,
+   "role": "telemetry manager (PlayerDamage/PlayerScore JSON)"
+  },
+  "damageInfoTable": {
+   "rva": 58482880,
+   "role": "DamageInfo settings pointer table (650 x 8 bytes)"
+  },
+  "careerStats": {
+   "rva": 54973808,
+   "role": "backend career stats; +0x14 kills (max-merged from server data)"
+  },
+  "invalidEntity": {
+   "rva": 55065632,
+   "role": "invalid entity sentinel"
+  },
+  "invalidId": {
+   "rva": 55065676,
+   "role": "invalid id sentinel (initial record+0x44/+0x48)"
+  }
+ },
+ "functions": {
+  "health_record_getter": {
+   "rva": 4867088,
+   "signature": "Record *HealthRecord(<unused>, u32 entity): hash lookup, [mgr+0x1058]+idx*0x1B8",
+   "instructions": 46,
+   "pins": [
+    {
+     "rva": 4867092,
+     "bytes": "3b1506f8fd02",
+     "role": "invalid-entity compare",
+     "asm": "cmp edx, dword ptr [rip + 0x2fdf806]",
+     "ripTarget": 55065632
+    },
+    {
+     "rva": 4867098,
+     "bytes": "4c8b156722e802",
+     "role": "load health manager global",
+     "asm": "mov r10, qword ptr [rip + 0x2e82267]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 4867114,
+     "bytes": "458b8a38100000",
+     "role": "hash capacity +0x1038",
+     "asm": "mov r9d, dword ptr [r10 + 0x1038]"
+    },
+    {
+     "rva": 4867129,
+     "bytes": "418b9a40100000",
+     "role": "hash multiplier +0x1040",
+     "asm": "mov ebx, dword ptr [r10 + 0x1040]"
+    },
+    {
+     "rva": 4867162,
+     "bytes": "498bba30100000",
+     "role": "hash buckets +0x1030",
+     "asm": "mov rdi, qword ptr [r10 + 0x1030]"
+    },
+    {
+     "rva": 4867169,
+     "bytes": "418bb23c100000",
+     "role": "hash empty key +0x103C",
+     "asm": "mov esi, dword ptr [r10 + 0x103c]"
+    },
+    {
+     "rva": 4867265,
+     "bytes": "418b4304",
+     "role": "bucket value = record index",
+     "asm": "mov eax, dword ptr [r11 + 4]"
+    },
+    {
+     "rva": 4867242,
+     "bytes": "4869c1b8010000",
+     "role": "record stride 0x1B8",
+     "asm": "imul rax, rcx, 0x1b8"
+    },
+    {
+     "rva": 4867249,
+     "bytes": "49038258100000",
+     "role": "record array +0x1058",
+     "asm": "add rax, qword ptr [r10 + 0x1058]"
+    }
+   ]
+  },
+  "add_instance": {
+   "rva": 5496032,
+   "signature": "AddInstance(Descriptor*, const u8 *owned): live partition insert",
+   "instructions": 63,
+   "pins": [
+    {
+     "rva": 5496058,
+     "bytes": "488b358789de02",
+     "role": "load health manager global",
+     "asm": "mov rsi, qword ptr [rip + 0x2de8987]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 5496118,
+     "bytes": "8b8620100000",
+     "role": "live count +0x1020",
+     "asm": "mov eax, dword ptr [rsi + 0x1020]"
+    },
+    {
+     "rva": 5496126,
+     "bytes": "8bae24100000",
+     "role": "owned-partition count +0x1024",
+     "asm": "mov ebp, dword ptr [rsi + 0x1024]"
+    },
+    {
+     "rva": 5496144,
+     "bytes": "e8cb973e00",
+     "role": "move record to make room",
+     "asm": "call 0x927520",
+     "branchTarget": 9598240
+    },
+    {
+     "rva": 5496172,
+     "bytes": "4869dfb8010000",
+     "role": "record stride",
+     "asm": "imul rbx, rdi, 0x1b8"
+    },
+    {
+     "rva": 5496185,
+     "bytes": "48039e58100000",
+     "role": "record array",
+     "asm": "add rbx, qword ptr [rsi + 0x1058]"
+    },
+    {
+     "rva": 5496200,
+     "bytes": "c6430501",
+     "role": "record+5 enabled = 1",
+     "asm": "mov byte ptr [rbx + 5], 1"
+    },
+    {
+     "rva": 5496206,
+     "bytes": "488983a4010000",
+     "role": "record+0x1A4 = 0",
+     "asm": "mov qword ptr [rbx + 0x1a4], rax"
+    },
+    {
+     "rva": 5496222,
+     "bytes": "ff8620100000",
+     "role": "++live count",
+     "asm": "inc dword ptr [rsi + 0x1020]"
+    },
+    {
+     "rva": 5496234,
+     "bytes": "ff861c100000",
+     "role": "++total count +0x101C",
+     "asm": "inc dword ptr [rsi + 0x101c]"
+    },
+    {
+     "rva": 5496245,
+     "bytes": "488b8648100000",
+     "role": "descriptor array +0x1048",
+     "asm": "mov rax, qword ptr [rsi + 0x1048]"
+    },
+    {
+     "rva": 5496265,
+     "bytes": "4c8934f8",
+     "role": "descriptor store",
+     "asm": "mov qword ptr [rax + rdi*8], r14"
+    },
+    {
+     "rva": 5496299,
+     "bytes": "e9a0191f01",
+     "role": "hash insert",
+     "asm": "jmp 0x172f790",
+     "branchTarget": 24311696
+    }
+   ]
+  },
+  "add_staged_instance": {
+   "rva": 5495824,
+   "signature": "AddStagedInstance(Descriptor*): append to staged partition",
+   "instructions": 43,
+   "pins": [
+    {
+     "rva": 5495860,
+     "bytes": "8bae1c100000",
+     "role": "total count +0x101C",
+     "asm": "mov ebp, dword ptr [rsi + 0x101c]"
+    },
+    {
+     "rva": 5495914,
+     "bytes": "4869dfb8010000",
+     "role": "record stride",
+     "asm": "imul rbx, rdi, 0x1b8"
+    },
+    {
+     "rva": 5495927,
+     "bytes": "48039e58100000",
+     "role": "record array",
+     "asm": "add rbx, qword ptr [rsi + 0x1058]"
+    },
+    {
+     "rva": 5495985,
+     "bytes": "ff861c100000",
+     "role": "++total count only (staged partition)",
+     "asm": "inc dword ptr [rsi + 0x101c]"
+    }
+   ]
+  },
+  "activate_staged": {
+   "rva": 9603392,
+   "signature": "ActivateStaged(mgr): moves staged records into the live partition",
+   "instructions": 65,
+   "pins": [
+    {
+     "rva": 9603562,
+     "bytes": "8bbb20100000",
+     "role": "live count",
+     "asm": "mov edi, dword ptr [rbx + 0x1020]"
+    },
+    {
+     "rva": 9603568,
+     "bytes": "8b831c100000",
+     "role": "total count",
+     "asm": "mov eax, dword ptr [rbx + 0x101c]"
+    },
+    {
+     "rva": 9603613,
+     "bytes": "e8feeaffff",
+     "role": "move staged record into live partition",
+     "asm": "call 0x927520",
+     "branchTarget": 9598240
+    },
+    {
+     "rva": 9603642,
+     "bytes": "898320100000",
+     "role": "live count = total count",
+     "asm": "mov dword ptr [rbx + 0x1020], eax"
+    }
+   ]
+  },
+  "move_record": {
+   "rva": 9598240,
+   "signature": "MoveRecord(mgr, u32 dst, u32 src): copies record/ext/descriptor, rehashes",
+   "instructions": 88,
+   "pins": [
+    {
+     "rva": 9598440,
+     "bytes": "498b9260100000",
+     "role": "ext array +0x1060",
+     "asm": "mov rdx, qword ptr [r10 + 0x1060]"
+    },
+    {
+     "rva": 9598491,
+     "bytes": "498b8248100000",
+     "role": "descriptor array",
+     "asm": "mov rax, qword ptr [r10 + 0x1048]"
+    },
+    {
+     "rva": 9598594,
+     "bytes": "41896804",
+     "role": "hash value rewritten to destination index",
+     "asm": "mov dword ptr [r8 + 4], ebp"
+    }
+   ]
+  },
+  "remove_instance": {
+   "rva": 9603696,
+   "signature": "RemoveInstance(<unused>, Descriptor*): hash remove + swap-with-last",
+   "instructions": 163,
+   "pins": [
+    {
+     "rva": 9603704,
+     "bytes": "488b3d09dc9f02",
+     "role": "load health manager global",
+     "asm": "mov rdi, qword ptr [rip + 0x29fdc09]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 9603724,
+     "bytes": "e80f6ee000",
+     "role": "hash remove",
+     "asm": "call 0x172f8a0",
+     "branchTarget": 24311968
+    },
+    {
+     "rva": 9603729,
+     "bytes": "448b8720100000",
+     "role": "live count",
+     "asm": "mov r8d, dword ptr [rdi + 0x1020]"
+    },
+    {
+     "rva": 9603746,
+     "bytes": "ff8f1c100000",
+     "role": "--total (staged remove)",
+     "asm": "dec dword ptr [rdi + 0x101c]"
+    },
+    {
+     "rva": 9603798,
+     "bytes": "f6411401",
+     "role": "descriptor flag bit0 selects owned partition",
+     "asm": "test byte ptr [rcx + 0x14], 1"
+    },
+    {
+     "rva": 9603804,
+     "bytes": "838724100000ff",
+     "role": "--owned count",
+     "asm": "add dword ptr [rdi + 0x1024], -1"
+    },
+    {
+     "rva": 9603845,
+     "bytes": "ff8f1c100000",
+     "role": "--total count",
+     "asm": "dec dword ptr [rdi + 0x101c]"
+    },
+    {
+     "rva": 9603854,
+     "bytes": "44898720100000",
+     "role": "live count = live-1",
+     "asm": "mov dword ptr [rdi + 0x1020], r8d"
+    },
+    {
+     "rva": 9603869,
+     "bytes": "e8fee9ffff",
+     "role": "swap last live record into hole",
+     "asm": "call 0x927520",
+     "branchTarget": 9598240
+    }
+   ]
+  },
+  "record_init": {
+   "rva": 9557376,
+   "signature": "InitRecord(<unused>, Descriptor*): health, zones, armor from settings",
+   "instructions": 232,
+   "pins": [
+    {
+     "rva": 9557420,
+     "bytes": "488b3dd590a002",
+     "role": "load health manager global",
+     "asm": "mov rdi, qword ptr [rip + 0x2a090d5]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 9557532,
+     "bytes": "e8ffa2beff",
+     "role": "settings getter",
+     "asm": "call 0x507920",
+     "branchTarget": 5273888
+    },
+    {
+     "rva": 9557542,
+     "bytes": "4c69e9b8010000",
+     "role": "record stride",
+     "asm": "imul r13, rcx, 0x1b8"
+    },
+    {
+     "rva": 9557549,
+     "bytes": "486be91c",
+     "role": "ext stride 0x1C",
+     "asm": "imul rbp, rcx, 0x1c"
+    },
+    {
+     "rva": 9557559,
+     "bytes": "4c03af58100000",
+     "role": "record array",
+     "asm": "add r13, qword ptr [rdi + 0x1058]"
+    },
+    {
+     "rva": 9557574,
+     "bytes": "4803af60100000",
+     "role": "ext array",
+     "asm": "add rbp, qword ptr [rdi + 0x1060]"
+    },
+    {
+     "rva": 9557581,
+     "bytes": "41894d44",
+     "role": "record+0x44 = invalid id",
+     "asm": "mov dword ptr [r13 + 0x44], ecx"
+    },
+    {
+     "rva": 9557591,
+     "bytes": "41894d48",
+     "role": "record+0x48 = invalid id",
+     "asm": "mov dword ptr [r13 + 0x48], ecx"
+    },
+    {
+     "rva": 9557652,
+     "bytes": "8b4514",
+     "role": "ext+0x14 max health",
+     "asm": "mov eax, dword ptr [rbp + 0x14]"
+    },
+    {
+     "rva": 9557662,
+     "bytes": "41894514",
+     "role": "record+0x14 = max health",
+     "asm": "mov dword ptr [r13 + 0x14], eax"
+    },
+    {
+     "rva": 9557678,
+     "bytes": "41c7451802000000",
+     "role": "record+0x18 = 2",
+     "asm": "mov dword ptr [r13 + 0x18], 2"
+    },
+    {
+     "rva": 9557713,
+     "bytes": "41894510",
+     "role": "record+0x10 = settings.RegenerationSegments-1",
+     "asm": "mov dword ptr [r13 + 0x10], eax"
+    },
+    {
+     "rva": 9557837,
+     "bytes": "4189455c",
+     "role": "record+0x5C = default zone armor",
+     "asm": "mov dword ptr [r13 + 0x5c], eax"
+    },
+    {
+     "rva": 9557874,
+     "bytes": "898768ffffff",
+     "role": "record+0x60+z*4 = zone armor",
+     "asm": "mov dword ptr [rdi - 0x98], eax"
+    },
+    {
+     "rva": 9557883,
+     "bytes": "8907",
+     "role": "record+0xF8+z*4 = zone health",
+     "asm": "mov dword ptr [rdi], eax"
+    },
+    {
+     "rva": 9558017,
+     "bytes": "4881c328020000",
+     "role": "zone stride 0x228",
+     "asm": "add rbx, 0x228"
+    },
+    {
+     "rva": 9557850,
+     "bytes": "41bc26000000",
+     "role": "38 zones",
+     "asm": "mov r12d, 0x26"
+    }
+   ]
+  },
+  "update": {
+   "rva": 9568864,
+   "signature": "HealthManager::Update(mgr, float dt): regen, timers, replicated life state",
+   "instructions": 835,
+   "pins": [
+    {
+     "rva": 9569047,
+     "bytes": "41398620100000",
+     "role": "iterate live count +0x1020",
+     "asm": "cmp dword ptr [r14 + 0x1020], eax"
+    },
+    {
+     "rva": 9569410,
+     "bytes": "c6460400",
+     "role": "record+4 hit flag cleared each tick",
+     "asm": "mov byte ptr [rsi + 4], 0"
+    },
+    {
+     "rva": 9569435,
+     "bytes": "448b441f0c",
+     "role": "ext+0xC replicated life state",
+     "asm": "mov r8d, dword ptr [rdi + rbx + 0xc]"
+    },
+    {
+     "rva": 9569440,
+     "bytes": "8b869c010000",
+     "role": "record+0x19C life state",
+     "asm": "mov eax, dword ptr [rsi + 0x19c]"
+    },
+    {
+     "rva": 9569469,
+     "bytes": "e87ebdffff",
+     "role": "SetLifeState when they differ",
+     "asm": "call 0x91c240",
+     "branchTarget": 9552448
+    },
+    {
+     "rva": 9569487,
+     "bytes": "f30f588ea4010000",
+     "role": "record+0x1A4 += dt",
+     "asm": "addss xmm1, dword ptr [rsi + 0x1a4]"
+    },
+    {
+     "rva": 9569495,
+     "bytes": "f30f118ea4010000",
+     "role": "store record+0x1A4",
+     "asm": "movss dword ptr [rsi + 0x1a4], xmm1"
+    },
+    {
+     "rva": 9570429,
+     "bytes": "488b5638",
+     "role": "tick death: creditor = record+0x38",
+     "asm": "mov rdx, qword ptr [rsi + 0x38]"
+    },
+    {
+     "rva": 9570433,
+     "bytes": "c744242002000000",
+     "role": "tick death kind 2 (DPS)",
+     "asm": "mov dword ptr [rsp + 0x20], 2"
+    },
+    {
+     "rva": 9570441,
+     "bytes": "e8825a2700",
+     "role": "killed-entity dispatch",
+     "asm": "call 0xb96310",
+     "branchTarget": 12149520
+    },
+    {
+     "rva": 9571548,
+     "bytes": "488b5638",
+     "role": "tick death: creditor = record+0x38",
+     "asm": "mov rdx, qword ptr [rsi + 0x38]"
+    },
+    {
+     "rva": 9571560,
+     "bytes": "c744242007000000",
+     "role": "tick death kind 7 (Flat)",
+     "asm": "mov dword ptr [rsp + 0x20], 7"
+    },
+    {
+     "rva": 9571568,
+     "bytes": "e81b562700",
+     "role": "killed-entity dispatch",
+     "asm": "call 0xb96310",
+     "branchTarget": 12149520
+    }
+   ]
+  },
+  "set_life_state": {
+   "rva": 9552448,
+   "signature": "SetLifeState(mgr, u32 index, u32 state, kind, element, ...): raise only",
+   "instructions": 1007,
+   "pins": [
+    {
+     "rva": 9552503,
+     "bytes": "4869f9b8010000",
+     "role": "record stride",
+     "asm": "imul rdi, rcx, 0x1b8"
+    },
+    {
+     "rva": 9552525,
+     "bytes": "498bb758100000",
+     "role": "record array",
+     "asm": "mov rsi, qword ptr [r15 + 0x1058]"
+    },
+    {
+     "rva": 9552584,
+     "bytes": "3b9c379c010000",
+     "role": "only raises state (jbe exit)",
+     "asm": "cmp ebx, dword ptr [rdi + rsi + 0x19c]"
+    },
+    {
+     "rva": 9555851,
+     "bytes": "41899c309c010000",
+     "role": "store record+0x19C",
+     "asm": "mov dword ptr [r8 + rsi + 0x19c], ebx"
+    }
+   ]
+  },
+  "is_dead": {
+   "rva": 9597008,
+   "signature": "bool IsDead(mgr, u32 entity): record+0x19C >= 2",
+   "instructions": 45,
+   "pins": [
+    {
+     "rva": 9597156,
+     "bytes": "4869c8b8010000",
+     "role": "record stride",
+     "asm": "imul rcx, rax, 0x1b8"
+    },
+    {
+     "rva": 9597163,
+     "bytes": "498b8258100000",
+     "role": "record array",
+     "asm": "mov rax, qword ptr [r10 + 0x1058]"
+    },
+    {
+     "rva": 9597170,
+     "bytes": "83bc019c01000002",
+     "role": "dead = state >= 2",
+     "asm": "cmp dword ptr [rcx + rax + 0x19c], 2"
+    }
+   ]
+  },
+  "damage_apply": {
+   "rva": 9582064,
+   "signature": "ApplyDamage(mgr, u32 target, kind, element, 15 stack args)",
+   "instructions": 2345,
+   "pins": [
+    {
+     "rva": 9582211,
+     "bytes": "8b3d9705b602",
+     "role": "invalid entity",
+     "asm": "mov edi, dword ptr [rip + 0x2b60597]",
+     "ripTarget": 55065632
+    },
+    {
+     "rva": 9582225,
+     "bytes": "448b8138100000",
+     "role": "hash capacity",
+     "asm": "mov r8d, dword ptr [rcx + 0x1038]"
+    },
+    {
+     "rva": 9582270,
+     "bytes": "4d8b942430100000",
+     "role": "hash buckets",
+     "asm": "mov r10, qword ptr [r12 + 0x1030]"
+    },
+    {
+     "rva": 9582361,
+     "bytes": "498b842448100000",
+     "role": "descriptor array",
+     "asm": "mov rax, qword ptr [r12 + 0x1048]"
+    },
+    {
+     "rva": 9582385,
+     "bytes": "4d69f8b8010000",
+     "role": "record stride",
+     "asm": "imul r15, r8, 0x1b8"
+    },
+    {
+     "rva": 9582396,
+     "bytes": "4d03bc2458100000",
+     "role": "record array",
+     "asm": "add r15, qword ptr [r12 + 0x1058]"
+    },
+    {
+     "rva": 9582407,
+     "bytes": "496bc01c",
+     "role": "ext stride",
+     "asm": "imul rax, r8, 0x1c"
+    },
+    {
+     "rva": 9582422,
+     "bytes": "498b842460100000",
+     "role": "ext array",
+     "asm": "mov rax, qword ptr [r12 + 0x1060]"
+    },
+    {
+     "rva": 9582438,
+     "bytes": "e8b541beff",
+     "role": "settings getter",
+     "asm": "call 0x507920",
+     "branchTarget": 5273888
+    },
+    {
+     "rva": 9582732,
+     "bytes": "44386c0818",
+     "role": "ext+0x18 immune flag",
+     "asm": "cmp byte ptr [rax + rcx + 0x18], r13b"
+    },
+    {
+     "rva": 9582743,
+     "bytes": "45386f05",
+     "role": "record+5 enabled flag",
+     "asm": "cmp byte ptr [r15 + 5], r13b"
+    },
+    {
+     "rva": 9582894,
+     "bytes": "8b540210",
+     "role": "ext+0x10 per-kind 2-bit acceptance mask",
+     "asm": "mov edx, dword ptr [rdx + rax + 0x10]"
+    },
+    {
+     "rva": 9582903,
+     "bytes": "0f84f4230000",
+     "role": "mask 0 => no damage",
+     "asm": "je 0x925d31"
+    },
+    {
+     "rva": 9582939,
+     "bytes": "488d0d96ec8101",
+     "role": "relation multiplier table",
+     "asm": "lea rcx, [rip + 0x181ec96]",
+     "ripTarget": 34874872
+    },
+    {
+     "rva": 9582946,
+     "bytes": "f30f100c91",
+     "role": "multiplier = table[mask]",
+     "asm": "movss xmm1, dword ptr [rcx + rdx*4]"
+    },
+    {
+     "rva": 9582958,
+     "bytes": "488d8afc530000",
+     "role": "settings.ElementDamageValues +0x53FC",
+     "asm": "lea rcx, [rdx + 0x53fc]"
+    },
+    {
+     "rva": 9583074,
+     "bytes": "f30f598cc200540000",
+     "role": "element multiplier +0x5400",
+     "asm": "mulss xmm1, dword ptr [rdx + rax*8 + 0x5400]"
+    },
+    {
+     "rva": 9583098,
+     "bytes": "f34c0f2ce0",
+     "role": "damage = trunc(damage*multiplier)",
+     "asm": "cvttss2si r12, xmm0"
+    },
+    {
+     "rva": 9583237,
+     "bytes": "ba01000000",
+     "role": "Vitality booster argument",
+     "asm": "mov edx, 1"
+    },
+    {
+     "rva": 9583242,
+     "bytes": "e8b132f3ff",
+     "role": "IsBoosterActive",
+     "asm": "call 0x856d40",
+     "branchTarget": 8744256
+    },
+    {
+     "rva": 9583262,
+     "bytes": "f30f59052aa09d02",
+     "role": "Vitality scalar",
+     "asm": "mulss xmm0, dword ptr [rip + 0x29da02a]",
+     "ripTarget": 53467856
+    },
+    {
+     "rva": 9583364,
+     "bytes": "c744242833000000",
+     "role": "mission modifier kind 0x33",
+     "asm": "mov dword ptr [rsp + 0x28], 0x33"
+    },
+    {
+     "rva": 9583376,
+     "bytes": "e8fbb59b00",
+     "role": "mission modifier list",
+     "asm": "call 0x12df110",
+     "branchTarget": 19788048
+    },
+    {
+     "rva": 9583428,
+     "bytes": "f30f594220",
+     "role": "modifier value",
+     "asm": "mulss xmm0, dword ptr [rdx + 0x20]"
+    },
+    {
+     "rva": 9583597,
+     "bytes": "e8ae5f6b00",
+     "role": "resolve owner GOID",
+     "asm": "call 0xfd9ba0",
+     "branchTarget": 16620448
+    },
+    {
+     "rva": 9583609,
+     "bytes": "e8a25f6b00",
+     "role": "resolve dealer GOID",
+     "asm": "call 0xfd9ba0",
+     "branchTarget": 16620448
+    },
+    {
+     "rva": 9583648,
+     "bytes": "49894738",
+     "role": "record+0x38 = creditor",
+     "asm": "mov qword ptr [r15 + 0x38], rax"
+    },
+    {
+     "rva": 9583652,
+     "bytes": "45896740",
+     "role": "record+0x40 = event+0x60",
+     "asm": "mov dword ptr [r15 + 0x40], r12d"
+    },
+    {
+     "rva": 9583668,
+     "bytes": "45897930",
+     "role": "record+0x30 = owner entity",
+     "asm": "mov dword ptr [r9 + 0x30], r15d"
+    },
+    {
+     "rva": 9583703,
+     "bytes": "4969f828020000",
+     "role": "zone stride 0x228",
+     "asm": "imul rdi, r8, 0x228"
+    },
+    {
+     "rva": 9583720,
+     "bytes": "488d87d0030000",
+     "role": "zone actor list +0x3D0",
+     "asm": "lea rax, [rdi + 0x3d0]"
+    },
+    {
+     "rva": 9584388,
+     "bytes": "8b8482f8000000",
+     "role": "zone health read",
+     "asm": "mov eax, dword ptr [rdx + rax*4 + 0xf8]"
+    },
+    {
+     "rva": 9584405,
+     "bytes": "4489ac8af8000000",
+     "role": "zone health store",
+     "asm": "mov dword ptr [rdx + rcx*4 + 0xf8], r13d"
+    },
+    {
+     "rva": 9587573,
+     "bytes": "8b4018",
+     "role": "settings.Constitution",
+     "asm": "mov eax, dword ptr [rax + 0x18]"
+    },
+    {
+     "rva": 9587585,
+     "bytes": "894114",
+     "role": "record+0x14 = max(health, -Constitution)",
+     "asm": "mov dword ptr [rcx + 0x14], eax"
+    },
+    {
+     "rva": 9587992,
+     "bytes": "4489a8a4010000",
+     "role": "record+0x1A4 = 0 (time since damage)",
+     "asm": "mov dword ptr [rax + 0x1a4], r13d"
+    },
+    {
+     "rva": 9588428,
+     "bytes": "8b819c010000",
+     "role": "prior life state",
+     "asm": "mov eax, dword ptr [rcx + 0x19c]"
+    },
+    {
+     "rva": 9588542,
+     "bytes": "894844",
+     "role": "record+0x44 = owner entity at downing",
+     "asm": "mov dword ptr [rax + 0x44], ecx"
+    },
+    {
+     "rva": 9588552,
+     "bytes": "48894850",
+     "role": "record+0x50 = creditor at downing",
+     "asm": "mov qword ptr [rax + 0x50], rcx"
+    },
+    {
+     "rva": 9588560,
+     "bytes": "897848",
+     "role": "record+0x48 = dealer entity at downing",
+     "asm": "mov dword ptr [rax + 0x48], edi"
+    },
+    {
+     "rva": 9588563,
+     "bytes": "44896058",
+     "role": "record+0x58 = event+0x60 at downing",
+     "asm": "mov dword ptr [rax + 0x58], r12d"
+    },
+    {
+     "rva": 9589615,
+     "bytes": "41894e44",
+     "role": "record+0x44 (second path)",
+     "asm": "mov dword ptr [r14 + 0x44], ecx"
+    },
+    {
+     "rva": 9589623,
+     "bytes": "41897e48",
+     "role": "record+0x48 (second path)",
+     "asm": "mov dword ptr [r14 + 0x48], edi"
+    },
+    {
+     "rva": 9589627,
+     "bytes": "4d896e50",
+     "role": "record+0x50 (second path)",
+     "asm": "mov qword ptr [r14 + 0x50], r13"
+    },
+    {
+     "rva": 9589631,
+     "bytes": "45896658",
+     "role": "record+0x58 (second path)",
+     "asm": "mov dword ptr [r14 + 0x58], r12d"
+    },
+    {
+     "rva": 9589639,
+     "bytes": "e8840b0000",
+     "role": "HealthComponentDeath",
+     "asm": "call 0x925f10",
+     "branchTarget": 9592592
+    },
+    {
+     "rva": 9590103,
+     "bytes": "4183fd02",
+     "role": "new state == dead",
+     "asm": "cmp r13d, 2"
+    },
+    {
+     "rva": 9590119,
+     "bytes": "498b5638",
+     "role": "creditor from record+0x38",
+     "asm": "mov rdx, qword ptr [r14 + 0x38]"
+    },
+    {
+     "rva": 9590136,
+     "bytes": "e8930d2700",
+     "role": "killed-entity dispatch",
+     "asm": "call 0xb96310",
+     "branchTarget": 12149520
+    },
+    {
+     "rva": 9590400,
+     "bytes": "83f909",
+     "role": "BleedOut (kind 9) replays downing data",
+     "asm": "cmp ecx, 9"
+    },
+    {
+     "rva": 9590422,
+     "bytes": "458b4e48",
+     "role": "record+0x48",
+     "asm": "mov r9d, dword ptr [r14 + 0x48]"
+    },
+    {
+     "rva": 9590426,
+     "bytes": "458b4644",
+     "role": "record+0x44",
+     "asm": "mov r8d, dword ptr [r14 + 0x44]"
+    },
+    {
+     "rva": 9590434,
+     "bytes": "498b4650",
+     "role": "record+0x50",
+     "asm": "mov rax, qword ptr [r14 + 0x50]"
+    },
+    {
+     "rva": 9590443,
+     "bytes": "418b4658",
+     "role": "record+0x58",
+     "asm": "mov eax, dword ptr [r14 + 0x58]"
+    },
+    {
+     "rva": 9590487,
+     "bytes": "e804902200",
+     "role": "death listener dispatch",
+     "asm": "call 0xb4e6e0",
+     "branchTarget": 11855584
+    },
+    {
+     "rva": 9590516,
+     "bytes": "e8476bffff",
+     "role": "SetLifeState",
+     "asm": "call 0x91c240",
+     "branchTarget": 9552448
+    }
+   ]
+  },
+  "event_consumer": {
+   "rva": 19561792,
+   "signature": "ConsumeDamageEvent(ctx, DamageEvent*): apply + telemetry + stats",
+   "instructions": 784,
+   "pins": [
+    {
+     "rva": 19564362,
+     "bytes": "488b059f471d02",
+     "role": "load local user global",
+     "asm": "mov rax, qword ptr [rip + 0x21d479f]",
+     "ripTarget": 55037680
+    },
+    {
+     "rva": 19564369,
+     "bytes": "483b8898b30000",
+     "role": "creditor == local user +0xB398",
+     "asm": "cmp rcx, qword ptr [rax + 0xb398]"
+    },
+    {
+     "rva": 19561893,
+     "bytes": "418b5e14",
+     "role": "event+0x14 owner GOID",
+     "asm": "mov ebx, dword ptr [r14 + 0x14]"
+    },
+    {
+     "rva": 19563013,
+     "bytes": "418b16",
+     "role": "event+0 target entity",
+     "asm": "mov edx, dword ptr [r14]"
+    },
+    {
+     "rva": 19563073,
+     "bytes": "458b4e08",
+     "role": "event+8 element",
+     "asm": "mov r9d, dword ptr [r14 + 8]"
+    },
+    {
+     "rva": 19563077,
+     "bytes": "458b4604",
+     "role": "event+4 damage source kind",
+     "asm": "mov r8d, dword ptr [r14 + 4]"
+    },
+    {
+     "rva": 19563092,
+     "bytes": "418b4620",
+     "role": "event+0x20",
+     "asm": "mov eax, dword ptr [r14 + 0x20]"
+    },
+    {
+     "rva": 19563103,
+     "bytes": "418b4660",
+     "role": "event+0x60",
+     "asm": "mov eax, dword ptr [r14 + 0x60]"
+    },
+    {
+     "rva": 19563188,
+     "bytes": "f3410f104634",
+     "role": "event+0x34",
+     "asm": "movss xmm0, dword ptr [r14 + 0x34]"
+    },
+    {
+     "rva": 19563204,
+     "bytes": "498b4618",
+     "role": "event+0x18 creditor",
+     "asm": "mov rax, qword ptr [r14 + 0x18]"
+    },
+    {
+     "rva": 19563217,
+     "bytes": "418b4614",
+     "role": "event+0x14",
+     "asm": "mov eax, dword ptr [r14 + 0x14]"
+    },
+    {
+     "rva": 19563225,
+     "bytes": "418b4610",
+     "role": "event+0x10 dealer GOID",
+     "asm": "mov eax, dword ptr [r14 + 0x10]"
+    },
+    {
+     "rva": 19563232,
+     "bytes": "488b0da1e30702",
+     "role": "health manager as this",
+     "asm": "mov rcx, qword ptr [rip + 0x207e3a1]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 19563243,
+     "bytes": "e800b367ff",
+     "role": "damage apply",
+     "asm": "call 0x9235f0",
+     "branchTarget": 9582064
+    },
+    {
+     "rva": 19562972,
+     "bytes": "418b762c",
+     "role": "event+0x2C damage amount",
+     "asm": "mov esi, dword ptr [r14 + 0x2c]"
+    },
+    {
+     "rva": 19564398,
+     "bytes": "488d356b86f200",
+     "role": "damage source name table",
+     "asm": "lea rsi, [rip + 0xf2866b]",
+     "ripTarget": 35458528
+    },
+    {
+     "rva": 19564369,
+     "bytes": "483b8898b30000",
+     "role": "creditor == local user",
+     "asm": "cmp rcx, qword ptr [rax + 0xb398]"
+    },
+    {
+     "rva": 19564419,
+     "bytes": "e8889e67ff",
+     "role": "remaining health getter",
+     "asm": "call 0x922610",
+     "branchTarget": 9578000
+    },
+    {
+     "rva": 19564722,
+     "bytes": "e8691495ff",
+     "role": "PlayerDamage telemetry",
+     "asm": "call 0xbf9d20",
+     "branchTarget": 12557600
+    },
+    {
+     "rva": 19564872,
+     "bytes": "e8d31695ff",
+     "role": "EntityDamage telemetry",
+     "asm": "call 0xbfa020",
+     "branchTarget": 12558368
+    },
+    {
+     "rva": 19565050,
+     "bytes": "e85185ffff",
+     "role": "damage stats",
+     "asm": "call 0x12a0f50",
+     "branchTarget": 19533648
+    }
+   ]
+  },
+  "queue_drain": {
+   "rva": 19558128,
+   "signature": "DamageSystem::Drain(system): <=16 events per queue per call, compacts",
+   "instructions": 847,
+   "pins": [
+    {
+     "rva": 19558167,
+     "bytes": "8b8120112000",
+     "role": "queue0 count +0x201120",
+     "asm": "mov eax, dword ptr [rcx + 0x201120]"
+    },
+    {
+     "rva": 19558173,
+     "bytes": "41bf10000000",
+     "role": "16 events per call",
+     "asm": "mov r15d, 0x10"
+    },
+    {
+     "rva": 19558225,
+     "bytes": "488db92c110000",
+     "role": "queue0 base +0x1120",
+     "asm": "lea rdi, [rcx + 0x112c]"
+    },
+    {
+     "rva": 19558307,
+     "bytes": "e8980d0000",
+     "role": "consume event",
+     "asm": "call 0x12a7d40",
+     "branchTarget": 19561792
+    },
+    {
+     "rva": 19558312,
+     "bytes": "4883c770",
+     "role": "event stride 0x70",
+     "asm": "add rdi, 0x70"
+    },
+    {
+     "rva": 19558329,
+     "bytes": "2bc6",
+     "role": "count -= processed",
+     "asm": "sub eax, esi"
+    },
+    {
+     "rva": 19558383,
+     "bytes": "e8fc18df00",
+     "role": "memmove remainder to front",
+     "asm": "call 0x20988f0",
+     "branchTarget": 34179312
+    }
+   ]
+  },
+  "enqueue_copy": {
+   "rva": 19525376,
+   "signature": "EnqueueDamageEvent(<unused>, const DamageEvent*)",
+   "instructions": 28,
+   "pins": [
+    {
+     "rva": 19525380,
+     "bytes": "4c8b052de01d02",
+     "role": "damage system global",
+     "asm": "mov r8, qword ptr [rip + 0x21de02d]",
+     "ripTarget": 55037752
+    },
+    {
+     "rva": 19525394,
+     "bytes": "3d00100000",
+     "role": "capacity 4096",
+     "asm": "cmp eax, 0x1000"
+    },
+    {
+     "rva": 19525431,
+     "bytes": "486bc070",
+     "role": "event stride",
+     "asm": "imul rax, rax, 0x70"
+    },
+    {
+     "rva": 19525443,
+     "bytes": "420f11840020110000",
+     "role": "slot +0x1120",
+     "asm": "movups xmmword ptr [rax + r8 + 0x1120], xmm0"
+    },
+    {
+     "rva": 19525519,
+     "bytes": "41898020112000",
+     "role": "count store",
+     "asm": "mov dword ptr [r8 + 0x201120], eax"
+    }
+   ]
+  },
+  "producer": {
+   "rva": 19520816,
+   "signature": "ProduceDamage(?, DamageValues*, HitInfo*, u32 arg4): fills a queue slot",
+   "instructions": 906,
+   "pins": [
+    {
+     "rva": 19520887,
+     "bytes": "4c8b35baf11d02",
+     "role": "damage system global",
+     "asm": "mov r14, qword ptr [rip + 0x21df1ba]",
+     "ripTarget": 55037752
+    },
+    {
+     "rva": 19522582,
+     "bytes": "41898620112000",
+     "role": "queue0 count++",
+     "asm": "mov dword ptr [r14 + 0x201120], eax"
+    },
+    {
+     "rva": 19522589,
+     "bytes": "81f900100000",
+     "role": "capacity 4096",
+     "asm": "cmp ecx, 0x1000"
+    },
+    {
+     "rva": 19522608,
+     "bytes": "4c6be970",
+     "role": "event stride",
+     "asm": "imul r13, rcx, 0x70"
+    },
+    {
+     "rva": 19522624,
+     "bytes": "4389842e20110000",
+     "role": "event+0 = hit+0x20 target",
+     "asm": "mov dword ptr [r14 + r13 + 0x1120], eax"
+    },
+    {
+     "rva": 19522635,
+     "bytes": "4389842e24110000",
+     "role": "event+4 = hit+0 kind",
+     "asm": "mov dword ptr [r14 + r13 + 0x1124], eax"
+    },
+    {
+     "rva": 19522647,
+     "bytes": "4389842e28110000",
+     "role": "event+8 = hit+4 element",
+     "asm": "mov dword ptr [r14 + r13 + 0x1128], eax"
+    },
+    {
+     "rva": 19522674,
+     "bytes": "4389842e30110000",
+     "role": "event+0x10 = hit+0x84 dealer GOID",
+     "asm": "mov dword ptr [r14 + r13 + 0x1130], eax"
+    },
+    {
+     "rva": 19522689,
+     "bytes": "4389842e34110000",
+     "role": "event+0x14 = hit+0x104 owner GOID",
+     "asm": "mov dword ptr [r14 + r13 + 0x1134], eax"
+    },
+    {
+     "rva": 19522704,
+     "bytes": "4b89842e38110000",
+     "role": "event+0x18 = hit+0x110 creditor",
+     "asm": "mov qword ptr [r14 + r13 + 0x1138], rax"
+    },
+    {
+     "rva": 19522716,
+     "bytes": "4389842e40110000",
+     "role": "event+0x20 = arg4",
+     "asm": "mov dword ptr [r14 + r13 + 0x1140], eax"
+    },
+    {
+     "rva": 19522745,
+     "bytes": "4389842e4c110000",
+     "role": "event+0x2C = damage",
+     "asm": "mov dword ptr [r14 + r13 + 0x114c], eax"
+    },
+    {
+     "rva": 19522809,
+     "bytes": "4389842e60110000",
+     "role": "event+0x60 = hit+0x10",
+     "asm": "mov dword ptr [r14 + r13 + 0x1160], eax"
+    },
+    {
+     "rva": 19521827,
+     "bytes": "e8c8bcf3ff",
+     "role": "target attribute 0x2CFAECA3",
+     "asm": "call 0x11d9df0",
+     "branchTarget": 18718192
+    },
+    {
+     "rva": 19521852,
+     "bytes": "f30f59c8",
+     "role": "damage *= target attribute",
+     "asm": "mulss xmm1, xmm0"
+    }
+   ]
+  },
+  "hit_init": {
+   "rva": 19535328,
+   "signature": "InitHitInfo(..., HitInfo*, kind, ...): DamageInfo row -> hit fields",
+   "instructions": 960,
+   "pins": [
+    {
+     "rva": 19536937,
+     "bytes": "8b4324",
+     "role": "DamageInfoType from source struct +0x24",
+     "asm": "mov eax, dword ptr [rbx + 0x24]"
+    },
+    {
+     "rva": 19538941,
+     "bytes": "488d0dbc3c5202",
+     "role": "DamageInfo pointer table",
+     "asm": "lea rcx, [rip + 0x2523cbc]",
+     "ripTarget": 58482880
+    },
+    {
+     "rva": 19538952,
+     "bytes": "8b4128",
+     "role": "DamageInfo +0x28 element",
+     "asm": "mov eax, dword ptr [rcx + 0x28]"
+    },
+    {
+     "rva": 19538958,
+     "bytes": "41894604",
+     "role": "hit+4 element",
+     "asm": "mov dword ptr [r14 + 4], eax"
+    },
+    {
+     "rva": 19539065,
+     "bytes": "660f6e5904",
+     "role": "DamageInfo +4 standard damage",
+     "asm": "movd xmm3, dword ptr [rcx + 4]"
+    },
+    {
+     "rva": 19539070,
+     "bytes": "660f6e4908",
+     "role": "DamageInfo +8 durable damage",
+     "asm": "movd xmm1, dword ptr [rcx + 8]"
+    },
+    {
+     "rva": 19539222,
+     "bytes": "41898684000000",
+     "role": "hit+0x84 dealer GOID",
+     "asm": "mov dword ptr [r14 + 0x84], eax"
+    },
+    {
+     "rva": 19539273,
+     "bytes": "41898604010000",
+     "role": "hit+0x104 owner GOID",
+     "asm": "mov dword ptr [r14 + 0x104], eax"
+    },
+    {
+     "rva": 19539346,
+     "bytes": "49898610010000",
+     "role": "hit+0x110 creditor",
+     "asm": "mov qword ptr [r14 + 0x110], rax"
+    }
+   ]
+  },
+  "resolve_goid": {
+   "rva": 16620448,
+   "signature": "u32 *ResolveGoid(u32 *out, u32 goid): network GameObject id -> entity",
+   "instructions": 59,
+   "pins": [
+    {
+     "rva": 16620452,
+     "bytes": "4c8b1ded234902",
+     "role": "network root global",
+     "asm": "mov r11, qword ptr [rip + 0x24923ed]",
+     "ripTarget": 54968216
+    },
+    {
+     "rva": 16620465,
+     "bytes": "81faff7f0000",
+     "role": "0x7FFF = none",
+     "asm": "cmp edx, 0x7fff"
+    },
+    {
+     "rva": 16620489,
+     "bytes": "458b93d02ef200",
+     "role": "GOID hash capacity +0xF22ED0",
+     "asm": "mov r10d, dword ptr [r11 + 0xf22ed0]"
+    },
+    {
+     "rva": 16620537,
+     "bytes": "498bbbc82ef200",
+     "role": "GOID hash buckets +0xF22EC8",
+     "asm": "mov rdi, qword ptr [r11 + 0xf22ec8]"
+    },
+    {
+     "rva": 16620620,
+     "bytes": "488d0440",
+     "role": "entry stride 24",
+     "asm": "lea rax, [rax + rax*2]"
+    },
+    {
+     "rva": 16620624,
+     "bytes": "488d80e4651e00",
+     "role": "entity table +0x1E65E4*8",
+     "asm": "lea rax, [rax + 0x1e65e4]"
+    }
+   ]
+  },
+  "settings_getter": {
+   "rva": 5273888,
+   "signature": "HealthComponentData *Settings(Descriptor*): instance copy else shared",
+   "instructions": 95,
+   "pins": [
+    {
+     "rva": 5273922,
+     "bytes": "4c8b1d3fede102",
+     "role": "health manager",
+     "asm": "mov r11, qword ptr [rip + 0x2e1ed3f]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 5273947,
+     "bytes": "458b8b78100000",
+     "role": "instance-copy hash +0x1078",
+     "asm": "mov r9d, dword ptr [r11 + 0x1078]"
+    },
+    {
+     "rva": 5273978,
+     "bytes": "498bbb70100000",
+     "role": "instance-copy buckets +0x1070",
+     "asm": "mov rdi, qword ptr [r11 + 0x1070]"
+    },
+    {
+     "rva": 5274066,
+     "bytes": "4869c050560000",
+     "role": "settings stride 0x5650",
+     "asm": "imul rax, rax, 0x5650"
+    },
+    {
+     "rva": 5274073,
+     "bytes": "490383b0100000",
+     "role": "instance copies +0x10B0",
+     "asm": "add rax, qword ptr [r11 + 0x10b0]"
+    },
+    {
+     "rva": 5272629,
+     "bytes": "488b055c4bf602",
+     "role": "network root",
+     "asm": "mov rax, qword ptr [rip + 0x2f64b5c]",
+     "ripTarget": 54968216
+    },
+    {
+     "rva": 5272639,
+     "bytes": "4c8b90782bf100",
+     "role": "shared HealthComponentData table +0xF12B78",
+     "asm": "mov r10, qword ptr [rax + 0xf12b78]"
+    },
+    {
+     "rva": 5272675,
+     "bytes": "69c0ea030000",
+     "role": "1002 slots",
+     "asm": "imul eax, eax, 0x3ea"
+    },
+    {
+     "rva": 5272753,
+     "bytes": "4869c150560000",
+     "role": "settings stride",
+     "asm": "imul rax, rcx, 0x5650"
+    },
+    {
+     "rva": 5272760,
+     "bytes": "4805a03e0000",
+     "role": "records +0x3EA0",
+     "asm": "add rax, 0x3ea0"
+    }
+   ]
+  },
+  "heal_add_fraction": {
+   "rva": 9562400,
+   "signature": "AddHealthFraction(mgr, u32 entity, float fraction)",
+   "instructions": 395,
+   "pins": [
+    {
+     "rva": 9562471,
+     "bytes": "4c8bf9",
+     "role": "this = health manager",
+     "asm": "mov r15, rcx"
+    },
+    {
+     "rva": 9562684,
+     "bytes": "e80f860000",
+     "role": "IsDead gate",
+     "asm": "call 0x927050",
+     "branchTarget": 9597008
+    },
+    {
+     "rva": 9562717,
+     "bytes": "438b4c0814",
+     "role": "ext+0x14 max",
+     "asm": "mov ecx, dword ptr [r8 + r9 + 0x14]"
+    },
+    {
+     "rva": 9562744,
+     "bytes": "f30f59ce",
+     "role": "max*fraction",
+     "asm": "mulss xmm1, xmm6"
+    },
+    {
+     "rva": 9562748,
+     "bytes": "f30f58c8",
+     "role": "+ current",
+     "asm": "addss xmm1, xmm0"
+    },
+    {
+     "rva": 9562758,
+     "bytes": "0f4cc8",
+     "role": "clamp to max",
+     "asm": "cmovl ecx, eax"
+    },
+    {
+     "rva": 9562761,
+     "bytes": "41890a",
+     "role": "store record+0x14",
+     "asm": "mov dword ptr [r10], ecx"
+    },
+    {
+     "rva": 9562647,
+     "bytes": "41f644241401",
+     "role": "descriptor flag bit0 (owning peer) gates network paths",
+     "asm": "test byte ptr [r12 + 0x14], 1"
+    },
+    {
+     "rva": 9562863,
+     "bytes": "e83cded0ff",
+     "role": "stat add on owning peer",
+     "asm": "call 0x62c930",
+     "branchTarget": 6474032
+    },
+    {
+     "rva": 9562964,
+     "bytes": "4183bd9c01000001",
+     "role": "downed?",
+     "asm": "cmp dword ptr [r13 + 0x19c], 1"
+    },
+    {
+     "rva": 9562985,
+     "bytes": "4589b59c010000",
+     "role": "revive: state = 0",
+     "asm": "mov dword ptr [r13 + 0x19c], r14d"
+    },
+    {
+     "rva": 9563017,
+     "bytes": "458974000c",
+     "role": "ext+0xC = 0",
+     "asm": "mov dword ptr [r8 + rax + 0xc], r14d"
+    },
+    {
+     "rva": 9563416,
+     "bytes": "e8f342d9ff",
+     "role": "synced health update",
+     "asm": "call 0x6b3010",
+     "branchTarget": 7024656
+    }
+   ]
+  },
+  "heal_set_fraction": {
+   "rva": 9561344,
+   "signature": "RestoreHealth(mgr, u32 entity, float fraction)",
+   "instructions": 209,
+   "pins": [
+    {
+     "rva": 9561524,
+     "bytes": "458ba69c010000",
+     "role": "life state",
+     "asm": "mov r12d, dword ptr [r14 + 0x19c]"
+    },
+    {
+     "rva": 9561531,
+     "bytes": "4183fc02",
+     "role": "dead => no-op",
+     "asm": "cmp r12d, 2"
+    },
+    {
+     "rva": 9561541,
+     "bytes": "428b440a14",
+     "role": "ext+0x14 max",
+     "asm": "mov eax, dword ptr [rdx + r9 + 0x14]"
+    },
+    {
+     "rva": 9561553,
+     "bytes": "f30f59c6",
+     "role": "max*fraction",
+     "asm": "mulss xmm0, xmm6"
+    },
+    {
+     "rva": 9561590,
+     "bytes": "45894614",
+     "role": "store record+0x14",
+     "asm": "mov dword ptr [r14 + 0x14], r8d"
+    },
+    {
+     "rva": 9561633,
+     "bytes": "4189b69c010000",
+     "role": "state = 0",
+     "asm": "mov dword ptr [r14 + 0x19c], esi"
+    },
+    {
+     "rva": 9561847,
+     "bytes": "f6411401",
+     "role": "owning-peer gate",
+     "asm": "test byte ptr [rcx + 0x14], 1"
+    },
+    {
+     "rva": 9561864,
+     "bytes": "8974020c",
+     "role": "ext+0xC = 0",
+     "asm": "mov dword ptr [rdx + rax + 0xc], esi"
+    },
+    {
+     "rva": 9562129,
+     "bytes": "e88a49d9ff",
+     "role": "synced health update",
+     "asm": "call 0x6b31a0",
+     "branchTarget": 7025056
+    }
+   ]
+  },
+  "stim_restore_call": {
+   "rva": 18650176,
+   "signature": "stim status handler (contains the CombatDrugs booster anchor)",
+   "instructions": 487,
+   "pins": [
+    {
+     "rva": 18651449,
+     "bytes": "488b0d48cd1502",
+     "role": "health manager",
+     "asm": "mov rcx, qword ptr [rip + 0x215cd48]",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 18651456,
+     "bytes": "0f28d7",
+     "role": "fraction",
+     "asm": "movaps xmm2, xmm7"
+    },
+    {
+     "rva": 18651461,
+     "bytes": "e8b64b75ff",
+     "role": "RestoreHealth",
+     "asm": "call 0x91e500",
+     "branchTarget": 9561344
+    }
+   ]
+  },
+  "kill_dispatch": {
+   "rva": 12149520,
+   "signature": "dispatch \"entity killed\" to listeners of kind 0xFA",
+   "instructions": 46,
+   "pins": [
+    {
+     "rva": 12149536,
+     "bytes": "488b2d410b7902",
+     "role": "listener registry",
+     "asm": "mov rbp, qword ptr [rip + 0x2790b41]",
+     "ripTarget": 53636712
+    },
+    {
+     "rva": 12149612,
+     "bytes": "817ccd08fa000000",
+     "role": "listener kind 0xFA",
+     "asm": "cmp dword ptr [rbp + rcx*8 + 8], 0xfa"
+    },
+    {
+     "rva": 12149650,
+     "bytes": "e869997000",
+     "role": "kill credit listener",
+     "asm": "call 0x129fd00",
+     "branchTarget": 19528960
+    }
+   ]
+  },
+  "kill_credit": {
+   "rva": 19528960,
+   "signature": "kill-credit listener: increments mission kill stats for the creditor",
+   "instructions": 687,
+   "pins": [
+    {
+     "rva": 19529824,
+     "bytes": "e8bb7826ff",
+     "role": "victim settings",
+     "asm": "call 0x507920",
+     "branchTarget": 5273888
+    },
+    {
+     "rva": 19529834,
+     "bytes": "396830",
+     "role": "KillScore > 0",
+     "asm": "cmp dword ptr [rax + 0x30], ebp"
+    },
+    {
+     "rva": 19529847,
+     "bytes": "41b8ccc594d4",
+     "role": "stat dealt_kills",
+     "asm": "mov r8d, 0xd494c5cc"
+    },
+    {
+     "rva": 19529862,
+     "bytes": "498bd5",
+     "role": "creditor",
+     "asm": "mov rdx, r13"
+    },
+    {
+     "rva": 19529870,
+     "bytes": "e89dc838ff",
+     "role": "AddStat",
+     "asm": "call 0x62c930",
+     "branchTarget": 6474032
+    },
+    {
+     "rva": 19530206,
+     "bytes": "41b85619539d",
+     "role": "stat dealt_team_kills",
+     "asm": "mov r8d, 0x9d531956"
+    },
+    {
+     "rva": 19531576,
+     "bytes": "41b81b0a68c7",
+     "role": "stat dealt_melee_kills",
+     "asm": "mov r8d, 0xc7680a1b"
+    }
+   ]
+  },
+  "add_stat": {
+   "rva": 6474032,
+   "signature": "AddStat(stats, u64 peer, u32 key, u32 amount, u32 entity, ...)",
+   "instructions": 84,
+   "pins": [
+    {
+     "rva": 6474061,
+     "bytes": "e8befdffff",
+     "role": "player index from creditor",
+     "asm": "call 0x62c710",
+     "branchTarget": 6473488
+    },
+    {
+     "rva": 6474121,
+     "bytes": "488d8657160000",
+     "role": "map index + 0x1657",
+     "asm": "lea rax, [rsi + 0x1657]"
+    },
+    {
+     "rva": 6474130,
+     "bytes": "488d0480",
+     "role": "x5",
+     "asm": "lea rax, [rax + rax*4]"
+    },
+    {
+     "rva": 6474134,
+     "bytes": "488d3cc7",
+     "role": "x8 (map stride 0x28)",
+     "asm": "lea rdi, [rdi + rax*8]"
+    },
+    {
+     "rva": 6474141,
+     "bytes": "e8be501001",
+     "role": "map lookup",
+     "asm": "call 0x1731a60",
+     "branchTarget": 24320608
+    },
+    {
+     "rva": 6474189,
+     "bytes": "016804",
+     "role": "value += amount",
+     "asm": "add dword ptr [rax + 4], ebp"
+    }
+   ]
+  },
+  "player_index": {
+   "rva": 6473488,
+   "signature": "u32 StatsPlayerIndex(stats, u64 peer)",
+   "instructions": 60,
+   "pins": [
+    {
+     "rva": 6473498,
+     "bytes": "488b0d479dcf02",
+     "role": "player manager",
+     "asm": "mov rcx, qword ptr [rip + 0x2cf9d47]",
+     "ripTarget": 53634152
+    },
+    {
+     "rva": 6473508,
+     "bytes": "448b9184000000",
+     "role": "player count +0x84",
+     "asm": "mov r10d, dword ptr [rcx + 0x84]"
+    },
+    {
+     "rva": 6473520,
+     "bytes": "4c8d89c8020000",
+     "role": "peer ids +0x2C8",
+     "asm": "lea r9, [rcx + 0x2c8]"
+    },
+    {
+     "rva": 6473534,
+     "bytes": "4983c138",
+     "role": "peer stride 0x38",
+     "asm": "add r9, 0x38"
+    },
+    {
+     "rva": 6473553,
+     "bytes": "488b8cc1e8000000",
+     "role": "player descriptor +0xE8",
+     "asm": "mov rcx, qword ptr [rcx + rax*8 + 0xe8]"
+    },
+    {
+     "rva": 6473561,
+     "bytes": "8b5108",
+     "role": "player entity",
+     "asm": "mov edx, dword ptr [rcx + 8]"
+    },
+    {
+     "rva": 6473572,
+     "bytes": "458b8b607d0300",
+     "role": "stats index hash cap +0x37D60",
+     "asm": "mov r9d, dword ptr [r11 + 0x37d60]"
+    },
+    {
+     "rva": 6473612,
+     "bytes": "498bbb587d0300",
+     "role": "stats index buckets +0x37D58",
+     "asm": "mov rdi, qword ptr [r11 + 0x37d58]"
+    }
+   ]
+  },
+  "stat_map_lookup": {
+   "rva": 24320608,
+   "signature": "Entry *StatMapLookup(StatMap*, u32 key)",
+   "instructions": 34,
+   "pins": [
+    {
+     "rva": 24320618,
+     "bytes": "448b4108",
+     "role": "capacity +8",
+     "asm": "mov r8d, dword ptr [rcx + 8]"
+    },
+    {
+     "rva": 24320624,
+     "bytes": "448b5110",
+     "role": "multiplier +0x10",
+     "asm": "mov r10d, dword ptr [rcx + 0x10]"
+    },
+    {
+     "rva": 24320644,
+     "bytes": "4c8b19",
+     "role": "entries +0",
+     "asm": "mov r11, qword ptr [rcx]"
+    },
+    {
+     "rva": 24320647,
+     "bytes": "8b590c",
+     "role": "empty key +0xC",
+     "asm": "mov ebx, dword ptr [rcx + 0xc]"
+    },
+    {
+     "rva": 24320665,
+     "bytes": "488d0c92",
+     "role": "entry stride 20",
+     "asm": "lea rcx, [rdx + rdx*4]"
+    }
+   ]
+  },
+  "score_getter": {
+   "rva": 6488368,
+   "signature": "BuildScore(stats, Score*, u32 playerIndex): stat keys -> score fields",
+   "instructions": 517,
+   "pins": [
+    {
+     "rva": 6488408,
+     "bytes": "ba30297a5c",
+     "role": "key dealt_damage",
+     "asm": "mov edx, 0x5c7a2930"
+    },
+    {
+     "rva": 6488453,
+     "bytes": "890b",
+     "role": "score+0x00",
+     "asm": "mov dword ptr [rbx], ecx"
+    },
+    {
+     "rva": 6488455,
+     "bytes": "baccc594d4",
+     "role": "key dealt_kills",
+     "asm": "mov edx, 0xd494c5cc"
+    },
+    {
+     "rva": 6488489,
+     "bytes": "894b04",
+     "role": "score+0x04",
+     "asm": "mov dword ptr [rbx + 4], ecx"
+    },
+    {
+     "rva": 6488492,
+     "bytes": "ba5619539d",
+     "role": "key dealt_team_kills",
+     "asm": "mov edx, 0x9d531956"
+    },
+    {
+     "rva": 6488526,
+     "bytes": "894b08",
+     "role": "score+0x08",
+     "asm": "mov dword ptr [rbx + 8], ecx"
+    },
+    {
+     "rva": 6488529,
+     "bytes": "ba1b0a68c7",
+     "role": "key dealt_melee_kills",
+     "asm": "mov edx, 0xc7680a1b"
+    },
+    {
+     "rva": 6488563,
+     "bytes": "894b0c",
+     "role": "score+0x0C",
+     "asm": "mov dword ptr [rbx + 0xc], ecx"
+    },
+    {
+     "rva": 6488566,
+     "bytes": "ba010e80b5",
+     "role": "key dealt_team_damage",
+     "asm": "mov edx, 0xb5800e01"
+    },
+    {
+     "rva": 6488600,
+     "bytes": "894b10",
+     "role": "score+0x10",
+     "asm": "mov dword ptr [rbx + 0x10], ecx"
+    },
+    {
+     "rva": 6488603,
+     "bytes": "ba896725c8",
+     "role": "key stims_used",
+     "asm": "mov edx, 0xc8256789"
+    },
+    {
+     "rva": 6488637,
+     "bytes": "894b28",
+     "role": "score+0x28",
+     "asm": "mov dword ptr [rbx + 0x28], ecx"
+    },
+    {
+     "rva": 6488640,
+     "bytes": "ba95d1a3b7",
+     "role": "key received_damage",
+     "asm": "mov edx, 0xb7a3d195"
+    },
+    {
+     "rva": 6488674,
+     "bytes": "894b34",
+     "role": "score+0x34",
+     "asm": "mov dword ptr [rbx + 0x34], ecx"
+    },
+    {
+     "rva": 6488752,
+     "bytes": "3d8ab00143",
+     "role": "key reinforcements_called",
+     "asm": "cmp eax, 0x4301b08a"
+    },
+    {
+     "rva": 6488775,
+     "bytes": "894330",
+     "role": "score+0x30",
+     "asm": "mov dword ptr [rbx + 0x30], eax"
+    },
+    {
+     "rva": 6489177,
+     "bytes": "3d41cf346c",
+     "role": "key received_revives",
+     "asm": "cmp eax, 0x6c34cf41"
+    },
+    {
+     "rva": 6489257,
+     "bytes": "3d35866c9d",
+     "role": "key received_deaths",
+     "asm": "cmp eax, 0x9d6c8635"
+    }
+   ]
+  },
+  "score_telemetry": {
+   "rva": 12556304,
+   "signature": "PlayerScore telemetry: names every score field",
+   "instructions": 257,
+   "pins": []
+  },
+  "hit_ring": {
+   "rva": 6481488,
+   "signature": "RecordHit(<unused>, dealer, target, u32 key, u64 creditor): 64-entry ring",
+   "instructions": 133,
+   "pins": [
+    {
+     "rva": 6481498,
+     "bytes": "4c8b1d7f84cf02",
+     "role": "mission stats manager",
+     "asm": "mov r11, qword ptr [rip + 0x2cf847f]",
+     "ripTarget": 53635808
+    },
+    {
+     "rva": 6481513,
+     "bytes": "498d8348c00000",
+     "role": "ring keys +0xC048",
+     "asm": "lea rax, [r11 + 0xc048]"
+    },
+    {
+     "rva": 6481532,
+     "bytes": "4183fa40",
+     "role": "64 entries",
+     "asm": "cmp r10d, 0x40"
+    },
+    {
+     "rva": 6481563,
+     "bytes": "47898cc348c00000",
+     "role": "key store",
+     "asm": "mov dword ptr [r11 + r8*8 + 0xc048], r9d"
+    },
+    {
+     "rva": 6481571,
+     "bytes": "43c784c34cc0000001000000",
+     "role": "count = 1",
+     "asm": "mov dword ptr [r11 + r8*8 + 0xc04c], 1"
+    },
+    {
+     "rva": 6481583,
+     "bytes": "49890cc3",
+     "role": "dealer store",
+     "asm": "mov qword ptr [r11 + rax*8], rcx"
+    },
+    {
+     "rva": 6481587,
+     "bytes": "41ff8338c00000",
+     "role": "write index +0xC038",
+     "asm": "inc dword ptr [r11 + 0xc038]"
+    },
+    {
+     "rva": 6481619,
+     "bytes": "41ff84c34cc00000",
+     "role": "existing key: count++",
+     "asm": "inc dword ptr [r11 + rax*8 + 0xc04c]"
+    }
+   ]
+  },
+  "damage_apply_hit_ring_call": {
+   "rva": 9582064,
+   "signature": "ring call site inside ApplyDamage",
+   "instructions": 2345,
+   "pins": [
+    {
+     "rva": 9587612,
+     "bytes": "8bbd480b0000",
+     "role": "event+0x20",
+     "asm": "mov edi, dword ptr [rbp + 0xb48]"
+    },
+    {
+     "rva": 9587638,
+     "bytes": "e8e54f6b00",
+     "role": "resolve dealer",
+     "asm": "call 0xfd9ba0",
+     "branchTarget": 16620448
+    },
+    {
+     "rva": 9587663,
+     "bytes": "e87c9ad0ff",
+     "role": "hit ring",
+     "asm": "call 0x62e650",
+     "branchTarget": 6481488
+    }
+   ]
+  },
+  "attribute_lookup": {
+   "rva": 18718192,
+   "signature": "Attribute *EntityAttribute(u32 entity, u32 key, u32 flags)",
+   "instructions": 170,
+   "pins": [
+    {
+     "rva": 18718233,
+     "bytes": "4c8b1d00cf1402",
+     "role": "actor manager",
+     "asm": "mov r11, qword ptr [rip + 0x214cf00]",
+     "ripTarget": 53636384
+    },
+    {
+     "rva": 18718417,
+     "bytes": "486bc178",
+     "role": "actor record stride 0x78",
+     "asm": "imul rax, rcx, 0x78"
+    },
+    {
+     "rva": 18718426,
+     "bytes": "428b9418a4785400",
+     "role": "actor -> player GOID +0x5478A4",
+     "asm": "mov edx, dword ptr [rax + r11 + 0x5478a4]"
+    },
+    {
+     "rva": 18718453,
+     "bytes": "4c8b0dfcc51402",
+     "role": "attribute manager",
+     "asm": "mov r9, qword ptr [rip + 0x214c5fc]",
+     "ripTarget": 53634296
+    }
+   ]
+  },
+  "career_kills_ui": {
+   "rva": 24856192,
+   "signature": "debug/UI \"Kills: %u. (session: %u)\"",
+   "instructions": 86,
+   "pins": [
+    {
+     "rva": 24856266,
+     "bytes": "488b059f8ecb01",
+     "role": "career stats global",
+     "asm": "mov rax, qword ptr [rip + 0x1cb8e9f]",
+     "ripTarget": 54973808
+    },
+    {
+     "rva": 24856306,
+     "bytes": "448b4814",
+     "role": "kills +0x14",
+     "asm": "mov r9d, dword ptr [rax + 0x14]"
+    }
+   ]
+  }
+ },
+ "scans": {
+  "healthManagerReferences": {
+   "total": 587,
+   "functions": 434,
+   "stores": [
+    {
+     "rva": 5672445,
+     "bytes": "48890584d8db02",
+     "role": "only store: world container + 0x7C6230",
+     "asm": "mov qword ptr [rip + 0x2dbd884], rax",
+     "ripTarget": 53634696
+    },
+    {
+     "rva": 5672438,
+     "bytes": "488d8330627c00",
+     "role": "address",
+     "asm": "lea rax, [rbx + 0x7c6230]"
+    }
+   ]
+  },
+  "damageApplyCallers": [
+   {
+    "rva": 5097965,
+    "function": 5097008,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 8927507,
+    "function": 8926464,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 8970154,
+    "function": 8969408,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 9585691,
+    "function": 9582064,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 9586597,
+    "function": 9582064,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 9592079,
+    "function": 9582064,
+    "asm": "call 0x9235f0"
+   },
+   {
+    "rva": 19563243,
+    "function": 19561792,
+    "asm": "call 0x9235f0"
+   }
+  ],
+  "producerCallers": [
+   {
+    "rva": 6239269,
+    "function": 6236496,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 6272192,
+    "function": 6266080,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 6819003,
+    "function": 6817712,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 6819708,
+    "function": 6819056,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 6901460,
+    "function": 6898096,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7303557,
+    "function": 7297264,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7310325,
+    "function": 7308976,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7311333,
+    "function": 7310784,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7311466,
+    "function": 7310784,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7322691,
+    "function": 7311504,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7386247,
+    "function": 7384496,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 7437366,
+    "function": 7426800,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 8202419,
+    "function": 8192448,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 8202529,
+    "function": 8192448,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 8203879,
+    "function": 8192448,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 8483848,
+    "function": 8482608,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 8513127,
+    "function": 8512688,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 9435499,
+    "function": 9434016,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 9624907,
+    "function": 9615216,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 9865041,
+    "function": 9860544,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20633739,
+    "function": 20627952,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20634530,
+    "function": 20627952,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20670879,
+    "function": 20665616,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20692458,
+    "function": 20689472,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20693804,
+    "function": 20689472,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20697178,
+    "function": 20689472,
+    "asm": "call 0x129dd30"
+   },
+   {
+    "rva": 20728235,
+    "function": 20720096,
+    "asm": "call 0x129dd30"
+   }
+  ],
+  "healAddFractionCallers": [
+   {
+    "rva": 4955121,
+    "function": 4954960,
+    "asm": "jmp 0x91e920"
+   },
+   {
+    "rva": 6887883,
+    "function": 6885296,
+    "asm": "call 0x91e920"
+   },
+   {
+    "rva": 6895608,
+    "function": 6890048,
+    "asm": "call 0x91e920"
+   },
+   {
+    "rva": 9564117,
+    "function": 9563952,
+    "asm": "call 0x91e920"
+   },
+   {
+    "rva": 12026146,
+    "function": 12025936,
+    "asm": "call 0x91e920"
+   },
+   {
+    "rva": 12247010,
+    "function": 12246784,
+    "asm": "call 0x91e920"
+   },
+   {
+    "rva": 18556514,
+    "function": 18556368,
+    "asm": "call 0x91e920"
+   }
+  ],
+  "restoreHealthCallers": [
+   {
+    "rva": 9562373,
+    "function": 9562208,
+    "asm": "call 0x91e500"
+   },
+   {
+    "rva": 12025875,
+    "function": 12025664,
+    "asm": "call 0x91e500"
+   },
+   {
+    "rva": 12261011,
+    "function": 12260784,
+    "asm": "call 0x91e500"
+   },
+   {
+    "rva": 18507638,
+    "function": 18507456,
+    "asm": "jmp 0x91e500"
+   },
+   {
+    "rva": 18651461,
+    "function": 18650176,
+    "asm": "call 0x91e500"
+   },
+   {
+    "rva": 18653028,
+    "function": 18652784,
+    "asm": "call 0x91e500"
+   },
+   {
+    "rva": 18653834,
+    "function": 18653424,
+    "asm": "call 0x91e500"
+   }
+  ],
+  "killDispatchCallers": [
+   {
+    "rva": 9570441,
+    "function": 9568864,
+    "asm": "call 0xb96310"
+   },
+   {
+    "rva": 9571568,
+    "function": 9568864,
+    "asm": "call 0xb96310"
+   },
+   {
+    "rva": 9590136,
+    "function": 9582064,
+    "asm": "call 0xb96310"
+   },
+   {
+    "rva": 12258169,
+    "function": 12258080,
+    "asm": "call 0xb96310"
+   }
+  ],
+  "damageInfoTableReferences": [
+   {
+    "rva": 8201500,
+    "function": 8192448
+   },
+   {
+    "rva": 10650467,
+    "function": 10650288
+   },
+   {
+    "rva": 18844859,
+    "function": 18844768
+   },
+   {
+    "rva": 18845315,
+    "function": 18845232
+   },
+   {
+    "rva": 19513154,
+    "function": 19513088
+   },
+   {
+    "rva": 19513682,
+    "function": 19513616
+   },
+   {
+    "rva": 19514178,
+    "function": 19514112
+   },
+   {
+    "rva": 19538941,
+    "function": 19535328
+   },
+   {
+    "rva": 20620840,
+    "function": 20617264
+   }
+  ],
+  "attributeLookupsInDamagePipeline": [
+   {
+    "rva": 8201919,
+    "function": 8192448,
+    "asm": "call 0x11d9df0",
+    "setup": [
+     "mov edx, dword ptr [rsi + 0xd4]",
+     "mov r8d, 3",
+     "mov ecx, dword ptr [r12]"
+    ]
+   },
+   {
+    "rva": 9583796,
+    "function": 9582064,
+    "asm": "call 0x11d9df0",
+    "setup": [
+     "mov edx, 0xb62b4afd",
+     "mov r8d, 3",
+     "mov ecx, ebx"
+    ]
+   },
+   {
+    "rva": 9587292,
+    "function": 9582064,
+    "asm": "call 0x11d9df0",
+    "setup": [
+     "mov edx, 0xa189adb6",
+     "mov r8d, 3",
+     "mov ecx, ebx"
+    ]
+   },
+   {
+    "rva": 19521827,
+    "function": 19520816,
+    "asm": "call 0x11d9df0",
+    "setup": [
+     "mov edx, 0x2cfaeca3",
+     "mov r8d, 3",
+     "mov ecx, ebx"
+    ]
+   }
+  ]
+ },
+ "layouts": {
+  "healthManager": {
+   "0x0000": "4 x {u32 entity[256]; u32 count} lists per HealthComponent Size (Size 4 excluded)",
+   "0x1010": "u32 record capacity",
+   "0x1018": "u32 live high-water",
+   "0x101C": "u32 total (live + staged)",
+   "0x1020": "u32 live count",
+   "0x1024": "u32 owned count (descriptor flag bit0 set)",
+   "0x1030": "hash buckets {u32 entity, u32 index} x capacity",
+   "0x1038": "u32 hash capacity (pow2)",
+   "0x103C": "u32 hash empty key",
+   "0x1040": "u32 hash multiplier",
+   "0x1048": "Descriptor *[]",
+   "0x1058": "HealthRecord[] stride 0x1B8",
+   "0x1060": "HealthExt[] stride 0x1C",
+   "0x1070": "instance-settings hash (entity -> copy index)",
+   "0x10A8": "u32 instance-settings copies",
+   "0x10B0": "HealthComponentData copies stride 0x5650",
+   "partitions": "[0,+0x1024) owned (descriptor+0x14 bit0), [+0x1024,+0x1020) other live, [+0x1020,+0x101C) staged",
+   "indexStability": "indices move: AddInstance/ActivateStaged/RemoveInstance relocate records with MoveRecord; always re-resolve entity -> index through the hash (or verify descriptor+8 == entity)"
+  },
+  "descriptor": {
+   "0x00": "u64 entity type hash",
+   "0x08": "u32 entity",
+   "0x0C": "u32 unit",
+   "0x10": "u32 GOID",
+   "0x14": "u32 flags; bit0 = owned by this peer (selects the owned partition; gates network sends in heal paths)"
+  },
+  "healthRecord": {
+   "size": 440,
+   "0x04": "u8 hit flag: set by ApplyDamage paths, cleared by Update every tick (not reliably pollable)",
+   "0x05": "u8 enabled (1 on add; ApplyDamage requires != 0)",
+   "0x10": "u32 regeneration segment",
+   "0x14": "i32 current health (can go to -Constitution)",
+   "0x18": "u32 initialised to 2 (meaning unproven)",
+   "0x20": "16 bytes zeroed on init/heal (meaning unproven)",
+   "0x30": "u32 owner entity of the last applied hit (resolved event+0x14 GOID)",
+   "0x38": "u64 creditor peer id of the last applied hit (event+0x18; kept when a hit has none); the kill creditor passed by every health-manager kill dispatch (0x925578, 0x920889, 0x920CF0)",
+   "0x40": "u32 event+0x60 of the last applied hit (meaning unproven)",
+   "0x44": "u32 owner entity at downing (initial: invalid id)",
+   "0x48": "u32 dealer entity at downing (initial: invalid id)",
+   "0x50": "u64 creditor at downing",
+   "0x58": "u32 event+0x60 at downing",
+   "0x5C": "u32 default-zone armor",
+   "0x60": "u32 zone armor[38]",
+   "0xF8": "i32 zone health[38]",
+   "0x190": "u16 0xFFFF on init",
+   "0x194": "2 x u32 while-living effect handles",
+   "0x19C": "u32 life state 0 alive, 1 downed (constitution), 2 dead; SetLifeState only raises it; heals reset <2 to 0",
+   "0x1A0": "f32 set on init for avatars (meaning unproven)",
+   "0x1A4": "f32 seconds since last applied damage (Update += dt; ApplyDamage = 0)"
+  },
+  "healthExt": {
+   "size": 28,
+   "0x00": "u32 damage source kind of the replicated state change (10 = none)",
+   "0x04": "u32 element of the replicated state change",
+   "0x0C": "u32 replicated life state (Update applies it via SetLifeState)",
+   "0x10": "u32 per-source-kind 2-bit acceptance mask: 0 no damage, 1 x1.5, 2 x1.0, 3 x0.75",
+   "0x14": "i32 max health",
+   "0x18": "u8 immune (non-zero skips damage)"
+  },
+  "damageEvent": {
+   "size": 112,
+   "queue": "damageSystem+0x1120, 4096 slots, count +0x201120",
+   "0x00": "u32 target entity",
+   "0x04": "u32 damage source kind",
+   "0x08": "u32 element type",
+   "0x0C": "u32 hit actor (converted to a zone actor hash)",
+   "0x10": "u32 dealer GOID",
+   "0x14": "u32 owner GOID",
+   "0x18": "u64 creditor peer id",
+   "0x20": "u32 producer argument 4 (hit ring key; meaning unproven)",
+   "0x28": "u8",
+   "0x2C": "u32 damage amount",
+   "0x30": "u32",
+   "0x34": "f32",
+   "0x38": "f32",
+   "0x3C": "f32 distance (telemetry)",
+   "0x40": "f32 height (telemetry)",
+   "0x44": "vec3",
+   "0x50": "vec3 (hit position; telemetry location)",
+   "0x5C": "u32",
+   "0x60": "u32 hit+0x10 (meaning unproven)",
+   "0x64": "u8",
+   "0x68": "u32",
+   "0x6C": "4 x u8 relation flags"
+  },
+  "damageInfoRow": {
+   "table": "damageInfoTable[DamageInfoType] -> row",
+   "0x04": "i32 standard damage",
+   "0x08": "i32 durable damage",
+   "0x1C": "demolition",
+   "0x20": "stagger",
+   "0x24": "push force",
+   "0x28": "u32 element type (-> hit+4 -> event+8)",
+   "0x2C": "status effects (4 x type/strength)"
+  },
+  "statMap": {
+   "address": "missionStats + (statsIndex + 0x1657) * 0x28",
+   "0x00": "entries (20 bytes: u32 key, u32 value, ...)",
+   "0x08": "u32 capacity",
+   "0x0C": "u32 empty key",
+   "0x10": "u32 multiplier",
+   "statsIndex": "missionStats+0x37D58 hash (cap +0x37D60, empty +0x37D64, mult +0x37D68): player entity -> index",
+   "playerEntity": "playerManager: peer ids +0x2C8 (stride 0x38, count +0x84); descriptor +0xE8[i]; entity at +8"
+  },
+  "hitRing": {
+   "address": "missionStats + 0xC040",
+   "entries": 64,
+   "entry": "{u64 dealer entity, u32 key (event+0x20), u32 hits}",
+   "writeIndex": "missionStats + 0xC038 (wraps at 64)"
+  }
+ },
+ "enums": {
+  "damageSourceKind": [
+   "Projectile",
+   "Ricochet",
+   "DPS",
+   "Single_Shot_Beam",
+   "Explosion",
+   "Impact",
+   "Ability",
+   "Flat",
+   "Drown",
+   "BleedOut",
+   "Count"
+  ]
+ },
+ "relationMultipliers": [
+  0.0,
+  1.5,
+  1.0,
+  0.75
+ ],
+ "vitality": {
+  "scalarRva": 53467856,
+  "value": 0.9,
+  "rule": "applies only when the target is in the actor (player avatar) manager"
+ },
+ "statKeys": {
+  "0x5C7A2930": "dealt_damage",
+  "0xD494C5CC": "dealt_kills",
+  "0x9D531956": "dealt_team_kills",
+  "0xC7680A1B": "dealt_melee_kills",
+  "0xB5800E01": "dealt_team_damage",
+  "0xC8256789": "stims_used",
+  "0x4301B08A": "reinforcements_called",
+  "0xB7A3D195": "received_damage",
+  "0x6C34CF41": "received_revives",
+  "0x9D6C8635": "received_deaths"
+ },
+ "receivedKeys": {
+  "received_revives": {
+   "key": "0x6C34CF41",
+   "scoreOffset": 56,
+   "keyInsn": {
+    "rva": 6489177,
+    "bytes": "3d41cf346c",
+    "role": "key",
+    "asm": "cmp eax, 0x6c34cf41"
+   },
+   "store": {
+    "rva": 6489198,
+    "bytes": "894338",
+    "role": "score store",
+    "asm": "mov dword ptr [rbx + 0x38], eax"
+   }
+  },
+  "received_deaths": {
+   "key": "0x9D6C8635",
+   "scoreOffset": 60,
+   "keyInsn": {
+    "rva": 6489257,
+    "bytes": "3d35866c9d",
+    "role": "key",
+    "asm": "cmp eax, 0x9d6c8635"
+   },
+   "store": {
+    "rva": 6489278,
+    "bytes": "89433c",
+    "role": "score store",
+    "asm": "mov dword ptr [rbx + 0x3c], eax"
+   }
+  }
+ },
+ "scoreTelemetryNames": {
+  "0x00": "dealt_damage",
+  "0x04": "dealt_kills",
+  "0x08": "dealt_team_kills",
+  "0x0C": "dealt_melee_kills",
+  "0x10": "dealt_team_damage",
+  "0x14": "projectiles_fired",
+  "0x18": "projectiles_hit",
+  "0x1C": "beam_active_time",
+  "0x20": "beam_hit_time",
+  "0x24": "distance_traveled",
+  "0x28": "stims_used",
+  "0x2C": "used_stratagems",
+  "0x30": "reinforcements_called",
+  "0x34": "received_damage",
+  "0x38": "received_revives",
+  "0x3C": "received_deaths",
+  "0x40": "alive",
+  "0x41": "extracted",
+  "0x42": "has_intel",
+  "0x44": "mission_time",
+  "0x48": "insertion_time",
+  "0x4C": "war_time",
+  "0x50": "extraction_time",
+  "0x54": "dead_time"
+ },
+ "snapshots": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "gameBase": "0x7FFDBF790000",
+   "healthManager": {
+    "capacity": 1024,
+    "highWater": 1,
+    "total": 1,
+    "live": 1,
+    "owned": 1,
+    "hashCapacity": 2048,
+    "hashEmptyKey": 0,
+    "hashMultiplier": 2,
+    "instanceSettingsCopies": 0
+   },
+   "records": [
+    {
+     "index": 0,
+     "descriptor": {
+      "typeHash": "0x4D1C334D294DFA97",
+      "entity": 249,
+      "unit": 2168,
+      "goid": 162,
+      "flags": 1,
+      "bytes": "97fa4d294d331c4df900000078080000a20000000100000080811e56be6c93a9"
+     },
+     "record": {
+      "enabled_05": 1,
+      "hitFlag_04": 0,
+      "regenSegment_10": 0,
+      "health_14": 125,
+      "field_18": 2,
+      "lastOwnerEntity_30": 0,
+      "lastCreditor_38": "0x0000000000000000",
+      "lastEvent60_40": 0,
+      "downOwnerEntity_44": "0x00000000",
+      "downDealerEntity_48": "0x00000000",
+      "downCreditor_50": "0x0000000000000000",
+      "downEvent60_58": 0,
+      "defaultArmor_5C": 0,
+      "zoneHealth_F8": [
+       85,
+       60,
+       35,
+       35,
+       45,
+       45,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125
+      ],
+      "lifeState_19C": 0,
+      "secondsSinceDamage_1A4": 77.838
+     },
+     "ext": {
+      "kind_00": 10,
+      "lifeState_0C": 0,
+      "acceptMask_10": 0,
+      "maxHealth_14": 125,
+      "immune_18": 0,
+      "bytes": "0a000000000000000000000000000000000000007d00000000000000"
+     },
+     "settings": {
+      "sharedIndex": 76,
+      "Health": 125,
+      "RegenerationSegments": 1,
+      "Constitution": 0,
+      "KillScore": 0,
+      "ElementDamageValues": [
+       [
+        5,
+        1.2999999523162842
+       ],
+       [
+        1,
+        0.5
+       ],
+       [
+        8,
+        0.10000000149011612
+       ],
+       [
+        0,
+        1.0
+       ]
+      ],
+      "zoneHealthMatchesRecord": true
+     }
+    }
+   ],
+   "avatars": [
+    {
+     "avatarEntity": 249,
+     "actorIndex": 0,
+     "actorDescriptorIsHealthDescriptor": true,
+     "ownGoidResolvesToAvatar": true,
+     "playerGoid": 0,
+     "playerEntity": 5
+    }
+   ],
+   "localPeer": "0x32B10D7BA1516C5C",
+   "players": [
+    {
+     "peer": "0x32B10D7BA1516C5C",
+     "isLocal": true,
+     "playerEntity": 5,
+     "statsIndex": 0,
+     "stats": {
+      "0xE88AC021": 0,
+      "0x62048502": 3173886936
+     }
+    }
+   ],
+   "hitRingWriteIndex": 0,
+   "hitRingNonEmpty": 0,
+   "damageQueueCounts": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hitVerifyCount": 0,
+   "careerKills": 308144
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "gameBase": "0x7FFD9A740000",
+   "healthManager": {
+    "capacity": 1024,
+    "highWater": 1,
+    "total": 1,
+    "live": 1,
+    "owned": 1,
+    "hashCapacity": 2048,
+    "hashEmptyKey": 0,
+    "hashMultiplier": 2,
+    "instanceSettingsCopies": 0
+   },
+   "records": [
+    {
+     "index": 0,
+     "descriptor": {
+      "typeHash": "0x4D1C334D294DFA97",
+      "entity": 249,
+      "unit": 2132,
+      "goid": 162,
+      "flags": 1,
+      "bytes": "97fa4d294d331c4df900000054080000a20000000100000080811e56be6c93a9"
+     },
+     "record": {
+      "enabled_05": 1,
+      "hitFlag_04": 0,
+      "regenSegment_10": 0,
+      "health_14": 125,
+      "field_18": 2,
+      "lastOwnerEntity_30": 0,
+      "lastCreditor_38": "0x0000000000000000",
+      "lastEvent60_40": 0,
+      "downOwnerEntity_44": "0x00000000",
+      "downDealerEntity_48": "0x00000000",
+      "downCreditor_50": "0x0000000000000000",
+      "downEvent60_58": 0,
+      "defaultArmor_5C": 0,
+      "zoneHealth_F8": [
+       85,
+       60,
+       35,
+       35,
+       45,
+       45,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125
+      ],
+      "lifeState_19C": 0,
+      "secondsSinceDamage_1A4": 82.359
+     },
+     "ext": {
+      "kind_00": 10,
+      "lifeState_0C": 0,
+      "acceptMask_10": 0,
+      "maxHealth_14": 125,
+      "immune_18": 0,
+      "bytes": "0a000000000000000000000000000000000000007d00000000000000"
+     },
+     "settings": {
+      "sharedIndex": 76,
+      "Health": 125,
+      "RegenerationSegments": 1,
+      "Constitution": 0,
+      "KillScore": 0,
+      "ElementDamageValues": [
+       [
+        5,
+        1.2999999523162842
+       ],
+       [
+        1,
+        0.5
+       ],
+       [
+        8,
+        0.10000000149011612
+       ],
+       [
+        0,
+        1.0
+       ]
+      ],
+      "zoneHealthMatchesRecord": true
+     }
+    }
+   ],
+   "avatars": [
+    {
+     "avatarEntity": 249,
+     "actorIndex": 0,
+     "actorDescriptorIsHealthDescriptor": true,
+     "ownGoidResolvesToAvatar": true,
+     "playerGoid": 0,
+     "playerEntity": 5
+    }
+   ],
+   "localPeer": "0x32B10D7BA1516C5C",
+   "players": [
+    {
+     "peer": "0x32B10D7BA1516C5C",
+     "isLocal": true,
+     "playerEntity": 5,
+     "statsIndex": 0,
+     "stats": {
+      "0xE88AC021": 0,
+      "0x62048502": 3183979480
+     }
+    }
+   ],
+   "hitRingWriteIndex": 0,
+   "hitRingNonEmpty": 0,
+   "damageQueueCounts": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hitVerifyCount": 0,
+   "careerKills": 308664
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "gameBase": "0x7FFDBF790000",
+   "healthManager": {
+    "capacity": 1024,
+    "highWater": 1,
+    "total": 1,
+    "live": 1,
+    "owned": 1,
+    "hashCapacity": 2048,
+    "hashEmptyKey": 0,
+    "hashMultiplier": 2,
+    "instanceSettingsCopies": 0
+   },
+   "records": [
+    {
+     "index": 0,
+     "descriptor": {
+      "typeHash": "0x4D1C334D294DFA97",
+      "entity": 249,
+      "unit": 2132,
+      "goid": 162,
+      "flags": 1,
+      "bytes": "97fa4d294d331c4df900000054080000a20000000100000080811e56be6c93a9"
+     },
+     "record": {
+      "enabled_05": 1,
+      "hitFlag_04": 0,
+      "regenSegment_10": 0,
+      "health_14": 125,
+      "field_18": 2,
+      "lastOwnerEntity_30": 0,
+      "lastCreditor_38": "0x0000000000000000",
+      "lastEvent60_40": 0,
+      "downOwnerEntity_44": "0x00000000",
+      "downDealerEntity_48": "0x00000000",
+      "downCreditor_50": "0x0000000000000000",
+      "downEvent60_58": 0,
+      "defaultArmor_5C": 0,
+      "zoneHealth_F8": [
+       85,
+       60,
+       35,
+       35,
+       45,
+       45,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125,
+       125
+      ],
+      "lifeState_19C": 0,
+      "secondsSinceDamage_1A4": 86.718
+     },
+     "ext": {
+      "kind_00": 10,
+      "lifeState_0C": 0,
+      "acceptMask_10": 0,
+      "maxHealth_14": 125,
+      "immune_18": 0,
+      "bytes": "0a000000000000000000000000000000000000007d00000000000000"
+     },
+     "settings": {
+      "sharedIndex": 76,
+      "Health": 125,
+      "RegenerationSegments": 1,
+      "Constitution": 0,
+      "KillScore": 0,
+      "ElementDamageValues": [
+       [
+        5,
+        1.2999999523162842
+       ],
+       [
+        1,
+        0.5
+       ],
+       [
+        8,
+        0.10000000149011612
+       ],
+       [
+        0,
+        1.0
+       ]
+      ],
+      "zoneHealthMatchesRecord": true
+     }
+    }
+   ],
+   "avatars": [
+    {
+     "avatarEntity": 249,
+     "actorIndex": 0,
+     "actorDescriptorIsHealthDescriptor": true,
+     "ownGoidResolvesToAvatar": true,
+     "playerGoid": 0,
+     "playerEntity": 5
+    }
+   ],
+   "localPeer": "0x32B10D7BA1516C5C",
+   "players": [
+    {
+     "peer": "0x32B10D7BA1516C5C",
+     "isLocal": true,
+     "playerEntity": 5,
+     "statsIndex": 0,
+     "stats": {
+      "0xE88AC021": 0,
+      "0x62048502": 3108219864
+     }
+    }
+   ],
+   "hitRingWriteIndex": 0,
+   "hitRingNonEmpty": 0,
+   "damageQueueCounts": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hitVerifyCount": 0,
+   "careerKills": 308664
+  }
+ ],
+ "unproven": [
+  "event+0x60 / record+0x40 / record+0x58: copied from hit+0x10 and persisted, but no reader was found that interprets it; it is NOT proven to be the DamageInfoType (the DamageInfoType enters InitHitInfo from its source struct +0x24 and is used only to read the row).",
+  "event+0x20 (hit-ring key): producer argument 4; meaning unknown.",
+  "Whether record+0x30 (owner) is the avatar, the player entity or another owner for each weapon family; the snapshots contain no damage.",
+  "record+0x18, +0x20..+0x2F, +0x1A0 semantics.",
+  "Frame order of HealthManager::Update (0x920260) and the damage drain relative to the Lua update(dt) callback.",
+  "Network authority beyond what code shows: heal/revive paths send network messages and update synced health only when descriptor+0x14 bit0 is set; a remote-owned record is overwritten by synced health (0x6B2A90) and ext+0x0C replication.",
+  "The data-driven attribute multiplier in producer caller 0x7D01C0 (key = settings row +0xD4, entity = [r12]): which entity is looked up (dealer or target) is not established.",
+  "The fraction passed by the stim handler (xmm7 at 0x11C9940) was not traced to its source."
+ ],
+ "writes": 0,
+ "protectionChanges": 0
+}

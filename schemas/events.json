@@ -1,0 +1,1600 @@
+{
+ "contract": "hd2runtime.events.v1",
+ "schemaVersion": 1,
+ "model": {
+  "dispatch": "Events are observed by polling proven game state once per update tick (no code patches). Everything observed in one tick is dispatched after all sources are polled, in source order, then by subscriber priority (higher first) and subscription order.",
+  "isolation": "Every callback runs isolated. A failure is logged with the mod, the event and the error; the other subscribers still run. max_failures consecutive failures (default 25, 0 = never) disable that subscription.",
+  "phases": "post: the game already applied it; the payload is a snapshot and mutating it changes nothing. pre: delivered before the game applies it and may be mutated (none are available). state: a state transition.",
+  "causes": "cause.source is 'native' for gameplay, or 'mod' for an action a mod performed through Runtime (cause.mod, cause.action, cause.depth). Runtime refuses actions deeper than 4 mod-caused links.",
+  "mission": "mission_started / mission_ended bracket a mission. Mission-scoped subscriptions, timers and mod.mission state end with the mission, after mission_ended is dispatched, and every handle from that mission becomes invalid."
+ },
+ "sources": {
+  "input": "Bound keys, polled only while the game window has focus.",
+  "game_state": "The game's state machine: its Mission state with a game_mode object, and this peer's authority over it (host).",
+  "players": "The game's player list: peer ids, lifecycle state, and each avatar entity (through the network id map).",
+  "health": "One bulk scan per tick of the health manager: every entity with a HealthComponent, its health, life state (alive, downed, dead) and last-hit creditor.",
+  "stats": "The local player's mission stats (the game's own get_stat sum of the main table and source blocks), checked 10 times per second."
+ },
+ "events": [
+  {
+   "name": "mission_started",
+   "status": "available",
+   "source": "game_state",
+   "phase": "state",
+   "hot": false,
+   "summary": "A mission began: the game entered its Mission state with a game_mode object. Also reported when Runtime first sees a mission already in progress (first_observation).",
+   "payload": [
+    {
+     "name": "mission",
+     "type": "integer",
+     "doc": "Mission epoch; handles from other epochs are invalid."
+    },
+    {
+     "name": "host",
+     "type": "boolean|nil",
+     "doc": "This machine has authority over the mission (host or solo)."
+    },
+    {
+     "name": "mode",
+     "type": "string|nil",
+     "doc": "Game mode (Mission, Horde, Blitz, ...)."
+    },
+    {
+     "name": "first_observation",
+     "type": "boolean",
+     "doc": "The mission was already running when Runtime started watching."
+    }
+   ]
+  },
+  {
+   "name": "mission_ended",
+   "status": "available",
+   "source": "game_state",
+   "phase": "state",
+   "hot": false,
+   "summary": "The mission ended (the game left its Mission state). Dispatched before mission-scoped state is cleared.",
+   "payload": [
+    {
+     "name": "mission",
+     "type": "integer",
+     "doc": "The epoch that ended."
+    },
+    {
+     "name": "duration",
+     "type": "number",
+     "doc": "Game seconds since mission_started."
+    },
+    {
+     "name": "game_state",
+     "type": "string",
+     "doc": "The state the game moved to (Ship, PrepareShip, ...)."
+    }
+   ]
+  },
+  {
+   "name": "player_spawned",
+   "status": "available",
+   "source": "players",
+   "phase": "post",
+   "hot": false,
+   "summary": "A player's avatar appeared (deployment, reinforcement). Not reported for avatars already present when Runtime starts watching.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "True for the player on this machine."
+    },
+    {
+     "name": "peer",
+     "type": "string",
+     "doc": "The player peer id (16 hex digits)."
+    },
+    {
+     "name": "avatar",
+     "type": "HD2EntityHandle|nil",
+     "doc": "The new avatar."
+    },
+    {
+     "name": "position",
+     "type": "HD2Vector3|nil",
+     "doc": "Avatar position when observed."
+    }
+   ]
+  },
+  {
+   "name": "player_died",
+   "status": "available",
+   "source": "players",
+   "phase": "post",
+   "hot": false,
+   "summary": "A player's avatar died (its health record reached the dead state, or the avatar disappeared before that was seen).",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "True for the player on this machine."
+    },
+    {
+     "name": "peer",
+     "type": "string",
+     "doc": "The player peer id (16 hex digits)."
+    },
+    {
+     "name": "avatar",
+     "type": "HD2EntityHandle|nil",
+     "doc": "The dead avatar (invalid once the game removes it)."
+    },
+    {
+     "name": "position",
+     "type": "HD2Vector3|nil",
+     "doc": "Death position: read at death while the unit exists, else the last position read alive."
+    }
+   ]
+  },
+  {
+   "name": "entity_spawned",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": true,
+   "summary": "An entity with health appeared (spawned, or became present on this machine). Not reported for the population present when Runtime starts watching.",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    }
+   ]
+  },
+  {
+   "name": "entity_died",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": true,
+   "summary": "An entity with health died (its life state reached dead). Environmental and unattributed deaths included.",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "killer",
+     "type": "HD2PlayerHandle|nil",
+     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death."
+    },
+    {
+     "name": "local_killer",
+     "type": "boolean",
+     "doc": "The kill is credited to the local player."
+    },
+    {
+     "name": "killer_peer",
+     "type": "string|nil",
+     "doc": "Creditor peer id, also when that player already left."
+    },
+    {
+     "name": "position",
+     "type": "HD2Vector3|nil",
+     "doc": "Position when the death was observed (nil when the unit was already gone)."
+    },
+    {
+     "name": "max_health",
+     "type": "integer|nil",
+     "doc": "Maximum health."
+    }
+   ]
+  },
+  {
+   "name": "entity_killed",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": true,
+   "summary": "An entity died and the game credits the kill to a player (entity_died with a creditor).",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "killer",
+     "type": "HD2PlayerHandle|nil",
+     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death."
+    },
+    {
+     "name": "local_killer",
+     "type": "boolean",
+     "doc": "The kill is credited to the local player."
+    },
+    {
+     "name": "killer_peer",
+     "type": "string|nil",
+     "doc": "Creditor peer id, also when that player already left."
+    },
+    {
+     "name": "position",
+     "type": "HD2Vector3|nil",
+     "doc": "Position when the death was observed (nil when the unit was already gone)."
+    },
+    {
+     "name": "max_health",
+     "type": "integer|nil",
+     "doc": "Maximum health."
+    }
+   ]
+  },
+  {
+   "name": "entity_damaged",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": true,
+   "summary": "An entity lost health since the previous tick (the sum of every hit in that tick).",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "damage",
+     "type": "integer",
+     "doc": "Health lost since the previous tick."
+    },
+    {
+     "name": "health",
+     "type": "integer",
+     "doc": "Health now."
+    },
+    {
+     "name": "max_health",
+     "type": "integer|nil",
+     "doc": "Maximum health."
+    },
+    {
+     "name": "downed",
+     "type": "boolean",
+     "doc": "The entity is downed (constitution)."
+    },
+    {
+     "name": "attacker",
+     "type": "HD2PlayerHandle|nil",
+     "doc": "The player credited with the last hit (the game's last-hit creditor)."
+    },
+    {
+     "name": "local_attacker",
+     "type": "boolean",
+     "doc": "The last hit is credited to the local player."
+    },
+    {
+     "name": "attacker_peer",
+     "type": "string|nil",
+     "doc": "Creditor peer id."
+    }
+   ]
+  },
+  {
+   "name": "player_damaged",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": true,
+   "summary": "A player's avatar lost health (entity_damaged for a Helldiver avatar, with its player).",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle|nil",
+     "doc": "The player whose avatar it is."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": ""
+    },
+    {
+     "name": "damage",
+     "type": "integer",
+     "doc": ""
+    },
+    {
+     "name": "health",
+     "type": "integer",
+     "doc": ""
+    },
+    {
+     "name": "max_health",
+     "type": "integer|nil",
+     "doc": ""
+    },
+    {
+     "name": "attacker",
+     "type": "HD2PlayerHandle|nil",
+     "doc": ""
+    },
+    {
+     "name": "local_attacker",
+     "type": "boolean",
+     "doc": ""
+    }
+   ]
+  },
+  {
+   "name": "player_healed",
+   "status": "available",
+   "source": "health",
+   "phase": "post",
+   "hot": false,
+   "summary": "A player's avatar gained health (stim, regeneration, a Runtime heal). A heal a mod performed carries that mod's cause.",
+   "payload": [
+    {
+     "name": "entity",
+     "type": "HD2EntityHandle",
+     "doc": "The entity (live queries fail once the game destroys it)."
+    },
+    {
+     "name": "type",
+     "type": "string",
+     "doc": "Entity type hash (16 hex digits)."
+    },
+    {
+     "name": "name",
+     "type": "string|nil",
+     "doc": "Catalogued name when the type is known."
+    },
+    {
+     "name": "enemy",
+     "type": "boolean",
+     "doc": "The game counts this entity's death as an enemy kill (its settings KillScore > 0)."
+    },
+    {
+     "name": "faction",
+     "type": "string|nil",
+     "doc": "terminids, automatons, illuminate, helldivers or super_earth, when known."
+    },
+    {
+     "name": "avatar",
+     "type": "boolean",
+     "doc": "A Helldiver avatar."
+    },
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle|nil",
+     "doc": ""
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": ""
+    },
+    {
+     "name": "amount",
+     "type": "integer",
+     "doc": "Health gained since the previous tick."
+    },
+    {
+     "name": "health",
+     "type": "integer",
+     "doc": ""
+    },
+    {
+     "name": "max_health",
+     "type": "integer|nil",
+     "doc": ""
+    }
+   ]
+  },
+  {
+   "name": "player_fired",
+   "status": "available",
+   "source": "stats",
+   "phase": "post",
+   "hot": false,
+   "summary": "The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; the weapon is not identified.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "shots",
+     "type": "integer",
+     "doc": "Projectiles fired since the previous check."
+    },
+    {
+     "name": "total",
+     "type": "integer",
+     "doc": "The stat total now."
+    }
+   ]
+  },
+  {
+   "name": "entity_damage_pre",
+   "status": "blocked",
+   "phase": "pre",
+   "hot": true,
+   "reason": "A pre-damage callback would have to run inside the native damage path before it applies (game.dll 0x9235F0). Runtime patches no game code, and nothing read at damage time can scale one attacker's or one weapon's damage: every multiplier there is global (Vitality, the relation table, mission modifiers) or belongs to the target (research/event-combat-F5FEE03DCFDB.json). Observe damage with entity_damaged."
+  },
+  {
+   "name": "key_down",
+   "status": "available",
+   "source": "input",
+   "phase": "post",
+   "hot": false,
+   "summary": "A mod keybind was pressed (hd2.input.bind). Only bound keys are polled; there is no raw keyboard event.",
+   "payload": [
+    {
+     "name": "binding",
+     "type": "string",
+     "doc": "The binding id."
+    },
+    {
+     "name": "key",
+     "type": "string",
+     "doc": "The chord, e.g. 'Ctrl+F6'."
+    },
+    {
+     "name": "owner",
+     "type": "string",
+     "doc": "The mod that owns the binding."
+    }
+   ]
+  },
+  {
+   "name": "key_up",
+   "status": "available",
+   "source": "input",
+   "phase": "post",
+   "hot": false,
+   "summary": "A pressed mod keybind was released (or the game window lost focus while it was held).",
+   "payload": [
+    {
+     "name": "binding",
+     "type": "string",
+     "doc": "The binding id."
+    },
+    {
+     "name": "key",
+     "type": "string",
+     "doc": "The chord."
+    },
+    {
+     "name": "owner",
+     "type": "string",
+     "doc": "The mod that owns the binding."
+    }
+   ]
+  }
+ ],
+ "handles": {
+  "HD2EntityHandle": {
+   "doc": "An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.",
+   "fields": [
+    [
+     "id",
+     "integer",
+     "Engine entity id."
+    ],
+    [
+     "type",
+     "string",
+     "Entity type hash."
+    ],
+    [
+     "name",
+     "string|nil",
+     ""
+    ],
+    [
+     "faction",
+     "string|nil",
+     ""
+    ],
+    [
+     "enemy",
+     "boolean",
+     ""
+    ],
+    [
+     "avatar",
+     "boolean",
+     ""
+    ]
+   ],
+   "methods": [
+    {
+     "name": "is_valid",
+     "params": [],
+     "returns": "boolean",
+     "doc": "Still the same live object in the same mission."
+    },
+    {
+     "name": "is_alive",
+     "params": [],
+     "returns": "boolean",
+     "doc": "Valid and not dead (downed counts as alive)."
+    },
+    {
+     "name": "is_downed",
+     "params": [],
+     "returns": "boolean",
+     "doc": ""
+    },
+    {
+     "name": "is_enemy",
+     "params": [],
+     "returns": "boolean",
+     "doc": "Its death counts as an enemy kill (settings KillScore > 0). Static."
+    },
+    {
+     "name": "is_player_avatar",
+     "params": [],
+     "returns": "boolean",
+     "doc": "A Helldiver avatar. Static."
+    },
+    {
+     "name": "health",
+     "params": [],
+     "returns": "integer|nil",
+     "doc": ""
+    },
+    {
+     "name": "max_health",
+     "params": [],
+     "returns": "integer|nil",
+     "doc": ""
+    },
+    {
+     "name": "position",
+     "params": [],
+     "returns": "HD2Vector3|nil",
+     "doc": "Root position now (nil once gone)."
+    },
+    {
+     "name": "describe",
+     "params": [],
+     "returns": "table",
+     "doc": ""
+    }
+   ]
+  },
+  "HD2PlayerHandle": {
+   "doc": "A player, identified by peer id. Valid while the player is in the session; the avatar changes on every respawn.",
+   "fields": [
+    [
+     "peer",
+     "string",
+     "Peer id (16 hex digits)."
+    ],
+    [
+     "slot",
+     "integer",
+     "Player list index when captured (not stable)."
+    ],
+    [
+     "is_local",
+     "boolean",
+     ""
+    ]
+   ],
+   "methods": [
+    {
+     "name": "is_local_player",
+     "params": [],
+     "returns": "boolean",
+     "doc": ""
+    },
+    {
+     "name": "is_valid",
+     "params": [],
+     "returns": "boolean",
+     "doc": "Still in the player list."
+    },
+    {
+     "name": "avatar",
+     "params": [],
+     "returns": "HD2EntityHandle|nil",
+     "doc": "The player's current avatar."
+    },
+    {
+     "name": "is_alive",
+     "params": [],
+     "returns": "boolean",
+     "doc": ""
+    },
+    {
+     "name": "health",
+     "params": [],
+     "returns": "integer|nil",
+     "doc": ""
+    },
+    {
+     "name": "max_health",
+     "params": [],
+     "returns": "integer|nil",
+     "doc": ""
+    },
+    {
+     "name": "position",
+     "params": [],
+     "returns": "HD2Vector3|nil",
+     "doc": "The avatar's position now."
+    },
+    {
+     "name": "heal",
+     "params": [
+      [
+       "amount",
+       "number"
+      ],
+      [
+       "opts",
+       "{owner?: string}|nil"
+      ]
+     ],
+     "returns": "number|nil, string|nil",
+     "doc": "Local player only: heal through the game's own heal function (AddHealthFraction), clamped to maximum health; refused while downed or dead. Returns the amount requested after the clamp, or nil and the reason."
+    },
+    {
+     "name": "describe",
+     "params": [],
+     "returns": "table",
+     "doc": ""
+    }
+   ]
+  }
+ },
+ "api": {
+  "classes": {
+   "HD2Vector3": {
+    "doc": "A world position snapshot (metres).",
+    "fields": [
+     [
+      "x",
+      "number",
+      ""
+     ],
+     [
+      "y",
+      "number",
+      ""
+     ],
+     [
+      "z",
+      "number",
+      ""
+     ]
+    ]
+   },
+   "HD2EventCause": {
+    "doc": "Where an event came from: native gameplay, or an action a mod performed through Runtime.",
+    "fields": [
+     [
+      "source",
+      "\"native\"|\"mod\"",
+      ""
+     ],
+     [
+      "mod",
+      "string|nil",
+      "The mod whose action caused it."
+     ],
+     [
+      "action",
+      "string|nil",
+      "The action id (kind#n)."
+     ],
+     [
+      "kind",
+      "string|nil",
+      "The action kind (heal, explosion)."
+     ],
+     [
+      "depth",
+      "integer|nil",
+      "Mod-caused links in the chain (1 = reacting to native gameplay)."
+     ],
+     [
+      "parent",
+      "table|nil",
+      "The event the action reacted to ({event, cause})."
+     ]
+    ]
+   },
+   "HD2Event": {
+    "doc": "Every event payload carries these fields. Payloads are snapshots; changing them changes nothing in the game.",
+    "fields": [
+     [
+      "event",
+      "HD2EventName",
+      "The event name."
+     ],
+     [
+      "time",
+      "number",
+      "Game seconds (the update clock)."
+     ],
+     [
+      "frame",
+      "integer",
+      "Update tick."
+     ],
+     [
+      "mission",
+      "integer",
+      "Mission epoch when observed."
+     ],
+     [
+      "cause",
+      "HD2EventCause",
+      ""
+     ]
+    ]
+   },
+   "HD2SubscribeOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod resource, or the hd2.mod context)."
+     ],
+     [
+      "id",
+      "string|nil",
+      "Makes registration idempotent: the same owner, event and id replace the earlier callback."
+     ],
+     [
+      "priority",
+      "integer|nil",
+      "Higher runs first (-1000..1000, default 0); ties run in subscription order."
+     ],
+     [
+      "scope",
+      "\"session\"|\"mission\"|nil",
+      "mission: removed automatically when the mission ends."
+     ],
+     [
+      "max_failures",
+      "integer|nil",
+      "Consecutive failures before the subscription is disabled (default 25, 0 = never)."
+     ]
+    ]
+   },
+   "HD2Subscription": {
+    "doc": "A subscription handle.",
+    "fields": [
+     [
+      "id",
+      "integer|nil",
+      ""
+     ],
+     [
+      "event",
+      "string",
+      ""
+     ],
+     [
+      "owner",
+      "string",
+      ""
+     ],
+     [
+      "state",
+      "\"active\"|\"disabled\"|\"failed\"|\"removed\"|\"expired\"|\"complete\"|\"rejected\"",
+      ""
+     ],
+     [
+      "reason",
+      "string|nil",
+      "Why it was rejected or disabled."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "unsubscribe",
+      "params": [],
+      "returns": "HD2Subscription",
+      "doc": "Stop receiving events (takes effect at once)."
+     },
+     {
+      "name": "disable",
+      "params": [],
+      "returns": "HD2Subscription",
+      "doc": "Pause without unsubscribing."
+     },
+     {
+      "name": "enable",
+      "params": [],
+      "returns": "HD2Subscription",
+      "doc": "Resume (also re-enables a subscription disabled after failures)."
+     },
+     {
+      "name": "active",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": "Calls, failures, state and reason."
+     }
+    ]
+   },
+   "HD2TimerOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "owner",
+      "string|nil",
+      ""
+     ],
+     [
+      "id",
+      "string|nil",
+      "Starting a timer with the same owner and id cancels the earlier one."
+     ],
+     [
+      "scope",
+      "\"session\"|\"mission\"|nil",
+      "mission: cancelled when the mission ends (needs a mission in progress)."
+     ]
+    ]
+   },
+   "HD2Timer": {
+    "doc": "A timer handle (game time; paused while the game does not update).",
+    "fields": [
+     [
+      "id",
+      "integer|nil",
+      ""
+     ],
+     [
+      "owner",
+      "string",
+      ""
+     ],
+     [
+      "state",
+      "\"active\"|\"complete\"|\"cancelled\"|\"expired\"|\"failed\"|\"rejected\"",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "cancel",
+      "params": [],
+      "returns": "HD2Timer",
+      "doc": ""
+     },
+     {
+      "name": "active",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     },
+     {
+      "name": "remaining",
+      "params": [],
+      "returns": "number|nil",
+      "doc": "Seconds until it next fires."
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2BindingSpec": {
+    "doc": "",
+    "fields": [
+     [
+      "key",
+      "string",
+      "Default chord, e.g. 'F6' or 'Ctrl+Shift+F6'."
+     ],
+     [
+      "on_press",
+      "fun(binding: table)|nil",
+      ""
+     ],
+     [
+      "on_release",
+      "fun(binding: table)|nil",
+      ""
+     ],
+     [
+      "enabled",
+      "boolean|nil",
+      ""
+     ],
+     [
+      "owner",
+      "string|nil",
+      ""
+     ]
+    ]
+   },
+   "HD2Binding": {
+    "doc": "A mod keybind. A chord already bound elsewhere leaves this binding in state 'conflict' with no key.",
+    "fields": [
+     [
+      "id",
+      "string",
+      ""
+     ],
+     [
+      "owner",
+      "string",
+      ""
+     ],
+     [
+      "key",
+      "string|nil",
+      "The active chord."
+     ],
+     [
+      "state",
+      "\"active\"|\"disabled\"|\"conflict\"|\"removed\"|\"rejected\"",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "rebind",
+      "params": [
+       [
+        "key",
+        "string"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "Move to another chord; false when that chord is taken."
+     },
+     {
+      "name": "disable",
+      "params": [],
+      "returns": "HD2Binding",
+      "doc": ""
+     },
+     {
+      "name": "enable",
+      "params": [],
+      "returns": "HD2Binding",
+      "doc": ""
+     },
+     {
+      "name": "unbind",
+      "params": [],
+      "returns": "HD2Binding",
+      "doc": ""
+     },
+     {
+      "name": "active",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     },
+     {
+      "name": "describe",
+      "params": [],
+      "returns": "table",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2Events": {
+    "doc": "hd2.events",
+    "methods": [
+     {
+      "name": "on",
+      "params": [
+       [
+        "name",
+        "HD2EventName"
+       ],
+       [
+        "callback",
+        "fun(event: HD2Event)"
+       ],
+       [
+        "opts",
+        "HD2SubscribeOptions|nil"
+       ]
+      ],
+      "returns": "HD2Subscription",
+      "doc": "Subscribe. Bad registrations are logged and return a rejected handle; they never raise."
+     },
+     {
+      "name": "once",
+      "params": [
+       [
+        "name",
+        "HD2EventName"
+       ],
+       [
+        "callback",
+        "fun(event: HD2Event)"
+       ],
+       [
+        "opts",
+        "HD2SubscribeOptions|nil"
+       ]
+      ],
+      "returns": "HD2Subscription",
+      "doc": "Subscribe for the next event only."
+     },
+     {
+      "name": "names",
+      "params": [],
+      "returns": "string[]",
+      "doc": "Every catalogued event."
+     },
+     {
+      "name": "describe",
+      "params": [
+       [
+        "name",
+        "HD2EventName"
+       ]
+      ],
+      "returns": "table",
+      "doc": "Status, phase, payload and source of one event."
+     },
+     {
+      "name": "status",
+      "params": [],
+      "returns": "table",
+      "doc": "Live status of every event (available, idle, unavailable, blocked) and why."
+     },
+     {
+      "name": "subscriptions",
+      "params": [
+       [
+        "filter",
+        "{owner?: string, event?: string}|nil"
+       ]
+      ],
+      "returns": "table[]",
+      "doc": ""
+     },
+     {
+      "name": "cause",
+      "params": [],
+      "returns": "HD2EventCause|nil",
+      "doc": "The cause of the event whose callback is running."
+     },
+     {
+      "name": "in_mission",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     }
+    ]
+   },
+   "HD2Input": {
+    "doc": "hd2.input",
+    "methods": [
+     {
+      "name": "bind",
+      "params": [
+       [
+        "id",
+        "string"
+       ],
+       [
+        "spec",
+        "HD2BindingSpec"
+       ]
+      ],
+      "returns": "HD2Binding",
+      "doc": "Namespaced id ('author_mod.action'). Polled only while the game window has focus."
+     },
+     {
+      "name": "bindings",
+      "params": [],
+      "returns": "table[]",
+      "doc": ""
+     },
+     {
+      "name": "get",
+      "params": [
+       [
+        "id",
+        "string"
+       ]
+      ],
+      "returns": "HD2Binding|nil",
+      "doc": ""
+     },
+     {
+      "name": "keys",
+      "params": [],
+      "returns": "string[]",
+      "doc": "Key names accepted in chords."
+     }
+    ]
+   },
+   "HD2ModContext": {
+    "doc": "hd2.mod(id): one mod's scripting context. Everything registered through it is attributed to it.",
+    "fields": [
+     [
+      "id",
+      "string",
+      ""
+     ],
+     [
+      "session",
+      "table",
+      "Kept for the game session."
+     ],
+     [
+      "mission",
+      "table",
+      "Cleared in place when a mission starts and when it ends."
+     ]
+    ],
+    "methods": [
+     {
+      "name": "on",
+      "params": [
+       [
+        "name",
+        "HD2EventName"
+       ],
+       [
+        "callback",
+        "fun(event: HD2Event)"
+       ],
+       [
+        "opts",
+        "HD2SubscribeOptions|nil"
+       ]
+      ],
+      "returns": "HD2Subscription",
+      "doc": ""
+     },
+     {
+      "name": "once",
+      "params": [
+       [
+        "name",
+        "HD2EventName"
+       ],
+       [
+        "callback",
+        "fun(event: HD2Event)"
+       ],
+       [
+        "opts",
+        "HD2SubscribeOptions|nil"
+       ]
+      ],
+      "returns": "HD2Subscription",
+      "doc": ""
+     },
+     {
+      "name": "after",
+      "params": [
+       [
+        "seconds",
+        "number"
+       ],
+       [
+        "callback",
+        "fun()"
+       ],
+       [
+        "opts",
+        "HD2TimerOptions|nil"
+       ]
+      ],
+      "returns": "HD2Timer",
+      "doc": ""
+     },
+     {
+      "name": "every",
+      "params": [
+       [
+        "seconds",
+        "number"
+       ],
+       [
+        "callback",
+        "fun()"
+       ],
+       [
+        "opts",
+        "HD2TimerOptions|nil"
+       ]
+      ],
+      "returns": "HD2Timer",
+      "doc": "At least 0.05 s."
+     },
+     {
+      "name": "bind",
+      "params": [
+       [
+        "id",
+        "string"
+       ],
+       [
+        "spec",
+        "HD2BindingSpec"
+       ]
+      ],
+      "returns": "HD2Binding",
+      "doc": ""
+     },
+     {
+      "name": "log",
+      "params": [
+       [
+        "message",
+        "string"
+       ]
+      ],
+      "returns": "nil",
+      "doc": "Write a line to HD2Runtime.log, prefixed with the mod id."
+     },
+     {
+      "name": "in_mission",
+      "params": [],
+      "returns": "boolean",
+      "doc": ""
+     },
+     {
+      "name": "subscriptions",
+      "params": [],
+      "returns": "table[]",
+      "doc": ""
+     },
+     {
+      "name": "value",
+      "params": [
+       [
+        "spec",
+        "HD2ValueSpec"
+       ]
+      ],
+      "returns": "HD2ScriptValue",
+      "doc": "A script value owned by this mod (the same object for the same id)."
+     }
+    ]
+   },
+   "HD2ValueSpec": {
+    "doc": "",
+    "fields": [
+     [
+      "id",
+      "string",
+      "Unique within the mod."
+     ],
+     [
+      "min",
+      "number",
+      ""
+     ],
+     [
+      "max",
+      "number",
+      ""
+     ],
+     [
+      "step",
+      "number|nil",
+      "Default 1."
+     ],
+     [
+      "default",
+      "number|nil",
+      "Default min."
+     ]
+    ]
+   },
+   "HD2ScriptValue": {
+    "doc": "A number a mod sets from code and binds as an hd2.ensure field value (value=handle). The ensure validates min, max, default and one step through the normal guards when it is declared, and re-applies (debounced) whenever the value changes.",
+    "fields": [
+     [
+      "id",
+      "string",
+      ""
+     ],
+     [
+      "min",
+      "number",
+      ""
+     ],
+     [
+      "max",
+      "number",
+      ""
+     ]
+    ],
+    "methods": [
+     {
+      "name": "set",
+      "params": [
+       [
+        "value",
+        "number"
+       ]
+      ],
+      "returns": "boolean",
+      "doc": "Snapped to the step and clamped to min..max; true when it changed."
+     },
+     {
+      "name": "get",
+      "params": [],
+      "returns": "number",
+      "doc": ""
+     }
+    ],
+    "extends": "HD2Option"
+   },
+   "HD2GameState": {
+    "doc": "The game's state machine now.",
+    "fields": [
+     [
+      "state",
+      "integer",
+      ""
+     ],
+     [
+      "name",
+      "string",
+      "Splash, TitleScreen, Ship, Mission, PrepareShip, PrepareMission."
+     ],
+     [
+      "mission",
+      "boolean",
+      "In a mission (Mission state with a game_mode object)."
+     ],
+     [
+      "host",
+      "boolean|nil",
+      "This machine has authority over the mission."
+     ],
+     [
+      "mode",
+      "string|nil",
+      "Game mode."
+     ]
+    ]
+   }
+  },
+  "functions": [
+   {
+    "name": "after",
+    "params": [
+     [
+      "seconds",
+      "number"
+     ],
+     [
+      "callback",
+      "fun()"
+     ],
+     [
+      "opts",
+      "HD2TimerOptions|nil"
+     ]
+    ],
+    "returns": "HD2Timer",
+    "doc": "Run once after a delay (0 = the next update tick). Game time."
+   },
+   {
+    "name": "every",
+    "params": [
+     [
+      "seconds",
+      "number"
+     ],
+     [
+      "callback",
+      "fun()"
+     ],
+     [
+      "opts",
+      "HD2TimerOptions|nil"
+     ]
+    ],
+    "returns": "HD2Timer",
+    "doc": "Run repeatedly (at least 0.05 s apart). Missed intervals are skipped, never replayed."
+   },
+   {
+    "name": "mod",
+    "params": [
+     [
+      "id",
+      "string|nil"
+     ]
+    ],
+    "returns": "HD2ModContext",
+    "doc": "The scripting context of one mod (the same object on every call)."
+   },
+   {
+    "name": "players",
+    "params": [],
+    "returns": "HD2PlayerHandle[]",
+    "doc": "Every player in the session now."
+   },
+   {
+    "name": "local_player",
+    "params": [],
+    "returns": "HD2PlayerHandle|nil",
+    "doc": "The player on this machine."
+   },
+   {
+    "name": "game_state",
+    "params": [],
+    "returns": "HD2GameState|nil",
+    "doc": "The game's state now (nil when it cannot be read)."
+   }
+  ],
+  "fields": [
+   [
+    "events",
+    "HD2Events",
+    ""
+   ],
+   [
+    "input",
+    "HD2Input",
+    ""
+   ]
+  ]
+ }
+}

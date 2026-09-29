@@ -482,7 +482,7 @@ local HD2AttachmentOption = {}
 ---@return table
 function HD2AttachmentOption:describe() end
 
----@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
+---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot
 
 ---@param role HD2AttackRole
 ---@return HD2PlayerAttack
@@ -815,6 +815,22 @@ function HD2Backpack:describe() end
 ---The support weapon whose ammunition this backpack stores (weapon-fed backpacks only).
 ---@return HD2SupportWeapon
 function HD2Backpack:weapon() end
+---Reviewed damage zones (the SH-20 Ballistic Shield's "shield" plate zone).
+---@return HD2BackpackZone[]
+function HD2Backpack:damage_zones() end
+---@param identity string|integer Zone id ("zone_0"), native zone name ("shield") or index.
+---@return HD2BackpackZone
+function HD2Backpack:damage_zone(identity) end
+
+---@class HD2BackpackZone
+---@field resource "backpack"
+---@field path "damage_zone"
+---@field backpack HD2BackpackName
+---@field zone string
+local HD2BackpackZone = {}
+---zone.armor: the armor every hit on the zone uses (copied into a backpack entity when it spawns).
+---@return table
+function HD2BackpackZone:describe() end
 
 ---@class HD2BoosterTarget
 ---@field resource "booster"
@@ -1483,12 +1499,516 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field orbital_laser "orbital_laser"
 ---@field shield_relay "shield_relay"
 
+---@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"entity_damage_pre"|"key_down"|"key_up"
+
+---A world position snapshot (metres).
+---@class HD2Vector3
+---@field x number
+---@field y number
+---@field z number
+local HD2Vector3 = {}
+
+---Where an event came from: native gameplay, or an action a mod performed through Runtime.
+---@class HD2EventCause
+---@field source "native"|"mod"
+---@field mod string|nil The mod whose action caused it.
+---@field action string|nil The action id (kind#n).
+---@field kind string|nil The action kind (heal, explosion).
+---@field depth integer|nil Mod-caused links in the chain (1 = reacting to native gameplay).
+---@field parent table|nil The event the action reacted to ({event, cause}).
+local HD2EventCause = {}
+
+---Every event payload carries these fields. Payloads are snapshots; changing them changes nothing in the game.
+---@class HD2Event
+---@field event HD2EventName The event name.
+---@field time number Game seconds (the update clock).
+---@field frame integer Update tick.
+---@field mission integer Mission epoch when observed.
+---@field cause HD2EventCause
+local HD2Event = {}
+
+---@class HD2SubscribeOptions
+---@field owner string|nil Mod id (defaults to the calling mod resource, or the hd2.mod context).
+---@field id string|nil Makes registration idempotent: the same owner, event and id replace the earlier callback.
+---@field priority integer|nil Higher runs first (-1000..1000, default 0); ties run in subscription order.
+---@field scope "session"|"mission"|nil mission: removed automatically when the mission ends.
+---@field max_failures integer|nil Consecutive failures before the subscription is disabled (default 25, 0 = never).
+local HD2SubscribeOptions = {}
+
+---A subscription handle.
+---@class HD2Subscription
+---@field id integer|nil
+---@field event string
+---@field owner string
+---@field state "active"|"disabled"|"failed"|"removed"|"expired"|"complete"|"rejected"
+---@field reason string|nil Why it was rejected or disabled.
+local HD2Subscription = {}
+---Stop receiving events (takes effect at once).
+---@return HD2Subscription
+function HD2Subscription:unsubscribe() end
+---Pause without unsubscribing.
+---@return HD2Subscription
+function HD2Subscription:disable() end
+---Resume (also re-enables a subscription disabled after failures).
+---@return HD2Subscription
+function HD2Subscription:enable() end
+---@return boolean
+function HD2Subscription:active() end
+---Calls, failures, state and reason.
+---@return table
+function HD2Subscription:describe() end
+
+---@class HD2TimerOptions
+---@field owner string|nil
+---@field id string|nil Starting a timer with the same owner and id cancels the earlier one.
+---@field scope "session"|"mission"|nil mission: cancelled when the mission ends (needs a mission in progress).
+local HD2TimerOptions = {}
+
+---A timer handle (game time; paused while the game does not update).
+---@class HD2Timer
+---@field id integer|nil
+---@field owner string
+---@field state "active"|"complete"|"cancelled"|"expired"|"failed"|"rejected"
+local HD2Timer = {}
+---@return HD2Timer
+function HD2Timer:cancel() end
+---@return boolean
+function HD2Timer:active() end
+---Seconds until it next fires.
+---@return number|nil
+function HD2Timer:remaining() end
+---@return table
+function HD2Timer:describe() end
+
+---@class HD2BindingSpec
+---@field key string Default chord, e.g. 'F6' or 'Ctrl+Shift+F6'.
+---@field on_press fun(binding: table)|nil
+---@field on_release fun(binding: table)|nil
+---@field enabled boolean|nil
+---@field owner string|nil
+local HD2BindingSpec = {}
+
+---A mod keybind. A chord already bound elsewhere leaves this binding in state 'conflict' with no key.
+---@class HD2Binding
+---@field id string
+---@field owner string
+---@field key string|nil The active chord.
+---@field state "active"|"disabled"|"conflict"|"removed"|"rejected"
+local HD2Binding = {}
+---Move to another chord; false when that chord is taken.
+---@param key string
+---@return boolean
+function HD2Binding:rebind(key) end
+---@return HD2Binding
+function HD2Binding:disable() end
+---@return HD2Binding
+function HD2Binding:enable() end
+---@return HD2Binding
+function HD2Binding:unbind() end
+---@return boolean
+function HD2Binding:active() end
+---@return table
+function HD2Binding:describe() end
+
+---hd2.input
+---@class HD2Input
+local HD2Input = {}
+---Namespaced id ('author_mod.action'). Polled only while the game window has focus.
+---@param id string
+---@param spec HD2BindingSpec
+---@return HD2Binding
+function HD2Input.bind(id, spec) end
+---@return table[]
+function HD2Input.bindings() end
+---@param id string
+---@return HD2Binding|nil
+function HD2Input.get(id) end
+---Key names accepted in chords.
+---@return string[]
+function HD2Input.keys() end
+
+---@class HD2ValueSpec
+---@field id string Unique within the mod.
+---@field min number
+---@field max number
+---@field step number|nil Default 1.
+---@field default number|nil Default min.
+local HD2ValueSpec = {}
+
+---A number a mod sets from code and binds as an hd2.ensure field value (value=handle). The ensure validates min, max, default and one step through the normal guards when it is declared, and re-applies (debounced) whenever the value changes.
+---@class HD2ScriptValue : HD2Option
+---@field id string
+---@field min number
+---@field max number
+local HD2ScriptValue = {}
+---Snapped to the step and clamped to min..max; true when it changed.
+---@param value number
+---@return boolean
+function HD2ScriptValue:set(value) end
+---@return number
+function HD2ScriptValue:get() end
+
+---The game's state machine now.
+---@class HD2GameState
+---@field state integer
+---@field name string Splash, TitleScreen, Ship, Mission, PrepareShip, PrepareMission.
+---@field mission boolean In a mission (Mission state with a game_mode object).
+---@field host boolean|nil This machine has authority over the mission.
+---@field mode string|nil Game mode.
+local HD2GameState = {}
+
+---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
+---@class HD2EntityHandle
+---@field id integer Engine entity id.
+---@field type string Entity type hash.
+---@field name string|nil
+---@field faction string|nil
+---@field enemy boolean
+---@field avatar boolean
+local HD2EntityHandle = {}
+---Still the same live object in the same mission.
+---@return boolean
+function HD2EntityHandle:is_valid() end
+---Valid and not dead (downed counts as alive).
+---@return boolean
+function HD2EntityHandle:is_alive() end
+---@return boolean
+function HD2EntityHandle:is_downed() end
+---Its death counts as an enemy kill (settings KillScore > 0). Static.
+---@return boolean
+function HD2EntityHandle:is_enemy() end
+---A Helldiver avatar. Static.
+---@return boolean
+function HD2EntityHandle:is_player_avatar() end
+---@return integer|nil
+function HD2EntityHandle:health() end
+---@return integer|nil
+function HD2EntityHandle:max_health() end
+---Root position now (nil once gone).
+---@return HD2Vector3|nil
+function HD2EntityHandle:position() end
+---@return table
+function HD2EntityHandle:describe() end
+
+---A player, identified by peer id. Valid while the player is in the session; the avatar changes on every respawn.
+---@class HD2PlayerHandle
+---@field peer string Peer id (16 hex digits).
+---@field slot integer Player list index when captured (not stable).
+---@field is_local boolean
+local HD2PlayerHandle = {}
+---@return boolean
+function HD2PlayerHandle:is_local_player() end
+---Still in the player list.
+---@return boolean
+function HD2PlayerHandle:is_valid() end
+---The player's current avatar.
+---@return HD2EntityHandle|nil
+function HD2PlayerHandle:avatar() end
+---@return boolean
+function HD2PlayerHandle:is_alive() end
+---@return integer|nil
+function HD2PlayerHandle:health() end
+---@return integer|nil
+function HD2PlayerHandle:max_health() end
+---The avatar's position now.
+---@return HD2Vector3|nil
+function HD2PlayerHandle:position() end
+---Local player only: heal through the game's own heal function (AddHealthFraction), clamped to maximum health; refused while downed or dead. Returns the amount requested after the clamp, or nil and the reason.
+---@param amount number
+---@param opts? {owner?: string}
+---@return number|nil, string|nil
+function HD2PlayerHandle:heal(amount, opts) end
+---@return table
+function HD2PlayerHandle:describe() end
+
+---A mission began: the game entered its Mission state with a game_mode object. Also reported when Runtime first sees a mission already in progress (first_observation).
+---@class HD2Event_mission_started : HD2Event
+---@field mission integer Mission epoch; handles from other epochs are invalid.
+---@field host boolean|nil This machine has authority over the mission (host or solo).
+---@field mode string|nil Game mode (Mission, Horde, Blitz, ...).
+---@field first_observation boolean The mission was already running when Runtime started watching.
+local HD2Event_mission_started = {}
+
+---The mission ended (the game left its Mission state). Dispatched before mission-scoped state is cleared.
+---@class HD2Event_mission_ended : HD2Event
+---@field mission integer The epoch that ended.
+---@field duration number Game seconds since mission_started.
+---@field game_state string The state the game moved to (Ship, PrepareShip, ...).
+local HD2Event_mission_ended = {}
+
+---A player's avatar appeared (deployment, reinforcement). Not reported for avatars already present when Runtime starts watching.
+---@class HD2Event_player_spawned : HD2Event
+---@field player HD2PlayerHandle The player.
+---@field local_player boolean True for the player on this machine.
+---@field peer string The player peer id (16 hex digits).
+---@field avatar HD2EntityHandle|nil The new avatar.
+---@field position HD2Vector3|nil Avatar position when observed.
+local HD2Event_player_spawned = {}
+
+---A player's avatar died (its health record reached the dead state, or the avatar disappeared before that was seen).
+---@class HD2Event_player_died : HD2Event
+---@field player HD2PlayerHandle The player.
+---@field local_player boolean True for the player on this machine.
+---@field peer string The player peer id (16 hex digits).
+---@field avatar HD2EntityHandle|nil The dead avatar (invalid once the game removes it).
+---@field position HD2Vector3|nil Death position: read at death while the unit exists, else the last position read alive.
+local HD2Event_player_died = {}
+
+---An entity with health appeared (spawned, or became present on this machine). Not reported for the population present when Runtime starts watching.
+---@class HD2Event_entity_spawned : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+local HD2Event_entity_spawned = {}
+
+---An entity with health died (its life state reached dead). Environmental and unattributed deaths included.
+---@class HD2Event_entity_died : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death.
+---@field local_killer boolean The kill is credited to the local player.
+---@field killer_peer string|nil Creditor peer id, also when that player already left.
+---@field position HD2Vector3|nil Position when the death was observed (nil when the unit was already gone).
+---@field max_health integer|nil Maximum health.
+local HD2Event_entity_died = {}
+
+---An entity died and the game credits the kill to a player (entity_died with a creditor).
+---@class HD2Event_entity_killed : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death.
+---@field local_killer boolean The kill is credited to the local player.
+---@field killer_peer string|nil Creditor peer id, also when that player already left.
+---@field position HD2Vector3|nil Position when the death was observed (nil when the unit was already gone).
+---@field max_health integer|nil Maximum health.
+local HD2Event_entity_killed = {}
+
+---An entity lost health since the previous tick (the sum of every hit in that tick).
+---@class HD2Event_entity_damaged : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+---@field damage integer Health lost since the previous tick.
+---@field health integer Health now.
+---@field max_health integer|nil Maximum health.
+---@field downed boolean The entity is downed (constitution).
+---@field attacker HD2PlayerHandle|nil The player credited with the last hit (the game's last-hit creditor).
+---@field local_attacker boolean The last hit is credited to the local player.
+---@field attacker_peer string|nil Creditor peer id.
+local HD2Event_entity_damaged = {}
+
+---A player's avatar lost health (entity_damaged for a Helldiver avatar, with its player).
+---@class HD2Event_player_damaged : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+---@field player HD2PlayerHandle|nil The player whose avatar it is.
+---@field local_player boolean
+---@field damage integer
+---@field health integer
+---@field max_health integer|nil
+---@field attacker HD2PlayerHandle|nil
+---@field local_attacker boolean
+local HD2Event_player_damaged = {}
+
+---A player's avatar gained health (stim, regeneration, a Runtime heal). A heal a mod performed carries that mod's cause.
+---@class HD2Event_player_healed : HD2Event
+---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field type string Entity type hash (16 hex digits).
+---@field name string|nil Catalogued name when the type is known.
+---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
+---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
+---@field avatar boolean A Helldiver avatar.
+---@field player HD2PlayerHandle|nil
+---@field local_player boolean
+---@field amount integer Health gained since the previous tick.
+---@field health integer
+---@field max_health integer|nil
+local HD2Event_player_healed = {}
+
+---The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; the weapon is not identified.
+---@class HD2Event_player_fired : HD2Event
+---@field player HD2PlayerHandle The local player.
+---@field local_player boolean Always true.
+---@field shots integer Projectiles fired since the previous check.
+---@field total integer The stat total now.
+local HD2Event_player_fired = {}
+
+---Blocked: A pre-damage callback would have to run inside the native damage path before it applies (game.dll 0x9235F0). Runtime patches no game code, and nothing read at damage time can scale one attacker's or one weapon's damage: every multiplier there is global (Vitality, the relation table, mission modifiers) or belongs to the target (research/event-combat-F5FEE03DCFDB.json). Observe damage with entity_damaged.
+---@class HD2Event_entity_damage_pre : HD2Event
+local HD2Event_entity_damage_pre = {}
+
+---A mod keybind was pressed (hd2.input.bind). Only bound keys are polled; there is no raw keyboard event.
+---@class HD2Event_key_down : HD2Event
+---@field binding string The binding id.
+---@field key string The chord, e.g. 'Ctrl+F6'.
+---@field owner string The mod that owns the binding.
+local HD2Event_key_down = {}
+
+---A pressed mod keybind was released (or the game window lost focus while it was held).
+---@class HD2Event_key_up : HD2Event
+---@field binding string The binding id.
+---@field key string The chord.
+---@field owner string The mod that owns the binding.
+local HD2Event_key_up = {}
+
+---hd2.events
+---@class HD2Events
+local HD2Events = {}
+---Every catalogued event.
+---@return string[]
+function HD2Events.names() end
+---Status, phase, payload and source of one event.
+---@param name HD2EventName
+---@return table
+function HD2Events.describe(name) end
+---Live status of every event (available, idle, unavailable, blocked) and why.
+---@return table
+function HD2Events.status() end
+---@param filter? {owner?: string, event?: string}
+---@return table[]
+function HD2Events.subscriptions(filter) end
+---The cause of the event whose callback is running.
+---@return HD2EventCause|nil
+function HD2Events.cause() end
+---@return boolean
+function HD2Events.in_mission() end
+---Subscribe. Bad registrations are logged and return a rejected handle; they never raise.
+---@overload fun(name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_spawned", callback: fun(event: HD2Event_player_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_died", callback: fun(event: HD2Event_player_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_spawned", callback: fun(event: HD2Event_entity_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_died", callback: fun(event: HD2Event_entity_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_killed", callback: fun(event: HD2Event_entity_killed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_damaged", callback: fun(event: HD2Event_entity_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
+---@param name HD2EventName
+---@param callback fun(event: HD2Event)
+---@param opts? HD2SubscribeOptions
+---@return HD2Subscription
+function HD2Events.on(name, callback, opts) end
+---Subscribe for the next event only.
+---@overload fun(name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_spawned", callback: fun(event: HD2Event_player_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_died", callback: fun(event: HD2Event_player_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_spawned", callback: fun(event: HD2Event_entity_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_died", callback: fun(event: HD2Event_entity_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_killed", callback: fun(event: HD2Event_entity_killed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "entity_damaged", callback: fun(event: HD2Event_entity_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
+---@param name HD2EventName
+---@param callback fun(event: HD2Event)
+---@param opts? HD2SubscribeOptions
+---@return HD2Subscription
+function HD2Events.once(name, callback, opts) end
+
+---hd2.mod(id): one mod's scripting context. Everything registered through it is attributed to it.
+---@class HD2ModContext
+---@field id string
+---@field session table Kept for the game session.
+---@field mission table Cleared in place when a mission starts and when it ends.
+local HD2ModContext = {}
+---@param seconds number
+---@param callback fun()
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function HD2ModContext:after(seconds, callback, opts) end
+---At least 0.05 s.
+---@param seconds number
+---@param callback fun()
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function HD2ModContext:every(seconds, callback, opts) end
+---@param id string
+---@param spec HD2BindingSpec
+---@return HD2Binding
+function HD2ModContext:bind(id, spec) end
+---Write a line to HD2Runtime.log, prefixed with the mod id.
+---@param message string
+---@return nil
+function HD2ModContext:log(message) end
+---@return boolean
+function HD2ModContext:in_mission() end
+---@return table[]
+function HD2ModContext:subscriptions() end
+---A script value owned by this mod (the same object for the same id).
+---@param spec HD2ValueSpec
+---@return HD2ScriptValue
+function HD2ModContext:value(spec) end
+---
+---@overload fun(self: HD2ModContext, name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_spawned", callback: fun(event: HD2Event_player_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_died", callback: fun(event: HD2Event_player_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_spawned", callback: fun(event: HD2Event_entity_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_died", callback: fun(event: HD2Event_entity_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_killed", callback: fun(event: HD2Event_entity_killed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_damaged", callback: fun(event: HD2Event_entity_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
+---@param name HD2EventName
+---@param callback fun(event: HD2Event)
+---@param opts? HD2SubscribeOptions
+---@return HD2Subscription
+function HD2ModContext:on(name, callback, opts) end
+---
+---@overload fun(self: HD2ModContext, name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_spawned", callback: fun(event: HD2Event_player_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_died", callback: fun(event: HD2Event_player_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_spawned", callback: fun(event: HD2Event_entity_spawned), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_died", callback: fun(event: HD2Event_entity_died), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_killed", callback: fun(event: HD2Event_entity_killed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "entity_damaged", callback: fun(event: HD2Event_entity_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
+---@param name HD2EventName
+---@param callback fun(event: HD2Event)
+---@param opts? HD2SubscribeOptions
+---@return HD2Subscription
+function HD2ModContext:once(name, callback, opts) end
+
 ---@class HD2Runtime
 ---@field fields HD2Fields
 ---@field enums HD2Enums
 ---@field resources HD2Resources
 ---@field version string
 ---@field api_version integer
+---@field events HD2Events
+---@field input HD2Input
 local hd2 = {}
 ---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName
@@ -1553,6 +2073,31 @@ function hd2.attack_output(identity) end
 ---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}
 ---@return string[]
 function hd2.attack_outputs(filter) end
+---Run once after a delay (0 = the next update tick). Game time.
+---@param seconds number
+---@param callback fun()
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function hd2.after(seconds, callback, opts) end
+---Run repeatedly (at least 0.05 s apart). Missed intervals are skipped, never replayed.
+---@param seconds number
+---@param callback fun()
+---@param opts? HD2TimerOptions
+---@return HD2Timer
+function hd2.every(seconds, callback, opts) end
+---The scripting context of one mod (the same object on every call).
+---@param id? string
+---@return HD2ModContext
+function hd2.mod(id) end
+---Every player in the session now.
+---@return HD2PlayerHandle[]
+function hd2.players() end
+---The player on this machine.
+---@return HD2PlayerHandle|nil
+function hd2.local_player() end
+---The game's state now (nil when it cannot be read).
+---@return HD2GameState|nil
+function hd2.game_state() end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table

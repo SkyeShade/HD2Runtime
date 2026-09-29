@@ -28,6 +28,9 @@ import generate_status_catalog
 import generate_weapon_movement
 import generate_enemy_authoring
 import generate_live_evidence
+import generate_events
+import generate_event_natives
+import generate_event_entities
 import generate_attack_outputs
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -109,6 +112,9 @@ def main():
     generate_enemy_authoring.generate(check=True)
     generate_live_evidence.generate(check=True)
     generate_attack_outputs.generate(check=True)
+    generate_events.generate(check=True)
+    generate_event_natives.generate(check=True)
+    generate_event_entities.generate(check=True)
     generate_sdk.generate(check=True)
     schema=hd2.database();version=(ROOT/'VERSION').read_text().strip()
     assert version==schema['runtime_version'],'Version/schema mismatch'

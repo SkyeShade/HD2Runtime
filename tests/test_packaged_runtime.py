@@ -114,7 +114,10 @@ class PackagedRuntimeSnapshotTests(unittest.TestCase):
             self.assertTrue(item['passed'], name)
             self.assertEqual(item['lateLookupsMissing'], [], name)
             self.assertLessEqual(item['moduleHashes'], 2, name)
-            self.assertGreater(item['overlayWrites'], 0, name)
+            if packaged.EXTRAS.get(name, {}).get('readOnly'):
+                self.assertEqual(item['overlayWrites'], 0, name)   # event-only mods observe, never write
+            else:
+                self.assertGreater(item['overlayWrites'], 0, name)
 
     def test_validator_reproduces_the_uncaptured_entry_failure(self):
         resources = build_release.runtime_resources()

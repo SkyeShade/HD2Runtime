@@ -1,5 +1,5 @@
 {
-  "examples": 71,
+  "examples": 76,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -237,6 +237,32 @@
         "payload.entity -> 0.26.0",
         "payload.spawn_count -> 0.26.0",
         "pod_rack target -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "BallisticShieldArmorTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "ballistic-shield-plate-armor",
+          "mode": "patch",
+          "path": "damage_zone",
+          "resource": "backpack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
         "typed writes -> 0.23.2"
       ]
     },
@@ -979,6 +1005,19 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "DeathHellbombTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
     "EagleProof": {
       "baselineChanges": 4,
       "calls": [
@@ -1206,6 +1245,19 @@
       "usesOptions": false,
       "versionReasons": [
         "typed writes -> 0.23.2"
+      ]
+    },
+    "EventIsolationTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
     "ExosuitUnlimitedUses": {
@@ -1713,6 +1765,47 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "KillHealTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
+    "KillStackDamageTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "kill-stack-liberator-damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2397,7 +2490,7 @@
       ]
     },
     "RuntimeEffectDiagnostics": {
-      "baselineChanges": 8,
+      "baselineChanges": 9,
       "calls": [
         "ensure"
       ],
@@ -2460,6 +2553,16 @@
           "mode": "patch",
           "path": "stratagem",
           "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "diag-cremator-start",
+          "mode": "patch",
+          "path": "backpack",
+          "resource": "backpack"
         }
       ],
       "problems": [],
