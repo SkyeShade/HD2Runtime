@@ -99,6 +99,17 @@ local function create_runtime()
             tonumber(ffi.cast('uintptr_t',info[0].maximum_address))+1
     end
     function runtime.monotonic_time() return tonumber(kernel.GetTickCount64())/1000 end
+    -- This process's id (snapshot capture context and armed-capture identity). Resolved through GetProcAddress so
+    -- no global FFI declaration is added.
+    local current_process_id
+    function runtime.process_id()
+        if not current_process_id then
+            local address=kernel.GetProcAddress(kernel.GetModuleHandleA('kernel32.dll'),'GetCurrentProcessId')
+            assert(address~=nil,'GetCurrentProcessId export unavailable')
+            current_process_id=tonumber(ffi.cast('uint32_t (*)(void)',address)())
+        end
+        return current_process_id
+    end
     local counter,frequency=ffi.new('int64_t[1]'),ffi.new('int64_t[1]')
     kernel.QueryPerformanceFrequency(frequency)
     local ticks_per_second=tonumber(frequency[0])

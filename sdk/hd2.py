@@ -238,6 +238,26 @@ def main():
     support_scan.add_argument('snapshot',type=Path);support_scan.add_argument('wiki',type=Path)
     support_scan.add_argument('--output',type=Path);support_scan.add_argument('--historical-analysis',action='store_true')
     support_scan.add_argument('--lua-dll',type=Path,help='Path to the owned HD2 bin/lua51.dll')
+    # In-mission capture through the armed capture package (docs/snapshots.md#armed-in-mission-capture).
+    def delay_type(text):
+        from tools.snapshot_control import parse_delay
+        try:return parse_delay(text)
+        except ValueError as error:raise argparse.ArgumentTypeError(str(error))
+    def label_type(text):
+        from tools.snapshot_control import sanitize_label
+        try:return sanitize_label(text)
+        except ValueError as error:raise argparse.ArgumentTypeError(str(error))
+    arm=snapshot_sub.add_parser('arm',help='capture a snapshot from the running game: now, after a delay, or on ENTER')
+    when=arm.add_mutually_exclusive_group()
+    when.add_argument('--delay',type=delay_type,metavar='SECONDS',help='wait this many seconds, then capture')
+    when.add_argument('--wait-for-key',action='store_true',help='capture when ENTER is pressed in this window')
+    arm.add_argument('--label',type=label_type,help='name suffix for the snapshot file (letters, digits, . _ -)')
+    arm.add_argument('--repeat',action='store_true',help='with --wait-for-key: stay armed after each capture (q quits)')
+    arm.add_argument('--control-dir',type=Path,help='control folder (default: the snapshot folder\\control)')
+    arm.add_argument('--ack-timeout',type=float,default=60.0,metavar='SECONDS',
+        help='how long the game may take to accept the request (default 60)')
+    status_parser=snapshot_sub.add_parser('status',help='show what the armed capture package last reported')
+    status_parser.add_argument('--control-dir',type=Path)
     args=parser.parse_args()
     try:
         if args.command=='inspect':
@@ -249,6 +269,17 @@ def main():
             from tools.snapshot_scan import scan
             output,mapping=scan(args.snapshot,args.wiki,args.output,args.historical_analysis,args.lua_dll)
             print(output);print(mapping)
+        elif args.snapshot_command=='arm':
+            from tools.snapshot_control import Options,arm as arm_snapshot
+            if args.repeat and not args.wait_for_key:parser.error('--repeat needs --wait-for-key')
+            mode='manual'if args.wait_for_key else'delay'if args.delay is not None else'immediate'
+            try:
+                arm_snapshot(Options(mode=mode,delay=args.delay or 0.0,label=args.label,repeat=args.repeat,
+                    directory=args.control_dir,ack_timeout=args.ack_timeout))
+            except KeyboardInterrupt:parser.exit(130,'cancelled\n')
+        elif args.snapshot_command=='status':
+            from tools.snapshot_control import status
+            print(status(args.control_dir))
         elif args.snapshot_command=='scan-player-weapons':
             from tools.snapshot_scan import scan_player_weapons
             output,mapping,summary=scan_player_weapons(args.snapshot,args.wiki,args.output,

@@ -14,6 +14,7 @@ Writable means an enabled, reviewed transition for that resource; it does not me
 - `hd2.enumerate_primary_weapons(...)`: Enumerate structurally owned weapon resources through one bounded shared discovery pass.
 - `hd2.map_primary_weapons(...)`: Schedule one read-only primary weapon enumeration after a startup delay.
 - `hd2.capture_snapshot(...)`: Incrementally capture committed readable current-process regions to a build-bound HD2SNAP file.
+- `hd2.snapshot_control(...)`: Armed capture (research tooling): wait for `py hd2.py snapshot arm` requests and capture on each one; never captures on its own.
 - `hd2.format(...)`: Format a completed read result.
 - `hd2.patch(...)`: Freshly resolve and apply one reviewed scalar or typed-reference change. Option handles require hd2.ensure.
 - `hd2.transaction(...)`: Validate every change before writing; guarded rollback on failure.

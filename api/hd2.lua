@@ -37,6 +37,10 @@ end
 function M.capture_snapshot(request)
     return require('hd2runtime/runtime/scheduler').attach(session().capture_snapshot(request))
 end
+-- Armed capture: waits for `py hd2.py snapshot arm` requests (research tooling; never captures on its own).
+function M.snapshot_control(request)
+    return require('hd2runtime/runtime/scheduler').attach(session().snapshot_control(request))
+end
 local function disabled()
     require('hd2runtime/runtime/log').emit('[HD2Runtime] write request rejected: read-only milestone')
     return nil,{code='READ_ONLY_MILESTONE',message='No gameplay writer is included in milestone 1'}

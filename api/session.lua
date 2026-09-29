@@ -111,6 +111,10 @@ function M.new(runtime,emit)
     function self.capture_snapshot(request)
         return require('hd2runtime/api/snapshot_capture').start(runtime,emit,request)
     end
+    -- Armed capture for `py hd2.py snapshot arm` (research tooling; see docs/snapshots.md).
+    function self.snapshot_control(request)
+        return require('hd2runtime/api/snapshot_control').start(runtime,emit,request)
+    end
     function self.format(result)
         local lines={}
         for _,target in ipairs(result.targets)do
