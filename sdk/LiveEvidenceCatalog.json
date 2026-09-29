@@ -6,12 +6,21 @@
  "statusLevels": {
   "live_proven": "A user-run in-game test showed the intended effect; the acknowledgement requirement is removed for exactly the family scope.",
   "not_tested": "The write applied cleanly in game but the effect was not observed; stays offline-proven with its acknowledgement.",
-  "inconclusive": "The write applied cleanly but the observation cannot confirm or refute the effect; stays offline-proven, acknowledgement required."
+  "inconclusive": "The write applied cleanly but the observation cannot confirm or refute the effect; stays offline-proven, acknowledgement required.",
+  "live_failed": "A user-run test applied the write cleanly but the intended effect did not occur. The capability is withdrawn for exactly that scope (read-only, with the reason) until the cause is corrected and re-tested.",
+  "pending": "Not yet shown in game: built for a live test that has not run, or run only against a source later found not to be consumed. Writes keep their acknowledgements."
+ },
+ "evidenceModel": {
+  "donorOutputWorks": "the donor projectile or output renders and functions when some host fires it",
+  "referenceWriteSucceeded": "Runtime resolved the target and the guarded write applied (APPLIED in the log)",
+  "hostReadsReference": "the host's live firing path consumes the member that was written",
+  "gameplayOutputChanged": "the host visibly fired the new output in play",
+  "note": "A failed host is host-path evidence, never evidence against the donor output. null means the test did not establish that part."
  },
  "summary": {
-  "sessions": 1,
-  "tests": 9,
-  "passed": 7,
+  "sessions": 2,
+  "tests": 13,
+  "passed": 8,
   "families": {
    "live_proven": [
     "enemy_main_health",
@@ -19,6 +28,7 @@
     "minefield_salvos",
     "sentry_targeting_range",
     "sentry_turret_turn_speed",
+    "weapon_projectile_reference_direct",
     "weapon_projectile_status_reference"
    ],
    "not_tested": [
@@ -26,6 +36,13 @@
    ],
    "inconclusive": [
     "structure_health"
+   ],
+   "live_failed": [
+    "weapon_projectile_reference_dormant_member"
+   ],
+   "pending": [
+    "attack_output_cross_class",
+    "weapon_ammunition_projectile_reference"
    ]
   }
  },
@@ -160,6 +177,70 @@
    "nextTests": [
     "FabricatorHealthAllVariants",
     "GazerHealthTest"
+   ]
+  },
+  "weapon_projectile_reference_direct": {
+   "status": "live_proven",
+   "domain": "player_weapon",
+   "fields": [
+    "attack.<role>.projectile"
+   ],
+   "scope": "Projectile-reference replacement on player attacks whose written member is their active projectile source (ACTIVE_DIRECT in sdk/AttackOutputCapabilities.json projectileSources). Proven on the SMG-32 Reprimand. The structural rule that classifies the other ACTIVE_DIRECT attacks (no customization delta patches a projectile member, no other selector) is checked against the Reprimand (positive) and Liberator (negative) controls.",
+   "tests": [
+    "AssetTestReprimandTalonProjectile"
+   ],
+   "acknowledgementRemoved": null,
+   "observations": [
+    "Same-class replacement never required an acknowledgement; this family records the host path."
+   ],
+   "notPromoted": [
+    "cross-class outputs (allow_unverified_reference and allow_unverified_effect)",
+    "attacks whose source is INDIRECT, AMBIGUOUS or BLOCKED (read-only)"
+   ]
+  },
+  "weapon_projectile_reference_dormant_member": {
+   "status": "live_failed",
+   "domain": "player_weapon",
+   "fields": [
+    "attack.<role>.projectile"
+   ],
+   "scope": "Writing the base ProjectileWeapon +0 member of an attack whose default ammunition customization patches that member at weapon build. Withdrawn: those fields are read-only with DORMANT_PROJECTILE_REFERENCE and point to weapon:ammunition():projectile().",
+   "tests": [
+    "Liberator -> Talon projectile swap (user-built; new and older API)"
+   ],
+   "acknowledgementRemoved": null,
+   "analysis": "A structural reference existing, and a guarded write landing, did not prove that firing reads it. The Liberator fires its FULL METAL JACKET ammunition delta; see docs/attack-outputs.md."
+  },
+  "weapon_ammunition_projectile_reference": {
+   "status": "pending",
+   "domain": "player_weapon",
+   "fields": [
+    "ammunition.projectile"
+   ],
+   "scope": "Replacing the projectile of a weapon's default ammunition customization, its active source when the ammunition delta patches ProjectileWeapon +0. Requires allow_shared and allow_unverified_effect.",
+   "tests": [],
+   "acknowledgementRemoved": null,
+   "nextTests": [
+    "LiberatorAttackOutputTest"
+   ]
+  },
+  "attack_output_cross_class": {
+   "status": "pending",
+   "domain": "player_weapon",
+   "fields": [
+    "attack.<role>.projectile",
+    "ammunition.projectile"
+   ],
+   "scope": "A projectile output from another structural class (rocket, arc grenade) on a projectile host. Requires allow_unverified_reference and allow_unverified_effect.",
+   "tests": [
+    "LiberatorAttackOutputTest (pre-correction build)"
+   ],
+   "acknowledgementRemoved": null,
+   "observations": [
+    "The pre-correction EAT-700 and GL-52 runs wrote the Liberator's dormant member, so they carry no evidence either way about those outputs."
+   ],
+   "nextTests": [
+    "LiberatorAttackOutputTest"
    ]
   }
  },
@@ -346,6 +427,112 @@
       }
      ],
      "observation": "Fabricators tested appeared to need roughly the usual number of Railgun shots. Only one of five fabricator variants was edited and the variant cannot be identified in game, so this is not a failure."
+    }
+   ]
+  },
+  {
+   "id": "projectile-host-path-2026-09-29",
+   "date": "2026-09-29",
+   "runtime": "HD2Runtime 0.27.0 test builds: the asset-loading build (Reprimand) and the coverage build at commit c37ee56 (Liberator), plus the older projectile-swap API for the Liberator control",
+   "logSignals": [
+    "target resolved",
+    "APPLIED"
+   ],
+   "tests": [
+    {
+     "mod": "AssetTestReprimandTalonProjectile",
+     "operation": "asset-test-reprimand-talon",
+     "result": "PASS",
+     "family": "weapon_projectile_reference_direct",
+     "host": "SMG-32 Reprimand",
+     "donor": "LAS-58 Talon",
+     "writes": [
+      {
+       "target": "SMG-32 Reprimand / primary attack",
+       "field": "attack.projectile",
+       "from": "SMG-32 Reprimand projectile",
+       "to": "LAS-58 Talon projectile"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": true,
+      "gameplayOutputChanged": true
+     },
+     "observation": "With nobody carrying the Talon, the Reprimand fired Talon bolts with correct visuals and function. Edits the mod made to the Talon projectile were observable through the swap."
+    },
+    {
+     "mod": "Liberator -> Talon projectile swap (user-built; new and older API)",
+     "operation": "liberator-talon-projectile",
+     "result": "FAIL",
+     "family": "weapon_projectile_reference_dormant_member",
+     "host": "AR-23 Liberator",
+     "donor": "LAS-58 Talon",
+     "writes": [
+      {
+       "target": "AR-23 Liberator / primary attack",
+       "field": "attack.projectile",
+       "from": "AR-23 Liberator projectile",
+       "to": "LAS-58 Talon projectile"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": true,
+      "referenceWriteSucceeded": true,
+      "hostReadsReference": false,
+      "gameplayOutputChanged": false
+     },
+     "observation": "Runtime resolved and wrote the reference; the Liberator kept firing its normal bullet. The same result with the older projectile-swap API.",
+     "hostPath": "Explained offline (research/active-projectile-sources-F5FEE03DCFDB.json): the Liberator's default ammunition customization, RIFLE 5,5x50mm. FULL METAL JACKET, patches ProjectileWeapon +0 when the weapon is built, so the written base member is dormant. The Reprimand has no ammunition customization. The Talon output itself is live-proven by the Reprimand test."
+    },
+    {
+     "mod": "LiberatorAttackOutputTest (pre-correction build)",
+     "operation": "liberator-attack-output",
+     "choice": "EAT-700 Napalm",
+     "result": "UNPROVEN",
+     "family": "attack_output_cross_class",
+     "host": "AR-23 Liberator",
+     "donor": "EAT-700 Expendable Napalm",
+     "writes": [
+      {
+       "target": "AR-23 Liberator / primary attack",
+       "field": "attack.projectile",
+       "from": "AR-23 Liberator projectile",
+       "to": "EAT-700 Expendable Napalm output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": null,
+      "referenceWriteSucceeded": null,
+      "hostReadsReference": false,
+      "gameplayOutputChanged": null
+     },
+     "observation": "Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the EAT-700 output."
+    },
+    {
+     "mod": "LiberatorAttackOutputTest (pre-correction build)",
+     "operation": "liberator-attack-output",
+     "choice": "GL-52 Arc (impact)",
+     "result": "UNPROVEN",
+     "family": "attack_output_cross_class",
+     "host": "AR-23 Liberator",
+     "donor": "GL-52 De-Escalator",
+     "writes": [
+      {
+       "target": "AR-23 Liberator / primary attack",
+       "field": "attack.projectile",
+       "from": "AR-23 Liberator projectile",
+       "to": "GL-52 De-Escalator output"
+      }
+     ],
+     "evidence": {
+      "donorOutputWorks": null,
+      "referenceWriteSucceeded": null,
+      "hostReadsReference": false,
+      "gameplayOutputChanged": null
+     },
+     "observation": "Run by the user; recorded as unproven pending the host-path issue. The choice wrote the same dormant member as the failed Talon control, so it says nothing about the GL-52 output."
     }
    ]
   }

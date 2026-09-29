@@ -766,9 +766,9 @@
   "EAT-700 Napalm": {
    "donor": "EAT-700 Expendable Napalm",
    "status": "SUPPORTED",
-   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), so replacing the Liberator's +0 reference is the whole composition. Everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain), so the swap is a cross-class reference and needs allow_unverified_reference and allow_unverified_effect.",
+   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), and everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. The Liberator fires the projectile of its default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET), whose entity delta overwrites its ProjectileWeapon +0 at weapon build, so the composition writes that ammunition projectile, not the dormant +0. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain): a cross-class reference that needs allow_unverified_reference and allow_unverified_effect.",
    "writes": [
-    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+    "host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)"
    ]
   },
   "ARC-3 Arc": {
@@ -780,16 +780,16 @@
   "Arc on impact": {
    "donor": "GL-52 De-Escalator",
    "status": "SUPPORTED",
-   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120). Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
+   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120), written to the Liberator's default ammunition projectile like the EAT-700. Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
    "writes": [
-    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+    "host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)"
    ]
   }
  },
  "hostRetains": {
   "magazine": "WeaponMagazineComponent (unchanged)",
   "reload": "WeaponReloadComponent",
-  "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only +0 changes)",
+  "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only the fired projectile changes)",
   "handling": "WeaponDataComponent (recoil, spread, sway, ergonomics, fire modes)",
   "liberator": {
    "rpm": 640.0,
