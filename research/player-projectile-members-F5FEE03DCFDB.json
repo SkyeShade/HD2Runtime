@@ -1,0 +1,1272 @@
+{
+ "schemaVersion": 1,
+ "writes": 0,
+ "fixtureFallback": "disabled",
+ "memberProof": "ProjectileInfo +52 life_time (name length 9) and +64 penetration_slowdown (name length 20), exact on every stated support-weapon row (research/support-weapon-coverage-F5FEE03DCFDB.json)",
+ "summary": {
+  "branches": 67,
+  "lifetime:exact": 10,
+  "lifetime:wiki_silent": 57,
+  "penetration_slowdown:exact": 67,
+  "resolved": 67
+ },
+ "weapons": [
+  {
+   "name": "AR-11 Arbitrator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 288,
+     "group": 0,
+     "row": 234,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-2 Coyote",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 138,
+     "group": 0,
+     "row": 216,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-23 Liberator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 276,
+     "group": 0,
+     "row": 199,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-23A Liberator Carbine",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 276,
+     "group": 0,
+     "row": 199,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-23C Liberator Concussive",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 310,
+     "group": 0,
+     "row": 203,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-23P Liberator Penetrator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 7,
+     "group": 0,
+     "row": 200,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-32 Pacifier",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 98,
+     "group": 0,
+     "row": 212,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-59 Suppressor",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 139,
+     "group": 0,
+     "row": 209,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR-61 Tenderizer",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 44,
+     "group": 0,
+     "row": 236,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "AR/GL-21 One-Two",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 334,
+     "group": 0,
+     "row": 233,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "ARC-12 Blitzer",
+   "branches": []
+  },
+  {
+   "name": "BR-14 Adjudicator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 135,
+     "group": 0,
+     "row": 235,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "CB-9 Exploding Crossbow",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 249,
+     "group": 0,
+     "row": 254,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "CQC-19 Stun Lance",
+   "branches": []
+  },
+  {
+   "name": "CQC-2 Saber",
+   "branches": []
+  },
+  {
+   "name": "CQC-30 Stun Baton",
+   "branches": []
+  },
+  {
+   "name": "CQC-42 Machete",
+   "branches": []
+  },
+  {
+   "name": "CQC-5 Combat Hatchet",
+   "branches": []
+  },
+  {
+   "name": "CQC-73 Entrenchment Tool",
+   "branches": []
+  },
+  {
+   "name": "DBS-2 Double Freedom",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 317,
+     "group": 0,
+     "row": 299,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "FLAM-66 Torcher",
+   "branches": []
+  },
+  {
+   "name": "GL-15 Evictor",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 297,
+     "group": 0,
+     "row": 82,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "GP-20 Ultimatum",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 103,
+     "group": 0,
+     "row": 146,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "GP-31 Grenade Pistol",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 263,
+     "group": 0,
+     "row": 85,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "JAR-5 Dominator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 177,
+     "group": 0,
+     "row": 262,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "LAS-12 Sai",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 236,
+     "group": 0,
+     "row": 327,
+     "resolved": true,
+     "lifetime": 6,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "LAS-13 Trident",
+   "branches": []
+  },
+  {
+   "name": "LAS-16 Sickle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 149,
+     "group": 0,
+     "row": 326,
+     "resolved": true,
+     "lifetime": 6,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "LAS-17 Double-Edge Sickle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 149,
+     "group": 0,
+     "row": 326,
+     "resolved": true,
+     "lifetime": 6,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "LAS-5 Scythe",
+   "branches": []
+  },
+  {
+   "name": "LAS-58 Talon",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 144,
+     "group": 0,
+     "row": 332,
+     "resolved": true,
+     "lifetime": 6,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "LAS-7 Dagger",
+   "branches": []
+  },
+  {
+   "name": "M6C/SOCOM Pistol",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 308,
+     "group": 0,
+     "row": 184,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "M7S SMG",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 340,
+     "group": 0,
+     "row": 162,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "M90A Shotgun",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 62,
+     "group": 0,
+     "row": 298,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "MA5C Assault Rifle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 119,
+     "group": 0,
+     "row": 237,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "MP-98 Knight",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 215,
+     "group": 0,
+     "row": 165,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-11 Stim Pistol",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 318,
+     "group": 0,
+     "row": 198,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 1,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-113 Verdict",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 15,
+     "group": 0,
+     "row": 182,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-19 Redeemer",
+   "branches": []
+  },
+  {
+   "name": "P-2 Peacemaker",
+   "branches": []
+  },
+  {
+   "name": "P-33 Missile Pistol",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 152,
+     "group": 0,
+     "row": 187,
+     "resolved": true,
+     "lifetime": 3,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-34 Breacher",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 270,
+     "group": 0,
+     "row": 324,
+     "resolved": true,
+     "lifetime": 1.7000000476837158,
+     "penetrationSlowdown": 0,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-35 Re-Educator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 343,
+     "group": 0,
+     "row": 323,
+     "resolved": true,
+     "lifetime": 1.7000000476837158,
+     "penetrationSlowdown": 0,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-4 Senator",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 309,
+     "group": 0,
+     "row": 192,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-69 Veto",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 237,
+     "group": 0,
+     "row": 183,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P-72 Crisper",
+   "branches": []
+  },
+  {
+   "name": "P-92 Warrant",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 326,
+     "group": 0,
+     "row": 185,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "P/40-K Bolt Pistol",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 202,
+     "group": 0,
+     "row": 260,
+     "resolved": true,
+     "lifetime": 0.6000000238418579,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "PLAS-1 Scorcher",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 142,
+     "group": 0,
+     "row": 310,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.3499999940395355,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "PLAS-101 Purifier",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 296,
+     "group": 0,
+     "row": 315,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.3499999940395355,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "PLAS-15 Loyalist",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 171,
+     "group": 0,
+     "row": 309,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.3499999940395355,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "PLAS-39 Accelerator Rifle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 155,
+     "group": 0,
+     "row": 311,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.3499999940395355,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-2 Amendment",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 327,
+     "group": 0,
+     "row": 239,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-2124 Constitution",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 282,
+     "group": 0,
+     "row": 238,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-36 Eruptor",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 40,
+     "group": 0,
+     "row": 265,
+     "resolved": true,
+     "lifetime": 1,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-4 Hyena",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 207,
+     "group": 0,
+     "row": 248,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-6 Deadeye",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 299,
+     "group": 0,
+     "row": 240,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-63 Diligence",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 305,
+     "group": 0,
+     "row": 242,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-63CS Diligence Counter Sniper",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 241,
+     "group": 0,
+     "row": 243,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R-72 Censor",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 325,
+     "group": 0,
+     "row": 228,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "R/40-K Hot-Shot Marksman Rifle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 86,
+     "group": 0,
+     "row": 261,
+     "resolved": true,
+     "lifetime": 3,
+     "penetrationSlowdown": 0,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "exact"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-20 Halt",
+   "branches": [
+    {
+     "prefix": "projectile.primary",
+     "recordType": 183,
+     "group": 0,
+     "row": 285,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    },
+    {
+     "prefix": "projectile.alternate",
+     "recordType": 191,
+     "group": 0,
+     "row": 294,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-22 Bushwhacker",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 260,
+     "group": 0,
+     "row": 281,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-225 Breaker",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 179,
+     "group": 0,
+     "row": 272,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.800000011920929,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-225IE Breaker Incendiary",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 314,
+     "group": 0,
+     "row": 275,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 1,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-225SP Breaker Spray&Pray",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 174,
+     "group": 0,
+     "row": 271,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.800000011920929,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-451 Cookout",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 347,
+     "group": 0,
+     "row": 283,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 1,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-8 Punisher",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 260,
+     "group": 0,
+     "row": 281,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-8P Punisher Plasma",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 57,
+     "group": 0,
+     "row": 316,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.3499999940395355,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-8S Slugger",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 240,
+     "group": 0,
+     "row": 295,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SG-97 Sweeper",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 262,
+     "group": 0,
+     "row": 349,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SMG-203 Gallant",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 76,
+     "group": 0,
+     "row": 167,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SMG-32 Reprimand",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 123,
+     "group": 0,
+     "row": 189,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SMG-37 Defender",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 3,
+     "group": 0,
+     "row": 173,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SMG-72 Pummeler",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 157,
+     "group": 0,
+     "row": 181,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SMG/FLAM-34 Stoker",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 38,
+     "group": 0,
+     "row": 190,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "StA-11 SMG",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 215,
+     "group": 0,
+     "row": 165,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "StA-52 Assault Rifle",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 276,
+     "group": 0,
+     "row": 199,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  },
+  {
+   "name": "VG-70 Variable",
+   "branches": [
+    {
+     "prefix": "projectile",
+     "recordType": 94,
+     "group": 0,
+     "row": 197,
+     "resolved": true,
+     "lifetime": 0,
+     "penetrationSlowdown": 0.25,
+     "wikiCheck": {
+      "penetration_slowdown": "exact",
+      "lifetime": "wiki_silent"
+     }
+    }
+   ]
+  }
+ ]
+}

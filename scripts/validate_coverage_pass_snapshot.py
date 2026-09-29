@@ -230,6 +230,39 @@ local worker=coroutine.create(function()
  rejects(function()resolve(enemies,spec)end,'no longer holds the reviewed weapon','broken mount chain')
  e.rejections.brokenMountChain=1
  reset()
+ -- Player projectile penetration slowdown / lifetime: every published field resolves as a guarded no-op.
+ local pp={fields=0,weapons=0}
+ result.playerProjectileMembers=pp
+ local player_specs={}
+ local player_db=require('hd2runtime/domains/player_weapon_authoring').weapons
+ local player_names={};for weapon_name in pairs(player_db)do player_names[#player_names+1]=weapon_name end
+ table.sort(player_names)
+ for _,weapon_name in ipairs(player_names)do
+  local weapon=player_db[weapon_name];weapon.name=weapon.name or weapon_name
+  local changes={}
+  for _,field in ipairs(weapon.fields)do
+   local id=field.semanticFieldId
+   if field.editable and id:match('^projectile%.')and(id:match('%.penetration_slowdown$')or id:match('%.lifetime$'))then
+    changes[#changes+1]={field=id,expect=field.currentDefault,value=field.currentDefault}
+   end
+  end
+  if #changes>0 then
+   player_specs[#player_specs+1]=transaction(target('player_weapon',weapon.name),changes)
+   pp.weapons=pp.weapons+1;pp.fields=pp.fields+#changes
+  end
+ end
+ for _,spec in ipairs(player_specs)do
+  local plan=resolve(weapons,spec)
+  for _,part in ipairs(plan.changes)do
+   assert(part.already_desired,spec.weapon..' '..part.label..' live value differs from the reviewed baseline')
+  end
+ end
+ -- A real change lands and rolls back (Liberator penetration slowdown 0.25 -> 0.5).
+ reset()
+ round_trip(transaction(target('player_weapon','AR-23 Liberator'),
+  {{field='projectile.penetration_slowdown',expect=0.25,value=0.5}}),'liberator slowdown')
+ pp.roundTrip={weapon='AR-23 Liberator',field='projectile.penetration_slowdown',from=0.25,to=0.5}
+ reset()
  -- Mine deployer counts: a reduction lands and rolls back; an increase past the launch sockets is rejected.
  local stratagems=require('hd2runtime/domains/stratagem_writes')
  local m={roundTrips={},rejections={}}

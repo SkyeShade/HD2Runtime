@@ -25,6 +25,9 @@ VERSION_FILE=ROOT/'VERSION'
 CATALOG=ROOT/'schemas/player_weapon_authoring_catalog.json'
 AMMO_CATALOG=ROOT/'schemas/player_weapon_ammo_catalog.json'
 COMPOSITION_CATALOG=ROOT/'schemas/player_weapon_composition_catalog.json'
+# ProjectileSettings +64 penetration slowdown and +52 lifetime of every player projectile row
+# (scripts/research_player_projectile_members.py; members proven on support weapons, 67/67 exact here).
+PROJECTILE_MEMBERS=ROOT/'research/player-projectile-members-F5FEE03DCFDB.json'
 JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAuthoringCapabilities.json'
 AMMO_JSON_OUTPUT=ROOT/'sdk/PlayerWeaponAmmoCapabilities.json'
 LUA_OUTPUT=ROOT/'domains/player_weapon_authoring.lua'
@@ -203,6 +206,8 @@ def build(catalog_path=CATALOG):
             **({'consumerCount':record['projectileConsumerCount']}
                 if record.get('projectileConsumerCount')is not None else{})}
 
+    projectile_members={(weapon['name'],branch['prefix']):branch for weapon in
+        json.loads(PROJECTILE_MEMBERS.read_text())['weapons'] for branch in weapon['branches']}
     reticle_rows,reticle_research=reticle_fields.load()
     movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
@@ -437,6 +442,20 @@ def build(catalog_path=CATALOG):
                 scalar['sharedWithWeapons']=sorted(set(scalar.get('sharedWithWeapons',[])))
                 scalar['dynamicConsumersPossible']=True
                 fields.append(scalar)
+            member=projectile_members.get((name,prefix))
+            if member and member['resolved'] and (member['group'],member['row'],member['recordType'])==(
+                    record['group'],record['row'],record['recordType']):
+                for suffix,key,offset in (('penetration_slowdown','penetrationSlowdown',64),('lifetime','lifetime',52)):
+                    if suffix=='lifetime'and not member[key]:
+                        continue    # 0 = no explicit lifetime; a non-zero value would add a limit, not tune one
+                    backend=settings_backend('projectile',record,offset,'f32',role)
+                    scalar=make_field(prefix+'.'+suffix,member[key],backend,unique,
+                        blocked or 'Projectile definitions are shared objects; allow_shared=true is required.')
+                    scalar['writeScope']='shared_projectile_definition'
+                    scalar['affectsMultipleWeapons']=True
+                    scalar['sharedWithWeapons']=sorted(set(scalar.get('sharedWithWeapons',[])))
+                    scalar['dynamicConsumersPossible']=True
+                    fields.append(scalar)
 
         damage_attacks=[attack for attack in attacks if attack.get('damageInfo')]
         for position,attack in enumerate(damage_attacks):

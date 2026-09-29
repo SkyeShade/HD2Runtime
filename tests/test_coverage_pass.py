@@ -2,6 +2,7 @@
 enemy structures. Every field here is published only with its research proof; these tests pin the proofs, the
 typed API and the guards."""
 import json
+import re
 import unittest
 
 from support import ROOT, run
@@ -272,6 +273,23 @@ return 'ok'
         self.assertEqual(verdict(Table(rows), None), ['UNCHECKED'])
 
 
+class PlayerProjectileMemberTests(unittest.TestCase):
+    def test_slowdown_and_lifetime_agree_with_every_stated_player_value(self):
+        research = json.loads((ROOT / 'research/player-projectile-members-F5FEE03DCFDB.json').read_text())
+        self.assertEqual(research['summary'], {'branches': 67, 'resolved': 67, 'penetration_slowdown:exact': 67,
+            'lifetime:exact': 10, 'lifetime:wiki_silent': 57})
+        catalog = json.loads((ROOT / 'sdk/PlayerWeaponAuthoringCapabilities.json').read_text())
+        fields = [f for w in catalog['weapons'] for f in w['fields']
+            if re.match(r'^projectile\.(primary\.|alternate\.)?(penetration_slowdown|lifetime)$', f['semanticFieldId'])]
+        self.assertEqual(len(fields), 77)
+        self.assertEqual(sum(1 for f in fields if f['editable']), 75)
+        self.assertTrue(all(f['writeScope'] == 'shared_projectile_definition' and f['backing']['offset'] in (52, 64)
+            for f in fields))
+        self.assertFalse([f for f in fields if f['semanticFieldId'].endswith('lifetime') and not f['currentDefault']])
+        record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['playerProjectileMembers']
+        self.assertEqual((record['fields'], record['weapons']), (75, 64))
+
+
 PROVEN = {'entity.health', 'entity.armor', 'zone.health', 'zone.armor', 'zone.affects_main_health'}
 
 
@@ -478,6 +496,7 @@ return 'ok'
         self.assertEqual(apply_migration.verify({'decisions': {record['key']: decision}}, tables, 'NEXT'), [])
         decision = dict(decision, action='readonly', state='LOST', reason='gone')
         self.assertEqual(apply_migration.field_patch(record['key'], decision, tables, 'NEXT')['set']['editable'], False)
+
 
 
 if __name__ == '__main__':
