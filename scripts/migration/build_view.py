@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import dl_hash, find_component, groups, rows  # noqa: E402
 import build_profile  # noqa: E402
 
-EXTRACTOR_VERSION = 2
+EXTRACTOR_VERSION = 3
 CACHE = ROOT / 'build/migration-cache'
 SETTINGS_FILES = {'projectile': 'generated_projectile_settings.dl_bin', 'damage': 'generated_damage_settings.dl_bin',
     'explosion': 'generated_explosion_settings.dl_bin', 'arc': 'generated_arc_settings.dl_bin',
@@ -44,7 +44,7 @@ COMPONENTS = ('ProjectileWeaponComponentData', 'WeaponDataComponentData', 'Healt
     'BombardmentComponentData', 'EagleComponentData', 'MountComponentData', 'WeaponReloadComponentData',
     'WeaponWindUpComponentData', 'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
     'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData', 'TurretComponentData',
-    'SensorEyeComponentData', 'ThrowerComponentData')
+    'SensorEyeComponentData', 'ThrowerComponentData', 'LoadoutEntryComponentData')
 NAME_LENGTH = re.compile(r'inferred_length=(\d+|None)')
 
 
@@ -273,7 +273,8 @@ def parse_entities(view: BuildView, entities: bytes, typelib: bytes):
         except ValueError:
             continue                                      # component type absent in this build
         outer = typelib.layout(name)
-        index, records = outer['members']
+        # LoadoutEntryComponentData carries a third, parallel per-record array after its records.
+        index, records = outer['members'][:2]
         record_layout = _record_layout(typelib, records['type_hash'])
         record_size = records['size64'] // max(records['array_or_bits'], 1)
         owners = {}

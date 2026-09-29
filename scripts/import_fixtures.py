@@ -75,7 +75,8 @@ def main():
                        'WeaponReloadComponentData', 'WeaponWindUpComponentData',
                        'DepositComponentData', 'TagComponentData', 'InteractableComponentData',
                        'ThrowableComponentData', 'StickyComponentData', 'MinefieldComponentData',
-                       'TurretComponentData', 'SensorEyeComponentData', 'ThrowerComponentData']
+                       'TurretComponentData', 'SensorEyeComponentData', 'ThrowerComponentData',
+                       'LoadoutEntryComponentData']
     mapper_auxiliary = {'LoadoutPackageComponentData', 'WeaponMagazineComponentData',
                         'WeaponRoundsComponentData', 'WeaponCustomizationComponentData',
                         'ArcWeaponComponentData', 'MeleeWeaponComponentData',
@@ -91,10 +92,13 @@ def main():
     for name in component_names:
         inst, body, version, is64, offset = find_component(entity, name)
         outer = layout(library, name)
-        indices, records = outer['members']
+        indices, records = outer['members'][:2]
         record_layout = layout(library, records['type_hash'])
         assert version == 1 and is64 and indices['offset64'] == 0
         assert records['offset64'] == indices['array_or_bits'] * 16
+        # LoadoutEntryComponentData alone carries a third, parallel per-record array after its records.
+        for extra in outer['members'][2:]:
+            assert name == 'LoadoutEntryComponentData' and extra['offset64'] == records['offset64'] + records['size64']                 and extra['array_or_bits'] == records['array_or_bits']
         c = {'offset': offset, 'header': inst[:28].hex(), 'index': struct.unpack_from('<I', entity, offset-4)[0],
              'indices': indices['array_or_bits'], 'records': records['array_or_bits'],
              'record_offset': records['offset64'], 'stride': record_layout['size64'], 'type': dl_hash(name)}
