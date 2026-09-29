@@ -122,6 +122,7 @@ def main(argv=None):
     parser.add_argument('--timings', action='store_true', help='print wall time per phase and check')
     parallel.add_argument(parser)
     args = parser.parse_args(argv)
+    parallel.configure(args.jobs)
     started = time.perf_counter()
     directory = Path(args.migration)
     summary = json.loads((directory / 'summary.json').read_text(encoding='utf-8'))

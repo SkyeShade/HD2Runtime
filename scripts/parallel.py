@@ -37,6 +37,14 @@ def add_argument(parser):
         help=f'parallel workers (default: HD2_JOBS or one per physical core, at most {MAX_DEFAULT_JOBS}; 1 = serial)')
 
 
+def configure(jobs: int | None) -> int:
+    """Resolve --jobs and export it as HD2_JOBS, so every subprocess (validators, test workers) uses the same
+    limit; --jobs 1 then runs the whole tree serially."""
+    jobs = resolve(jobs)
+    os.environ['HD2_JOBS'] = str(jobs)
+    return jobs
+
+
 def run(command, name=None, cwd=ROOT, env=None) -> dict:
     started = time.perf_counter()
     result = subprocess.run([sys.executable, '-B', *command], cwd=cwd, capture_output=True, text=True,
