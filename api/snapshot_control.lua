@@ -67,18 +67,26 @@ function M.start(runtime,emit,request)
     -- This game session: the process id plus the time the controller started (a restarted game differs).
     local process_id=runtime.process_id and runtime.process_id()or 0
     local session=tostring(process_id)..'-'..tostring(now())
-    -- The armed identity, read once (hashing the module files is not repeated every heartbeat).
-    local exe,dll=runtime.module(nil),runtime.module('game.dll')
+    -- The armed identity, read once the game modules are loaded (hashing the module files is not repeated every
+    -- heartbeat; the capture engine re-hashes them when a capture begins).
     local identity={process_id=process_id}
-    if exe and dll then
-        identity.exe_base,identity.dll_base=runtime.address(exe),runtime.address(dll)
-        identity.exe_sha,identity.dll_sha=runtime.module_hash(exe),runtime.module_hash(dll)
+    local function identify()
+        if identity.exe_sha then return end
+        local exe,dll=runtime.module(nil),runtime.module('game.dll')
+        if not exe or not dll then return end
+        local exe_sha,dll_sha=runtime.module_hash(exe),runtime.module_hash(dll)
+        if type(exe_sha)=='string'and#exe_sha==64 and type(dll_sha)=='string'and#dll_sha==64 then
+            identity.exe_base,identity.dll_base=runtime.address(exe),runtime.address(dll)
+            identity.exe_sha,identity.dll_sha=exe_sha,dll_sha
+        end
     end
+    identify()
     local watch={status='armed',captures=0,writes=0,protection_changes=0,session=session,directory=folder}
     local handled,current={},nil
     local status={state='idle'}
     local since_poll,since_beat=POLL,HEARTBEAT
     local function publish(fields)
+        identify()
         if fields then status=fields end
         status.session=session;status.heartbeat=now();status.process_id=process_id
         status.exe_sha=identity.exe_sha;status.dll_sha=identity.dll_sha
