@@ -33,6 +33,7 @@ Projectile drop is authored through its real inputs. The Verdict defaults are ve
 hd2.transaction({
     id='verdict-reduced-drop',
     target=hd2.weapon('P-113 Verdict'),
+    allow_shared=true,    -- projectile and DamageInfo rows are shared settings objects
     changes={
         {field=hd2.fields.projectile.drag, expect=1.2, value=0.3},
         {field=hd2.fields.projectile.gravity, expect=1, value=0.25},
@@ -40,12 +41,25 @@ hd2.transaction({
 })
 ```
 
+Since the coverage pass, `projectile.penetration_slowdown` (ProjectileSettings +64) is published on all 67 player
+projectile branches, and `projectile.lifetime` (+52) on the 10 whose native lifetime is non-zero. The research is
+`scripts/research_player_projectile_members.py`.
+- **Member proof.** Both members were proven on support weapons by their hidden name lengths (20 and 9) and exact
+  wiki values.
+- **Independent check.** Each player weapon's own wiki value matches too: penetration slowdown on 67/67 and
+  lifetime on 10/10. No value disagrees.
+- **Lifetime 0.** A lifetime of 0 means "no explicit limit". Setting it would add a limit rather than tune one, so
+  those branches stay unpublished.
+- **Sharing.** Like the other projectile members these are shared ProjectileSettings rows, so writes need
+  `allow_shared`.
+
 Damage lanes remain independent exact-width fields. This example changes the Verdict's standard damage and direct AP lane while leaving the other AP lanes untouched:
 
 ```lua
 hd2.transaction({
     id='verdict-damage-example',
     target=hd2.weapon('P-113 Verdict'),
+    allow_shared=true,    -- projectile and DamageInfo rows are shared settings objects
     changes={
         {field=hd2.fields.damage.player_standard_damage, expect=140, value=150},
         {field=hd2.fields.damage.ap_direct, expect=3, value=4},
