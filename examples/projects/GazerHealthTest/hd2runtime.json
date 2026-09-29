@@ -1,0 +1,1 @@
+{"format":1,"name":"GazerHealthTest","resource":"mods/hd2runtime_examples/gazer_health_test","guid":"4f855986-7160-56ac-a357-03a805060512","requires":{"bingus":{"min_release":15,"api":1},"hd2runtime":{"min_version":"0.27.0","api":1,"module":"mods/skyeshade/hd2runtime"}},"sdk":"../../../sdk","ide_library":"../../../sdk/stubs"}

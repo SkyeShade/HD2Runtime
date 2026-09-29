@@ -41,19 +41,28 @@ default zone and 38 damage-zone slots (552 bytes each, from +520).
 
 | Field | Member | Evidence | Acknowledgement |
 | --- | --- | --- | --- |
-| `entity.health` | main health (+0) | gameplay-proven (vehicles, Shield Relay) | none |
+| `entity.health` | main health (+0) | **live-proven on enemies** (EnemyHealthTest); gameplay-proven on vehicles | none (structures: `allow_unverified_effect`) |
 | `entity.armor` | default zone armor | gameplay-proven (vehicle zones) | none |
 | `entity.constitution` | +24 (len 12) | member name length + wiki constitution | `allow_unverified_effect` |
 | `entity.constitution_rate` | +28 (len 23) | member name length | `allow_unverified_effect` |
 | `entity.durable_resistance` | default zone durable share | member name length + wiki "durable %" | `allow_unverified_effect` |
 | `entity.explosive_damage_percentage` | default zone explosive share | member name length + wiki "explosion reduction" | `allow_unverified_effect` |
-| `zone.health` | zone +232 | gameplay-proven (vehicle zones) | none |
-| `zone.armor` | zone +216 | gameplay-proven (vehicle zones) | none |
+| `zone.health` | zone +232 | gameplay-proven (vehicle zones) | none (structures: `allow_unverified_effect`) |
+| `zone.armor` | zone +216 | **live-proven on enemies** (EnemyArmorZoneTest); gameplay-proven on vehicle zones | none |
 | `zone.affects_main_health` | zone +248 | gameplay-proven (vehicle zones) | none |
 | `zone.constitution` | zone +236 | member name length | `allow_unverified_effect` |
 | `zone.durable_resistance` | zone +204 | member name length + wiki "durable %" | `allow_unverified_effect` |
 | `zone.explosive_damage_percentage` | zone +324 | member name length + wiki "explosion reduction" | `allow_unverified_effect` |
 
+- **Live evidence (2026-09-29, [live evidence](live-evidence.md)).**
+  - Enemy main health: EnemyHealthTest turned Chargers fragile while Charger Behemoths stayed tanky.
+  - Enemy zone armor: EnemyArmorZoneTest let light rounds hurt the Charger's head while other plates still deflected.
+
+  Both are live-proven on enemy classes; the fields carry `liveEvidence`. Neither ever needed an acknowledgement,
+  so none was removed.
+- **Structure health.** Structure health (`entity.health` and `zone.health` on structures) is offline-proven only:
+  the StructureHealthTest result was inconclusive (see Live tests). Structure health writes therefore now require
+  `allow_unverified_effect`. Structure armor fields are unchanged.
 - **Units.** The wiki's "explosion damage reduction 25%" is the native explosive share 0.75. "Durable 75%" is the
   durable share 0.75.
 - **Sentinels are read-only.**
@@ -217,9 +226,30 @@ attack, not the class's health fields.
 - **Wiki variant names** (Hunter, Warrior, Devastator, the Hulks, Trooper, Berserker, the tanks, the Harvester).
   Their anatomy is shared by several native classes, or no class matches exactly, so they stay native-named.
 
-## Live tests (built only; not yet gameplay-confirmed)
+## Live tests (2026-09-29)
 
-- `EnemyHealthTest`: Charger main health 2400 → 240.
-- `EnemyArmorZoneTest`: Charger head armor 4 → 1.
-- `StructureHealthTest`: the base Automaton fabricator class, main health 1500 → 150.
-- `EnemyAttackDamageTest`: Spewer Bile Bombard, direct hit 500 → 50 and explosion 200 → 20 (shared by every Spewer).
+| Mod | Result |
+| --- | --- |
+| `EnemyHealthTest` (Charger health 2400 → 240) | **passed**: live-proven enemy main health |
+| `EnemyArmorZoneTest` (Charger head armor 4 → 1) | **passed**: live-proven enemy zone armor |
+| `EnemyAttackDamageTest` (Spewer Bile Bombard 500 → 50, splash 200 → 20) | **not tested**: applied cleanly, but the artillery attack could not be provoked; attack fields stay offline-proven |
+| `StructureHealthTest` (one fabricator variant 1500 → 150) | **inconclusive**: see below |
+
+**Structure test.** The write applied cleanly, but the fabricators tested seemed to need about the usual number of
+Railgun shots. Only one of the five fabricator variants was edited, and the variant cannot be identified in game, so
+this is not a failure.
+
+The offline data offers one explanation, not established. A fabricator has two health pools:
+- main health: 1500 on the armor-5 housing;
+- a fatal `insides` zone: 400 health, armor 4, forwarding 0% of its damage to main health.
+
+A fabricator destroyed through the vent dies when the `insides` pool runs out. That needs the same shots whether or
+not main health changed.
+
+Stronger tests, built and ready to import:
+- **`FabricatorHealthAllVariants`** edits all five fabricator classes at once. Shoot the armored housing, away from
+  the vent.
+- **`GazerHealthTest`** edits the Illuminate Gazer (main health 900 → 90). It is the one structure with a proven wiki
+  name, and it is easy to recognise. Shoot its eye, which forwards all its damage to main health.
+
+Structure health stays gated until one of them passes.

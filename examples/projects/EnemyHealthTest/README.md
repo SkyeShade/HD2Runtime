@@ -2,9 +2,8 @@
 
 Live test: Charger main health 2400 -> 240.
 
-What to verify: fight Chargers spawned after the mod loads, and count the hits one weapon needs to kill one through
-the body (not the head). It should take about a tenth of what a Charger Behemoth needs; the Behemoth is a separate
-class (3000 health) and stays vanilla, so it is the control. Chargers already on the map keep their health.
+**Result: live-proven (2026-09-29).** Normal Chargers became extremely easy to kill with ordinary weapons, while
+Charger Behemoths stayed tanky, so the write reached the intended class only. Enemy main health (`entity.health` on
+enemy classes) is live-proven.
 
-Main health (HealthComponent +0) is gameplay-proven on vehicles and the Shield Relay. The Charger identity is proven
-by an exact 17-zone anatomy match. This test confirms the effect on enemies. Built only.
+What to verify: fight Chargers spawned after the mod loads. Chargers already on the map may keep their health.

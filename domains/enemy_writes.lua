@@ -58,13 +58,22 @@ function M.descriptor(entry,field)
     end
     for key,value in pairs(field.backing)do backing[key]=value end
     local attack=field.attack and M.attack(entry,field.attack)
+    local acknowledgement=schema.acknowledgement
+    local reason=schema.acknowledgement and(attack and ATTACK_UNVERIFIED or HEALTH_UNVERIFIED)or nil
+    -- Structure health: offline-proven only until a structure live test passes (sdk/LiveEvidenceCatalog.json).
+    local gate=database.structureAcknowledgement
+    if entry.kind=='structure'and not acknowledgement and gate then
+        for _,id in ipairs(gate.fields)do
+            if id==field.id then acknowledgement='allow_unverified_effect';reason=gate.reason end
+        end
+    end
     return {semanticFieldId=field.id,type=schema.type,currentDefault=field.currentDefault,editable=field.editable~=false,
         reason=field.reason,target={resource='enemy',enemy=entry.name,path=field.path,zone=field.zone,
             attack=field.attack},
         backing=backing,shared=schema.shared==true or backing.uniqueOwner==false,min=schema.min,max=schema.max,
-        acknowledgement=schema.acknowledgement,
+        acknowledgement=acknowledgement,
         sharedWithClasses=attack and attack.reviewedClassesReachingRow or nil,
-        acknowledgementReason=schema.acknowledgement and(attack and ATTACK_UNVERIFIED or HEALTH_UNVERIFIED)or nil,
+        acknowledgementReason=reason,
         operationGroup=entry.semanticId..'/'..tostring(field.path)..'/'..tostring(field.zone or field.attack)}
 end
 local function find_field(entry,target,id)

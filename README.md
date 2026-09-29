@@ -47,6 +47,8 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   the damage of 85 mounted-weapon attacks (`:attack(name)`) reached through each class's own mount chain (see
   `docs/enemy-authoring.md` and `sdk/EnemyAuthoringCapabilities.json`)
 - Minefield salvo count and mines per salvo (`hd2.stratagem(name):deployed_entity():minefield()`, reductions only)
+- Central live-test evidence: every in-game test, its result and the capability families it promoted to
+  live-proven (see `docs/live-evidence.md` and `sdk/LiveEvidenceCatalog.json`)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards

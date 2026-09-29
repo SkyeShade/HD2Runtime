@@ -1,5 +1,5 @@
 {
-  "examples": 67,
+  "examples": 69,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1364,6 +1364,72 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "FabricatorHealthAllVariants": {
+      "baselineChanges": 5,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawner_factory_conscript_base",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawner_factory_conscript_standard",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawner_factory_conscript_assault",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawner_factory_conscript_airborne",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "enemy"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "spawner_factory_conscript_phalanx",
+          "mode": "transaction",
+          "path": "entity",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
     "FireModeSelect": {
       "baselineChanges": 4,
       "calls": [
@@ -1427,6 +1493,32 @@
       "usesOptions": false,
       "versionReasons": [
         "throwable target -> 0.27.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "GazerHealthTest": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "gazer-health-test",
+          "mode": "patch",
+          "path": "entity",
+          "resource": "enemy"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
         "typed writes -> 0.23.2"
       ]
     },
@@ -1688,8 +1780,7 @@
       "operations": [
         {
           "acknowledgements": [
-            "allow_shared",
-            "allow_unverified_effect"
+            "allow_shared"
           ],
           "callKind": "ensure",
           "id": "fire",
@@ -1834,8 +1925,7 @@
       "operations": [
         {
           "acknowledgements": [
-            "allow_shared",
-            "allow_unverified_effect"
+            "allow_shared"
           ],
           "callKind": "ensure",
           "id": "stun",
@@ -1861,9 +1951,7 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "minefield-salvos",
           "mode": "patch",
@@ -2286,9 +2374,7 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "sentry-detection-range",
           "mode": "patch",
@@ -2312,9 +2398,7 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": [
-            "allow_unverified_effect"
-          ],
+          "acknowledgements": {},
           "callKind": "ensure",
           "id": "turret",
           "mode": "transaction",
@@ -2446,7 +2530,9 @@
       "minVersion": "0.27.0",
       "operations": [
         {
-          "acknowledgements": {},
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
           "callKind": "ensure",
           "id": "structure-health-test",
           "mode": "patch",

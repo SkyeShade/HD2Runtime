@@ -88,8 +88,17 @@ agree on all four minefields:
   throws every item from its root node.
 
 Because there is one launch socket per mine, counts can only be reduced (range 1 to the vanilla value). More mines
-than sockets would need nodes the model does not have. Writes require `allow_unverified_effect`.
-Live test: `MinefieldSalvos` (MD-6 6 → 2 salvos, 48 → 16 mines; built only).
+than sockets would need nodes the model does not have.
+
+**`minefield.salvos` is live-proven (2026-09-29).** `MinefieldSalvos` (MD-6, 6 → 2) made the launcher fire two
+salvos and stop. It no longer needs `allow_unverified_effect`. `minefield.mines_per_salvo` was not tested and still
+does.
+
+**Deployment pattern.** In that test the mines landed in only one portion, about a quadrant, of the launcher's normal
+360-degree pattern. They were not spread thinly around the whole circle. Successive salvos cover different rotational
+sectors, so reducing the salvo count truncates the angular deployment sequence rather than evenly reducing mine
+density across 360 degrees. `minefield.mines_per_salvo` may be what thins each sector instead, but that is untested:
+it needs `allow_unverified_effect` and a live test.
 
 Still read-only or unavailable:
 - **Mine spacing, trigger radius and arming time.** The thrower's launch floats (e.g. 5/15, 7/17 and 7/15.5, likely
@@ -202,9 +211,14 @@ distance at which the sentry acquires targets.
 - The Flame Sentry (50) and Tesla Tower (25) expose the same member, but their engagement distance is also bounded
   by their weapon's reach.
 
-All turret and targeting writes need `allow_unverified_effect=true`: the values are proven, but no live write has
-confirmed the gameplay effect yet. Values are range-checked (turn speed 1–720, pitch −90…90, yaw −180…180, range
-1–500 m).
+**Live-proven (2026-09-29; see [live evidence](live-evidence.md)).**
+- `SentryTurnSpeed` made the AC-8 turn dramatically faster.
+- `SentryDetectionRange` made the MG-43 hold fire until enemies were very close.
+
+`turret.yaw_speed`, `turret.pitch_speed` and `targeting.range` no longer need `allow_unverified_effect` on any sentry.
+Their fields carry a `liveEvidence` reference. The aim limits (`turret.pitch_min/max`, `turret.yaw_min/max`) were not
+tested and still need `allow_unverified_effect=true`. Values are range-checked (turn speed 1–720, pitch −90…90, yaw
+−180…180, range 1–500 m).
 
 `payload.lifetime` is published on every sentry and the Tesla Tower. It is the HellpodPayload member
 ShieldRelayImprovements proved in gameplay; the sentry values equal the wiki's lifetime (150 s, or 180 s for the
@@ -219,7 +233,8 @@ mortars and laser sentry).
 These are consistent with search intervals and aim tolerances, but no table or other independent evidence names
 them. Sentry search, retarget and retention intervals therefore stay unmapped.
 
-Live tests: `SentryTurnSpeed` (Autocannon Sentry 20 → 120/90 °/s) and `SentryDetectionRange` (MG-43 75 → 25 m).
+Live tests: `SentryTurnSpeed` (Autocannon Sentry 20 → 120/90 °/s) and `SentryDetectionRange` (MG-43 75 → 25 m), both
+passed. No sentry timing member has independent evidence, so no search-interval or retarget-delay test exists yet.
 
 ## Vehicle and backpack call-in definitions
 

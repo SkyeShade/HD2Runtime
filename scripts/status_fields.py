@@ -58,14 +58,25 @@ def slot_specs(damage_type: int) -> list[dict]:
     return specs
 
 
-def type_extra(spec: dict) -> dict:
-    """Descriptor keys every status slot field carries (added to the generated field)."""
+def projectile_live_evidence() -> dict | None:
+    """Live evidence for status references on player / support projectile direct-hit rows (LiberatorFireStatus,
+    MaxigunStun); None until that family is live-proven in schemas/live_evidence.json."""
+    import live_evidence
+    return live_evidence.proven('weapon_projectile_status_reference')
+
+
+def type_extra(spec: dict, live: dict | None = None) -> dict:
+    """Descriptor keys every status slot field carries (added to the generated field). `live` is the live
+    evidence of a promoted family: such fields need no acknowledgement."""
     catalog = load()
     allowed = list(catalog['attachable'])
     if spec['role'] == 'type' and spec['current'] not in allowed and spec['current'] != 'none':
         allowed.append(spec['current'])
-    extra = {'statusSlot': spec['slot'], 'statusAttach': spec['attach'], 'acknowledgement': 'allow_unverified_effect',
-        'acknowledgementReason': UNVERIFIED}
+    extra = {'statusSlot': spec['slot'], 'statusAttach': spec['attach']}
+    if live:
+        extra['liveEvidence'] = live
+    else:
+        extra.update(acknowledgement='allow_unverified_effect', acknowledgementReason=UNVERIFIED)
     if spec['role'] == 'type':
         extra['allowedValues'] = allowed
         # 'none' clears a slot only where that keeps the slots packed.

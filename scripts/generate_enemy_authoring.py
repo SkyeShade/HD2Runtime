@@ -20,6 +20,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
+import live_evidence  # noqa: E402  central in-game test evidence (schemas/live_evidence.json)
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/enemy-authoring-F5FEE03DCFDB.json'
@@ -163,6 +164,33 @@ MAIN_KEYS = {'entity.health': ('main', 'health'), 'entity.armor': ('default', 'a
 ZONE_KEYS = {'zone.health': 'health', 'zone.armor': 'armor', 'zone.affects_main_health': 'affectsMainHealth',
     'zone.constitution': 'constitution', 'zone.durable_resistance': 'durableResistance',
     'zone.explosive_damage_percentage': 'explosiveDamagePercentage'}
+# Live evidence (schemas/live_evidence.json): families proven in game on enemies, and structure health, whose live
+# test was inconclusive and which therefore requires allow_unverified_effect on structures.
+LIVE_FAMILIES = ('enemy_main_health', 'enemy_zone_armor')
+STRUCTURE_UNVERIFIED = ('Structure health is offline-proven only: the in-game StructureHealthTest was inconclusive '
+    '(see sdk/LiveEvidenceCatalog.json), so writes require allow_unverified_effect until a structure test passes.')
+
+
+def live_by_field():
+    """{field id: (evidence, kinds)} for the live-proven enemy families."""
+    result = {}
+    for name in LIVE_FAMILIES:
+        evidence = live_evidence.proven(name)
+        if evidence:
+            entry = live_evidence.family(name)
+            for field_id in entry['fields']:
+                result[field_id] = (evidence, entry.get('kinds'))
+    return result
+
+
+def structure_gate():
+    """Fields that require allow_unverified_effect on structures (empty once structure health is live-proven)."""
+    entry = live_evidence.family('structure_health')
+    if entry['status'] == 'live_proven' or entry.get('acknowledgementAdded') != 'allow_unverified_effect':
+        return []
+    return list(entry['fields'])
+
+
 SENTINEL_REASONS = {'zone.health': 'This zone uses the main health pool (-1); giving it a pool of its own changes its '
     'behaviour and is not authored.',
     'zone.explosive_damage_percentage': 'This zone carries the not-set sentinel (explosions resolve through another '
@@ -207,6 +235,7 @@ def outputs():
             'acknowledgement': None if field_id in PROVEN else 'allow_unverified_effect',
             **({'shared': True} if field_id in SETTINGS_FIELDS else {})}
     enemies, aliases, public_classes, instances = {}, {}, [], []
+    live, gated = live_by_field(), structure_gate()
     for item in sorted(research['classes'], key=lambda c: c['className']):
         name = item['wikiName'] or item['className']
         if name in enemies:
@@ -286,6 +315,10 @@ def outputs():
                     sharedConsumers=attack['reviewedClassesReachingRow'], dynamicConsumersPossible=True)
             if field.get('reason'):
                 instance['reason'] = field['reason']
+            if field['id'] in live and item['kind'] in (live[field['id']][1] or [item['kind']]) and field['editable']:
+                instance['liveEvidence'] = live[field['id']][0]
+            if item['kind'] == 'structure' and field['id'] in gated and field['editable']:
+                instance.update(acknowledgement='allow_unverified_effect', acknowledgementReason=STRUCTURE_UNVERIFIED)
             instances.append(instance)
         public_classes.append({'name': name, 'className': item['className'], 'wikiName': item['wikiName'],
             'wikiCandidates': item['wikiCandidates'], 'wikiCandidateEvidence': item['wikiCandidateEvidence'],
@@ -308,7 +341,8 @@ def outputs():
                 'weaponPath': (next((s['weaponPath'] for s in attack_classes[item['className']]['slots']
                     if s['slot'] == a['slot']), None))} for a in attacks]})
     runtime = {'schema': runtime_schema, 'record': {'component': COMPONENT, 'zoneBase': ZONE_BASE,
-        'zoneStride': ZONE_STRIDE}, 'enemies': enemies, 'aliases': dict(sorted(aliases.items()))}
+        'zoneStride': ZONE_STRIDE}, 'enemies': enemies, 'aliases': dict(sorted(aliases.items())),
+        'structureAcknowledgement': {'fields': gated, 'reason': STRUCTURE_UNVERIFIED}}
     runtime = migration_overlay.apply('enemy_authoring', runtime)
     summary = dict(research['summary'], fieldInstances=len(instances),
         writableFieldInstances=sum(1 for i in instances if i['editable']),
@@ -335,6 +369,8 @@ def outputs():
                 'acknowledgement': runtime_schema[field_id]['acknowledgement'],
                 'acknowledgementReason': None if field_id in PROVEN else (ATTACK_UNVERIFIED if field_id in SETTINGS_FIELDS else UNVERIFIED),
                 'evidence': 'gameplay_proven_member' if field_id in PROVEN else ('mount_chain_structural' if field_id in SETTINGS_FIELDS else 'schema_wiki_correlated'),
+                **({'liveEvidence': dict(live[field_id][0], appliesToKinds=live[field_id][1])} if field_id in live else {}),
+                **({'acknowledgementByKind': {'structure': 'allow_unverified_effect'}} if field_id in gated else {}),
                 'range': [runtime_schema[field_id]['min'], runtime_schema[field_id]['max']]}
                 for field_id, item in schema.items()},
             'sentinels': {'zone.health = -1': 'the zone uses the main health pool (read-only)',

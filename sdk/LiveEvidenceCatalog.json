@@ -1,0 +1,353 @@
+{
+ "contract": "hd2runtime.live_evidence.v1",
+ "schemaVersion": 1,
+ "hd2RuntimeVersion": "0.27.0",
+ "build": "F5FEE03DCFDB",
+ "statusLevels": {
+  "live_proven": "A user-run in-game test showed the intended effect; the acknowledgement requirement is removed for exactly the family scope.",
+  "not_tested": "The write applied cleanly in game but the effect was not observed; stays offline-proven with its acknowledgement.",
+  "inconclusive": "The write applied cleanly but the observation cannot confirm or refute the effect; stays offline-proven, acknowledgement required."
+ },
+ "summary": {
+  "sessions": 1,
+  "tests": 9,
+  "passed": 7,
+  "families": {
+   "live_proven": [
+    "enemy_main_health",
+    "enemy_zone_armor",
+    "minefield_salvos",
+    "sentry_targeting_range",
+    "sentry_turret_turn_speed",
+    "weapon_projectile_status_reference"
+   ],
+   "not_tested": [
+    "enemy_attack_damage"
+   ],
+   "inconclusive": [
+    "structure_health"
+   ]
+  }
+ },
+ "families": {
+  "sentry_turret_turn_speed": {
+   "status": "live_proven",
+   "domain": "stratagem",
+   "fields": [
+    "turret.yaw_speed",
+    "turret.pitch_speed"
+   ],
+   "scope": "Every turreted sentry: the same TurretComponent members, equal to the wiki turn-speed tables on all nine.",
+   "tests": [
+    "SentryTurnSpeed"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect",
+   "notPromoted": [
+    "turret.pitch_min",
+    "turret.pitch_max",
+    "turret.yaw_min",
+    "turret.yaw_max"
+   ]
+  },
+  "sentry_targeting_range": {
+   "status": "live_proven",
+   "domain": "stratagem",
+   "fields": [
+    "targeting.range"
+   ],
+   "scope": "Every sentry with a SensorEye range: the same SensorEyeComponent member, equal to the seven wiki-stated ranges.",
+   "tests": [
+    "SentryDetectionRange"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect"
+  },
+  "minefield_salvos": {
+   "status": "live_proven",
+   "domain": "stratagem",
+   "fields": [
+    "minefield.salvos"
+   ],
+   "scope": "All four minefields: the same ThrowerComponent slot-0 member, proven by the wiki sentence, the type library and the launch sockets. Reduce-only is kept.",
+   "tests": [
+    "MinefieldSalvos"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect",
+   "behaviour": "Salvos are sequential launcher sweeps over different rotational sectors; reducing the count truncates the angular deployment (fewer sectors covered), it does not thin mines evenly around 360 degrees.",
+   "notPromoted": [
+    "minefield.mines_per_salvo"
+   ]
+  },
+  "weapon_projectile_status_reference": {
+   "status": "live_proven",
+   "domain": "player_weapon, support_weapon",
+   "fields": [
+    "damage.status_<k>_type",
+    "damage.status_<k>_strength"
+   ],
+   "scope": "Status slot references (attach, swap, clear) on the direct-hit DamageInfo row of player and support weapon projectile attacks. Every write still re-proves the status identity from the game's own status table.",
+   "tests": [
+    "LiberatorFireStatus",
+    "MaxigunStun"
+   ],
+   "acknowledgementRemoved": "allow_unverified_effect",
+   "observations": [
+    "Stun Medium held targets about 1-2 s instead of the catalogued 3 s; cause not established."
+   ],
+   "notPromoted": [
+    "status slots on explosion, spray, beam, arc and melee DamageInfo rows",
+    "status slots on vehicle mounted weapons"
+   ]
+  },
+  "enemy_main_health": {
+   "status": "live_proven",
+   "domain": "enemy",
+   "fields": [
+    "entity.health"
+   ],
+   "kinds": [
+    "enemy"
+   ],
+   "scope": "Main health of every enemy class (not structures): the gameplay-proven HealthComponent member, now observed on enemies.",
+   "tests": [
+    "EnemyHealthTest"
+   ],
+   "acknowledgementRemoved": null
+  },
+  "enemy_zone_armor": {
+   "status": "live_proven",
+   "domain": "enemy",
+   "fields": [
+    "zone.armor"
+   ],
+   "kinds": [
+    "enemy"
+   ],
+   "scope": "Damage-zone armor of every enemy class (not structures).",
+   "tests": [
+    "EnemyArmorZoneTest"
+   ],
+   "acknowledgementRemoved": null
+  },
+  "enemy_attack_damage": {
+   "status": "not_tested",
+   "domain": "enemy",
+   "fields": [
+    "attack DamageInfo, ProjectileSettings and ExplosionSettings fields"
+   ],
+   "scope": "Enemy mounted-weapon attacks.",
+   "tests": [
+    "EnemyAttackDamageTest"
+   ],
+   "acknowledgementRemoved": null
+  },
+  "structure_health": {
+   "status": "inconclusive",
+   "domain": "enemy",
+   "fields": [
+    "entity.health",
+    "zone.health"
+   ],
+   "kinds": [
+    "structure"
+   ],
+   "scope": "Health of enemy structures. Writes require allow_unverified_effect until a structure live test passes.",
+   "tests": [
+    "StructureHealthTest"
+   ],
+   "acknowledgementRemoved": null,
+   "acknowledgementAdded": "allow_unverified_effect",
+   "analysis": "Offline data offers one explanation, not established: the fabricator's fatal 'insides' zone has its own 400-health pool and forwards 0% of its damage to main health, so a fabricator destroyed through that zone needs the same shots whether or not main health changed.",
+   "nextTests": [
+    "FabricatorHealthAllVariants",
+    "GazerHealthTest"
+   ]
+  }
+ },
+ "sessions": [
+  {
+   "id": "coverage-pass-2026-09-29",
+   "date": "2026-09-29",
+   "runtime": "HD2Runtime 0.27.0 coverage test build (commit c99d338, build/test-artifacts/coverage-build)",
+   "logSignals": [
+    "target resolved",
+    "APPLIED",
+    "non_target_bytes_unchanged=true",
+    "protection_restored=true",
+    "ensure steady=byte-check"
+   ],
+   "tests": [
+    {
+     "mod": "SentryTurnSpeed",
+     "operation": "sentry-turn-speed",
+     "result": "PASS",
+     "family": "sentry_turret_turn_speed",
+     "writes": [
+      {
+       "target": "A/AC-8 Autocannon Sentry / turret",
+       "field": "turret.yaw_speed",
+       "from": 20,
+       "to": 120
+      },
+      {
+       "target": "A/AC-8 Autocannon Sentry / turret",
+       "field": "turret.pitch_speed",
+       "from": 20,
+       "to": 90
+      }
+     ],
+     "observation": "The AC-8 turns dramatically faster; the difference is very obvious in gameplay."
+    },
+    {
+     "mod": "SentryDetectionRange",
+     "operation": "sentry-detection-range",
+     "result": "PASS",
+     "family": "sentry_targeting_range",
+     "writes": [
+      {
+       "target": "A/MG-43 Machine Gun Sentry / targeting",
+       "field": "targeting.range",
+       "from": 75,
+       "to": 25
+      }
+     ],
+     "observation": "The MG-43 ignores enemies at normal sentry distances and begins targeting only when they are very close."
+    },
+    {
+     "mod": "MinefieldSalvos",
+     "operation": "minefield-salvos",
+     "result": "PASS",
+     "family": "minefield_salvos",
+     "writes": [
+      {
+       "target": "MD-6 Anti-Personnel Minefield / minefield",
+       "field": "minefield.salvos",
+       "from": 6,
+       "to": 2
+      }
+     ],
+     "observation": "The launcher deployed mines into only one portion (quadrant) of its normal 360-degree pattern instead of distributing fewer mines evenly around the circle. Reducing the salvo count truncates the normal angular deployment sequence: successive salvos cover different rotational sectors."
+    },
+    {
+     "mod": "LiberatorFireStatus",
+     "operation": "liberator-fire-status",
+     "result": "PASS",
+     "family": "weapon_projectile_status_reference",
+     "writes": [
+      {
+       "target": "AR-23 Liberator / primary projectile damage",
+       "field": "damage.status_1_type",
+       "from": "none",
+       "to": "fire"
+      },
+      {
+       "target": "AR-23 Liberator / primary projectile damage",
+       "field": "damage.status_1_strength",
+       "from": 0,
+       "to": 2
+      }
+     ],
+     "observation": "Liberator bullets set enemies on fire; the ballistic attack otherwise behaved normally."
+    },
+    {
+     "mod": "MaxigunStun",
+     "operation": "maxigun-stun",
+     "result": "PASS",
+     "family": "weapon_projectile_status_reference",
+     "writes": [
+      {
+       "target": "M-1000 Maxigun / primary projectile damage",
+       "field": "damage.status_1_type",
+       "from": "none",
+       "to": "stun_medium"
+      },
+      {
+       "target": "M-1000 Maxigun / primary projectile damage",
+       "field": "damage.status_1_strength",
+       "from": 0,
+       "to": 2
+      }
+     ],
+     "observation": "Maxigun bullets stun enemies. The observed stun lasted about 1-2 s rather than the catalogued 3 s of Stun Medium. The cause is not established; see research/status-susceptibility-F5FEE03DCFDB.json. Status duration semantics are unchanged."
+    },
+    {
+     "mod": "EnemyHealthTest",
+     "operation": "enemy-health-test",
+     "result": "PASS",
+     "family": "enemy_main_health",
+     "writes": [
+      {
+       "target": "Charger / entity",
+       "field": "entity.health",
+       "from": 2400,
+       "to": 240
+      }
+     ],
+     "observation": "Normal Chargers became extremely easy to kill with ordinary weapons; Charger Behemoths stayed tanky, so the write reached the intended class only."
+    },
+    {
+     "mod": "EnemyArmorZoneTest",
+     "operation": "enemy-armor-zone-test",
+     "result": "PASS",
+     "family": "enemy_zone_armor",
+     "writes": [
+      {
+       "target": "Charger / damage_zone zone_0 (Head)",
+       "field": "zone.armor",
+       "from": 4,
+       "to": 1
+      }
+     ],
+     "observation": "Liberator and Stalwart light-penetration shots damaged the Charger's head instead of bouncing; other armored areas still behaved armored."
+    },
+    {
+     "mod": "EnemyAttackDamageTest",
+     "operation": "enemy-attack-damage-test",
+     "result": "NOT_TESTED",
+     "family": "enemy_attack_damage",
+     "writes": [
+      {
+       "target": "Rupture Spewer / attack slot_1 (Bile Bombard)",
+       "field": "damage.standard_damage",
+       "from": 500,
+       "to": 50
+      },
+      {
+       "target": "Rupture Spewer / attack slot_1 (Bile Bombard)",
+       "field": "damage.durable_damage",
+       "from": 500,
+       "to": 50
+      },
+      {
+       "target": "Rupture Spewer / attack slot_1_impact",
+       "field": "damage.standard_damage",
+       "from": 200,
+       "to": 20
+      },
+      {
+       "target": "Rupture Spewer / attack slot_1_impact",
+       "field": "damage.durable_damage",
+       "from": 200,
+       "to": 20
+      }
+     ],
+     "observation": "Applied cleanly, but the Spewer artillery attack could not be reliably provoked in play."
+    },
+    {
+     "mod": "StructureHealthTest",
+     "operation": "structure-health-test",
+     "result": "INCONCLUSIVE",
+     "family": "structure_health",
+     "writes": [
+      {
+       "target": "spawner_factory_conscript_base / entity",
+       "field": "entity.health",
+       "from": 1500,
+       "to": 150
+      }
+     ],
+     "observation": "Fabricators tested appeared to need roughly the usual number of Railgun shots. Only one of five fabricator variants was edited and the variant cannot be identified in game, so this is not a failure."
+    }
+   ]
+  }
+ ]
+}

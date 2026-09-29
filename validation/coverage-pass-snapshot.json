@@ -11,7 +11,8 @@
       "brokenMountChain": 1,
       "range": 1,
       "sentinel": 1,
-      "staleExpect": 1
+      "staleExpect": 1,
+      "structureAcknowledgement": 1
     },
     "roundTrips": {
       "bile_bombard_explosion_damage": {
@@ -58,8 +59,9 @@
   },
   "fixtureFallback": "disabled",
   "minefield": {
+    "liveProvenWithoutAcknowledgement": "minefield.salvos",
     "rejections": {
-      "acknowledgement": 2,
+      "acknowledgement": 1,
       "increase": 2
     },
     "roundTrips": {
@@ -116,8 +118,9 @@
         "slot": 3
       }
     },
+    "liveProvenWithoutAcknowledgement": 2,
     "rejections": {
-      "acknowledgement": 2,
+      "acknowledgement": 1,
       "middleSlotClear": 1,
       "notAttachable": 1,
       "packingHole": 1,

@@ -2,13 +2,12 @@
 
 Live test: MD-6 Anti-Personnel Minefield salvos 6 -> 2 (48 mines -> 16).
 
-What to verify: call in the MD-6 on open, flat ground and count the launcher's salvos. Vanilla, it fires six
-salvos of eight mines, 48 in total. With this mod it should fire two salvos (16 mines) and then stop. The other three
-minefields stay vanilla, so they are the control.
+**Result: live-proven (2026-09-29).** The launcher fired two salvos and stopped. `minefield.salvos` no longer needs
+`allow_unverified_effect` on any of the four minefields; `minefield.mines_per_salvo` was not tested and still does.
+Counts stay reduce-only.
 
-ThrowerComponent slot 0 +40 matches three independent proofs:
-- the wiki's "six salvos of eight mines" sentence and its structured Salvos field;
-- a typed u32 member;
-- the launcher's 48 distinct launch sockets (salvos x mines per salvo).
+Observed behaviour: the mines landed in only one portion (about a quadrant) of the launcher's normal 360-degree
+pattern, not spread thinly around the whole circle. Successive salvos cover different rotational sectors, so
+reducing the salvo count truncates the angular deployment sequence rather than reducing density evenly.
 
-Counts can only be reduced. Built only.
+What to verify: call in the MD-6 on open, flat ground and watch where the mines land.

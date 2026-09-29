@@ -71400,8 +71400,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.pitch_speed",
@@ -71455,8 +71461,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.pitch_min",
@@ -71730,8 +71742,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"Like most direct fire sentries, the MG-43 Sentry has a range of 75m\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_deployed_entity_main:payload.lifetime",
@@ -73492,8 +73510,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.pitch_speed",
@@ -73547,8 +73571,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.pitch_min",
@@ -73822,8 +73852,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Gatling Sentry has a range of 75m\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_deployed_entity_main:payload.lifetime",
@@ -75585,8 +75621,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.pitch_speed",
@@ -75640,8 +75682,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.pitch_min",
@@ -75915,8 +75963,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Autocannon Sentry has a maximum range of 100m\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_deployed_entity_main:payload.lifetime",
@@ -78265,8 +78319,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.pitch_speed",
@@ -78320,8 +78380,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.pitch_min",
@@ -78595,8 +78661,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_deployed_entity_main:payload.lifetime",
@@ -81158,8 +81230,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.pitch_speed",
@@ -81213,8 +81291,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.pitch_min",
@@ -81488,8 +81572,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"with a 100m engagement distance\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_deployed_entity_main:payload.lifetime",
@@ -83839,8 +83929,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_deployed_entity_main:payload.lifetime",
@@ -85602,8 +85698,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.pitch_speed",
@@ -85657,8 +85759,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.pitch_min",
@@ -85932,8 +86040,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The EMS mortar has a range of 125 meters\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_deployed_entity_main:payload.lifetime",
@@ -89434,8 +89548,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.pitch_speed",
@@ -89489,8 +89609,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.pitch_min",
@@ -89764,8 +89890,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Laser Sentry has a targeting range of 50m\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_deployed_entity_main:payload.lifetime",
@@ -91544,8 +91676,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.pitch_speed",
@@ -91599,8 +91737,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.pitch_min",
@@ -91874,8 +92018,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_deployed_entity_main:payload.lifetime",
@@ -93649,8 +93799,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.pitch_speed",
@@ -93704,8 +93860,14 @@
           "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
           "min": 1,
           "max": 720,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_turret_turn_speed",
+            "tests": [
+              "SentryTurnSpeed"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.pitch_min",
@@ -93979,8 +94141,14 @@
           "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"potential maximum targeting range of 125-meters\")",
           "min": 1,
           "max": 500,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "sentry_targeting_range",
+            "tests": [
+              "SentryDetectionRange"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_deployed_entity_main:payload.lifetime",
@@ -96730,8 +96898,14 @@
           "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
           "min": 1,
           "max": 6,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "minefield_salvos",
+            "tests": [
+              "MinefieldSalvos"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:md_6_anti_personnel_minefield:md_6_anti_personnel_minefield_minefield_main:minefield.mines_per_salvo",
@@ -97598,7 +97772,8 @@
         "salvos": 6,
         "minesPerSalvo": 8,
         "launchSockets": 48,
-        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have",
+        "deploymentPattern": "Salvos are sequential launcher sweeps over different rotational sectors; reducing the count truncates the angular deployment (fewer sectors covered), it does not thin mines evenly around 360 degrees."
       }
     },
     "MD-I4 Incendiary Mines": {
@@ -97870,8 +98045,14 @@
           "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
           "min": 1,
           "max": 6,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "minefield_salvos",
+            "tests": [
+              "MinefieldSalvos"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:md_i4_incendiary_mines:md_i4_incendiary_mines_minefield_main:minefield.mines_per_salvo",
@@ -98933,7 +99114,8 @@
         "salvos": 6,
         "minesPerSalvo": 8,
         "launchSockets": 48,
-        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have",
+        "deploymentPattern": "Salvos are sequential launcher sweeps over different rotational sectors; reducing the count truncates the angular deployment (fewer sectors covered), it does not thin mines evenly around 360 degrees."
       }
     },
     "MD-17 Anti-Tank Mines": {
@@ -99205,8 +99387,14 @@
           "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
           "min": 1,
           "max": 6,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "minefield_salvos",
+            "tests": [
+              "MinefieldSalvos"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:md_17_anti_tank_mines:md_17_anti_tank_mines_minefield_main:minefield.mines_per_salvo",
@@ -100043,7 +100231,8 @@
         "salvos": 6,
         "minesPerSalvo": 3,
         "launchSockets": 18,
-        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have",
+        "deploymentPattern": "Salvos are sequential launcher sweeps over different rotational sectors; reducing the count truncates the angular deployment (fewer sectors covered), it does not thin mines evenly around 360 degrees."
       }
     },
     "FX-12 Shield Generator Relay": {
@@ -102694,8 +102883,14 @@
           "provenance": "ThrowerComponent slot-0 member equal to the wiki deployment sentence and structured salvo/capacity fields; salvos x mines per salvo equals the launcher distinct launch sockets",
           "min": 1,
           "max": 6,
-          "acknowledgement": "allow_unverified_effect",
-          "acknowledgementReason": "ThrowerComponent slot-0 salvo count and mines per salvo equal the wiki deployment sentence (\"six salvos of eight/three mines\") on all four minefields and the launcher one-socket-per-mine array, but no live write has confirmed the gameplay effect yet."
+          "liveEvidence": {
+            "status": "live_proven",
+            "family": "minefield_salvos",
+            "tests": [
+              "MinefieldSalvos"
+            ],
+            "date": "2026-09-29"
+          }
         },
         {
           "instanceKey": "stratagem:md_8_gas_mines:md_8_gas_mines_minefield_main:minefield.mines_per_salvo",
@@ -103902,7 +104097,8 @@
         "salvos": 6,
         "minesPerSalvo": 8,
         "launchSockets": 48,
-        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have"
+        "increase": "blocked: the launcher has one launch socket per mine, so more mines than sockets would need nodes the model does not have",
+        "deploymentPattern": "Salvos are sequential launcher sweeps over different rotational sectors; reducing the count truncates the angular deployment (fewer sectors covered), it does not thin mines evenly around 360 degrees."
       }
     },
     "E/AT-12 Anti-Tank Emplacement": {

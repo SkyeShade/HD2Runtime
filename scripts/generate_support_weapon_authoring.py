@@ -248,7 +248,9 @@ def build(catalog_path=CATALOG):
             backing.update(status_fields.backing_extra(spec))
             slot_field=make_field(field_id,spec['current'],backing,target)
             if spec['role']=='type':slot_field['type']='status_reference'
-            slot_field.update(status_fields.type_extra(spec))
+            # Direct-hit projectile rows are live-proven (schemas/live_evidence.json); other rows stay gated.
+            slot_field.update(status_fields.type_extra(spec,status_fields.projectile_live_evidence()
+                if prefix=='damage' and linkage=='projectile_damage' else None))
             fields.append(slot_field)
 
     reticle_rows,reticle_research=reticle_fields.load()
@@ -780,6 +782,7 @@ def build(catalog_path=CATALOG):
                     'allowSharedRequired':object_meta['requiresSharedAcknowledgement'],
                     'acknowledgement':field.get('acknowledgement'),
                     'acknowledgementReason':field.get('acknowledgementReason')},
+                **({'liveEvidence':field['liveEvidence']}if field.get('liveEvidence')else{}),
                 'resolution':resolution_metadata(weapon_name,field),
                 'provenance':{'identity':'unique reviewed support-weapon runtime identity',
                     'semantics':'shared player/support field schema',
