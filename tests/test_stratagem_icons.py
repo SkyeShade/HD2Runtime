@@ -60,7 +60,8 @@ class StratagemIconIdentityTests(unittest.TestCase):
                 self.assertTrue(icon['reason'])
                 self.assertEqual(icon['blocker'], {'kind': icon['state'], 'reason': icon['reason']})
         self.assertEqual(states, self.catalog['summary']['uiIconStates'])
-        self.assertEqual(states, {'resolved': 84, 'empty_template': 4, 'unbound': 5, 'no_native_root': 2})
+        # Resupply's StratagemRessuply template has no vector artwork in this build (empty_template).
+        self.assertEqual(states, {'resolved': 84, 'empty_template': 5, 'unbound': 5, 'no_native_root': 2})
         keys = [x['uiIcon']['iconKey'] for x in self.catalog['stratagems'] if x['uiIcon']['state'] == 'resolved']
         self.assertEqual(len(keys), len(set(keys)))
 

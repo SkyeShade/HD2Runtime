@@ -352,7 +352,56 @@ function stats.poll(source)
 end
 M.stats=events.register_source(stats)
 
+------------------------------------------------------------------------------------------------------ weapons --
+-- weapon_equipped / weapon_unequipped / weapon_changed: what the local player's avatar holds (its wielder slot 0,
+-- research/event-wielder-F5FEE03DCFDB.json), checked 10 times per second. The game's weapon switch writes the
+-- selection and slot 0 in one call, so a check never sees a half-switched state. A new avatar (respawn) holds
+-- nothing until the game wields its first item; death removes the wielder (weapon_unequipped). What is held when
+-- Runtime starts watching is the baseline (no event).
+local weapons={name='weapons',events={'weapon_equipped','weapon_unequipped','weapon_changed'},depends={'game_state'},
+    interval=0.1}
+function weapons.start(source)
+    local ok,why=open(source)
+    if not ok then return nil,why end
+    source.next=0;source.current=nil;source.key=nil;source.first=true
+    return true
+end
+function weapons.stop(source)source.world=nil end
+local function held_snapshot(held,avatar)
+    if not(held and held.entity)then return nil end
+    return {name=world_module.source_name(held.type),type=held.type,entity_id=held.entity,slot=held.slot,
+        slot_proven=held.slot_proven,selection=held.selection,avatar_id=avatar}
+end
+function weapons.poll(source)
+    local now=events.state.now
+    if now<source.next then return end
+    source.next=now+weapons.interval
+    local world=source.world
+    local player
+    for _,item in ipairs(world_module.players(world,true))do if item['local']then player=item end end
+    local avatar=player and player.avatar
+    local current
+    if avatar then
+        local held=world_module.equipped(world,avatar)
+        if not held then return end   -- unreadable this tick: keep the last stable state
+        current=held_snapshot(held,avatar)
+    end
+    local previous,previous_key=source.current,source.key
+    local key=current and(current.avatar_id..':'..current.entity_id..':'..current.type)or''
+    source.current,source.key=current,key
+    if source.first then source.first=false;return end
+    if key==previous_key or not player then return end
+    local handle=handles.player(player)
+    if previous then
+        local why=not current and(avatar==previous.avatar_id and'emptied'or'avatar_changed')or'switched'
+        events.queue('weapon_unequipped',{player=handle,local_player=true,weapon=previous,reason=why})
+    end
+    if current then events.queue('weapon_equipped',{player=handle,local_player=true,weapon=current})end
+    events.queue('weapon_changed',{player=handle,local_player=true,previous=previous,current=current})
+end
+M.weapons=events.register_source(weapons)
+
 function M.reset_for_tests()
-    for _,source in ipairs({M.game_state,M.players,M.health,M.stats})do source.world=nil;source.known=nil end
+    for _,source in ipairs({M.game_state,M.players,M.health,M.stats,M.weapons})do source.world=nil;source.known=nil end
 end
 return M

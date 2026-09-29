@@ -67,6 +67,8 @@ image(GAME,natives.source.imageSize);image(EXE,natives.source.exeImageSize)
 for _,pin in ipairs(natives.pins)do write((pin.module=='exe'and EXE or GAME)+pin.rva,unhex(pin.hex))end
 write(GAME+natives.heal.rva,unhex(natives.heal.prologue))
 write(GAME+X.rva,unhex(X.prologue))
+write(GAME+natives.projectile.rva,unhex(natives.projectile.prologue))
+write(GAME+natives.status.rva,unhex(natives.status.prologue))
 
 -- Game-side managers.
 local health=alloc(0x2000)
@@ -111,6 +113,52 @@ write(registry+E.unitObjects,u64(unit_objects))
 local vtable=alloc(0x100)
 write(vtable+0xE8,u64(EXE+E.sceneGraphMethod))
 write(EXE+E.sceneGraphMethod,unhex(E.sceneGraphMethodBytes))
+
+-- Held items: the wielder manager (entity -> instance; slot 0 = the entity in hand), the inventory manager (the
+-- selection) and the entity map (entity -> descriptor carrying its type). Hashes use multiplier 1 and empty key 0.
+local WI=natives.wielder
+local function map_put(buckets,capacity,key,value)
+    local slot=key%capacity
+    while read(buckets+slot*8,4)~=u32(0)and read(buckets+slot*8,4)~=u32(key)do slot=(slot+1)%capacity end
+    write(buckets+slot*8,u32(key)..u32(value))
+end
+local function map_remove(buckets,capacity,key)
+    for slot=0,capacity-1 do if read(buckets+slot*8,4)==u32(key)then write(buckets+slot*8,u32(0)..u32(0))end end
+end
+local wielder=alloc(0x100)
+write(GAME+WI.wielder,u64(wielder))
+local wielder_buckets=alloc(64*8)
+write(wielder+WI.wielderHash,u64(wielder_buckets)..u32(64)..u32(0)..u32(1))
+local wielder_slots=alloc(16*WI.stride)
+write(wielder+WI.slots,u64(wielder_slots))
+local inventory=alloc(0x100)
+write(GAME+WI.inventory,u64(inventory))
+local inventory_buckets=alloc(64*8)
+write(inventory+WI.inventoryHash,u64(inventory_buckets)..u32(64)..u32(0)..u32(1))
+local inventory_records=alloc(16*WI.recordStride)
+write(inventory+WI.records,u64(inventory_records))
+local entity_buckets=alloc(256*8)
+write(entities+WI.entityMap,u64(entity_buckets)..u32(256)..u32(0)..u32(1))
+local instances,instance_count,next_descriptor={},0,1
+-- The avatar's wielder instance holds `item` (0 = nothing) of type type_hex, with inventory selection `selection`.
+function W.hold(avatar,item,type_hex,selection)
+    local instance=instances[avatar]
+    if not instance then
+        instance=instance_count;instance_count=instance_count+1;instances[avatar]=instance
+        map_put(wielder_buckets,64,avatar,instance);map_put(inventory_buckets,64,avatar,instance)
+    end
+    write(wielder_slots+instance*WI.stride,u32(item or 0))
+    write(inventory_records+instance*WI.recordStride+WI.selection,u32(selection or 0))
+    if item and item~=0 and type_hex then
+        map_put(entity_buckets,256,item,next_descriptor)
+        write(entities+WI.descriptors+next_descriptor*WI.descriptorStride,type_bytes(type_hex)..u32(item))
+        next_descriptor=next_descriptor+1
+    end
+end
+-- The game removed the avatar's wielder and inventory records (death).
+function W.drop_wielder(avatar)
+    map_remove(wielder_buckets,64,avatar);map_remove(inventory_buckets,64,avatar);instances[avatar]=nil
+end
 
 -- Mission stats: one player record (index 0) with an empty main table and one source block.
 local score=alloc(T.recordBase+4*T.recordStride+0x100)
@@ -170,15 +218,49 @@ end
 -- The explosion queue and the settings table the drain indexes by type (a record starts with its type).
 local explosion_queue=alloc(0x28+X.capacity*0x98)
 write(GAME+X.queue,u64(explosion_queue))
-for _,item in ipairs(X.weapons)do
-    local record=alloc(0x98)
-    write(record,u32(item.type))
-    write(GAME+X.settingsTable+item.type*8,u64(record))
+for _,list in ipairs({X.weapons,X.named or{}})do
+    for _,item in ipairs(list)do
+        local record=alloc(0x98)
+        write(record,u32(item.type))
+        write(GAME+X.settingsTable+item.type*8,u64(record))
+    end
 end
 function W.queue_count(n)write(explosion_queue+X.count,u32(n))end
 
+-- The projectile system (active in a mission) and its settings table; the status queue, manager and settings table.
+local PJ,ST=natives.projectile,natives.status
+local projectile_system=alloc(0x40)
+write(GAME+PJ.system,u64(projectile_system))
+function W.projectiles_active(on)write(projectile_system+PJ.active,string.char(on and 1 or 0))end
+W.projectiles_active(true)
+for _,item in ipairs(PJ.types)do
+    local record=alloc(0x110)
+    write(record,u32(item.type))
+    write(GAME+PJ.settingsTable+item.type*8,u64(record))
+end
+local status_queue=alloc(ST.count+8)
+write(GAME+ST.queue,u64(status_queue))
+write(GAME+ST.manager,u64(alloc(0x10)))
+for _,item in ipairs(ST.allowlist)do
+    local record=alloc(0x98)
+    write(record,u32(item.type))
+    write(GAME+ST.settingsTable+item.type*8,u64(record))
+end
+function W.status_queue_count(n)write(status_queue+ST.count,u32(n))end
+
 ---------------------------------------------------------------------------------------------- the runtime --
-local runtime={mode='event-fixture',heals={},explosions={}}
+local runtime={mode='event-fixture',heals={},explosions={},projectiles={},statuses={}}
+-- The game's projectile wrapper and status request: recorded, never executed.
+function runtime.native_projectile(entry,system,kind,x,y,z,dx,dy,dz,entity)
+    assert(entry==GAME+PJ.rva and system==projectile_system,'projectile fired through the wrong function or system')
+    runtime.projectiles[#runtime.projectiles+1]={type=kind,x=x,y=y,z=z,dx=dx,dy=dy,dz=dz,entity=entity}
+    return true
+end
+function runtime.native_status(entry,kind,target,buildup,instigator)
+    assert(entry==GAME+ST.rva,'status requested through the wrong function')
+    runtime.statuses[#runtime.statuses+1]={type=kind,target=target,buildup=buildup,instigator=instigator}
+    return true
+end
 -- The game's explosion request: recorded, never executed.
 function runtime.native_explosion(entry,queue,x,y,z,kind,source,owner,peer_lo,peer_hi)
     assert(entry==GAME+X.rva and queue==explosion_queue,'explosion requested through the wrong function or queue')

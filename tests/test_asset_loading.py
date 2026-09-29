@@ -60,7 +60,14 @@ class AssetLoadingTests(unittest.TestCase):
         self.assertEqual(summary['known'] + summary['unknown'], summary['semanticObjects'])
         self.assertEqual(summary['known'], summary['ownPackage'] + summary['holderPackage'] + summary['stratagemPackage'])
         # Objects without a structural package owner stay unknown (never inferred).
-        self.assertFalse(catalog['pickup/pickup/v1/supply-box/d0e8fed8c01ceb1f']['known'])
+        self.assertFalse(catalog['pickup/pickup/v1/ammo-box-pod/096e2d589f69f1ae']['known'])
+        # The Supply Box is delivered by exactly one stratagem package (Resupply's, research/resupply-F5FEE03DCFDB.json),
+        # the same rule every other rack item uses.
+        supply = catalog['pickup/pickup/v1/supply-box/d0e8fed8c01ceb1f']['dependency']
+        self.assertEqual((supply['name'], supply['via']), ('packages/generated/loadout/ammo_rack',
+            'delivering_stratagem_package'))
+        for name in ('NUX-223 Hellbomb', 'B-100 Portable Hellbomb'):
+            self.assertEqual(catalog['explosion/' + name]['dependency']['via'], 'delivering_stratagem_package', name)
 
     def test_public_metadata_has_no_identifiers(self):
         self.assertEqual(self.public['contract'], 'hd2runtime.asset_dependencies.v1')
@@ -227,7 +234,9 @@ assert(rover.known and rover.package==nil,tostring(rover.package))
 local rover_dependency=assets.dependency(rover.key)
 assert(type(rover_dependency.name)=='string'and rover_dependency.name:find('unnamed loadout package',1,true))
 local supply=hd2.asset_dependency(hd2.pickup('Supply Box'))
-assert(not supply.known and not supply.autoLoadSupported and supply.blocker)
+assert(supply.known and supply.package=='ammo_rack'and supply.derivation=='delivering_stratagem_package')
+local pod_ammo=hd2.asset_dependency(hd2.pickup('Ammo Box (pod)'))
+assert(not pod_ammo.known and not pod_ammo.autoLoadSupported and pod_ammo.blocker)
 assert(not hd2.asset_dependency({resource='package',id='0x5D68E55823ACD1BF'}).known)
 -- require_assets takes typed handles only, validates its request, and never accepts unknown objects
 local function rejects(request,needle)
@@ -235,7 +244,7 @@ local function rejects(request,needle)
  assert(not ok and tostring(why):find(needle,1,true),tostring(why))
 end
 rejects({id='x',target={resource='package',id='0x5D68E55823ACD1BF'}},'no asset catalog entry')
-rejects({id='x',target=hd2.pickup('Supply Box')},'ASSET_UNAVAILABLE')
+rejects({id='x',target=hd2.pickup('Ammo Box (pod)')},'ASSET_UNAVAILABLE')
 rejects({id='x',target=hd2.pickup('Grenade Box'),package='0x5D68E55823ACD1BF'},'unsupported require_assets option')
 rejects({id='bad id!',target=hd2.pickup('Grenade Box')},'valid id')
 -- simulated loader: waiting_for_assets -> complete, one native request per package

@@ -74,6 +74,40 @@ function M.create()
         request(ffi.cast('void *',queue),position,kind,source,owner,peer,0,nil,1,0,nil,nil,nil,0,0)
         return true
     end
+    -- One native call, used only by runtime/event_world.lua after it re-proved the wrapper's exact prologue bytes,
+    -- that the projectile system is active and that the type's settings record carries that type: the game's own
+    -- FireProjectile(system, type, position, direction, entity, target, entity_path) with the template of the game's
+    -- AI fire helper (research/event-actions-F5FEE03DCFDB.json): target 0 and entity_path 0 (a plain projectile).
+    function runtime.native_projectile(entry,system,kind,x,y,z,dx,dy,dz,entity)
+        local function coordinate(v)return type(v)=='number'and v==v and math.abs(v)<=100000 end
+        local function unit(v)return type(v)=='number'and v==v and math.abs(v)<=1.0001 end
+        assert(type(entry)=='number'and entry>0 and entry<=9007199254740991
+            and type(system)=='number'and system>0 and system<=9007199254740991
+            and coordinate(x)and coordinate(y)and coordinate(z)and unit(dx)and unit(dy)and unit(dz)
+            and math.abs(dx*dx+dy*dy+dz*dz-1)<1e-3
+            and type(kind)=='number'and kind>0 and kind<351 and kind%1==0
+            and type(entity)=='number'and entity>0 and entity<4294967296 and entity%1==0,'unsupported projectile call')
+        local position,direction=ffi.new('float[3]',x,y,z),ffi.new('float[3]',dx,dy,dz)
+        local fire=ffi.cast('void (*)(void *, uint32_t, const float *, const float *, uint32_t, uint32_t, uint64_t)',
+            entry)
+        fire(ffi.cast('void *',system),kind,position,direction,entity,0,0)
+        return true
+    end
+    -- One native call, used only by runtime/event_world.lua after it re-proved the request function's exact
+    -- prologue bytes, the queue headroom, that the type is on the reviewed allowlist and that its settings record
+    -- carries that type: the game's own QueueStatusRequest(ignored, type, target, buildup, instigator, variant) with
+    -- the game's own template (variant 0).
+    function runtime.native_status(entry,kind,target,buildup,instigator)
+        assert(type(entry)=='number'and entry>0 and entry<=9007199254740991
+            and type(kind)=='number'and kind>0 and kind<=71 and kind%1==0
+            and type(target)=='number'and target>0 and target<4294967296 and target%1==0
+            and type(buildup)=='number'and buildup==buildup and buildup>0 and buildup<=1000
+            and type(instigator)=='number'and instigator>0 and instigator<4294967296 and instigator%1==0,
+            'unsupported status call')
+        local request=ffi.cast('void (*)(void *, uint32_t, uint32_t, float, uint32_t, uint32_t)',entry)
+        request(nil,kind,target,buildup,instigator,0)
+        return true
+    end
     return runtime
 end
 return M

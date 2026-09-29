@@ -70975,6 +70975,128 @@
       ],
       "attacks": {}
     },
+    "Resupply": {
+      "name": "Resupply",
+      "family": "mission",
+      "rootResolution": "UNIQUE",
+      "root": {
+        "id": 867876502,
+        "package": "0x4D4C26C04A220CAA",
+        "payloads": [
+          "0x5052EC6A928CCF1A",
+          "0x73F8498BFFDCF415",
+          "0x5052EC6A928CCF1A",
+          "0x73F8498BFFDCF415",
+          "0x5052EC6A928CCF1A",
+          "0x73F8498BFFDCF415"
+        ],
+        "group": 1,
+        "row": 0
+      },
+      "fields": [
+        {
+          "instanceKey": "stratagem:resupply:resupply_stratagem:stratagem.cooldown",
+          "semanticFieldId": "stratagem.cooldown",
+          "displayName": "Cooldown",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 180,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "Resupply",
+            "path": "stratagem"
+          },
+          "backing": {
+            "kind": "StratagemDefinition",
+            "nativeIdentity": 867876502,
+            "offset": 104,
+            "storage": "f32",
+            "width": 4,
+            "consumers": [
+              {
+                "stratagem": "Resupply",
+                "path": "stratagem"
+              }
+            ]
+          },
+          "backingObjectId": "backing:456df7a3d681b337",
+          "operationGroup": "operation:1a321c6c93d95f00",
+          "planGroup": "plan:stratagem:resupply",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "Resupply",
+              "path": "stratagem"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:b85582d21f75c0b4",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership"
+        },
+        {
+          "instanceKey": "stratagem:resupply:resupply_stratagem:stratagem.max_uses",
+          "semanticFieldId": "stratagem.max_uses",
+          "displayName": "Mission uses",
+          "type": "stratagem_uses",
+          "unit": "uses",
+          "currentDefault": "unlimited",
+          "editable": true,
+          "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "Resupply",
+            "path": "stratagem"
+          },
+          "backing": {
+            "kind": "StratagemDefinition",
+            "nativeIdentity": 867876502,
+            "offset": 80,
+            "storage": "u32",
+            "width": 4,
+            "consumers": [
+              {
+                "stratagem": "Resupply",
+                "path": "stratagem"
+              }
+            ]
+          },
+          "backingObjectId": "backing:456df7a3d681b337",
+          "operationGroup": "operation:1a321c6c93d95f00",
+          "planGroup": "plan:stratagem:resupply",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "Resupply",
+              "path": "stratagem"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:b85582d21f75c0b4",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+          "usesMode": "unlimited",
+          "unlimitedValue": "unlimited",
+          "nativeUnlimited": 4294967295,
+          "min": 1,
+          "max": 100,
+          "transitions": [
+            "unlimited_to_finite"
+          ],
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+          "gameplayProvenValues": [],
+          "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
+        }
+      ],
+      "attacks": {}
+    },
     "A/MG-43 Machine Gun Sentry": {
       "name": "A/MG-43 Machine Gun Sentry",
       "family": "sentry",

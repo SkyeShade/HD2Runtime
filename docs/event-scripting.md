@@ -177,8 +177,10 @@ a callback still runs in the same mission.
 | --- | --- | --- |
 | Heal the local player | `hd2.actions.heal(amount)`, `player:heal(amount)` | Local player, alive and not downed; clamped to maximum health; the game's own heal. |
 | Change a definition | `mod:value(spec)` bound to `hd2.ensure` | Changes the shared definition (every user of it), re-applied about half a second later. |
-| Explosion | `hd2.explosions.spawn(weapon, {position = ...})` | Catalogued weapon explosions; host only; in a mission; credited to the local player. |
-| Fire a projectile, apply a status effect, spawn an entity | none | Blocked: no proven native request (Runtime does not guess one). |
+| Explosion | `hd2.explosions.spawn(name, {position = ...})` | The Hellbombs and the catalogued weapon explosions; host only; in a mission; credited to the local player. |
+| Projectile | `hd2.projectiles.spawn(weapon, {position = ..., direction = ...})` | Catalogued weapon projectiles; host only; in a mission; fired and credited by the local player. |
+| Status effect | `hd2.status.apply(entity, status, {buildup = ...})` | Statuses a player weapon applies; buildup, not strength; host only; in a mission. |
+| Spawn an entity | none | Blocked: the generic spawn's parameters and network replication are not proven (Runtime does not guess them). |
 
 Every action belongs to the calling mod, carries a cause (the event it reacted to), and is refused past four
 mod-caused links. A refusal never raises: the returned handle has `status = 'refused'`, a `code` and a `reason`.
@@ -192,19 +194,94 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
 
 - The explosion is the game's own: `hd2.explosions.spawn` calls the game's explosion request with the same arguments
   its own callers pass, for an explosion type proven against the game's settings table. `hd2.explosions.list()`
-  names the 13 catalogued weapon explosions; a weapon name or `hd2.explosions.of(weapon)` selects one. Raw ids,
-  unknown weapons and explosions without a catalogued one (`B-100 Portable Hellbomb`) are refused
-  (`UNKNOWN_EXPLOSION`).
-- Its assets are loaded first when nobody carries that weapon (through the game's own package system, the same
-  way reference swaps load them); the handle then reads `waiting_for_assets`, then `requested`. A package Runtime
-  cannot identify is refused (`ASSET_UNKNOWN`). `hd2.explosions.prepare(weapon)` at mission start avoids the wait.
+  names the 15 catalogued explosions:
+  - two named explosions, `'Hellbomb'` (the NUX-223 Hellbomb detonation) and `'B-100 Portable Hellbomb'`;
+  - the 13 weapon explosions, selected by a weapon name or `hd2.explosions.of(weapon)`.
+
+  Raw ids, unknown names and weapons without a catalogued explosion are refused (`UNKNOWN_EXPLOSION`).
+- Its assets are loaded first when they are not resident (through the game's own package system, the same way
+  reference swaps load them). A weapon explosion needs the weapon's package; a Hellbomb needs its stratagem's
+  package. The handle then reads `waiting_for_assets`, then `requested`. A package Runtime cannot identify is refused
+  (`ASSET_UNKNOWN`). `hd2.explosions.prepare(name)` at mission start avoids the wait.
 - Host only (`HOST_ONLY`): the host owns enemy health, so a client request would be local and overwritten. Other
   players see the results (health, deaths); whether they see the explosion effect itself is not proven.
 - It is credited to the local player (source and owner = your avatar, creditor = you): its kills count as yours and
   appear in `player_kill_credited` under your avatar type. It needs your avatar to exist (`NO_LOCAL_AVATAR`).
 - Chain reactions are bounded: at most 6 explosion requests at once per mod, refilled at 1 per second
   (`RATE_LIMITED`). The game does not say which explosion killed an enemy, so deaths it causes carry no mod cause.
-- The Hellbomb is not available: its explosion identity is not proven.
+- `'Hellbomb'` is the real NUX-223 detonation (ExplosionType 242, 17 / 25 / 45 m, 10000 damage). Its type is a code
+  literal in the Hellbomb's behavior, and Runtime re-proves it at startup. Type 242 is also used by some mission
+  objectives: requesting it is safe, but editing its settings would change them too.
+
+### Projectiles
+
+```lua
+local me = hd2.local_player()
+local p = me:position()
+hd2.projectiles.spawn('R-36 Eruptor', {position = {x = p.x, y = p.y, z = p.z + 2.5}, direction = {x = 1, y = 0, z = 0}})
+```
+
+- The projectile is the game's own. `hd2.projectiles.spawn` calls the game's projectile function (`FireProjectile`),
+  the one the game's own AI fire helper calls, with the same template: a plain projectile and no target.
+- A projectile is named by the weapon that fires it (`hd2.projectiles.list()`, 67 catalogued projectiles). Raw ids
+  are refused (`UNKNOWN_PROJECTILE`).
+- `direction` may have any non-zero length; Runtime normalises it. Up is `+z`.
+- The weapon's package is loaded first when needed (`waiting_for_assets`, then `requested`), because the game
+  creates the projectile's effects at once. `hd2.projectiles.prepare(weapon)` at mission start avoids the wait.
+- Host only, and only while the game's projectile system is active (a mission).
+- Your avatar fires it and is credited with it. Each projectile also counts as a shot in your mission stats
+  (`player_fired`), as the game counts it. Only the local player can be the firer (`FIRER_UNSUPPORTED`).
+- No network send was found: other players may not see the projectile itself, only its results.
+- At most 12 at once and 4 per second per mod (`RATE_LIMITED`).
+
+### Status effects
+
+```lua
+hd2.events.on('entity_damaged', function(event)
+    if event.local_attacker and event.enemy then hd2.status.apply(event.entity, 'fire', {buildup = 100}) end
+end)
+```
+
+- The status is the game's own. `hd2.status.apply` appends one request to the game's status request queue, the one
+  the game's own stun callers use. The game then checks that the target can have that status, and applies it here or
+  sends it to the machine that owns the target.
+- Only statuses that a player weapon already applies through its damage are offered (`hd2.status.list()`): `fire`,
+  `fire_panic`, `burning_heavy`, `stun_small`, `stun_medium`, `stun_large`, `gas`, `gas_2`, `gas_confusion`,
+  `gas_confusion_2` and `flamer_slowed`. Everything else is refused (`UNKNOWN_STATUS`). The game does not bound the
+  type, so an unchecked type could corrupt memory.
+- The amount is **buildup** (default 100, as the game's own stun requests pass). Each request adds it, and the status
+  starts when the target's buildup reaches its susceptibility threshold. Strength and duration are the status's own:
+  `strength` is refused (`INVALID_OPTION`). Applying again refreshes the duration; it does not stack.
+- Host only. At most 10 at once and 5 per second per mod, and 4 at once per target (the game keeps at most 32 status
+  records per entity).
+- The target must still exist (`TARGET_GONE`). Your avatar is the instigator.
+- Not proven: that the status's visual effects are always loaded (the same statuses are applied by enemies and
+  environments whatever the players carry, so they are expected to be). Not live-tested yet.
+
+### The weapon in hand
+
+```lua
+local weapon, why = hd2.local_player():equipped_weapon()
+if weapon then mod:log(weapon.name .. ' in the ' .. weapon.slot .. ' slot') end
+
+hd2.events.on('weapon_changed', function(event)
+    mod:log(tostring(event.previous and event.previous.name) .. ' -> ' .. tostring(event.current and event.current.name))
+end)
+```
+
+- `player:equipped_weapon()` returns what the local player's avatar holds now: `{name, type, entity_id, slot,
+  slot_proven, selection, avatar_id}`, or nil and the reason (`nothing in hand`, no avatar, or another player).
+  Everything is re-read on every call; nothing is cached.
+- `name` is the catalogued weapon, throwable or stratagem item; it is nil for an uncatalogued held item (for example
+  a stratagem ball).
+- `slot` is `primary` or `secondary` (proven), or `support`, `held_item` or `unknown` (inferred, `slot_proven =
+  false`).
+- `weapon_equipped`, `weapon_unequipped` (with `reason`: `switched`, `emptied` or `avatar_changed`) and
+  `weapon_changed` (`previous`, `current`) report every change, ten checks a second, for the local player only. The
+  game's switch writes the selection and the item in hand in one call, so a check never sees half a switch.
+
+This is **not** kill attribution. A weapon in hand when a kill is credited did not necessarily make it (grenades,
+stratagems and delayed explosions kill while another weapon is held). Use `player_kill_credited.sources` for that.
 
 ## 10. Source attribution: what can and cannot be known
 
@@ -213,6 +290,7 @@ if action.status == 'refused' then mod:log(action.code .. ': ' .. action.reason)
 | Which entity died and who was credited | `entity_killed` (`killer`, `local_killer`) | Per death. The credited player only, not the weapon. |
 | Which weapon, throwable or stratagem earned your kills | `player_kill_credited` (`sources`) | Per source, ten checks a second; the local player only. |
 | Which weapon killed a particular enemy | none | Not available: the game records the weapon in a per-player counter, not on the death. |
+| What the local player holds | `player:equipped_weapon()`, `weapon_changed` | Exact, ten checks a second. Not attribution: the weapon in hand did not necessarily make a kill. |
 
 `player_kill_credited.sources` lists the growth of the game's own per-source kill counters since the previous check,
 largest first: `{type, name, kills}`. Guns are keyed by their weapon, stratagems by their payload, throwables by the

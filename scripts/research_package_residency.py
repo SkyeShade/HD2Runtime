@@ -330,6 +330,16 @@ def build():
         entry = catalog.get('player_weapon/' + weapon_name)
         if entry:
             catalog[key] = dict(entry, kind='projectile_source', label=key.split('/', 1)[1])
+    # Named explosions (research/event-actions-F5FEE03DCFDB.json): the requested type is a code literal of an entity
+    # behavior, so the explosion's effects ship with that entity; the stratagem that delivers the entity names the
+    # package the game loads for it (the NUX-223 Hellbomb's is its generated loadout package).
+    actions = json.loads((ROOT / 'research/event-actions-F5FEE03DCFDB.json').read_text())
+    for item in actions.get('namedExplosions', []):
+        pid = int(item['stratagemPackage'], 16)
+        dep = package(pid, 'delivering_stratagem_package')
+        catalog['explosion/' + item['name']] = {'label': item['name'], 'kind': 'explosion', 'resource': item['entity'],
+            'path': item['path'], 'dependency': dep, 'known': dep['inBundleDatabase']}
+    catalog = dict(sorted(catalog.items()))
     log_evidence = json.loads(LOG_EVIDENCE.read_text()) if LOG_EVIDENCE.is_file() else None
     return {'schemaVersion': 1, 'build': build_profile.BUILD_ID, 'snapshot': build_profile.SNAPSHOT_NAME,
         'loader': pins, 'bundleDatabase': {'sha256': bundles['sha256'], 'packageNames': len(bundles['packages'])},

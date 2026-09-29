@@ -8,6 +8,12 @@
     "of602": false,
     "wrongUnit": false
    },
+   "equipped": {
+    "reason": "nothing in hand"
+   },
+   "equippedRaw": {
+    "selection": 0
+   },
    "explosionQueue": 0,
    "explosions": [
     {
@@ -102,7 +108,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 2168
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 249,
@@ -112,13 +130,15 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 216,
+   "projectileSystemActive": 0,
+   "reads": 318,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
     "received_deaths": 0
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -128,6 +148,12 @@
     "count": 0,
     "of602": false,
     "wrongUnit": false
+   },
+   "equipped": {
+    "reason": "nothing in hand"
+   },
+   "equippedRaw": {
+    "selection": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -223,7 +249,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 249,
@@ -233,13 +271,15 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 216,
+   "projectileSystemActive": 0,
+   "reads": 318,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
     "received_deaths": 0
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -249,6 +289,12 @@
     "count": 0,
     "of602": false,
     "wrongUnit": false
+   },
+   "equipped": {
+    "reason": "nothing in hand"
+   },
+   "equippedRaw": {
+    "selection": 0
    },
    "explosionQueue": 0,
    "explosions": [
@@ -344,7 +390,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 249,
@@ -354,13 +412,15 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 216,
+   "projectileSystemActive": 0,
+   "reads": 318,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
     "received_deaths": 0
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -370,6 +430,19 @@
     "count": 1,
     "of602": false,
     "wrongUnit": false
+   },
+   "equipped": {
+    "entity": 605,
+    "name": "R-36 Eruptor",
+    "selection": 1,
+    "slot": "primary",
+    "slotProven": true,
+    "type": "B6AFF2195568767F"
+   },
+   "equippedRaw": {
+    "entity": 605,
+    "selection": 1,
+    "slot": "primary"
    },
    "explosionQueue": 0,
    "explosions": [
@@ -464,7 +537,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 4194863
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 602,
@@ -474,13 +559,15 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 283,
+   "projectileSystemActive": 1,
+   "reads": 401,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
     "received_deaths": 0
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -490,6 +577,19 @@
     "count": 9,
     "of602": false,
     "wrongUnit": false
+   },
+   "equipped": {
+    "entity": 605,
+    "name": "R-36 Eruptor",
+    "selection": 1,
+    "slot": "primary",
+    "slotProven": true,
+    "type": "B6AFF2195568767F"
+   },
+   "equippedRaw": {
+    "entity": 605,
+    "selection": 1,
+    "slot": "primary"
    },
    "explosionQueue": 0,
    "explosions": [
@@ -584,7 +684,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 4194863
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 602,
@@ -594,7 +706,8 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 283,
+   "projectileSystemActive": 1,
+   "reads": 401,
    "sources": [
     {
      "kills": 5,
@@ -613,6 +726,7 @@
     "projectiles_fired": 1,
     "received_deaths": 0
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -622,6 +736,13 @@
     "count": 31,
     "of602": 851,
     "wrongUnit": false
+   },
+   "equipped": {
+    "reason": "nothing in hand"
+   },
+   "equippedRaw": {
+    "selection": 5,
+    "slot": "held_item"
    },
    "explosionQueue": 0,
    "explosions": [
@@ -717,7 +838,19 @@
     "type": "4D1C334D294DFA97",
     "unit": 12585357
    },
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "avatar": 852,
@@ -727,7 +860,8 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 274,
+   "projectileSystemActive": 1,
+   "reads": 382,
    "sources": [
     {
      "kills": 2,
@@ -752,6 +886,7 @@
     "projectiles_fired": 28,
     "received_deaths": 1
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []
@@ -761,6 +896,9 @@
     "count": 0,
     "of602": false,
     "wrongUnit": false
+   },
+   "equipped": {
+    "reason": "the player has no avatar now"
    },
    "explosionQueue": 0,
    "explosions": [
@@ -841,7 +979,19 @@
     "valid": false
    },
    "localAvatar": false,
-   "pins": 107,
+   "namedExplosions": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "settings": true,
+     "type": 242
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "settings": true,
+     "type": 125
+    }
+   ],
+   "pins": 162,
    "players": [
     {
      "entity": 5,
@@ -850,7 +1000,8 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 187,
+   "projectileSystemActive": 0,
+   "reads": 265,
    "sources": [
     {
      "kills": 1,
@@ -888,6 +1039,7 @@
     "projectiles_fired": 32,
     "received_deaths": 6
    },
+   "statusQueue": 0,
    "tamperRefused": true,
    "passed": true,
    "problems": []

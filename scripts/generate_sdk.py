@@ -516,6 +516,11 @@ def outputs():
         '---outputs need allow_unverified_reference=true and allow_unverified_effect=true; beam and arc outputs',
         '---fail closed (INCOMPATIBLE_OUTPUT_FAMILY).',
         '---@return table','function HD2AttackOutput:describe() end']
+    # Event actions: the named explosions (Hellbombs) and the statuses hd2.status offers (domains/event_natives.lua).
+    event_actions = json.loads((ROOT/'research/event-actions-F5FEE03DCFDB.json').read_text(encoding='utf-8'))
+    alias('HD2ExplosionName',[item['name'] for item in event_actions['namedExplosions']]
+        +['Hellbomb','Portable Hellbomb'])
+    alias('HD2StatusId',[item['semanticId'] for item in event_actions['status']['allowlist']])
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
     stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',

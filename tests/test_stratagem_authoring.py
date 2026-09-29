@@ -37,11 +37,11 @@ class StratagemAuthoringTests(unittest.TestCase):
         self.assertEqual(summary['orbitalRootsResolved'], 12)
         self.assertEqual(summary['eagleRootsResolved'], 8)
         self.assertEqual(summary['supportRootsResolved'], 33)
-        # 53 offensive/support + 18 defensive + 9 vehicle + 13 backpack call-in definitions.
-        self.assertEqual(summary['cooldownWritable'], 93)
+        # 53 offensive/support + 18 defensive + 9 vehicle + 13 backpack call-in definitions, plus Resupply.
+        self.assertEqual(summary['cooldownWritable'], 94)
         self.assertEqual(summary['vehicleRootsResolved'], 9)
         self.assertEqual(summary['backpackRootsResolved'], 13)
-        self.assertEqual(summary['maxUsesWritable'], 85)
+        self.assertEqual(summary['maxUsesWritable'], 86)
         self.assertEqual(summary['eagleUsesPerRearmWritable'], 8)
         self.assertEqual(summary['eagleRearmTimeWritable'], 8)
         instances = self.catalog['fieldInstances']
