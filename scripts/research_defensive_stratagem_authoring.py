@@ -39,6 +39,96 @@ DEBUG_NAMES = {
 }
 
 
+# TurretComponent members proven by exact per-sentry agreement with the wiki's detailed weapon tables (which name
+# them "Horizontal Turn Speed", "Vertical Turn Speed" and "Vertical Limit"); hidden member-name lengths agree with
+# those labels in snake case. (offset, size, storage, hidden-name length) is the layout fingerprint every run checks.
+TURRET_FINGERPRINT = ((8, 4, 'FP32', 19), (12, 4, 'FP32', 21), (20, 4, 'FP32', 18), (24, 4, 'FP32', 18),
+    (28, 4, 'FP32', 20), (32, 4, 'FP32', 20))
+SENSOR_FINGERPRINT = ((0, 4, 'FP32', 8),)
+PAYLOAD_FINGERPRINT = ((4, 4, 'FP32', 9),)
+# Reviewed wiki sentences stating a sentry's targeting range. Each must still appear verbatim in the imported page;
+# SensorEyeComponent +0 must equal the stated value. Sentries whose engagement distance is set by their weapon (the
+# Flame Sentry's spray, the Tesla Tower's arc) have no sentence here.
+SENSOR_RANGE_STATEMENTS = {
+    'A/MG-43 Machine Gun Sentry': ('Like most direct fire sentries, the MG-43 Sentry has a range of 75m', 75),
+    'A/G-16 Gatling Sentry': ('The Gatling Sentry has a range of 75m', 75),
+    'A/AC-8 Autocannon Sentry': ('The Autocannon Sentry has a maximum range of 100m', 100),
+    'A/MLS-4X Rocket Sentry': ('with a 100m engagement distance', 100),
+    'A/M-23 EMS Mortar Sentry': ('The EMS mortar has a range of 125 meters', 125),
+    'A/LAS-98 Laser Sentry': ('The Laser Sentry has a targeting range of 50m', 50),
+    'A/GM-17 Gas Mortar Sentry': ('potential maximum targeting range of 125-meters', 125),
+}
+
+
+def wiki_turret_table(imported: dict) -> dict:
+    """The deployed weapon's detailed-table turret rows (horizontal/vertical turn speed, vertical limit, lifetime)."""
+    rows = {}
+    for field in imported.get('rawStructuredFields') or []:
+        section = field.get('section') or ''
+        if 'Detailed Weapon Statistics' in section and section.endswith('> Weapon'):
+            rows[field['label']] = field['raw']
+    result = {}
+    for label, key in (('Horizontal Turn Speed', 'horizontalTurnSpeed'), ('Vertical Turn Speed', 'verticalTurnSpeed')):
+        if label in rows:
+            result[key] = float(rows[label])
+    if 'Vertical Limit' in rows:
+        low, high = [float(value) for value in
+            __import__('re').findall(r'\((-?[\d.]+)\)', rows['Vertical Limit'])]
+        result['verticalLimit'] = [low, high]
+    if 'Lifetime' in rows:
+        result['lifetime'] = float(rows['Lifetime'].split()[0])
+    return result
+
+
+def record_fingerprint(component: str) -> set:
+    from migration import build_view
+    library = build_view.TypeLibrary((FILEDIVER / 'datalibrary/dl_library.dl_typelib').read_bytes())
+    record_type = library.layout(component)['members'][1]['type_hash']
+    return {(m['offset'], m['size'], m['storage'], m['nameLength'])
+        for m in build_view._record_layout(library, record_type).members}
+
+
+def component_scalar(component: dict, offset: int):
+    for item in component.get('fields', []):
+        if item['offset'] == offset:
+            return item['value'][0]
+    return None
+
+
+def deployment_proofs(imported: dict, components: list) -> dict:
+    """Turret motion, sensor range and deployed lifetime, each tied to wiki evidence or recorded as unproven."""
+    by_name = {component['name']: component for component in components}
+    table = wiki_turret_table(imported)
+    proofs = {'wikiTable': table}
+    turret = by_name.get('TurretComponentData')
+    if turret:
+        native = {'verticalTurnSpeed': component_scalar(turret, 8), 'horizontalTurnSpeed': component_scalar(turret, 12),
+            'verticalLimit': [component_scalar(turret, 20), component_scalar(turret, 24)],
+            'horizontalLimit': [component_scalar(turret, 28), component_scalar(turret, 32)]}
+        checks = {key: native[key] == table[key] for key in ('horizontalTurnSpeed', 'verticalTurnSpeed',
+            'verticalLimit') if key in table}
+        proofs['turret'] = {'native': native, 'wikiChecks': checks,
+            'exact': bool(checks) and all(checks.values())}
+    sensor = by_name.get('SensorEyeComponentData')
+    if sensor:
+        statement = SENSOR_RANGE_STATEMENTS.get(imported['name'])
+        text = ' '.join((section.get('text') or '') for section in imported.get('rawSections') or [])
+        native_range = component_scalar(sensor, 0)
+        item = {'native': native_range, 'statement': None}
+        if statement:
+            sentence, stated = statement
+            if sentence not in text:
+                raise ValueError('reviewed sensor range statement no longer on the wiki page: ' + imported['name'])
+            item['statement'] = {'text': sentence, 'value': stated, 'exact': native_range == stated}
+        proofs['sensor'] = item
+    payload = by_name.get('HellpodPayloadComponentData')
+    if payload:
+        lifetime = component_scalar(payload, 4)
+        proofs['lifetime'] = {'native': lifetime, 'wiki': table.get('lifetime'),
+            'exact': table.get('lifetime') is not None and lifetime == table['lifetime']}
+    return proofs
+
+
 def load_module(name: str, path: Path):
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
@@ -320,6 +410,10 @@ def build() -> dict:
     layout = {(m['offset'], m['size'], m['storage'], m['nameLength']) for m in minefield_layout()}
     if set(MINEFIELD_FINGERPRINT) - layout:
         raise ValueError('MinefieldComponent layout fingerprint changed')
+    for component, fingerprint in (('TurretComponentData', TURRET_FINGERPRINT),
+            ('SensorEyeComponentData', SENSOR_FINGERPRINT), ('HellpodPayloadComponentData', PAYLOAD_FINGERPRINT)):
+        if set(fingerprint) - record_fingerprint(component):
+            raise ValueError(component + ' layout fingerprint changed')
     entries = []
     for imported in wiki['stratagems']:
         if imported['name'] not in DEBUG_NAMES:
@@ -353,6 +447,7 @@ def build() -> dict:
                     'ProjectileWeaponComponentData', 'ArcWeaponComponentData',
                     'BeamWeaponComponentData', 'SprayWeaponComponentData',
                     'ExplosiveComponentData', 'MinefieldComponentData',
+                    'TurretComponentData', 'SensorEyeComponentData', 'HellpodPayloadComponentData',
                 }:
                     item['fields'] = compact_fields(component.get('fields'))
                 resolved.append(item)
@@ -398,6 +493,7 @@ def build() -> dict:
                     'layoutAnchor': 'HealthComponentData reviewed main health/default armor layout',
                 },
             },
+            'deploymentProofs': deployment_proofs(imported, entity_components),
             'mineChain': mine_chain(native, current['payloads'][0])
                 if imported['normalizedFamily'].lower() == 'mine' else None,
             'importedBranches': [{key: node.get(key) for key in

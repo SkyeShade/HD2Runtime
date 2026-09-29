@@ -71349,6 +71349,442 @@
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
         },
         {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 80.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 50.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -60.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 90.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 62,
+            "indexRow": 104,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9c91bc73a1c8679c",
+          "operationGroup": "operation:d7960496331f7023",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:af001f5e93b14940",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 75.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 219,
+            "indexRow": 49,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "E8AF237580865408CDAF99FB2544D6A79D88417D9DB4A317F05A07BD92F10511",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:39a56be0c80c659c",
+          "operationGroup": "operation:3ccc46d31a55ac07",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:39d06ea047f18847",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"Like most direct fire sentries, the MG-43 Sentry has a range of 75m\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MG-43 Machine Gun Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x37CDE43876BA26BB",
+            "recordIndex": 33,
+            "indexRow": 44,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
+            "consumers": [
+              {
+                "stratagem": "A/MG-43 Machine Gun Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6e8bad993f62e711",
+          "operationGroup": "operation:cc07228760b00b3b",
+          "planGroup": "plan:stratagem:a_mg_43_machine_gun_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MG-43 Machine Gun Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:20d3f71041f6ca42",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
+        },
+        {
           "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_weapon_main_primary:weapon.fire_rate",
           "semanticFieldId": "weapon.fire_rate",
           "displayName": "Fire rate",
@@ -72600,7 +73036,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 50.0,
+          "horizontalTurnSpeed": 80.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 75.0,
+        "statement": {
+          "text": "Like most direct fire sentries, the MG-43 Sentry has a range of 75m",
+          "value": 75,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/G-16 Gatling Sentry": {
       "name": "A/G-16 Gatling Sentry",
@@ -72974,6 +73439,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 80.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 50.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -60.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 90.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 59,
+            "indexRow": 126,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fc23592ad922f2b0",
+          "operationGroup": "operation:a2bcf9af304f84c2",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:66f9b222ac90e425",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 75.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 216,
+            "indexRow": 330,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "E8AF237580865408CDAF99FB2544D6A79D88417D9DB4A317F05A07BD92F10511",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:b1f131c16fe0e311",
+          "operationGroup": "operation:5a8f4d5511e6a27a",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:d2927d38945283f0",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Gatling Sentry has a range of 75m\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/G-16 Gatling Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0xEF85D6CF58E31D70",
+            "recordIndex": 30,
+            "indexRow": 24,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "C4D723755B47C96FC75B2244E4122B93DB156E24B5082C79550F5C594EDEBBDC",
+            "consumers": [
+              {
+                "stratagem": "A/G-16 Gatling Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:fa41ae2675e58dd2",
+          "operationGroup": "operation:a2830187f247851f",
+          "planGroup": "plan:stratagem:a_g_16_gatling_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/G-16 Gatling Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:696905e863dc06af",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_g_16_gatling_sentry:a_g_16_gatling_sentry_weapon_main_primary:weapon.fire_rate",
@@ -74228,7 +75129,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 50.0,
+          "horizontalTurnSpeed": 80.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 75.0,
+        "statement": {
+          "text": "The Gatling Sentry has a range of 75m",
+          "value": 75,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/AC-8 Autocannon Sentry": {
       "name": "A/AC-8 Autocannon Sentry",
@@ -74602,6 +75532,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 20.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 20.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -60.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 70.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 71,
+            "indexRow": 69,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:779fac1760caebbc",
+          "operationGroup": "operation:001a60d4a6da650e",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a11f11b6356ddcf8",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 100.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 307,
+            "indexRow": 279,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "319F282BB6DF48C3A6154B88974419016F0FDE790AC7CC0A44DD21EFB0756328",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:4247fc34339098bd",
+          "operationGroup": "operation:bfdb0a290a7ee2a8",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f2020c17507c8928",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Autocannon Sentry has a maximum range of 100m\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/AC-8 Autocannon Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x54D86057F5DACFB9",
+            "recordIndex": 110,
+            "indexRow": 73,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "503FDC4CF8EE8A9DA243194E2055D681EAFEB23052F143B360962DAB33DCD934",
+            "consumers": [
+              {
+                "stratagem": "A/AC-8 Autocannon Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:9e78caaad8d4b4c0",
+          "operationGroup": "operation:7f63b227bb4e4938",
+          "planGroup": "plan:stratagem:a_ac_8_autocannon_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/AC-8 Autocannon Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4f50225c3e5be0b2",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_ac_8_autocannon_sentry:a_ac_8_autocannon_sentry_weapon_main_primary:weapon.fire_rate",
@@ -76443,7 +77809,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 20.0,
+          "horizontalTurnSpeed": 20.0,
+          "verticalLimit": [
+            -60.0,
+            70.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 100.0,
+        "statement": {
+          "text": "The Autocannon Sentry has a maximum range of 100m",
+          "value": 100,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/M-12 Mortar Sentry": {
       "name": "A/M-12 Mortar Sentry",
@@ -76817,6 +78212,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 35.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 89.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 54,
+            "indexRow": 56,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dfe6a637faa761e",
+          "operationGroup": "operation:8d713cbbf24f0dfb",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f0eae46794b17049",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 125.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 210,
+            "indexRow": 186,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:81c289a5e878c196",
+          "operationGroup": "operation:de834fe6bb219f7a",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:a462669653281262",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-12 Mortar Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x51A0812E3BCE2D74",
+            "recordIndex": 19,
+            "indexRow": 162,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
+            "consumers": [
+              {
+                "stratagem": "A/M-12 Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:1ade89f5363a2555",
+          "operationGroup": "operation:c5688e378d2e0100",
+          "planGroup": "plan:stratagem:a_m_12_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-12 Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:014b18b1cedaddf4",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_m_12_mortar_sentry:a_m_12_mortar_sentry_weapon_main_primary:weapon.fire_rate",
@@ -78875,7 +80706,32 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 55.0,
+          "horizontalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 125.0,
+        "statement": null,
+        "note": "Engagement distance may be set by the weapon (spray reach, arc range); the sensor range bounds target acquisition only."
+      }
     },
     "A/MLS-4X Rocket Sentry": {
       "name": "A/MLS-4X Rocket Sentry",
@@ -79249,6 +81105,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 40.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 40.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -45.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 90.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 58,
+            "indexRow": 123,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:2bb45905978b2150",
+          "operationGroup": "operation:fb84f3894ab239cf",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9d86bd9fe9f98d27",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 100.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 214,
+            "indexRow": 434,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "D30E36A92A06FBF2749B82BFD62130D83127A8331D789061A26B3ED227B1F7DE",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:d093dffb4556f11e",
+          "operationGroup": "operation:1c3f33d4213fab1c",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:d79fb2ccd4f69258",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"with a 100m engagement distance\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/MLS-4X Rocket Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x37079568DC86E9C6",
+            "recordIndex": 27,
+            "indexRow": 180,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
+            "consumers": [
+              {
+                "stratagem": "A/MLS-4X Rocket Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:d54068e0c5d4e800",
+          "operationGroup": "operation:b09deb81042a42cd",
+          "planGroup": "plan:stratagem:a_mls_4x_rocket_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/MLS-4X Rocket Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:8857bf8b06f61b6e",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_mls_4x_rocket_sentry:a_mls_4x_rocket_sentry_weapon_main_primary:weapon.fire_rate",
@@ -81091,7 +83383,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 40.0,
+          "horizontalTurnSpeed": 40.0,
+          "verticalLimit": [
+            -45.0,
+            90.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 100.0,
+        "statement": {
+          "text": "with a 100m engagement distance",
+          "value": 100,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/ARC-3 Tesla Tower": {
       "name": "A/ARC-3 Tesla Tower",
@@ -81465,6 +83786,112 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 25.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/ARC-3 Tesla Tower",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x74599E56F72F9D7E",
+            "recordIndex": 215,
+            "indexRow": 254,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5C882DB72DFA82169686B10B7F4F37F194DED38154BBB44302FBDAF86E743F89",
+            "consumers": [
+              {
+                "stratagem": "A/ARC-3 Tesla Tower",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:a6794848d015e8ef",
+          "operationGroup": "operation:0fd5cbc6e7334ec5",
+          "planGroup": "plan:stratagem:a_arc_3_tesla_tower",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/ARC-3 Tesla Tower",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:ad6e2b195dc6d721",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/ARC-3 Tesla Tower",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x74599E56F72F9D7E",
+            "recordIndex": 29,
+            "indexRow": 127,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "3CFA2F2DAB1DD24C6EB7E7310C261314A099056B090813337B3684D40CD6774F",
+            "consumers": [
+              {
+                "stratagem": "A/ARC-3 Tesla Tower",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:0537c5732d39b653",
+          "operationGroup": "operation:d484f44db6c0ea11",
+          "planGroup": "plan:stratagem:a_arc_3_tesla_tower",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/ARC-3 Tesla Tower",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:b8067b0e5fcf5aae",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; this entity has no published lifetime"
         },
         {
           "instanceKey": "stratagem:a_arc_3_tesla_tower:a_arc_3_tesla_tower_weapon_main_primary:weapon.capacity",
@@ -82743,7 +85170,12 @@
           "health": 600,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "targeting": {
+        "range": 25.0,
+        "statement": null,
+        "note": "Engagement distance may be set by the weapon (spray reach, arc range); the sensor range bounds target acquisition only."
+      }
     },
     "A/M-23 EMS Mortar Sentry": {
       "name": "A/M-23 EMS Mortar Sentry",
@@ -83117,6 +85549,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 35.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 89.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 56,
+            "indexRow": 83,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:13d3a4174cd8e418",
+          "operationGroup": "operation:e6585a99eb425424",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fdd0484815ec6103",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 125.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 212,
+            "indexRow": 316,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ff355dcfded49337",
+          "operationGroup": "operation:b0eea102cf3f4724",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:20f4ca152af34e4f",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The EMS mortar has a range of 125 meters\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/M-23 EMS Mortar Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0xB2053A1838092F8B",
+            "recordIndex": 21,
+            "indexRow": 131,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
+            "consumers": [
+              {
+                "stratagem": "A/M-23 EMS Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:54efc188ed655baf",
+          "operationGroup": "operation:8545ab0188c14bd7",
+          "planGroup": "plan:stratagem:a_m_23_ems_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/M-23 EMS Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:c4fa32fe3a393c95",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_m_23_ems_mortar_sentry:a_m_23_ems_mortar_sentry_weapon_main_primary:weapon.fire_rate",
@@ -86110,7 +88978,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 55.0,
+          "horizontalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 125.0,
+        "statement": {
+          "text": "The EMS mortar has a range of 125 meters",
+          "value": 125,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/LAS-98 Laser Sentry": {
       "name": "A/LAS-98 Laser Sentry",
@@ -86484,6 +89381,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 80.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 50.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -60.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 90.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 52,
+            "indexRow": 36,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6769623d910287ee",
+          "operationGroup": "operation:46bed1549b58afd4",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:4cb4da90a23714b3",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 50.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 208,
+            "indexRow": 503,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "EB7AA435D34A9F43CFD36FF45DB33A113CE2B4D2947BCFE7DC18F19984242EAD",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:f1236c89978a56aa",
+          "operationGroup": "operation:4735286605a82775",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:0b91e06c8b78a80a",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"The Laser Sentry has a targeting range of 50m\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/LAS-98 Laser Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x56070F36CFFFA8A8",
+            "recordIndex": 11,
+            "indexRow": 0,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
+            "consumers": [
+              {
+                "stratagem": "A/LAS-98 Laser Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:6dbe7ca3d8edcb58",
+          "operationGroup": "operation:0a3e9d9d884a76aa",
+          "planGroup": "plan:stratagem:a_las_98_laser_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/LAS-98 Laser Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:c14490cb862cbcd5",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_las_98_laser_sentry:a_las_98_laser_sentry_weapon_main_primary:heat.capacity",
@@ -87755,7 +91088,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 50.0,
+          "horizontalTurnSpeed": 80.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 50.0,
+        "statement": {
+          "text": "The Laser Sentry has a targeting range of 50m",
+          "value": 50,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "A/FLAM-40 Flame Sentry": {
       "name": "A/FLAM-40 Flame Sentry",
@@ -88129,6 +91491,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 140.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 140.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -45.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 90.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 51,
+            "indexRow": 138,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:519cd6fe481ed98c",
+          "operationGroup": "operation:76923d87db8ceb24",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:9e3082b665b8ff98",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 50.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 207,
+            "indexRow": 596,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "A20E9E074D469A88F2C7DC1FE168948DD9F8A23B8EE31F9290DFA8B4FFC831CF",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:0e648782aa604169",
+          "operationGroup": "operation:3dd68f2bce1a292a",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:d4a956ed41a5db41",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry states no range of its own)",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 150.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/FLAM-40 Flame Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x820CC3BAFE962858",
+            "recordIndex": 6,
+            "indexRow": 181,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
+            "consumers": [
+              {
+                "stratagem": "A/FLAM-40 Flame Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:47e3e3cf8adf5c50",
+          "operationGroup": "operation:92eba03f27a444b3",
+          "planGroup": "plan:stratagem:a_flam_40_flame_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/FLAM-40 Flame Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:0b6eb71fb01c2053",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_flam_40_flame_sentry:a_flam_40_flame_sentry_weapon_main_primary:weapon.capacity",
@@ -89399,7 +93197,32 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 140.0,
+          "horizontalTurnSpeed": 140.0,
+          "verticalLimit": [
+            -45.0,
+            90.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 50.0,
+        "statement": null,
+        "note": "Engagement distance may be set by the weapon (spray reach, arc range); the sensor range bounds target acquisition only."
+      }
     },
     "A/GM-17 Gas Mortar Sentry": {
       "name": "A/GM-17 Gas Mortar Sentry",
@@ -89773,6 +93596,442 @@
           "reviewedScopeComplete": true,
           "dynamicConsumersPossible": false,
           "provenance": "shared typed DamageableZone member gameplay-proven on the Bastion (BastionReArmored)"
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.yaw_speed",
+          "semanticFieldId": "turret.yaw_speed",
+          "displayName": "Horizontal turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 12,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.pitch_speed",
+          "semanticFieldId": "turret.pitch_speed",
+          "displayName": "Vertical turn speed",
+          "type": "number",
+          "unit": "degrees_per_second",
+          "currentDefault": 55.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 8,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": 1,
+          "max": 720,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.pitch_min",
+          "semanticFieldId": "turret.pitch_min",
+          "displayName": "Lowest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 35.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 20,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.pitch_max",
+          "semanticFieldId": "turret.pitch_max",
+          "displayName": "Highest aim angle",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 89.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 24,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member equal to the wiki detailed-table value on every one of the nine turreted sentries (hidden member-name length matches the table label)",
+          "min": -90,
+          "max": 90,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted sentries, but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.yaw_min",
+          "semanticFieldId": "turret.yaw_min",
+          "displayName": "Left traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": -180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 28,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_turret_main:turret.yaw_max",
+          "semanticFieldId": "turret.yaw_max",
+          "displayName": "Right traverse limit",
+          "type": "number",
+          "unit": "degrees",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": "Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect.",
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "turret",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "TurretComponentData",
+            "component": "TurretComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 55,
+            "indexRow": 55,
+            "offset": 32,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:ed41f647445f4761",
+          "operationGroup": "operation:da0d6e87b66d8070",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:f8f2223d3c801dc6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "TurretComponent member paired with the proven vertical limits (same layout pattern, constrained arcs on fixed enemy mounts); no published table",
+          "min": -180,
+          "max": 180,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed enemy mounts: narrower arcs) but no published table or live write confirms them."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_targeting_main:targeting.range",
+          "semanticFieldId": "targeting.range",
+          "displayName": "Targeting range",
+          "type": "number",
+          "unit": "meters",
+          "currentDefault": 125.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "targeting",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "SensorEyeComponentData",
+            "component": "SensorEyeComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 211,
+            "indexRow": 250,
+            "offset": 0,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:1d56c615ebb42b47",
+          "operationGroup": "operation:eaebd21871b975f9",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:fbd3628dca0763f6",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries (this sentry: \"potential maximum targeting range of 125-meters\")",
+          "min": 1,
+          "max": 500,
+          "acknowledgement": "allow_unverified_effect",
+          "acknowledgementReason": "SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), but no live write has confirmed the gameplay effect yet."
+        },
+        {
+          "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_deployed_entity_main:payload.lifetime",
+          "semanticFieldId": "payload.lifetime",
+          "displayName": "Deployed lifetime",
+          "type": "number",
+          "unit": "seconds",
+          "currentDefault": 180.0,
+          "editable": true,
+          "reason": null,
+          "target": {
+            "resource": "stratagem",
+            "stratagem": "A/GM-17 Gas Mortar Sentry",
+            "path": "deployed_entity",
+            "entity": "main"
+          },
+          "backing": {
+            "kind": "HellpodPayloadComponentData",
+            "component": "HellpodPayloadComponentData",
+            "nativeIdentity": "0x299C0D3DFD2F0994",
+            "recordIndex": 20,
+            "indexRow": 98,
+            "offset": 4,
+            "storage": "f32",
+            "width": 4,
+            "ownerCount": 1,
+            "uniqueOwner": true,
+            "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
+            "consumers": [
+              {
+                "stratagem": "A/GM-17 Gas Mortar Sentry",
+                "path": "deployed_entity/weapon:primary"
+              }
+            ]
+          },
+          "backingObjectId": "backing:19fa6a47a17469da",
+          "operationGroup": "operation:ac8436a6e52a1b28",
+          "planGroup": "plan:stratagem:a_gm_17_gas_mortar_sentry",
+          "requires": "patch_or_transaction",
+          "allowSharedRequired": false,
+          "shared": false,
+          "sharedConsumers": [
+            {
+              "stratagem": "A/GM-17 Gas Mortar Sentry",
+              "path": "deployed_entity/weapon:primary"
+            }
+          ],
+          "sharedScopeKey": "shared-scope:eee3346f3816cb8c",
+          "reviewedScopeComplete": true,
+          "dynamicConsumersPossible": false,
+          "provenance": "HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; equal to the wiki detailed-table lifetime"
         },
         {
           "instanceKey": "stratagem:a_gm_17_gas_mortar_sentry:a_gm_17_gas_mortar_sentry_weapon_main_primary:weapon.fire_rate",
@@ -92171,7 +96430,36 @@
           "health": 400,
           "affectsMainHealth": 1.0
         }
-      ]
+      ],
+      "turret": {
+        "proof": "wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)",
+        "native": {
+          "verticalTurnSpeed": 55.0,
+          "horizontalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "horizontalLimit": [
+            -180.0,
+            180.0
+          ]
+        },
+        "wikiChecks": {
+          "horizontalTurnSpeed": true,
+          "verticalTurnSpeed": true,
+          "verticalLimit": true
+        }
+      },
+      "targeting": {
+        "range": 125.0,
+        "statement": {
+          "text": "potential maximum targeting range of 125-meters",
+          "value": 125,
+          "exact": true
+        },
+        "note": null
+      }
     },
     "MD-6 Anti-Personnel Minefield": {
       "name": "MD-6 Anti-Personnel Minefield",

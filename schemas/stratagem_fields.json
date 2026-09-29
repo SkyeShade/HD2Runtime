@@ -10,6 +10,13 @@
     {"id":"orbital.duration","display_name":"Orbital attack duration","type":"number","unit":"seconds","writable":true,"storage":"f32"},
     {"id":"orbital.movement_speed","display_name":"Orbital tracking speed","type":"number","unit":"meters_per_second","writable":true,"storage":"f32"},
     {"id":"orbital.search_radius","display_name":"Orbital search radius","type":"number","unit":"meters","writable":true,"storage":"f32"},
-    {"id":"orbital.tick_interval","display_name":"Orbital damage tick interval","type":"number","unit":"seconds","writable":true,"storage":"f32"}
+    {"id":"orbital.tick_interval","display_name":"Orbital damage tick interval","type":"number","unit":"seconds","writable":true,"storage":"f32"},
+    {"id":"turret.yaw_speed","display_name":"Horizontal turn speed","type":"number","unit":"degrees_per_second","writable":true,"storage":"f32","component":"TurretComponentData","offset":12},
+    {"id":"turret.pitch_speed","display_name":"Vertical turn speed","type":"number","unit":"degrees_per_second","writable":true,"storage":"f32","component":"TurretComponentData","offset":8},
+    {"id":"turret.pitch_min","display_name":"Lowest aim angle","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":20},
+    {"id":"turret.pitch_max","display_name":"Highest aim angle","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":24},
+    {"id":"turret.yaw_min","display_name":"Left traverse limit","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":28,"reason":"Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect."},
+    {"id":"turret.yaw_max","display_name":"Right traverse limit","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":32,"reason":"Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect."},
+    {"id":"targeting.range","display_name":"Targeting range","type":"number","unit":"meters","writable":true,"storage":"f32","component":"SensorEyeComponentData","offset":0}
   ]
 }

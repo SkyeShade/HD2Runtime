@@ -116,7 +116,7 @@ class StratagemAuthoringTests(unittest.TestCase):
             fields = {field['semanticFieldId']: field for field in entry['fields']
                 if field['target']['path'] == 'deployed_entity'}
             expected = {'entity.health', 'entity.armor'}
-            if entry['name'] == 'FX-12 Shield Generator Relay':
+            if entry['family'] == 'sentry' or entry['name'] == 'FX-12 Shield Generator Relay':
                 expected.add('payload.lifetime')
             self.assertEqual(set(fields), expected)
             self.assertEqual(fields['entity.health']['currentDefault'], proof['nativeHealth'])
