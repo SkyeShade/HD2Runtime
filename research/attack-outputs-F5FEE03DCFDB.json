@@ -1,0 +1,6076 @@
+{
+ "schemaVersion": 1,
+ "writes": 0,
+ "fixtureFallback": "disabled",
+ "model": {
+  "weaponComposition": "A weapon entity owns exactly one output-family component (ProjectileWeapon, BeamWeapon, ArcWeapon, SprayWeapon or MeleeWeapon) next to fire-control and resource components (WeaponData, WeaponMagazine / WeaponRounds / WeaponHeat / WeaponCharge, WeaponReload).",
+  "commonOutputAbstraction": false,
+  "outputReferences": {
+   "projectile": "ProjectileWeaponComponent +0 ProjectileType",
+   "beam": "BeamWeaponComponent +0 BeamType",
+   "arc": "ArcWeaponComponent +0 ArcType",
+   "spray": "SprayWeaponComponent +200 DamageInfoType",
+   "melee": "MeleeWeaponComponent +12 DamageInfoType"
+  },
+  "familyOwnedBehaviour": {
+   "ProjectileWeaponComponent": [
+    [
+     0,
+     "projectile_type (ProjectileType)"
+    ],
+    [
+     8,
+     "rounds per minute"
+    ],
+    [
+     36,
+     "infinite ammo"
+    ],
+    [
+     576,
+     "second ProjectileType"
+    ]
+   ],
+   "BeamWeaponComponent": [
+    [
+     0,
+     "beam_type (BeamType)"
+    ],
+    [
+     16,
+     "heat buildup (WeaponHeatBuildup)"
+    ],
+    [
+     100,
+     "beam fire mode (BeamFireMode)"
+    ],
+    [
+     104,
+     "int, len 16"
+    ],
+    [
+     108,
+     "int, len 19"
+    ],
+    [
+     112,
+     "f32, len 13"
+    ]
+   ],
+   "ArcWeaponComponent": [
+    [
+     0,
+     "arc_type (ArcType)"
+    ],
+    [
+     4,
+     "rounds per minute"
+    ],
+    [
+     8,
+     "infinite ammo"
+    ],
+    [
+     9,
+     "RPC-synced fire events"
+    ]
+   ]
+  },
+  "bridges": [
+   "ProjectileInfo +144 / +156 -> ExplosionType (impact / expiry)",
+   "ExplosionInfo +84 -> ProjectileType (shrapnel / submunition)",
+   "ExplosionInfo +120 -> ArcType (an explosion releases an arc)",
+   "BeamInfo +96 -> ExplosionType",
+   "WeaponChargeComponent +200 -> ExplosionType"
+  ],
+  "noBridgeTo": [
+   "BeamType (only BeamWeaponComponent, BeamInfo and the unembedded BeamPrisms type)"
+  ]
+ },
+ "typeReferences": {
+  "ProjectileType": [
+   {
+    "type": "BombardmentComponent",
+    "offset": 64,
+    "array": 8
+   },
+   {
+    "type": "ChargeStateSetting",
+    "offset": 4,
+    "array": null
+   },
+   {
+    "type": "EagleComponent",
+    "offset": 24,
+    "array": null
+   },
+   {
+    "type": "ExplosionInfo",
+    "offset": 84,
+    "array": null
+   },
+   {
+    "type": "HeatLevelSetting",
+    "offset": 4,
+    "array": null
+   },
+   {
+    "type": "MagazinePattern",
+    "offset": 0,
+    "array": 32
+   },
+   {
+    "type": "MagazinePattern",
+    "offset": 128,
+    "array": null
+   },
+   {
+    "type": "ObjectiveShellComponent",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "OrbitalAbilityComponent",
+    "offset": 532,
+    "array": null
+   },
+   {
+    "type": "ProjectileInfo",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "ProjectileWeaponComponent",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "ProjectileWeaponComponent",
+    "offset": 576,
+    "array": null
+   },
+   {
+    "type": "SeekingMissileComponent",
+    "offset": 176,
+    "array": null
+   },
+   {
+    "type": "SprayWeaponComponent",
+    "offset": 196,
+    "array": null
+   },
+   {
+    "type": "WeaponRoundsAmmoType",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "WeaponRoundsAmmoType",
+    "offset": 4,
+    "array": null
+   }
+  ],
+  "BeamType": [
+   {
+    "type": "BeamInfo",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "BeamPrisms",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "BeamPrisms",
+    "offset": 8,
+    "array": null
+   },
+   {
+    "type": "BeamWeaponComponent",
+    "offset": 0,
+    "array": null
+   }
+  ],
+  "ArcType": [
+   {
+    "type": "ArcInfo",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "ArcWeaponComponent",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "ExplosionInfo",
+    "offset": 120,
+    "array": null
+   }
+  ],
+  "ExplosionType": [
+   {
+    "type": "0xA9672BFE",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "BackblastComponent",
+    "offset": 8,
+    "array": null
+   },
+   {
+    "type": "BeamInfo",
+    "offset": 96,
+    "array": null
+   },
+   {
+    "type": "CrashingActorInfo",
+    "offset": 24,
+    "array": null
+   },
+   {
+    "type": "DestructionEffectExplosion",
+    "offset": 4,
+    "array": null
+   },
+   {
+    "type": "DisplacementComponent",
+    "offset": 56,
+    "array": null
+   },
+   {
+    "type": "ExplosionInfo",
+    "offset": 0,
+    "array": null
+   },
+   {
+    "type": "ExplosiveComponent",
+    "offset": 36,
+    "array": null
+   },
+   {
+    "type": "ExplosiveComponent",
+    "offset": 40,
+    "array": null
+   },
+   {
+    "type": "MinefieldComponent",
+    "offset": 24,
+    "array": null
+   },
+   {
+    "type": "ProjectileClusterComponent",
+    "offset": 4,
+    "array": null
+   },
+   {
+    "type": "ProjectileInfo",
+    "offset": 144,
+    "array": null
+   },
+   {
+    "type": "ProjectileInfo",
+    "offset": 156,
+    "array": null
+   },
+   {
+    "type": "VehicleEffectInfo",
+    "offset": 28,
+    "array": null
+   },
+   {
+    "type": "WeaponChargeComponent",
+    "offset": 200,
+    "array": null
+   }
+  ]
+ },
+ "subjects": {
+  "AR-23 Liberator": {
+   "weapon": "AR-23 Liberator",
+   "kind": "player_weapon",
+   "resource": "0x968211C0033DCE64",
+   "entityRow": 3686,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 276
+   },
+   "componentIdentity": {
+    "recordIndex": 192,
+    "indexRow": 4,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 108,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 276,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ],
+   "role": "host"
+  },
+  "LAS-98 Laser Cannon": {
+   "weapon": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "resource": "0xD54B9505C0F72873",
+   "entityRow": 2163,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 1
+   },
+   "componentIdentity": {
+    "recordIndex": 22,
+    "indexRow": 41,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "manned_turret_laser",
+   "packageAutoLoad": true,
+   "beamFireMode": 4,
+   "beamIntegers": [
+    60,
+    1
+   ],
+   "beamPulse": 0.0,
+   "projectileHost": false,
+   "output": {
+    "damage": 507,
+    "explosion": 0,
+    "length": 1000,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 1,
+     "row": 7,
+     "settingsType": "0xC5085606"
+    },
+    "type": 1
+   },
+   "outputConsumers": [
+    "laser_cannon"
+   ],
+   "role": "LAS Beam"
+  },
+  "LAS-13 Trident": {
+   "weapon": "LAS-13 Trident",
+   "kind": "player_weapon",
+   "resource": "0x3C86E871923F3970",
+   "entityRow": 2418,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 6
+   },
+   "componentIdentity": {
+    "recordIndex": 18,
+    "indexRow": 20,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_shotgun",
+   "packageAutoLoad": true,
+   "beamFireMode": 6,
+   "beamIntegers": [
+    300,
+    2
+   ],
+   "beamPulse": 0.15,
+   "projectileHost": false,
+   "output": {
+    "damage": 508,
+    "explosion": 0,
+    "length": 200,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 6,
+     "row": 26,
+     "settingsType": "0xC5085606"
+    },
+    "type": 6
+   },
+   "outputConsumers": [
+    "laser_shotgun"
+   ],
+   "role": "Trident"
+  },
+  "EAT-700 Expendable Napalm": {
+   "weapon": "EAT-700 Expendable Napalm",
+   "kind": "support_weapon",
+   "resource": "0xB2B5E0D185605F9E",
+   "entityRow": 3999,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 259
+   },
+   "componentIdentity": {
+    "recordIndex": 246,
+    "indexRow": 530,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "expendable_napalm_launcher",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 274,
+    "impact": {
+     "arc": 0,
+     "damage": 316,
+     "radii": [
+      1.600000023841858,
+      8,
+      10
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 316,
+      "row": 220,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 224,
+     "type": 316
+    },
+    "mass": 2500,
+    "settings": {
+     "group": 0,
+     "recordType": 259,
+     "row": 94,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 259,
+    "velocity": 200
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "expendable_napalm_launcher"
+   ],
+   "role": "EAT-700 Napalm"
+  },
+  "ARC-3 Arc Thrower": {
+   "weapon": "ARC-3 Arc Thrower",
+   "kind": "support_weapon",
+   "resource": "0x96DE9CD50F7306E6",
+   "entityRow": 1768,
+   "family": "arc",
+   "component": "ArcWeaponComponentData",
+   "reference": {
+    "enum": "ArcType",
+    "offset": 0,
+    "value": 7
+   },
+   "componentIdentity": {
+    "recordIndex": 9,
+    "indexRow": 2,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "arc_thrower",
+   "packageAutoLoad": true,
+   "rpm": -1.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "chain": 1,
+    "damage": 197,
+    "distance": 55,
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 0,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 300,
+    "split": 1,
+    "type": 7
+   },
+   "outputConsumers": [
+    "arc_thrower"
+   ],
+   "role": "ARC-3 Arc"
+  },
+  "GL-52 De-Escalator": {
+   "weapon": "GL-52 De-Escalator",
+   "kind": "support_weapon",
+   "resource": "0xFE3B29B2CFA63F9B",
+   "entityRow": 3995,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 222
+   },
+   "componentIdentity": {
+    "recordIndex": 250,
+    "indexRow": 95,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "grenade_launcher_tactical",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    222,
+    0
+   ],
+   "rpm": 200.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 32,
+    "impact": {
+     "arc": 15,
+     "damage": 366,
+     "radii": [
+      1,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 41,
+      "row": 405,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 41
+    },
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 222,
+     "row": 88,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 222,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_arc",
+   "outputConsumers": [
+    "grenade_launcher_tactical"
+   ],
+   "role": "arc on impact (native explosion arc)"
+  },
+  "ARC-12 Blitzer": {
+   "weapon": "ARC-12 Blitzer",
+   "kind": "player_weapon",
+   "resource": "0x076DD5D4F4360204",
+   "entityRow": 517,
+   "family": "arc",
+   "component": "ArcWeaponComponentData",
+   "reference": {
+    "enum": "ArcType",
+    "offset": 0,
+    "value": 3
+   },
+   "componentIdentity": {
+    "recordIndex": 8,
+    "indexRow": 0,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "arc_shotgun",
+   "packageAutoLoad": true,
+   "rpm": 45.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "chain": 1,
+    "damage": 199,
+    "distance": 25,
+    "settings": {
+     "group": 0,
+     "recordType": 3,
+     "row": 4,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 300,
+    "split": 0,
+    "type": 3
+   },
+   "outputConsumers": [
+    "arc_shotgun"
+   ],
+   "role": "arc without charge"
+  }
+ },
+ "explosionArcs": [
+  {
+   "arc": 15,
+   "explosion": 41,
+   "settings": {
+    "group": 0,
+    "recordType": 41,
+    "row": 405,
+    "settingsType": "0x2AEA2592"
+   },
+   "consumers": [
+    "grenade_launcher_tactical"
+   ],
+   "arcRow": {
+    "chain": 2,
+    "damage": 201,
+    "distance": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 15,
+     "row": 14,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 2000,
+    "split": 2,
+    "type": 15
+   }
+  },
+  {
+   "arc": 6,
+   "explosion": 157,
+   "settings": {
+    "group": 0,
+    "recordType": 157,
+    "row": 406,
+    "settingsType": "0x2AEA2592"
+   },
+   "consumers": [
+    "arc_grenade"
+   ],
+   "arcRow": {
+    "chain": 2,
+    "damage": 212,
+    "distance": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 6,
+     "row": 15,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 2000,
+    "split": 2,
+    "type": 6
+   }
+  },
+  {
+   "arc": 6,
+   "explosion": 281,
+   "settings": {
+    "group": 0,
+    "recordType": 281,
+    "row": 409,
+    "settingsType": "0x2AEA2592"
+   },
+   "consumers": [],
+   "arcRow": {
+    "chain": 2,
+    "damage": 212,
+    "distance": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 6,
+     "row": 15,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 2000,
+    "split": 2,
+    "type": 6
+   }
+  }
+ ],
+ "liberatorCases": {
+  "LAS Beam": {
+   "donor": "LAS-98 Laser Cannon",
+   "status": "BLOCKED",
+   "reason": "A beam is fired only by a BeamWeaponComponent (BeamType at +0). No projectile, explosion or other settings member references a BeamType, and the Liberator entity owns a ProjectileWeaponComponent, not a BeamWeaponComponent. The beam component also owns its own firing behaviour (BeamFireMode, heat buildup) and the LAS-98 draws on WeaponHeat, which the Liberator does not have. A beam output would need the entity component composition itself changed, which is not a reference write and is not generated."
+  },
+  "Trident": {
+   "donor": "LAS-13 Trident",
+   "status": "BLOCKED",
+   "reason": "Same family boundary as the LAS beam. The Trident is one BeamWeaponComponent (BeamType 6) in BeamFireMode 6 (the continuous beams use 4), with +104 = 300, +108 = 2 and +112 = 0.15 where the continuous beams have 60 / 1 / 0, and a single-fire audio event instead of loop start/stop. No member counts beams: BeamInfo has none, and the BeamPrisms type (light/heavy BeamType with heat multipliers) exists in the type library but is embedded in no struct in this build. Beam count, spread, tick and pulse members are unidentified and stay read-only."
+  },
+  "EAT-700 Napalm": {
+   "donor": "EAT-700 Expendable Napalm",
+   "status": "SUPPORTED",
+   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), so replacing the Liberator's +0 reference is the whole composition. Everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain), so the swap is a cross-class reference and needs allow_unverified_reference and allow_unverified_effect.",
+   "writes": [
+    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+   ]
+  },
+  "ARC-3 Arc": {
+   "donor": "ARC-3 Arc Thrower",
+   "status": "BLOCKED",
+   "reason": "An arc is emitted by an ArcWeaponComponent (ArcType at +0; it also owns RPM and infinite ammo) or by an explosion (ExplosionInfo +120 ArcType). The ARC-3 arc (ArcType 7) is referenced by no explosion; its only consumer is the ARC-3's ArcWeaponComponent. Charge is ARC-3 fire control, not part of the arc output: the ARC-12 Blitzer fires arcs without a WeaponCharge component. Emitting the ARC-3 arc from the Liberator's muzzle would need an ArcWeaponComponent on the Liberator entity; emitting it at impact would need a shared explosion row re-pointed at ArcType 7, changing that explosion's owners. Neither is generated.",
+   "nativeAlternative": "Arc on impact: the GL-52 De-Escalator grenade (projectile 222) whose impact explosion (41) releases arc 15; a projectile-family swap, supported like the EAT-700."
+  },
+  "Arc on impact": {
+   "donor": "GL-52 De-Escalator",
+   "status": "SUPPORTED",
+   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120). Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
+   "writes": [
+    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+   ]
+  }
+ },
+ "hostRetains": {
+  "magazine": "WeaponMagazineComponent (unchanged)",
+  "reload": "WeaponReloadComponent",
+  "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only +0 changes)",
+  "handling": "WeaponDataComponent (recoil, spread, sway, ergonomics, fire modes)",
+  "liberator": {
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "magazinePatternEntries": 0,
+   "projectileHost": true
+  }
+ },
+ "summary": {
+  "weapons": 105,
+  "byFamily": {
+   "projectile": 89,
+   "beam": 3,
+   "arc": 2,
+   "spray": 4,
+   "melee": 7
+  },
+  "projectileHosts": 58,
+  "explosionArcRows": 3
+ },
+ "weapons": [
+  {
+   "weapon": "AR-11 Arbitrator",
+   "kind": "player_weapon",
+   "resource": "0xA8A91EB54892B6B2",
+   "entityRow": 1718,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 288
+   },
+   "componentIdentity": {
+    "recordIndex": 202,
+    "indexRow": 400,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_risk",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1200.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 133,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 288,
+     "row": 234,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 288,
+    "velocity": 920
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_risk"
+   ]
+  },
+  {
+   "weapon": "AR-2 Coyote",
+   "kind": "player_weapon",
+   "resource": "0x84354339522C932D",
+   "entityRow": 817,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 138
+   },
+   "componentIdentity": {
+    "recordIndex": 198,
+    "indexRow": 394,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 118,
+    "mass": 8,
+    "settings": {
+     "group": 0,
+     "recordType": 138,
+     "row": 216,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 138,
+    "velocity": 650
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_large_calibre_01"
+   ]
+  },
+  {
+   "weapon": "AR-23 Liberator",
+   "kind": "player_weapon",
+   "resource": "0x968211C0033DCE64",
+   "entityRow": 3686,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 276
+   },
+   "componentIdentity": {
+    "recordIndex": 192,
+    "indexRow": 4,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 108,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 276,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ]
+  },
+  {
+   "weapon": "AR-23A Liberator Carbine",
+   "kind": "player_weapon",
+   "resource": "0xA7EE1EBF58FCDF1F",
+   "entityRow": 3871,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 276
+   },
+   "componentIdentity": {
+    "recordIndex": 200,
+    "indexRow": 521,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_patriot",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 920.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 108,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 276,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ]
+  },
+  {
+   "weapon": "AR-23C Liberator Concussive",
+   "kind": "player_weapon",
+   "resource": "0xCF5F176E0E322BE1",
+   "entityRow": 3042,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 310
+   },
+   "componentIdentity": {
+    "recordIndex": 194,
+    "indexRow": 469,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 400.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 107,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 310,
+     "row": 203,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 310,
+    "velocity": 800
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x263817187B7CE092",
+    "0x3D4970D1C4E640EE",
+    "assault_rifle_exp"
+   ]
+  },
+  {
+   "weapon": "AR-23P Liberator Penetrator",
+   "kind": "player_weapon",
+   "resource": "0x43CB1033961A2276",
+   "entityRow": 631,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 7
+   },
+   "componentIdentity": {
+    "recordIndex": 193,
+    "indexRow": 384,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 105,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 200,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 7,
+    "velocity": 1000
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x3357EEBB0184FDEE",
+    "0x4DF41F84668D07FB",
+    "0x73681FFD58FA1A90",
+    "assault_rifle_ap",
+    "drone_mg_weapon"
+   ]
+  },
+  {
+   "weapon": "AR-32 Pacifier",
+   "kind": "player_weapon",
+   "resource": "0xBC29613666DF696B",
+   "entityRow": 2411,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 98
+   },
+   "componentIdentity": {
+    "recordIndex": 197,
+    "indexRow": 333,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_karbin",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 700.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 116,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 98,
+     "row": 212,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 98,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_karbin"
+   ]
+  },
+  {
+   "weapon": "AR-59 Suppressor",
+   "kind": "player_weapon",
+   "resource": "0x708EA298C82093D0",
+   "entityRow": 976,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 139
+   },
+   "componentIdentity": {
+    "recordIndex": 203,
+    "indexRow": 346,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_whisper",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 850.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 114,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 139,
+     "row": 209,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 139,
+    "velocity": 330
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_whisper"
+   ]
+  },
+  {
+   "weapon": "AR-61 Tenderizer",
+   "kind": "player_weapon",
+   "resource": "0xCE063AA33D95A812",
+   "entityRow": 2066,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 44
+   },
+   "componentIdentity": {
+    "recordIndex": 201,
+    "indexRow": 356,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_rico",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 135,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 44,
+     "row": 236,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 44,
+    "velocity": 820
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_rico"
+   ]
+  },
+  {
+   "weapon": "AR/GL-21 One-Two",
+   "kind": "player_weapon",
+   "resource": "0xA955C4EA6F6D4203",
+   "entityRow": 518,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 334
+   },
+   "componentIdentity": {
+    "recordIndex": 195,
+    "indexRow": 167,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_grenadier",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 650.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 132,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 334,
+     "row": 233,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 334,
+    "velocity": 920
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_grenadier"
+   ]
+  },
+  {
+   "weapon": "ARC-12 Blitzer",
+   "kind": "player_weapon",
+   "resource": "0x076DD5D4F4360204",
+   "entityRow": 517,
+   "family": "arc",
+   "component": "ArcWeaponComponentData",
+   "reference": {
+    "enum": "ArcType",
+    "offset": 0,
+    "value": 3
+   },
+   "componentIdentity": {
+    "recordIndex": 8,
+    "indexRow": 0,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "arc_shotgun",
+   "packageAutoLoad": true,
+   "rpm": 45.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "chain": 1,
+    "damage": 199,
+    "distance": 25,
+    "settings": {
+     "group": 0,
+     "recordType": 3,
+     "row": 4,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 300,
+    "split": 0,
+    "type": 3
+   },
+   "outputConsumers": [
+    "arc_shotgun"
+   ]
+  },
+  {
+   "weapon": "BR-14 Adjudicator",
+   "kind": "player_weapon",
+   "resource": "0x5FECAB819F96A3E8",
+   "entityRow": 1000,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 135
+   },
+   "componentIdentity": {
+    "recordIndex": 207,
+    "indexRow": 228,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "battle_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 550.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 134,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 135,
+     "row": 235,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 135,
+    "velocity": 820
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "battle_rifle"
+   ]
+  },
+  {
+   "weapon": "CB-9 Exploding Crossbow",
+   "kind": "player_weapon",
+   "resource": "0xF49227A0630A3F7F",
+   "entityRow": 3967,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 249
+   },
+   "componentIdentity": {
+    "recordIndex": 210,
+    "indexRow": 363,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "crossbow_greyfax",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 50.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 208,
+    "impact": {
+     "arc": 0,
+     "damage": 209,
+     "radii": [
+      3,
+      6,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 59,
+      "row": 107,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 59
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 249,
+     "row": 254,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 249,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "crossbow_greyfax"
+   ]
+  },
+  {
+   "weapon": "CQC-19 Stun Lance",
+   "kind": "player_weapon",
+   "resource": "0xE3B6AEDD07FCB464",
+   "entityRow": 1126,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 558
+   },
+   "componentIdentity": {
+    "recordIndex": 2,
+    "indexRow": 13,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "power_sword",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-2 Saber",
+   "kind": "player_weapon",
+   "resource": "0xFCD8A6E67EAC635A",
+   "entityRow": 858,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 552
+   },
+   "componentIdentity": {
+    "recordIndex": 5,
+    "indexRow": 0,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "ceremonial_saber",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-30 Stun Baton",
+   "kind": "player_weapon",
+   "resource": "0x52CDBFBACA3CB397",
+   "entityRow": 919,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 559
+   },
+   "componentIdentity": {
+    "recordIndex": 7,
+    "indexRow": 5,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "stun_baton",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-5 Combat Hatchet",
+   "kind": "player_weapon",
+   "resource": "0x75816077C139C850",
+   "entityRow": 2128,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 551
+   },
+   "componentIdentity": {
+    "recordIndex": 9,
+    "indexRow": 12,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "hand_axe",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "DBS-2 Double Freedom",
+   "kind": "player_weapon",
+   "resource": "0x72170A55A1F37FF1",
+   "entityRow": 4081,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 128,
+    "indexRow": 431,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "shotgun_double_freedom",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    317,
+    0
+   ],
+   "rpm": 650.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "FLAM-66 Torcher",
+   "kind": "player_weapon",
+   "resource": "0x4FB0F8C02F55C82B",
+   "entityRow": 2095,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 15
+   },
+   "componentIdentity": {
+    "recordIndex": 17,
+    "indexRow": 1,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "flamethrower_ripley",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "GL-15 Evictor",
+   "kind": "player_weapon",
+   "resource": "0x006E44327BB953FE",
+   "entityRow": 1023,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 297
+   },
+   "componentIdentity": {
+    "recordIndex": 120,
+    "indexRow": 45,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pump_shotgun",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    297,
+    0
+   ],
+   "rpm": 60.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 33,
+    "expiry": {
+     "arc": 0,
+     "damage": 376,
+     "radii": [
+      2.25,
+      5.5,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 268,
+      "row": 111,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 268
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 376,
+     "radii": [
+      2.25,
+      5.5,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 268,
+      "row": 111,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 268
+    },
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 297,
+     "row": 82,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 297,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "outputConsumers": [
+    "pump_grenade_launcher"
+   ]
+  },
+  {
+   "weapon": "GP-20 Ultimatum",
+   "kind": "player_weapon",
+   "resource": "0x9EB160830321BFD6",
+   "entityRow": 4054,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 103
+   },
+   "componentIdentity": {
+    "recordIndex": 235,
+    "indexRow": 478,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "cricket_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 900.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 27,
+    "impact": {
+     "arc": 0,
+     "damage": 281,
+     "radii": [
+      2,
+      12,
+      25
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 341,
+      "row": 150,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 341
+    },
+    "mass": 500,
+    "settings": {
+     "group": 0,
+     "recordType": 103,
+     "row": 146,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 103,
+    "velocity": 20
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "pistol_cricket"
+   ]
+  },
+  {
+   "weapon": "JAR-5 Dominator",
+   "kind": "player_weapon",
+   "resource": "0x80F1A156D9FA1E36",
+   "entityRow": 3639,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 177
+   },
+   "componentIdentity": {
+    "recordIndex": 211,
+    "indexRow": 460,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "jet_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 250.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 153,
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 177,
+     "row": 262,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 177,
+    "velocity": 180
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "jet_rifle"
+   ]
+  },
+  {
+   "weapon": "LAS-12 Sai",
+   "kind": "player_weapon",
+   "resource": "0xC85F576D5E086147",
+   "entityRow": 329,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 236
+   },
+   "componentIdentity": {
+    "recordIndex": 215,
+    "indexRow": 49,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_smg_blaster",
+   "packageAutoLoad": true,
+   "rpm": 800.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 49,
+    "mass": 12,
+    "settings": {
+     "group": 0,
+     "recordType": 236,
+     "row": 327,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 236,
+    "velocity": 100
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "laser_smg_blaster"
+   ]
+  },
+  {
+   "weapon": "LAS-13 Trident",
+   "kind": "player_weapon",
+   "resource": "0x3C86E871923F3970",
+   "entityRow": 2418,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 6
+   },
+   "componentIdentity": {
+    "recordIndex": 18,
+    "indexRow": 20,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_shotgun",
+   "packageAutoLoad": true,
+   "beamFireMode": 6,
+   "beamIntegers": [
+    300,
+    2
+   ],
+   "beamPulse": 0.15,
+   "projectileHost": false,
+   "output": {
+    "damage": 508,
+    "explosion": 0,
+    "length": 200,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 6,
+     "row": 26,
+     "settingsType": "0xC5085606"
+    },
+    "type": 6
+   },
+   "outputConsumers": [
+    "laser_shotgun"
+   ]
+  },
+  {
+   "weapon": "LAS-16 Sickle",
+   "kind": "player_weapon",
+   "resource": "0x8645F167B3C813A2",
+   "entityRow": 931,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 149
+   },
+   "componentIdentity": {
+    "recordIndex": 213,
+    "indexRow": 508,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_rifle_long",
+   "packageAutoLoad": true,
+   "rpm": 750.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 48,
+    "mass": 12,
+    "settings": {
+     "group": 0,
+     "recordType": 149,
+     "row": 326,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 149,
+    "velocity": 1300
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "laser_rifle_long",
+    "laser_rifle_long_hotshot"
+   ]
+  },
+  {
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "kind": "player_weapon",
+   "resource": "0x295BEB26DC4F8FF1",
+   "entityRow": 4083,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 149
+   },
+   "componentIdentity": {
+    "recordIndex": 214,
+    "indexRow": 186,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_rifle_long_hotshot",
+   "packageAutoLoad": true,
+   "rpm": 700.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 48,
+    "mass": 12,
+    "settings": {
+     "group": 0,
+     "recordType": 149,
+     "row": 326,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 149,
+    "velocity": 1300
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "laser_rifle_long",
+    "laser_rifle_long_hotshot"
+   ]
+  },
+  {
+   "weapon": "LAS-58 Talon",
+   "kind": "player_weapon",
+   "resource": "0x416D053372C4E433",
+   "entityRow": 1075,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 144
+   },
+   "componentIdentity": {
+    "recordIndex": 230,
+    "indexRow": 369,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "laser_pistol",
+   "packageAutoLoad": true,
+   "rpm": 750.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 54,
+    "mass": 12,
+    "settings": {
+     "group": 0,
+     "recordType": 144,
+     "row": 332,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 144,
+    "velocity": 1300
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "energy_revolver"
+   ]
+  },
+  {
+   "weapon": "M6C/SOCOM Pistol",
+   "kind": "player_weapon",
+   "resource": "0x4D58C77087B774C5",
+   "entityRow": 1221,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 308
+   },
+   "componentIdentity": {
+    "recordIndex": 236,
+    "indexRow": 82,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "pistol_nacho",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 900.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 93,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 308,
+     "row": 184,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 308,
+    "velocity": 285
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "pistol_nacho"
+   ]
+  },
+  {
+   "weapon": "M7S SMG",
+   "kind": "player_weapon",
+   "resource": "0xBE70EE0D8D44028E",
+   "entityRow": 654,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 340
+   },
+   "componentIdentity": {
+    "recordIndex": 133,
+    "indexRow": 340,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_nacho",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 872.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 71,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 340,
+     "row": 162,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 340,
+    "velocity": 320
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_nacho"
+   ]
+  },
+  {
+   "weapon": "M90A Shotgun",
+   "kind": "player_weapon",
+   "resource": "0x90DDC374F4E3D756",
+   "entityRow": 1878,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 62
+   },
+   "componentIdentity": {
+    "recordIndex": 129,
+    "indexRow": 114,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "shotgun_nacho",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    62,
+    0
+   ],
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 157,
+    "mass": 6,
+    "settings": {
+     "group": 0,
+     "recordType": 62,
+     "row": 298,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 62,
+    "velocity": 385
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "shotgun_nacho"
+   ]
+  },
+  {
+   "weapon": "MA5C Assault Rifle",
+   "kind": "player_weapon",
+   "resource": "0x4DBD74F49C8FFC13",
+   "entityRow": 3091,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 119
+   },
+   "componentIdentity": {
+    "recordIndex": 199,
+    "indexRow": 443,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_nacho",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 640.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 136,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 119,
+     "row": 237,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 119,
+    "velocity": 820
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_rifle_nacho"
+   ]
+  },
+  {
+   "weapon": "MP-98 Knight",
+   "kind": "player_weapon",
+   "resource": "0x9571CA51F0DAF35B",
+   "entityRow": 859,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 215
+   },
+   "componentIdentity": {
+    "recordIndex": 130,
+    "indexRow": 498,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_defender",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1380.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 74,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 215,
+     "row": 165,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 215,
+    "velocity": 375
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_defender",
+    "smg_helghast"
+   ]
+  },
+  {
+   "weapon": "P-11 Stim Pistol",
+   "kind": "player_weapon",
+   "resource": "0xD6B1FB05B9109353",
+   "entityRow": 851,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 318
+   },
+   "componentIdentity": {
+    "recordIndex": 141,
+    "indexRow": 537,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    318,
+    0
+   ],
+   "rpm": 70.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 0,
+    "mass": 1,
+    "settings": {
+     "group": 0,
+     "recordType": 318,
+     "row": 198,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 318,
+    "velocity": 300
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x03271411D3D0BAB9",
+    "stim_pistol"
+   ]
+  },
+  {
+   "weapon": "P-113 Verdict",
+   "kind": "player_weapon",
+   "resource": "0x1A437158E1B8D2A1",
+   "entityRow": 675,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 15
+   },
+   "componentIdentity": {
+    "recordIndex": 233,
+    "indexRow": 540,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "magnum_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 450.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 91,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 15,
+     "row": 182,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 15,
+    "velocity": 285
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "magnum_pistol"
+   ]
+  },
+  {
+   "weapon": "P-19 Redeemer",
+   "kind": "player_weapon",
+   "resource": "0x3575AABC5F1F9326",
+   "entityRow": 810,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 228,
+    "indexRow": 119,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "automatic_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1100.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "P-2 Peacemaker",
+   "kind": "player_weapon",
+   "resource": "0x05E4E5C2DB6E44A2",
+   "entityRow": 1187,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 140,
+    "indexRow": 32,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "standard_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 900.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "P-33 Missile Pistol",
+   "kind": "player_weapon",
+   "resource": "0x14D5D4506056C7A4",
+   "entityRow": 1956,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 152
+   },
+   "componentIdentity": {
+    "recordIndex": 139,
+    "indexRow": 366,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "pistol_smart_missile",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 60.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 95,
+    "expiry": {
+     "arc": 0,
+     "damage": 563,
+     "radii": [
+      2,
+      4,
+      12
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 154,
+      "row": 223,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 154
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 563,
+     "radii": [
+      2,
+      4,
+      12
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 154,
+      "row": 223,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 154
+    },
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 152,
+     "row": 187,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 152,
+    "velocity": 1
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "outputConsumers": [
+    "smart_pistol_missile"
+   ]
+  },
+  {
+   "weapon": "P-34 Breacher",
+   "kind": "player_weapon",
+   "resource": "0xE91F569C2AD8AF01",
+   "entityRow": 3842,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 270
+   },
+   "componentIdentity": {
+    "recordIndex": 232,
+    "indexRow": 529,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "hornet_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 20.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 68,
+    "expiry": {
+     "arc": 0,
+     "damage": 69,
+     "radii": [
+      1,
+      1,
+      0
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 167,
+      "row": 224,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 167
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 69,
+     "radii": [
+      1,
+      1,
+      0
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 167,
+      "row": 224,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 167
+    },
+    "mass": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 270,
+     "row": 324,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 270,
+    "velocity": 150
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "outputConsumers": [
+    "hornet_pistol"
+   ]
+  },
+  {
+   "weapon": "P-35 Re-Educator",
+   "kind": "player_weapon",
+   "resource": "0x0B882808C6F498E8",
+   "entityRow": 2281,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 343
+   },
+   "componentIdentity": {
+    "recordIndex": 229,
+    "indexRow": 212,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "caustic_dart_gun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 110.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 67,
+    "mass": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 343,
+     "row": 323,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 343,
+    "velocity": 150
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "caustic_dart_gun"
+   ]
+  },
+  {
+   "weapon": "P-4 Senator",
+   "kind": "player_weapon",
+   "resource": "0x8D3D52A3B2F19402",
+   "entityRow": 1038,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 239,
+    "indexRow": 294,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "revolver_pistol",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    309,
+    0
+   ],
+   "rpm": 200.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "P-69 Veto",
+   "kind": "player_weapon",
+   "resource": "0xC780BCD79547DA0F",
+   "entityRow": 2575,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 237
+   },
+   "componentIdentity": {
+    "recordIndex": 234,
+    "indexRow": 450,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pistol_broomhandle",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    237,
+    0
+   ],
+   "rpm": 750.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 92,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 237,
+     "row": 183,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 237,
+    "velocity": 375
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "pistol_broomhandle"
+   ]
+  },
+  {
+   "weapon": "P-92 Warrant",
+   "kind": "player_weapon",
+   "resource": "0xCF8934FF6567A42D",
+   "entityRow": 1069,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 326
+   },
+   "componentIdentity": {
+    "recordIndex": 138,
+    "indexRow": 67,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smart_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 450.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 94,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 326,
+     "row": 185,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 326,
+    "velocity": 285
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smart_pistol"
+   ]
+  },
+  {
+   "weapon": "P/40-K Bolt Pistol",
+   "kind": "player_weapon",
+   "resource": "0xDBB6C961C59FADC1",
+   "entityRow": 3521,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 202
+   },
+   "componentIdentity": {
+    "recordIndex": 237,
+    "indexRow": 489,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "pistol_shark",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 150.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 156,
+    "impact": {
+     "arc": 0,
+     "damage": 303,
+     "radii": [
+      1,
+      3.5,
+      5
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 388,
+      "row": 92,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 388
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 202,
+     "row": 260,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 202,
+    "velocity": 350
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "pistol_shark"
+   ]
+  },
+  {
+   "weapon": "PLAS-1 Scorcher",
+   "kind": "player_weapon",
+   "resource": "0xEEA5E3CEF1E12C14",
+   "entityRow": 3092,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 142
+   },
+   "componentIdentity": {
+    "recordIndex": 225,
+    "indexRow": 116,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "plasma_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 350.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 56,
+    "impact": {
+     "arc": 0,
+     "damage": 306,
+     "radii": [
+      1,
+      2,
+      2
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 155,
+      "row": 94,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 155
+    },
+    "mass": 25,
+    "settings": {
+     "group": 0,
+     "recordType": 142,
+     "row": 310,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 142,
+    "velocity": 550
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x8633FF89EF4F6788",
+    "0xA1379C8C41A10E22",
+    "plasma_rifle"
+   ]
+  },
+  {
+   "weapon": "PLAS-101 Purifier",
+   "kind": "player_weapon",
+   "resource": "0xFB3A19078694708A",
+   "entityRow": 138,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 296
+   },
+   "componentIdentity": {
+    "recordIndex": 226,
+    "indexRow": 242,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "plasma_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1000.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 63,
+    "impact": {
+     "arc": 0,
+     "damage": 313,
+     "radii": [
+      2.9000000953674316,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 191,
+      "row": 101,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 191
+    },
+    "mass": 25,
+    "settings": {
+     "group": 0,
+     "recordType": 296,
+     "row": 315,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 296,
+    "velocity": 350
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "plasma_rifle_charge"
+   ]
+  },
+  {
+   "weapon": "PLAS-15 Loyalist",
+   "kind": "player_weapon",
+   "resource": "0xAA69A60D74A3EC54",
+   "entityRow": 3157,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 171
+   },
+   "componentIdentity": {
+    "recordIndex": 238,
+    "indexRow": 342,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "plasma_pistol",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1000.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 56,
+    "impact": {
+     "arc": 0,
+     "damage": 305,
+     "radii": [
+      0.75,
+      1.5,
+      2
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 355,
+      "row": 93,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 355
+    },
+    "mass": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 171,
+     "row": 309,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 171,
+    "velocity": 550
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "plasma_pistol"
+   ]
+  },
+  {
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "kind": "player_weapon",
+   "resource": "0x30061F91AF477F5E",
+   "entityRow": 3934,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 155
+   },
+   "componentIdentity": {
+    "recordIndex": 136,
+    "indexRow": 290,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "sniper_rifle_helghast",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 550.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 308,
+    "impact": {
+     "arc": 0,
+     "damage": 309,
+     "radii": [
+      1,
+      2,
+      2
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 413,
+      "row": 96,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 413
+    },
+    "mass": 25,
+    "settings": {
+     "group": 0,
+     "recordType": 155,
+     "row": 311,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 155,
+    "velocity": 1000
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "sniper_rifle_helghast"
+   ]
+  },
+  {
+   "weapon": "R-2 Amendment",
+   "kind": "player_weapon",
+   "resource": "0x0F83639AB8C86165",
+   "entityRow": 358,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 327
+   },
+   "componentIdentity": {
+    "recordIndex": 208,
+    "indexRow": 65,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "battle_rifle_ceremonial",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 480.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 138,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 327,
+     "row": 239,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 327,
+    "velocity": 850
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "battle_rifle_ceremonial"
+   ]
+  },
+  {
+   "weapon": "R-2124 Constitution",
+   "kind": "player_weapon",
+   "resource": "0x7B75E5132FFD4CA6",
+   "entityRow": 3238,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 209,
+    "indexRow": 78,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "bolt_action_rifle",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    282,
+    0
+   ],
+   "rpm": 60.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "R-36 Eruptor",
+   "kind": "player_weapon",
+   "resource": "0xB6AFF2195568767F",
+   "entityRow": 1663,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 40
+   },
+   "componentIdentity": {
+    "recordIndex": 212,
+    "indexRow": 151,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "jet_rifle_phoenix",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 32.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 149,
+    "expiry": {
+     "arc": 0,
+     "damage": 347,
+     "radii": [
+      4,
+      7,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 158,
+      "row": 125,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 201,
+     "type": 158
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 347,
+     "radii": [
+      4,
+      7,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 158,
+      "row": 125,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 201,
+     "type": 158
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 40,
+     "row": 265,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 40,
+    "velocity": 180
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "jet_rifle_phoenix"
+   ]
+  },
+  {
+   "weapon": "R-4 Hyena",
+   "kind": "player_weapon",
+   "resource": "0xE5796355A8FD67E0",
+   "entityRow": 2016,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 207
+   },
+   "componentIdentity": {
+    "recordIndex": 218,
+    "indexRow": 86,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "marksman_rifle_vigilance",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 190.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 142,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 207,
+     "row": 248,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 207,
+    "velocity": 950
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "marksman_rifle_drake"
+   ]
+  },
+  {
+   "weapon": "R-6 Deadeye",
+   "kind": "player_weapon",
+   "resource": "0xE6D932BE83729076",
+   "entityRow": 118,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 299
+   },
+   "componentIdentity": {
+    "recordIndex": 216,
+    "indexRow": 493,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    299,
+    0
+   ],
+   "rpm": 100.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 139,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 299,
+     "row": 240,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 299,
+    "velocity": 850
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "lever_action_rifle_01"
+   ]
+  },
+  {
+   "weapon": "R-63 Diligence",
+   "kind": "player_weapon",
+   "resource": "0x03E67A19B07C6523",
+   "entityRow": 1315,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 305
+   },
+   "componentIdentity": {
+    "recordIndex": 221,
+    "indexRow": 507,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "marksman_rifle_vigilance",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 350.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 141,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 305,
+     "row": 242,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 305,
+    "velocity": 850
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "marksman_rifle_vigilance"
+   ]
+  },
+  {
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "kind": "player_weapon",
+   "resource": "0x4C786785C79D44E7",
+   "entityRow": 1255,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 241
+   },
+   "componentIdentity": {
+    "recordIndex": 222,
+    "indexRow": 259,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "marksman_rifle_vigilance",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 350.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 143,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 241,
+     "row": 243,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 241,
+    "velocity": 940
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "marksman_rifle_vigilance_burst"
+   ]
+  },
+  {
+   "weapon": "R-72 Censor",
+   "kind": "player_weapon",
+   "resource": "0xF0338468DCDB6A6C",
+   "entityRow": 2669,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 325
+   },
+   "componentIdentity": {
+    "recordIndex": 219,
+    "indexRow": 539,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "marksman_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 400.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 130,
+    "mass": 20,
+    "settings": {
+     "group": 0,
+     "recordType": 325,
+     "row": 228,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 325,
+    "velocity": 330
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "marksman_rifle_justice"
+   ]
+  },
+  {
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "kind": "player_weapon",
+   "resource": "0x1ABBFF60D26BA391",
+   "entityRow": 915,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 86
+   },
+   "componentIdentity": {
+    "recordIndex": 220,
+    "indexRow": 209,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "marksman_rifle_shark",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 210.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 510,
+    "mass": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 86,
+     "row": 261,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 86,
+    "velocity": 500
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "marksman_rifle_shark"
+   ]
+  },
+  {
+   "weapon": "SG-20 Halt",
+   "kind": "player_weapon",
+   "resource": "0x4E310B1FE4C52B52",
+   "entityRow": 2898,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 124,
+    "indexRow": 306,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pump_shotgun_stun",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    183,
+    191
+   ],
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "SG-22 Bushwhacker",
+   "kind": "player_weapon",
+   "resource": "0x2B28E17FFED05F7C",
+   "entityRow": 3966,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 227,
+    "indexRow": 208,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    260,
+    0
+   ],
+   "rpm": 650.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "SG-225 Breaker",
+   "kind": "player_weapon",
+   "resource": "0x46183B50961D1328",
+   "entityRow": 808,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 179
+   },
+   "componentIdentity": {
+    "recordIndex": 204,
+    "indexRow": 407,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_shotgun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 300.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 179,
+    "mass": 4,
+    "settings": {
+     "group": 0,
+     "recordType": 179,
+     "row": 272,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 179,
+    "velocity": 360
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_shotgun"
+   ]
+  },
+  {
+   "weapon": "SG-225IE Breaker Incendiary",
+   "kind": "player_weapon",
+   "resource": "0xC12A34F375BD5A87",
+   "entityRow": 2695,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 314
+   },
+   "componentIdentity": {
+    "recordIndex": 206,
+    "indexRow": 47,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_shotgun_incendiary",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 300.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 182,
+    "mass": 2,
+    "settings": {
+     "group": 0,
+     "recordType": 314,
+     "row": 275,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 314,
+    "velocity": 120
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_shotgun_incendiary"
+   ]
+  },
+  {
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "kind": "player_weapon",
+   "resource": "0x5EBAEA70C0D060B9",
+   "entityRow": 185,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 174
+   },
+   "componentIdentity": {
+    "recordIndex": 205,
+    "indexRow": 329,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_shotgun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 330.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 178,
+    "mass": 1,
+    "settings": {
+     "group": 0,
+     "recordType": 174,
+     "row": 271,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 174,
+    "velocity": 250
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "assault_shotgun_bir"
+   ]
+  },
+  {
+   "weapon": "SG-451 Cookout",
+   "kind": "player_weapon",
+   "resource": "0xD323DE60855898AC",
+   "entityRow": 2220,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 125,
+    "indexRow": 354,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pump_shotgun_dragon",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    347,
+    347
+   ],
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "SG-8 Punisher",
+   "kind": "player_weapon",
+   "resource": "0x41EAC4A03987FAA0",
+   "entityRow": 2720,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 121,
+    "indexRow": 518,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pump_shotgun",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    260,
+    260
+   ],
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "SG-8P Punisher Plasma",
+   "kind": "player_weapon",
+   "resource": "0x05D8D8C073B9D502",
+   "entityRow": 1282,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 57
+   },
+   "componentIdentity": {
+    "recordIndex": 126,
+    "indexRow": 6,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 57,
+    "impact": {
+     "arc": 0,
+     "damage": 311,
+     "radii": [
+      2.299999952316284,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 290,
+      "row": 102,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 290
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 57,
+     "row": 316,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 57,
+    "velocity": 90
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "pump_shotgun_plasma"
+   ]
+  },
+  {
+   "weapon": "SG-8S Slugger",
+   "kind": "player_weapon",
+   "resource": "0x4F749E2EE26F532D",
+   "entityRow": 814,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 123,
+    "indexRow": 403,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    240,
+    240
+   ],
+   "rpm": 80.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "SG-97 Sweeper",
+   "kind": "player_weapon",
+   "resource": "0xDCD1C835407EF7BA",
+   "entityRow": 1982,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 262
+   },
+   "componentIdentity": {
+    "recordIndex": 127,
+    "indexRow": 36,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "pump_shotgun_trench",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    262,
+    0
+   ],
+   "rpm": 150.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 158,
+    "mass": 10,
+    "settings": {
+     "group": 0,
+     "recordType": 262,
+     "row": 349,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 262,
+    "velocity": 385
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "pump_shotgun_trench"
+   ]
+  },
+  {
+   "weapon": "SMG-203 Gallant",
+   "kind": "player_weapon",
+   "resource": "0x186EA95DE7306B1A",
+   "entityRow": 2842,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 76
+   },
+   "componentIdentity": {
+    "recordIndex": 135,
+    "indexRow": 302,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_solvent",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1380.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 77,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 76,
+     "row": 167,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 76,
+    "velocity": 450
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_solvent"
+   ]
+  },
+  {
+   "weapon": "SMG-32 Reprimand",
+   "kind": "player_weapon",
+   "resource": "0x94BD931B5FB4EE95",
+   "entityRow": 3734,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 123
+   },
+   "componentIdentity": {
+    "recordIndex": 134,
+    "indexRow": 505,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_rhino",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 490.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 96,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 123,
+     "row": 189,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 123,
+    "velocity": 285
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_rhino"
+   ]
+  },
+  {
+   "weapon": "SMG-72 Pummeler",
+   "kind": "player_weapon",
+   "resource": "0x0807AEA5217E4767",
+   "entityRow": 1898,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 157
+   },
+   "componentIdentity": {
+    "recordIndex": 224,
+    "indexRow": 499,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "personal_defense_weapon_pepper",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 475.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 90,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 157,
+     "row": 181,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 157,
+    "velocity": 210
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "personal_defense_weapon_pepper"
+   ]
+  },
+  {
+   "weapon": "SMG/FLAM-34 Stoker",
+   "kind": "player_weapon",
+   "resource": "0x8A307BD1811A5FE9",
+   "entityRow": 4073,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 38
+   },
+   "componentIdentity": {
+    "recordIndex": 131,
+    "indexRow": 335,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_flamer",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 420.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 97,
+    "mass": 15,
+    "settings": {
+     "group": 0,
+     "recordType": 38,
+     "row": 190,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 38,
+    "velocity": 285
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_flamer"
+   ]
+  },
+  {
+   "weapon": "StA-11 SMG",
+   "kind": "player_weapon",
+   "resource": "0x4BA41B6F9F405CC2",
+   "entityRow": 3266,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 215
+   },
+   "componentIdentity": {
+    "recordIndex": 132,
+    "indexRow": 454,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "smg_helghast",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 1050.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 74,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 215,
+     "row": 165,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 215,
+    "velocity": 375
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "smg_defender",
+    "smg_helghast"
+   ]
+  },
+  {
+   "weapon": "StA-52 Assault Rifle",
+   "kind": "player_weapon",
+   "resource": "0xCDF28BE026BB7D84",
+   "entityRow": 3471,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 276
+   },
+   "componentIdentity": {
+    "recordIndex": 196,
+    "indexRow": 272,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "assault_rifle_helghast",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 790.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 108,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 276,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ]
+  },
+  {
+   "weapon": "VG-70 Variable",
+   "kind": "player_weapon",
+   "resource": "0xF992CE97577C8A7F",
+   "entityRow": 2687,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 94
+   },
+   "componentIdentity": {
+    "recordIndex": 137,
+    "indexRow": 187,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "volley_gun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 550.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 76,
+    "mass": 7,
+    "settings": {
+     "group": 0,
+     "recordType": 94,
+     "row": 197,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 94,
+    "velocity": 320
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "volley_gun"
+   ]
+  },
+  {
+   "weapon": "40-K Meltagun",
+   "kind": "support_weapon",
+   "resource": "0x6CFCC7F8801A0266",
+   "entityRow": 617,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 18
+   },
+   "componentIdentity": {
+    "recordIndex": 21,
+    "indexRow": 16,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "energy_weapon_shark",
+   "packageAutoLoad": true,
+   "beamFireMode": 5,
+   "beamIntegers": [
+    50,
+    1
+   ],
+   "beamPulse": 1.4,
+   "projectileHost": false,
+   "output": {
+    "damage": 509,
+    "explosion": 0,
+    "length": 15,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 18,
+     "row": 27,
+     "settingsType": "0xC5085606"
+    },
+    "type": 18
+   },
+   "outputConsumers": [
+    "energy_weapon_shark"
+   ]
+  },
+  {
+   "weapon": "AC-8 Autocannon",
+   "kind": "support_weapon",
+   "resource": "0xA8CFFB316F0B5C5F",
+   "entityRow": 3167,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 115
+   },
+   "componentIdentity": {
+    "recordIndex": 242,
+    "indexRow": 323,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "automatic_cannon",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    115,
+    0
+   ],
+   "rpm": 190.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 213,
+    "impact": {
+     "arc": 0,
+     "damage": 370,
+     "radii": [
+      2,
+      4,
+      5.5
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 404,
+      "row": 127,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 201,
+     "type": 404
+    },
+    "mass": 120,
+    "settings": {
+     "group": 0,
+     "recordType": 115,
+     "row": 30,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 115,
+    "velocity": 820
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "0xB4CF4E52E9956087",
+    "0xB6CAF17BA65A7147",
+    "automatic_cannon"
+   ]
+  },
+  {
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "kind": "support_weapon",
+   "resource": "0x89C5493E08CA4207",
+   "entityRow": 519,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 226
+   },
+   "componentIdentity": {
+    "recordIndex": 261,
+    "indexRow": 245,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "sniper_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 400.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 206,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 226,
+     "row": 250,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 226,
+    "velocity": 880
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "sniper_rifle"
+   ]
+  },
+  {
+   "weapon": "ARC-3 Arc Thrower",
+   "kind": "support_weapon",
+   "resource": "0x96DE9CD50F7306E6",
+   "entityRow": 1768,
+   "family": "arc",
+   "component": "ArcWeaponComponentData",
+   "reference": {
+    "enum": "ArcType",
+    "offset": 0,
+    "value": 7
+   },
+   "componentIdentity": {
+    "recordIndex": 9,
+    "indexRow": 2,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "arc_thrower",
+   "packageAutoLoad": true,
+   "rpm": -1.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "chain": 1,
+    "damage": 197,
+    "distance": 55,
+    "settings": {
+     "group": 0,
+     "recordType": 7,
+     "row": 0,
+     "settingsType": "0xAFDF0267"
+    },
+    "speed": 300,
+    "split": 1,
+    "type": 7
+   },
+   "outputConsumers": [
+    "arc_thrower"
+   ]
+  },
+  {
+   "weapon": "B/FLAM-80 Cremator",
+   "kind": "support_weapon",
+   "resource": "0x78A8185F63A70795",
+   "entityRow": 1941,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 17
+   },
+   "componentIdentity": {
+    "recordIndex": 21,
+    "indexRow": 9,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": false,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-1 One True Flag",
+   "kind": "support_weapon",
+   "resource": "0xB0F1B354BA1D38D8",
+   "entityRow": 2265,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 557
+   },
+   "componentIdentity": {
+    "recordIndex": 8,
+    "indexRow": 8,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "melee_flag",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-20 Breaching Hammer",
+   "kind": "support_weapon",
+   "resource": "0x5F3EC9BDA2BD8553",
+   "entityRow": 1363,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 560
+   },
+   "componentIdentity": {
+    "recordIndex": 1,
+    "indexRow": 19,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "melee_sledge_hammer",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "CQC-9 Defoliation Tool",
+   "kind": "support_weapon",
+   "resource": "0xBF4CFD2AEABFB5A4",
+   "entityRow": 1444,
+   "family": "melee",
+   "component": "MeleeWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 12,
+    "value": 550
+   },
+   "componentIdentity": {
+    "recordIndex": 6,
+    "indexRow": 3,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData"
+   ],
+   "package": "melee_chainsaw_greatsword",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "kind": "support_weapon",
+   "resource": "0x80932FA0ED6901D3",
+   "entityRow": 467,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 132
+   },
+   "componentIdentity": {
+    "recordIndex": 255,
+    "indexRow": 109,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "lat_oneshot",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 227,
+    "impact": {
+     "arc": 0,
+     "damage": 382,
+     "radii": [
+      1.5,
+      3,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 376,
+      "row": 122,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 376
+    },
+    "mass": 2500,
+    "settings": {
+     "group": 0,
+     "recordType": 132,
+     "row": 93,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 132,
+    "velocity": 200
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x5C54E81A4AAA31FC",
+    "lat_oneshot"
+   ]
+  },
+  {
+   "weapon": "EAT-411 Leveller",
+   "kind": "support_weapon",
+   "resource": "0x7617642765AC38C7",
+   "entityRow": 2247,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 34
+   },
+   "componentIdentity": {
+    "recordIndex": 245,
+    "indexRow": 523,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "expendable_massive_rocket_launcher",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 454,
+    "impact": {
+     "arc": 0,
+     "damage": 455,
+     "radii": [
+      10,
+      25,
+      35
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 184,
+      "row": 230,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 184
+    },
+    "mass": 500,
+    "settings": {
+     "group": 0,
+     "recordType": 34,
+     "row": 147,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 34,
+    "velocity": 50
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "expendable_massive_rocket_launcher"
+   ]
+  },
+  {
+   "weapon": "EAT-700 Expendable Napalm",
+   "kind": "support_weapon",
+   "resource": "0xB2B5E0D185605F9E",
+   "entityRow": 3999,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 259
+   },
+   "componentIdentity": {
+    "recordIndex": 246,
+    "indexRow": 530,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "expendable_napalm_launcher",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 274,
+    "impact": {
+     "arc": 0,
+     "damage": 316,
+     "radii": [
+      1.600000023841858,
+      8,
+      10
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 316,
+      "row": 220,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 224,
+     "type": 316
+    },
+    "mass": 2500,
+    "settings": {
+     "group": 0,
+     "recordType": 259,
+     "row": 94,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 259,
+    "velocity": 200
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "expendable_napalm_launcher"
+   ]
+  },
+  {
+   "weapon": "FAF-14 Spear",
+   "kind": "support_weapon",
+   "resource": "0x25AA2FD4643CF4EE",
+   "entityRow": 1263,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 225
+   },
+   "componentIdentity": {
+    "recordIndex": 247,
+    "indexRow": 46,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 240.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 245,
+    "impact": {
+     "arc": 0,
+     "damage": 398,
+     "radii": [
+      1.5,
+      3,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 304,
+      "row": 225,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 304
+    },
+    "mass": 350,
+    "settings": {
+     "group": 0,
+     "recordType": 225,
+     "row": 125,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 225,
+    "velocity": 70
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "faf_missile_launcher"
+   ]
+  },
+  {
+   "weapon": "FLAM-40 Flamethrower",
+   "kind": "support_weapon",
+   "resource": "0x39AB99895147A3BF",
+   "entityRow": 959,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 14
+   },
+   "componentIdentity": {
+    "recordIndex": 20,
+    "indexRow": 7,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "flamethrower",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  },
+  {
+   "weapon": "GL-21 Grenade Launcher",
+   "kind": "support_weapon",
+   "resource": "0x02EECD0B1FA49630",
+   "entityRow": 1584,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 280
+   },
+   "componentIdentity": {
+    "recordIndex": 249,
+    "indexRow": 223,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "grenade_launcher",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 160.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 32,
+    "expiry": {
+     "arc": 0,
+     "damage": 375,
+     "radii": [
+      3.5,
+      7.5,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 361,
+      "row": 109,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 361
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 375,
+     "radii": [
+      3.5,
+      7.5,
+      8
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 361,
+      "row": 109,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 361
+    },
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 280,
+     "row": 81,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 280,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "outputConsumers": [
+    "0x1D5943301A29C940",
+    "0x3B49715551E4CCF1",
+    "grenade_launcher"
+   ]
+  },
+  {
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "kind": "support_weapon",
+   "resource": "0x88C2D09AD85A7C9F",
+   "entityRow": 3231,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 89
+   },
+   "componentIdentity": {
+    "recordIndex": 243,
+    "indexRow": 457,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "rpm": 240.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 30,
+    "impact": {
+     "arc": 0,
+     "damage": 31,
+     "radii": [
+      2,
+      4,
+      5.5
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 393,
+      "row": 126,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 201,
+     "type": 393
+    },
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 89,
+     "row": 80,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 89,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "belt_fed_grenade_launcher"
+   ]
+  },
+  {
+   "weapon": "GL-52 De-Escalator",
+   "kind": "support_weapon",
+   "resource": "0xFE3B29B2CFA63F9B",
+   "entityRow": 3995,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 222
+   },
+   "componentIdentity": {
+    "recordIndex": 250,
+    "indexRow": 95,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "grenade_launcher_tactical",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    222,
+    0
+   ],
+   "rpm": 200.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 32,
+    "impact": {
+     "arc": 15,
+     "damage": 366,
+     "radii": [
+      1,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 41,
+      "row": 405,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 41
+    },
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 222,
+     "row": 88,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 222,
+    "velocity": 100
+   },
+   "compatibilityClass": "explosive_arc",
+   "outputConsumers": [
+    "grenade_launcher_tactical"
+   ]
+  },
+  {
+   "weapon": "GR-8 Recoilless Rifle",
+   "kind": "support_weapon",
+   "resource": "0x9F80D67A12A7E40F",
+   "entityRow": 1039,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 153
+   },
+   "componentIdentity": {
+    "recordIndex": 260,
+    "indexRow": 511,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "recoilless_rifle",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 228,
+    "impact": {
+     "arc": 0,
+     "damage": 381,
+     "radii": [
+      1.5,
+      3,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 248,
+      "row": 120,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 248
+    },
+    "mass": 3300,
+    "settings": {
+     "group": 0,
+     "recordType": 153,
+     "row": 99,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 153,
+    "velocity": 250
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "recoilless_rifle"
+   ]
+  },
+  {
+   "weapon": "LAS-98 Laser Cannon",
+   "kind": "support_weapon",
+   "resource": "0xD54B9505C0F72873",
+   "entityRow": 2163,
+   "family": "beam",
+   "component": "BeamWeaponComponentData",
+   "reference": {
+    "enum": "BeamType",
+    "offset": 0,
+    "value": 1
+   },
+   "componentIdentity": {
+    "recordIndex": 22,
+    "indexRow": 41,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "manned_turret_laser",
+   "packageAutoLoad": true,
+   "beamFireMode": 4,
+   "beamIntegers": [
+    60,
+    1
+   ],
+   "beamPulse": 0.0,
+   "projectileHost": false,
+   "output": {
+    "damage": 507,
+    "explosion": 0,
+    "length": 1000,
+    "radius": 0,
+    "settings": {
+     "group": 0,
+     "recordType": 1,
+     "row": 7,
+     "settingsType": "0xC5085606"
+    },
+    "type": 1
+   },
+   "outputConsumers": [
+    "laser_cannon"
+   ]
+  },
+  {
+   "weapon": "LAS-99 Quasar Cannon",
+   "kind": "support_weapon",
+   "resource": "0x35A61296619CC47E",
+   "entityRow": 1150,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 133
+   },
+   "componentIdentity": {
+    "recordIndex": 254,
+    "indexRow": 332,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponHeatComponentData"
+   ],
+   "package": "laser_cannon",
+   "packageAutoLoad": true,
+   "rpm": 10.0,
+   "infiniteAmmo": true,
+   "projectileHost": false,
+   "output": {
+    "damage": 383,
+    "impact": {
+     "arc": 0,
+     "damage": 384,
+     "radii": [
+      1.5,
+      3,
+      6
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 67,
+      "row": 128,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 67
+    },
+    "mass": 12,
+    "settings": {
+     "group": 0,
+     "recordType": 133,
+     "row": 333,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 133,
+    "velocity": 1300
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "laser_pulse_cannon"
+   ]
+  },
+  {
+   "weapon": "M-1000 Maxigun",
+   "kind": "support_weapon",
+   "resource": "0x43A58CB89CFA197C",
+   "entityRow": 2429,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 306
+   },
+   "componentIdentity": {
+    "recordIndex": 257,
+    "indexRow": 44,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponWindUpComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "rpm": 1500.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 127,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 306,
+     "row": 225,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 306,
+    "velocity": 920
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "minigun"
+   ]
+  },
+  {
+   "weapon": "M-105 Stalwart",
+   "kind": "support_weapon",
+   "resource": "0xA6A735ACCB4A327F",
+   "entityRow": 640,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 276
+   },
+   "componentIdentity": {
+    "recordIndex": 217,
+    "indexRow": 387,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "lmg_stalwart",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 850.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 108,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 276,
+     "row": 199,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 276,
+    "velocity": 900
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0xB43235DBD493750C",
+    "0xB9606C5AAB32C3C2",
+    "0xD53EE03481AE73FD",
+    "assault_rifle",
+    "assault_rifle_helghast",
+    "assault_rifle_patriot",
+    "lmg_stalwart"
+   ]
+  },
+  {
+   "weapon": "MG-206 Heavy Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x2152D5147B0AC418",
+   "entityRow": 1048,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 275
+   },
+   "componentIdentity": {
+    "recordIndex": 252,
+    "indexRow": 154,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "heavy_mg",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 205,
+    "mass": 52,
+    "settings": {
+     "group": 0,
+     "recordType": 275,
+     "row": 252,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 275,
+    "velocity": 980
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x439F9E65C18567DA",
+    "0xC25DC40EDE0E2D16",
+    "0xCD00BDC1149C2928",
+    "frv_mg",
+    "heavy_mg"
+   ]
+  },
+  {
+   "weapon": "MG-43 Machine Gun",
+   "kind": "support_weapon",
+   "resource": "0x11C27D3BABB38956",
+   "entityRow": 2390,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 148
+   },
+   "componentIdentity": {
+    "recordIndex": 256,
+    "indexRow": 210,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "machinegun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 5,
+   "rpm": 760.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 125,
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 148,
+     "row": 221,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 148,
+    "velocity": 820
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x60778A2CFFB6E47F",
+    "0xAA4564F90CDBF5F1",
+    "combat_walker_turret",
+    "gatling_turret",
+    "machinegun",
+    "power_generated_gatling_turret",
+    "safety_turret",
+    "target_turret",
+    "turret_machinegun_gpmg",
+    "tutorial_turret"
+   ]
+  },
+  {
+   "weapon": "MGX-42 Bullet Storm",
+   "kind": "support_weapon",
+   "resource": "0xB16C9D490AA59B77",
+   "entityRow": 2935,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 61
+   },
+   "componentIdentity": {
+    "recordIndex": 244,
+    "indexRow": 249,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "expendable_machinegun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 8,
+   "rpm": 1300.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 117,
+    "mass": 4.5,
+    "settings": {
+     "group": 0,
+     "recordType": 61,
+     "row": 213,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 61,
+    "velocity": 450
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "expendable_machinegun"
+   ]
+  },
+  {
+   "weapon": "MLS-4X Commando",
+   "kind": "support_weapon",
+   "resource": "0x5990123D142B16CB",
+   "entityRow": 1740,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 245
+   },
+   "componentIdentity": {
+    "recordIndex": 253,
+    "indexRow": 221,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData"
+   ],
+   "package": "laser_guided_missile_launcher",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 240.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 237,
+    "impact": {
+     "arc": 0,
+     "damage": 392,
+     "radii": [
+      1,
+      2,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 148,
+      "row": 236,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 148
+    },
+    "mass": 350,
+    "settings": {
+     "group": 0,
+     "recordType": 245,
+     "row": 122,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 245,
+    "velocity": 70
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "0x8AFF7F0793A5BCED",
+    "laser_guided_missile_launcher"
+   ]
+  },
+  {
+   "weapon": "PLAS-45 Epoch",
+   "kind": "support_weapon",
+   "resource": "0xE8D5F49AD7780E54",
+   "entityRow": 3669,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 165
+   },
+   "componentIdentity": {
+    "recordIndex": 258,
+    "indexRow": 250,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "plasma_blaster",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 58,
+    "expiry": {
+     "arc": 0,
+     "damage": 60,
+     "radii": [
+      2.299999952316284,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 227,
+      "row": 103,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 227
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 60,
+     "radii": [
+      2.299999952316284,
+      3,
+      4
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 227,
+      "row": 103,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 227
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 165,
+     "row": 317,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 165,
+    "velocity": 250
+   },
+   "compatibilityClass": "explosive_impact_and_expiry",
+   "outputConsumers": [
+    "plasma_blaster"
+   ]
+  },
+  {
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "kind": "support_weapon",
+   "resource": "0x26E40437EA275296",
+   "entityRow": 662,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 312
+   },
+   "componentIdentity": {
+    "recordIndex": 241,
+    "indexRow": 396,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 380,
+    "expiry": {
+     "arc": 0,
+     "damage": 277,
+     "radii": [
+      3,
+      5,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 325,
+      "row": 280,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 78,
+     "type": 325
+    },
+    "impact": {
+     "arc": 0,
+     "damage": 277,
+     "radii": [
+      3,
+      5,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 325,
+      "row": 280,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 78,
+     "type": 325
+    },
+    "mass": 3300,
+    "settings": {
+     "group": 0,
+     "recordType": 312,
+     "row": 101,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 312,
+    "velocity": 250
+   },
+   "compatibilityClass": "explosive_shrapnel",
+   "outputConsumers": [
+    "air_burst_rocket_launcher"
+   ]
+  },
+  {
+   "weapon": "RS-422 Railgun",
+   "kind": "support_weapon",
+   "resource": "0x2E9D0BDC48B09E60",
+   "entityRow": 3683,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 186
+   },
+   "componentIdentity": {
+    "recordIndex": 259,
+    "indexRow": 526,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponChargeComponentData",
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "railgun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 60.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": {
+    "damage": 64,
+    "mass": 50,
+    "settings": {
+     "group": 0,
+     "recordType": 186,
+     "row": 320,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 186,
+    "velocity": 2000
+   },
+   "compatibilityClass": "conventional_plain",
+   "outputConsumers": [
+    "0x24510E7B16B5F7A5",
+    "railgun"
+   ]
+  },
+  {
+   "weapon": "S-11 Speargun",
+   "kind": "support_weapon",
+   "resource": "0x3828E2051AA9E897",
+   "entityRow": 2200,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 125
+   },
+   "componentIdentity": {
+    "recordIndex": 251,
+    "indexRow": 406,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "harpoon_gun",
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 60.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 65,
+    "expiry": {
+     "arc": 0,
+     "damage": 66,
+     "radii": [
+      2,
+      5,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 97,
+      "row": 160,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 97
+    },
+    "mass": 100,
+    "settings": {
+     "group": 0,
+     "recordType": 125,
+     "row": 321,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 125,
+    "velocity": 300
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "harpoon_gun"
+   ]
+  },
+  {
+   "weapon": "SG-88 Break-Action Shotgun",
+   "kind": "support_weapon",
+   "resource": "0x52071F49263415E4",
+   "entityRow": 1508,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 0
+   },
+   "componentIdentity": {
+    "recordIndex": 181,
+    "indexRow": 254,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponReloadComponentData",
+    "WeaponRoundsComponentData"
+   ],
+   "package": "shotgun_doublebarrel",
+   "packageAutoLoad": true,
+   "roundsProjectiles": [
+    217,
+    0
+   ],
+   "rpm": 600.0,
+   "infiniteAmmo": false,
+   "projectileHost": false,
+   "output": null,
+   "compatibilityClass": null,
+   "outputConsumers": []
+  },
+  {
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "kind": "support_weapon",
+   "resource": "0xCC786F6491FE7E65",
+   "entityRow": 3693,
+   "family": "projectile",
+   "component": "ProjectileWeaponComponentData",
+   "reference": {
+    "enum": "ProjectileType",
+    "offset": 0,
+    "value": 43
+   },
+   "componentIdentity": {
+    "recordIndex": 248,
+    "indexRow": 449,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": null,
+   "packageAutoLoad": true,
+   "magazinePatternEntries": 0,
+   "rpm": 500.0,
+   "infiniteAmmo": false,
+   "projectileHost": true,
+   "output": {
+    "damage": 244,
+    "impact": {
+     "arc": 0,
+     "damage": 397,
+     "radii": [
+      2.5,
+      5,
+      7
+     ],
+     "settings": {
+      "group": 0,
+      "recordType": 373,
+      "row": 227,
+      "settingsType": "0x2AEA2592"
+     },
+     "shrapnel": 0,
+     "type": 373
+    },
+    "mass": 11,
+    "settings": {
+     "group": 0,
+     "recordType": 43,
+     "row": 127,
+     "settingsType": "0xBD4042C2"
+    },
+    "type": 43,
+    "velocity": 500
+   },
+   "compatibilityClass": "explosive_impact",
+   "outputConsumers": [
+    "faf_missile_launcher_helghast"
+   ]
+  },
+  {
+   "weapon": "TX-41 Sterilizer",
+   "kind": "support_weapon",
+   "resource": "0x88F61AFFF48AC8A4",
+   "entityRow": 2212,
+   "family": "spray",
+   "component": "SprayWeaponComponentData",
+   "reference": {
+    "enum": "DamageInfoType",
+    "offset": 200,
+    "value": 28
+   },
+   "componentIdentity": {
+    "recordIndex": 19,
+    "indexRow": 8,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "fireResource": [
+    "WeaponCustomizationComponentData",
+    "WeaponDataComponentData",
+    "WeaponMagazineComponentData",
+    "WeaponReloadComponentData"
+   ],
+   "package": "chemgun",
+   "packageAutoLoad": true,
+   "projectileHost": false
+  }
+ ]
+}
