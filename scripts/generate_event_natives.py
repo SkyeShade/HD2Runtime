@@ -20,6 +20,7 @@ from reference_format import lua  # noqa: E402
 COMBAT = ROOT / 'research/event-combat-F5FEE03DCFDB.json'
 STATE = ROOT / 'research/event-state-F5FEE03DCFDB.json'
 ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'
+WIELDER = ROOT / 'research/event-wielder-F5FEE03DCFDB.json'
 MISSION = ROOT / 'research/event-mission-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/event_natives.lua'
 
@@ -27,9 +28,10 @@ OUTPUT = ROOT / 'domains/event_natives.lua'
 class Pins:
     """Pinned instructions from the research outputs, per module ('game' = game.dll, 'exe' = the executable)."""
 
-    def __init__(self, combat: dict, state: dict, mission: dict, actions: dict):
+    def __init__(self, combat: dict, state: dict, mission: dict, actions: dict, wielder: dict):
         self.by_rva = {'game': {}, 'exe': {}}
-        for group in list(mission['proofs'].values()) + list(actions['proofs'].values()):
+        for group in (list(mission['proofs'].values()) + list(actions['proofs'].values())
+                + list(wielder['proofs'].values())):
             for pin in group:
                 self.by_rva['game'].setdefault(pin['rva'], pin)
         for name, function in combat['functions'].items():
@@ -246,11 +248,126 @@ def explosion_section(pins: Pins, actions: dict) -> dict:
         raise ValueError('the explosion call template is not the game\'s own')
     if any(not all(t['match'] for t in o['settingsTable']) for o in actions['observations']):
         raise ValueError('explosion settings table disagrees with the catalog')
+    # Named explosions: the requested type is a code literal of the entity behavior; Runtime re-proves each literal
+    # (and the wrapper chain that carries it to the request) before it requests that type.
+    pins.use(0x4C8A6D, 'mov r9d, r14d', 'behavior explosion wrapper passes the type')
+    pins.use(0x13C6D78, 'mov r8d, esi', 'second wrapper: type is request argument 3')
+    pins.use(0x13C6DE4, 'call 0x13c0a80', 'second wrapper calls RequestExplosion')
+    literals = {242: [(0x28837D, 'cmp edx, 0xb3fd1aff', 'NUX-223 Hellbomb: explode event'),
+            (0x288817, 'mov edx, 0xf2', 'NUX-223 Hellbomb: requests ExplosionType 242'),
+            (0x288825, 'call 0x4c89c0', 'NUX-223 Hellbomb: through the behavior explosion wrapper')],
+        125: [(0xC2FE9, 'cmp edx, 0xb3fd1aff', 'B-100 Portable Hellbomb: explode event'),
+            (0xC3305, 'mov edx, 0x7d', 'B-100 Portable Hellbomb: requests ExplosionType 125'),
+            (0xC3313, 'call 0x4c89c0', 'B-100 Portable Hellbomb: through the behavior explosion wrapper')]}
+    named = []
+    for item in actions['namedExplosions']:
+        rows = literals[item['type']]
+        for rva, asm, label in rows:
+            pins.use(rva, asm, label)
+        if not item['stratagemPackage']:
+            raise ValueError(item['name'] + ': no single delivering stratagem package')
+        named.append({'name': item['name'], 'type': item['type'], 'literal': rows[1][0],
+            'package': item['stratagemPackage'], 'packagePath': item['stratagemPackagePath'],
+            'sharedType': bool(item['sharedType'])})
     return {'rva': research['request'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
         'count': 0x20, 'capacity': research['queueCapacity'], 'settingsTable': research['settingsTable'],
         'typeBound': research['typeBound'], 'signature': research['signature'],
         # Catalogued weapon explosions whose settings-table entry the research matched in every mission snapshot.
-        'weapons': [{'weapon': item['weapon'], 'type': item['type']} for item in actions['catalogueTypes']]}
+        'weapons': [{'weapon': item['weapon'], 'type': item['type']} for item in actions['catalogueTypes']],
+        'named': named}
+
+
+def projectile_section(pins: Pins, actions: dict) -> dict:
+    """The game's projectile wrapper (research/event-actions-F5FEE03DCFDB.json): active-system gate, table, template."""
+    research = actions['projectile']
+    pins.rip(0x13A8F7F, 'mov r12, qword ptr [rip + 0x20d3f22]', 'projectile system global', research['systemGlobal'])
+    pins.use(0x13A8F8F, 'cmp byte ptr [r12 + 0x28], 0', 'projectile system active flag')
+    pins.use(0x13A8F9B, 'cmp qword ptr [rbp + 0xa10], 0', 'zero entity_path: a plain projectile')
+    pins.rip(0x13A9715, 'lea rcx, [rip + 0x241df54]', 'projectile settings table', research['settingsTable'])
+    pins.use(0x13A971C, 'mov rcx, qword ptr [rcx + r15*8]', 'projectile settings by type (unbounded)')
+    pins.use(0x13A976C, 'mov dword ptr [rbp - 0x58], ebx', 'projectile source = entity')
+    pins.use(0x13A976F, 'mov dword ptr [rbp - 0x54], ebx', 'projectile owner = entity')
+    pins.use(0x13A9796, 'call 0x13a9830', 'projectile pool insert')
+    pins.use(0x119E5F6, 'mov qword ptr [rsp + 0x30], 0', 'the game\'s own call passes a zero entity_path')
+    pins.use(0x119E612, 'call 0x13a8f50', 'the game\'s own call to the projectile wrapper')
+    if research['template'] != {'target': 0, 'entityPath': 0}:
+        raise ValueError('projectile call template changed')
+    if any(o['actions']['projectileTypeMismatches'] for o in actions['observations']):
+        raise ValueError('projectile settings table disagrees with the catalog')
+    return {'rva': research['rva'], 'prologue': research['prologue'], 'system': research['systemGlobal'],
+        'active': research['activeOffset'], 'settingsTable': research['settingsTable'], 'typeCount': research['typeCount'],
+        'signature': research['signature'],
+        # Catalogued weapon projectiles whose settings-table entry the research matched in every mission snapshot.
+        'types': [{'weapon': item['weapon'], 'role': item['role'], 'type': item['type']} for item in research['types']]}
+
+
+def status_section(pins: Pins, actions: dict) -> dict:
+    """The game's status request queue (research/event-actions-F5FEE03DCFDB.json): bounds, routing, allowlist."""
+    research = actions['status']
+    pins.rip(0x129F18E, 'mov rsi, qword ptr [rip + 0x21ddda3]', 'status request queue global', research['queueGlobal'])
+    pins.rip(0x129F199, 'mov rax, qword ptr [rip + 0x2087480]', 'status manager global', research['managerGlobal'])
+    pins.use(0x129F218, 'mov eax, dword ptr [rsi + 0x201134]', 'status queue count')
+    pins.use(0x129F21E, 'cmp eax, 0x1000', 'status queue holds 4096 requests')
+    pins.use(0x129F258, 'mov dword ptr [rdi], ebx', 'status request target')
+    pins.use(0x129F25A, 'mov dword ptr [rdi + 4], ebp', 'status request type')
+    pins.use(0x129F26F, 'movss dword ptr [rdi + 0x14], xmm3', 'status request buildup')
+    pins.use(0x13F7D5E, 'call 0x12a6ef0', 'the world update drains the status queue')
+    pins.use(0x129F483, 'call 0xb894b0', 'status router: owned targets apply here')
+    pins.use(0x129F48D, 'call 0xbebde0', 'status router: other targets go to their owner')
+    pins.use(0x864EC6, 'mov dword ptr [rsp + 0x28], 0', 'the game\'s own status request passes variant 0')
+    pins.use(0x864ED2, 'call 0x129f170', 'the game\'s own status request')
+    if research['template'] != {'variant': 0, 'buildup': 100.0}:
+        raise ValueError('status call template changed')
+    if any(o['actions']['statusTypeMismatches'] for o in actions['observations']):
+        raise ValueError('status settings table disagrees with the allowlist')
+    return {'rva': research['rva'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
+        'count': research['count'], 'capacity': research['capacity'], 'manager': research['managerGlobal'],
+        'settingsTable': research['settingsTable'], 'signature': research['signature'],
+        # Statuses a player weapon already applies through its damage (the only types Runtime requests).
+        'allowlist': [{'type': item['type'], 'id': item['semanticId'], 'name': item['name'],
+            'family': item['family']} for item in research['allowlist']]}
+
+
+def wielder_section(pins: Pins, research: dict) -> dict:
+    """The item a player's avatar holds (research/event-wielder-F5FEE03DCFDB.json): wielder slot 0, the inventory
+    selection written by the same switch, and the held entity's descriptor type."""
+    w, i, e = research['wielder'], research['inventory'], research['entityTypes']
+    pins.rip(0x9AAF53, 'mov rcx, qword ptr [rip + 0x297b4c6]', 'wielder manager global (weapon switch)', w['global'])
+    pins.use(0x785E10, 'mov r8d, dword ptr [rcx + 0x38]', 'wielder hash capacity')
+    pins.use(0x785E14, 'mov r10d, dword ptr [rcx + 0x40]', 'wielder hash multiplier')
+    pins.use(0x785E3A, 'mov r11, qword ptr [rcx + 0x30]', 'wielder hash buckets')
+    pins.use(0x785E43, 'mov r14d, dword ptr [rcx + 0x3c]', 'wielder hash empty key')
+    pins.use(0x785E7F, 'mov r14d, dword ptr [r9 + 4]', 'wielder bucket value = instance')
+    pins.use(0x785E9B, 'mov rax, qword ptr [rbp + 0x60]', 'wielder slot records')
+    pins.use(0x785EA3, 'imul r9, r14, 0x1d0', 'wielder instance stride')
+    pins.use(0x785EAA, 'shl r10, 4', 'wielder slot stride 0x50')
+    pins.use(0x785EBA, 'mov dword ptr [r10 + rax], edi', 'wield stores the held entity')
+    pins.rip(0xA96062, 'mov rcx, qword ptr [rip + 0x28906cf]', 'inventory manager global (switch caller)', i['global'])
+    pins.use(0x9AAA76, 'mov r9d, dword ptr [rcx + 0x30]', 'inventory hash capacity')
+    pins.use(0x9AAA7A, 'mov r10d, dword ptr [rcx + 0x38]', 'inventory hash multiplier')
+    pins.use(0x9AAA9D, 'mov r11, qword ptr [rcx + 0x28]', 'inventory hash buckets')
+    pins.use(0x9AAAA5, 'mov edi, dword ptr [rcx + 0x34]', 'inventory hash empty key')
+    pins.use(0x9AAAF7, 'shl rcx, 4', 'inventory record stride 0x30')
+    pins.use(0x9AAB0A, 'mov r15, qword ptr [r13 + 0x50]', 'inventory records')
+    pins.use(0x9AAC0F, 'mov dword ptr [r15 + 0x1c], ebp', 'the switch writes the selection')
+    pins.use(0x9AAC49, 'mov edi, dword ptr [rdx]', 'selection 1: primary')
+    pins.use(0x9AAC4D, 'mov edi, dword ptr [rdx + 4]', 'selection 2: secondary')
+    pins.rip(0xFD9D50, 'mov r10, qword ptr [rip + 0x2492241]', 'entity manager global (entity map)', e['global'])
+    pins.use(0xFD9D68, 'mov r9d, dword ptr [r10 + 0xf1aeb8]', 'entity map capacity')
+    pins.use(0xFD9D83, 'mov rbx, qword ptr [r10 + 0xf1aeb0]', 'entity map buckets')
+    pins.use(0xFD9DDB, 'lea rax, [rax + 0x1e65e3]', 'entity descriptor = manager + 0xF32F18 + 24 * index')
+    if (w['hash'], w['slots'], w['stride'], w['slotStride'], w['slotCount'], i['hash'], i['records'], i['stride'],
+            i['selection'], e['map'], e['descriptors'], e['stride']) != (0x30, 0x60, 0x1D0, 0x50, 5, 0x28, 0x50, 0x30,
+            0x1C, 0xF1AEB0, 0xF32F18, 24):
+        raise ValueError('wielder or inventory layout changed')
+    return {'wielder': w['global'], 'wielderHash': w['hash'], 'slots': w['slots'], 'stride': w['stride'],
+        'slotStride': w['slotStride'], 'slotCount': w['slotCount'],
+        'inventory': i['global'], 'inventoryHash': i['hash'], 'records': i['records'], 'recordStride': i['stride'],
+        'selection': i['selection'],
+        'selections': {int(k): {'offset': v['offset'], 'slot': v['slot'], 'proven': v['proven']}
+            for k, v in i['selections'].items()},
+        'entities': e['global'], 'entityMap': e['map'], 'descriptors': e['descriptors'], 'descriptorStride': e['stride'],
+        'descriptorEntity': e['entity']}
 
 
 def heal_section(pins: Pins, research: dict) -> dict:
@@ -266,24 +383,27 @@ def build() -> dict:
     state = json.loads(STATE.read_text(encoding='utf-8'))
     mission = json.loads(MISSION.read_text(encoding='utf-8'))
     actions = json.loads(ACTIONS.read_text(encoding='utf-8'))
-    for research in (combat, state, mission, actions):
+    wielder = json.loads(WIELDER.read_text(encoding='utf-8'))
+    for research in (combat, state, mission, actions, wielder):
         if research['writes'] or research['protectionChanges']:
             raise ValueError('event research must be read-only')
     if state['gameDll']['sha256'] != combat['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
-    if not state['gameDll']['sha256'] == mission['gameDll']['sha256'] == actions['gameDll']['sha256']:
+    if not (state['gameDll']['sha256'] == mission['gameDll']['sha256'] == actions['gameDll']['sha256']
+            == wielder['gameDll']['sha256']):
         raise ValueError('event research covers different game.dll builds')
-    if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions)):
+    if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions, wielder)):
         raise ValueError('a pinned instruction differs between retained snapshots')
-    pins = Pins(combat, state, mission, actions)
-    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name],
+    pins = Pins(combat, state, mission, actions, wielder)
+    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name, WIELDER.name],
             'gameDllSha256': combat['gameDll']['sha256'],
             'imageSize': combat['gameDll']['imageSize'], 'exeImageSize': state['exe']['imageSize']},
         'health': health_section(pins, combat), 'players': players_section(pins, combat),
         'playerAvatars': player_avatars_section(pins, state), 'state': state_section(pins, state),
         'engine': engine_section(pins, state), 'stats': stats_section(pins, state),
         'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat),
-        'explosion': explosion_section(pins, actions)}
+        'explosion': explosion_section(pins, actions), 'projectile': projectile_section(pins, actions),
+        'status': status_section(pins, actions), 'wielder': wielder_section(pins, wielder)}
     value['pins'] = sorted(pins.used, key=lambda pin: (pin['module'], pin['rva']))
     return value
 

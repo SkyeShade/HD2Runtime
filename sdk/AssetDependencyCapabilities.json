@@ -119,13 +119,13 @@
     "refcountFillLimit": 0.75
   },
   "summary": {
-    "semanticObjects": 331,
-    "known": 260,
+    "semanticObjects": 333,
+    "known": 263,
     "ownPackage": 253,
     "holderPackage": 7,
-    "stratagemPackage": 0,
-    "unknown": 71,
-    "packages": 173,
+    "stratagemPackage": 3,
+    "unknown": 70,
+    "packages": 175,
     "unnamedPackages": 24,
     "liveTestedObjects": 3,
     "liveLoadedPackages": 3,
@@ -369,6 +369,36 @@
         "autoLoadSupported": true,
         "derivation": "own_loadout_package",
         "package": "directional_energy_shield_backpack",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/B-100 Portable Hellbomb",
+      "label": "B-100 Portable Hellbomb",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "delivering_stratagem_package",
+        "package": "hellbomb_backpack",
+        "packageNamed": true,
+        "liveTested": false,
+        "packageLiveLoaded": false,
+        "blocker": null
+      }
+    },
+    {
+      "key": "explosion/NUX-223 Hellbomb",
+      "label": "NUX-223 Hellbomb",
+      "kind": "explosion",
+      "packageDependency": {
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "delivering_stratagem_package",
+        "package": "hellbomb",
         "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
@@ -2570,14 +2600,14 @@
       "label": "Supply Box",
       "kind": "pickup_supply",
       "packageDependency": {
-        "known": false,
-        "autoLoadSupported": false,
-        "derivation": null,
-        "package": null,
-        "packageNamed": null,
+        "known": true,
+        "autoLoadSupported": true,
+        "derivation": "delivering_stratagem_package",
+        "package": "ammo_rack",
+        "packageNamed": true,
         "liveTested": false,
         "packageLiveLoaded": false,
-        "blocker": "No loadout package owns this object and no vanilla holder with a package references it, so Runtime cannot name the assets it needs."
+        "blocker": null
       }
     },
     {

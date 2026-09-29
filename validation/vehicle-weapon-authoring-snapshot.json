@@ -155,14 +155,14 @@
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "stratagemUses": {
-    "acknowledgementRejections": 81,
-    "checked": 85,
-    "conflictRejections": 85,
+    "acknowledgementRejections": 82,
+    "checked": 86,
+    "conflictRejections": 86,
     "proven": 4,
     "transitions": {
       "finite_to_finite": 5,
       "finite_to_unlimited": 4,
-      "unlimited_to_finite": 80
+      "unlimited_to_finite": 81
     }
   },
   "vehicleFields": 536,

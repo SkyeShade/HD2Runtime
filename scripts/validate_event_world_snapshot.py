@@ -9,6 +9,10 @@ totals. A tampered pin must make the world unavailable. Writes: none.
 The four in-mission captures (one host session) add: the Mission state with its game_mode, the reinforced avatar,
 the corpse that replaced the first avatar (origin 602 -> corpse 851 on the same unit), the per-source stats
 (weapon names from the catalog) and the mission-end teardown (PrepareShip, no avatar, stats kept).
+
+Every snapshot also checks: the Hellbomb explosions' settings records, the local player's equipped weapon (the R-36
+Eruptor in hand before the death, nothing aboard the ship), the projectile system gate (active only in a mission)
+and the status request queue.
 """
 from __future__ import annotations
 
@@ -81,6 +85,27 @@ for _,item in ipairs(natives.explosion.weapons)do
   settings=world_module.explosion_settings(world,item.type)~=nil}
 end
 out.explosionQueue=world.view.u32(world.view.pointer(world.game+natives.explosion.queue)+natives.explosion.count)
+-- The named explosions (Hellbombs) have settings records too.
+out.namedExplosions={}
+for _,item in ipairs(natives.explosion.named)do
+ out.namedExplosions[#out.namedExplosions+1]={name=item.name,type=item.type,
+  settings=world_module.explosion_settings(world,item.type)~=nil}
+end
+-- What the local player holds (wielder slot 0 + inventory selection), through the production reader.
+local me=handles.local_player()
+local weapon,weapon_why
+if me then weapon,weapon_why=me:equipped_weapon()end
+out.equipped=weapon and{name=weapon.name,type=weapon.type,entity=weapon.entity_id,slot=weapon.slot,
+ slotProven=weapon.slot_proven,selection=weapon.selection}or{reason=tostring(weapon_why)}
+if avatar then
+ local raw=world_module.equipped(world,avatar.id)
+ out.equippedRaw=raw and{entity=raw.entity,selection=raw.selection,slot=raw.slot}or false
+end
+-- Projectile system gate and status queue as the actions read them.
+local system=world.view.pointer(world.game+natives.projectile.system)
+local flag=system and world.view.read(system+natives.projectile.active,1)
+out.projectileSystemActive=flag and flag:byte()or false
+out.statusQueue=world.view.u32(world.view.pointer(world.game+natives.status.queue)+natives.status.count)
 -- A tampered pin: the proof must fail (the read overlay flips one byte of the first pinned instruction).
 local pin=natives.pins[1]
 local base=pin.module=='exe'and world.exe or world.game
@@ -144,6 +169,25 @@ def validate(snapshots=SNAPSHOTS):
             if (named.get('R-36 Eruptor') or {}).get('kills') != 13 or (named.get('P-113 Verdict') or {}).get(
                     'shots') != 20:
                 problems.append('per-source stats')
+        if not all(item['settings'] for item in report['namedExplosions']):
+            problems.append('Hellbomb explosion settings missing')
+        if report['statusQueue'] is None:
+            problems.append('status queue unreadable')
+        if phase == 'alive':
+            if (report['equipped'].get('name'), report['equipped'].get('slot'), report['equipped'].get('slotProven')) != (
+                    'R-36 Eruptor', 'primary', True) or report['projectileSystemActive'] != 1:
+                problems.append('the R-36 Eruptor in hand or the active projectile system was not read')
+        elif phase == 'ship':
+            if report['equipped'].get('reason') != 'nothing in hand' or report['projectileSystemActive'] != 0:
+                problems.append('something in hand, or an active projectile system, aboard the ship')
+        elif phase == 'reinforced':
+            # The capture recorded the held entity before the entity table saw it (non-atomic capture): the reader
+            # finds no descriptor for it and reports nothing in hand instead of guessing.
+            if report['equippedRaw'] and report['equippedRaw'].get('entity') is not None:
+                problems.append('an unresolvable held entity was reported as held')
+        elif phase == 'ended':
+            if report['projectileSystemActive'] != 0:
+                problems.append('the projectile system is active after the mission')
         if not report['tamperRefused']:
             problems.append('a tampered pin was not refused')
         results[name] = dict(report, passed=not problems, problems=problems)

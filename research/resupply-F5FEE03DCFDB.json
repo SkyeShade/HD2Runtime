@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "build": "F5FEE03DCFDB",
+  "snapshots": [
+    "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+    "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+    "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+    "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+    "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+    "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+    "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap"
+  ],
+  "stratagem": {
+    "name": "Resupply",
+    "family": "mission",
+    "nativeType": "AmmoRack",
+    "kind": 33,
+    "iconKey": "StratagemRessuply",
+    "alwaysAvailable": true,
+    "currentRoot": {
+      "id": 867876502,
+      "group": 1,
+      "row": 0,
+      "package": "0x4D4C26C04A220CAA",
+      "payloads": [
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415",
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415",
+        "0x5052EC6A928CCF1A",
+        "0x73F8498BFFDCF415"
+      ],
+      "payload_count": 6,
+      "cooldown": 180,
+      "use_count": 4294967295,
+      "spawn_time": 7.5,
+      "spawn_radius": 0,
+      "beacon_linger_time": 0,
+      "extra_travel_time": 0,
+      "cooldown_failed": 0,
+      "cooldown_type": 1,
+      "max_in_loadout": 0,
+      "has_shared_uses_pool": false,
+      "identityBasis": "The only StratagemInfo row of native type AmmoRack (33, UI icon StratagemRessuply); id, group, row, package and payload list identical in every retained snapshot of build F5FEE03DCFDB."
+    }
+  },
+  "rewardVariant": {
+    "nativeType": "AmmoRack_PresidentReward",
+    "kind": 109,
+    "id": 1295431756,
+    "sharesRack": true,
+    "exposed": false,
+    "reason": "A reward variant with its own definition row; it shares the Resupply rack, so rack payload changes reach it too (the pod catalog marks the rack shared)."
+  },
+  "delivery": {
+    "rack": "0x5052EC6A928CCF1A",
+    "rackPath": "content/fac_helldivers/hellpod/ammo_rack/ammo_rack",
+    "hellpod": "0x73F8498BFFDCF415",
+    "payloadPairs": 3,
+    "rackPackage": "0x4D4C26C04A220CAA",
+    "spawnPayloadSize": 4,
+    "configuredSlots": 8,
+    "slots": [
+      {
+        "slot": 1,
+        "item": "0xA94913CA014F7579",
+        "rackSide": 1,
+        "active": true
+      },
+      {
+        "slot": 2,
+        "item": "0xA94913CA014F7579",
+        "rackSide": 2,
+        "active": true
+      },
+      {
+        "slot": 3,
+        "item": "0xA94913CA014F7579",
+        "rackSide": 1,
+        "active": true
+      },
+      {
+        "slot": 4,
+        "item": "0xA94913CA014F7579",
+        "rackSide": 2,
+        "active": true
+      },
+      {
+        "slot": 5,
+        "item": null,
+        "rackSide": 0,
+        "active": false
+      },
+      {
+        "slot": 6,
+        "item": null,
+        "rackSide": 0,
+        "active": false
+      },
+      {
+        "slot": 7,
+        "item": null,
+        "rackSide": 0,
+        "active": false
+      },
+      {
+        "slot": 8,
+        "item": null,
+        "rackSide": 0,
+        "active": false
+      }
+    ],
+    "supplyBox": {
+      "resource": "0xA94913CA014F7579",
+      "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
+      "interactTypes": [
+        "PickupSupplies",
+        "PickupSuppliesFromRack"
+      ],
+      "interactRecord": 47,
+      "ownPackage": null,
+      "residency": "Resident in every mission: the Resupply stratagem is always available and its package (the rack package) carries the supply box."
+    }
+  },
+  "medal": {
+    "medalPickupEntity": null,
+    "medalResources": [
+      "packages/content/medals"
+    ],
+    "explorationReward": {
+      "resource": "0x30212B6E5858AEEF",
+      "path": "content/env_shared/assets/exploration_rewards/exploration_reward_generic",
+      "interactRecord": 149,
+      "interactTypes": [
+        50
+      ]
+    },
+    "provenPickupInteractTypes": [
+      1,
+      8
+    ],
+    "verdict": "BLOCKED",
+    "reason": "No medal pickup entity exists in the decoded entity table; the only medal resource is the UI package packages/content/medals. The one exploration reward entity interacts through InteractType 50, outside the proven pickup types 1..8, and what it grants is account progression decided by the game servers, so neither its pickup identity nor a safe gameplay effect is proven."
+  }
+}

@@ -5,8 +5,8 @@
  "method": "Reviewed map from each wiki stat to the Runtime semantic fields that author it; a stat is covered when a writable field exists, whatever its number.",
  "stratagems": {
   "wikiStratagems": 82,
-  "resolved": 60,
-  "withWritableFields": 60,
+  "resolved": 61,
+  "withWritableFields": 61,
   "statCoverage": {
    "bombsPerSalvo": {
     "stated": 10,
@@ -25,7 +25,7 @@
    },
    "cooldownSeconds": {
     "stated": 76,
-    "covered": 60,
+    "covered": 61,
     "note": null
    },
    "durationSeconds": {
@@ -54,8 +54,8 @@
     "note": "The orbital laser movement speed (10 m/s, equal to the wiki)."
    },
    "uses": {
-    "stated": 74,
-    "covered": 60,
+    "stated": 75,
+    "covered": 61,
     "note": null
    }
   },
@@ -1909,17 +1909,19 @@
    {
     "name": "Resupply",
     "family": "mission",
-    "resolved": false,
-    "rootResolution": null,
-    "writableFields": 0,
-    "writableDomains": [],
+    "resolved": true,
+    "rootResolution": "UNIQUE",
+    "writableFields": 2,
+    "writableDomains": [
+     "stratagem"
+    ],
     "stats": {
-     "cooldownSeconds": false,
+     "cooldownSeconds": true,
+     "uses": true,
      "callInTimeSeconds": false
     },
     "uncoveredStats": [
-     "callInTimeSeconds",
-     "cooldownSeconds"
+     "callInTimeSeconds"
     ],
     "attackBranchesWritable": [],
     "wikiAttacks": 0

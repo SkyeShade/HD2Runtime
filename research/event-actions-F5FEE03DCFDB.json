@@ -166,6 +166,392 @@
     "role": "and requests an explosion"
    }
   ],
+  "hellbomb": [
+   {
+    "rva": 4810474,
+    "bytes": "81fab4020000",
+    "asm": "cmp edx, 0x2b4",
+    "role": "behavior event dispatcher: BehaviorId - 1 <= 0x2B4"
+   },
+   {
+    "rva": 4810504,
+    "bytes": "8b948154014a00",
+    "asm": "mov edx, dword ptr [rcx + rax*4 + 0x4a0154]",
+    "role": "dispatcher jump table"
+   },
+   {
+    "rva": 4821485,
+    "bytes": "e86ef1deff",
+    "asm": "call 0x288360",
+    "role": "BehaviorId 224 (table entry 223): the hellbomb event handler"
+   },
+   {
+    "rva": 2655101,
+    "bytes": "81faff1afdb3",
+    "asm": "cmp edx, 0xb3fd1aff",
+    "role": "hellbomb event \"explode\" (thin hash 0xB3FD1AFF)"
+   },
+   {
+    "rva": 2655159,
+    "bytes": "ba03000000",
+    "asm": "mov edx, 3",
+    "role": "explode enters state 3"
+   },
+   {
+    "rva": 2655169,
+    "bytes": "e9ca010000",
+    "asm": "jmp 0x288590",
+    "role": "hellbomb set-state"
+   },
+   {
+    "rva": 2656279,
+    "bytes": "baf2000000",
+    "asm": "mov edx, 0xf2",
+    "role": "state 3 requests ExplosionType 242"
+   },
+   {
+    "rva": 2656284,
+    "bytes": "41b85014e773",
+    "asm": "mov r8d, 0x73e71450",
+    "role": "at the \"nuke\" node"
+   },
+   {
+    "rva": 2656293,
+    "bytes": "e896012400",
+    "asm": "call 0x4c89c0",
+    "role": "behavior explosion wrapper"
+   },
+   {
+    "rva": 5016052,
+    "bytes": "448bf2",
+    "asm": "mov r14d, edx",
+    "role": "wrapper keeps the type"
+   },
+   {
+    "rva": 5016173,
+    "bytes": "458bce",
+    "asm": "mov r9d, r14d",
+    "role": "and passes it on"
+   },
+   {
+    "rva": 5016198,
+    "bytes": "e8a5e2ef00",
+    "asm": "call 0x13c6d30",
+    "role": "to the second wrapper"
+   },
+   {
+    "rva": 20737365,
+    "bytes": "418bf1",
+    "asm": "mov esi, r9d",
+    "role": "second wrapper keeps the type"
+   },
+   {
+    "rva": 20737400,
+    "bytes": "448bc6",
+    "asm": "mov r8d, esi",
+    "role": "type is argument 3 of the request"
+   },
+   {
+    "rva": 20737508,
+    "bytes": "e8979cffff",
+    "asm": "call 0x13c0a80",
+    "role": "RequestExplosion"
+   }
+  ],
+  "portableHellbomb": [
+   {
+    "rva": 4810871,
+    "bytes": "e854c7c2ff",
+    "asm": "call 0xc2fd0",
+    "role": "BehaviorId 8 (table entry 7): the bomb backpack event handler"
+   },
+   {
+    "rva": 798697,
+    "bytes": "81faff1afdb3",
+    "asm": "cmp edx, 0xb3fd1aff",
+    "role": "bomb backpack event \"explode\""
+   },
+   {
+    "rva": 799493,
+    "bytes": "ba7d000000",
+    "asm": "mov edx, 0x7d",
+    "role": "requests ExplosionType 125"
+   },
+   {
+    "rva": 799498,
+    "bytes": "41b8e591cfbc",
+    "asm": "mov r8d, 0xbccf91e5",
+    "role": "at the \"root\" node"
+   },
+   {
+    "rva": 799507,
+    "bytes": "e8a8564000",
+    "asm": "call 0x4c89c0",
+    "role": "through the same behavior explosion wrapper"
+   }
+  ],
+  "projectile": [
+   {
+    "rva": 20614992,
+    "bytes": "4c8bdc",
+    "asm": "mov r11, rsp",
+    "role": "FireProjectile(ignored, type, pos, dir, entity, target, entity_path)"
+   },
+   {
+    "rva": 20615039,
+    "bytes": "4c8b25223f0d02",
+    "asm": "mov r12, qword ptr [rip + 0x20d3f22]",
+    "role": "the projectile system global",
+    "ripTarget": 55037608
+   },
+   {
+    "rva": 20615046,
+    "bytes": "4d8bf1",
+    "asm": "mov r14, r9",
+    "role": "r14 = direction pointer"
+   },
+   {
+    "rva": 20615049,
+    "bytes": "4d8be8",
+    "asm": "mov r13, r8",
+    "role": "r13 = position pointer"
+   },
+   {
+    "rva": 20615052,
+    "bytes": "448bfa",
+    "asm": "mov r15d, edx",
+    "role": "r15d = projectile type"
+   },
+   {
+    "rva": 20615055,
+    "bytes": "41807c242800",
+    "asm": "cmp byte ptr [r12 + 0x28], 0",
+    "role": "inactive system (outside a mission): return"
+   },
+   {
+    "rva": 20615061,
+    "bytes": "0f8410080000",
+    "asm": "je 0x13a97ab",
+    "role": "return without spawning"
+   },
+   {
+    "rva": 20615067,
+    "bytes": "4883bd100a000000",
+    "asm": "cmp qword ptr [rbp + 0xa10], 0",
+    "role": "entity_path (argument 7) zero: a plain projectile"
+   },
+   {
+    "rva": 20615079,
+    "bytes": "8b9d000a0000",
+    "asm": "mov ebx, dword ptr [rbp + 0xa00]",
+    "role": "entity (argument 5)"
+   },
+   {
+    "rva": 20615089,
+    "bytes": "0f8449070000",
+    "asm": "je 0x13a9700",
+    "role": "plain projectile path"
+   },
+   {
+    "rva": 20616960,
+    "bytes": "8bd3",
+    "asm": "mov edx, ebx",
+    "role": "creditor of the entity"
+   },
+   {
+    "rva": 20616962,
+    "bytes": "e8892fefff",
+    "asm": "call 0x129c690",
+    "role": "creditor lookup"
+   },
+   {
+    "rva": 20616981,
+    "bytes": "488d0d54df4102",
+    "asm": "lea rcx, [rip + 0x241df54]",
+    "role": "projectile settings pointer table",
+    "ripTarget": 58488432
+   },
+   {
+    "rva": 20616988,
+    "bytes": "4a8b0cf9",
+    "asm": "mov rcx, qword ptr [rcx + r15*8]",
+    "role": "indexed by type WITHOUT bounds or null check"
+   },
+   {
+    "rva": 20617061,
+    "bytes": "c745b802000000",
+    "asm": "mov dword ptr [rbp - 0x48], 2",
+    "role": "descriptor kind 2"
+   },
+   {
+    "rva": 20617068,
+    "bytes": "895da8",
+    "asm": "mov dword ptr [rbp - 0x58], ebx",
+    "role": "source = entity"
+   },
+   {
+    "rva": 20617071,
+    "bytes": "895dac",
+    "asm": "mov dword ptr [rbp - 0x54], ebx",
+    "role": "owner = entity"
+   },
+   {
+    "rva": 20617110,
+    "bytes": "e895000000",
+    "asm": "call 0x13a9830",
+    "role": "SpawnProjectile into the pool"
+   },
+   {
+    "rva": 18474479,
+    "bytes": "488b0db2e82d02",
+    "asm": "mov rcx, qword ptr [rip + 0x22de8b2]",
+    "role": "the AI fire helper passes the system",
+    "ripTarget": 55037608
+   },
+   {
+    "rva": 18474486,
+    "bytes": "48c744243000000000",
+    "asm": "mov qword ptr [rsp + 0x30], 0",
+    "role": "and a zero entity_path"
+   },
+   {
+    "rva": 18474514,
+    "bytes": "e839a92000",
+    "asm": "call 0x13a8f50",
+    "role": "to FireProjectile"
+   }
+  ],
+  "status": [
+   {
+    "rva": 19526000,
+    "bytes": "48895c2408",
+    "asm": "mov qword ptr [rsp + 8], rbx",
+    "role": "QueueStatusRequest(ignored, type, target, amount, instigator, variant)"
+   },
+   {
+    "rva": 19526020,
+    "bytes": "443b05954a1e02",
+    "asm": "cmp r8d, dword ptr [rip + 0x21e4a95]",
+    "role": "the invalid entity is refused",
+    "ripTarget": 55065632
+   },
+   {
+    "rva": 19526030,
+    "bytes": "488b35a3dd1d02",
+    "asm": "mov rsi, qword ptr [rip + 0x21ddda3]",
+    "role": "the status request queue global",
+    "ripTarget": 55037752
+   },
+   {
+    "rva": 19526041,
+    "bytes": "488b0580740802",
+    "asm": "mov rax, qword ptr [rip + 0x2087480]",
+    "role": "the status manager global",
+    "ripTarget": 53634592
+   },
+   {
+    "rva": 19526159,
+    "bytes": "e8dca23fff",
+    "asm": "call 0x6994f0",
+    "role": "the target can receive the type (no type bound inside)"
+   },
+   {
+    "rva": 19526168,
+    "bytes": "8b8634112000",
+    "asm": "mov eax, dword ptr [rsi + 0x201134]",
+    "role": "queue count"
+   },
+   {
+    "rva": 19526174,
+    "bytes": "3d00100000",
+    "asm": "cmp eax, 0x1000",
+    "role": "the queue holds 4096 requests"
+   },
+   {
+    "rva": 19526179,
+    "bytes": "7352",
+    "asm": "jae 0x129f277",
+    "role": "full: return without writing"
+   },
+   {
+    "rva": 19526198,
+    "bytes": "4881c178e70000",
+    "asm": "add rcx, 0xe778",
+    "role": "entries start at +0x195120"
+   },
+   {
+    "rva": 19526225,
+    "bytes": "486bf91c",
+    "asm": "imul rdi, rcx, 0x1c",
+    "role": "entry stride 0x1C"
+   },
+   {
+    "rva": 19526232,
+    "bytes": "891f",
+    "asm": "mov dword ptr [rdi], ebx",
+    "role": "entry +0: target"
+   },
+   {
+    "rva": 19526234,
+    "bytes": "896f04",
+    "asm": "mov dword ptr [rdi + 4], ebp",
+    "role": "entry +4: type"
+   },
+   {
+    "rva": 19526255,
+    "bytes": "f30f115f14",
+    "asm": "movss dword ptr [rdi + 0x14], xmm3",
+    "role": "entry +0x14: amount (buildup)"
+   },
+   {
+    "rva": 20938078,
+    "bytes": "e88df1eaff",
+    "asm": "call 0x12a6ef0",
+    "role": "the world update drains the status queue every frame"
+   },
+   {
+    "rva": 19526787,
+    "bytes": "e828a08eff",
+    "asm": "call 0xb894b0",
+    "role": "router: applied here when this machine owns the target"
+   },
+   {
+    "rva": 19526797,
+    "bytes": "e84ec994ff",
+    "asm": "call 0xbebde0",
+    "role": "router: otherwise sent to the owner"
+   },
+   {
+    "rva": 8801990,
+    "bytes": "c744242800000000",
+    "asm": "mov dword ptr [rsp + 0x28], 0",
+    "role": "game stun caller: variant 0"
+   },
+   {
+    "rva": 8801998,
+    "bytes": "895c2420",
+    "asm": "mov dword ptr [rsp + 0x20], ebx",
+    "role": "game stun caller: an entity instigator"
+   },
+   {
+    "rva": 8802002,
+    "bytes": "e899a2a300",
+    "asm": "call 0x129f170",
+    "role": "game stun caller"
+   },
+   {
+    "rva": 12001373,
+    "bytes": "c744242800000000",
+    "asm": "mov dword ptr [rsp + 0x28], 0",
+    "role": "second game stun caller: variant 0"
+   },
+   {
+    "rva": 12001385,
+    "bytes": "e802d17200",
+    "asm": "call 0x129f170",
+    "role": "second game stun caller"
+   }
+  ],
   "drain": [
    {
     "rva": 20734456,
@@ -680,6 +1066,465 @@
   19596463,
   20822580
  ],
+ "projectile": {
+  "rva": 20614992,
+  "prologue": "4c8bdc4d8963184d896b205541564157498dab28f6ffff4881ecc00a0000488b059b3029014833c4488985300900004c8b25223f0d024d8bf14d8be8448bfa41807c2428000f8410080000",
+  "systemGlobal": 55037608,
+  "activeOffset": 40,
+  "settingsTable": 58488432,
+  "typeCount": 351,
+  "spawn": 20617264,
+  "poolSlots": 2048,
+  "signature": "FireProjectile(void *ignored, u32 type, const float position[3], const float direction[3], u32 entity, u32 target, u64 entity_path)",
+  "template": {
+   "target": 0,
+   "entityPath": 0
+  },
+  "types": [
+   {
+    "weapon": "AR-11 Arbitrator",
+    "role": "primary",
+    "type": 288
+   },
+   {
+    "weapon": "AR-2 Coyote",
+    "role": "primary",
+    "type": 138
+   },
+   {
+    "weapon": "AR-23 Liberator",
+    "role": "primary",
+    "type": 276
+   },
+   {
+    "weapon": "AR-23A Liberator Carbine",
+    "role": "primary",
+    "type": 276
+   },
+   {
+    "weapon": "AR-23C Liberator Concussive",
+    "role": "primary",
+    "type": 310
+   },
+   {
+    "weapon": "AR-23P Liberator Penetrator",
+    "role": "primary",
+    "type": 7
+   },
+   {
+    "weapon": "AR-32 Pacifier",
+    "role": "primary",
+    "type": 98
+   },
+   {
+    "weapon": "AR-59 Suppressor",
+    "role": "primary",
+    "type": 139
+   },
+   {
+    "weapon": "AR-61 Tenderizer",
+    "role": "primary",
+    "type": 44
+   },
+   {
+    "weapon": "AR/GL-21 One-Two",
+    "role": "primary",
+    "type": 334
+   },
+   {
+    "weapon": "BR-14 Adjudicator",
+    "role": "primary",
+    "type": 135
+   },
+   {
+    "weapon": "CB-9 Exploding Crossbow",
+    "role": "primary",
+    "type": 249
+   },
+   {
+    "weapon": "DBS-2 Double Freedom",
+    "role": "feed_primary",
+    "type": 317
+   },
+   {
+    "weapon": "GL-15 Evictor",
+    "role": "primary",
+    "type": 297
+   },
+   {
+    "weapon": "GP-20 Ultimatum",
+    "role": "primary",
+    "type": 103
+   },
+   {
+    "weapon": "GP-31 Grenade Pistol",
+    "role": "primary",
+    "type": 263
+   },
+   {
+    "weapon": "JAR-5 Dominator",
+    "role": "primary",
+    "type": 177
+   },
+   {
+    "weapon": "LAS-12 Sai",
+    "role": "primary",
+    "type": 236
+   },
+   {
+    "weapon": "LAS-16 Sickle",
+    "role": "primary",
+    "type": 149
+   },
+   {
+    "weapon": "LAS-17 Double-Edge Sickle",
+    "role": "primary",
+    "type": 149
+   },
+   {
+    "weapon": "LAS-58 Talon",
+    "role": "primary",
+    "type": 144
+   },
+   {
+    "weapon": "M6C/SOCOM Pistol",
+    "role": "primary",
+    "type": 308
+   },
+   {
+    "weapon": "M7S SMG",
+    "role": "primary",
+    "type": 340
+   },
+   {
+    "weapon": "M90A Shotgun",
+    "role": "primary",
+    "type": 62
+   },
+   {
+    "weapon": "MA5C Assault Rifle",
+    "role": "primary",
+    "type": 119
+   },
+   {
+    "weapon": "MP-98 Knight",
+    "role": "primary",
+    "type": 215
+   },
+   {
+    "weapon": "P-11 Stim Pistol",
+    "role": "primary",
+    "type": 318
+   },
+   {
+    "weapon": "P-113 Verdict",
+    "role": "primary",
+    "type": 15
+   },
+   {
+    "weapon": "P-33 Missile Pistol",
+    "role": "primary",
+    "type": 152
+   },
+   {
+    "weapon": "P-34 Breacher",
+    "role": "primary",
+    "type": 270
+   },
+   {
+    "weapon": "P-35 Re-Educator",
+    "role": "primary",
+    "type": 343
+   },
+   {
+    "weapon": "P-4 Senator",
+    "role": "feed_primary",
+    "type": 309
+   },
+   {
+    "weapon": "P-69 Veto",
+    "role": "primary",
+    "type": 237
+   },
+   {
+    "weapon": "P-92 Warrant",
+    "role": "primary",
+    "type": 326
+   },
+   {
+    "weapon": "P/40-K Bolt Pistol",
+    "role": "primary",
+    "type": 202
+   },
+   {
+    "weapon": "PLAS-1 Scorcher",
+    "role": "primary",
+    "type": 142
+   },
+   {
+    "weapon": "PLAS-101 Purifier",
+    "role": "primary",
+    "type": 296
+   },
+   {
+    "weapon": "PLAS-15 Loyalist",
+    "role": "primary",
+    "type": 171
+   },
+   {
+    "weapon": "PLAS-39 Accelerator Rifle",
+    "role": "primary",
+    "type": 155
+   },
+   {
+    "weapon": "R-2 Amendment",
+    "role": "primary",
+    "type": 327
+   },
+   {
+    "weapon": "R-2124 Constitution",
+    "role": "feed_primary",
+    "type": 282
+   },
+   {
+    "weapon": "R-36 Eruptor",
+    "role": "primary",
+    "type": 40
+   },
+   {
+    "weapon": "R-4 Hyena",
+    "role": "primary",
+    "type": 207
+   },
+   {
+    "weapon": "R-6 Deadeye",
+    "role": "primary",
+    "type": 299
+   },
+   {
+    "weapon": "R-63 Diligence",
+    "role": "primary",
+    "type": 305
+   },
+   {
+    "weapon": "R-63CS Diligence Counter Sniper",
+    "role": "primary",
+    "type": 241
+   },
+   {
+    "weapon": "R-72 Censor",
+    "role": "primary",
+    "type": 325
+   },
+   {
+    "weapon": "R/40-K Hot-Shot Marksman Rifle",
+    "role": "primary",
+    "type": 86
+   },
+   {
+    "weapon": "SG-20 Halt",
+    "role": "feed_primary",
+    "type": 183
+   },
+   {
+    "weapon": "SG-20 Halt",
+    "role": "feed_alternate",
+    "type": 191
+   },
+   {
+    "weapon": "SG-22 Bushwhacker",
+    "role": "feed_primary",
+    "type": 260
+   },
+   {
+    "weapon": "SG-225 Breaker",
+    "role": "primary",
+    "type": 179
+   },
+   {
+    "weapon": "SG-225IE Breaker Incendiary",
+    "role": "primary",
+    "type": 314
+   },
+   {
+    "weapon": "SG-225SP Breaker Spray&Pray",
+    "role": "primary",
+    "type": 174
+   },
+   {
+    "weapon": "SG-451 Cookout",
+    "role": "feed_primary",
+    "type": 347
+   },
+   {
+    "weapon": "SG-8 Punisher",
+    "role": "feed_primary",
+    "type": 260
+   },
+   {
+    "weapon": "SG-8P Punisher Plasma",
+    "role": "primary",
+    "type": 57
+   },
+   {
+    "weapon": "SG-8S Slugger",
+    "role": "feed_primary",
+    "type": 240
+   },
+   {
+    "weapon": "SG-97 Sweeper",
+    "role": "primary",
+    "type": 262
+   },
+   {
+    "weapon": "SMG-203 Gallant",
+    "role": "primary",
+    "type": 76
+   },
+   {
+    "weapon": "SMG-32 Reprimand",
+    "role": "primary",
+    "type": 123
+   },
+   {
+    "weapon": "SMG-37 Defender",
+    "role": "primary",
+    "type": 3
+   },
+   {
+    "weapon": "SMG-72 Pummeler",
+    "role": "primary",
+    "type": 157
+   },
+   {
+    "weapon": "SMG/FLAM-34 Stoker",
+    "role": "primary",
+    "type": 38
+   },
+   {
+    "weapon": "StA-11 SMG",
+    "role": "primary",
+    "type": 215
+   },
+   {
+    "weapon": "StA-52 Assault Rifle",
+    "role": "primary",
+    "type": 276
+   },
+   {
+    "weapon": "VG-70 Variable",
+    "role": "primary",
+    "type": 94
+   }
+  ],
+  "sideEffects": [
+   "The owner's \"shots fired\" statistic counts each projectile (0x62C930 via 0x13B28A0).",
+   "A full pool reuses its oldest slot (the game's own overflow behaviour).",
+   "The spawn creates the projectile's particle and sound effects at once: its package must be resident."
+  ],
+  "unproven": [
+   "The creditor is derived by an engine ownership call (inferred: the local peer for the local avatar).",
+   "How damage authority works after a hit (the host processes its own hit buffer; a client spawn is refused).",
+   "Whether other machines see the projectile: no network send was found."
+  ]
+ },
+ "status": {
+  "rva": 19526000,
+  "prologue": "48895c240848896c24104889742420574883ec20443b05954a1e02418bd8488b35a3dd1d028bea745c",
+  "queueGlobal": 55037752,
+  "count": 2101556,
+  "capacity": 4096,
+  "managerGlobal": 53634592,
+  "settingsTable": 58481744,
+  "signature": "QueueStatusRequest(void *ignored, u32 type, u32 target, float buildup, u32 instigator, u32 variant)",
+  "template": {
+   "variant": 0,
+   "buildup": 100.0
+  },
+  "allowlist": [
+   {
+    "type": 5,
+    "semanticId": "fire",
+    "name": "Fire",
+    "family": "fire",
+    "duration": 3.0
+   },
+   {
+    "type": 6,
+    "semanticId": "fire_panic",
+    "name": "Fire_Panic",
+    "family": "sense",
+    "duration": 1.0
+   },
+   {
+    "type": 32,
+    "semanticId": "burning_heavy",
+    "name": "BurningHeavy",
+    "family": "fire",
+    "duration": 1.0
+   },
+   {
+    "type": 37,
+    "semanticId": "stun_small",
+    "name": "Stun Small",
+    "family": "stun",
+    "duration": 1.5
+   },
+   {
+    "type": 38,
+    "semanticId": "stun_medium",
+    "name": "Stun Medium",
+    "family": "stun",
+    "duration": 3.0
+   },
+   {
+    "type": 39,
+    "semanticId": "stun_large",
+    "name": "Stun Large",
+    "family": "stun",
+    "duration": 5.0
+   },
+   {
+    "type": 42,
+    "semanticId": "gas",
+    "name": "Gas",
+    "family": "gas",
+    "duration": 6.0
+   },
+   {
+    "type": 43,
+    "semanticId": "gas_2",
+    "name": "Gas",
+    "family": "gas",
+    "duration": 10.0
+   },
+   {
+    "type": 44,
+    "semanticId": "gas_confusion",
+    "name": "Gas_Confusion",
+    "family": "gas",
+    "duration": 5.0
+   },
+   {
+    "type": 45,
+    "semanticId": "gas_confusion_2",
+    "name": "Gas_Confusion",
+    "family": "gas",
+    "duration": 9.0
+   },
+   {
+    "type": 67,
+    "semanticId": "flamer_slowed",
+    "name": "FlamerSlowed",
+    "family": "slow",
+    "duration": 0.5
+   }
+  ],
+  "unproven": [
+   "The drain has not been observed running (the queue was empty in every snapshot).",
+   "Behaviour on clients (routed to the owner) and what other players see."
+  ]
+ },
  "catalogueTypes": [
   {
    "type": 59,
@@ -786,6 +1631,75 @@
    "shockwave": 4.0
   }
  ],
+ "namedExplosions": [
+  {
+   "name": "NUX-223 Hellbomb",
+   "type": 242,
+   "entity": "0xC6A87C428FD3C7A3",
+   "path": "content/fac_helldivers/hellpod/hellbomb/hellbomb",
+   "behaviorId": 224,
+   "behaviorOwners": 1,
+   "dispatcherEntry": 223,
+   "handler": 4821479,
+   "deliveredBy": [
+    {
+     "stratagemType": 42,
+     "id": 3989310204,
+     "package": "0x681275AF9E93CB2C",
+     "via": "payload"
+    }
+   ],
+   "stratagemPackage": "0x681275AF9E93CB2C",
+   "stratagemPackagePath": "packages/generated/loadout/hellbomb",
+   "settings": {
+    "damageType": 479,
+    "inner": 17.0,
+    "outer": 25.0,
+    "shockwave": 45.0
+   },
+   "sharedType": [
+    "BehaviorId 132 bug_stratagem_blocker",
+    "BehaviorId 422 cy_control_tower",
+    "BehaviorId 426 cy_destroy_factories",
+    "BehaviorId 432 refinery_terminal",
+    "BehaviorIds 584 and 602",
+    "AbilityIds 353 and 2157"
+   ]
+  },
+  {
+   "name": "B-100 Portable Hellbomb",
+   "type": 125,
+   "entity": "0x9ACE8638421ABC8E",
+   "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+   "behaviorId": 8,
+   "behaviorOwners": 1,
+   "dispatcherEntry": 7,
+   "handler": 4810865,
+   "deliveredBy": [
+    {
+     "stratagemType": 31,
+     "id": 1053576110,
+     "package": "0x346D785D6CA13FF4",
+     "via": "rack 0x77C52E494527AA8A"
+    },
+    {
+     "stratagemType": 120,
+     "id": 45875024,
+     "package": "0x346D785D6CA13FF4",
+     "via": "rack 0x77C52E494527AA8A"
+    }
+   ],
+   "stratagemPackage": "0x346D785D6CA13FF4",
+   "stratagemPackagePath": "packages/generated/loadout/hellbomb_backpack",
+   "settings": {
+    "damageType": 479,
+    "inner": 17.0,
+    "outer": 25.0,
+    "shockwave": 45.0
+   },
+   "sharedType": []
+  }
+ ],
  "observations": [
   {
    "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
@@ -873,8 +1787,33 @@
      "type": 290,
      "weapon": "SG-8P Punisher Plasma",
      "match": true
+    },
+    {
+     "type": 242,
+     "weapon": "NUX-223 Hellbomb",
+     "match": true
+    },
+    {
+     "type": 125,
+     "weapon": "B-100 Portable Hellbomb",
+     "match": true
     }
-   ]
+   ],
+   "actions": {
+    "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+    "projectileSystemActive": 1,
+    "projectileTypesMatched": 67,
+    "projectileTypeMismatches": [],
+    "projectileTableBounds": {
+     "zeroNull": true,
+     "lastCarriesType": true,
+     "pastEndNull": true
+    },
+    "statusQueueCount": 0,
+    "statusManager": true,
+    "statusTypesMatched": 11,
+    "statusTypeMismatches": []
+   }
   },
   {
    "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
@@ -962,8 +1901,33 @@
      "type": 290,
      "weapon": "SG-8P Punisher Plasma",
      "match": true
+    },
+    {
+     "type": 242,
+     "weapon": "NUX-223 Hellbomb",
+     "match": true
+    },
+    {
+     "type": 125,
+     "weapon": "B-100 Portable Hellbomb",
+     "match": true
     }
-   ]
+   ],
+   "actions": {
+    "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+    "projectileSystemActive": 1,
+    "projectileTypesMatched": 67,
+    "projectileTypeMismatches": [],
+    "projectileTableBounds": {
+     "zeroNull": true,
+     "lastCarriesType": true,
+     "pastEndNull": true
+    },
+    "statusQueueCount": 0,
+    "statusManager": true,
+    "statusTypesMatched": 11,
+    "statusTypeMismatches": []
+   }
   },
   {
    "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
@@ -1083,8 +2047,33 @@
      "type": 290,
      "weapon": "SG-8P Punisher Plasma",
      "match": true
+    },
+    {
+     "type": 242,
+     "weapon": "NUX-223 Hellbomb",
+     "match": true
+    },
+    {
+     "type": 125,
+     "weapon": "B-100 Portable Hellbomb",
+     "match": true
     }
-   ]
+   ],
+   "actions": {
+    "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+    "projectileSystemActive": 1,
+    "projectileTypesMatched": 67,
+    "projectileTypeMismatches": [],
+    "projectileTableBounds": {
+     "zeroNull": true,
+     "lastCarriesType": true,
+     "pastEndNull": true
+    },
+    "statusQueueCount": 0,
+    "statusManager": true,
+    "statusTypesMatched": 11,
+    "statusTypeMismatches": []
+   }
   },
   {
    "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
@@ -1204,20 +2193,46 @@
      "type": 290,
      "weapon": "SG-8P Punisher Plasma",
      "match": true
+    },
+    {
+     "type": 242,
+     "weapon": "NUX-223 Hellbomb",
+     "match": true
+    },
+    {
+     "type": 125,
+     "weapon": "B-100 Portable Hellbomb",
+     "match": true
     }
-   ]
+   ],
+   "actions": {
+    "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+    "projectileSystemActive": 0,
+    "projectileTypesMatched": 67,
+    "projectileTypeMismatches": [],
+    "projectileTableBounds": {
+     "zeroNull": true,
+     "lastCarriesType": true,
+     "pastEndNull": true
+    },
+    "statusQueueCount": 0,
+    "statusManager": true,
+    "statusTypesMatched": 11,
+    "statusTypeMismatches": []
+   }
   }
  ],
  "findings": {
-  "identity": "The drain indexes game+0x37CC920 by the request ExplosionType; for all 13 catalogued weapon explosions the entry points at a record with that type, damage type and radii in all 4 mission snapshots.",
+  "identity": "The drain indexes game+0x37CC920 by the request ExplosionType; for all 15 catalogued weapon explosions the entry points at a record with that type, damage type and radii in all 4 mission snapshots.",
   "semantics": "Stale R-36 Eruptor requests (type 158): source = the Eruptor weapon entity, owner = the local avatar, creditor = the local peer.",
+  "hellbombs": "NUX-223 Hellbomb = ExplosionType 242 and B-100 Portable Hellbomb = ExplosionType 125: code literals in the behavior of the only entity with that BehaviorId, passed unchanged to the request; their settings rows match in every mission snapshot.",
   "drained": "The queue count is 0 in every snapshot: requests live for less than a frame.",
   "network": "No network message call was found in the drain itself; the queue is the local explosion system. Health is host-authoritative (a remote-owned record is overwritten by synced health), so only a host request can change enemy health. Whether other machines see the effect is unproven."
  },
  "unproven": [
   "Arguments 7 and 9..15 beyond the common call template (a Runtime request always passes the template).",
   "Whether the explosion effect is visible on other machines.",
-  "The Hellbomb ExplosionType: no Hellbomb request or Hellbomb explosion owner was found; the Hellbomb entity has no explosive component naming a type.",
+  "Who sends the Hellbomb \"explode\" event (the detonation trigger is inferred from the \"nuke\" node and the destroy that follows); the requested type itself is a pinned code literal.",
   "Frame order of the drain relative to the Lua update callback (a request made in update is drained by the game's own explosion update, within a frame)."
  ],
  "writes": 0,

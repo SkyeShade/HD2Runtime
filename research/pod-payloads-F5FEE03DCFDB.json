@@ -5355,8 +5355,8 @@
           "id": 867876502,
           "kind": 33,
           "nativeType": "AmmoRack",
-          "name": "AmmoRack",
-          "catalogStratagem": null,
+          "name": "Resupply",
+          "catalogStratagem": "Resupply",
           "package": "0x4D4C26C04A220CAA",
           "alwaysAvailable": "Resupply is a mission stratagem available in every mission."
         },

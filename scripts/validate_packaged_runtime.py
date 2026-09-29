@@ -407,6 +407,43 @@ return function(frame,watches,counts,lines)
 end
 '''
 
+# ResupplyTest: the Resupply stratagem as an hd2.stratagem target. Defaults (5 s cooldown, grenade boxes) apply
+# first, the grenade box package loaded once before its slots are written; each option then switches alone, and
+# Vanilla restores the exact supply boxes and the 180 s cooldown. A slot reference is two aligned dword writes.
+RESUPPLY_LIVE = r'''
+return function(frame,watches,counts,lines)
+ local menu=rawget(_G,'ModOptionsMenu');local cooldown,payload=watches[1],watches[2];local results={}
+ local function step(name,ok,detail)results[#results+1]={name=name,passed=ok==true,detail=detail}end
+ local function settle(w,runs)
+  local spent=0
+  while(w.runs<=runs or w.status=='running')and w.status~='blocked'and spent<20000 do frame();spent=spent+1 end
+  for _=1,20 do frame()end
+ end
+ local function count(text)
+  local n=0
+  for _,line in ipairs(lines)do if line:find(text,1,true)then n=n+1 end end
+  return n
+ end
+ step('defaults: 5 s cooldown and grenade boxes, donor package loaded once',cooldown.status=='waiting'
+  and cooldown.result.status=='APPLIED'and payload.status=='waiting'and payload.result.status=='APPLIED'
+  and counts.writes==9 and(counts.package_requests or 0)==1 and count('stratagem.cooldown 180 -> 5')==1,
+  ('writes=%d packages=%d'):format(counts.writes,counts.package_requests or 0))
+ local function choose(w,id,index,label,writes)
+  local runs,before=w.runs,counts.writes
+  menu.apply(id,index);settle(w,runs)
+  step(label,w.status=='waiting'and w.result and w.result.status=='APPLIED'and counts.writes==before+writes
+   and(counts.package_requests or 0)==1,('status=%s result=%s writes=%d packages=%d error=%s'):format(
+   tostring(w.status),tostring(w.result and w.result.status),counts.writes-before,counts.package_requests or 0,
+   tostring(w.error)))
+ end
+ choose(payload,'resupply_test.payload',1,'Vanilla payload restores the four supply boxes, cooldown untouched',8)
+ choose(cooldown,'resupply_test.cooldown',1,'Vanilla cooldown restores 180 s',1)
+ choose(payload,'resupply_test.payload',2,'grenade boxes again: package already held, no new request',8)
+ choose(cooldown,'resupply_test.cooldown',2,'5 s again',1)
+ return results
+end
+'''
+
 # RuntimeEffectDiagnostics: seven independent toggle-bound tests, all off at start. Each toggle applies only its own
 # operation; switching one off restores only that one; a later test never depends on an earlier one.
 DIAGNOSTICS_LIVE = r'''
@@ -498,8 +535,15 @@ return function(frame,watches,counts,lines)
  local boom=hd2.explosions.spawn('R-36 Eruptor',{position={x=1,y=2,z=3}})
  step('an explosion aboard the ship is refused (not in a mission)',boom.status=='refused'and boom.code=='NOT_IN_MISSION',
   tostring(boom.code)..' '..tostring(boom.reason))
- step('every catalogued explosion resolves from the packaged archive',#hd2.explosions.list()==13,
+ step('every catalogued explosion resolves from the packaged archive',#hd2.explosions.list()==15,
   tostring(#hd2.explosions.list()))
+ step('the projectile and status catalogs resolve from the packaged archive',#hd2.projectiles.list()==67
+  and #hd2.status.list()==11,tostring(#hd2.projectiles.list())..' '..tostring(#hd2.status.list()))
+ local shot=hd2.projectiles.spawn('R-36 Eruptor',{position={x=1,y=2,z=3},direction={x=1,y=0,z=0}})
+ step('a projectile aboard the ship is refused',shot.status=='refused'and(shot.code=='NOT_IN_MISSION'
+  or shot.code=='PROJECTILE_UNAVAILABLE'),tostring(shot.code))
+ local me=hd2.local_player()
+ step('equipped_weapon resolves from the packaged archive',me==nil or type(me.equipped_weapon)=='function')
  step('no gameplay write happened',counts.writes==0,'writes='..counts.writes)
  return results
 end
@@ -543,9 +587,13 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-death-hellbomb-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
     'example-heavy-devastator-delayed-explosion-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
     'example-player-kill-credited-example': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-projectile-action-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-status-action-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-equipped-weapon-event-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
     'example-kill-stack-damage-test': {'after': KILL_STACK_LIVE},
     'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 3},
     'example-runtime-effect-diagnostics': {'menu': MENU_STUB, 'after': DIAGNOSTICS_LIVE},
+    'example-resupply-test': {'menu': MENU_STUB, 'after': RESUPPLY_LIVE, 'packageRequests': 1},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},

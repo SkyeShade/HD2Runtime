@@ -3,7 +3,7 @@
  "schemaVersion": 1,
  "hd2RuntimeVersion": "0.27.0",
  "summary": {
-  "events": 15,
+  "events": 18,
   "available": [
    "entity_damaged",
    "entity_died",
@@ -18,7 +18,10 @@
    "player_fired",
    "player_healed",
    "player_kill_credited",
-   "player_spawned"
+   "player_spawned",
+   "weapon_changed",
+   "weapon_equipped",
+   "weapon_unequipped"
   ],
   "blocked": [
    "entity_damage_pre"
@@ -36,7 +39,8 @@
   "game_state": "The game's state machine: its Mission state with a game_mode object, and this peer's authority over it (host).",
   "players": "The game's player list: peer ids, lifecycle state, and each avatar entity (through the network id map).",
   "health": "One bulk scan per tick of the health manager: every entity with a HealthComponent, its health, life state (alive, downed, dead) and last-hit creditor. When a tracked record disappears, the corpse manager is read once: the game replaces a dead entity by a corpse entity that takes over its unit and names the dead entity, so a death that happened between two polls is still reported.",
-  "stats": "The local player's mission stats as the game keeps them: the main table plus one block per source type (the weapon, throwable or stratagem payload the game recorded the stat under), checked 10 times per second."
+  "stats": "The local player's mission stats as the game keeps them: the main table plus one block per source type (the weapon, throwable or stratagem payload the game recorded the stat under), checked 10 times per second.",
+  "weapons": "What the local player's avatar holds: its wielder slot 0 (the entity in hand) and the inventory selection the game's weapon switch writes in the same call, checked 10 times per second."
  },
  "events": [
   {
@@ -855,6 +859,91 @@
    ]
   },
   {
+   "name": "weapon_equipped",
+   "status": "available",
+   "source": "weapons",
+   "phase": "post",
+   "hot": false,
+   "summary": "The local player now holds an item: after a weapon switch, after a respawn (the game wields the first loadout item), or when a carried item is taken in hand. What is held when Runtime starts watching is the baseline (no event).",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "weapon",
+     "type": "HD2EquippedWeapon",
+     "doc": "What is in hand now."
+    }
+   ]
+  },
+  {
+   "name": "weapon_unequipped",
+   "status": "available",
+   "source": "weapons",
+   "phase": "post",
+   "hot": false,
+   "summary": "The local player no longer holds an item: switched to another (reason switched), hands emptied (emptied), or the avatar changed or died (avatar_changed).",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "weapon",
+     "type": "HD2EquippedWeapon",
+     "doc": "What was in hand (HD2EquippedWeapon)."
+    },
+    {
+     "name": "reason",
+     "type": "\"switched\"|\"emptied\"|\"avatar_changed\"",
+     "doc": "Why it left the hand."
+    }
+   ]
+  },
+  {
+   "name": "weapon_changed",
+   "status": "available",
+   "source": "weapons",
+   "phase": "post",
+   "hot": false,
+   "summary": "What the local player holds changed (one event per change, after weapon_unequipped and weapon_equipped). previous or current is nil when nothing was or is held.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "previous",
+     "type": "HD2EquippedWeapon|nil",
+     "doc": "What was in hand (HD2EquippedWeapon)."
+    },
+    {
+     "name": "current",
+     "type": "HD2EquippedWeapon|nil",
+     "doc": "What is in hand now."
+    }
+   ]
+  },
+  {
    "name": "entity_damage_pre",
    "status": "blocked",
    "phase": "pre",
@@ -1126,6 +1215,12 @@
      ],
      "returns": "number|nil, string|nil",
      "doc": "Local player only: heal through the game's own heal function (AddHealthFraction), clamped to maximum health; refused while downed or dead. Returns the amount requested after the clamp, or nil and the reason."
+    },
+    {
+     "name": "equipped_weapon",
+     "params": [],
+     "returns": "HD2EquippedWeapon|nil, string|nil",
+     "doc": "Local player only: what the avatar holds now (its wielder slot 0), re-read on every call. nil and the reason when nothing is in hand, the player is dead or not spawned, or it is another player."
     },
     {
      "name": "describe",
@@ -2052,7 +2147,7 @@
      [
       "kind",
       "string",
-      "'explosion', 'explosion_assets'."
+      "'explosion', 'explosion_assets', 'projectile', 'projectile_assets', 'status'."
      ],
      [
       "owner",
@@ -2067,7 +2162,7 @@
      [
       "code",
       "string|nil",
-      "Why it was refused (UNKNOWN_EXPLOSION, ASSET_UNKNOWN, ASSET_UNAVAILABLE, NOT_IN_MISSION, HOST_ONLY, NO_LOCAL_AVATAR, RATE_LIMITED, CAUSE_DEPTH, QUEUE_FULL, INVALID_POSITION, EXPLOSION_UNAVAILABLE)."
+      "Why it was refused (UNKNOWN_EXPLOSION, UNKNOWN_PROJECTILE, UNKNOWN_STATUS, ASSET_UNKNOWN, ASSET_UNAVAILABLE, NOT_IN_MISSION, HOST_ONLY, NO_LOCAL_AVATAR, RATE_LIMITED, CAUSE_DEPTH, QUEUE_FULL, INVALID_POSITION, INVALID_DIRECTION, INVALID_TARGET, INVALID_AMOUNT, INVALID_OPTION, TARGET_GONE, FIRER_UNSUPPORTED, EXPLOSION_UNAVAILABLE, PROJECTILE_UNAVAILABLE, STATUS_UNAVAILABLE)."
      ],
      [
       "reason",
@@ -2077,7 +2172,17 @@
      [
       "explosion",
       "string|nil",
-      "The explosion (weapon name)."
+      "The explosion (a named explosion or a weapon name)."
+     ],
+     [
+      "projectile",
+      "string|nil",
+      "The projectile (its weapon)."
+     ],
+     [
+      "effect",
+      "string|nil",
+      "The status id."
      ],
      [
       "position",
@@ -2134,7 +2239,7 @@
       "params": [
        [
         "explosion",
-        "HD2WeaponName|HD2Explosion"
+        "HD2ExplosionName|HD2WeaponName|HD2Explosion"
        ],
        [
         "opts",
@@ -2142,7 +2247,7 @@
        ]
       ],
       "returns": "HD2ActionHandle",
-      "doc": "Request the weapon's catalogued explosion at a position. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused."
+      "doc": "Request a catalogued explosion at a position: a named explosion ('Hellbomb' = the NUX-223 Hellbomb, 'B-100 Portable Hellbomb'), or a weapon's catalogued explosion. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused."
      },
      {
       "name": "of",
@@ -2160,7 +2265,7 @@
       "params": [
        [
         "explosion",
-        "HD2WeaponName|HD2Explosion"
+        "HD2ExplosionName|HD2WeaponName|HD2Explosion"
        ]
       ],
       "returns": "HD2ActionHandle",
@@ -2169,7 +2274,7 @@
      {
       "name": "list",
       "params": [],
-      "returns": "{weapon: string, type: integer, assets_known: boolean}[]",
+      "returns": "{name: string, weapon: string|nil, type: integer, source: \"behavior\"|\"weapon\", assets_known: boolean}[]",
       "doc": "Every explosion hd2.explosions can request."
      }
     ]
@@ -2197,6 +2302,153 @@
       "params": [],
       "returns": "table",
       "doc": "Every action: available or blocked, with the reason."
+     }
+    ]
+   },
+   "HD2EquippedWeapon": {
+    "doc": "The item in a player's hand (a snapshot; treat it as read-only).",
+    "fields": [
+     [
+      "name",
+      "string|nil",
+      "The catalogued weapon, throwable or stratagem item; nil when the held entity is not catalogued (for example a stratagem ball)."
+     ],
+     [
+      "type",
+      "string",
+      "The held entity's type (16 hex digits): the weapon resource."
+     ],
+     [
+      "entity_id",
+      "integer",
+      "The held entity."
+     ],
+     [
+      "slot",
+      "string|nil",
+      "primary or secondary (proven); support, held_item or unknown (inferred)."
+     ],
+     [
+      "slot_proven",
+      "boolean",
+      "Whether slot is proven (primary, secondary)."
+     ],
+     [
+      "selection",
+      "integer|nil",
+      "The game's raw inventory selection (1 primary, 2 secondary, ...)."
+     ],
+     [
+      "avatar_id",
+      "integer",
+      "The avatar holding it."
+     ]
+    ]
+   },
+   "HD2ProjectileOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "position",
+      "HD2Vector3|HD2Position",
+      "Where the projectile starts (world coordinates)."
+     ],
+     [
+      "direction",
+      "HD2Vector3",
+      "Which way it flies (any non-zero length; Runtime normalises it)."
+     ],
+     [
+      "firer",
+      "HD2PlayerHandle|nil",
+      "Only the local player (the default): the projectile is fired and credited by the local player's avatar."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod)."
+     ]
+    ]
+   },
+   "HD2Projectiles": {
+    "doc": "hd2.projectiles: fire a catalogued weapon projectile (docs/event-scripting.md).",
+    "methods": [
+     {
+      "name": "spawn",
+      "params": [
+       [
+        "weapon",
+        "HD2WeaponName"
+       ],
+       [
+        "opts",
+        "HD2ProjectileOptions"
+       ]
+      ],
+      "returns": "HD2ActionHandle",
+      "doc": "Fire the weapon's projectile from a position in a direction through the game's own projectile function. Host only, in a mission; fired and credited by the local player (each counts as a shot in the stats); loads the weapon's package first when needed. Other players may not see it."
+     },
+     {
+      "name": "prepare",
+      "params": [
+       [
+        "weapon",
+        "HD2WeaponName"
+       ]
+      ],
+      "returns": "HD2ActionHandle",
+      "doc": "Load the projectile assets now (status ready or waiting_for_assets)."
+     },
+     {
+      "name": "list",
+      "params": [],
+      "returns": "{weapon: string, role: string, type: integer, assets_known: boolean}[]",
+      "doc": "Every projectile hd2.projectiles can fire."
+     }
+    ]
+   },
+   "HD2StatusOptions": {
+    "doc": "",
+    "fields": [
+     [
+      "buildup",
+      "number|nil",
+      "Buildup added (0 < buildup <= 1000, default 100). The status starts when the target's buildup reaches its susceptibility; strength and duration come from the status itself."
+     ],
+     [
+      "owner",
+      "string|nil",
+      "Mod id (defaults to the calling mod)."
+     ]
+    ]
+   },
+   "HD2StatusEffects": {
+    "doc": "hd2.status: apply a status a player weapon applies (docs/event-scripting.md).",
+    "methods": [
+     {
+      "name": "apply",
+      "params": [
+       [
+        "entity",
+        "HD2EntityHandle|HD2PlayerHandle|{id: integer}"
+       ],
+       [
+        "status",
+        "HD2StatusId"
+       ],
+       [
+        "opts",
+        "HD2StatusOptions|nil"
+       ]
+      ],
+      "returns": "HD2ActionHandle",
+      "doc": "Request a status on an entity through the game's own status request queue (the game checks the target can have it and routes it to the target's owner). Host only, in a mission; the local player instigates it. Only statuses a player weapon applies through its damage; strength is refused."
+     },
+     {
+      "name": "list",
+      "params": [],
+      "returns": "{id: string, name: string, family: string, type: integer}[]",
+      "doc": "Every status hd2.status can apply."
      }
     ]
    }
@@ -2295,7 +2547,246 @@
     "actions",
     "HD2Actions",
     ""
+   ],
+   [
+    "projectiles",
+    "HD2Projectiles",
+    ""
+   ],
+   [
+    "status",
+    "HD2StatusEffects",
+    ""
    ]
   ]
+ },
+ "actions": {
+  "explosions": {
+   "hostOnly": true,
+   "inMissionOnly": true,
+   "creditedTo": "local_player",
+   "liveTested": false,
+   "api": "hd2.explosions.spawn",
+   "rateLimit": {
+    "burst": 6,
+    "perSecond": 1
+   },
+   "named": [
+    {
+     "name": "NUX-223 Hellbomb",
+     "aliases": [
+      "Hellbomb"
+     ],
+     "sharedType": true
+    },
+    {
+     "name": "B-100 Portable Hellbomb",
+     "aliases": [
+      "Portable Hellbomb"
+     ],
+     "sharedType": false
+    }
+   ],
+   "weapons": [
+    "CB-9 Exploding Crossbow",
+    "GL-15 Evictor",
+    "GP-20 Ultimatum",
+    "GP-31 Grenade Pistol",
+    "P-33 Missile Pistol",
+    "P-34 Breacher",
+    "P/40-K Bolt Pistol",
+    "PLAS-1 Scorcher",
+    "PLAS-101 Purifier",
+    "PLAS-15 Loyalist",
+    "PLAS-39 Accelerator Rifle",
+    "R-36 Eruptor",
+    "SG-8P Punisher Plasma"
+   ],
+   "assets": "Loaded automatically (the weapon's package; a Hellbomb's stratagem package)."
+  },
+  "projectiles": {
+   "hostOnly": true,
+   "inMissionOnly": true,
+   "creditedTo": "local_player",
+   "liveTested": false,
+   "api": "hd2.projectiles.spawn",
+   "rateLimit": {
+    "burst": 12,
+    "perSecond": 4
+   },
+   "weapons": [
+    "AR-11 Arbitrator",
+    "AR-2 Coyote",
+    "AR-23 Liberator",
+    "AR-23A Liberator Carbine",
+    "AR-23C Liberator Concussive",
+    "AR-23P Liberator Penetrator",
+    "AR-32 Pacifier",
+    "AR-59 Suppressor",
+    "AR-61 Tenderizer",
+    "AR/GL-21 One-Two",
+    "BR-14 Adjudicator",
+    "CB-9 Exploding Crossbow",
+    "DBS-2 Double Freedom",
+    "GL-15 Evictor",
+    "GP-20 Ultimatum",
+    "GP-31 Grenade Pistol",
+    "JAR-5 Dominator",
+    "LAS-12 Sai",
+    "LAS-16 Sickle",
+    "LAS-17 Double-Edge Sickle",
+    "LAS-58 Talon",
+    "M6C/SOCOM Pistol",
+    "M7S SMG",
+    "M90A Shotgun",
+    "MA5C Assault Rifle",
+    "MP-98 Knight",
+    "P-11 Stim Pistol",
+    "P-113 Verdict",
+    "P-33 Missile Pistol",
+    "P-34 Breacher",
+    "P-35 Re-Educator",
+    "P-4 Senator",
+    "P-69 Veto",
+    "P-92 Warrant",
+    "P/40-K Bolt Pistol",
+    "PLAS-1 Scorcher",
+    "PLAS-101 Purifier",
+    "PLAS-15 Loyalist",
+    "PLAS-39 Accelerator Rifle",
+    "R-2 Amendment",
+    "R-2124 Constitution",
+    "R-36 Eruptor",
+    "R-4 Hyena",
+    "R-6 Deadeye",
+    "R-63 Diligence",
+    "R-63CS Diligence Counter Sniper",
+    "R-72 Censor",
+    "R/40-K Hot-Shot Marksman Rifle",
+    "SG-20 Halt",
+    "SG-22 Bushwhacker",
+    "SG-225 Breaker",
+    "SG-225IE Breaker Incendiary",
+    "SG-225SP Breaker Spray&Pray",
+    "SG-451 Cookout",
+    "SG-8 Punisher",
+    "SG-8P Punisher Plasma",
+    "SG-8S Slugger",
+    "SG-97 Sweeper",
+    "SMG-203 Gallant",
+    "SMG-32 Reprimand",
+    "SMG-37 Defender",
+    "SMG-72 Pummeler",
+    "SMG/FLAM-34 Stoker",
+    "StA-11 SMG",
+    "StA-52 Assault Rifle",
+    "VG-70 Variable"
+   ],
+   "options": {
+    "position": "required",
+    "direction": "required, any non-zero length"
+   },
+   "sideEffects": [
+    "Each projectile counts as a shot in the local player's stats."
+   ],
+   "assets": "Loaded automatically (the weapon's package)."
+  },
+  "statusEffects": {
+   "hostOnly": true,
+   "inMissionOnly": true,
+   "creditedTo": "local_player (instigator)",
+   "liveTested": false,
+   "api": "hd2.status.apply",
+   "rateLimit": {
+    "burst": 10,
+    "perSecond": 5,
+    "perTargetBurst": 4,
+    "perTargetPerSecond": 2
+   },
+   "statuses": [
+    {
+     "id": "fire",
+     "name": "Fire",
+     "family": "fire",
+     "duration": 3.0
+    },
+    {
+     "id": "fire_panic",
+     "name": "Fire_Panic",
+     "family": "sense",
+     "duration": 1.0
+    },
+    {
+     "id": "burning_heavy",
+     "name": "BurningHeavy",
+     "family": "fire",
+     "duration": 1.0
+    },
+    {
+     "id": "stun_small",
+     "name": "Stun Small",
+     "family": "stun",
+     "duration": 1.5
+    },
+    {
+     "id": "stun_medium",
+     "name": "Stun Medium",
+     "family": "stun",
+     "duration": 3.0
+    },
+    {
+     "id": "stun_large",
+     "name": "Stun Large",
+     "family": "stun",
+     "duration": 5.0
+    },
+    {
+     "id": "gas",
+     "name": "Gas",
+     "family": "gas",
+     "duration": 6.0
+    },
+    {
+     "id": "gas_2",
+     "name": "Gas",
+     "family": "gas",
+     "duration": 10.0
+    },
+    {
+     "id": "gas_confusion",
+     "name": "Gas_Confusion",
+     "family": "gas",
+     "duration": 5.0
+    },
+    {
+     "id": "gas_confusion_2",
+     "name": "Gas_Confusion",
+     "family": "gas",
+     "duration": 9.0
+    },
+    {
+     "id": "flamer_slowed",
+     "name": "FlamerSlowed",
+     "family": "slow",
+     "duration": 0.5
+    }
+   ],
+   "options": {
+    "buildup": {
+     "default": 100,
+     "min_exclusive": 0,
+     "max": 1000,
+     "meaning": "Buildup added; the status starts at the target's susceptibility threshold."
+    },
+    "strength": "refused: strength and duration are the status's own"
+   },
+   "unproven": [
+    "Visual effect residency is inferred (the same statuses are applied by enemies and environments)."
+   ]
+  },
+  "spawnEntity": {
+   "status": "blocked",
+   "reason": "The generic spawn's parameters and replication are not proven."
+  }
  }
 }

@@ -201,9 +201,11 @@ assert(a.status=='refused'and a.code=='NOT_IN_MISSION'and a.owner=='mods/t/boom'
 -- Unknown explosions fail closed before anything else.
 assert(spawn(158).code=='UNKNOWN_EXPLOSION','a raw id is refused')
 assert(spawn('AR-23 Liberator').code=='UNKNOWN_EXPLOSION','a weapon without a catalogued explosion')
-assert(spawn('B-100 Portable Hellbomb').code=='UNKNOWN_EXPLOSION','the Hellbomb identity is not proven')
+assert(spawn('Hellbomb').code=='NOT_IN_MISSION','the named Hellbomb resolves (proven code literal)')
+assert(spawn('Orbital Hellbomb').code=='UNKNOWN_EXPLOSION','an unknown name is refused')
 assert(spawn('GP-31 Grenade Pistol').code=='ASSET_UNKNOWN','a package nobody can load is refused')
 assert(spawn('R-36 Eruptor',{position={x=0/0,y=0,z=0}}).code=='INVALID_POSITION')
+assert(spawn('R-36 Eruptor',{position={y=1,z=2}}).code=='INVALID_POSITION','a missing axis refuses, never raises')
 -- A client cannot change enemy health.
 mission({host=false})
 assert(spawn('R-36 Eruptor').code=='HOST_ONLY')
@@ -227,10 +229,198 @@ local codes={}
 for _=1,4 do local attempt=spawn('R-36 Eruptor');codes[#codes+1]=attempt.code or attempt.status end
 assert(table.concat(codes,',')=='requested,requested,requested,RATE_LIMITED',table.concat(codes,','))
 tick(40)                                              -- 5 s refill
+-- The named Hellbomb explosions: the NUX-223 detonation (type 242) and the B-100 Portable Hellbomb (type 125), the
+-- code literals Runtime re-proves with its event pins. Names are case-insensitive.
+a=spawn('hellbomb')
+assert(a.status=='requested'and a.explosion=='NUX-223 Hellbomb'and W.runtime.explosions[6].type==242,tostring(a.code))
+assert(W.runtime.explosions[6].source==100 and W.runtime.explosions[6].owner==100)
+a=spawn('B-100 Portable Hellbomb')
+assert(a.status=='requested'and W.runtime.explosions[7].type==125,tostring(a.code))
+local listed={}
+for _,item in ipairs(hd2.explosions.list())do listed[item.name]=item end
+assert(listed['NUX-223 Hellbomb'].source=='behavior'and listed['NUX-223 Hellbomb'].assets_known)
+assert(listed['R-36 Eruptor'].source=='weapon'and listed['R-36 Eruptor'].weapon=='R-36 Eruptor')
 local X=require('hd2runtime/domains/event_natives').explosion
 W.write(W.GAME+X.rva,string.char(0xCC))
 assert(spawn('R-36 Eruptor').code=='EXPLOSION_UNAVAILABLE','a changed request function is never called')
-assert(#W.runtime.explosions==5,#W.runtime.explosions)
+assert(#W.runtime.explosions==7,#W.runtime.explosions)
+return 'ok'
+''')
+
+    def test_a_projectile_is_fired_only_when_every_guard_holds(self):
+        self.lua(r'''
+local P,D={x=10,y=20,z=3},{x=0,y=0,z=-2}
+hd2.events.run_as('mods/t/shoot',function()hd2.events.on('mission_started',function()end)end)
+local function spawn(what,opts)
+    local action
+    hd2.events.run_as('mods/t/shoot',function()action=hd2.projectiles.spawn(what,opts or{position=P,direction=D})end)
+    return action
+end
+-- Outside a mission; unknown names and raw ids fail closed first.
+assert(spawn('R-36 Eruptor').code=='NOT_IN_MISSION')
+assert(spawn(158).code=='UNKNOWN_PROJECTILE'and spawn('Orbital Laser').code=='UNKNOWN_PROJECTILE')
+assert(spawn('R-36 Eruptor',{position=P,direction={x=0,y=0,z=0}}).code=='INVALID_DIRECTION')
+assert(spawn('R-36 Eruptor',{position={x=0/0,y=0,z=0},direction=D}).code=='INVALID_POSITION')
+assert(spawn('R-36 Eruptor',{position={y=0,z=0},direction=D}).code=='INVALID_POSITION','a missing axis refuses')
+assert(spawn('R-36 Eruptor',{position=P,direction={y=1,z=0}}).code=='INVALID_DIRECTION','a missing axis refuses')
+mission({host=false})
+assert(spawn('R-36 Eruptor').code=='HOST_ONLY')
+W.state(3);tick()
+mission({host=true})
+-- The request: the local avatar fires it; the direction is normalised; the catalogued type.
+local a=spawn('R-36 Eruptor')
+assert(a.status=='requested',tostring(a.code)..' '..tostring(a.reason))
+local shot=W.runtime.projectiles[1]
+local eruptor
+for _,item in ipairs(hd2.projectiles.list())do if item.weapon=='R-36 Eruptor'then eruptor=item end end
+assert(shot.type==eruptor.type and shot.entity==100 and shot.dz==-1 and shot.dx==0,shot.type)
+assert(count('projectile R-36 Eruptor fired from (10.00, 20.00, 3.00) by mods/t/shoot')==1)
+-- Another firer is refused; the local player's own handle is accepted.
+assert(spawn('R-36 Eruptor',{position=P,direction=D,firer={id=555}}).code=='FIRER_UNSUPPORTED')
+assert(spawn('R-36 Eruptor',{position=P,direction=D,firer=hd2.local_player()}).status=='requested')
+-- An inactive projectile system (the game's own gate) and a table entry that does not carry the type.
+W.projectiles_active(false)
+assert(spawn('R-36 Eruptor').code=='NOT_IN_MISSION')
+W.projectiles_active(true)
+local X=require('hd2runtime/domains/event_natives').projectile
+W.write(W.GAME+X.rva,string.char(0xCC))
+assert(spawn('R-36 Eruptor').code=='PROJECTILE_UNAVAILABLE','a changed wrapper is never called')
+assert(#W.runtime.projectiles==2,#W.runtime.projectiles)
+return 'ok'
+''')
+
+    def test_a_projectile_rate_limit_and_asset_wait(self):
+        self.lua(r'''
+local P,D={x=1,y=2,z=3},{x=1,y=0,z=0}
+hd2.events.run_as('mods/t/shoot',function()hd2.events.on('mission_started',function()end)end)
+mission({host=true})
+local function spawn(what)
+    local action
+    hd2.events.run_as('mods/t/shoot',function()action=hd2.projectiles.spawn(what,{position=P,direction=D})end)
+    return action
+end
+local codes={}
+for _=1,13 do codes[#codes+1]=spawn('R-36 Eruptor').code or'ok'end
+assert(codes[12]=='ok'and codes[13]=='RATE_LIMITED',table.concat(codes,','))
+tick(40)
+for package in pairs(require('hd2runtime/domains/package_residency').packages)do W.runtime.packages[package]='absent'end
+local fired=#W.runtime.projectiles
+local a=spawn('R-36 Eruptor')
+assert(a.status=='waiting_for_assets',a.status)
+tick(8)
+-- The fixture has no package system to request through: the gate refuses, and nothing is fired.
+assert(a.status=='refused'and a.code=='ASSET_UNAVAILABLE',a.status..' '..tostring(a.code))
+assert(#W.runtime.projectiles==fired)
+return 'ok'
+''')
+
+    def test_a_status_is_requested_only_for_an_allowlisted_status_and_a_live_target(self):
+        self.lua(r'''
+hd2.events.run_as('mods/t/burn',function()hd2.events.on('mission_started',function()end)end)
+local function apply(target,what,opts)
+    local action
+    hd2.events.run_as('mods/t/burn',function()action=hd2.status.apply(target,what,opts)end)
+    return action
+end
+local enemy={id=200}
+assert(apply(enemy,'fire').code=='NOT_IN_MISSION')
+mission({host=true})
+W.add{entity=200,type=DEVASTATOR,unit=7200,health=500}
+tick()
+-- Only statuses a player weapon applies; raw ids, stims and ambiguous display names are refused.
+assert(apply(enemy,5).code=='UNKNOWN_STATUS'and apply(enemy,'stim_heal').code=='UNKNOWN_STATUS')
+assert(apply(enemy,'blind').code=='UNKNOWN_STATUS')
+local ids={}
+for _,item in ipairs(hd2.status.list())do ids[#ids+1]=item.id end
+assert(table.concat(ids,',')=='fire,fire_panic,burning_heavy,stun_small,stun_medium,stun_large,gas,gas_2,gas_confusion,'
+    ..'gas_confusion_2,flamer_slowed',table.concat(ids,','))
+assert(apply(enemy,'fire',{strength=5}).code=='INVALID_OPTION','strength is the status\'s own')
+assert(apply(enemy,'fire',{buildup=0}).code=='INVALID_AMOUNT'and apply(enemy,'fire',{buildup=5000}).code=='INVALID_AMOUNT')
+assert(apply(nil,'fire').code=='INVALID_TARGET')
+-- The request: the local avatar instigates; default buildup 100 (the game's own template).
+local a=apply(enemy,'Fire')
+assert(a.status=='requested',tostring(a.code)..' '..tostring(a.reason))
+local call=W.runtime.statuses[1]
+assert(call.type==5 and call.target==200 and call.buildup==100 and call.instigator==100,
+    ('%s %s %s %s'):format(call.type,call.target,call.buildup,call.instigator))
+local stun=apply(enemy,'stun_medium',{buildup=250})
+assert(stun.status=='requested'and W.runtime.statuses[2].type==38,tostring(stun.code))
+assert(count('status fire requested on entity 200 (buildup 100) by mods/t/burn')==1)
+-- Per-target limit: 4 at once.
+local codes={}
+for _=1,3 do codes[#codes+1]=apply(enemy,'gas').code or'ok'end
+assert(table.concat(codes,',')=='ok,ok,RATE_LIMITED',table.concat(codes,','))
+-- A gone target, a full queue and a changed request function are refused before any call.
+local gone=apply({id=999+4194304*5},'fire')   -- a stale id: another generation of slot 999
+assert(gone.code=='TARGET_GONE','gone '..tostring(gone.code)..' '..tostring(gone.status))
+tick(40)
+W.status_queue_count(4096)
+local full=apply({id=100},'fire')
+assert(full.code=='QUEUE_FULL','full '..tostring(full.code))
+W.status_queue_count(0)
+local S=require('hd2runtime/domains/event_natives').status
+W.write(W.GAME+S.rva,string.char(0xCC))
+local changed=apply({id=100},'fire')
+assert(changed.code=='STATUS_UNAVAILABLE','changed '..tostring(changed.code))
+mission({host=false})
+local client=apply(enemy,'fire')
+assert(client.code=='HOST_ONLY','client '..tostring(client.code))
+assert(#W.runtime.statuses==4,#W.runtime.statuses)
+return 'ok'
+''')
+
+    def test_the_equipped_weapon_and_its_events_follow_switches_death_and_respawn(self):
+        self.lua(r'''
+mission({host=true})
+local me=hd2.local_player()
+local none,why=me:equipped_weapon()
+assert(none==nil and why=='nothing in hand',tostring(why))
+W.hold(100,605,ERUPTOR,1)
+local held=me:equipped_weapon()
+assert(held.name=='R-36 Eruptor'and held.type==ERUPTOR and held.entity_id==605 and held.avatar_id==100)
+assert(held.slot=='primary'and held.slot_proven==true and held.selection==1)
+local seen={}
+hd2.events.run_as('mods/t/weapons',function()
+    hd2.events.on('weapon_changed',function(e)
+        seen[#seen+1]='changed '..tostring(e.previous and e.previous.name)..' -> '..tostring(e.current and e.current.name)
+    end)
+    hd2.events.on('weapon_equipped',function(e)seen[#seen+1]='equipped '..tostring(e.weapon.name)end)
+    hd2.events.on('weapon_unequipped',function(e)seen[#seen+1]='unequipped '..tostring(e.weapon.name)..' '..e.reason end)
+end)
+tick(2)
+assert(#seen==0,'what is held when Runtime starts watching is the baseline')
+-- A switch: selection and slot 0 change together.
+W.hold(100,606,LIBERATOR,2)
+tick(2)
+assert(table.concat(seen,'|')=='unequipped R-36 Eruptor switched|equipped AR-23 Liberator|changed R-36 Eruptor -> '
+    ..'AR-23 Liberator',table.concat(seen,'|'))
+assert(me:equipped_weapon().slot=='secondary')
+-- An item that is not catalogued (a stratagem ball): no name, an inferred slot.
+seen={}
+W.hold(100,934,'0123456789ABCDEF',5)
+tick(2)
+local ball=me:equipped_weapon()
+assert(ball.name==nil and ball.slot=='held_item'and ball.slot_proven==false and ball.entity_id==934)
+assert(seen[3]=='changed AR-23 Liberator -> nil'or seen[3]=='changed AR-23 Liberator -> nil',table.concat(seen,'|'))
+-- Death: the game removes the wielder; nothing is held.
+seen={}
+W.drop_wielder(100)
+tick(2)
+assert(table.concat(seen,'|')=='unequipped nil emptied|changed nil -> nil',table.concat(seen,'|'))
+assert(me:equipped_weapon()==nil)
+-- Respawn: a new avatar gets a fresh instance and wields its first item.
+seen={}
+W.players({{peer=LOCAL,avatar=101}},LOCAL)
+W.add{entity=101,type=W.AVATAR,unit=7101,health=125,owned=true}
+W.hold(101,707,ERUPTOR,1)
+tick(2)
+assert(table.concat(seen,'|')=='equipped R-36 Eruptor|changed nil -> R-36 Eruptor',table.concat(seen,'|'))
+-- A stale held entity (another generation of its slot) is nothing in hand; another player is refused.
+W.hold(101,707+4194304*3,ERUPTOR,1)
+assert(me:equipped_weapon()==nil)
+local other=setmetatable({peer=OTHER,is_local=false},{__index=handles.Player})
+local refused,reason=other:equipped_weapon()
+assert(refused==nil and reason:find('only the local player',1,true),tostring(reason))
 return 'ok'
 ''')
 

@@ -14,6 +14,8 @@ local M={}
 local H,P,A,S,E,T=natives.health,natives.players,natives.playerAvatars,natives.state,natives.engine,natives.stats
 local C=natives.corpses
 local X=natives.explosion
+local PJ,ST=natives.projectile,natives.status
+local WI=natives.wielder
 local IMAGE_SIZE,EXE_IMAGE_SIZE=natives.source.imageSize,natives.source.exeImageSize
 local opened,adapter_override
 
@@ -414,6 +416,153 @@ end
 -- thread (the update callback). Refused unless: the prologue bytes are exactly the reviewed ones, the entity is a
 -- Helldiver avatar owned by this peer, alive (not downed or dead) and below its maximum. The game clamps to maximum.
 -- Returns the amount requested (after Runtime's own clamp) or nil and the reason.
+-------------------------------------------------------------------------------------------------- equipped --
+local function power_of_two(n)
+    if n<1 or n%1~=0 then return false end
+    while n>1 do if n%2~=0 then return false end n=n/2 end
+    return true
+end
+-- A value in one of the game's open-addressed u32 hashes, whose 20-byte header is {buckets u64, capacity u32, empty
+-- key u32, multiplier u32}: slot = (key * multiplier + i) & (capacity - 1). nil when absent or unreadable.
+local function hash_value(world,header_address,key)
+    if type(key)~='number'or key<=0 or key>=4294967296 or key%1~=0 then return nil end
+    local header=world.view.read(header_address,20)
+    if not header then return nil end
+    local buckets=b.pointer(header,0)
+    local capacity,empty,multiplier=b.u32(header,8),b.u32(header,12),b.u32(header,16)
+    if buckets==0 or capacity>1048576 or not power_of_two(capacity)then return nil end
+    local start=mul32(key,multiplier)
+    for probe=0,math.min(capacity,4096)-1 do
+        local bytes=world.view.read(buckets+((start+probe)%capacity)*8,8)
+        if not bytes then return nil end
+        local found=b.u32(bytes,0)
+        if found==key then
+            local value=b.u32(bytes,4)
+            return value~=4294967295 and value or nil
+        end
+        if found==empty then return nil end
+    end
+    return nil
+end
+-- An entity's type (16 hex digits) through the game's own entity map; the descriptor must name the same entity.
+function M.entity_type(world,entity)
+    local manager=world.view.pointer(world.game+WI.entities)
+    if not manager then return nil end
+    local index=hash_value(world,manager+WI.entityMap,entity)
+    if not index or index>=0x100000 then return nil end
+    local descriptor=world.view.read(manager+WI.descriptors+index*WI.descriptorStride,WI.descriptorEntity+4)
+    if not descriptor or b.u32(descriptor,WI.descriptorEntity)~=entity then return nil end
+    return string.format('%08X%08X',b.u32(descriptor,4),b.u32(descriptor,0))
+end
+-- What an avatar holds now (research/event-wielder-F5FEE03DCFDB.json): {entity (or nil), type, selection, slot,
+-- slot_proven} from wielder slot 0 and the inventory selection the same switch writes. Everything is re-read: an
+-- entity that no longer exists, or whose descriptor names another entity, is reported as nothing held.
+-- Returns nil and the reason when the records are unreadable.
+function M.equipped(world,avatar)
+    if type(avatar)~='number'or avatar<=0 then return {entity=nil}end
+    local wielder=world.view.pointer(world.game+WI.wielder)
+    if not wielder then return nil,'the wielder manager is unreadable'end
+    local selection
+    local inventory=world.view.pointer(world.game+WI.inventory)
+    if inventory then
+        local record=hash_value(world,inventory+WI.inventoryHash,avatar)
+        local records=record and record<0x10000 and world.view.pointer(inventory+WI.records)
+        selection=records and world.view.u32(records+record*WI.recordStride+WI.selection)or nil
+    end
+    local selected=selection and WI.selections[selection]
+    local result={selection=selection,slot=selected and selected.slot or nil,slot_proven=selected and selected.proven or false}
+    local instance=hash_value(world,wielder+WI.wielderHash,avatar)
+    if not instance or instance>=0x10000 then return result end
+    local slots=world.view.pointer(wielder+WI.slots)
+    local held=slots and world.view.u32(slots+instance*WI.stride)
+    if held==nil then return nil,'the wielder slot is unreadable'end
+    if held==0 or held==avatar or M.entity_exists(world,held)~=true then return result end
+    local type_hex=M.entity_type(world,held)
+    if not type_hex then return result end
+    result.entity,result.type=held,type_hex
+    return result
+end
+
+----------------------------------------------------------------------------------------- projectiles/status --
+-- A settings record that carries its type (+0) in a pointer table indexed by type, or nil. The game's own lookups
+-- (projectile wrapper, status apply) do not bound or null-check the type, so every request checks this first.
+local function typed_record(world,table_rva,kind,count)
+    if type(kind)~='number'or kind<=0 or kind>=count or kind%1~=0 then return nil end
+    local record=world.view.pointer(world.game+table_rva+kind*8)
+    if not record or world.view.u32(record)~=kind then return nil end
+    return record
+end
+local function finite(spec,keys,limit)
+    for _,key in ipairs(keys)do
+        local v=spec[key]
+        if type(v)~='number'or v~=v or math.abs(v)>limit then return false end
+    end
+    return true
+end
+-- The game's own projectile wrapper, from the main thread (a callback or timer). Refused unless: the wrapper's
+-- exact prologue bytes match, the projectile system is active (a mission), the type's settings record carries that
+-- type, the position is finite, the direction is a unit vector and the entity exists. spec: {type, x, y, z, dx, dy,
+-- dz, entity}. Returns true, or nil and the reason.
+function M.projectile(world,spec)
+    local runtime=world.runtime
+    if not runtime.native_projectile then
+        return nil,'PROJECTILE_UNAVAILABLE: this Runtime adapter cannot call game functions'
+    end
+    if not world.view.proves(world.game+PJ.rva,PJ.prologue)then
+        return nil,'PROJECTILE_UNAVAILABLE: the game projectile function changed'
+    end
+    local system=world.view.pointer(world.game+PJ.system)
+    local flag=system and world.view.read(system+PJ.active,1)
+    if not flag then return nil,'PROJECTILE_UNAVAILABLE: the projectile system is unreadable'end
+    if flag:byte()~=1 then return nil,'NOT_IN_MISSION: the projectile system is not active'end
+    if not typed_record(world,PJ.settingsTable,spec.type,PJ.typeCount)then
+        return nil,'UNKNOWN_PROJECTILE: the game has no settings record for projectile type '..tostring(spec.type)
+    end
+    if not finite(spec,{'x','y','z'},100000)then return nil,'INVALID_POSITION: the position must be finite world coordinates'end
+    if not finite(spec,{'dx','dy','dz'},1.0001)or math.abs(spec.dx^2+spec.dy^2+spec.dz^2-1)>=1e-3 then
+        return nil,'INVALID_DIRECTION: the direction must be a unit vector'
+    end
+    if M.entity_exists(world,spec.entity)~=true then return nil,'NO_LOCAL_AVATAR: the firing entity no longer exists'end
+    runtime.native_projectile(world.game+PJ.rva,system,spec.type,spec.x,spec.y,spec.z,spec.dx,spec.dy,spec.dz,
+        spec.entity)
+    metrics.count('events.native_projectiles')
+    return true
+end
+-- The game's own status request queue, from the main thread. Refused unless: the request function's exact prologue
+-- bytes match, the queue is readable with headroom, the type is on the reviewed allowlist and its settings record
+-- carries that type, the buildup is positive and bounded, and the target and instigator exist. The game then checks
+-- the target's status instance and susceptibility itself and routes the request to the target's owner.
+-- spec: {type, target, buildup, instigator}. Returns true, or nil and the reason.
+local allowed_status={}
+for _,item in ipairs(ST and ST.allowlist or{})do allowed_status[item.type]=true end
+function M.status(world,spec)
+    local runtime=world.runtime
+    if not runtime.native_status then return nil,'STATUS_UNAVAILABLE: this Runtime adapter cannot call game functions'end
+    if not allowed_status[spec.type]then
+        return nil,'UNKNOWN_STATUS: status type '..tostring(spec.type)..' is not on the reviewed allowlist'
+    end
+    if not world.view.proves(world.game+ST.rva,ST.prologue)then
+        return nil,'STATUS_UNAVAILABLE: the game status request changed'
+    end
+    local queue=world.view.pointer(world.game+ST.queue)
+    local count=queue and world.view.u32(queue+ST.count)
+    if not count then return nil,'STATUS_UNAVAILABLE: the status queue is unreadable'end
+    if count>=ST.capacity then return nil,'QUEUE_FULL: the game status queue is full this frame'end
+    if not world.view.pointer(world.game+ST.manager)then return nil,'STATUS_UNAVAILABLE: no status manager'end
+    if not typed_record(world,ST.settingsTable,spec.type,72)then
+        return nil,'UNKNOWN_STATUS: the game has no settings record for status type '..tostring(spec.type)
+    end
+    local buildup=spec.buildup
+    if type(buildup)~='number'or buildup~=buildup or buildup<=0 or buildup>1000 then
+        return nil,'INVALID_AMOUNT: buildup must be above 0 and at most 1000'
+    end
+    if M.entity_exists(world,spec.target)~=true then return nil,'TARGET_GONE: the target entity no longer exists'end
+    if M.entity_exists(world,spec.instigator)~=true then return nil,'NO_LOCAL_AVATAR: the instigator no longer exists'end
+    runtime.native_status(world.game+ST.rva,spec.type,spec.target,buildup,spec.instigator)
+    metrics.count('events.native_status_requests')
+    return true
+end
+
 function M.heal(world,entity,amount)
     if type(amount)~='number'or amount~=amount or amount<=0 or amount>100000 then
         return nil,'heal amount must be a positive number'

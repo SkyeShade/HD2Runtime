@@ -6990,7 +6990,7 @@
         {
           "name": "Resupply",
           "nativeType": "AmmoRack",
-          "stratagemSemanticId": null,
+          "stratagemSemanticId": "stratagem/v1/resupply/ae294eff50927c20",
           "booster": null,
           "alwaysAvailable": true
         },
@@ -8475,10 +8475,10 @@
         "basis": "Delivered by an always-available mission stratagem (Resupply)."
       },
       "packageDependency": {
-        "known": false,
+        "known": true,
         "alwaysResident": true,
         "autoLoadSupported": false,
-        "package": null,
+        "package": "ammo_rack",
         "packageResidency": "ALWAYS_RESIDENT",
         "liveTested": false,
         "blocker": null

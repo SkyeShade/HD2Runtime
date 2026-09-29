@@ -1,5 +1,5 @@
 {
-  "examples": 78,
+  "examples": 82,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1222,6 +1222,19 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "EquippedWeaponEventTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
     "EruptorExplosionRadius": {
       "baselineChanges": 1,
       "calls": [
@@ -2440,6 +2453,19 @@
         "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
+    "ProjectileActionTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
+      ]
+    },
     "RecoillessProof": {
       "baselineChanges": 3,
       "calls": [
@@ -2486,6 +2512,78 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "ResupplyTest": {
+      "baselineChanges": 9,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "resupply-cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-1",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-2",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-3",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_reference"
+          ],
+          "callKind": "ensure",
+          "id": "slot-4",
+          "mode": "patch",
+          "path": "slot",
+          "resource": "pod_rack"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0",
+        "in-game options -> 0.25.1",
+        "payload.entity -> 0.26.0",
+        "pod_rack target -> 0.26.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -2757,6 +2855,19 @@
       "usesOptions": false,
       "versionReasons": [
         "typed writes -> 0.23.2"
+      ]
+    },
+    "StatusActionTest": {
+      "baselineChanges": null,
+      "calls": [],
+      "minVersion": "0.27.0",
+      "operations": {},
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "gameplay scripting (hd2.events, hd2.mod, timers, keybinds) -> 0.27.0"
       ]
     },
     "StructureHealthTest": {

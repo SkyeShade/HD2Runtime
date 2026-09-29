@@ -161,4 +161,6 @@ M.entities=scripting.entities
 local actions=require('hd2runtime/api/actions')
 M.actions={heal=actions.heal,status=actions.status}
 M.explosions=actions.explosions
+M.projectiles=actions.projectiles
+M.status=actions.status_effects
 return M

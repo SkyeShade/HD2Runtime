@@ -12,8 +12,8 @@ class StratagemUsesTests(unittest.TestCase):
 
     def test_catalog_wide_native_use_model(self):
         summary = self.catalog['summary']
-        self.assertEqual(summary['maxUsesWritable'], 85)
-        self.assertEqual(summary['maxUsesByMode'], {'eagle_per_rearm': 8, 'finite': 5, 'unlimited': 80})
+        self.assertEqual(summary['maxUsesWritable'], 86)
+        self.assertEqual(summary['maxUsesByMode'], {'eagle_per_rearm': 8, 'finite': 5, 'unlimited': 81})
         self.assertEqual(summary['maxUsesGameplayProven'], 4)
         for field in self.fields:
             self.assertEqual(field['backingObjectKind'], 'StratagemDefinition')

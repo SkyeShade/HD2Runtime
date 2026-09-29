@@ -502,6 +502,34 @@
    },
    "known": true
   },
+  "explosion/B-100 Portable Hellbomb": {
+   "label": "B-100 Portable Hellbomb",
+   "kind": "explosion",
+   "resource": "0x9ACE8638421ABC8E",
+   "path": "content/fac_helldivers/equipment/backpacks/bomb_backpack/bomb_backpack",
+   "dependency": {
+    "package": "0x346D785D6CA13FF4",
+    "name": "packages/generated/loadout/hellbomb_backpack",
+    "via": "delivering_stratagem_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
+  "explosion/NUX-223 Hellbomb": {
+   "label": "NUX-223 Hellbomb",
+   "kind": "explosion",
+   "resource": "0xC6A87C428FD3C7A3",
+   "path": "content/fac_helldivers/hellpod/hellbomb/hellbomb",
+   "dependency": {
+    "package": "0x681275AF9E93CB2C",
+    "name": "packages/generated/loadout/hellbomb",
+    "via": "delivering_stratagem_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
+  },
   "mounted_weapon/mounted-weapon/v1/assault-rifle/1e4767cc1bb3f867": {
    "label": "assault_rifle",
    "kind": "mounted_weapon",
@@ -2173,8 +2201,14 @@
    "kind": "pickup_supply",
    "resource": "0xA94913CA014F7579",
    "path": "content/fac_helldivers/hellpod/ammo_rack/supply_box",
-   "dependency": null,
-   "known": false
+   "dependency": {
+    "package": "0x4D4C26C04A220CAA",
+    "name": "packages/generated/loadout/ammo_rack",
+    "via": "delivering_stratagem_package",
+    "holder": null,
+    "inBundleDatabase": true
+   },
+   "known": true
   },
   "player_weapon/AR-11 Arbitrator": {
    "label": "AR-11 Arbitrator",
@@ -4488,11 +4522,11 @@
   }
  },
  "summary": {
-  "semanticObjects": 331,
-  "known": 260,
+  "semanticObjects": 333,
+  "known": 263,
   "ownPackage": 253,
   "holderPackage": 7,
-  "stratagemPackage": 0,
-  "unknown": 71
+  "stratagemPackage": 3,
+  "unknown": 70
  }
 }

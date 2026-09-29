@@ -179,10 +179,13 @@ function M.prepare(resolved,reader,spec)
         local current=record.bytes:sub(change.offset+1,change.offset+change.width)
         ownership.expected(change,current)
         -- Rack records are 4-byte aligned, so an 8-byte slot reference is written as two aligned
-        -- dwords in the same atomic transaction (a u64 may straddle a page).
+        -- dwords in the same atomic transaction (a u64 may straddle a page). Each dword keeps the
+        -- matching dword of the bytes an option-bound ensure owns, so switching an option from one
+        -- replacement to another (or back to vanilla) stays an owned transition.
         for at=0,change.width-4,4 do
             local part_current=current:sub(at+1,at+4)
-            local part={expected=change.expected:sub(at+1,at+4),desired=change.desired:sub(at+1,at+4),field=change.field}
+            local part={expected=change.expected:sub(at+1,at+4),desired=change.desired:sub(at+1,at+4),field=change.field,
+                owned=type(change.owned)=='string'and change.owned:sub(at+1,at+4)or nil}
             plan.changes[#plan.changes+1]={label=change.field,canonical_field=change.canonical_field,
                 semantic_aliases={change.field},owner=record.owner,offset=record.offset+change.offset+at,
                 field_offset=change.offset+at,expected=ownership.expected(part,part_current),desired=part.desired,

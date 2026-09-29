@@ -13,6 +13,7 @@ from migration import overlay as migration_overlay  # noqa: E402  build-migratio
 import support_callin_linkage
 import live_evidence
 import generate_entity_authoring
+import generate_pod_payload_authoring
 
 ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / 'build/offensive-stratagem-research.json'
@@ -29,6 +30,7 @@ ENTITY_FIELDS = ROOT / 'schemas/entity_fields.json'
 ENTITY_RESEARCH = ROOT / 'research/entity-authoring-runtime-F5FEE03DCFDB.json'
 ZONE_BASE, ZONE_STRIDE = 520, 552
 ICON_RESEARCH = ROOT / 'research/stratagem-icons-F5FEE03DCFDB.json'
+RESUPPLY_RESEARCH = ROOT / 'research/resupply-F5FEE03DCFDB.json'
 SUPPORT_CATALOG = ROOT / 'data/wiki_support_weapons.json'
 UNLIMITED = 4294967295
 
@@ -459,6 +461,43 @@ def build():
                 'deliveryChain':['stratagem_definition','hellpod_rack','backpack_entity']
                     if family == 'backpack' else ['stratagem_definition','vehicle_entity'],
                 'provenance':root['identityBasis'],'blocker':None}})
+
+    # Resupply: the mission stratagem available in every mission (scripts/research_resupply.py). Its drop pod
+    # is the shared Resupply rack, authored through hd2.pod_rack / :delivery():rack().
+    resupply = json.loads(RESUPPLY_RESEARCH.read_text())
+    item = resupply['stratagem']; root = item['currentRoot']; name = item['name']; family = item['family']
+    entry = {'name':name,'family':family,'rootResolution':'UNIQUE',
+        'root':{'id':root['id'],'package':root['package'],'payloads':root['payloads'],
+            'group':root['group'],'row':root['row']},'fields':[],'attacks':{}}
+    root_scope = [{'stratagem':name,'path':'stratagem'}]
+    add_field(entry,'stratagem.cooldown',root['cooldown'],
+        {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':104,'storage':'f32',
+         'width':4,'consumers':root_scope},
+        {'resource':'stratagem','stratagem':name,'path':'stratagem'})
+    uses = uses_state(root, family, name)
+    add_field(entry,'stratagem.max_uses',uses['value'],
+        {'kind':'StratagemDefinition','nativeIdentity':root['id'],'offset':80,'storage':'u32',
+         'width':4,'consumers':root_scope},
+        {'resource':'stratagem','stratagem':name,'path':'stratagem'},uses['writable'],uses['reason'],
+        extra=uses['extra'])
+    internal['stratagems'][name]=entry
+    rack_name = 'Resupply pod'
+    rack_semantic = ('pod-rack/v1/' + generate_pod_payload_authoring.slug(rack_name) + '/'
+        + generate_pod_payload_authoring.digest({'rack':resupply['delivery']['rack']}))
+    public_stratagems.append({'name':name,'family':family,'rootResolution':'UNIQUE',
+        'attackRoles':[],'cooldown':root['cooldown'],'alwaysAvailable':True,
+        'cooldownCapability':{'value':root['cooldown'],'writable':True,
+            'field':'hd2.fields.stratagem.definition_cooldown','unit':'seconds'},
+        'maxUses':uses['public'],
+        'callInTime':{'value':None,'writable':False,
+            'reason':'No call-in-time owner is proven for this definition.'},
+        'delivers':{'kind':'pod_rack','known':True,'state':'linked','semanticId':rack_semantic,
+            'rack':rack_name,'relationship':'call_in','deliveryObject':'pod_rack',
+            'deliveryChain':['stratagem_definition','hellpod_rack','supply_box'],
+            'payloadPairs':resupply['delivery']['payloadPairs'],
+            'spawnCount':resupply['delivery']['spawnPayloadSize'],
+            'sharedWith':[resupply['rewardVariant']['nativeType']],
+            'provenance':root['identityBasis'],'blocker':None}})
 
     # Defensive stratagems keep the deployed entity, mounted weapon, and attack
     # branches as separate semantic instances. Native entity components and

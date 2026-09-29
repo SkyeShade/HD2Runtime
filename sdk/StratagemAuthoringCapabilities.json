@@ -6371,6 +6371,85 @@
       }
     },
     {
+      "name": "Resupply",
+      "family": "mission",
+      "rootResolution": "UNIQUE",
+      "attackRoles": [],
+      "cooldown": 180,
+      "alwaysAvailable": true,
+      "cooldownCapability": {
+        "value": 180,
+        "writable": true,
+        "field": "hd2.fields.stratagem.definition_cooldown",
+        "unit": "seconds"
+      },
+      "maxUses": {
+        "value": "unlimited",
+        "mode": "unlimited",
+        "writable": true,
+        "field": "hd2.fields.stratagem.max_uses",
+        "range": [
+          1,
+          100
+        ],
+        "transitions": [
+          "unlimited_to_finite"
+        ],
+        "gameplayProvenValues": [],
+        "acknowledgement": "allow_unverified_effect",
+        "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
+      },
+      "callInTime": {
+        "value": null,
+        "writable": false,
+        "reason": "No call-in-time owner is proven for this definition."
+      },
+      "delivers": {
+        "kind": "pod_rack",
+        "known": true,
+        "state": "linked",
+        "semanticId": "pod-rack/v1/resupply-pod/d021e1e10ca71d9a",
+        "rack": "Resupply pod",
+        "relationship": "call_in",
+        "deliveryObject": "pod_rack",
+        "deliveryChain": [
+          "stratagem_definition",
+          "hellpod_rack",
+          "supply_box"
+        ],
+        "payloadPairs": 3,
+        "spawnCount": 4,
+        "sharedWith": [
+          "AmmoRack_PresidentReward"
+        ],
+        "provenance": "The only StratagemInfo row of native type AmmoRack (33, UI icon StratagemRessuply); id, group, row, package and payload list identical in every retained snapshot of build F5FEE03DCFDB.",
+        "blocker": null
+      },
+      "semanticId": "stratagem/v1/resupply/ae294eff50927c20",
+      "uiIcon": {
+        "state": "empty_template",
+        "nativeType": "AmmoRack",
+        "nativeTypeValue": 33,
+        "iconKey": "StratagemRessuply",
+        "library": "content/ui/shared/resources/generated_icons/stratagem_icons",
+        "reason": "The bound icon template contains no vector artwork in this game build.",
+        "provenance": {
+          "basis": "native_stratagem_type",
+          "evidence": [
+            "StratagemInfo.type of the uniquely resolved root",
+            "game.dll StratagemType name table",
+            "StratagemTypeDataTemplate binding in the icon library"
+          ],
+          "displayNameEquality": "not used",
+          "researchArtifact": "stratagem-icons-F5FEE03DCFDB.json"
+        },
+        "blocker": {
+          "kind": "empty_template",
+          "reason": "The bound icon template contains no vector artwork in this game build."
+        }
+      }
+    },
+    {
       "name": "A/MG-43 Machine Gun Sentry",
       "family": "sentry",
       "rootResolution": "UNIQUE",
@@ -58440,6 +58519,90 @@
       "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
     },
     {
+      "instanceKey": "stratagem:resupply:resupply_stratagem:stratagem.cooldown",
+      "semanticFieldId": "stratagem.cooldown",
+      "displayName": "Cooldown",
+      "type": "number",
+      "unit": "seconds",
+      "currentDefault": 180,
+      "editable": true,
+      "reason": null,
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "Resupply",
+        "path": "stratagem"
+      },
+      "backingObjectId": "backing:456df7a3d681b337",
+      "operationGroup": "operation:1a321c6c93d95f00",
+      "planGroup": "plan:stratagem:resupply",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "Resupply",
+          "path": "stratagem"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "sharedScopeKey": "shared-scope:b85582d21f75c0b4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "StratagemDefinition",
+      "apiFieldConstant": "hd2.fields.stratagem.definition_cooldown",
+      "domain": "stratagem",
+      "planPhase": 1,
+      "dependsOn": []
+    },
+    {
+      "instanceKey": "stratagem:resupply:resupply_stratagem:stratagem.max_uses",
+      "semanticFieldId": "stratagem.max_uses",
+      "displayName": "Mission uses",
+      "type": "stratagem_uses",
+      "unit": "uses",
+      "currentDefault": "unlimited",
+      "editable": true,
+      "reason": "StratagemInfo +80: an integer use count, or 'unlimited' (the native 0xFFFFFFFF value). Eagles use the same field for uses per rearm and are excluded.",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "Resupply",
+        "path": "stratagem"
+      },
+      "backingObjectId": "backing:456df7a3d681b337",
+      "operationGroup": "operation:1a321c6c93d95f00",
+      "planGroup": "plan:stratagem:resupply",
+      "requires": "patch_or_transaction",
+      "allowSharedRequired": false,
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "Resupply",
+          "path": "stratagem"
+        }
+      ],
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "sharedScopeKey": "shared-scope:b85582d21f75c0b4",
+      "provenance": "current-build retained snapshot plus schema-labelled native ownership",
+      "backingObjectKind": "StratagemDefinition",
+      "apiFieldConstant": "hd2.fields.stratagem.max_uses",
+      "domain": "stratagem",
+      "planPhase": 1,
+      "dependsOn": [],
+      "usesMode": "unlimited",
+      "unlimitedValue": "unlimited",
+      "nativeUnlimited": 4294967295,
+      "min": 1,
+      "max": 100,
+      "transitions": [
+        "unlimited_to_finite"
+      ],
+      "acknowledgement": "allow_unverified_effect",
+      "acknowledgementReason": "StratagemInfo +80 is the native mission-use count (0xFFFFFFFF = unlimited, the game's own value for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).",
+      "gameplayProvenValues": [],
+      "caveat": "Use counts are applied by the mission host; the HUD counter may keep its old value until the next mission (reference mod observation)."
+    },
+    {
       "instanceKey": "stratagem:a_mg_43_machine_gun_sentry:a_mg_43_machine_gun_sentry_stratagem:stratagem.cooldown",
       "semanticFieldId": "stratagem.cooldown",
       "displayName": "Cooldown",
@@ -87450,6 +87613,26 @@
       ]
     },
     {
+      "backingObjectId": "backing:456df7a3d681b337",
+      "kind": "StratagemDefinition",
+      "shared": false,
+      "sharedConsumers": [
+        {
+          "stratagem": "Resupply",
+          "path": "stratagem"
+        }
+      ],
+      "sharedScopeKey": "shared-scope:b85582d21f75c0b4",
+      "requiresSharedAcknowledgement": false,
+      "reviewedConsumerCount": 1,
+      "reviewedScopeComplete": true,
+      "dynamicConsumersPossible": false,
+      "fieldInstances": [
+        "stratagem:resupply:resupply_stratagem:stratagem.cooldown",
+        "stratagem:resupply:resupply_stratagem:stratagem.max_uses"
+      ]
+    },
+    {
       "backingObjectId": "backing:ccaab36e85daadc1",
       "kind": "StratagemDefinition",
       "shared": false,
@@ -96143,6 +96326,27 @@
       "dependencies": []
     },
     {
+      "operationGroup": "operation:1a321c6c93d95f00",
+      "backingObjectId": "backing:456df7a3d681b337",
+      "runtimeBackingScope": "StratagemDefinition",
+      "target": {
+        "resource": "stratagem",
+        "stratagem": "Resupply",
+        "path": "stratagem"
+      },
+      "fieldInstances": [
+        "stratagem:resupply:resupply_stratagem:stratagem.cooldown",
+        "stratagem:resupply:resupply_stratagem:stratagem.max_uses"
+      ],
+      "planGroups": [
+        "plan:stratagem:resupply"
+      ],
+      "recommendedApi": "hd2.transaction",
+      "allowSharedRequired": false,
+      "phase": 1,
+      "dependencies": []
+    },
+    {
       "operationGroup": "operation:c3f37a81e2fa1784",
       "backingObjectId": "backing:ccaab36e85daadc1",
       "runtimeBackingScope": "StratagemDefinition",
@@ -103591,8 +103795,8 @@
     "note": "Tooling extracts the artwork locally from the installed game. Display names are never used to select an icon."
   },
   "instanceAudit": {
-    "internalPromotedInstances": 1604,
-    "publishedCanonicalInstances": 1604,
+    "internalPromotedInstances": 1606,
+    "publishedCanonicalInstances": 1606,
     "missingInstances": [],
     "unexpectedInstances": [],
     "duplicateInstanceKeys": 0,
@@ -103604,19 +103808,19 @@
     "orbitalRootsResolved": 12,
     "eagleRootsResolved": 8,
     "supportRootsResolved": 33,
-    "cooldownWritable": 93,
-    "maxUsesWritable": 85,
+    "cooldownWritable": 94,
+    "maxUsesWritable": 86,
     "maxUsesByMode": {
       "eagle_per_rearm": 8,
       "finite": 5,
-      "unlimited": 80
+      "unlimited": 81
     },
     "maxUsesGameplayProven": 4,
     "eagleUsesPerRearmWritable": 8,
     "eagleRearmTimeWritable": 8,
-    "fieldInstances": 1604,
-    "writableFieldInstances": 1596,
-    "backingObjectCount": 291,
+    "fieldInstances": 1606,
+    "writableFieldInstances": 1598,
+    "backingObjectCount": 292,
     "sharedBackingObjectCount": 123,
     "sharedConsumerScopeCount": 123,
     "importedAttackBranches": 143,
@@ -103650,7 +103854,7 @@
       "projectile": 210,
       "shield": 2,
       "status": 48,
-      "stratagem": 178,
+      "stratagem": 180,
       "targeting": 10,
       "turret": 54,
       "weapon": 20,
@@ -103694,8 +103898,8 @@
     "defensiveSprayBranches": 0,
     "defensiveStatusBranches": 11,
     "heatWritable": 4,
-    "canonicalBackingObjects": 291,
-    "canonicalOperationGroups": 411,
+    "canonicalBackingObjects": 292,
+    "canonicalOperationGroups": 412,
     "supportDeliveryLinksKnown": 33,
     "supportCallInLinkage": {
       "supportWeapons": 35,
@@ -103725,7 +103929,7 @@
     },
     "uiIconStates": {
       "resolved": 84,
-      "empty_template": 4,
+      "empty_template": 5,
       "unbound": 5,
       "no_native_root": 2
     },

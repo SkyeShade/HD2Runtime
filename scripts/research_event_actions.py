@@ -14,6 +14,29 @@ Read-only. Proves, on build F5FEE03DCFDB:
 4. Semantics: the mission snapshots hold a stale request of an R-36 Eruptor shell: ExplosionType 158 (the Eruptor's
    catalogued terminal explosion), source = the Eruptor weapon entity, owner = the local avatar, creditor = the local
    peer. The queue count is 0 in every snapshot: the game drains it each frame.
+5. Hellbombs. Neither Hellbomb names its explosion in data: the type is a code literal in the entity's behavior,
+   passed through two wrappers (0x4C89C0 -> 0x13C6D30) to the request. The NUX-223 Hellbomb (StratagemType 42
+   DropoffHellbomb, payload content/fac_helldivers/hellpod/hellbomb/hellbomb) is the sole owner of BehaviorId 224;
+   the behavior dispatcher's table entry 223 calls 0x288360, whose "explode" event (thin hash 0xB3FD1AFF) enters
+   state 3, which requests ExplosionType 242 at the "nuke" node. The B-100 Portable Hellbomb (bomb_backpack, sole
+   owner of BehaviorId 8) requests ExplosionType 125 the same way. Both settings rows (17 / 25 / 45 m, damage type
+   479) are identical in every snapshot. Type 242 is also requested by several mission objectives, so editing its
+   settings would change them too; requesting it does not.
+6. Projectiles: game.dll 0x13A8F50 FireProjectile(ignored, type, const float pos[3], const float dir[3], entity,
+   target, entity_path) is the game's own scalar wrapper (the AI fire helper calls it at 0x119E612 with a zero
+   entity_path). It returns at once unless the projectile system (global game+0x347CEA8) is active (+0x28 = 1, set
+   in a mission only). With a zero entity_path it looks the type up in the settings pointer table at game+0x37C7670
+   WITHOUT a bounds or null check, sets source = owner = entity and inserts into the system's bounded 2048-slot pool
+   (0x13A9830). Every catalogued weapon projectile type's table entry points at a record carrying that type.
+7. Status effects: game.dll 0x129F170 QueueStatusRequest(ignored, type, target, float amount, instigator, variant)
+   appends to the game's status request queue (global game+0x347CF38; count at +0x201134, capacity 0x1000, entries
+   of 0x1C bytes). It refuses a missing target, a target without a status instance, a type the target cannot
+   receive (0x6994F0, which does NOT bound the type) and a full queue. The game drains it every frame (0x13F7D5E ->
+   0x12A6EF0) and routes each request (0x129F2A0): applied here when this machine owns the target (0xB894B0), else
+   sent to the owner (0xBEBDE0). The game's own stun callers pass variant 0 and an entity instigator. The float is
+   BUILDUP (each request adds it; the status triggers when buildup reaches the target's susceptibility threshold),
+   not strength (strength and duration come from the status settings). Every allowlisted type's settings record
+   carries that type.
 
 Requires the research-only package capstone.
 """
@@ -45,6 +68,116 @@ TYPE_BOUND = 0x1A7
 ENTRY = 0x28
 STRIDE = 0x98
 ERUPTOR_TYPE_HASH = 'B6AFF2195568767F'
+LINKS = ROOT / 'research/support-equipment-links-F5FEE03DCFDB.json'
+PODS = ROOT / 'research/pod-payloads-F5FEE03DCFDB.json'
+DISPATCH_TABLE = 0x4A0154
+BEHAVIOR = 'BehaviorComponentData'
+# Named explosions whose type is a code literal of the entity behavior that requests it.
+HELLBOMBS = [
+    {'name': 'NUX-223 Hellbomb', 'type': 242, 'behaviorId': 224, 'handler': 0x4991E7, 'proofs': 'hellbomb',
+        'entity': 0xC6A87C428FD3C7A3, 'stratagemKinds': [42], 'damageType': 479,
+        'inner': 17.0, 'outer': 25.0, 'shockwave': 45.0},
+    {'name': 'B-100 Portable Hellbomb', 'type': 125, 'behaviorId': 8, 'handler': 0x496871, 'proofs': 'portableHellbomb',
+        'entity': 0x9ACE8638421ABC8E, 'stratagemKinds': [31, 120], 'damageType': 479,
+        'inner': 17.0, 'outer': 25.0, 'shockwave': 45.0},
+]
+PROJECTILES = ROOT / 'sdk/ProjectileCompositionCapabilities.json'
+STATUSES = ROOT / 'research/status-effects-F5FEE03DCFDB.json'
+PROJECTILE_SYSTEM, PROJECTILE_TABLE, PROJECTILE_TYPES = 0x347CEA8, 0x37C7670, 351
+STATUS_QUEUE, STATUS_MANAGER, STATUS_TABLE = 0x347CF38, 0x3326620, 0x37C5C50
+
+
+def status_allowlist():
+    """Statuses a player weapon already applies to its targets through a DamageInfo slot (weaponSlotUsers > 0)."""
+    rows = json.loads(STATUSES.read_text(encoding='utf-8'))['statuses']
+    return [{'type': row['nativeType'], 'semanticId': row['semanticId'], 'name': row['name'],
+        'family': row['family'], 'duration': row['duration']} for row in rows if row['weaponSlotUsers'] > 0]
+
+
+def projectile_catalog():
+    """Catalogued weapon projectiles: every attack with a projectile type and a known package."""
+    result = []
+    for weapon in json.loads(PROJECTILES.read_text(encoding='utf-8'))['weapons']:
+        for attack in weapon.get('attacks') or []:
+            if attack.get('projectileType'):
+                result.append({'weapon': weapon['weapon'], 'role': attack['role'], 'type': attack['projectileType']})
+    return result
+
+
+def observe_actions(name, projectiles, statuses):
+    """Projectile system state and table identity; status queue and table identity (one mission snapshot)."""
+    mem = base.Mem(name)
+    out = {'snapshot': name}
+    system = mem.ptr(mem.game + PROJECTILE_SYSTEM)
+    out['projectileSystemActive'] = system and mem.read(system + 0x28, 1)[0]
+    bad = []
+    for item in projectiles:
+        record = mem.ptr(mem.game + PROJECTILE_TABLE + 8 * item['type'])
+        if not record or mem.u32(record) != item['type']:
+            bad.append(item['type'])
+    out['projectileTypesMatched'] = len(projectiles) - len(bad)
+    out['projectileTypeMismatches'] = sorted(set(bad))
+    out['projectileTableBounds'] = {'zeroNull': not mem.ptr(mem.game + PROJECTILE_TABLE),
+        'lastCarriesType': mem.u32(mem.ptr(mem.game + PROJECTILE_TABLE + 8 * (PROJECTILE_TYPES - 1))) == PROJECTILE_TYPES - 1,
+        'pastEndNull': not mem.ptr(mem.game + PROJECTILE_TABLE + 8 * PROJECTILE_TYPES)}
+    queue = mem.ptr(mem.game + STATUS_QUEUE)
+    out['statusQueueCount'] = queue and mem.u32(queue + 0x201134)
+    out['statusManager'] = bool(mem.ptr(mem.game + STATUS_MANAGER))
+    bad = []
+    for item in statuses:
+        record = mem.ptr(mem.game + STATUS_TABLE + 8 * item['type'])
+        if not record or mem.u32(record) != item['type']:
+            bad.append(item['type'])
+    out['statusTypesMatched'] = len(statuses) - len(bad)
+    out['statusTypeMismatches'] = bad
+    mem.close()
+    return out
+
+
+# Other requesters of type 242 (from the same wrapper's literal callers); informational.
+SHARED_242 = ['BehaviorId 132 bug_stratagem_blocker', 'BehaviorId 422 cy_control_tower',
+    'BehaviorId 426 cy_destroy_factories', 'BehaviorId 432 refinery_terminal', 'BehaviorIds 584 and 602',
+    'AbilityIds 353 and 2157']
+
+
+def hellbomb_evidence(data):
+    """The entity behind each Hellbomb explosion and the stratagem that delivers it (pinned data, not names)."""
+    import research_entity_authoring as entity_research
+    native = entity_research.Native()
+    behaviors = {}
+    for record, owners in native.owners(BEHAVIOR).items():
+        behaviors.setdefault(struct.unpack_from('<I', native.record(BEHAVIOR, record), 0)[0], []).extend(owners)
+    links = {row['kind']: row for row in json.loads(LINKS.read_text(encoding='utf-8'))['stratagemDefinitions']}
+    racks = {rack['resource']: rack for rack in json.loads(PODS.read_text(encoding='utf-8'))['racks']}
+    result = []
+    for item in HELLBOMBS:
+        owners = behaviors.get(item['behaviorId'], [])
+        if owners != [item['entity']]:
+            raise ValueError('BehaviorId %d is not owned by exactly the %s entity' % (item['behaviorId'], item['name']))
+        handler = struct.unpack_from('<I', data, DISPATCH_TABLE + 4 * (item['behaviorId'] - 1))[0]
+        if handler != item['handler']:
+            raise ValueError('behavior dispatcher entry for %s moved' % item['name'])
+        entity = '0x%016X' % item['entity']
+        delivered = []
+        for kind in item['stratagemKinds']:
+            row = links[kind]
+            first = row['payloads'][0]
+            holds = first == entity or any(slot['item'] == entity for slot in racks.get(first, {}).get('slots', []))
+            if not holds:
+                raise ValueError('StratagemType %d does not deliver the %s entity' % (kind, item['name']))
+            delivered.append({'stratagemType': kind, 'id': row['id'], 'package': row['package'],
+                'via': 'payload' if first == entity else 'rack ' + first})
+        packages = {d['package'] for d in delivered}
+        result.append({'name': item['name'], 'type': item['type'], 'entity': entity, 'path': native.path(item['entity']),
+            'behaviorId': item['behaviorId'], 'behaviorOwners': 1, 'dispatcherEntry': item['behaviorId'] - 1,
+            'handler': item['handler'], 'deliveredBy': delivered, 'stratagemPackage': packages.pop() if len(packages) == 1
+                else None, 'stratagemPackagePath': None,
+            'settings': {'damageType': item['damageType'], 'inner': item['inner'], 'outer': item['outer'],
+                'shockwave': item['shockwave']},
+            'sharedType': SHARED_242 if item['type'] == 242 else []})
+        if result[-1]['stratagemPackage']:
+            result[-1]['stratagemPackagePath'] = native.path(int(result[-1]['stratagemPackage'], 16))
+    return result
 
 GAME_PROOFS = {
     'request': [
@@ -72,6 +205,77 @@ GAME_PROOFS = {
     'queue': [
         (0x8CB18B, 'mov rcx, qword ptr [rip + {rip}]', QUEUE, 'a caller loads the explosion queue global'),
         (0x8CB1FA, 'call 0x13c0a80', None, 'and requests an explosion'),
+    ],
+    'hellbomb': [
+        (0x4966EA, 'cmp edx, 0x2b4', None, 'behavior event dispatcher: BehaviorId - 1 <= 0x2B4'),
+        (0x496708, 'mov edx, dword ptr [rcx + rax*4 + 0x4a0154]', None, 'dispatcher jump table'),
+        (0x4991ED, 'call 0x288360', None, 'BehaviorId 224 (table entry 223): the hellbomb event handler'),
+        (0x28837D, 'cmp edx, 0xb3fd1aff', None, 'hellbomb event "explode" (thin hash 0xB3FD1AFF)'),
+        (0x2883B7, 'mov edx, 3', None, 'explode enters state 3'),
+        (0x2883C1, 'jmp 0x288590', None, 'hellbomb set-state'),
+        (0x288817, 'mov edx, 0xf2', None, 'state 3 requests ExplosionType 242'),
+        (0x28881C, 'mov r8d, 0x73e71450', None, 'at the "nuke" node'),
+        (0x288825, 'call 0x4c89c0', None, 'behavior explosion wrapper'),
+        (0x4C89F4, 'mov r14d, edx', None, 'wrapper keeps the type'),
+        (0x4C8A6D, 'mov r9d, r14d', None, 'and passes it on'),
+        (0x4C8A86, 'call 0x13c6d30', None, 'to the second wrapper'),
+        (0x13C6D55, 'mov esi, r9d', None, 'second wrapper keeps the type'),
+        (0x13C6D78, 'mov r8d, esi', None, 'type is argument 3 of the request'),
+        (0x13C6DE4, 'call 0x13c0a80', None, 'RequestExplosion'),
+    ],
+    'portableHellbomb': [
+        (0x496877, 'call 0xc2fd0', None, 'BehaviorId 8 (table entry 7): the bomb backpack event handler'),
+        (0xC2FE9, 'cmp edx, 0xb3fd1aff', None, 'bomb backpack event "explode"'),
+        (0xC3305, 'mov edx, 0x7d', None, 'requests ExplosionType 125'),
+        (0xC330A, 'mov r8d, 0xbccf91e5', None, 'at the "root" node'),
+        (0xC3313, 'call 0x4c89c0', None, 'through the same behavior explosion wrapper'),
+    ],
+    'projectile': [
+        (0x13A8F50, 'mov r11, rsp', None, 'FireProjectile(ignored, type, pos, dir, entity, target, entity_path)'),
+        (0x13A8F7F, 'mov r12, qword ptr [rip + {rip}]', 0x347CEA8, 'the projectile system global'),
+        (0x13A8F86, 'mov r14, r9', None, 'r14 = direction pointer'),
+        (0x13A8F89, 'mov r13, r8', None, 'r13 = position pointer'),
+        (0x13A8F8C, 'mov r15d, edx', None, 'r15d = projectile type'),
+        (0x13A8F8F, 'cmp byte ptr [r12 + 0x28], 0', None, 'inactive system (outside a mission): return'),
+        (0x13A8F95, 'je 0x13a97ab', None, 'return without spawning'),
+        (0x13A8F9B, 'cmp qword ptr [rbp + 0xa10], 0', None, 'entity_path (argument 7) zero: a plain projectile'),
+        (0x13A8FA7, 'mov ebx, dword ptr [rbp + 0xa00]', None, 'entity (argument 5)'),
+        (0x13A8FB1, 'je 0x13a9700', None, 'plain projectile path'),
+        (0x13A9700, 'mov edx, ebx', None, 'creditor of the entity'),
+        (0x13A9702, 'call 0x129c690', None, 'creditor lookup'),
+        (0x13A9715, 'lea rcx, [rip + {rip}]', 0x37C7670, 'projectile settings pointer table'),
+        (0x13A971C, 'mov rcx, qword ptr [rcx + r15*8]', None, 'indexed by type WITHOUT bounds or null check'),
+        (0x13A9765, 'mov dword ptr [rbp - 0x48], 2', None, 'descriptor kind 2'),
+        (0x13A976C, 'mov dword ptr [rbp - 0x58], ebx', None, 'source = entity'),
+        (0x13A976F, 'mov dword ptr [rbp - 0x54], ebx', None, 'owner = entity'),
+        (0x13A9796, 'call 0x13a9830', None, 'SpawnProjectile into the pool'),
+        (0x119E5EF, 'mov rcx, qword ptr [rip + {rip}]', 0x347CEA8, 'the AI fire helper passes the system'),
+        (0x119E5F6, 'mov qword ptr [rsp + 0x30], 0', None, 'and a zero entity_path'),
+        (0x119E612, 'call 0x13a8f50', None, 'to FireProjectile'),
+    ],
+    'status': [
+        (0x129F170, 'mov qword ptr [rsp + 8], rbx', None, 'QueueStatusRequest(ignored, type, target, amount, '
+            'instigator, variant)'),
+        (0x129F184, 'cmp r8d, dword ptr [rip + {rip}]', None, 'the invalid entity is refused'),
+        (0x129F18E, 'mov rsi, qword ptr [rip + {rip}]', 0x347CF38, 'the status request queue global'),
+        (0x129F199, 'mov rax, qword ptr [rip + {rip}]', 0x3326620, 'the status manager global'),
+        (0x129F20F, 'call 0x6994f0', None, 'the target can receive the type (no type bound inside)'),
+        (0x129F218, 'mov eax, dword ptr [rsi + 0x201134]', None, 'queue count'),
+        (0x129F21E, 'cmp eax, 0x1000', None, 'the queue holds 4096 requests'),
+        (0x129F223, 'jae 0x129f277', None, 'full: return without writing'),
+        (0x129F236, 'add rcx, 0xe778', None, 'entries start at +0x195120'),
+        (0x129F251, 'imul rdi, rcx, 0x1c', None, 'entry stride 0x1C'),
+        (0x129F258, 'mov dword ptr [rdi], ebx', None, 'entry +0: target'),
+        (0x129F25A, 'mov dword ptr [rdi + 4], ebp', None, 'entry +4: type'),
+        (0x129F26F, 'movss dword ptr [rdi + 0x14], xmm3', None, 'entry +0x14: amount (buildup)'),
+        (0x13F7D5E, 'call 0x12a6ef0', None, 'the world update drains the status queue every frame'),
+        (0x129F483, 'call 0xb894b0', None, 'router: applied here when this machine owns the target'),
+        (0x129F48D, 'call 0xbebde0', None, 'router: otherwise sent to the owner'),
+        (0x864EC6, 'mov dword ptr [rsp + 0x28], 0', None, 'game stun caller: variant 0'),
+        (0x864ECE, 'mov dword ptr [rsp + 0x20], ebx', None, 'game stun caller: an entity instigator'),
+        (0x864ED2, 'call 0x129f170', None, 'game stun caller'),
+        (0xB7205D, 'mov dword ptr [rsp + 0x28], 0', None, 'second game stun caller: variant 0'),
+        (0xB72069, 'call 0x129f170', None, 'second game stun caller'),
     ],
     'drain': [
         (0x13C61F8, 'call 0x13c0d10', None, 'the game drains the queue'),
@@ -215,6 +419,9 @@ def main():
             catalog.append({'type': item['explosionType'], 'weapon': weapon['weapon'], 'damageType': item['damageType'],
                 'inner': values['explosion.inner_radius'], 'outer': values['explosion.outer_radius'],
                 'shockwave': values['explosion.shockwave_radius']})
+    for item in HELLBOMBS:
+        catalog.append({'type': item['type'], 'weapon': item['name'], 'damageType': item['damageType'],
+            'inner': item['inner'], 'outer': item['outer'], 'shockwave': item['shockwave']})
     snap = snapshot_image.Snapshot(build_profile.snapshot_directory() / SNAPSHOTS[0])
     if snap.game_dll_sha256.upper() != base.PROFILE_DLL_SHA:
         raise ValueError('snapshot fingerprint differs from the pinned profile')
@@ -223,6 +430,11 @@ def main():
     image = base.Image(data, image_base, base.TEXT)
     proofs = {group: [image.prove(*row) for row in rows] for group, rows in GAME_PROOFS.items()}
     prologue = data[REQUEST:0x13C0A9A].hex()
+    projectile_prologue = data[0x13A8F50:0x13A8F9B].hex()
+    status_prologue = data[0x129F170:0x129F199].hex()
+    projectiles = projectile_catalog()
+    statuses = status_allowlist()
+    hellbombs = hellbomb_evidence(data)
     templates = call_templates(image)
     common = [t for t in templates if zero_template(t['arguments7to15'])]
     pins = [p for rows in proofs.values() for p in rows]
@@ -230,6 +442,7 @@ def main():
     for name in SNAPSHOTS:
         relocation[name] = base.verify_pins_live(name, pins, [])
         observations.append(observe(name, catalog))
+        observations[-1]['actions'] = observe_actions(name, projectiles, statuses)
     if any(relocation.values()):
         raise ValueError('pinned bytes differ in a snapshot: %r' % relocation)
     for o in observations:
@@ -237,6 +450,15 @@ def main():
             raise ValueError('explosion queue not drained in ' + o['snapshot'])
         if not all(t['match'] for t in o['settingsTable']):
             raise ValueError('settings table disagrees with the explosion catalog in ' + o['snapshot'])
+    for o in observations:
+        a = o['actions']
+        if a['projectileTypeMismatches'] or a['statusTypeMismatches'] or not a['statusManager']:
+            raise ValueError('projectile or status tables disagree in ' + o['snapshot'])
+        if not all(a['projectileTableBounds'].values()):
+            raise ValueError('projectile table bounds changed in ' + o['snapshot'])
+    active = [o['actions']['projectileSystemActive'] for o in observations]
+    if active[:3] != [1, 1, 1] or active[3] != 0:
+        raise ValueError('projectile system activity does not follow the mission: %r' % active)
     eruptor = [e for o in observations for e in o['staleEntries'] if e['type'] == 158]
     if not eruptor or not all(e['sourceType'] == ERUPTOR_TYPE_HASH and e['ownerIsLocalAvatar'] and e['peerIsLocal']
             for e in eruptor if e['sourceType']):
@@ -252,13 +474,38 @@ def main():
             'template': {'7': 0, '8': None, '9': 1, '10': 0, '11': None, '12': None, '13': None, '14': 0, '15': 0}},
         'proofs': proofs, 'pinnedBytesMismatchPerSnapshot': relocation,
         'callSites': templates, 'callSitesWithLiteralTemplate': [t['site'] for t in common],
-        'catalogueTypes': catalog, 'observations': observations,
+        'projectile': {'rva': 0x13A8F50, 'prologue': projectile_prologue, 'systemGlobal': PROJECTILE_SYSTEM,
+            'activeOffset': 0x28, 'settingsTable': PROJECTILE_TABLE, 'typeCount': PROJECTILE_TYPES, 'spawn': 0x13A9830,
+            'poolSlots': 2048,
+            'signature': 'FireProjectile(void *ignored, u32 type, const float position[3], const float direction[3], '
+                'u32 entity, u32 target, u64 entity_path)',
+            'template': {'target': 0, 'entityPath': 0},
+            'types': projectiles,
+            'sideEffects': ['The owner\'s "shots fired" statistic counts each projectile (0x62C930 via 0x13B28A0).',
+                'A full pool reuses its oldest slot (the game\'s own overflow behaviour).',
+                'The spawn creates the projectile\'s particle and sound effects at once: its package must be resident.'],
+            'unproven': ['The creditor is derived by an engine ownership call (inferred: the local peer for the local '
+                'avatar).', 'How damage authority works after a hit (the host processes its own hit buffer; a client '
+                'spawn is refused).', 'Whether other machines see the projectile: no network send was found.']},
+        'status': {'rva': 0x129F170, 'prologue': status_prologue, 'queueGlobal': STATUS_QUEUE, 'count': 0x201134,
+            'capacity': 0x1000, 'managerGlobal': STATUS_MANAGER, 'settingsTable': STATUS_TABLE,
+            'signature': 'QueueStatusRequest(void *ignored, u32 type, u32 target, float buildup, u32 instigator, '
+                'u32 variant)',
+            'template': {'variant': 0, 'buildup': 100.0},
+            'allowlist': statuses,
+            'unproven': ['The drain has not been observed running (the queue was empty in every snapshot).',
+                'Behaviour on clients (routed to the owner) and what other players see.']},
+        'catalogueTypes': [c for c in catalog if c['weapon'] not in {h['name'] for h in HELLBOMBS}],
+        'namedExplosions': hellbombs, 'observations': observations,
         'findings': {
             'identity': 'The drain indexes game+0x37CC920 by the request ExplosionType; for all %d catalogued weapon '
                 'explosions the entry points at a record with that type, damage type and radii in all %d mission '
                 'snapshots.' % (len(catalog), len(SNAPSHOTS)),
             'semantics': 'Stale R-36 Eruptor requests (type 158): source = the Eruptor weapon entity, owner = the local '
                 'avatar, creditor = the local peer.',
+            'hellbombs': 'NUX-223 Hellbomb = ExplosionType 242 and B-100 Portable Hellbomb = ExplosionType 125: code '
+                'literals in the behavior of the only entity with that BehaviorId, passed unchanged to the request; '
+                'their settings rows match in every mission snapshot.',
             'drained': 'The queue count is 0 in every snapshot: requests live for less than a frame.',
             'network': 'No network message call was found in the drain itself; the queue is the local explosion system. '
                 'Health is host-authoritative (a remote-owned record is overwritten by synced health), so only a host '
@@ -267,8 +514,8 @@ def main():
         'unproven': [
             'Arguments 7 and 9..15 beyond the common call template (a Runtime request always passes the template).',
             'Whether the explosion effect is visible on other machines.',
-            'The Hellbomb ExplosionType: no Hellbomb request or Hellbomb explosion owner was found; the Hellbomb '
-                'entity has no explosive component naming a type.',
+            'Who sends the Hellbomb "explode" event (the detonation trigger is inferred from the "nuke" node and the '
+                'destroy that follows); the requested type itself is a pinned code literal.',
             'Frame order of the drain relative to the Lua update callback (a request made in update is drained by the '
                 'game\'s own explosion update, within a frame).',
         ],

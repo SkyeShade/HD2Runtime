@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 from reference_format import lua  # noqa: E402
 
 SCHEMA = ROOT / 'schemas/events.json'
+ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'
 LUA_OUTPUT = ROOT / 'domains/events_catalog.lua'
 JSON_OUTPUT = ROOT / 'sdk/EventCatalog.json'
 STATUSES = ('available', 'blocked')
@@ -45,6 +46,34 @@ def validate(schema: dict) -> None:
                 raise ValueError(event['name'] + ': payload fields need name, type and doc')
 
 
+def action_catalog() -> dict:
+    """What event scripts can request, for tools (ModBuilder pickers): names only, no ids or addresses."""
+    research = json.loads(ACTIONS.read_text(encoding='utf-8'))
+    common = {'hostOnly': True, 'inMissionOnly': True, 'creditedTo': 'local_player', 'liveTested': False}
+    return {
+        'explosions': dict(common, api='hd2.explosions.spawn', rateLimit={'burst': 6, 'perSecond': 1},
+            named=[{'name': item['name'], 'aliases': ['Hellbomb'] if item['type'] == 242 else ['Portable Hellbomb'],
+                'sharedType': bool(item['sharedType'])} for item in research['namedExplosions']],
+            weapons=sorted({item['weapon'] for item in research['catalogueTypes']}),
+            assets='Loaded automatically (the weapon\'s package; a Hellbomb\'s stratagem package).'),
+        'projectiles': dict(common, api='hd2.projectiles.spawn', rateLimit={'burst': 12, 'perSecond': 4},
+            weapons=sorted({item['weapon'] for item in research['projectile']['types']}),
+            options={'position': 'required', 'direction': 'required, any non-zero length'},
+            sideEffects=['Each projectile counts as a shot in the local player\'s stats.'],
+            assets='Loaded automatically (the weapon\'s package).'),
+        'statusEffects': dict(common, api='hd2.status.apply', creditedTo='local_player (instigator)',
+            rateLimit={'burst': 10, 'perSecond': 5, 'perTargetBurst': 4, 'perTargetPerSecond': 2},
+            statuses=[{'id': item['semanticId'], 'name': item['name'], 'family': item['family'],
+                'duration': item['duration']} for item in research['status']['allowlist']],
+            options={'buildup': {'default': 100, 'min_exclusive': 0, 'max': 1000,
+                'meaning': 'Buildup added; the status starts at the target\'s susceptibility threshold.'},
+                'strength': 'refused: strength and duration are the status\'s own'},
+            unproven=['Visual effect residency is inferred (the same statuses are applied by enemies and '
+                'environments).']),
+        'spawnEntity': {'status': 'blocked', 'reason': 'The generic spawn\'s parameters and replication are not proven.'},
+    }
+
+
 def outputs() -> dict[str, str]:
     schema = load()
     validate(schema)
@@ -58,12 +87,12 @@ def outputs() -> dict[str, str]:
             'available': sorted(e['name'] for e in schema['events'] if e['status'] == 'available'),
             'blocked': sorted(e['name'] for e in schema['events'] if e['status'] == 'blocked')},
         'model': schema['model'], 'sources': schema['sources'], 'events': schema['events'],
-        'handles': schema['handles'], 'api': schema['api']}
+        'handles': schema['handles'], 'api': schema['api'], 'actions': action_catalog()}
     return {str(LUA_OUTPUT.relative_to(ROOT)).replace('\\', '/'): header + 'return ' + lua(runtime) + '\n',
         str(JSON_OUTPUT.relative_to(ROOT)).replace('\\', '/'): json.dumps(public, indent=1) + '\n'}
 
 
-STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions')   # tables of functions, not objects
+STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions', 'HD2Projectiles', 'HD2StatusEffects')   # tables of functions, not objects
 
 
 def _class_lines(name: str, spec: dict, parent: str | None = None) -> list[str]:

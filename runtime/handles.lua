@@ -159,6 +159,26 @@ function Player:heal(amount,opts)
     if applied and applied>0 then M.expect_heal(avatar.id,applied,cause)end
     return applied,reason
 end
+-- What the local player holds now: {name, type, entity_id, slot, slot_proven, selection} or nil (nothing in hand,
+-- dead, or not spawned), and the reason. name is the catalogued weapon, throwable or stratagem item (nil when the
+-- held entity is not catalogued); slot is 'primary' or 'secondary' (proven), or 'support', 'held_item' or 'unknown'
+-- (inferred, slot_proven = false). Only the local player: another player's wielder is not proven to be kept
+-- locally. Re-read on every call; nothing is cached.
+function Player:equipped_weapon()
+    if not self.is_local then return nil,'only the local player\'s equipped weapon is proven'end
+    local world,why=world_module.open()
+    if not world then return nil,why end
+    local avatar
+    for _,player in ipairs(world_module.players(world,true))do
+        if player.peer==self.peer then avatar=player.avatar end
+    end
+    if not avatar then return nil,'the player has no avatar now'end
+    local held,reason=world_module.equipped(world,avatar)
+    if not held then return nil,reason end
+    if not held.entity then return nil,'nothing in hand'end
+    return {name=world_module.source_name(held.type),type=held.type,entity_id=held.entity,slot=held.slot,
+        slot_proven=held.slot_proven,selection=held.selection,avatar_id=avatar}
+end
 function Player:describe()
     return {peer=self.peer,slot=self.slot,is_local=self.is_local,valid=self:is_valid()}
 end

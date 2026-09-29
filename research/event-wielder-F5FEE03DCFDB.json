@@ -1,0 +1,538 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424
+ },
+ "wielder": {
+  "global": 53634080,
+  "hash": 48,
+  "count": 24,
+  "slots": 96,
+  "stride": 464,
+  "slotStride": 80,
+  "slotCount": 5,
+  "hand": 0
+ },
+ "inventory": {
+  "global": 53634872,
+  "hash": 40,
+  "records": 80,
+  "stride": 48,
+  "selection": 28,
+  "selections": {
+   "1": {
+    "offset": 0,
+    "slot": "primary",
+    "proven": true
+   },
+   "2": {
+    "offset": 4,
+    "slot": "secondary",
+    "proven": true
+   },
+   "3": {
+    "offset": 8,
+    "slot": "support",
+    "proven": false
+   },
+   "4": {
+    "offset": 16,
+    "slot": "held_item",
+    "proven": false
+   },
+   "5": {
+    "offset": 16,
+    "slot": "held_item",
+    "proven": false
+   },
+   "6": {
+    "offset": 12,
+    "slot": "unknown",
+    "proven": false
+   }
+  }
+ },
+ "entityTypes": {
+  "global": 54968216,
+  "map": 15838896,
+  "descriptors": 15937304,
+  "stride": 24,
+  "entity": 8
+ },
+ "proofs": {
+  "wielder": [
+   {
+    "rva": 10137427,
+    "bytes": "488b0dc6b49702",
+    "asm": "mov rcx, qword ptr [rip + 0x297b4c6]",
+    "role": "the weapon switch loads the wielder manager",
+    "ripTarget": 53634080
+   },
+   {
+    "rva": 10137441,
+    "bytes": "e87aaeddff",
+    "asm": "call 0x785de0",
+    "role": "and wields the new item"
+   },
+   {
+    "rva": 7888377,
+    "bytes": "3b1521decf02",
+    "asm": "cmp edx, dword ptr [rip + 0x2cfde21]",
+    "role": "wield: the invalid entity has no instance",
+    "ripTarget": 55065632
+   },
+   {
+    "rva": 7888400,
+    "bytes": "448b4138",
+    "asm": "mov r8d, dword ptr [rcx + 0x38]",
+    "role": "wielder hash capacity +0x38"
+   },
+   {
+    "rva": 7888404,
+    "bytes": "448b5140",
+    "asm": "mov r10d, dword ptr [rcx + 0x40]",
+    "role": "wielder hash multiplier +0x40"
+   },
+   {
+    "rva": 7888442,
+    "bytes": "4c8b5930",
+    "asm": "mov r11, qword ptr [rcx + 0x30]",
+    "role": "wielder hash buckets +0x30"
+   },
+   {
+    "rva": 7888451,
+    "bytes": "448b713c",
+    "asm": "mov r14d, dword ptr [rcx + 0x3c]",
+    "role": "wielder hash empty key +0x3C"
+   },
+   {
+    "rva": 7888511,
+    "bytes": "458b7104",
+    "asm": "mov r14d, dword ptr [r9 + 4]",
+    "role": "bucket value = instance index"
+   },
+   {
+    "rva": 7888539,
+    "bytes": "488b4560",
+    "asm": "mov rax, qword ptr [rbp + 0x60]",
+    "role": "slot record array +0x60"
+   },
+   {
+    "rva": 7888543,
+    "bytes": "4f8d14a4",
+    "asm": "lea r10, [r12 + r12*4]",
+    "role": "slot * 5"
+   },
+   {
+    "rva": 7888547,
+    "bytes": "4d69ced0010000",
+    "asm": "imul r9, r14, 0x1d0",
+    "role": "instance stride 0x1D0"
+   },
+   {
+    "rva": 7888554,
+    "bytes": "49c1e204",
+    "asm": "shl r10, 4",
+    "role": "slot * 0x50"
+   },
+   {
+    "rva": 7888570,
+    "bytes": "41893c02",
+    "asm": "mov dword ptr [r10 + rax], edi",
+    "role": "the held entity at slot record +0"
+   },
+   {
+    "rva": 7891824,
+    "bytes": "833800",
+    "asm": "cmp dword ptr [rax], 0",
+    "role": "an empty slot holds 0"
+   },
+   {
+    "rva": 7891836,
+    "bytes": "4183f805",
+    "asm": "cmp r8d, 5",
+    "role": "five slots"
+   },
+   {
+    "rva": 7886902,
+    "bytes": "89040a",
+    "asm": "mov dword ptr [rdx + rcx], eax",
+    "role": "unwield clears the slot"
+   }
+  ],
+  "inventory": [
+   {
+    "rva": 11100258,
+    "bytes": "488b0dcf068902",
+    "asm": "mov rcx, qword ptr [rip + 0x28906cf]",
+    "role": "a switch caller passes the inventory manager",
+    "ripTarget": 53634872
+   },
+   {
+    "rva": 11100270,
+    "bytes": "e8dd49f1ff",
+    "asm": "call 0x9aaa50",
+    "role": "to the weapon switch"
+   },
+   {
+    "rva": 10136182,
+    "bytes": "448b4930",
+    "asm": "mov r9d, dword ptr [rcx + 0x30]",
+    "role": "inventory hash capacity +0x30"
+   },
+   {
+    "rva": 10136186,
+    "bytes": "448b5138",
+    "asm": "mov r10d, dword ptr [rcx + 0x38]",
+    "role": "inventory hash multiplier +0x38"
+   },
+   {
+    "rva": 10136221,
+    "bytes": "4c8b5928",
+    "asm": "mov r11, qword ptr [rcx + 0x28]",
+    "role": "inventory hash buckets +0x28"
+   },
+   {
+    "rva": 10136229,
+    "bytes": "8b7934",
+    "asm": "mov edi, dword ptr [rcx + 0x34]",
+    "role": "inventory hash empty key +0x34"
+   },
+   {
+    "rva": 10136307,
+    "bytes": "488d0c40",
+    "asm": "lea rcx, [rax + rax*2]",
+    "role": "record index * 3"
+   },
+   {
+    "rva": 10136311,
+    "bytes": "48c1e104",
+    "asm": "shl rcx, 4",
+    "role": "record stride 0x30"
+   },
+   {
+    "rva": 10136330,
+    "bytes": "4d8b7d50",
+    "asm": "mov r15, qword ptr [r13 + 0x50]",
+    "role": "inventory records +0x50"
+   },
+   {
+    "rva": 10136350,
+    "bytes": "418b571c",
+    "asm": "mov edx, dword ptr [r15 + 0x1c]",
+    "role": "the switch reads the selected slot +0x1C"
+   },
+   {
+    "rva": 10136591,
+    "bytes": "41896f1c",
+    "asm": "mov dword ptr [r15 + 0x1c], ebp",
+    "role": "and writes the new selection"
+   },
+   {
+    "rva": 10136649,
+    "bytes": "8b3a",
+    "asm": "mov edi, dword ptr [rdx]",
+    "role": "selection 1 -> record +0x00"
+   },
+   {
+    "rva": 10136653,
+    "bytes": "8b7a04",
+    "asm": "mov edi, dword ptr [rdx + 4]",
+    "role": "selection 2 -> record +0x04"
+   },
+   {
+    "rva": 10136658,
+    "bytes": "8b7a08",
+    "asm": "mov edi, dword ptr [rdx + 8]",
+    "role": "selection 3 -> record +0x08"
+   },
+   {
+    "rva": 10136668,
+    "bytes": "8b7a10",
+    "asm": "mov edi, dword ptr [rdx + 0x10]",
+    "role": "selections 4 and 5 -> record +0x10"
+   }
+  ],
+  "entityTypes": [
+   {
+    "rva": 16620880,
+    "bytes": "4c8b1541224902",
+    "asm": "mov r10, qword ptr [rip + 0x2492241]",
+    "role": "entity manager global (entity map)",
+    "ripTarget": 54968216
+   },
+   {
+    "rva": 16620904,
+    "bytes": "458b8ab8aef100",
+    "asm": "mov r9d, dword ptr [r10 + 0xf1aeb8]",
+    "role": "entity map capacity"
+   },
+   {
+    "rva": 16620911,
+    "bytes": "458b9ac0aef100",
+    "asm": "mov r11d, dword ptr [r10 + 0xf1aec0]",
+    "role": "entity map multiplier"
+   },
+   {
+    "rva": 16620931,
+    "bytes": "498b9ab0aef100",
+    "asm": "mov rbx, qword ptr [r10 + 0xf1aeb0]",
+    "role": "entity map buckets"
+   },
+   {
+    "rva": 16620938,
+    "bytes": "418bbabcaef100",
+    "asm": "mov edi, dword ptr [r10 + 0xf1aebc]",
+    "role": "entity map empty key"
+   },
+   {
+    "rva": 16621012,
+    "bytes": "8b4004",
+    "asm": "mov eax, dword ptr [rax + 4]",
+    "role": "bucket value = descriptor index"
+   },
+   {
+    "rva": 16621019,
+    "bytes": "488d80e3651e00",
+    "asm": "lea rax, [rax + 0x1e65e3]",
+    "role": "descriptor = manager + 0xF32F18 + 24 * index"
+   }
+  ]
+ },
+ "pinnedBytesMismatchPerSnapshot": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": [],
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": [],
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": [],
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": [],
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": []
+ },
+ "observations": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+   "players": [
+    {
+     "avatar": 249,
+     "wielderInstance": 6,
+     "slots": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 0,
+     "items": [
+      252,
+      262,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "selectedItem": null,
+     "held": 0,
+     "heldType": null,
+     "heldName": null
+    }
+   ],
+   "wielderCount": 7
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T155654Z.hd2snap",
+   "players": [
+    {
+     "avatar": 249,
+     "wielderInstance": 6,
+     "slots": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 0,
+     "items": [
+      252,
+      254,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "selectedItem": null,
+     "held": 0,
+     "heldType": null,
+     "heldName": null
+    }
+   ],
+   "wielderCount": 7
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260927T160033Z.hd2snap",
+   "players": [
+    {
+     "avatar": 249,
+     "wielderInstance": 6,
+     "slots": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 0,
+     "items": [
+      252,
+      254,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "selectedItem": null,
+     "held": 0,
+     "heldType": null,
+     "heldName": null
+    }
+   ],
+   "wielderCount": 7
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "players": [
+    {
+     "avatar": 602,
+     "wielderInstance": 3,
+     "slots": [
+      605,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 1,
+     "items": [
+      605,
+      607,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "selectedItem": 605,
+     "held": 605,
+     "heldType": "B6AFF2195568767F",
+     "heldName": "R-36 Eruptor"
+    }
+   ],
+   "wielderCount": 4
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "players": [
+    {
+     "avatar": 602,
+     "wielderInstance": 3,
+     "slots": [
+      605,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 1,
+     "items": [
+      605,
+      607,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "selectedItem": 605,
+     "held": 605,
+     "heldType": "B6AFF2195568767F",
+     "heldName": "R-36 Eruptor"
+    }
+   ],
+   "wielderCount": 4
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "players": [
+    {
+     "avatar": 852,
+     "wielderInstance": 3,
+     "slots": [
+      934,
+      0,
+      0,
+      0,
+      0
+     ],
+     "inventoryRecord": 0,
+     "selection": 5,
+     "items": [
+      855,
+      857,
+      0,
+      0,
+      934,
+      0,
+      0
+     ],
+     "selectedItem": 934,
+     "held": 934,
+     "heldType": null,
+     "heldName": null
+    }
+   ],
+   "wielderCount": 4
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "players": [
+    {
+     "avatar": 0,
+     "wielderInstance": null,
+     "slots": null,
+     "inventoryRecord": null,
+     "selection": null,
+     "items": null,
+     "selectedItem": null,
+     "held": null,
+     "heldType": null,
+     "heldName": null
+    }
+   ],
+   "wielderCount": 0
+  }
+ ],
+ "findings": {
+  "equipped": "Slot 0 of the avatar's wielder instance is the entity in hand; its descriptor type is the weapon resource (R-36 Eruptor in both mission snapshots before the death).",
+  "switch": "The weapon switch writes the inventory selection and wields the new item in one call.",
+  "death": "A removed wielder unwields its slots; the new avatar after reinforcement has a fresh instance.",
+  "others": "Turrets and other wielders hold themselves in slot 0: only a player's avatar is read."
+ },
+ "unproven": [
+  "Selections 3 to 6 name the support weapon, held items and an unknown slot by inference.",
+  "Remote players: the switch wields with replicate = 0 (each peer applies it locally, inference); Runtime reads only the local player.",
+  "Which weapon earned a particular kill: the kill listener receives a source entity but no record keeps it."
+ ],
+ "writes": 0,
+ "protectionChanges": 0
+}
