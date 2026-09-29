@@ -28,12 +28,34 @@ class LiveEvidenceTests(unittest.TestCase):
         catalog = load('LiveEvidenceCatalog.json')
         self.assertEqual(catalog['summary']['families'], {
             'live_proven': ['enemy_main_health', 'enemy_zone_armor', 'minefield_salvos', 'sentry_targeting_range',
-                'sentry_turret_turn_speed', 'weapon_projectile_status_reference'],
-            'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health']})
-        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (9, 7))
+                'sentry_turret_turn_speed', 'weapon_projectile_reference_direct', 'weapon_projectile_status_reference'],
+            'not_tested': ['enemy_attack_damage'], 'inconclusive': ['structure_health'],
+            'live_failed': ['weapon_projectile_reference_dormant_member'],
+            'pending': ['attack_output_cross_class', 'weapon_ammunition_projectile_reference']})
+        self.assertEqual((catalog['summary']['tests'], catalog['summary']['passed']), (13, 8))
         for name, entry in self.registry['families'].items():
             if entry['status'] == 'live_proven':
                 self.assertTrue(any(t['result'] == 'PASS' for t in live_evidence.tests(name)), name)
+
+    def test_host_path_evidence(self):
+        """Composition tests keep donor, write, host-path and gameplay evidence apart; a failed host never counts
+        against the donor output."""
+        tests = {(t['mod'], t.get('choice')): t for t in live_evidence.tests('weapon_projectile_reference_direct')
+            + live_evidence.tests('weapon_projectile_reference_dormant_member')
+            + live_evidence.tests('attack_output_cross_class')}
+        reprimand = tests[('AssetTestReprimandTalonProjectile', None)]
+        self.assertEqual((reprimand['result'], reprimand['host'], reprimand['donor']),
+            ('PASS', 'SMG-32 Reprimand', 'LAS-58 Talon'))
+        self.assertTrue(all(reprimand['evidence'].values()))
+        [liberator] = [t for (mod, _), t in tests.items() if t['result'] == 'FAIL']
+        self.assertEqual((liberator['host'], liberator['donor']), ('AR-23 Liberator', 'LAS-58 Talon'))
+        self.assertEqual(liberator['evidence'], {'donorOutputWorks': True, 'referenceWriteSucceeded': True,
+            'hostReadsReference': False, 'gameplayOutputChanged': False})
+        self.assertIn('FULL METAL JACKET', liberator['hostPath'])
+        unproven = [t for t in tests.values() if t['result'] == 'UNPROVEN']
+        self.assertEqual(sorted(t['choice'] for t in unproven), ['EAT-700 Napalm', 'GL-52 Arc (impact)'])
+        self.assertTrue(all(t['evidence']['hostReadsReference'] is False and t['evidence']['donorOutputWorks'] is None
+            for t in unproven))
 
     def test_stratagem_promotions_are_exactly_the_tested_members(self):
         by_field = {}

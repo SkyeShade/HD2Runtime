@@ -15,6 +15,11 @@ arc)? This records what the native data says:
    and its native consumers (migration Scope index).
 4. Liberator compositions for the four requested outputs, each SUPPORTED or BLOCKED with the structural reason.
 
+`projectileHost` is only the structural pre-filter (magazine-fed, empty magazine pattern, no rounds, charge or heat).
+It is not host eligibility: a live test showed the Liberator ignores its ProjectileWeapon +0 because its default
+ammunition delta overwrites it at weapon build. Which member a host fires is classified by
+scripts/research_active_projectile_sources.py, and the catalog's hosts come from there.
+
 Output: research/attack-outputs-F5FEE03DCFDB.json.
 """
 from __future__ import annotations
@@ -200,8 +205,8 @@ def build():
         elif family == 'arc':
             arc_types.add(output)
             entry.update(rpm=round(struct.unpack_from('<f', record, 4)[0], 3), infiniteAmmo=bool(record[8]))
-        # Magazine-fed ballistic host: every round is ProjectileWeapon +0 (empty magazine pattern, no rounds
-        # ammo types, no charge / heat levels that select other projectiles).
+        # Structural pre-filter only (magazine-fed: empty magazine pattern, no rounds ammo types, no charge / heat
+        # levels). Whether +0 is the fired projectile is research_active_projectile_sources.py's classification.
         entry['projectileHost'] = (family == 'projectile' and 'WeaponMagazineComponentData' in components
             and entry.get('magazinePatternEntries') == 0 and not any(c in components for c in
                 ('WeaponRoundsComponentData', 'WeaponChargeComponentData', 'WeaponHeatComponentData')))
@@ -245,12 +250,14 @@ def build():
             'but is embedded in no struct in this build. Beam count, spread, tick and pulse members are unidentified '
             'and stay read-only.')},
         'EAT-700 Napalm': {'donor': 'EAT-700 Expendable Napalm', 'status': 'SUPPORTED', 'reason': (
-            'Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), so '
-            'replacing the Liberator\'s +0 reference is the whole composition. Everything the rocket does hangs off '
-            'its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire '
-            'statuses. Its structural class (explosive_shrapnel) differs from the Liberator\'s (conventional_plain), '
-            'so the swap is a cross-class reference and needs allow_unverified_reference and allow_unverified_effect.'),
-            'writes': ['host ProjectileWeaponComponent +0 (attack.primary.projectile)']},
+            'Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), and '
+            'everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition '
+            'projectile and its explosion, and the fire statuses. The Liberator fires the projectile of its default '
+            'ammunition (RIFLE 5,5x50mm. FULL METAL JACKET), whose entity delta overwrites its ProjectileWeapon +0 at '
+            'weapon build, so the composition writes that ammunition projectile, not the dormant +0. Its structural '
+            'class (explosive_shrapnel) differs from the Liberator\'s (conventional_plain): a cross-class reference '
+            'that needs allow_unverified_reference and allow_unverified_effect.'),
+            'writes': ['host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)']},
         'ARC-3 Arc': {'donor': 'ARC-3 Arc Thrower', 'status': 'BLOCKED', 'reason': (
             'An arc is emitted by an ArcWeaponComponent (ArcType at +0; it also owns RPM and infinite ammo) or by an '
             'explosion (ExplosionInfo +120 ArcType). The ARC-3 arc (ArcType 7) is referenced by no explosion; its only '
@@ -263,9 +270,9 @@ def build():
                 'explosion (41) releases arc 15; a projectile-family swap, supported like the EAT-700.'},
         'Arc on impact': {'donor': 'GL-52 De-Escalator', 'status': 'SUPPORTED', 'reason': (
             'Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc '
-            '(ExplosionInfo +120). Cross-class (explosive_arc), so allow_unverified_reference and '
-            'allow_unverified_effect are required.'),
-            'writes': ['host ProjectileWeaponComponent +0 (attack.primary.projectile)']},
+            '(ExplosionInfo +120), written to the Liberator\'s default ammunition projectile like the EAT-700. '
+            'Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.'),
+            'writes': ['host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)']},
     }
     return {'schemaVersion': 1, 'writes': 0, 'fixtureFallback': 'disabled',
         'model': {
@@ -287,7 +294,7 @@ def build():
         'explosionArcs': settings['explosionArcs'],
         'liberatorCases': cases,
         'hostRetains': {'magazine': 'WeaponMagazineComponent (unchanged)', 'reload': 'WeaponReloadComponent',
-            'rpmAndAmmoUse': 'ProjectileWeaponComponent +8 / +36 (host-owned; only +0 changes)',
+            'rpmAndAmmoUse': 'ProjectileWeaponComponent +8 / +36 (host-owned; only the fired projectile changes)',
             'handling': 'WeaponDataComponent (recoil, spread, sway, ergonomics, fire modes)',
             'liberator': {k: host[k] for k in ('rpm', 'infiniteAmmo', 'fireResource', 'magazinePatternEntries',
                 'projectileHost')}},
