@@ -21,8 +21,8 @@
    "name": "generator freshness",
    "ok": true,
    "tail": [
-    "checked generate_vehicle_weapon_authoring",
-    "checked generate_pod_payload_authoring",
+    "checked generate_enemy_authoring",
+    "checked generate_attack_outputs",
     "checked generate_sdk"
    ]
   },
@@ -84,9 +84,9 @@
    "name": "validate_options_binding_snapshot",
    "ok": true,
    "tail": [
-    "  \"status\": \"VALIDATED\",",
-    "  \"writes\": 14",
-    "}"
+    "}",
+    "[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)",
+    "[HD2Runtime] patch one-shot rejected: option-bound values require hd2.ensure"
    ]
   },
   {
@@ -111,7 +111,7 @@
    "name": "validate_vehicle_weapon_authoring_snapshot",
    "ok": true,
    "tail": [
-    "  \"vehicleFields\": 480,",
+    "  \"vehicleFields\": 536,",
     "  \"vehicleWeapons\": 18",
     "}"
    ]
@@ -120,7 +120,7 @@
    "name": "validate_support_weapon_authoring_snapshot",
    "ok": true,
    "tail": [
-    "  \"weapons\": 31,",
+    "  \"weapons\": 34,",
     "  \"writes\": 0",
     "}"
    ]
@@ -135,11 +135,38 @@
    ]
   },
   {
+   "name": "validate_throwable_authoring_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"throwables\": 23,",
+    "  \"writes\": 776",
+    "}"
+   ]
+  },
+  {
    "name": "validate_reference_recreations",
    "ok": true,
    "tail": [
-    "    \"unexpected\": []",
-    "  }",
+    "}",
+    "[HD2Runtime] HD2Runtime 0.27.0 initialized (API 1)",
+    "[HD2Runtime] log unavailable: [string \"hd2runtime/runtime/log\"]:9: Bingus logging unavailable"
+   ]
+  },
+  {
+   "name": "validate_coverage_pass_snapshot",
+   "ok": true,
+   "tail": [
+    "  },",
+    "  \"writes\": 34",
+    "}"
+   ]
+  },
+  {
+   "name": "validate_attack_output_snapshot",
+   "ok": true,
+   "tail": [
+    "  \"status\": \"VALIDATED\",",
+    "  \"writes\": 8",
     "}"
    ]
   },
@@ -147,16 +174,16 @@
    "name": "examples",
    "ok": true,
    "tail": [
-    "ok   sdk-template-fire_rate min=0.26.1 need=0.23.2",
-    "ok   sdk-template-projectile_damage min=0.26.1 need=0.23.2",
-    "VALIDATED 0 failed of 46"
+    "[HD2Runtime] [mods/hd2runtime_examples/heavy_devastator_delayed_explosion_test] loaded: kill a Heavy Devastator; an R-36 Eruptor explosion follows 3 s later where it died",
+    "[HD2Runtime] [mods/hd2runtime_examples/event_isolation_test] loaded: press F9; each press must log one failure and one \"second subscriber ran\" line",
+    "[HD2Runtime] [mods/hd2runtime_examples/player_kill_credited_example] loaded: kill enemies with different weapons and stratagems; each credit is logged per source"
    ]
   },
   {
    "name": "SDK tests",
    "ok": true,
    "tail": [
-    "Ran 16 tests in 9.024s",
+    "Ran 16 tests",
     "",
     "OK"
    ]
@@ -165,7 +192,7 @@
    "name": "migration tests",
    "ok": true,
    "tail": [
-    "Ran 29 tests in 5.858s",
+    "Ran 29 tests",
     "",
     "OK"
    ]
@@ -174,7 +201,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 411 tests in 224.424s",
+    "Ran 580 tests in 52.861s",
     "",
     "OK"
    ]
@@ -183,9 +210,9 @@
    "name": "packaged runtime",
    "ok": true,
    "tail": [
-    "[HD2Runtime] plan unusual-sentry-proof APPLIED phases=1 writes=3 protection_changes=2",
-    "[HD2Runtime] non_target_bytes_unchanged=true",
-    "[HD2Runtime] protection_restored=true"
+    "example-terminal-explosion-swap PASS writes=1 reset_reapplied=True",
+    "example-throwing-knife-damage PASS writes=3 reset_reapplied=True",
+    "example-unusual-sentry-proof PASS writes=3 reset_reapplied=None"
    ]
   }
  ],
