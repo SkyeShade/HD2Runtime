@@ -8,6 +8,74 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": false,
     "name": "Ship",
@@ -15,6 +83,7 @@
    },
    "handle602": {
     "reason": "the engine destroyed the entity",
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": false
    },
    "localAvatar": {
@@ -33,7 +102,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2168
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 249,
@@ -43,7 +112,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 178,
+   "reads": 216,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
@@ -60,6 +129,74 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": false,
     "name": "Ship",
@@ -67,6 +204,7 @@
    },
    "handle602": {
     "reason": "the engine destroyed the entity",
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": false
    },
    "localAvatar": {
@@ -85,7 +223,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 249,
@@ -95,7 +233,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 178,
+   "reads": 216,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
@@ -112,6 +250,74 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": false,
     "name": "Ship",
@@ -119,6 +325,7 @@
    },
    "handle602": {
     "reason": "the engine destroyed the entity",
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": false
    },
    "localAvatar": {
@@ -137,7 +344,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 249,
@@ -147,7 +354,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 178,
+   "reads": 216,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
@@ -164,12 +371,81 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": true,
     "name": "Mission",
     "state": 4
    },
    "handle602": {
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": true
    },
    "localAvatar": {
@@ -188,7 +464,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 4194863
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 602,
@@ -198,7 +474,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 245,
+   "reads": 283,
    "sources": {},
    "stats": {
     "dealt_kills": 0,
@@ -215,12 +491,81 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": true,
     "name": "Mission",
     "state": 4
    },
    "handle602": {
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": true
    },
    "localAvatar": {
@@ -239,7 +584,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 4194863
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 602,
@@ -249,7 +594,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 245,
+   "reads": 283,
    "sources": [
     {
      "kills": 5,
@@ -278,6 +623,74 @@
     "of602": 851,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": true,
     "name": "Mission",
@@ -285,6 +698,7 @@
    },
    "handle602": {
     "reason": "the engine destroyed the entity",
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": false
    },
    "localAvatar": {
@@ -303,7 +717,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 12585357
    },
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "avatar": 852,
@@ -313,7 +727,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 236,
+   "reads": 274,
    "sources": [
     {
      "kills": 2,
@@ -348,6 +762,74 @@
     "of602": false,
     "wrongUnit": false
    },
+   "explosionQueue": 0,
+   "explosions": [
+    {
+     "settings": true,
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow"
+    },
+    {
+     "settings": true,
+     "type": 268,
+     "weapon": "GL-15 Evictor"
+    },
+    {
+     "settings": true,
+     "type": 341,
+     "weapon": "GP-20 Ultimatum"
+    },
+    {
+     "settings": true,
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol"
+    },
+    {
+     "settings": true,
+     "type": 154,
+     "weapon": "P-33 Missile Pistol"
+    },
+    {
+     "settings": true,
+     "type": 167,
+     "weapon": "P-34 Breacher"
+    },
+    {
+     "settings": true,
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol"
+    },
+    {
+     "settings": true,
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher"
+    },
+    {
+     "settings": true,
+     "type": 191,
+     "weapon": "PLAS-101 Purifier"
+    },
+    {
+     "settings": true,
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist"
+    },
+    {
+     "settings": true,
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle"
+    },
+    {
+     "settings": true,
+     "type": 158,
+     "weapon": "R-36 Eruptor"
+    },
+    {
+     "settings": true,
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma"
+    }
+   ],
    "gameState": {
     "mission": false,
     "name": "PrepareShip",
@@ -355,10 +837,11 @@
    },
    "handle602": {
     "reason": "the engine destroyed the entity",
+    "semantic_id": "entity/v1/helldivers/avatar_helldiver",
     "valid": false
    },
    "localAvatar": false,
-   "pins": 97,
+   "pins": 107,
    "players": [
     {
      "entity": 5,
@@ -367,7 +850,7 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 149,
+   "reads": 187,
    "sources": [
     {
      "kills": 1,

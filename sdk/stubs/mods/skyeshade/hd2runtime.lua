@@ -1672,6 +1672,103 @@ local HD2GameState = {}
 ---@field kills integer|nil Kills (player_kill_credited).
 local HD2StatSource = {}
 
+---A read-only position snapshot (metres). Every subscriber and every delayed callback that kept it reads the same values; writing a field raises. tostring(p) formats it.
+---@class HD2Position
+---@field x number
+---@field y number
+---@field z number
+local HD2Position = {}
+---A plain table you can change.
+---@return HD2Vector3
+function HD2Position:copy() end
+---x, y, z.
+---@return number, number, number
+function HD2Position:unpack() end
+---Distance in metres.
+---@param other HD2Vector3|HD2Position
+---@return number
+function HD2Position:distance(other) end
+
+---The identity of an entity type (hd2.entities).
+---@class HD2EntityIdentity
+---@field id string Semantic id.
+---@field type string Type hash (16 hex digits).
+---@field name string|nil Catalogued name (wiki name, class name or path leaf).
+---@field display_name string|nil Proven wiki name only.
+---@field faction string|nil
+---@field kind "enemy"|"structure"|nil
+---@field enemy boolean Its death counts as an enemy kill (KillScore > 0).
+---@field avatar boolean A Helldiver avatar.
+local HD2EntityIdentity = {}
+
+---hd2.entities: the identity catalog of every entity type with health. Offline.
+---@class HD2Entities
+local HD2Entities = {}
+---A semantic id or a type hash; nil when unknown (use it to check your ids at load time).
+---@param value string
+---@return HD2EntityIdentity|nil
+function HD2Entities.describe(value) end
+---Every catalogued identity matching the filter, sorted by id.
+---@param filter? {faction?: string, kind?: string, enemy?: boolean}
+---@return HD2EntityIdentity[]
+function HD2Entities.list(filter) end
+
+---A gameplay action a mod requested. A refusal never raises: status is refused with a code and a reason.
+---@class HD2ActionHandle
+---@field kind string 'explosion', 'explosion_assets'.
+---@field owner string The mod that requested it.
+---@field status "pending"|"waiting_for_assets"|"ready"|"requested"|"refused"|"cancelled" requested: the game accepted the request this frame.
+---@field code string|nil Why it was refused (UNKNOWN_EXPLOSION, ASSET_UNKNOWN, ASSET_UNAVAILABLE, NOT_IN_MISSION, HOST_ONLY, NO_LOCAL_AVATAR, RATE_LIMITED, CAUSE_DEPTH, QUEUE_FULL, INVALID_POSITION, EXPLOSION_UNAVAILABLE).
+---@field reason string|nil
+---@field explosion string|nil The explosion (weapon name).
+---@field position HD2Position|nil
+---@field cause HD2EventCause|nil The event the action reacted to.
+local HD2ActionHandle = {}
+---@return boolean
+function HD2ActionHandle:requested() end
+---Only while waiting for assets.
+---@return HD2ActionHandle
+function HD2ActionHandle:cancel() end
+---@return table
+function HD2ActionHandle:describe() end
+
+---@class HD2ExplosionOptions
+---@field position HD2Vector3|HD2Position World position (an event position works as it is).
+---@field owner string|nil Mod id (defaults to the calling mod).
+local HD2ExplosionOptions = {}
+
+---hd2.explosions: request a catalogued explosion (docs/event-scripting.md).
+---@class HD2Explosions
+local HD2Explosions = {}
+---Request the weapon's catalogued explosion at a position. Host only, in a mission, credited to the local player; loads the explosion's package first when needed. Unknown explosions, raw ids and unknown packages are refused.
+---@param explosion HD2WeaponName|HD2Explosion
+---@param opts HD2ExplosionOptions
+---@return HD2ActionHandle
+function HD2Explosions.spawn(explosion, opts) end
+---The weapon's catalogued explosion handle (impact, else expiry).
+---@param weapon HD2WeaponName
+---@return HD2Explosion|nil, string|nil
+function HD2Explosions.of(weapon) end
+---Load the explosion assets now (status ready or waiting_for_assets).
+---@param explosion HD2WeaponName|HD2Explosion
+---@return HD2ActionHandle
+function HD2Explosions.prepare(explosion) end
+---Every explosion hd2.explosions can request.
+---@return {weapon: string, type: integer, assets_known: boolean}[]
+function HD2Explosions.list() end
+
+---hd2.actions: what event scripts can make the game do.
+---@class HD2Actions
+local HD2Actions = {}
+---Heal the local player (clamped to maximum health).
+---@param amount number
+---@param opts? {owner?: string}
+---@return number|nil, string|nil
+function HD2Actions.heal(amount, opts) end
+---Every action: available or blocked, with the reason.
+---@return table
+function HD2Actions.status() end
+
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
 ---@field id integer Engine entity id.
@@ -1680,6 +1777,11 @@ local HD2StatSource = {}
 ---@field faction string|nil
 ---@field enemy boolean
 ---@field avatar boolean
+---@field semantic_id string Stable identity (see hd2.entities).
+---@field display_name string|nil Proven wiki name only.
+---@field kind "enemy"|"structure"|nil
+---@field unit integer|nil Engine unit id (snapshot).
+---@field network_id integer|nil Network id (snapshot).
 local HD2EntityHandle = {}
 ---Still the same live object in the same mission.
 ---@return boolean
@@ -1700,10 +1802,18 @@ function HD2EntityHandle:health() end
 ---@return integer|nil
 function HD2EntityHandle:max_health() end
 ---Root position now (nil once gone).
----@return HD2Vector3|nil
+---@return HD2Position|nil
 function HD2EntityHandle:position() end
 ---@return table
 function HD2EntityHandle:describe() end
+---True when its semantic id is one of the given ids (or in a set). Static: works after it is gone.
+---@param ids string|table<string, boolean>
+---@param ... string
+---@return boolean
+function HD2EntityHandle:is(ids, ...) end
+---The identity snapshot as a plain table.
+---@return table
+function HD2EntityHandle:identity() end
 
 ---A player, identified by peer id. Valid while the player is in the session; the avatar changes on every respawn.
 ---@class HD2PlayerHandle
@@ -1726,7 +1836,7 @@ function HD2PlayerHandle:health() end
 ---@return integer|nil
 function HD2PlayerHandle:max_health() end
 ---The avatar's position now.
----@return HD2Vector3|nil
+---@return HD2Position|nil
 function HD2PlayerHandle:position() end
 ---Local player only: heal through the game's own heal function (AddHealthFraction), clamped to maximum health; refused while downed or dead. Returns the amount requested after the clamp, or nil and the reason.
 ---@param amount number
@@ -1757,7 +1867,9 @@ local HD2Event_mission_ended = {}
 ---@field local_player boolean True for the player on this machine.
 ---@field peer string The player peer id (16 hex digits).
 ---@field avatar HD2EntityHandle|nil The new avatar.
----@field position HD2Vector3|nil Avatar position when observed.
+---@field position HD2Position|nil Avatar position when observed.
+---@field avatar_id integer|nil Engine entity id of the avatar (a snapshot).
+---@field avatar_semantic_id string|nil The avatar type's semantic id.
 local HD2Event_player_spawned = {}
 
 ---A player's avatar died (its health record reached the dead state, or the avatar disappeared before that was seen).
@@ -1766,31 +1878,46 @@ local HD2Event_player_spawned = {}
 ---@field local_player boolean True for the player on this machine.
 ---@field peer string The player peer id (16 hex digits).
 ---@field avatar HD2EntityHandle|nil The dead avatar (invalid once the game removes it).
----@field position HD2Vector3|nil Death position: read at death while the unit exists, else the last position read alive.
+---@field position HD2Position|nil Death position: read at death while the unit exists, else the last position read alive.
+---@field avatar_id integer|nil Engine entity id of the avatar (a snapshot).
+---@field avatar_semantic_id string|nil The avatar type's semantic id.
+---@field observed "dead_state"|"avatar_removed" How the death was seen: the avatar's health record reached the dead state, or the avatar was gone before that was seen.
 local HD2Event_player_died = {}
 
 ---An entity with health appeared (spawned, or became present on this machine). Not reported for the population present when Runtime starts watching.
 ---@class HD2Event_entity_spawned : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 local HD2Event_entity_spawned = {}
 
 ---An entity with health died: its life state reached dead, or the game replaced it by its corpse before a poll saw the dead state. Environmental and unattributed deaths included; an entity removed without a corpse (despawned) is not a death.
 ---@class HD2Event_entity_died : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 ---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health).
 ---@field local_killer boolean The kill is credited to the local player.
 ---@field killer_peer string|nil Creditor peer id, also when that player already left.
----@field position HD2Vector3|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
+---@field position HD2Position|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
 ---@field max_health integer|nil Maximum health.
 ---@field observed "dead_state"|"corpse" How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity).
 ---@field corpse_id integer|nil Engine id of the corpse entity that replaced it (observed == "corpse"); nil when the dead state was seen first.
@@ -1798,16 +1925,22 @@ local HD2Event_entity_died = {}
 
 ---An entity died and the game credits the kill to a player (entity_died with a creditor).
 ---@class HD2Event_entity_killed : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 ---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health).
 ---@field local_killer boolean The kill is credited to the local player.
 ---@field killer_peer string|nil Creditor peer id, also when that player already left.
----@field position HD2Vector3|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
+---@field position HD2Position|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
 ---@field max_health integer|nil Maximum health.
 ---@field observed "dead_state"|"corpse" How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity).
 ---@field corpse_id integer|nil Engine id of the corpse entity that replaced it (observed == "corpse"); nil when the dead state was seen first.
@@ -1815,12 +1948,18 @@ local HD2Event_entity_killed = {}
 
 ---An entity lost health since the previous tick (the sum of every hit in that tick).
 ---@class HD2Event_entity_damaged : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 ---@field damage integer Health lost since the previous tick.
 ---@field health integer Health now.
 ---@field max_health integer|nil Maximum health.
@@ -1832,12 +1971,18 @@ local HD2Event_entity_damaged = {}
 
 ---A player's avatar lost health (entity_damaged for a Helldiver avatar, with its player).
 ---@class HD2Event_player_damaged : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 ---@field player HD2PlayerHandle|nil The player whose avatar it is.
 ---@field local_player boolean
 ---@field damage integer
@@ -1849,12 +1994,18 @@ local HD2Event_player_damaged = {}
 
 ---A player's avatar gained health (stim, regeneration, a Runtime heal). A heal a mod performed carries that mod's cause.
 ---@class HD2Event_player_healed : HD2Event
----@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
+---@field entity HD2EntityHandle The entity handle. Live queries fail once the game destroys it; its identity fields stay readable. Delayed logic should use the snapshot fields of the event instead.
 ---@field type string Entity type hash (16 hex digits).
 ---@field name string|nil Catalogued name when the type is known.
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
+---@field entity_id integer Engine entity id (a snapshot: stays readable after the entity is destroyed).
+---@field semantic_id string Stable identity: the enemy catalog's id ('enemy/v1/automatons/soldier_mg') or a path-derived one ('entity/v1/helldivers/avatar_helldiver'); 'entity/v1/unresolved/<type>' when the path is unknown.
+---@field display_name string|nil The wiki name, only where the enemy catalog proves it (a one-to-one anatomy match); never guessed.
+---@field kind "enemy"|"structure"|nil The enemy catalog's kind of this class.
+---@field unit_id integer|nil Engine unit id of its body (the corpse keeps it after the death).
+---@field network_id integer|nil Network id (nil when the entity has none).
 ---@field player HD2PlayerHandle|nil
 ---@field local_player boolean
 ---@field amount integer Health gained since the previous tick.
@@ -1899,6 +2050,21 @@ local HD2Event_key_down = {}
 ---@field key string The chord.
 ---@field owner string The mod that owns the binding.
 local HD2Event_key_up = {}
+---@alias HD2MissionStartedEvent HD2Event_mission_started
+---@alias HD2MissionEndedEvent HD2Event_mission_ended
+---@alias HD2PlayerSpawnedEvent HD2Event_player_spawned
+---@alias HD2PlayerDiedEvent HD2Event_player_died
+---@alias HD2EntitySpawnedEvent HD2Event_entity_spawned
+---@alias HD2EntityDiedEvent HD2Event_entity_died
+---@alias HD2EntityKilledEvent HD2Event_entity_killed
+---@alias HD2EntityDamagedEvent HD2Event_entity_damaged
+---@alias HD2PlayerDamagedEvent HD2Event_player_damaged
+---@alias HD2PlayerHealedEvent HD2Event_player_healed
+---@alias HD2PlayerFiredEvent HD2Event_player_fired
+---@alias HD2PlayerKillCreditedEvent HD2Event_player_kill_credited
+---@alias HD2EntityDamagePreEvent HD2Event_entity_damage_pre
+---@alias HD2KeyDownEvent HD2Event_key_down
+---@alias HD2KeyUpEvent HD2Event_key_up
 
 ---hd2.events
 ---@class HD2Events
@@ -1921,6 +2087,18 @@ function HD2Events.subscriptions(filter) end
 function HD2Events.cause() end
 ---@return boolean
 function HD2Events.in_mission() end
+---Run fn as the given mod: every subscription, timer, keybind and action inside belongs to it (the SDK addon wrapper runs each startup this way).
+---@param owner string
+---@param fn fun(...): any
+---@param ... any
+---@return any
+function HD2Events.run_as(owner, fn, ...) end
+---The mod a registration made now belongs to.
+---@return string
+function HD2Events.owner() end
+---The current mission id (the event.mission of this mission) and whether a mission is in progress.
+---@return integer, boolean
+function HD2Events.mission_id() end
 ---Subscribe. Bad registrations are logged and return a rejected handle; they never raise.
 ---@overload fun(name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
@@ -1969,13 +2147,13 @@ function HD2Events.once(name, callback, opts) end
 ---@field mission table Cleared in place when a mission starts and when it ends.
 local HD2ModContext = {}
 ---@param seconds number
----@param callback fun()
+---@param callback fun(timer: HD2Timer)
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function HD2ModContext:after(seconds, callback, opts) end
 ---At least 0.05 s.
 ---@param seconds number
----@param callback fun()
+---@param callback fun(timer: HD2Timer)
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function HD2ModContext:every(seconds, callback, opts) end
@@ -1995,6 +2173,11 @@ function HD2ModContext:subscriptions() end
 ---@param spec HD2ValueSpec
 ---@return HD2ScriptValue
 function HD2ModContext:value(spec) end
+---Run fn as this mod.
+---@param fn fun(...): any
+---@param ... any
+---@return any
+function HD2ModContext:run(fn, ...) end
 ---
 ---@overload fun(self: HD2ModContext, name: "mission_started", callback: fun(event: HD2Event_mission_started), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "mission_ended", callback: fun(event: HD2Event_mission_ended), opts?: HD2SubscribeOptions): HD2Subscription
@@ -2044,6 +2227,9 @@ function HD2ModContext:once(name, callback, opts) end
 ---@field api_version integer
 ---@field events HD2Events
 ---@field input HD2Input
+---@field entities HD2Entities
+---@field explosions HD2Explosions
+---@field actions HD2Actions
 local hd2 = {}
 ---@alias HD2WeaponName "AMR"|"APW-1 Anti-Materiel Rifle"|"AR-11 Arbitrator"|"AR-2 Coyote"|"AR-23 Liberator"|"AR-23A Liberator Carbine"|"AR-23C Liberator Concussive"|"AR-23P Liberator Penetrator"|"AR-32 Pacifier"|"AR-59 Suppressor"|"AR-61 Tenderizer"|"AR/GL-21 One-Two"|"ARC-12 Blitzer"|"BR-14 Adjudicator"|"CB-9 Exploding Crossbow"|"CQC-19 Stun Lance"|"CQC-2 Saber"|"CQC-30 Stun Baton"|"CQC-42 Machete"|"CQC-5 Combat Hatchet"|"CQC-73 Entrenchment Tool"|"DBS-2 Double Freedom"|"FLAM-66 Torcher"|"GL-15 Evictor"|"GP-20 Ultimatum"|"GP-31 Grenade Pistol"|"JAR-5 Dominator"|"LAS-12 Sai"|"LAS-13 Trident"|"LAS-16 Sickle"|"LAS-17 Double-Edge Sickle"|"LAS-5 Scythe"|"LAS-58 Talon"|"LAS-7 Dagger"|"M6C/SOCOM Pistol"|"M7S SMG"|"M90A Shotgun"|"MA5C Assault Rifle"|"MP-98 Knight"|"P-11 Stim Pistol"|"P-113 Verdict"|"P-19 Redeemer"|"P-2 Peacemaker"|"P-33 Missile Pistol"|"P-34 Breacher"|"P-35 Re-Educator"|"P-4 Senator"|"P-69 Veto"|"P-72 Crisper"|"P-92 Warrant"|"P/40-K Bolt Pistol"|"PLAS-1 Scorcher"|"PLAS-101 Purifier"|"PLAS-15 Loyalist"|"PLAS-39 Accelerator Rifle"|"R-2 Amendment"|"R-2124 Constitution"|"R-36 Eruptor"|"R-4 Hyena"|"R-6 Deadeye"|"R-63 Diligence"|"R-63CS Diligence Counter Sniper"|"R-72 Censor"|"R/40-K Hot-Shot Marksman Rifle"|"SG-20 Halt"|"SG-22 Bushwhacker"|"SG-225 Breaker"|"SG-225IE Breaker Incendiary"|"SG-225SP Breaker Spray&Pray"|"SG-451 Cookout"|"SG-8 Punisher"|"SG-8P Punisher Plasma"|"SG-8S Slugger"|"SG-97 Sweeper"|"SMG-203 Gallant"|"SMG-32 Reprimand"|"SMG-37 Defender"|"SMG-72 Pummeler"|"SMG/FLAM-34 Stoker"|"StA-11 SMG"|"StA-52 Assault Rifle"|"VG-70 Variable"|"amr"|"jar5"
 ---@param name HD2WeaponName
@@ -2108,19 +2294,19 @@ function hd2.attack_output(identity) end
 ---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}
 ---@return string[]
 function hd2.attack_outputs(filter) end
----Run once after a delay (0 = the next update tick). Game time.
+---Run once after a delay in game seconds (fractions work; 0 = the next update tick; math.random(1, 10) gives a random delay). The timer belongs to the calling mod; scope=mission cancels it when the mission ends.
 ---@param seconds number
----@param callback fun()
+---@param callback fun(timer: HD2Timer)
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function hd2.after(seconds, callback, opts) end
 ---Run repeatedly (at least 0.05 s apart). Missed intervals are skipped, never replayed.
 ---@param seconds number
----@param callback fun()
+---@param callback fun(timer: HD2Timer)
 ---@param opts? HD2TimerOptions
 ---@return HD2Timer
 function hd2.every(seconds, callback, opts) end
----The scripting context of one mod (the same object on every call).
+---The scripting context of one mod (the same object on every call). With no id: the calling mod (the SDK wrapper scope or the running callback); it refuses to guess.
 ---@param id? string
 ---@return HD2ModContext
 function hd2.mod(id) end

@@ -1,0 +1,1225 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424
+ },
+ "explosion": {
+  "request": 20712064,
+  "prologue": "40534883ec308b41204c8bda488bd93d000100000f8369020000",
+  "queueGlobal": 54973784,
+  "drain": 20712720,
+  "settingsTable": 58509600,
+  "typeBound": 423,
+  "queueCapacity": 256,
+  "entry": 40,
+  "stride": 152,
+  "signature": "RequestExplosion(queue, const float position[3], u32 explosion_type, u32 source_entity, u32 owner_entity, u64 creditor_peer, u32 a7, const float *a8, u8 a9, u32 a10, const u32 *a11, const float *a12, const float *a13, u8 a14, u32 a15)",
+  "template": {
+   "7": 0,
+   "8": null,
+   "9": 1,
+   "10": 0,
+   "11": null,
+   "12": null,
+   "13": null,
+   "14": 0,
+   "15": 0
+  }
+ },
+ "proofs": {
+  "request": [
+   {
+    "rva": 20712064,
+    "bytes": "4053",
+    "asm": "push rbx",
+    "role": "RequestExplosion(queue, const vec3 *position, u32 type, u32 source, ...)"
+   },
+   {
+    "rva": 20712066,
+    "bytes": "4883ec30",
+    "asm": "sub rsp, 0x30",
+    "role": "frame"
+   },
+   {
+    "rva": 20712070,
+    "bytes": "8b4120",
+    "asm": "mov eax, dword ptr [rcx + 0x20]",
+    "role": "queued count +0x20"
+   },
+   {
+    "rva": 20712073,
+    "bytes": "4c8bda",
+    "asm": "mov r11, rdx",
+    "role": "r11 = position pointer"
+   },
+   {
+    "rva": 20712076,
+    "bytes": "488bd9",
+    "asm": "mov rbx, rcx",
+    "role": "rbx = queue"
+   },
+   {
+    "rva": 20712079,
+    "bytes": "3d00010000",
+    "asm": "cmp eax, 0x100",
+    "role": "a full queue (256) is refused"
+   },
+   {
+    "rva": 20712084,
+    "bytes": "0f8369020000",
+    "asm": "jae 0x13c0d03",
+    "role": "full: return without writing"
+   },
+   {
+    "rva": 20712128,
+    "bytes": "4969fa98000000",
+    "asm": "imul rdi, r10, 0x98",
+    "role": "entry stride 0x98"
+   },
+   {
+    "rva": 20712145,
+    "bytes": "f20f11440f28",
+    "asm": "movsd qword ptr [rdi + rcx + 0x28], xmm0",
+    "role": "entry +0x00: position x, y"
+   },
+   {
+    "rva": 20712151,
+    "bytes": "89440f30",
+    "asm": "mov dword ptr [rdi + rcx + 0x30], eax",
+    "role": "entry +0x08: position z"
+   },
+   {
+    "rva": 20712155,
+    "bytes": "4489440f34",
+    "asm": "mov dword ptr [rdi + rcx + 0x34], r8d",
+    "role": "entry +0x0C: ExplosionType (argument 3)"
+   },
+   {
+    "rva": 20712229,
+    "bytes": "44894c1f38",
+    "asm": "mov dword ptr [rdi + rbx + 0x38], r9d",
+    "role": "entry +0x10: source entity (argument 4)"
+   },
+   {
+    "rva": 20712244,
+    "bytes": "894c1f3c",
+    "asm": "mov dword ptr [rdi + rbx + 0x3c], ecx",
+    "role": "entry +0x14: owner entity (argument 5)"
+   },
+   {
+    "rva": 20712207,
+    "bytes": "4889441f40",
+    "asm": "mov qword ptr [rdi + rbx + 0x40], rax",
+    "role": "entry +0x18: creditor peer (argument 6)"
+   },
+   {
+    "rva": 20712240,
+    "bytes": "89541f48",
+    "asm": "mov dword ptr [rdi + rbx + 0x48], edx",
+    "role": "entry +0x20: argument 7"
+   },
+   {
+    "rva": 20712486,
+    "bytes": "88841fa1000000",
+    "asm": "mov byte ptr [rdi + rbx + 0xa1], al",
+    "role": "argument 9 flag"
+   },
+   {
+    "rva": 20712514,
+    "bytes": "88841fa0000000",
+    "asm": "mov byte ptr [rdi + rbx + 0xa0], al",
+    "role": "argument 8 present"
+   },
+   {
+    "rva": 20712571,
+    "bytes": "89441f50",
+    "asm": "mov dword ptr [rdi + rbx + 0x50], eax",
+    "role": "argument 10 = element count of argument 11"
+   },
+   {
+    "rva": 20712579,
+    "bytes": "e8687ccd00",
+    "asm": "call 0x20988f0",
+    "role": "copies count * 4 bytes of argument 11"
+   },
+   {
+    "rva": 20712712,
+    "bytes": "c3",
+    "asm": "ret ",
+    "role": "end of the request"
+   }
+  ],
+  "queue": [
+   {
+    "rva": 9220491,
+    "bytes": "488b0dc623ba02",
+    "asm": "mov rcx, qword ptr [rip + 0x2ba23c6]",
+    "role": "a caller loads the explosion queue global",
+    "ripTarget": 54973784
+   },
+   {
+    "rva": 9220602,
+    "bytes": "e88158af00",
+    "asm": "call 0x13c0a80",
+    "role": "and requests an explosion"
+   }
+  ],
+  "drain": [
+   {
+    "rva": 20734456,
+    "bytes": "e813abffff",
+    "asm": "call 0x13c0d10",
+    "role": "the game drains the queue"
+   },
+   {
+    "rva": 20712849,
+    "bytes": "418b400c",
+    "asm": "mov eax, dword ptr [r8 + 0xc]",
+    "role": "drain reads the entry ExplosionType"
+   },
+   {
+    "rva": 20712885,
+    "bytes": "3da7010000",
+    "asm": "cmp eax, 0x1a7",
+    "role": "types are below 0x1A7"
+   },
+   {
+    "rva": 20712892,
+    "bytes": "85c0",
+    "asm": "test eax, eax",
+    "role": "type 0 is none"
+   },
+   {
+    "rva": 20712896,
+    "bytes": "4c8bb4c120c97c03",
+    "asm": "mov r14, qword ptr [rcx + rax*8 + 0x37cc920]",
+    "role": "settings pointer table, indexed by type"
+   }
+  ]
+ },
+ "pinnedBytesMismatchPerSnapshot": {
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": [],
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": []
+ },
+ "callSites": [
+  {
+   "site": 6896195,
+   "arguments7to15": {
+    "7": "r12d",
+    "8": "r12",
+    "9": 1,
+    "10": "r12d",
+    "11": "r12",
+    "12": "r12",
+    "13": "r12",
+    "14": "r12b",
+    "15": "r12d"
+   },
+   "literalType": 221
+  },
+  {
+   "site": 7387207,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rax",
+    "9": 1,
+    "10": 1,
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 7593908,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 8636870,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": "eax",
+    "11": "rax",
+    "12": "rax",
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9220602,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9227096,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9435926,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rax",
+    "9": 1,
+    "10": 1,
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9617758,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rcx",
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9617890,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rcx",
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 335
+  },
+  {
+   "site": 9618022,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rcx",
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 400
+  },
+  {
+   "site": 9618137,
+   "arguments7to15": {
+    "7": 0,
+    "8": "rcx",
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 9633024,
+   "arguments7to15": {
+    "7": "r12d",
+    "8": "rax",
+    "9": 1,
+    "10": "r12d",
+    "11": "r12",
+    "12": "r12",
+    "13": "r12",
+    "14": "r12b",
+    "15": "r12d"
+   },
+   "literalType": 229
+  },
+  {
+   "site": 9720122,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "r15",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 378
+  },
+  {
+   "site": 9722525,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "rax",
+    "12": "rcx",
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 101
+  },
+  {
+   "site": 9723136,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "rsi",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 378
+  },
+  {
+   "site": 10339779,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 12152724,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": "eax",
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 12217676,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": "eax",
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 18535524,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": "ecx"
+   },
+   "literalType": null
+  },
+  {
+   "site": 18536098,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "r14",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": "ecx"
+   },
+   "literalType": null
+  },
+  {
+   "site": 18536849,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "rdi",
+    "12": "rax",
+    "13": 0,
+    "14": 0,
+    "15": "eax"
+   },
+   "literalType": null
+  },
+  {
+   "site": 18537387,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 0,
+    "10": 1,
+    "11": "rdi",
+    "12": "rax",
+    "13": 0,
+    "14": 0,
+    "15": "eax"
+   },
+   "literalType": null
+  },
+  {
+   "site": 18655218,
+   "arguments7to15": {
+    "7": "r12d",
+    "8": "r12",
+    "9": 1,
+    "10": "esi",
+    "11": "rcx",
+    "12": "rcx",
+    "13": "r12",
+    "14": 0,
+    "15": "r12d"
+   },
+   "literalType": 233
+  },
+  {
+   "site": 19596463,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": 338
+  },
+  {
+   "site": 20646400,
+   "arguments7to15": {
+    "7": "eax",
+    "8": "rcx",
+    "9": 1,
+    "10": "eax",
+    "11": "rdx",
+    "12": "r9",
+    "13": "r13",
+    "14": "r14b",
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 20697516,
+   "arguments7to15": {
+    "7": "ebx",
+    "8": "rax",
+    "9": 0,
+    "10": "ebx",
+    "11": "rbx",
+    "12": "rbx",
+    "13": "rbx",
+    "14": 0,
+    "15": "ebx"
+   },
+   "literalType": null
+  },
+  {
+   "site": 20737508,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": "eax",
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 20812256,
+   "arguments7to15": {
+    "7": "edi",
+    "8": "rdi",
+    "9": 1,
+    "10": 1,
+    "11": "rcx",
+    "12": "rdi",
+    "13": "rdi",
+    "14": "dil",
+    "15": "edi"
+   },
+   "literalType": null
+  },
+  {
+   "site": 20812413,
+   "arguments7to15": {
+    "7": "edi",
+    "8": "rdi",
+    "9": 1,
+    "10": "edi",
+    "11": "rdi",
+    "12": "rdi",
+    "13": "rdi",
+    "14": "dil",
+    "15": "edi"
+   },
+   "literalType": null
+  },
+  {
+   "site": 20822394,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 1,
+    "11": "rcx",
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  },
+  {
+   "site": 20822580,
+   "arguments7to15": {
+    "7": 0,
+    "8": 0,
+    "9": 1,
+    "10": 0,
+    "11": 0,
+    "12": 0,
+    "13": 0,
+    "14": 0,
+    "15": 0
+   },
+   "literalType": null
+  }
+ ],
+ "callSitesWithLiteralTemplate": [
+  7593908,
+  9220602,
+  9227096,
+  10339779,
+  19596463,
+  20822580
+ ],
+ "catalogueTypes": [
+  {
+   "type": 59,
+   "weapon": "CB-9 Exploding Crossbow",
+   "damageType": 209,
+   "inner": 3.0,
+   "outer": 6.0,
+   "shockwave": 7.0
+  },
+  {
+   "type": 268,
+   "weapon": "GL-15 Evictor",
+   "damageType": 376,
+   "inner": 2.25,
+   "outer": 5.5,
+   "shockwave": 8.0
+  },
+  {
+   "type": 341,
+   "weapon": "GP-20 Ultimatum",
+   "damageType": 281,
+   "inner": 2.0,
+   "outer": 12.0,
+   "shockwave": 25.0
+  },
+  {
+   "type": 327,
+   "weapon": "GP-31 Grenade Pistol",
+   "damageType": 374,
+   "inner": 2.25,
+   "outer": 6.5,
+   "shockwave": 8.0
+  },
+  {
+   "type": 154,
+   "weapon": "P-33 Missile Pistol",
+   "damageType": 563,
+   "inner": 2.0,
+   "outer": 4.0,
+   "shockwave": 12.0
+  },
+  {
+   "type": 167,
+   "weapon": "P-34 Breacher",
+   "damageType": 69,
+   "inner": 1.0,
+   "outer": 1.0,
+   "shockwave": 0.0
+  },
+  {
+   "type": 388,
+   "weapon": "P/40-K Bolt Pistol",
+   "damageType": 303,
+   "inner": 1.0,
+   "outer": 3.5,
+   "shockwave": 5.0
+  },
+  {
+   "type": 155,
+   "weapon": "PLAS-1 Scorcher",
+   "damageType": 306,
+   "inner": 1.0,
+   "outer": 2.0,
+   "shockwave": 2.0
+  },
+  {
+   "type": 191,
+   "weapon": "PLAS-101 Purifier",
+   "damageType": 313,
+   "inner": 2.9000000953674316,
+   "outer": 3.0,
+   "shockwave": 4.0
+  },
+  {
+   "type": 355,
+   "weapon": "PLAS-15 Loyalist",
+   "damageType": 305,
+   "inner": 0.75,
+   "outer": 1.5,
+   "shockwave": 2.0
+  },
+  {
+   "type": 413,
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "damageType": 309,
+   "inner": 1.0,
+   "outer": 2.0,
+   "shockwave": 2.0
+  },
+  {
+   "type": 158,
+   "weapon": "R-36 Eruptor",
+   "damageType": 347,
+   "inner": 4.0,
+   "outer": 7.0,
+   "shockwave": 8.0
+  },
+  {
+   "type": 290,
+   "weapon": "SG-8P Punisher Plasma",
+   "damageType": 311,
+   "inner": 2.299999952316284,
+   "outer": 3.0,
+   "shockwave": 4.0
+  }
+ ],
+ "observations": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "queueCount": 0,
+   "staleEntries": [
+    {
+     "slot": 0,
+     "position": [
+      -80.55,
+      40.63,
+      8.57
+     ],
+     "type": 113,
+     "source": 619,
+     "owner": 602,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 1,
+     "sourceType": null,
+     "ownerIsLocalAvatar": true,
+     "peerIsLocal": true
+    }
+   ],
+   "settingsTable": [
+    {
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow",
+     "match": true
+    },
+    {
+     "type": 268,
+     "weapon": "GL-15 Evictor",
+     "match": true
+    },
+    {
+     "type": 341,
+     "weapon": "GP-20 Ultimatum",
+     "match": true
+    },
+    {
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol",
+     "match": true
+    },
+    {
+     "type": 154,
+     "weapon": "P-33 Missile Pistol",
+     "match": true
+    },
+    {
+     "type": 167,
+     "weapon": "P-34 Breacher",
+     "match": true
+    },
+    {
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol",
+     "match": true
+    },
+    {
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher",
+     "match": true
+    },
+    {
+     "type": 191,
+     "weapon": "PLAS-101 Purifier",
+     "match": true
+    },
+    {
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist",
+     "match": true
+    },
+    {
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle",
+     "match": true
+    },
+    {
+     "type": 158,
+     "weapon": "R-36 Eruptor",
+     "match": true
+    },
+    {
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma",
+     "match": true
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "queueCount": 0,
+   "staleEntries": [
+    {
+     "slot": 0,
+     "position": [
+      -70.79,
+      89.9,
+      3.02
+     ],
+     "type": 50,
+     "source": 720,
+     "owner": 720,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 301,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    }
+   ],
+   "settingsTable": [
+    {
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow",
+     "match": true
+    },
+    {
+     "type": 268,
+     "weapon": "GL-15 Evictor",
+     "match": true
+    },
+    {
+     "type": 341,
+     "weapon": "GP-20 Ultimatum",
+     "match": true
+    },
+    {
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol",
+     "match": true
+    },
+    {
+     "type": 154,
+     "weapon": "P-33 Missile Pistol",
+     "match": true
+    },
+    {
+     "type": 167,
+     "weapon": "P-34 Breacher",
+     "match": true
+    },
+    {
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol",
+     "match": true
+    },
+    {
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher",
+     "match": true
+    },
+    {
+     "type": 191,
+     "weapon": "PLAS-101 Purifier",
+     "match": true
+    },
+    {
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist",
+     "match": true
+    },
+    {
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle",
+     "match": true
+    },
+    {
+     "type": 158,
+     "weapon": "R-36 Eruptor",
+     "match": true
+    },
+    {
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma",
+     "match": true
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "queueCount": 0,
+   "staleEntries": [
+    {
+     "slot": 0,
+     "position": [
+      25.41,
+      -159.38,
+      8.73
+     ],
+     "type": 158,
+     "source": 855,
+     "owner": 852,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 528,
+     "sourceType": "B6AFF2195568767F",
+     "ownerIsLocalAvatar": true,
+     "peerIsLocal": true
+    },
+    {
+     "slot": 1,
+     "position": [
+      -45.55,
+      48.05,
+      7.48
+     ],
+     "type": 50,
+     "source": 756,
+     "owner": 756,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 389,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    },
+    {
+     "slot": 2,
+     "position": [
+      -45.37,
+      47.97,
+      7.49
+     ],
+     "type": 50,
+     "source": 756,
+     "owner": 756,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 393,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    }
+   ],
+   "settingsTable": [
+    {
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow",
+     "match": true
+    },
+    {
+     "type": 268,
+     "weapon": "GL-15 Evictor",
+     "match": true
+    },
+    {
+     "type": 341,
+     "weapon": "GP-20 Ultimatum",
+     "match": true
+    },
+    {
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol",
+     "match": true
+    },
+    {
+     "type": 154,
+     "weapon": "P-33 Missile Pistol",
+     "match": true
+    },
+    {
+     "type": 167,
+     "weapon": "P-34 Breacher",
+     "match": true
+    },
+    {
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol",
+     "match": true
+    },
+    {
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher",
+     "match": true
+    },
+    {
+     "type": 191,
+     "weapon": "PLAS-101 Purifier",
+     "match": true
+    },
+    {
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist",
+     "match": true
+    },
+    {
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle",
+     "match": true
+    },
+    {
+     "type": 158,
+     "weapon": "R-36 Eruptor",
+     "match": true
+    },
+    {
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma",
+     "match": true
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "queueCount": 0,
+   "staleEntries": [
+    {
+     "slot": 0,
+     "position": [
+      -78.95,
+      -216.27,
+      11.65
+     ],
+     "type": 158,
+     "source": 1125,
+     "owner": 1122,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 645,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    },
+    {
+     "slot": 1,
+     "position": [
+      -98.34,
+      -223.46,
+      11.51
+     ],
+     "type": 109,
+     "source": 969,
+     "owner": 967,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 540,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    },
+    {
+     "slot": 2,
+     "position": [
+      -45.37,
+      47.97,
+      7.49
+     ],
+     "type": 50,
+     "source": 756,
+     "owner": 756,
+     "peer": "32B10D7BA1516C5C",
+     "argument7": 393,
+     "sourceType": null,
+     "ownerIsLocalAvatar": false,
+     "peerIsLocal": true
+    }
+   ],
+   "settingsTable": [
+    {
+     "type": 59,
+     "weapon": "CB-9 Exploding Crossbow",
+     "match": true
+    },
+    {
+     "type": 268,
+     "weapon": "GL-15 Evictor",
+     "match": true
+    },
+    {
+     "type": 341,
+     "weapon": "GP-20 Ultimatum",
+     "match": true
+    },
+    {
+     "type": 327,
+     "weapon": "GP-31 Grenade Pistol",
+     "match": true
+    },
+    {
+     "type": 154,
+     "weapon": "P-33 Missile Pistol",
+     "match": true
+    },
+    {
+     "type": 167,
+     "weapon": "P-34 Breacher",
+     "match": true
+    },
+    {
+     "type": 388,
+     "weapon": "P/40-K Bolt Pistol",
+     "match": true
+    },
+    {
+     "type": 155,
+     "weapon": "PLAS-1 Scorcher",
+     "match": true
+    },
+    {
+     "type": 191,
+     "weapon": "PLAS-101 Purifier",
+     "match": true
+    },
+    {
+     "type": 355,
+     "weapon": "PLAS-15 Loyalist",
+     "match": true
+    },
+    {
+     "type": 413,
+     "weapon": "PLAS-39 Accelerator Rifle",
+     "match": true
+    },
+    {
+     "type": 158,
+     "weapon": "R-36 Eruptor",
+     "match": true
+    },
+    {
+     "type": 290,
+     "weapon": "SG-8P Punisher Plasma",
+     "match": true
+    }
+   ]
+  }
+ ],
+ "findings": {
+  "identity": "The drain indexes game+0x37CC920 by the request ExplosionType; for all 13 catalogued weapon explosions the entry points at a record with that type, damage type and radii in all 4 mission snapshots.",
+  "semantics": "Stale R-36 Eruptor requests (type 158): source = the Eruptor weapon entity, owner = the local avatar, creditor = the local peer.",
+  "drained": "The queue count is 0 in every snapshot: requests live for less than a frame.",
+  "network": "No network message call was found in the drain itself; the queue is the local explosion system. Health is host-authoritative (a remote-owned record is overwritten by synced health), so only a host request can change enemy health. Whether other machines see the effect is unproven."
+ },
+ "unproven": [
+  "Arguments 7 and 9..15 beyond the common call template (a Runtime request always passes the template).",
+  "Whether the explosion effect is visible on other machines.",
+  "The Hellbomb ExplosionType: no Hellbomb request or Hellbomb explosion owner was found; the Hellbomb entity has no explosive component naming a type.",
+  "Frame order of the drain relative to the Lua update callback (a request made in update is drained by the game's own explosion update, within a frame)."
+ ],
+ "writes": 0,
+ "protectionChanges": 0
+}

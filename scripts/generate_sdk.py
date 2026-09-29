@@ -645,6 +645,7 @@ def outputs():
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/events.md':(ROOT/'docs/events.md').read_text(encoding='utf-8'),
+            'sdk/docs/event-scripting.md':(ROOT/'docs/event-scripting.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-reticles.md':(ROOT/'docs/weapon-reticles.md').read_text(encoding='utf-8'),
             'sdk/docs/fire-modes.md':(ROOT/'docs/fire-modes.md').read_text(encoding='utf-8'),

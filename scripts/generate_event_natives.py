@@ -27,9 +27,9 @@ OUTPUT = ROOT / 'domains/event_natives.lua'
 class Pins:
     """Pinned instructions from the research outputs, per module ('game' = game.dll, 'exe' = the executable)."""
 
-    def __init__(self, combat: dict, state: dict, mission: dict):
+    def __init__(self, combat: dict, state: dict, mission: dict, actions: dict):
         self.by_rva = {'game': {}, 'exe': {}}
-        for group in mission['proofs'].values():
+        for group in list(mission['proofs'].values()) + list(actions['proofs'].values()):
             for pin in group:
                 self.by_rva['game'].setdefault(pin['rva'], pin)
         for name, function in combat['functions'].items():
@@ -226,6 +226,33 @@ def corpses_section(pins: Pins, mission: dict) -> dict:
         'maxRecords': layout['capacity']}
 
 
+def explosion_section(pins: Pins, actions: dict) -> dict:
+    """The game's explosion request (research/event-actions-F5FEE03DCFDB.json): the queue, the call and its bounds."""
+    research = actions['explosion']
+    pins.rip(0x8CB18B, 'mov rcx, qword ptr [rip + 0x2ba23c6]', 'explosion queue global (a caller)', research['queueGlobal'])
+    pins.use(0x13C0A86, 'mov eax, dword ptr [rcx + 0x20]', 'explosion queue count')
+    pins.use(0x13C0A8F, 'cmp eax, 0x100', 'explosion queue holds 256 requests')
+    pins.use(0x13C0AC0, 'imul rdi, r10, 0x98', 'explosion request stride')
+    pins.use(0x13C0ADB, 'mov dword ptr [rdi + rcx + 0x34], r8d', 'explosion request type (argument 3)')
+    pins.use(0x13C0B25, 'mov dword ptr [rdi + rbx + 0x38], r9d', 'explosion request source (argument 4)')
+    pins.use(0x13C0B34, 'mov dword ptr [rdi + rbx + 0x3c], ecx', 'explosion request owner (argument 5)')
+    pins.use(0x13C0B0F, 'mov qword ptr [rdi + rbx + 0x40], rax', 'explosion request creditor (argument 6)')
+    pins.use(0x13C0DB5, 'cmp eax, 0x1a7', 'explosion types are below 0x1A7')
+    pins.use(0x13C0DC0, 'mov r14, qword ptr [rcx + rax*8 + 0x37cc920]', 'explosion settings table by type')
+    template = research['template']
+    if template != {'7': 0, '8': None, '9': 1, '10': 0, '11': None, '12': None, '13': None, '14': 0, '15': 0}:
+        raise ValueError('explosion call template changed')
+    if len(actions['callSitesWithLiteralTemplate']) < 4:
+        raise ValueError('the explosion call template is not the game\'s own')
+    if any(not all(t['match'] for t in o['settingsTable']) for o in actions['observations']):
+        raise ValueError('explosion settings table disagrees with the catalog')
+    return {'rva': research['request'], 'prologue': research['prologue'], 'queue': research['queueGlobal'],
+        'count': 0x20, 'capacity': research['queueCapacity'], 'settingsTable': research['settingsTable'],
+        'typeBound': research['typeBound'], 'signature': research['signature'],
+        # Catalogued weapon explosions whose settings-table entry the research matched in every mission snapshot.
+        'weapons': [{'weapon': item['weapon'], 'type': item['type']} for item in actions['catalogueTypes']]}
+
+
 def heal_section(pins: Pins, research: dict) -> dict:
     callable_ = research['callable']['heal_add_fraction']
     pins.use(0x91EA3C, 'call 0x927050', 'heal: IsDead gate')
@@ -238,22 +265,25 @@ def build() -> dict:
     combat = json.loads(COMBAT.read_text(encoding='utf-8'))
     state = json.loads(STATE.read_text(encoding='utf-8'))
     mission = json.loads(MISSION.read_text(encoding='utf-8'))
-    for research in (combat, state, mission):
+    actions = json.loads(ACTIONS.read_text(encoding='utf-8'))
+    for research in (combat, state, mission, actions):
         if research['writes'] or research['protectionChanges']:
             raise ValueError('event research must be read-only')
     if state['gameDll']['sha256'] != combat['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
-    if state['gameDll']['sha256'] != mission['gameDll']['sha256']:
+    if not state['gameDll']['sha256'] == mission['gameDll']['sha256'] == actions['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
-    if any(state['pinnedBytesMismatchPerSnapshot'].values()) or any(mission['pinnedBytesMismatchPerSnapshot'].values()):
+    if any(any(r['pinnedBytesMismatchPerSnapshot'].values()) for r in (state, mission, actions)):
         raise ValueError('a pinned instruction differs between retained snapshots')
-    pins = Pins(combat, state, mission)
-    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name], 'gameDllSha256': combat['gameDll']['sha256'],
+    pins = Pins(combat, state, mission, actions)
+    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name, ACTIONS.name],
+            'gameDllSha256': combat['gameDll']['sha256'],
             'imageSize': combat['gameDll']['imageSize'], 'exeImageSize': state['exe']['imageSize']},
         'health': health_section(pins, combat), 'players': players_section(pins, combat),
         'playerAvatars': player_avatars_section(pins, state), 'state': state_section(pins, state),
         'engine': engine_section(pins, state), 'stats': stats_section(pins, state),
-        'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat)}
+        'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat),
+        'explosion': explosion_section(pins, actions)}
     value['pins'] = sorted(pins.used, key=lambda pin: (pin['module'], pin['rva']))
     return value
 

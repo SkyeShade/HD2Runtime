@@ -298,14 +298,14 @@ return function(frame,watches,counts)
  return results
 end
 '''
-OPTIONS_MISSING_ADDON = lambda name='LiberatorDamageOptions', folder='projects': (example(name, folder)
+OPTIONS_MISSING_ADDON = lambda name='LiberatorDamageOptions', folder='projects': wrap_example(name, folder, (example_source(name, folder)
     .replace('return hd2.ensure(', 'local operations={}\noperations[1]=hd2.ensure(')
     + '''-- Not bound to any option: runs normally whether or not Mod Options Menu is installed.
 operations[2]=hd2.ensure({patch={id='plain-vitality',allow_unverified_effect=true,
     target=hd2.booster('Vitality Enhancement'):tuning(),field=hd2.fields.booster.damage_taken_scale,
     expect=0.9,value=0.8}})
 return operations
-''')
+'''))
 # Default fallback: without Mod Options Menu the bound operation applies its declared defaults.
 OPTIONS_MISSING = r'''
 return function(frame,watches,counts,lines)
@@ -495,6 +495,11 @@ return function(frame,watches,counts,lines)
  local amount,why=hd2.local_player():heal(25)
  step('heal is refused without a native-call adapter (never a fallback write)',amount==nil
   and tostring(why):find('HEAL_UNAVAILABLE',1,true)~=nil,tostring(why))
+ local boom=hd2.explosions.spawn('R-36 Eruptor',{position={x=1,y=2,z=3}})
+ step('an explosion aboard the ship is refused (not in a mission)',boom.status=='refused'and boom.code=='NOT_IN_MISSION',
+  tostring(boom.code)..' '..tostring(boom.reason))
+ step('every catalogued explosion resolves from the packaged archive',#hd2.explosions.list()==13,
+  tostring(#hd2.explosions.list()))
  step('no gameplay write happened',counts.writes==0,'writes='..counts.writes)
  return results
 end
@@ -536,6 +541,8 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-event-isolation-test': {'after': EVENT_ISOLATION_LIVE, 'readOnly': True},
     'example-kill-heal-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
     'example-death-hellbomb-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-heavy-devastator-delayed-explosion-test': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
+    'example-player-kill-credited-example': {'after': EVENT_WORLD_LIVE, 'readOnly': True},
     'example-kill-stack-damage-test': {'after': KILL_STACK_LIVE},
     'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 3},
     'example-runtime-effect-diagnostics': {'menu': MENU_STUB, 'after': DIAGNOSTICS_LIVE},
@@ -562,8 +569,26 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
 
 
+def example_source(name, folder='projects'):
+    return (ROOT / 'examples' / folder / name / 'src/addon.lua').read_text(encoding='utf-8-sig')
+
+
+def wrap_example(name, folder, body):
+    """An example addon body inside the SDK's addon wrapper, exactly as the built ZIP ships it: the dependency check
+    runs, and the startup runs as the mod's own resource id (automatic ownership)."""
+    spec_path = ROOT / 'examples' / folder / name / 'hd2runtime.json'
+    if not spec_path.is_file():
+        return body
+    spec = json.loads(spec_path.read_text(encoding='utf-8'))
+    import importlib.util
+    loader = importlib.util.spec_from_file_location('hd2_sdk_cli', ROOT / 'sdk/hd2.py')
+    sdk = importlib.util.module_from_spec(loader)
+    loader.loader.exec_module(sdk)
+    return sdk.wrap_addon(spec['resource'], spec['requires']['hd2runtime']['min_version'], body)
+
+
 def example(name, folder='projects'):
-    return (ROOT / 'examples' / folder / name / 'src/addon.lua').read_text()
+    return wrap_example(name, folder, example_source(name, folder))
 
 
 SCENARIOS = {
@@ -819,9 +844,10 @@ if not ok then return json.encode({startup_error=tostring(why),log=lines})end
 local chunk=assert(loadstring(ADDON,'@'..SCENARIO..'/addon.lua'))
 local ok_addon,returned=pcall(chunk)
 if not ok_addon then return json.encode({startup_error=tostring(returned),log=lines})end
+-- The SDK wrapper returns true for an addon that returns nothing; only operation handles are watches.
 if type(returned)=='table' and returned.status==nil then
  for _,watch in ipairs(returned)do watches[#watches+1]=watch end
-else watches[#watches+1]=returned end
+elseif type(returned)=='table' then watches[#watches+1]=returned end
 startup_open=false
 if MENU then assert(loadstring(MENU,'@mods/cowboybingus/mod_options_menu'))()end
 

@@ -17,7 +17,7 @@ local function open(source)
     source.world=world
     return true
 end
-local function copy_position(p)return p and{x=p.x,y=p.y,z=p.z}or nil end
+local position=handles.position   -- read-only position snapshots (runtime/handles.lua)
 
 --------------------------------------------------------------------------------------------------- game state --
 -- mission_started when the game enters its Mission state with a game_mode object; mission_ended when it leaves.
@@ -63,11 +63,13 @@ function players.start(source)
     return true
 end
 function players.stop(source)source.world=nil;source.known=nil end
-local function player_payload(item,entry)
+local function player_payload(item,entry,observed)
     local player=handles.player(item)
-    local avatar=entry.avatar and handles.entity({id=entry.avatar,type=entry.type,descriptor_pointer=entry.descriptor})
-    return {player=player,local_player=item['local'],avatar=avatar,position=copy_position(entry.position),
-        peer=item.peer}
+    local avatar=entry.avatar and handles.entity({id=entry.avatar,type=entry.type,descriptor_pointer=entry.descriptor,
+        unit=entry.unit,network_id=entry.network_id})
+    return {player=player,local_player=item['local'],avatar=avatar,avatar_id=entry.avatar,
+        avatar_semantic_id=avatar and avatar.semantic_id or nil,position=position(entry.position),peer=item.peer,
+        observed=observed}
 end
 function players.poll(source)
     local world=source.world
@@ -84,7 +86,7 @@ function players.poll(source)
             local state=world_module.entity_state(world,avatar)
             entry.avatar=avatar;entry.dead=false
             entry.type=state and state.descriptor.type;entry.descriptor=state and state.descriptor.pointer
-            entry.unit=state and state.descriptor.unit
+            entry.unit=state and state.descriptor.unit;entry.network_id=item.avatar_network_id
             entry.position=entry.unit and want_positions and world_module.unit_position(world,entry.unit)or nil
             if state and state.life<2 and not source.first then
                 events.queue('player_spawned',player_payload(item,entry))
@@ -96,17 +98,17 @@ function players.poll(source)
                 -- Read the position now if the unit still exists; otherwise the last position read alive.
                 local now=entry.unit and world_module.unit_position(world,entry.unit)
                 if now then entry.position=now end
-                events.queue('player_died',player_payload(item,entry))
+                events.queue('player_died',player_payload(item,entry,'dead_state'))
             elseif state and want_positions and entry.unit then
                 entry.position=world_module.unit_position(world,entry.unit)or entry.position
             elseif not state and item.lifecycle~=3 then
                 entry.dead=true
-                events.queue('player_died',player_payload(item,entry))
+                events.queue('player_died',player_payload(item,entry,'avatar_removed'))
             end
         elseif not avatar and entry.avatar and not entry.dead then
             -- The avatar is gone before its dead state was seen.
             entry.dead=true
-            events.queue('player_died',player_payload(item,entry))
+            events.queue('player_died',player_payload(item,entry,'avatar_removed'))
         end
     end
     for peer in pairs(source.known)do if not seen[peer]then source.known[peer]=nil end end
@@ -144,17 +146,26 @@ local function killer_of(source,lo,hi)
     for _,item in ipairs(list)do if item.peer==peer then return handles.player(item),item['local'],peer end end
     return nil,false,peer   -- credited to a peer no longer in the player list
 end
+-- Every health event carries the entity handle and its identity snapshot as plain fields, so a callback (or a timer
+-- it starts) never needs the live entity to know what it was.
 local function entity_payload(entry)
-    local handle=handles.entity({id=entry.entity,type=entry.type,descriptor_pointer=entry.descriptor})
-    return {entity=handle,type=entry.type,name=handle.name,enemy=handle.enemy,faction=handle.faction,
-        avatar=handle.avatar}
+    -- One handle per tracked entity (its fields are a snapshot of the same identity), made on its first event.
+    local handle=entry.handle
+    if not handle or handle.epoch~=events.state.epoch then
+        handle=handles.entity({id=entry.entity,type=entry.type,descriptor_pointer=entry.descriptor,unit=entry.unit,
+            network_id=entry.network_id})
+        entry.handle=handle
+    end
+    return {entity=handle,entity_id=entry.entity,type=entry.type,semantic_id=handle.semantic_id,name=handle.name,
+        display_name=handle.display_name,enemy=handle.enemy,faction=handle.faction,kind=handle.kind,
+        avatar=handle.avatar,unit_id=entry.unit,network_id=entry.network_id}
 end
 -- entity_died (and entity_killed when a player is credited) for one death.
 local function queue_death(source,entry,lo,hi,position,max_health,observed,corpse)
     local payload=entity_payload(entry)
     local killer,local_killer,peer=killer_of(source,lo,hi)
     payload.killer=killer;payload.local_killer=local_killer==true;payload.killer_peer=peer
-    payload.position=position;payload.max_health=max_health
+    payload.position=position and handles.position(position)or nil;payload.max_health=max_health
     payload.observed=observed;payload.corpse_id=corpse
     events.queue('entity_died',payload)
     if peer then
@@ -201,55 +212,64 @@ function health.poll(source)
                 if not entry then
                     local d=descriptor and view.read(descriptor,H.descriptor.size)
                     if d and b.u32(d,H.descriptor.entity)==entity then
+                        local network=b.u32(d,H.descriptor.goid)
                         entry={entity=entity,descriptor=descriptor,type=string.format('%08X%08X',b.u32(d,4),b.u32(d,0)),
-                            unit=b.u32(d,H.descriptor.unit),owned=b.u32(d,H.descriptor.flags)%2==1,life=life,health=amount}
+                            unit=b.u32(d,H.descriptor.unit),owned=b.u32(d,H.descriptor.flags)%2==1,life=life,health=amount,
+                            network_id=network~=0x7FFF and network or nil}
                         local info=world_module.type_info(entry.type)
                         entry.avatar=info and info.avatar or false
+                        entry.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
                         known[entity]=entry
                         if want_spawn and not first and life<2 then events.queue('entity_spawned',entity_payload(entry))end
                     end
                 end
                 if entry then
                     entry.stamp=stamp
-                    local lo,hi
-                    if want_death then
-                        -- Kept for a death only seen through the corpse (the record is gone by then).
-                        lo,hi=records:u32(base+R.lastCreditor),records:u32(base+R.lastCreditor+4)
-                        if lo==0 and hi==0 then lo,hi=records:u32(base+R.downCreditor),records:u32(base+R.downCreditor+4)end
-                        entry.credit_lo,entry.credit_hi=lo,hi
-                        entry.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or entry.max_health
-                    end
-                    if life>=2 and entry.life<2 then
-                        if want_death then
-                            queue_death(source,entry,lo,hi,entry.unit and world_module.unit_position(world,entry.unit)or nil,
-                                entry.max_health,'dead_state',nil)
-                        end
-                    elseif life<2 and amount<entry.health and want_damage then
-                        local payload=entity_payload(entry)
-                        payload.damage=entry.health-amount;payload.health=amount
-                        payload.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
+                    -- An unchanged entity costs this one comparison per tick.
+                    if amount~=entry.health or life~=entry.life then
                         local lo,hi=records:u32(base+R.lastCreditor),records:u32(base+R.lastCreditor+4)
-                        local attacker,local_attacker,peer=killer_of(source,lo,hi)
-                        payload.attacker=attacker;payload.local_attacker=local_attacker==true;payload.attacker_peer=peer
-                        payload.downed=life==1
-                        events.queue('entity_damaged',payload)
-                        if entry.avatar then
-                            local player,is_local=owning_player(source,entity)
-                            local copy={}
-                            for k,v in pairs(payload)do copy[k]=v end
-                            copy.player=player;copy.local_player=is_local
-                            events.queue('player_damaged',copy)
+                        if want_death then
+                            -- Kept for a death only seen through the corpse (the record is gone by then). The
+                            -- creditor and maximum change only with a hit, so they are refreshed only here.
+                            local clo,chi=lo,hi
+                            if clo==0 and chi==0 then
+                                clo,chi=records:u32(base+R.downCreditor),records:u32(base+R.downCreditor+4)
+                            end
+                            entry.credit_lo,entry.credit_hi=clo,chi
+                            entry.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or entry.max_health
                         end
-                    elseif life<2 and amount>entry.health and entry.avatar and want_heal then
-                        local player,is_local=owning_player(source,entity)
-                        local payload=entity_payload(entry)
-                        payload.player=player;payload.local_player=is_local
-                        payload.amount=amount-entry.health;payload.health=amount
-                        payload.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
-                        payload.cause=handles.claim_heal(entity)
-                        events.queue('player_healed',payload)
+                        if life>=2 and entry.life<2 then
+                            if want_death then
+                                queue_death(source,entry,entry.credit_lo,entry.credit_hi,
+                                    entry.unit and world_module.unit_position(world,entry.unit)or nil,entry.max_health,
+                                    'dead_state',nil)
+                            end
+                        elseif life<2 and amount<entry.health and want_damage then
+                            local payload=entity_payload(entry)
+                            payload.damage=entry.health-amount;payload.health=amount
+                            payload.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
+                            local attacker,local_attacker,peer=killer_of(source,lo,hi)
+                            payload.attacker=attacker;payload.local_attacker=local_attacker==true;payload.attacker_peer=peer
+                            payload.downed=life==1
+                            events.queue('entity_damaged',payload)
+                            if entry.avatar then
+                                local player,is_local=owning_player(source,entity)
+                                local copy={}
+                                for k,v in pairs(payload)do copy[k]=v end
+                                copy.player=player;copy.local_player=is_local
+                                events.queue('player_damaged',copy)
+                            end
+                        elseif life<2 and amount>entry.health and entry.avatar and want_heal then
+                            local player,is_local=owning_player(source,entity)
+                            local payload=entity_payload(entry)
+                            payload.player=player;payload.local_player=is_local
+                            payload.amount=amount-entry.health;payload.health=amount
+                            payload.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
+                            payload.cause=handles.claim_heal(entity)
+                            events.queue('player_healed',payload)
+                        end
+                        entry.life,entry.health=life,amount
                     end
-                    entry.life,entry.health=life,amount
                 end
             end
         end

@@ -13,6 +13,7 @@ local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local H,P,A,S,E,T=natives.health,natives.players,natives.playerAvatars,natives.state,natives.engine,natives.stats
 local C=natives.corpses
+local X=natives.explosion
 local IMAGE_SIZE,EXE_IMAGE_SIZE=natives.source.imageSize,natives.source.exeImageSize
 local opened,adapter_override
 
@@ -368,6 +369,44 @@ end
 function M.stat_total(world,player_entity,key,block)
     local stats=M.stat_breakdown(world,player_entity,{key},block)
     return stats and stats.totals[key]or nil
+end
+
+------------------------------------------------------------------------------------------------ explosions --
+-- The explosion settings record of a type (its first field is the type), or nil: the drain's own lookup table.
+function M.explosion_settings(world,kind)
+    if type(kind)~='number'or kind<=0 or kind>=X.typeBound or kind%1~=0 then return nil end
+    local record=world.view.pointer(world.game+X.settingsTable+kind*8)
+    if not record or world.view.u32(record)~=kind then return nil end
+    return record
+end
+-- The game's own explosion request, from the main thread (a callback or timer). Refused unless: the request
+-- function's exact prologue bytes match, the queue is readable with headroom, the type's settings record carries
+-- that type, the position is finite and in range, and the source and owner entities exist. spec: {type, x, y, z,
+-- source, owner, peer_lo, peer_hi}. Returns true, or nil and the reason.
+function M.explode(world,spec)
+    local runtime=world.runtime
+    if not runtime.native_explosion then return nil,'EXPLOSION_UNAVAILABLE: this Runtime adapter cannot call game functions'end
+    if not world.view.proves(world.game+X.rva,X.prologue)then
+        return nil,'EXPLOSION_UNAVAILABLE: the game explosion request changed'
+    end
+    local queue=world.view.pointer(world.game+X.queue)
+    local count=queue and world.view.u32(queue+X.count)
+    if not count then return nil,'EXPLOSION_UNAVAILABLE: the explosion queue is unreadable'end
+    if count>=X.capacity then return nil,'QUEUE_FULL: the game explosion queue is full this frame'end
+    if not M.explosion_settings(world,spec.type)then
+        return nil,'UNKNOWN_EXPLOSION: the game has no settings record for explosion type '..tostring(spec.type)
+    end
+    for _,axis in ipairs({'x','y','z'})do
+        local v=spec[axis]
+        if type(v)~='number'or v~=v or math.abs(v)>100000 then return nil,'the position must be finite world coordinates'end
+    end
+    if M.entity_exists(world,spec.source)~=true or M.entity_exists(world,spec.owner)~=true then
+        return nil,'the source entity no longer exists'
+    end
+    runtime.native_explosion(world.game+X.rva,queue,spec.x,spec.y,spec.z,spec.type,spec.source,spec.owner,
+        spec.peer_lo,spec.peer_hi)
+    metrics.count('events.native_explosions')
+    return true
 end
 
 ------------------------------------------------------------------------------------------------------ heal --

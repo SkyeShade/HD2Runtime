@@ -1,0 +1,358 @@
+"""Hand-written event scripting (docs/event-scripting.md): snapshots that outlive entities, delayed callbacks, per-mod
+ownership, source attribution, gameplay actions, and the example mods exactly as their built ZIPs ship them."""
+import importlib.util
+import json
+import unittest
+
+from support import ROOT, run
+import sys
+
+sys.path.insert(0, str(ROOT / 'scripts'))
+from reference_format import lua  # noqa: E402
+
+FIXTURE = (ROOT / 'tests/event_world_fixture.lua').read_text(encoding='utf-8')
+_spec = importlib.util.spec_from_file_location('hd2_sdk_cli', ROOT / 'sdk/hd2.py')
+SDK = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(SDK)
+
+
+def wrapped(project):
+    """An example addon exactly as the SDK builds it (dependency check + startup run as the mod's resource id)."""
+    folder = ROOT / 'examples/projects' / project
+    spec = json.loads((folder / 'hd2runtime.json').read_text(encoding='utf-8'))
+    body = (folder / 'src/addon.lua').read_text(encoding='utf-8-sig')
+    return SDK.wrap_addon(spec['resource'], spec['requires']['hd2runtime']['min_version'], body)
+
+
+PRELUDE = r'''
+local logged={}
+local log_module=require('hd2runtime/runtime/log')
+log_module.emit=function(line)logged[#logged+1]=line end
+local function count(text)local n=0;for _,line in ipairs(logged)do if line:find(text,1,true)then n=n+1 end end;return n end
+local W=(function()
+''' + FIXTURE + r'''
+end)()
+local events=require('hd2runtime/runtime/events')
+local world_module=require('hd2runtime/runtime/event_world')
+local handles=require('hd2runtime/runtime/handles')
+local sources=require('hd2runtime/runtime/event_sources')
+local actions=require('hd2runtime/api/actions')
+events.reset_for_tests();handles.reset_for_tests();actions.reset_for_tests()
+world_module.set_runtime(W.runtime)
+package.preload['mods/skyeshade/hd2runtime']=function()return require('hd2runtime/api/hd2')end
+local hd2=require('mods/skyeshade/hd2runtime')
+rawset(_G,'CowboyBingusModLoader',{api=1,version=16})
+local function tick(n,dt)for _=1,(n or 1)do if update then update(dt or 0.125)end end end
+local LOCAL,OTHER='1111222233334444','5555666677778888'
+local DEVASTATOR,MARAUDER='B92435FBF60F0748','0002BA767DF856F3'   -- soldier_mg, conscript_tier_3
+local LIBERATOR,ERUPTOR,HELLPOD='968211C0033DCE64','B6AFF2195568767F','73F8498BFFDCF415'
+local function mission(opts)
+    W.players({{peer=LOCAL,avatar=100}},LOCAL)
+    W.add{entity=100,type=W.AVATAR,unit=7100,health=125,owned=true}
+    W.unit(7100,0,0,0)
+    W.state(4,opts);tick()
+end
+'''
+
+
+class EventScriptingTests(unittest.TestCase):
+    def lua(self, body):
+        self.assertEqual(run(PRELUDE + body), b'ok')
+
+    def test_a_corpse_observed_death_keeps_identity_and_position_for_a_delayed_callback(self):
+        self.lua(r'''
+local saved,fired={},{}
+hd2.events.run_as('mods/t/delayed',function()
+    hd2.events.on('entity_died',function(event)
+        saved=event
+        saved.timer=hd2.after(2,function()
+            -- Snapshot values only: count the game reads this callback makes.
+            local view=sources.health.world.view
+            local before=view.reads
+            fired.identity=event.semantic_id
+            fired.name=event.name
+            fired.x,fired.y,fired.z=event.position.x,event.position.y,event.position.z
+            fired.entity_id=event.entity_id
+            fired.handle_identity=event.entity.semantic_id
+            fired.reads=view.reads-before
+            fired.valid=event.entity:is_valid()
+            fired.written=pcall(function()event.position.x=0 end)
+        end)
+    end)
+end)
+mission()
+W.add{entity=601,type=DEVASTATOR,unit=9101,health=750};W.unit(9101,4,5,6)
+tick()
+W.set(601,{health=100,creditor=LOCAL});tick()
+W.replace_by_corpse(601,700);tick()                  -- replaced before a poll saw the dead state
+assert(saved.observed=='corpse'and saved.corpse_id==700,'corpse-observed death')
+assert(saved.semantic_id=='enemy/v1/automatons/soldier_mg'and saved.entity:is('enemy/v1/automatons/soldier_mg'))
+assert(saved.entity_id==601 and saved.faction=='automatons'and saved.enemy and saved.display_name==nil,
+    'the class has no proven wiki name')
+assert(saved.timer.owner=='mods/t/delayed','the timer belongs to the mod whose callback started it')
+W.remove_unit(9101)                                   -- the corpse goes too: nothing of it is left in the game
+tick(20)                                              -- 2.5 s
+assert(fired.identity=='enemy/v1/automatons/soldier_mg'and fired.handle_identity==fired.identity)
+assert(fired.x==4 and fired.y==5 and fired.z==6,'the death position survives destruction')
+assert(fired.entity_id==601 and fired.reads==0,'snapshot fields never read the game: '..tostring(fired.reads))
+assert(fired.valid==false and fired.written==false,'the handle is invalid; the position is read-only')
+assert(tostring(saved.position)=='(4.00, 5.00, 6.00)'and saved.position:copy().x==4)
+return 'ok'
+''')
+
+    def test_mission_cleanup_cancels_delayed_callbacks_and_they_never_come_back(self):
+        self.lua(r'''
+local fired,timer=0
+hd2.events.run_as('mods/t/cleanup',function()
+    hd2.events.on('entity_died',function(event)
+        timer=hd2.after(5,function()fired=fired+1 end,{scope='mission'})
+    end)
+end)
+mission()
+W.add{entity=602,type=MARAUDER,unit=9102,health=100};W.unit(9102,1,1,1);tick()
+W.set(602,{life=2,health=0});tick()
+assert(timer and timer:active()and timer.owner=='mods/t/cleanup')
+W.state(3);tick()                                     -- the mission ends before the timer is due
+assert(timer.state=='expired'and not timer:active(),timer.state)
+tick(80)                                              -- 10 s later
+assert(fired==0,'an expired mission timer never fires')
+assert(timer:cancel().state=='expired'and timer:remaining()==nil,'and cannot be revived')
+local session=hd2.after(0.5,function()fired=fired+10 end,{owner='mods/t/cleanup'})
+tick(8)
+assert(fired==10,'a session timer runs outside a mission')
+return 'ok'
+''')
+
+    def test_everything_a_mod_registers_belongs_to_it_without_passing_its_id(self):
+        self.lua(r'''
+local sub,timer,binding,inner_timer,context
+hd2.events.run_as('mods/author/alpha',function()
+    context=hd2.mod()
+    sub=hd2.events.on('entity_died',function()inner_timer=hd2.after(1,function()end)end)
+    timer=hd2.every(1,function()end)
+    binding=hd2.input.bind('alpha.key',{key='F11',on_press=function()end})
+end)
+assert(context.id=='mods/author/alpha'and hd2.mod('mods/author/alpha')==context)
+assert(sub.owner=='mods/author/alpha'and timer.owner=='mods/author/alpha'and binding.owner=='mods/author/alpha')
+mission()
+W.add{entity=603,type=MARAUDER,unit=0,health=100};tick()
+W.set(603,{life=2,health=0});tick()
+assert(inner_timer.owner=='mods/author/alpha','a timer started inside a callback belongs to that callback\'s mod')
+-- An explicit owner still wins; outside any mod scope a console chunk cannot use hd2.mod() without an id.
+local explicit=hd2.events.on('entity_died',function()end,{owner='mods/author/beta'})
+assert(explicit.owner=='mods/author/beta')
+local console=assert(loadstring('return hd2.mod()','=console'))
+setfenv(console,setmetatable({hd2=hd2},{__index=_G}))
+local ok,why=pcall(console)
+assert(not ok and tostring(why):find('cannot tell which mod',1,true),tostring(why))
+-- A startup error propagates out of the scope, and the scope does not leak.
+assert(not pcall(hd2.events.run_as,'mods/author/gamma',function()error('boom')end))
+assert(hd2.events.owner()=='unknown','no scope is left behind')
+return 'ok'
+''')
+
+    def test_a_failing_callback_of_one_mod_never_stops_another(self):
+        self.lua(r'''
+local healthy=0
+hd2.events.run_as('mods/t/broken',function()hd2.events.on('entity_died',function()error('broken on purpose')end)end)
+hd2.events.run_as('mods/t/healthy',function()hd2.events.on('entity_died',function()healthy=healthy+1 end)end)
+mission()
+W.add{entity=604,type=MARAUDER,unit=0,health=100};tick()
+W.set(604,{life=2,health=0});tick()
+assert(healthy==1)
+assert(count('callback failed (mod mods/t/broken')==1,'the failure names the mod')
+return 'ok'
+''')
+
+    def test_credited_kills_are_named_per_source_and_a_shared_source_stays_unnamed(self):
+        self.lua(r'''
+local credited
+hd2.events.run_as('mods/t/credit',function()
+    hd2.events.on('player_kill_credited',function(event)credited=event end)
+end)
+local natives=require('hd2runtime/domains/event_natives')
+local K=natives.stats.keys
+mission()
+W.stat(10,K.dealt_kills,0,1,LIBERATOR);tick(2)
+W.stat(10,K.dealt_kills,2,1,LIBERATOR);W.stat(10,K.dealt_kills,1,2,HELLPOD);W.stat(10,K.dealt_kills,3,3,ERUPTOR);tick()
+assert(credited and credited.kills==6 and credited.total==6,tostring(credited and credited.kills))
+local by={}
+for _,source in ipairs(credited.sources)do by[source.type]=source end
+assert(by[LIBERATOR].name=='AR-23 Liberator'and by[LIBERATOR].kills==2)
+assert(by[ERUPTOR].name=='R-36 Eruptor'and by[ERUPTOR].kills==3)
+assert(by[HELLPOD].name==nil and by[HELLPOD].kills==1,'the hellpod is shared by many stratagems: unnamed')
+assert(credited.sources[1].type==ERUPTOR,'largest first')
+return 'ok'
+''')
+
+    def test_an_explosion_is_requested_only_when_every_guard_holds(self):
+        self.lua(r'''
+local P={x=10,y=20,z=3}
+-- A mod that acts has subscriptions: they keep the game clock (the rate limit's time base) running.
+hd2.events.run_as('mods/t/boom',function()hd2.events.on('mission_started',function()end)end)
+local function spawn(what,opts)
+    local action
+    hd2.events.run_as('mods/t/boom',function()action=hd2.explosions.spawn(what,opts or{position=P})end)
+    return action
+end
+-- Outside a mission.
+local a=spawn('R-36 Eruptor')
+assert(a.status=='refused'and a.code=='NOT_IN_MISSION'and a.owner=='mods/t/boom',tostring(a.code))
+-- Unknown explosions fail closed before anything else.
+assert(spawn(158).code=='UNKNOWN_EXPLOSION','a raw id is refused')
+assert(spawn('AR-23 Liberator').code=='UNKNOWN_EXPLOSION','a weapon without a catalogued explosion')
+assert(spawn('B-100 Portable Hellbomb').code=='UNKNOWN_EXPLOSION','the Hellbomb identity is not proven')
+assert(spawn('GP-31 Grenade Pistol').code=='ASSET_UNKNOWN','a package nobody can load is refused')
+assert(spawn('R-36 Eruptor',{position={x=0/0,y=0,z=0}}).code=='INVALID_POSITION')
+-- A client cannot change enemy health.
+mission({host=false})
+assert(spawn('R-36 Eruptor').code=='HOST_ONLY')
+W.state(3);tick()
+mission({host=true})
+-- The request: the local avatar is source and owner, the local peer the creditor, the catalogued type.
+a=spawn('R-36 Eruptor')
+assert(a.status=='requested'and a:requested(),tostring(a.code)..' '..tostring(a.reason))
+local call=W.runtime.explosions[1]
+assert(call.type==158 and call.source==100 and call.owner==100 and call.peer==LOCAL,call.peer)
+assert(call.x==10 and call.y==20 and call.z==3)
+assert(count('explosion R-36 Eruptor requested at (10.00, 20.00, 3.00) by mods/t/boom')==1)
+-- A typed handle works the same way.
+assert(spawn(hd2.explosions.of('CB-9 Exploding Crossbow')).status=='requested'and W.runtime.explosions[2].type==59)
+-- Game-side guards: a full queue, a settings record that does not carry the type, a changed request function.
+W.queue_count(256)
+assert(spawn('R-36 Eruptor').code=='QUEUE_FULL')
+W.queue_count(0)
+-- Rate limit: 6 at once per mod; 3 attempts were made above (the full-queue attempt counts too).
+local codes={}
+for _=1,4 do local attempt=spawn('R-36 Eruptor');codes[#codes+1]=attempt.code or attempt.status end
+assert(table.concat(codes,',')=='requested,requested,requested,RATE_LIMITED',table.concat(codes,','))
+tick(40)                                              -- 5 s refill
+local X=require('hd2runtime/domains/event_natives').explosion
+W.write(W.GAME+X.rva,string.char(0xCC))
+assert(spawn('R-36 Eruptor').code=='EXPLOSION_UNAVAILABLE','a changed request function is never called')
+assert(#W.runtime.explosions==5,#W.runtime.explosions)
+return 'ok'
+''')
+
+    def test_an_explosion_waits_for_its_assets_and_fails_closed_when_they_cannot_load(self):
+        self.lua(r'''
+mission({host=true})
+for package in pairs(require('hd2runtime/domains/package_residency').packages)do W.runtime.packages[package]='absent'end
+local action
+hd2.events.run_as('mods/t/assets',function()action=hd2.explosions.spawn('R-36 Eruptor',{position={x=1,y=2,z=3}})end)
+assert(action.status=='waiting_for_assets',action.status)
+tick(8)
+-- The fixture has no package system to request through: the gate refuses, and nothing is requested.
+assert(action.status=='refused'and action.code=='ASSET_UNAVAILABLE',action.status..' '..tostring(action.code))
+assert(#W.runtime.explosions==0)
+return 'ok'
+''')
+
+    def test_a_mod_caused_chain_is_cut_at_the_cause_depth(self):
+        self.lua(r'''
+local action
+mission({host=true})
+hd2.events.run_as('mods/t/chain',function()
+    hd2.events.on('entity_died',function()action=hd2.explosions.spawn('R-36 Eruptor',{position={x=0,y=0,z=0}})end)
+end)
+events.queue('entity_died',{cause={source='mod',mod='mods/t/other',action='explosion#9',depth=events.MAX_CAUSE_DEPTH}})
+tick()
+assert(action and action.code=='CAUSE_DEPTH',tostring(action and action.code))
+return 'ok'
+''')
+
+
+class ExampleModTests(unittest.TestCase):
+    """The shipped example mods, loaded exactly as their built ZIPs run them, on the offline fixture world."""
+
+    def example(self, project, body):
+        program = PRELUDE + '\nlocal ADDON=' + lua(wrapped(project)) + '\n' + body
+        self.assertEqual(run(program), b'ok')
+
+    def test_heavy_devastator_delayed_explosion(self):
+        self.example('HeavyDevastatorDelayedExplosionTest', r'''
+local returned=assert(loadstring(ADDON,'@mods/hd2runtime_examples/heavy_devastator_delayed_explosion_test'))()
+assert(returned==true)
+local id='mods/hd2runtime_examples/heavy_devastator_delayed_explosion_test'
+assert(count('['..id..'] loaded')==1)
+mission({host=true})
+assert(count('R-36 Eruptor explosion assets ready')==1,'assets warmed at mission start')
+W.add{entity=611,type=DEVASTATOR,unit=9111,health=750};W.unit(9111,40,-12,2.5)
+W.add{entity=612,type=MARAUDER,unit=9112,health=125};W.unit(9112,1,1,1)
+tick()
+W.set(612,{life=2,health=0});tick()
+assert(count('automaton died: enemy/v1/automatons/conscript_tier_3 (Marauder), not a target')==1)
+W.set(611,{health=50,creditor=LOCAL});tick()
+W.replace_by_corpse(611,720);tick()
+assert(count('Heavy Devastator died at (40.00, -12.00, 2.50) (enemy/v1/automatons/soldier_mg, observed=corpse, corpse=720)')==1)
+assert(count('scheduled explosion in 3 s')==1)
+W.remove_unit(9111)                                   -- the corpse is gone before the timer fires
+tick(26)
+assert(count('timer fired at saved position (40.00, -12.00, 2.50) (the entity is still valid: false)')==1)
+assert(count('explosion requested: R-36 Eruptor at (40.00, -12.00, 2.50)')==1)
+local call=W.runtime.explosions[1]
+assert(#W.runtime.explosions==1 and call.x==40 and call.y==-12 and call.z==2.5 and call.type==158)
+-- As a client the same logic logs the exact refusal instead.
+W.state(3);tick();W.runtime.explosions={}
+mission({host=false})
+W.add{entity=613,type=DEVASTATOR,unit=9113,health=750};W.unit(9113,5,5,5);tick()
+W.set(613,{life=2,health=0});tick();tick(26)
+assert(count('explosion blocked: HOST_ONLY: ')==1 and #W.runtime.explosions==0)
+return 'ok'
+''')
+
+    def test_kill_heal_logs_the_observation_and_heals(self):
+        self.example('KillHealTest', r'''
+assert(loadstring(ADDON,'@mods/hd2runtime_examples/kill_heal_test'))()
+mission({host=true})
+W.set(100,{health=80})
+W.add{entity=621,type=MARAUDER,unit=0,health=125};tick()
+W.set(621,{health=10,creditor=LOCAL});tick()
+W.replace_by_corpse(621,730);tick()
+assert(count('kill: enemy/v1/automatons/conscript_tier_3 (Marauder) observed=corpse corpse=730 killer=local player -> heal +25 requested')==1)
+assert(#W.runtime.heals==1 and W.runtime.heals[1].entity==100)
+tick()
+assert(count('player healed +25 -> 105 / 125, cause mod mods/hd2runtime_examples/kill_heal_test')==1)
+W.add{entity=622,type=MARAUDER,unit=0,health=125};tick()
+W.set(622,{life=2,health=0,creditor=OTHER});tick()
+assert(count('observed=dead_state corpse=nil killer=peer '..OTHER..' -> no heal (not credited to the local player)')==1)
+return 'ok'
+''')
+
+    def test_player_kill_credited_example_logs_each_source(self):
+        self.example('PlayerKillCreditedExample', r'''
+assert(loadstring(ADDON,'@mods/hd2runtime_examples/player_kill_credited_example'))()
+local K=require('hd2runtime/domains/event_natives').stats.keys
+mission()
+W.stat(10,K.dealt_kills,0,1,ERUPTOR);tick(2)
+W.stat(10,K.dealt_kills,1,1,ERUPTOR);W.stat(10,K.dealt_kills,3,2,'23A60681DD4383EC');W.stat(10,K.dealt_kills,1,3,HELLPOD)
+tick()
+assert(count('player kill credited: +5 (total 5)')==1)
+assert(count('  Eagle Strafing Run +3')==1 and count('  R-36 Eruptor +1')==1)
+assert(count('  unnamed source '..HELLPOD..' +1')==1)
+return 'ok'
+''')
+
+    def test_kill_stack_counts_only_liberator_credits(self):
+        self.example('KillStackDamageTest', r'''
+local requested
+hd2.ensure=function(request)requested=request;return{status='waiting'}end
+assert(loadstring(ADDON,'@mods/hd2runtime_examples/kill_stack_damage_test'))()
+assert(requested and requested.patch.id=='kill-stack-liberator-damage')
+local value=requested.patch.value
+local K=require('hd2runtime/domains/event_natives').stats.keys
+mission()
+assert(count('mission started: 0 stack(s), Liberator damage 90 (+0%)')==1)
+W.stat(10,K.dealt_kills,0,1,LIBERATOR);tick(2)
+W.stat(10,K.dealt_kills,4,2,ERUPTOR);tick()
+assert(count('Liberator kill(s) credited')==0,'kills with another weapon add nothing')
+W.stat(10,K.dealt_kills,2,1,LIBERATOR);tick()
+assert(count('2 AR-23 Liberator kill(s) credited: 2 stack(s), Liberator damage 108 (+20%)')==1)
+W.state(3);tick()
+assert(count('mission ended: Liberator damage back to 90')==1)
+return 'ok'
+''')
+
+
+if __name__ == '__main__':
+    unittest.main()

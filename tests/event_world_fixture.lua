@@ -4,6 +4,7 @@ local natives=require('hd2runtime/domains/event_natives')
 local profile=require('hd2runtime/schemas/current')
 local H,P,A,S,E,T=natives.health,natives.players,natives.playerAvatars,natives.state,natives.engine,natives.stats
 local C=natives.corpses
+local X=natives.explosion
 local W={}
 
 -------------------------------------------------------------------------------------------------- memory --
@@ -65,6 +66,7 @@ end
 image(GAME,natives.source.imageSize);image(EXE,natives.source.exeImageSize)
 for _,pin in ipairs(natives.pins)do write((pin.module=='exe'and EXE or GAME)+pin.rva,unhex(pin.hex))end
 write(GAME+natives.heal.rva,unhex(natives.heal.prologue))
+write(GAME+X.rva,unhex(X.prologue))
 
 -- Game-side managers.
 local health=alloc(0x2000)
@@ -165,8 +167,28 @@ function W.corpse(origin,corpse,unit,type_hex)
     write(corpse_manager+C.count,u32(corpse_count))
 end
 
+-- The explosion queue and the settings table the drain indexes by type (a record starts with its type).
+local explosion_queue=alloc(0x28+X.capacity*0x98)
+write(GAME+X.queue,u64(explosion_queue))
+for _,item in ipairs(X.weapons)do
+    local record=alloc(0x98)
+    write(record,u32(item.type))
+    write(GAME+X.settingsTable+item.type*8,u64(record))
+end
+function W.queue_count(n)write(explosion_queue+X.count,u32(n))end
+
 ---------------------------------------------------------------------------------------------- the runtime --
-local runtime={mode='event-fixture',heals={}}
+local runtime={mode='event-fixture',heals={},explosions={}}
+-- The game's explosion request: recorded, never executed.
+function runtime.native_explosion(entry,queue,x,y,z,kind,source,owner,peer_lo,peer_hi)
+    assert(entry==GAME+X.rva and queue==explosion_queue,'explosion requested through the wrong function or queue')
+    runtime.explosions[#runtime.explosions+1]={x=x,y=y,z=z,type=kind,source=source,owner=owner,
+        peer=string.format('%08X%08X',peer_hi,peer_lo)}
+    return true
+end
+-- Package residency as the asset gate reads it (core/assets.lua offline hook): 'resident' unless a test says otherwise.
+runtime.packages={}
+function runtime.package_state(package)return runtime.packages[package]or'resident'end
 function runtime.module(name)if name==nil then return EXE end;if name=='game.dll'then return GAME end end
 function runtime.address(handle)return handle end
 function runtime.module_hash(handle)return handle==EXE and profile.exe_sha or profile.dll_sha end

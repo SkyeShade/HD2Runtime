@@ -8,6 +8,12 @@ path, which is also the u64 at the start of a live health descriptor). For each:
   is positive (research/event-combat-F5FEE03DCFDB.json). It is what `entity:is_enemy()` and `event.enemy` report.
 - faction: from the entity path (content/fac_bugs -> terminids, ...), when the path is known.
 - name: the enemy catalog's wiki or class name, else the entity path's leaf, else nil (path hash unknown).
+- id: a stable semantic identity. The enemy catalog's semantic id for its 177 classes
+  (`enemy/v1/<faction>/<class>`, the same ids hd2.enemy / hd2.structure use); otherwise `entity/v1/<faction or
+  content folder>/<path leaf>` for a known path (a leaf shared by two paths gets the type hash appended), else
+  `entity/v1/unresolved/<type hash>`. Stable across builds while the resource path is.
+- display: the wiki name only where the enemy catalog attaches one (a one-to-one anatomy match); never guessed.
+- kind: the enemy catalog's kind (enemy or structure) where it has the class.
 
 A per-instance settings copy (health manager +0x10B0) could differ from the shared record; none is known to change
 KillScore, and the snapshots hold none.
@@ -94,10 +100,16 @@ def build() -> dict:
         raise ValueError('pinned datalibrary changed')
     table = view.component('HealthComponentData')
     known = paths()
-    enemy_names = {}
+    from hd2_archive import resource_hash
+    enemy_names, enemy_classes = {}, {}
     for item in json.loads(ENEMIES.read_text(encoding='utf-8'))['classes']:
-        from hd2_archive import resource_hash
         enemy_names[resource_hash(item['identity']['path'])] = item['wikiName'] or item['className']
+        enemy_classes[resource_hash(item['identity']['path'])] = item
+    leaves = {}
+    for resource in table.owners:
+        path = known.get(resource)
+        if path and resource not in enemy_classes:
+            leaves.setdefault(path.rsplit('/', 1)[-1], []).append(resource)
     entities = {}
     for resource, (record, _row) in sorted(table.owners.items()):
         path = known.get(resource)
@@ -111,14 +123,35 @@ def build() -> dict:
             entry['faction'] = FACTIONS[folder]
         if path == AVATAR:
             entry['avatar'] = True
+        enemy = enemy_classes.get(resource)
+        if enemy:
+            entry['id'] = enemy['semanticId']
+            entry['kind'] = enemy['kind']
+            if enemy['wikiName']:
+                entry['display'] = enemy['wikiName']
+        elif path:
+            leaf = path.rsplit('/', 1)[-1]
+            group = FACTIONS.get(folder) or folder or 'content'
+            entry['id'] = f'entity/v1/{group}/{leaf}' + (f'-{resource:016x}' if len(leaves[leaf]) > 1 else '')
+        else:
+            entry['id'] = f'entity/v1/unresolved/{resource:016X}'
         entities[f'{resource:016X}'] = entry
     if not entities.get(f'{__import__("hd2_archive").resource_hash(AVATAR):016X}', {}).get('avatar'):
         raise ValueError('the Helldiver avatar type is absent from the health owners')
+    ids = [entry['id'] for entry in entities.values()]
+    if len(ids) != len(set(ids)):
+        raise ValueError('semantic entity ids are not unique')
+    missing = [item['semanticId'] for key, item in enemy_classes.items() if f'{key:016X}' not in entities]
+    if missing:
+        raise ValueError('enemy catalog classes without a health type: ' + ', '.join(missing[:5]))
     sources = stat_sources()
     return {'source': {'build': build_profile.BUILD_ID, 'entitiesSha256': build_profile.ENTITY_SHA256,
         'killScoreOffset': KILL_SCORE}, 'entities': entities, 'sources': sources,
         'summary': {'types': len(entities), 'kill': sum(e['kill'] for e in entities.values()),
-            'named': sum('name' in e for e in entities.values()), 'sources': len(sources)}}
+            'named': sum('name' in e for e in entities.values()), 'sources': len(sources),
+            'enemyCatalogIds': sum(e['id'].startswith('enemy/') for e in entities.values()),
+            'unresolvedIds': sum(e['id'].startswith('entity/v1/unresolved/') for e in entities.values()),
+            'displayNames': sum('display' in e for e in entities.values())}}
 
 
 def outputs() -> dict[str, str]:

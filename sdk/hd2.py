@@ -160,21 +160,12 @@ def optional_dependencies(spec):
     return optional
 
 
-def build_project(project):
-    from tools.hd2_archive import ARCHIVE_NAME, make_archive, resource_hash, lua_resource
-    project=Path(project).resolve();spec=json.loads((project/'hd2runtime.json').read_text())
-    name=spec['resource'];required=spec['requires'];version=(project/'VERSION').read_text().strip()
-    if not valid_resource(name):
-        raise ValueError('Reserved or invalid resource identity')
-    if not re.fullmatch(r'\d+\.\d+\.\d+',version):raise ValueError('VERSION must contain major.minor.patch')
-    if spec.get('format')!=1:raise ValueError('Unsupported hd2runtime.json format')
-    if required['bingus']!={'min_release':15,'api':1} or required['hd2runtime']['module']!=MODULE or required['hd2runtime']['api']!=1:
-        raise ValueError('Unsupported dependency contract')
-    minimum=required['hd2runtime']['min_version']
-    if not re.fullmatch(r'\d+\.\d+\.\d+',minimum):raise ValueError('Invalid minimum runtime version')
-    optional=optional_dependencies(spec)
-    # This wrapper checks runtime dependencies; it contains no HD2Runtime implementation.
-    wrapper='-- HD2-Addon: '+name+'\n'+'''local loader=rawget(_G,'CowboyBingusModLoader')
+def wrap_addon(name,minimum,body):
+    """The shipped addon resource: a dependency check, then the author's src/addon.lua run once per game session.
+    The startup runs as the mod's own resource id (hd2.events.run_as), so every subscription, timer, keybind and
+    action it registers belongs to the mod without passing the id; an older HD2Runtime without run_as runs it
+    directly. This wrapper checks runtime dependencies; it contains no HD2Runtime implementation."""
+    return '-- HD2-Addon: '+name+'\n'+'''local loader=rawget(_G,'CowboyBingusModLoader')
 assert(loader and loader.api==1 and type(loader.version)=='number' and loader.version>=16,
     'Requires Bingus Shared Loader v15+ / API 1')
 local hd2=require('mods/skyeshade/hd2runtime')
@@ -190,7 +181,30 @@ local key='HD2RuntimeMod:'..'''+json.dumps(name)+'''
 local existing=rawget(_G,key)
 if existing then return existing end
 local function start()
+'''+body+'''
+end
+local run=type(hd2.events)=='table' and hd2.events.run_as
+local state
+if type(run)=='function' then state=run('''+json.dumps(name)+''',start) else state=start() end
+state=state or true
+rawset(_G,key,state)
+return state
 '''
+
+
+def build_project(project):
+    from tools.hd2_archive import ARCHIVE_NAME, make_archive, resource_hash, lua_resource
+    project=Path(project).resolve();spec=json.loads((project/'hd2runtime.json').read_text())
+    name=spec['resource'];required=spec['requires'];version=(project/'VERSION').read_text().strip()
+    if not valid_resource(name):
+        raise ValueError('Reserved or invalid resource identity')
+    if not re.fullmatch(r'\d+\.\d+\.\d+',version):raise ValueError('VERSION must contain major.minor.patch')
+    if spec.get('format')!=1:raise ValueError('Unsupported hd2runtime.json format')
+    if required['bingus']!={'min_release':15,'api':1} or required['hd2runtime']['module']!=MODULE or required['hd2runtime']['api']!=1:
+        raise ValueError('Unsupported dependency contract')
+    minimum=required['hd2runtime']['min_version']
+    if not re.fullmatch(r'\d+\.\d+\.\d+',minimum):raise ValueError('Invalid minimum runtime version')
+    optional=optional_dependencies(spec)
     sources={}
     for path in sorted((project/'src').rglob('*.lua')):
         if path.is_symlink() or not path.resolve().is_relative_to(project/'src'):
@@ -199,7 +213,7 @@ local function start()
         resource=name if relative=='addon' else name+'/'+relative
         body=path.read_text(encoding='utf-8-sig')
         if '---@meta' in body or '-- HD2-Addon:' in body:raise ValueError('SDK stubs or extra declarations are not gameplay source')
-        if relative=='addon':body=wrapper+body+"\nend\nlocal state=start() or true\nrawset(_G,key,state)\nreturn state\n"
+        if relative=='addon':body=wrap_addon(name,minimum,body)
         sources[resource]=body.encode()
     if name not in sources:raise ValueError('Missing src/addon.lua')
     archive=make_archive({resource_hash(k):lua_resource(v) for k,v in sources.items()})

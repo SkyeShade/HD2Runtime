@@ -182,7 +182,9 @@ local function run_example(body,name)
  package.loaded['mods/skyeshade/hd2runtime']=wrapper
  package.preload['mods/skyeshade/hd2runtime']=function()return wrapper end
  local chunk=assert(loadstring(body,name))
- chunk()
+ -- As the SDK addon wrapper runs it: the startup runs as the mod's own resource id (automatic ownership).
+ local resource=RESOURCES[name]
+ if resource and api.events and api.events.run_as then api.events.run_as(resource,chunk)else chunk()end
  return report
 end
 local worker=coroutine.create(function()
@@ -250,8 +252,11 @@ def validate(snapshot=SNAPSHOT, offline=False):
     preload = '\n'.join('package.preload[' + lua(name) + ']=function(...) return assert(loadstring('
         + lua(body) + ',' + lua(name) + '))(...) end' for name, body in sources().items())
     table = '{' + ','.join('[' + lua(name) + ']=' + lua(body) for name, body in bodies.items()) + '}'
+    resources = {name: json.loads((path / 'hd2runtime.json').read_text(encoding='utf-8'))['resource']
+        for name, path in found if (path / 'hd2runtime.json').is_file()}
     program = (preload + '\nlocal SNAPSHOT_PATH=' + ('nil' if offline else lua(Path(snapshot).resolve()))
-        + '\nlocal EXAMPLES=' + table + '\n' + PROGRAM)
+        + '\nlocal EXAMPLES=' + table + '\nlocal RESOURCES={'
+        + ','.join('[' + lua(name) + ']=' + lua(resource) for name, resource in resources.items()) + '}\n' + PROGRAM)
     dynamic = json.loads(execute(program.encode()))
     results = {}
     for name, path in found:

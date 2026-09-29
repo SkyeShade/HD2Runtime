@@ -63,7 +63,7 @@ def outputs() -> dict[str, str]:
         str(JSON_OUTPUT.relative_to(ROOT)).replace('\\', '/'): json.dumps(public, indent=1) + '\n'}
 
 
-STATIC = ('HD2Events', 'HD2Input')   # tables of functions (hd2.events.on), not objects with methods
+STATIC = ('HD2Events', 'HD2Input', 'HD2Entities', 'HD2Explosions', 'HD2Actions')   # tables of functions, not objects
 
 
 def _class_lines(name: str, spec: dict, parent: str | None = None) -> list[str]:
@@ -103,6 +103,10 @@ def stub_lines() -> tuple[list[str], list[str], list[str]]:
         doc = event.get('summary') or ('Blocked: ' + event['reason'] if event['status'] == 'blocked' else '')
         lines += _class_lines('HD2Event_' + event['name'], {'doc': doc, 'fields': [
             [f['name'], f['type'], f['doc']] for f in event.get('payload', [])]}, 'HD2Event')
+    # Friendly names for the payload classes: HD2EntityDiedEvent = HD2Event_entity_died, ...
+    for event in schema['events']:
+        friendly = 'HD2' + ''.join(part.capitalize() for part in event['name'].split('_')) + 'Event'
+        lines.append('---@alias ' + friendly + ' HD2Event_' + event['name'])
     # hd2.events.on / once and the mod-context equivalents: one typed overload per available event.
     for owner in ('HD2Events', 'HD2ModContext'):
         spec = schema['api']['classes'][owner]
