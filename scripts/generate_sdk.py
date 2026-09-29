@@ -236,7 +236,7 @@ def outputs():
         '---@field path "attachment_option"','---@field weapon HD2WeaponName',
         '---@field category string','---@field option string','local HD2AttachmentOption = {}',
         '---@return table','function HD2AttachmentOption:describe() end','',
-        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot','',
+        '---@alias HD2AuthoringTarget HD2Weapon|HD2DamageProfile|HD2Stratagem|HD2StratagemAttack|HD2EagleRearm|HD2PlayerAttack|HD2WeaponAmmunition|HD2ProjectileReference|HD2TerminalAction|HD2Explosion|HD2SupportWeapon|HD2SupportAttack|HD2SupportProjectile|HD2SupportExplosion|HD2DeployedEntity|HD2DeployedShield|HD2DeployedZone|HD2MountedWeapon|HD2VehicleEntity|HD2VehicleZone|HD2VehicleMount|HD2VehicleWeapon|HD2VehicleWeaponAttack|HD2Backpack|HD2BackpackZone|HD2BoosterTarget|HD2WeaponAttachment|HD2PodRack|HD2PodSlot','',
         '---@param role HD2AttackRole','---@return HD2PlayerAttack',
         'function HD2Weapon:attack(role) end',
         '---The default ammunition that owns this weapon\'s fired projectile (its delta patches ProjectileWeapon +0',
@@ -402,6 +402,14 @@ def outputs():
         'function HD2Backpack:describe() end',
         '---The support weapon whose ammunition this backpack stores (weapon-fed backpacks only).',
         '---@return HD2SupportWeapon','function HD2Backpack:weapon() end',
+        '---Reviewed damage zones (the SH-20 Ballistic Shield\'s "shield" plate zone).',
+        '---@return HD2BackpackZone[]','function HD2Backpack:damage_zones() end',
+        '---@param identity string|integer Zone id ("zone_0"), native zone name ("shield") or index.',
+        '---@return HD2BackpackZone','function HD2Backpack:damage_zone(identity) end',
+        '','---@class HD2BackpackZone','---@field resource "backpack"','---@field path "damage_zone"',
+        '---@field backpack HD2BackpackName','---@field zone string','local HD2BackpackZone = {}',
+        '---zone.armor: the armor every hit on the zone uses (copied into a backpack entity when it spawns).',
+        '---@return table','function HD2BackpackZone:describe() end',
         '','---@class HD2BoosterTarget','---@field resource "booster"',
         '---@field path "tuning"|"explosion"|"status_effect"|"status_damage"|"granted_stratagem"|"deployed_entity"',
         '---@field booster string',
@@ -540,8 +548,12 @@ def outputs():
     for enum in schema['enums']: stub.append('---@field '+enum+' HD2Enum_'+enum)
     stub+=['','---@class HD2Resources']
     for key in resources: stub.append('---@field '+key+' '+json.dumps(key))
+    import generate_events
+    event_classes,event_fields,event_functions=generate_events.stub_lines()
+    stub+=event_classes
     stub+=['','---@class HD2Runtime','---@field fields HD2Fields','---@field enums HD2Enums',
-           '---@field resources HD2Resources','---@field version string','---@field api_version integer','local hd2 = {}']
+           '---@field resources HD2Resources','---@field version string','---@field api_version integer',
+           *event_fields,'local hd2 = {}']
     for method,domain in schema['builders'].items():
         names=[n for r in resources.values() if r['kind']==domain for n in r['aliases']]
         if domain=='weapon':names+= [w['name'] for w in player_capabilities['weapons']]
@@ -576,6 +588,7 @@ def outputs():
         '---Catalogued attack output IDs, optionally filtered.',
         '---@param filter? {family?: "projectile"|"beam"|"arc"|"spray"|"melee", selectable?: boolean}',
         '---@return string[]','function hd2.attack_outputs(filter) end']
+    stub+=event_functions
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
         for name,kind in spec['params']:stub.append('---@param '+name+' '+kind)
@@ -631,6 +644,7 @@ def outputs():
             'sdk/docs/attack-outputs.md':(ROOT/'docs/attack-outputs.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
+            'sdk/docs/events.md':(ROOT/'docs/events.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-reticles.md':(ROOT/'docs/weapon-reticles.md').read_text(encoding='utf-8'),
             'sdk/docs/fire-modes.md':(ROOT/'docs/fire-modes.md').read_text(encoding='utf-8'),

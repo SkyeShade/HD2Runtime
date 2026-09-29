@@ -84,6 +84,13 @@ local function create_runtime()
         if count[0]~=size then return nil,'short read',tonumber(count[0]) end
         return ffi.string(buffer,size)
     end
+    -- Event polling: read into a caller-owned FFI buffer without allocating. False when the memory is unreadable.
+    local into_count=ffi.new('size_t[1]')
+    function runtime.read_into(address,size,buffer)
+        into_count[0]=0
+        return kernel.ReadProcessMemory(process,ffi.cast('const void *',address),buffer,size,into_count)~=0
+            and into_count[0]==size
+    end
 
     function runtime.system_info()
         local info=ffi.new('HD2RuntimeSystemInfo[1]')

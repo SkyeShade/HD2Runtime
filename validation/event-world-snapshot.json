@@ -1,0 +1,134 @@
+{
+ "contract": "hd2runtime.event_world_snapshot.v1",
+ "build": "F5FEE03DCFDB",
+ "snapshots": {
+  "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "gameState": {
+    "mission": false,
+    "name": "Ship",
+    "state": 3
+   },
+   "localAvatar": {
+    "entity": 249,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     0.2963959276676178,
+     9.513654708862305,
+     19.570003509521484
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 2168
+   },
+   "pins": 88,
+   "players": [
+    {
+     "avatar": 249,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 153,
+   "stats": {
+    "dealt_kills": 0,
+    "projectiles_fired": 0,
+    "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "gameState": {
+    "mission": false,
+    "name": "Ship",
+    "state": 3
+   },
+   "localAvatar": {
+    "entity": 249,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     -2.3140432834625244,
+     -0.23006588220596313,
+     20.053844451904297
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 2132
+   },
+   "pins": 88,
+   "players": [
+    {
+     "avatar": 249,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 153,
+   "stats": {
+    "dealt_kills": 0,
+    "projectiles_fired": 0,
+    "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "gameState": {
+    "mission": false,
+    "name": "Ship",
+    "state": 3
+   },
+   "localAvatar": {
+    "entity": 249,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     -0.505012571811676,
+     1.6575965881347656,
+     20.01000213623047
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 2132
+   },
+   "pins": 88,
+   "players": [
+    {
+     "avatar": 249,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 153,
+   "stats": {
+    "dealt_kills": 0,
+    "projectiles_fired": 0,
+    "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  }
+ },
+ "passed": true,
+ "writes": 0
+}

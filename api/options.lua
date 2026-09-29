@@ -336,9 +336,57 @@ function M.page(spec)
     return page
 end
 
+-- Script values (hd2.value / mod:value): a number a mod sets from its own code (for example from an event
+-- callback) and binds to one hd2.ensure field value, exactly like a slider: the ensure validates min, max, the default
+-- and one step through the operation's normal guards when it is declared, and re-applies (debounced) when the value
+-- changes. Never shown in Mod Options Menu; always ready.
+local script_pages={}
+function M.value(spec,owner)
+    assert(type(spec)=='table','value requires a descriptor')
+    for key in pairs(spec)do
+        assert(key=='id'or key=='min'or key=='max'or key=='step'or key=='default'or key=='owner',
+            'unsupported value option: '..tostring(key))
+    end
+    assert(type(spec.id)=='string'and spec.id:match('^[%w_%-]+$')and#spec.id<=40,
+        'value id must be 1 to 40 letters, digits, _ or -')
+    owner=owner or'unknown'
+    local page=script_pages[owner]
+    if not page then
+        page={id='script:'..owner,title=owner,fallback='default',count=0,order={},unavailable={},warned=0,operations={}}
+        script_pages[owner]=page
+    end
+    local id=owner..'.'..spec.id
+    if handles[id]then return handles[id]end
+    local min,max,step=spec.min,spec.max,spec.step or 1
+    for _,value in ipairs({min,max,step})do
+        assert(type(value)=='number'and value==value and value>-math.huge and value<math.huge,
+            'value min, max and step must be finite numbers')
+    end
+    assert(min<max and step>0 and step<=max-min,'value needs min < max and 0 < step <= max - min')
+    local handle=setmetatable({id=id,option=spec.id,page=page,kind='slider',script=true,label=spec.id,listeners={},
+        state_listeners={},state='ready',registered=false,source='default',min=min,max=max,step=step},Handle)
+    handle.decimals=decimals(step)
+    if min%1~=0 then handle.decimals=math.max(handle.decimals,1)end
+    handle.integer=handle.decimals==0
+    local default=spec.default==nil and min or spec.default
+    assert(type(default)=='number'and default>=min and default<=max,'value default outside min..max')
+    handle.default=snap(handle,default)
+    assert(handle.default==default,'value default must sit on a step')
+    handle.current=handle.default
+    handles[id]=handle
+    return handle
+end
+-- Set a script value (snapped to its step, clamped to min..max). True when it changed.
+function Handle:set(value)
+    assert(self.script,'only script values can be set from code; menu options follow the menu')
+    if type(value)~='number'or value~=value then return false end
+    return self:assign(math.min(self.max,math.max(self.min,value)),'script')
+end
+
 -- Test/audit hook: forget every declaration.
 function M.reset()
     if watch then watch.cancel()end
     pages,handles,unregistered,watch,menu_result={}, {},{},nil,nil
+    script_pages={}
 end
 return M

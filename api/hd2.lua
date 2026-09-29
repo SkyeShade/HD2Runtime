@@ -140,4 +140,15 @@ end
 -- Offline: is this target's package dependency known and auto-loadable? (no IDs)
 function M.asset_dependency(target)return require('hd2runtime/api/assets').describe(target)end
 function M.ensure(request)return register('ensure','hd2runtime/api/ensure',request)end
+-- Gameplay scripting (docs/events.md): events, timers, keybinds and per-mod contexts. Required at startup with the
+-- rest of the API; nothing polls until a mod subscribes, starts a timer or binds a key.
+local scripting=require('hd2runtime/api/events')
+M.events=scripting.events
+M.after=scripting.after
+M.every=scripting.every
+M.input=scripting.input
+M.mod=scripting.mod
+M.players=scripting.players
+M.game_state=scripting.game_state
+M.local_player=scripting.local_player
 return M

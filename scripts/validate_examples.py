@@ -88,12 +88,21 @@ if SNAPSHOT_PATH then
   expected_exe_sha=profile.exe_sha,expected_dll_sha=profile.dll_sha})
 end
 local ACK={allow_shared=true,allow_unverified_effect=true,allow_unverified_reference=true}
+local options_module=require('hd2runtime/api/options')
 local function copy(value)
  if type(value)~='table'then return value end
  local out={};for key,item in pairs(value)do out[key]=item end;return setmetatable(out,getmetatable(value))
 end
+-- Bound values (script values from mod:value) validate with their current value, as a live ensure does first.
+local function materialize(value,depth)
+ if options_module.is_handle(value)then return value:get()end
+ if type(value)~='table'or getmetatable(value)~=nil or(depth or 0)>16 then return value end
+ local out={};for key,item in pairs(value)do out[key]=materialize(item,(depth or 0)+1)end;return out
+end
 local function run_example(body,name)
  local report={operations={},usesOptions=false,calls={}}
+ report.usesEvents=body:find('hd2%.events')~=nil or body:find('hd2%.mod%(')~=nil or body:find('hd2%.after')~=nil
+  or body:find('hd2%.every')~=nil or body:find('hd2%.input')~=nil
  local function record(kind,request)
   report.calls[#report.calls+1]=kind
   local plan
@@ -166,7 +175,7 @@ local function run_example(body,name)
   transaction=function(request)return record('transaction',{transaction=request})end,
   plan=function(request)return record('plan',{plan=request})end,
   ensure=function(request)
-   local stripped={patch=request.patch,transaction=request.transaction,plan=request.plan}
+   local stripped=materialize({patch=request.patch,transaction=request.transaction,plan=request.plan})
    return record('ensure',stripped)
   end,
   options=options_page},{__index=api})
@@ -205,6 +214,8 @@ def required_version(report):
         reasons.append('typed writes -> ' + TYPED_WRITES)
     if report.get('usesOptions'):
         bump(OPTIONS_FLOOR, 'in-game options')
+    if report.get('usesEvents'):
+        bump(UNRELEASED, 'gameplay scripting (hd2.events, hd2.mod, timers, keybinds)')
     for operation in report.get('operations', []):
         resource, path = operation.get('resource'), operation.get('path')
         if resource in RESOURCE_FLOORS:
