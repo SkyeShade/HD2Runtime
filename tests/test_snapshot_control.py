@@ -462,6 +462,30 @@ return 'ok'
                 'Ctrl+C cancels.', out)
 
 
+class IdentityTests(unittest.TestCase):
+    def test_the_controller_identifies_the_game_once_its_modules_load(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / 'build') as folder:
+            self.assertEqual(run(FAKE_RUNTIME + 'local CONTROL=' + lua(str(folder)) + r'''
+local control=require('hd2runtime/api/snapshot_control')
+local rt=runtime()
+local real=rt.module
+rt.module=function(name)if name=='game.dll'then return nil end;return real(name)end
+local hashes=0
+local hash=rt.module_hash
+rt.module_hash=function(v)hashes=hashes+1;return hash(v)end
+local w=control.start(rt,function()end,{control_directory=CONTROL})
+local function status()local f=assert(io.open(CONTROL..'\\status.txt','rb'));local s=control.parse(f:read('*a'));f:close();return s end
+assert(status().exe_sha==nil,'not identified before game.dll is loaded')
+rt.module=real
+for _=1,5 do w.tick(0.5)end
+assert(status().dll_sha==p.dll_sha and status().dll_base==tostring(0x20000),'identified at a later heartbeat')
+local after=hashes
+for _=1,20 do w.tick(0.5)end
+assert(hashes==after,'the module files are hashed once, not every heartbeat')
+return 'ok'
+'''), b'ok')
+
+
 class PackageTests(unittest.TestCase):
     def test_the_armed_package_is_separate_and_declarative(self):
         sys.path.insert(0, str(ROOT / 'scripts'))
