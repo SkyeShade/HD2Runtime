@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 from pathlib import Path
 import struct
 import sys
@@ -321,7 +322,57 @@ MINEFIELD_FINGERPRINT = [(0, 4, 'UINT32', 25), (4, 4, 'UINT32', 29), (8, 4, 'FP3
     (36, 4, 'ENUM_INT32', 28), (40, 1, 'UINT8', 31)]
 
 
-def mine_chain(native, launcher):
+# ThrowerComponent: an inline array of two 376-byte throw slots. In slot 0 of a mine deployer, +40 and +44 (u32, hidden
+# name lengths 11 and 15) are the salvo count and mines per salvo, and +48 is a 48-entry u32 launch-socket array
+# (name length 5). Checked against the pinned type library on every run.
+THROWER_SLOT_SIZE = 376
+THROWER_SLOT_FINGERPRINT = ((40, 4, 'UINT32', 11), (44, 4, 'UINT32', 15), (48, 192, 'UINT32', 5))
+# The wiki's deployment sentence ("Six salvos of eight mines are deployed, totaling up to forty-eight ...").
+MINE_COUNT_SENTENCE = re.compile(r'(\w+) salvos of (\w+) mines are deployed, totaling up to ([\w-]+)', re.I)
+NUMBER_WORDS = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8,
+    'nine': 9, 'ten': 10, 'twelve': 12, 'eighteen': 18, 'twenty-four': 24, 'forty-eight': 48}
+
+
+def thrower_slot_fingerprint() -> set:
+    from migration import build_view
+    library = build_view.TypeLibrary((FILEDIVER / 'datalibrary/dl_library.dl_typelib').read_bytes())
+    record_type = library.layout('ThrowerComponentData')['members'][1]['type_hash']
+    [slots] = build_view._record_layout(library, record_type).members
+    if (slots['atom'], slots['count'], slots['size']) != ('INLINE_ARRAY', 2, 2 * THROWER_SLOT_SIZE):
+        raise ValueError('ThrowerComponent slot array layout changed')
+    return {(m['offset'], m['size'], m['storage'], m['nameLength'])
+        for m in build_view._record_layout(library, slots['typeHash']).members}
+
+
+def mine_count_proof(native, imported, thrower, throw_raw) -> dict:
+    """Salvos x mines per salvo: the wiki sentence and structured fields, the thrower slot-0 members, and the
+    launcher's distinct launch sockets (one per mine) must all agree."""
+    text = ' '.join((section.get('text') or '') for section in imported.get('rawSections') or [])
+    found = MINE_COUNT_SENTENCE.search(text)
+    stated = None
+    if found:
+        words = [value.lower() for value in found.groups()]
+        stated = {'text': found.group(0), 'salvos': NUMBER_WORDS.get(words[0]), 'perSalvo': NUMBER_WORDS.get(words[1]),
+            'total': NUMBER_WORDS.get(words[2])}
+    fields = imported['stratagem']
+    structured = {'salvos': (fields.get('salvos') or {}).get('value'),
+        'capacity': ((fields.get('extraNormalizedFields') or {}).get('capacity') or {}).get('value')}
+    sockets = [struct.unpack_from('<I', throw_raw, 48 + 4 * i)[0] for i in range(48)]
+    distinct = len({value for value in sockets if value})
+    salvos, per_salvo = struct.unpack_from('<II', throw_raw, 40)
+    ownership = native.ownership(thrower)
+    exact = bool(stated) and (stated['salvos'], stated['perSalvo'], stated['total']) == (
+        salvos, per_salvo, salvos * per_salvo) and (structured['salvos'], structured['capacity']) == (
+        salvos, per_salvo) and distinct == salvos * per_salvo
+    return {'wiki': {'statement': stated, 'structured': structured},
+        'native': {'salvos': salvos, 'perSalvo': per_salvo, 'distinctLaunchSockets': distinct},
+        'thrower': {'recordIndex': thrower['record_index'], 'indexRow': thrower['index_row'],
+            'ownerCount': ownership['ownerCount'], 'uniqueOwner': ownership['uniqueOwner'],
+            'recordSha256': ownership['recordSha256'], 'slot': 0, 'salvosOffset': 40, 'perSalvoOffset': 44},
+        'exact': exact}
+
+
+def mine_chain(native, launcher, imported):
     """Stratagem mine deployer -> thrown mine -> explosion. Read-only evidence.
 
     The deployer's ThrowerComponent throw slot 0 names the mine unit it launches (+0, u64 resource). Where that unit
@@ -370,8 +421,9 @@ def mine_chain(native, launcher):
             'thrower.slot0Counts': [struct.unpack_from('<I', throw_raw, 40)[0], struct.unpack_from('<I', throw_raw, 44)[0]],
             'thrower.slot0Floats': [round(struct.unpack_from('<f', throw_raw, 240 + 4 * i)[0], 4) for i in range(11)],
             'minefield.floats': {str(o): round(struct.unpack_from('<f', field_raw, o)[0], 4) for o in (8, 12, 16, 28)},
-            'reason': ('Mine count, spacing, trigger radius, arming and lifetime candidates have no independent '
-                'fingerprint (no scraped values, no reviewed code reader), so they are published read-only.')}}
+            'reason': ('Spacing (throw distance), trigger radius, arming and lifetime candidates have no independent '
+                'fingerprint (the wiki states none of them), so they are published read-only.')},
+        'countProof': mine_count_proof(native, imported, thrower, throw_raw)}
 
 
 def minefield_layout():
@@ -414,6 +466,8 @@ def build() -> dict:
             ('SensorEyeComponentData', SENSOR_FINGERPRINT), ('HellpodPayloadComponentData', PAYLOAD_FINGERPRINT)):
         if set(fingerprint) - record_fingerprint(component):
             raise ValueError(component + ' layout fingerprint changed')
+    if set(THROWER_SLOT_FINGERPRINT) - thrower_slot_fingerprint():
+        raise ValueError('ThrowerComponent slot layout fingerprint changed')
     entries = []
     for imported in wiki['stratagems']:
         if imported['name'] not in DEBUG_NAMES:
@@ -494,7 +548,7 @@ def build() -> dict:
                 },
             },
             'deploymentProofs': deployment_proofs(imported, entity_components),
-            'mineChain': mine_chain(native, current['payloads'][0])
+            'mineChain': mine_chain(native, current['payloads'][0], imported)
                 if imported['normalizedFamily'].lower() == 'mine' else None,
             'importedBranches': [{key: node.get(key) for key in
                 ('id', 'name', 'kind', 'parentId', 'childIds', 'sourcePath',

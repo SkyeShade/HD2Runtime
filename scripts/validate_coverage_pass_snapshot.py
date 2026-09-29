@@ -10,6 +10,13 @@ Status slots (DamageInfo status references):
 - reject: a status no player-side attack applies, clearing a slot that is not the last used one, a missing
   allow_unverified_effect, a hole in the slot packing (slot 1 emptied by a third party) and a stale status catalog
   (the live row no longer carries the catalogued name).
+
+Enemies and structures: every writable enemy field resolves as a guarded no-op against the live table; Charger main
+health and head armor, the base fabricator's health and the Warrior's head health round-trip; a third-party value is a
+CONFLICT; missing acknowledgement, out-of-range values, stale expects and sentinel zones are rejected.
+
+Mine deployers: MD-6 salvos 6 -> 2 and MD-17 mines per salvo 3 -> 1 round-trip; increases (past the launch sockets)
+and missing acknowledgements are rejected.
 """
 from __future__ import annotations
 
@@ -199,6 +206,30 @@ local worker=coroutine.create(function()
  rejects(function()enemies.validate_patch({id='x',target={resource='enemy',enemy='Charger',path='damage_zone',
   zone=sentinel.zone},field='zone.health',expect=-1,value=100})end,'read-only','uses-main-health zone')
  e.rejections.sentinel=1
+ reset()
+ -- Mine deployer counts: a reduction lands and rolls back; an increase past the launch sockets is rejected.
+ local stratagems=require('hd2runtime/domains/stratagem_writes')
+ local m={roundTrips={},rejections={}}
+ result.minefield=m
+ for _,case in ipairs({{'MD-6 Anti-Personnel Minefield','minefield.salvos',6,2},
+   {'MD-17 Anti-Tank Mines','minefield.mines_per_salvo',3,1}})do
+  local mine={resource='stratagem',stratagem=case[1],path='minefield',entity='main'}
+  local spec=stratagems.validate_patch({id='mine-count',target=mine,allow_unverified_effect=true,
+   field=case[2],expect=case[3],value=case[4]})
+  local plan=resolve(stratagems,spec)
+  local applied=guarded.apply(runtime,plan)
+  assert(applied.status=='APPLIED'and applied.writes==1 and applied.non_target_bytes_unchanged,case[1]..' write failed')
+  local part=plan.changes[1]
+  assert(runtime.read(part.owner.base+part.offset,4)==b.encode(case[4],'u32'),case[1]..' write did not land')
+  assert(guarded.apply(runtime,guarded.inverse(plan)).status=='APPLIED',case[1]..' rollback failed')
+  assert(runtime.read(part.owner.base+part.offset,4)==b.encode(case[3],'u32'),case[1]..' rollback did not restore')
+  m.roundTrips[case[1]]={field=case[2],from=case[3],to=case[4]}
+  rejects(function()stratagems.validate_patch({id='x',target=mine,allow_unverified_effect=true,field=case[2],
+   expect=case[3],value=case[3]+1})end,'range','increase')
+  rejects(function()stratagems.validate_patch({id='x',target=mine,field=case[2],expect=case[3],value=case[4]})end,
+   'allow_unverified_effect','acknowledgement')
+ end
+ m.rejections={increase=2,acknowledgement=2}
  reset()
  result.writes=counts.writes;result.protectionChanges=counts.protection_changes
  source.close()

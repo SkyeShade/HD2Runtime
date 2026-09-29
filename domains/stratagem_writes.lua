@@ -13,9 +13,9 @@ local component_names={'BombardmentComponentData','EagleComponentData',
     'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
     'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
     'ShieldComponentData','HellpodPayloadComponentData','MinefieldComponentData',
-    'TurretComponentData','SensorEyeComponentData'}
+    'TurretComponentData','SensorEyeComponentData','ThrowerComponentData'}
 local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true,
-    turret=true,targeting=true}
+    turret=true,targeting=true,minefield=true}
 local GRAPH_PATHS={deployed_entity=true,weapon=true,attack=true}
 
 local function equal(a,c,storage)
@@ -51,7 +51,7 @@ local function validate_target(target)
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
         assert(type(rawget(target,'weapon'))=='string','mounted weapon required')
     elseif target.path=='deployed_entity' or target.path=='shield' or target.path=='turret'
-        or target.path=='targeting'then
+        or target.path=='targeting' or target.path=='minefield'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
     elseif target.path=='damage_zone'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
@@ -236,7 +236,7 @@ local function collect_needs(spec)
             or kind=='HellpodPayloadComponentData' or change.descriptor.backing.component then needed.entity=true end
     end
     if spec.target_path=='shield' or spec.target_path=='damage_zone' or spec.target_path=='turret'
-        or spec.target_path=='targeting'then needed.entity=true end
+        or spec.target_path=='targeting' or spec.target_path=='minefield'then needed.entity=true end
     if GRAPH_PATHS[spec.target_path]then
         needed.entity=true;needed.projectile=true;needed.damage=true
         needed.explosion=true;needed.status='optional';needed.arc='optional';needed.beam='optional'

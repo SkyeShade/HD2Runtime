@@ -94,6 +94,57 @@ return 'ok'
 ''')
 
 
+MINES = {'MD-6 Anti-Personnel Minefield': (6, 8), 'MD-I4 Incendiary Mines': (6, 8), 'MD-17 Anti-Tank Mines': (6, 3),
+    'MD-8 Gas Mines': (6, 8)}
+
+
+class MineCountTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.research = {s['name']: s for s in json.loads(
+            (ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json').read_text())['stratagems']}
+        cls.catalog = json.loads((ROOT / 'sdk/StratagemAuthoringCapabilities.json').read_text())
+
+    def test_three_independent_proofs_agree_on_every_minefield(self):
+        for name, (salvos, per_salvo) in MINES.items():
+            proof = self.research[name]['mineChain']['countProof']
+            self.assertTrue(proof['exact'], name)
+            self.assertEqual((proof['wiki']['statement']['salvos'], proof['wiki']['statement']['perSalvo']),
+                (salvos, per_salvo))
+            self.assertEqual(proof['wiki']['structured'], {'salvos': salvos, 'capacity': per_salvo})
+            self.assertEqual(proof['native'], {'salvos': salvos, 'perSalvo': per_salvo,
+                'distinctLaunchSockets': salvos * per_salvo})
+            self.assertTrue(proof['thrower']['uniqueOwner'])
+
+    def test_fields_are_reduce_only_and_acknowledged(self):
+        fields = [f for f in self.catalog['fieldInstances'] if f['semanticFieldId'].startswith('minefield.')]
+        self.assertEqual(len(fields), 8)
+        for field in fields:
+            salvos, per_salvo = MINES[field['target']['stratagem']]
+            baseline = salvos if field['semanticFieldId'] == 'minefield.salvos' else per_salvo
+            self.assertEqual((field['currentDefault'], field['min'], field['max']), (baseline, 1, baseline))
+            self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+            self.assertEqual(field['target']['path'], 'minefield')
+            self.assertFalse(field['shared'])
+        record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['minefield']
+        self.assertEqual(record['rejections'], {'increase': 2, 'acknowledgement': 2})
+
+    def test_api(self):
+        run('''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local mines=hd2.stratagem('MD-6 Anti-Personnel Minefield'):deployed_entity():minefield()
+local d=mines:describe()
+assert(#d.fields==2 and d.minefield.launchSockets==48 and d.minefield.salvos==6)
+patches.validate{id='m',target=mines,allow_unverified_effect=true,field=hd2.fields.minefield.salvos,expect=6,value=2}
+local ok,why=pcall(patches.validate,{id='m',target=mines,allow_unverified_effect=true,
+ field=hd2.fields.minefield.mines_per_salvo,expect=8,value=9})
+assert(not ok and tostring(why):find('range',1,true),why)
+assert(not pcall(function()return hd2.stratagem('A/MG-43 Machine Gun Sentry'):deployed_entity():minefield()end))
+return 'ok'
+''')
+
+
 ATTACHABLE = {'fire', 'fire_panic', 'burning_heavy', 'stun_small', 'stun_medium', 'stun_large', 'gas', 'gas_2',
     'gas_confusion', 'gas_confusion_2', 'flamer_slowed'}
 

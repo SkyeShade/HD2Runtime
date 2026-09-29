@@ -17,6 +17,8 @@
     {"id":"turret.pitch_max","display_name":"Highest aim angle","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":24},
     {"id":"turret.yaw_min","display_name":"Left traverse limit","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":28,"reason":"Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect."},
     {"id":"turret.yaw_max","display_name":"Right traverse limit","type":"number","unit":"degrees","writable":true,"storage":"f32","component":"TurretComponentData","offset":32,"reason":"Paired with the proven vertical limits and consistent with every turret's arc, but no table publishes it; requires allow_unverified_effect."},
-    {"id":"targeting.range","display_name":"Targeting range","type":"number","unit":"meters","writable":true,"storage":"f32","component":"SensorEyeComponentData","offset":0}
+    {"id":"targeting.range","display_name":"Targeting range","type":"number","unit":"meters","writable":true,"storage":"f32","component":"SensorEyeComponentData","offset":0},
+    {"id":"minefield.salvos","display_name":"Mine salvos","type":"integer","unit":"count","writable":true,"storage":"u32","component":"ThrowerComponentData","offset":40},
+    {"id":"minefield.mines_per_salvo","display_name":"Mines per salvo","type":"integer","unit":"count","writable":true,"storage":"u32","component":"ThrowerComponentData","offset":44}
   ]
 }
