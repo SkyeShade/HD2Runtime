@@ -42,6 +42,7 @@ def outputs():
     backpack_authoring=json.loads((ROOT/'sdk/BackpackAuthoringCapabilities.json').read_text())
     booster_authoring=json.loads((ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())
     throwable_authoring=json.loads((ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())
+    enemy_authoring=json.loads((ROOT/'sdk/EnemyAuthoringCapabilities.json').read_text())
     asset_dependencies=json.loads((ROOT/'sdk/AssetDependencyCapabilities.json').read_text())
     weapon_movement=json.loads((ROOT/'sdk/WeaponMovementCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
@@ -105,6 +106,10 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='booster_'+constant
         fields[domain][constant]=field_id
+    for definition in json.loads((ROOT/'schemas/enemy_fields.json').read_text())['fields']:
+        field_id=definition['id'];domain,name=field_id.split('.',1)
+        if field_id in fields.setdefault(domain,{}).values():continue
+        fields[domain].setdefault(ident(name),field_id)
     for definition in json.loads((ROOT/'schemas/throwable_fields.json').read_text())['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
         if field_id in fields.setdefault(domain,{}).values():continue
@@ -429,6 +434,24 @@ def outputs():
         '---@return HD2ThrowableTarget','function HD2Throwable:entity() end',
         '---Shield of the deployed entity (G/SH-39 Shield).',
         '---@return HD2ThrowableTarget','function HD2Throwable:shield() end']
+    alias('HD2EnemyName',sorted({n for item in enemy_authoring['classes'] if item['kind']=='enemy'
+        for n in (item['name'],item['className'])}))
+    alias('HD2StructureName',sorted({n for item in enemy_authoring['classes'] if item['kind']=='structure'
+        for n in (item['name'],item['className'])}))
+    stub+=['','---@class HD2EnemyZone','---@field resource "enemy"','---@field path "damage_zone"',
+        '---@field enemy string','---@field zone string','local HD2EnemyZone = {}',
+        '---Zone fields: zone.health/armor/affects_main_health (proven), zone.constitution/durable_resistance/',
+        '---explosive_damage_percentage (allow_unverified_effect=true).',
+        '---@return table','function HD2EnemyZone:describe() end',
+        '','---@class HD2Enemy','---@field resource "enemy"','---@field path "entity"','---@field enemy string',
+        'local HD2Enemy = {}',
+        '---Identity (wiki name or native class, faction, kind), damage zones and main fields.',
+        '---@return table','function HD2Enemy:describe() end',
+        '---@return HD2EnemyZone[]','function HD2Enemy:zones() end',
+        '---@param identity string|integer Zone id ("zone_0"), native zone name, wiki zone label or index.',
+        '---@return HD2EnemyZone','function HD2Enemy:zone(identity) end',
+        '---@return HD2EnemyZone[]','function HD2Enemy:damage_zones() end',
+        '---@param identity string|integer','---@return HD2EnemyZone','function HD2Enemy:damage_zone(identity) end']
     alias('HD2MagazineAttachmentId',[item['semanticId'] for item in attachment_authoring['attachments']]
         +[item['name'] for item in attachment_authoring['attachments'] if item['nameUnique']])
     stub+=['','---@class HD2WeaponAttachment','---@field resource "weapon_attachment"','---@field path "magazine"',
@@ -484,7 +507,14 @@ def outputs():
         '---A reviewed replacement pickup by name or semantic ID.',
         '---@param identity string','---@return HD2Pickup','function hd2.pickup(identity) end',
         '---@param category? "support_weapon"|"backpack"|"ammo"|"stim"|"grenade"|"supply"',
-        '---@return HD2Pickup[]','function hd2.pickups(category) end']
+        '---@return HD2Pickup[]','function hd2.pickups(category) end',
+        '---An enemy class by wiki name (when proven) or native class name (see sdk/EnemyAuthoringCapabilities.json).',
+        '---@param name HD2EnemyName','---@return HD2Enemy','function hd2.enemy(name) end',
+        '---An enemy structure (fabricators, emplacements, objectives) by wiki or native class name.',
+        '---@param name HD2StructureName','---@return HD2Enemy','function hd2.structure(name) end',
+        '---Reviewed enemy / structure names, optionally filtered by kind and faction.',
+        '---@param filter? {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}',
+        '---@return string[]','function hd2.enemies(filter) end']
     for method,spec in schema['api']['functions'].items():
         stub+=['---'+spec['doc']]
         for name,kind in spec['params']:stub.append('---@param '+name+' '+kind)
@@ -535,6 +565,7 @@ def outputs():
             'sdk/docs/asset-loading.md':(ROOT/'docs/asset-loading.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-movement.md':(ROOT/'docs/weapon-movement.md').read_text(encoding='utf-8'),
             'sdk/docs/status-effects.md':(ROOT/'docs/status-effects.md').read_text(encoding='utf-8'),
+            'sdk/docs/enemy-authoring.md':(ROOT/'docs/enemy-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),

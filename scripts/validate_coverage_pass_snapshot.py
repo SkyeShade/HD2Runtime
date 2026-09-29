@@ -127,6 +127,79 @@ local worker=coroutine.create(function()
  assert(not ok and tostring(why):find('status catalog is stale',1,true),'stale catalog accepted: '..tostring(why))
  s.rejections.staleCatalog=1
  reset()
+ -- Enemies and structures: every published field resolves as a guarded no-op against the live table.
+ local enemies=require('hd2runtime/domains/enemy_writes')
+ local enemy_db=require('hd2runtime/domains/enemy_authoring')
+ local e={classes=0,fields=0,readOnly=0,roundTrips={},rejections={}}
+ result.enemies=e
+ local names={};for name in pairs(enemy_db.enemies)do names[#names+1]=name end;table.sort(names)
+ local specs={}
+ for _,name in ipairs(names)do
+  local entry=enemy_db.enemies[name];e.classes=e.classes+1
+  local groups,order={},{}
+  for _,field in ipairs(entry.fields)do
+   if field.editable==false then e.readOnly=e.readOnly+1 else
+    local key=field.path..':'..tostring(field.zone)
+    if not groups[key]then groups[key]={id='enemy-noop',target={resource='enemy',enemy=name,path=field.path,
+     zone=field.zone},allow_shared=true,allow_unverified_effect=true,changes={}};order[#order+1]=key end
+    local changes=groups[key].changes
+    changes[#changes+1]={field=field.id,expect=field.currentDefault,value=field.currentDefault}
+   end
+  end
+  for _,key in ipairs(order)do specs[#specs+1]=enemies.validate_transaction(groups[key])end
+ end
+ local reader=Reader.new(runtime)
+ local resolved=enemies.capture_many(runtime,reader,specs)
+ for index,spec in ipairs(specs)do
+  local plan=enemies.prepare(resolved[index],reader,spec)
+  for _,part in ipairs(plan.changes)do
+   assert(part.already_desired,spec.enemy..' '..part.label..' live value differs from the reviewed baseline')
+  end
+  e.fields=e.fields+#spec.changes
+ end
+ reader.verify()
+ -- Representative writes: the change lands, reads back and rolls back; conflicts and guards reject.
+ local function enemy_round_trip(key,target,field,expect,value,extra)
+  reset()
+  local request={id='enemy-'..key,target=target,field=field,expect=expect,value=value}
+  for k,v in pairs(extra or{})do request[k]=v end
+  local spec=enemies.validate_patch(request)
+  local plan=resolve(enemies,spec)
+  local applied=guarded.apply(runtime,plan)
+  assert(applied.status=='APPLIED'and applied.writes==1 and applied.non_target_bytes_unchanged,key..' write failed')
+  local part=plan.changes[1]
+  assert(runtime.read(part.owner.base+part.offset,#part.desired)==part.desired,key..' write did not land')
+  assert(guarded.apply(runtime,guarded.inverse(plan)).status=='APPLIED',key..' rollback failed')
+  assert(runtime.read(part.owner.base+part.offset,#part.before)==part.before,key..' rollback did not restore')
+  -- A third-party value at the target is a CONFLICT.
+  poke(part.owner.base+part.offset,b.encode(expect+7,part.label:find('durable',1,true)and'f32'or
+   ((field:find('health',1,true)or field:find('constitution',1,true))and'i32'or'u32')))
+  rejects(function()resolve(enemies,spec)end,'CONFLICT',key..' conflict')
+  reset()
+  e.roundTrips[key]={field=field,from=expect,to=value}
+ end
+ local charger={resource='enemy',enemy='Charger',path='entity'}
+ enemy_round_trip('charger_health',charger,'entity.health',2400,240)
+ enemy_round_trip('charger_head_armor',{resource='enemy',enemy='Charger',path='damage_zone',zone='zone_0'},
+  'zone.armor',4,1)
+ enemy_round_trip('fabricator_health',{resource='enemy',enemy='spawner_factory_conscript_base',path='entity'},
+  'entity.health',1500,150)
+ enemy_round_trip('warrior_head_health',{resource='enemy',enemy='warrior_base',path='damage_zone',zone='zone_0'},
+  'zone.health',enemy_db.enemies.warrior_base.fields[7].currentDefault,1)
+ rejects(function()enemies.validate_patch({id='x',target=charger,field='entity.constitution',expect=750,value=0})end,
+  'allow_unverified_effect','constitution acknowledgement');e.rejections.acknowledgement=1
+ rejects(function()enemies.validate_patch({id='x',target=charger,field='entity.health',expect=2400,value=0})end,
+  'reviewed range','health range');e.rejections.range=1
+ rejects(function()enemies.validate_patch({id='x',target=charger,field='entity.health',expect=2000,value=10})end,
+  'expect differs','stale expect');e.rejections.staleExpect=1
+ local sentinel
+ for _,field in ipairs(enemy_db.enemies.Charger.fields)do
+  if field.id=='zone.health'and field.editable==false then sentinel=field end
+ end
+ rejects(function()enemies.validate_patch({id='x',target={resource='enemy',enemy='Charger',path='damage_zone',
+  zone=sentinel.zone},field='zone.health',expect=-1,value=100})end,'read-only','uses-main-health zone')
+ e.rejections.sentinel=1
+ reset()
  result.writes=counts.writes;result.protectionChanges=counts.protection_changes
  source.close()
  return result

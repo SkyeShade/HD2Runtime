@@ -19,14 +19,14 @@ sys.path.insert(0, str(ROOT / 'sdk'))
 
 MODULES = ('player_weapon_authoring', 'support_weapon_authoring', 'vehicle_weapon_authoring', 'entity_authoring',
     'stratagem_authoring', 'attachment_authoring', 'booster_authoring', 'pod_payload_authoring',
-    'throwable_authoring')
+    'throwable_authoring', 'enemy_authoring')
 SETTINGS_KIND = {'ProjectileSettings': 'projectile', 'DamageInfo': 'damage', 'ExplosionSettings': 'explosion',
     'StatusEffectSettings': 'status', 'ArcSettings': 'arc', 'BeamSettings': 'beam'}
 DOMAIN_LABEL = {'player_weapon_authoring': 'Player weapons', 'support_weapon_authoring': 'Support weapons',
     'vehicle_weapon_authoring': 'Vehicle weapons', 'entity_authoring': 'Vehicles and backpacks',
     'stratagem_authoring': 'Stratagems', 'attachment_authoring': 'Magazine attachments',
     'booster_authoring': 'Boosters', 'pod_payload_authoring': 'Drop-pod payloads',
-    'throwable_authoring': 'Throwables'}
+    'throwable_authoring': 'Throwables', 'enemy_authoring': 'Enemies and structures'}
 
 
 def git(*args) -> str:
@@ -238,6 +238,18 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
                     field.get('currentDefault'), field.get('editable'), field.get('shared'),
                     {'path': ['throwables', name, 'targets', label, 'fields', field_id],
                      'guard': {'instanceKey': field['instanceKey']}}, field.get('reason')))
+    # Enemies: the compact table carries the class's HealthComponent identity once; a field's own backing (offset,
+    # and after a migration its rebound record coordinates) overrides it, exactly as enemy_writes.descriptor merges.
+    for name, entry in sorted(((tables.get('enemy_authoring') or {}).get('enemies') or {}).items()):
+        health = entry['health']
+        for index, field in enumerate(entry.get('fields') or []):
+            b = dict(health, **field['backing'])
+            zone = field.get('zone')
+            guard = {'id': field['id'], 'path': field['path'], **({'zone': zone} if zone else {})}
+            records.append(_record('enemy_authoring', 'enemy:' + name + ':' + (zone or 'entity') + ':' + field['id'],
+                name, field['id'], _component(b, _int(entry['resource'])), field.get('currentDefault'),
+                field.get('editable', True), not health['uniqueOwner'],
+                {'path': ['enemies', name, 'fields', index], 'guard': guard}, field.get('reason')))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')

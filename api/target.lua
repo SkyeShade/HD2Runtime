@@ -794,6 +794,71 @@ function M.new(describe)
     end
     -- Throwables: every accessor is a native record the throwable entity owns or reaches through
     -- typed references (see sdk/ThrowableAuthoringCapabilities.json).
+    -- Enemies and enemy structures: health, armor and damage zones of a hash-verified native class, named by its
+    -- wiki name when the research resolved one, otherwise by its native class name (see docs/enemy-authoring.md).
+    local function enemy_target(identity,kind)
+        local enemy_writes=require('hd2runtime/domains/enemy_writes')
+        local entry=assert(enemy_writes.entry(identity),'unknown reviewed '..kind..': '..tostring(identity))
+        assert(kind=='enemy'or entry.kind==kind,tostring(identity)..' is an enemy unit; use hd2.enemy')
+        local function public_fields(path,zone)
+            local result={}
+            for _,field in ipairs(entry.fields)do
+                if field.path==path and field.zone==zone then
+                    local descriptor=enemy_writes.descriptor(entry,field)
+                    result[#result+1]={semanticFieldId=field.id,currentDefault=field.currentDefault,
+                        editable=descriptor.editable,reason=field.reason,shared=descriptor.shared,
+                        min=descriptor.min,max=descriptor.max,acknowledgement=descriptor.acknowledgement}
+                end
+            end
+            return result
+        end
+        local function zone_identity(value)
+            for _,zone in ipairs(entry.zones)do
+                if value==zone.id or value==zone.name or value==zone.wikiZone
+                    or type(value)=='number'and zone.index==value then return zone end
+            end
+            error('unknown damage zone for '..entry.name..': '..tostring(value),0)
+        end
+        local methods={}
+        local function zone_target(zone)
+            local sub={}
+            function sub.describe()
+                return {name=entry.name,zone=zone.id,nativeName=zone.name,wikiZone=zone.wikiZone,
+                    fields=public_fields('damage_zone',zone.id)}
+            end
+            return setmetatable({resource='enemy',enemy=entry.name,path='damage_zone',zone=zone.id},{__index=sub})
+        end
+        function methods.describe()
+            local zones={}
+            for _,zone in ipairs(entry.zones)do
+                zones[#zones+1]={id=zone.id,nativeName=zone.name,wikiZone=zone.wikiZone}
+            end
+            return {name=entry.name,className=entry.className,wikiName=entry.wikiName,kind=entry.kind,
+                faction=entry.faction,semanticId=entry.semanticId,zones=zones,fields=public_fields('entity')}
+        end
+        function methods.zones()
+            local result={}
+            for _,zone in ipairs(entry.zones)do result[#result+1]=zone_target(zone)end
+            return result
+        end
+        function methods.zone(_,identity_)return zone_target(zone_identity(identity_))end
+        methods.damage_zone=methods.zone
+        methods.damage_zones=methods.zones
+        return setmetatable({resource='enemy',enemy=entry.name,path='entity'},{__index=methods})
+    end
+    function builders.enemy(identity)return enemy_target(identity,'enemy')end
+    function builders.structure(identity)return enemy_target(identity,'structure')end
+    -- Every reviewed enemy / structure name ({kind=...} filters).
+    function builders.enemies(filter)
+        local database=require('hd2runtime/domains/enemy_authoring')
+        local names={}
+        for name,entry in pairs(database.enemies)do
+            if not filter or((not filter.kind or entry.kind==filter.kind)
+                and(not filter.faction or entry.faction==filter.faction))then names[#names+1]=name end
+        end
+        table.sort(names)
+        return names
+    end
     function builders.throwable(identity)
         local throwable_authoring=require('hd2runtime/domains/throwable_authoring')
         local entry=throwable_authoring.throwables[identity]

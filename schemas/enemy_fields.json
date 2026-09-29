@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "fields": [
+    {"id":"entity.health","display_name":"Main health","type":"integer","unit":"health","writable":true,"storage":"i32","offset":0},
+    {"id":"entity.armor","display_name":"Main armor","type":"integer","unit":"armor_class","writable":true,"storage":"u32","offset":280},
+    {"id":"entity.constitution","display_name":"Constitution (health below zero before death)","type":"integer","unit":"health","writable":true,"storage":"i32","offset":24},
+    {"id":"entity.constitution_rate","display_name":"Constitution change per second","type":"number","unit":"health_per_second","writable":true,"storage":"f32","offset":28},
+    {"id":"entity.durable_resistance","display_name":"Main durable damage share","type":"number","unit":"ratio","writable":true,"storage":"f32","offset":268},
+    {"id":"entity.explosive_damage_percentage","display_name":"Main explosion damage taken","type":"number","unit":"ratio","writable":true,"storage":"f32","offset":388},
+    {"id":"zone.health","display_name":"Zone health","type":"integer","unit":"health","writable":true,"storage":"i32","zoneOffset":232},
+    {"id":"zone.armor","display_name":"Zone armor","type":"integer","unit":"armor_class","writable":true,"storage":"u32","zoneOffset":216},
+    {"id":"zone.affects_main_health","display_name":"Damage forwarded to main health","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":248},
+    {"id":"zone.constitution","display_name":"Zone constitution","type":"integer","unit":"health","writable":true,"storage":"i32","zoneOffset":236},
+    {"id":"zone.durable_resistance","display_name":"Zone durable damage share","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":204},
+    {"id":"zone.explosive_damage_percentage","display_name":"Zone explosion damage taken","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":324}
+  ]
+}

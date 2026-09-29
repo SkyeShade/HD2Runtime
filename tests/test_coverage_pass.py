@@ -221,5 +221,149 @@ return 'ok'
         self.assertEqual(verdict(Table(rows), None), ['UNCHECKED'])
 
 
+PROVEN = {'entity.health', 'entity.armor', 'zone.health', 'zone.armor', 'zone.affects_main_health'}
+
+
+class EnemyTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.research = json.loads((ROOT / 'research/enemy-authoring-F5FEE03DCFDB.json').read_text())
+        cls.catalog = json.loads((ROOT / 'sdk/EnemyAuthoringCapabilities.json').read_text())
+        cls.classes = {c['name']: c for c in cls.catalog['classes']}
+
+    def zone(self, name, label):
+        return next(z for z in self.classes[name]['zones'] if z['wikiZone'] == label)
+
+    def test_identity_is_native_first(self):
+        summary = self.catalog['summary']
+        self.assertEqual((summary['classes'], summary['enemies'], summary['structures']), (177, 138, 39))
+        self.assertEqual(summary['sharedHealthRecords'], 0)
+        named = [c for c in self.research['classes'] if c['wikiName']]
+        self.assertEqual(len(named), 21)
+        for item in named:
+            self.assertGreaterEqual(item['wikiEvidence']['zonesMatched'], 2, item['className'])
+            self.assertEqual(item['wikiCandidates'], [item['wikiName']])
+            self.assertEqual(item['wikiCandidateEvidence'][0]['nativeClassesMatchingPage'], 1)
+        # Shared anatomies stay native: the Hunter / Hulk / Devastator pages match several classes.
+        for name, pages in (('hunter_base', ['Hunter']), ('lieutenant_base', ['Hulk Bruiser', 'Hulk Firebomber',
+                'Hulk Obliterator', 'Hulk Scorcher']), ('soldier', ['Devastator'])):
+            self.assertIsNone(self.classes[name]['wikiName'])
+            self.assertEqual(self.classes[name]['wikiCandidates'], pages)
+        self.assertNotRegex(json.dumps(self.catalog), r'0x[0-9A-Fa-f]{8}|recordIndex|indexRow')
+
+    def test_representative_classes(self):
+        cases = {   # name: (faction, kind, main health, zones)
+            'hunter_base': ('terminids', 'enemy', 130, 9),       # Terminid small
+            'Charger': ('terminids', 'enemy', 2400, 17),          # Terminid armored
+            'Bile Titan': ('terminids', 'enemy', 6500, 26),       # Terminid large, multi-zone
+            'Marauder': ('automatons', 'enemy', 125, 6),          # Automaton infantry
+            'lieutenant_base': ('automatons', 'enemy', 1800, 6),  # Automaton heavy (a Hulk; variant unproven)
+            'tank_turret_heavycannon': ('automatons', 'enemy', 2100, 2),  # Automaton vehicle turret
+            'Watcher': ('illuminate', 'enemy', 600, 6),           # Illuminate
+            'Gazer': ('illuminate', 'structure', 900, 3),         # named structure
+            'spawner_factory_conscript_base': ('automatons', 'structure', 1500, 1)}   # fabricator
+        for name, (faction, kind, health, zones) in cases.items():
+            item = self.classes[name]
+            self.assertEqual((item['faction'], item['kind'], item['main']['health'], len(item['zones'])),
+                (faction, kind, health, zones), name)
+            self.assertEqual(item['accessor'], 'hd2.structure' if kind == 'structure' else 'hd2.enemy')
+        head = self.zone('Charger', 'Head')
+        self.assertEqual((head['id'], head['health'], head['armor'], head['affectsMainHealth']), ('zone_0', 1200, 4, 0.7))
+        self.assertEqual(self.classes['Charger']['mainZone']['explosiveDamagePercentage'], 0.75)  # wiki: 25% reduction
+        self.assertEqual(self.zone('Marauder', 'Head')['health'], 40)
+        self.assertEqual(self.zone('Gazer', 'Eye')['health'], 700)
+        self.assertEqual([z['health'] for z in self.classes['tank_turret_heavycannon']['zones']], [-1, 750])
+
+    def test_ambiguous_zone_labels_are_withheld(self):
+        titan = {z['wikiZone'] for z in self.classes['Bile Titan']['zones']}
+        self.assertNotIn('Upper Sac', titan)       # several native zones carry identical values
+        self.assertIn('Leg Armor #1', titan)
+        self.assertEqual({z['wikiZone'] for z in self.classes['Gazer']['zones']}, {'Eye', None})
+        pairs = [p for c in self.research['classes'] if c.get('wikiEvidence') for p in c['wikiEvidence']['zonePairs']]
+        labelled = sum(1 for c in self.catalog['classes'] for z in c['zones'] if z['wikiZone'])
+        self.assertEqual(labelled, sum(1 for p in pairs if p['unambiguous']))
+
+    def test_field_safety(self):
+        fields = self.catalog['model']['fields']
+        self.assertEqual({k for k, f in fields.items() if f['acknowledgement'] is None}, PROVEN)
+        self.assertTrue(all(f['acknowledgement'] == 'allow_unverified_effect' for k, f in fields.items()
+            if k not in PROVEN))
+        instances = self.catalog['fieldInstances']
+        self.assertEqual(len(instances), 9300)
+        for item in instances:
+            low, high = fields[item['semanticFieldId']]['range']
+            if item['editable']:
+                self.assertTrue(low <= item['currentDefault'] <= high, item['instanceKey'])
+            else:
+                self.assertTrue(item['currentDefault'] is None or item['currentDefault'] == -1, item['instanceKey'])
+                self.assertTrue(item['reason'])
+        self.assertEqual(sum(1 for i in instances if i['editable']), 7981)
+
+    def test_snapshot_validation_record(self):
+        record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['enemies']
+        self.assertEqual((record['classes'], record['fields'], record['readOnly']), (177, 7981, 1319))
+        self.assertEqual(set(record['roundTrips']), {'charger_health', 'charger_head_armor', 'fabricator_health',
+            'warrior_head_health'})
+        self.assertEqual(record['rejections'], {'acknowledgement': 1, 'range': 1, 'staleExpect': 1, 'sentinel': 1})
+
+    def test_api_and_guards(self):
+        run('''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local transactions=require('hd2runtime/domains/transactions')
+local charger=hd2.enemy('Charger')
+assert(hd2.enemy('charger').enemy=='Charger')
+local head=charger:zone('Head')
+assert(head.zone=='zone_0' and charger:zone('head').zone=='zone_0' and charger:zone(0).zone=='zone_0')
+assert(#charger:zones()==17 and head:describe().wikiZone=='Head')
+transactions.validate{id='charger',target=charger,changes={{field=hd2.fields.entity.health,expect=2400,value=240},
+ {field=hd2.fields.entity.armor,expect=4,value=2}}}
+patches.validate{id='head',target=head,field=hd2.fields.zone.armor,expect=4,value=1}
+local ok,why=pcall(patches.validate,{id='c',target=charger,field=hd2.fields.entity.constitution,expect=750,value=0})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true),why)
+patches.validate{id='c',target=charger,allow_unverified_effect=true,field=hd2.fields.entity.constitution,expect=750,value=0}
+ok,why=pcall(patches.validate,{id='x',target=charger,field=hd2.fields.entity.health,expect=2400,value=0})
+assert(not ok and tostring(why):find('reviewed range',1,true),why)
+ok,why=pcall(patches.validate,{id='x',target=charger:zone('Underside'),field=hd2.fields.zone.health,expect=-1,value=500})
+assert(not ok and tostring(why):find('read-only',1,true),why)
+ok,why=pcall(patches.validate,{id='x',target=head,field=hd2.fields.entity.health,expect=2400,value=240})
+assert(not ok and tostring(why):find('not exposed',1,true),why)
+assert(not pcall(function()return hd2.enemy('Bile Titan'):zone('Upper Sac')end))
+assert(not pcall(function()return hd2.structure('Charger')end))
+local gazer=hd2.structure('Gazer')
+patches.validate{id='g',target=gazer:zone('Eye'),field=hd2.fields.zone.health,expect=700,value=70}
+local fab=hd2.structure('spawner_factory_conscript_base')
+assert(fab:describe().wikiName==nil and fab:describe().kind=='structure')
+patches.validate{id='f',target=fab,field=hd2.fields.entity.health,expect=1500,value=150}
+patches.validate{id='m',target=hd2.enemy('Marauder'):zone('Head'),field=hd2.fields.zone.health,expect=40,value=400}
+assert(#hd2.enemies({kind='structure'})==39 and #hd2.enemies({faction='illuminate',kind='enemy'})>0)
+return 'ok'
+''')
+
+    def test_migration_rebinds_the_compact_enemy_nodes(self):
+        import apply_migration
+        from migration import overlay, source
+        field = {'id': 'zone.armor', 'path': 'damage_zone', 'zone': 'zone_0', 'currentDefault': 4, 'editable': True,
+            'backing': {'offset': 736, 'storage': 'u32', 'width': 4}}
+        tables = {'enemy_authoring': {'enemies': {'Charger': {'resource': '0x1', 'health': {
+            'component': 'HealthComponentData', 'recordIndex': 7, 'indexRow': 9, 'ownerCount': 1,
+            'uniqueOwner': True}, 'fields': [field]}}}}
+        [record] = source.normalize(tables)
+        self.assertEqual(record['key'], 'enemy:Charger:zone_0:zone.armor')
+        self.assertEqual({k: record['backing'][k] for k in ('recordIndex', 'indexRow', 'offset', 'resource')},
+            {'recordIndex': 7, 'indexRow': 9, 'offset': 736, 'resource': 1})
+        self.assertEqual(record['locator'], {'path': ['enemies', 'Charger', 'fields', 0],
+            'guard': {'id': 'zone.armor', 'path': 'damage_zone', 'zone': 'zone_0'}})
+        target = dict(record['backing'], recordIndex=8, indexRow=12)
+        decision = {'domain': 'enemy_authoring', 'locator': record['locator'], 'action': 'rebind',
+            'state': 'MOVED', 'target': target, 'baseline': {'old': 4, 'new': 4}, 'reason': 'moved'}
+        item = apply_migration.field_patch(record['key'], decision, tables, 'NEXT')
+        overlay.patch('enemy_authoring', tables['enemy_authoring'], [item])
+        self.assertEqual((field['backing']['recordIndex'], field['backing']['indexRow']), (8, 12))
+        self.assertEqual(apply_migration.verify({'decisions': {record['key']: decision}}, tables, 'NEXT'), [])
+        decision = dict(decision, action='readonly', state='LOST', reason='gone')
+        self.assertEqual(apply_migration.field_patch(record['key'], decision, tables, 'NEXT')['set']['editable'], False)
+
+
 if __name__ == '__main__':
     unittest.main()

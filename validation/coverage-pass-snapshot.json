@@ -1,7 +1,40 @@
 {
+  "enemies": {
+    "classes": 177,
+    "fields": 7981,
+    "readOnly": 1319,
+    "rejections": {
+      "acknowledgement": 1,
+      "range": 1,
+      "sentinel": 1,
+      "staleExpect": 1
+    },
+    "roundTrips": {
+      "charger_head_armor": {
+        "field": "zone.armor",
+        "from": 4,
+        "to": 1
+      },
+      "charger_health": {
+        "field": "entity.health",
+        "from": 2400,
+        "to": 240
+      },
+      "fabricator_health": {
+        "field": "entity.health",
+        "from": 1500,
+        "to": 150
+      },
+      "warrior_head_health": {
+        "field": "zone.health",
+        "from": 110,
+        "to": 1
+      }
+    }
+  },
   "fixtureFallback": "disabled",
   "mode": "snapshot-overlay",
-  "protectionChanges": 0,
+  "protectionChanges": 16,
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
   "statusSlots": {
@@ -46,5 +79,5 @@
       }
     }
   },
-  "writes": 12
+  "writes": 20
 }

@@ -890,6 +890,38 @@ function HD2Throwable:entity() end
 ---Shield of the deployed entity (G/SH-39 Shield).
 ---@return HD2ThrowableTarget
 function HD2Throwable:shield() end
+---@alias HD2EnemyName "Bile Titan"|"Charger"|"Crusher"|"Dropship"|"Fleshmob"|"Gatekeeper"|"Gunship"|"Hive Guard"|"Impaler"|"Marauder"|"Predator Hunter"|"Rupture Charger"|"Rupture Spewer"|"Spore Burst Bile Titan"|"Spore Burst Hunter"|"Spore Burst Warrior"|"Spore Charger"|"Stalker"|"Veracitor"|"Watcher"|"assault_walker"|"beamer_champion"|"berserker"|"berserker_iron_fleet"|"berserker_ivory_legion"|"berserker_jumppack"|"big_walker_turret_cannon"|"bodyhorror_bladed"|"bodyhorror_helmetguy"|"boomer"|"boomer_burrower"|"boomer_nurser"|"boomer_nurser_mission"|"boomer_tier_2"|"cha_soldier.cha_soldier_jumppack"|"charger"|"charger_acid"|"charger_bull"|"charger_burrower"|"charger_tier2"|"conscript_backpack_lmg"|"conscript_base"|"conscript_commander"|"conscript_commander_jump"|"conscript_elite"|"conscript_flamer"|"conscript_ivory_legion"|"conscript_ivory_legion_tier_2"|"conscript_jump"|"conscript_jump_melee"|"conscript_jumppack"|"conscript_melee"|"conscript_scout"|"conscript_scout_walker_rider"|"conscript_shotgun"|"conscript_tier_1"|"conscript_tier_2"|"conscript_tier_3"|"corrupted"|"corrupted_v2"|"corrupted_v3"|"cyborg_elite"|"cyborg_elite_female"|"cyborg_elite_rusher"|"cyborg_elite_rusher_female"|"dragon"|"dropship"|"equipment.backpacks.soldier_jumppack.soldier_jumppack"|"exomech_melee"|"exomech_ranged"|"gunship"|"hexagon_shield"|"hive_lord"|"hunter_base"|"hunter_gloom"|"hunter_tier_1"|"hunter_tier_2"|"hunter_tier_3"|"illuminate_attack_ship"|"illuminate_dropship"|"illuminate_guy_staff"|"illuminate_guy_staff_fake"|"illuminate_guy_staff_tier_2"|"illuminate_turret_wm_cannon"|"illuminate_turret_wm_cannon_head_l"|"illuminate_turret_wm_cannon_head_r"|"illuminate_war_machine"|"illuminate_warmachine_bombball"|"impaler"|"impaler_tentacle"|"jet_champion"|"lieutenant_artillery"|"lieutenant_assault"|"lieutenant_base"|"lieutenant_flag"|"lieutenant_flag_ivory_legion"|"lieutenant_ivory_legion"|"lieutenant_ivory_legion_assault"|"lieutenant_jetpack"|"lieutenant_suppressor"|"meatglue"|"observer"|"scavenger_base"|"scavenger_gloom"|"scavenger_predator"|"scavenger_spitter"|"scavenger_tier_1"|"scavenger_tier_1_captive"|"scavenger_tier_2"|"shield_forcefield_outcast"|"shrieker"|"shrieker_gloom"|"siege_engine"|"soldier"|"soldier_iron_fleet"|"soldier_ivory_legion"|"soldier_mg"|"soldier_mg_assassinate"|"soldier_mg_ivory_legion"|"soldier_rpg"|"soldier_rpg_assassinate"|"soldier_rpg_ivory_legion"|"soldier_shield"|"soldier_shield_ivory_legion"|"soldier_shotgun_ivory_legion"|"spawner"|"spawner_jammer"|"stalker"|"strider"|"strider_gloom"|"tank_autocannons"|"tank_base"|"tank_heavycannon"|"tank_hull_mg"|"tank_rocketlauncher"|"tank_turret_autocannons"|"tank_turret_base"|"tank_turret_heavycannon"|"tank_turret_rocketlauncher"|"tripod"|"tripod_tier_2"|"turret_autocannons"|"turret_base"|"turret_command_bunker_hmg"|"turret_heavycannon"|"turret_mortar"|"walker_scout"|"warrior_acid"|"warrior_base"|"warrior_big"|"warrior_big_tier2"|"warrior_burrower"|"warrior_gloom"|"warrior_plus"|"warrior_tier_1"|"warrior_tier_1_captive"|"warrior_tier_2"|"warrior_tier_2_guard"
+---@alias HD2StructureName "Gazer"|"ammunition_stockpile"|"blocking_chunk"|"bug_fog_generator"|"bug_fog_generator_large"|"bug_fog_generator_tcs"|"bug_larva_container_backpack"|"bug_spawner_shrieker"|"canister"|"capital_defense_building"|"central_core_drill_01"|"chemicals_backpack"|"colony_spawner_base"|"command_bunker"|"command_bunker_side"|"command_bunker_top"|"embryo_01"|"embryo_01_cluster_x6"|"embryo_01_cluster_x6_destroyed"|"emplacement_hmg"|"emplacement_mg"|"encounter_ship_landed_door_shield"|"fleet_ship_01"|"gen_footage_volume"|"grinder"|"harvester"|"landed_dropship"|"mothership"|"obj_asset_hijack_tech_hub_nexus_machine"|"power_generator"|"spawner_factory_conscript_airborne"|"spawner_factory_conscript_assault"|"spawner_factory_conscript_base"|"spawner_factory_conscript_phalanx"|"spawner_factory_conscript_standard"|"spore_lung"|"tcs_support_damageable"|"tcs_support_damageable_02"|"turret_01"|"turret_tactical_obj"
+
+---@class HD2EnemyZone
+---@field resource "enemy"
+---@field path "damage_zone"
+---@field enemy string
+---@field zone string
+local HD2EnemyZone = {}
+---Zone fields: zone.health/armor/affects_main_health (proven), zone.constitution/durable_resistance/
+---explosive_damage_percentage (allow_unverified_effect=true).
+---@return table
+function HD2EnemyZone:describe() end
+
+---@class HD2Enemy
+---@field resource "enemy"
+---@field path "entity"
+---@field enemy string
+local HD2Enemy = {}
+---Identity (wiki name or native class, faction, kind), damage zones and main fields.
+---@return table
+function HD2Enemy:describe() end
+---@return HD2EnemyZone[]
+function HD2Enemy:zones() end
+---@param identity string|integer Zone id ("zone_0"), native zone name, wiki zone label or index.
+---@return HD2EnemyZone
+function HD2Enemy:zone(identity) end
+---@return HD2EnemyZone[]
+function HD2Enemy:damage_zones() end
+---@param identity string|integer
+---@return HD2EnemyZone
+function HD2Enemy:damage_zone(identity) end
 ---@alias HD2MagazineAttachmentId "Jet Assisted Rifle 15mm. Drum Standard"|"Karbin Rifle Standard"|"Pistol 12x20mm. Standard"|"Pistol 9x20mm. Extended"|"Plasma Medium. Canister Extended"|"Plasma Medium. Canister Standard"|"Plasma Pistol. Canister Extended"|"Plasma Pistol. Canister Pistol"|"RIFLE 9x70mm. Extended"|"RIFLE 9x70mm. Standard"|"RIFLE Drake. Short"|"RIFLE Drake. Standard"|"RIFLE Justice. Extended"|"RIFLE Justice. Short"|"RIFLE Justice. Standard"|"Rifle 5,5x50mm. Drum"|"Rifle 5,5x50mm. Drum Carbine"|"Rifle 5,5x50mm. Extended"|"Rifle 5,5x50mm. Extended Fastreload"|"Rifle 5,5x50mm. Standard"|"Rifle 5,5x50mm. Standard Fastreload"|"Rifle 8x40mm Rifle Standard"|"SHOTGUN 12g. Drum"|"SHOTGUN 12g. Drum Light"|"SHOTGUN 12g. Magazine Extended"|"SHOTGUN 12g. Magazine Extended Light"|"SMG 12x25mm. Drum"|"SMG 12x25mm. Drum Pummeler"|"SMG 12x25mm. Extended"|"SMG 12x25mm. Extended Pummeler"|"SMG 12x25mm. Standard"|"SMG 12x25mm. Standard Pummeler"|"SMG 9x20mm. Top Mounted Extended"|"SMG 9x20mm. Top Mounted Extended Solvent"|"SMG 9x20mm. Top Mounted Standard"|"SMG 9x20mm. Top Mounted Standard Solvent"|"SMG Flamer Drum Magazine"|"SMG Flamer Extended Magazine"|"SMG Flamer Standard Magazine"|"Shotgun 12g. Magazine Standard"|"Shotgun 12g. Magazine Standard Light"|"Whisper Rifle 5,5x50mm. Drum"|"Whisper Rifle 5,5x50mm. Standard"|"weapon-attachment/v1/magazine/jet-assisted-rifle-15mm-drum-standard/d973eb6ff9b6c804"|"weapon-attachment/v1/magazine/karbin-rifle-standard/e2f9b6b1f2e8fddb"|"weapon-attachment/v1/magazine/pistol-12x20mm-standard/874261a0d16e5e00"|"weapon-attachment/v1/magazine/pistol-9x20mm-extended/98939255db31bed4"|"weapon-attachment/v1/magazine/plasma-medium-canister-extended/09729aaa96113627"|"weapon-attachment/v1/magazine/plasma-medium-canister-standard/f4fa14d4afd3ea71"|"weapon-attachment/v1/magazine/plasma-pistol-canister-extended/6ec0d8e8516cbc07"|"weapon-attachment/v1/magazine/plasma-pistol-canister-pistol/b427e5ddcd7ebe62"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum-carbine/00618531fc7a3692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-drum/fa499a29b375c6cf"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended-fastreload/b9d2c29a3b15b591"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-extended/bfc7127000978692"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard-fastreload/b46fd3d0a10576b9"|"weapon-attachment/v1/magazine/rifle-5-5x50mm-standard/272e4c5f18bbd39e"|"weapon-attachment/v1/magazine/rifle-8x40mm-rifle-standard/892779ea0d77aeb3"|"weapon-attachment/v1/magazine/rifle-9x70mm-extended/ac5002ad314cd5a3"|"weapon-attachment/v1/magazine/rifle-9x70mm-standard/cda05894170c4de9"|"weapon-attachment/v1/magazine/rifle-drake-short/a04c9bf6b8f34a03"|"weapon-attachment/v1/magazine/rifle-drake-standard/30c524ee2906dec4"|"weapon-attachment/v1/magazine/rifle-justice-extended/621a26851cfd19a2"|"weapon-attachment/v1/magazine/rifle-justice-short/9deab1113f78adfa"|"weapon-attachment/v1/magazine/rifle-justice-standard/c52443137e402fe8"|"weapon-attachment/v1/magazine/shotgun-12g-drum-light/6848f4e70d10b9a7"|"weapon-attachment/v1/magazine/shotgun-12g-drum/c1aeebcaa7c23988"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended-light/ce3ad89a45cec7a2"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-extended/95b6103970039345"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard-light/6304622136df620c"|"weapon-attachment/v1/magazine/shotgun-12g-magazine-standard/f9f877be8deda58d"|"weapon-attachment/v1/magazine/smg-12x25mm-drum-pummeler/4fded5f56e190410"|"weapon-attachment/v1/magazine/smg-12x25mm-drum/568bc4a451110ca0"|"weapon-attachment/v1/magazine/smg-12x25mm-extended-pummeler/946ef6b4fae7c0de"|"weapon-attachment/v1/magazine/smg-12x25mm-extended/73a27ec123b6d632"|"weapon-attachment/v1/magazine/smg-12x25mm-standard-pummeler/ea054f1cc567db3b"|"weapon-attachment/v1/magazine/smg-12x25mm-standard/6c63bd137af2da1e"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended-solvent/11156cef840b147a"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-extended/176c9113b2833712"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard-solvent/80bf5c7ef57ea0e0"|"weapon-attachment/v1/magazine/smg-9x20mm-top-mounted-standard/fc9cc6afc9155eb2"|"weapon-attachment/v1/magazine/smg-flamer-drum-magazine/edd0b384b4ec7242"|"weapon-attachment/v1/magazine/smg-flamer-extended-magazine/a7609a0fd1736a11"|"weapon-attachment/v1/magazine/smg-flamer-standard-magazine/e68347c558fb8b96"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-drum/dc2b49810b002079"|"weapon-attachment/v1/magazine/whisper-rifle-5-5x50mm-standard/16af29c8d0590809"
 
 ---@class HD2WeaponAttachment
@@ -1213,6 +1245,10 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@class HD2Fields_entity
 ---@field health "entity.health"
 ---@field armor "entity.armor"
+---@field constitution "entity.constitution"
+---@field constitution_rate "entity.constitution_rate"
+---@field durable_resistance "entity.durable_resistance"
+---@field explosive_damage_percentage "entity.explosive_damage_percentage"
 
 ---@class HD2Fields_eagle
 ---@field uses_per_rearm "eagle.uses_per_rearm"
@@ -1233,6 +1269,9 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field armor "zone.armor"
 ---@field health "zone.health"
 ---@field affects_main_health "zone.affects_main_health"
+---@field constitution "zone.constitution"
+---@field durable_resistance "zone.durable_resistance"
+---@field explosive_damage_percentage "zone.explosive_damage_percentage"
 
 ---@class HD2Fields_jump
 ---@field vertical_launch_velocity "jump.vertical_launch_velocity"
@@ -1392,6 +1431,18 @@ function hd2.pickup(identity) end
 ---@param category? "support_weapon"|"backpack"|"ammo"|"stim"|"grenade"|"supply"
 ---@return HD2Pickup[]
 function hd2.pickups(category) end
+---An enemy class by wiki name (when proven) or native class name (see sdk/EnemyAuthoringCapabilities.json).
+---@param name HD2EnemyName
+---@return HD2Enemy
+function hd2.enemy(name) end
+---An enemy structure (fabricators, emplacements, objectives) by wiki or native class name.
+---@param name HD2StructureName
+---@return HD2Enemy
+function hd2.structure(name) end
+---Reviewed enemy / structure names, optionally filtered by kind and faction.
+---@param filter? {kind?: "enemy"|"structure", faction?: "terminids"|"automatons"|"illuminate"|"neutral"}
+---@return string[]
+function hd2.enemies(filter) end
 ---Describe schema and prior evidence without reading memory.
 ---@param resource HD2Resource
 ---@return table
