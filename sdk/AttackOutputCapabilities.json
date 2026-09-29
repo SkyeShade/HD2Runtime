@@ -1,6 +1,6 @@
 {
  "contract": "hd2runtime.attack_outputs.v1",
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "hd2RuntimeVersion": "0.27.0",
  "build": "F5FEE03DCFDB",
  "model": {
@@ -91,75 +91,1014 @@
    "identity": "the owner weapon, its output-family component and settings row are re-proven live",
    "assets": "the owner package is loaded through the 0.27 asset loader before the reference is written",
    "structural": "projectile-family outputs only: one ProjectileType reference; cross-family is blocked",
-   "gameplay": "live-proven only by a user-run test (sdk/LiveEvidenceCatalog.json); none yet"
+   "activeSource": "the written member is the projectile the host fires: its active projectile source (projectileSources), established from the decoded data path and the live controls",
+   "gameplay": "live-proven only by a user-run test (sdk/LiveEvidenceCatalog.json)"
   }
  },
+ "activeSourceModel": {
+  "guarantee": "When Runtime reports a projectile reference as writable for a host, changing it changes the projectile that host fires, as far as the decoded data path and the live controls establish. Attacks whose fired projectile comes from elsewhere are read-only with the reason.",
+  "statuses": {
+   "ACTIVE_DIRECT": "the attack member itself is the fired projectile; writable directly",
+   "INDIRECT": "the default ammunition customization patches the member when the weapon is built; the member is dormant and the ammunition delta is the active source",
+   "DORMANT_OR_METADATA": "the member is overridden and the overriding source is not uniquely identified",
+   "AMBIGUOUS": "the active projectile depends on state not proven offline",
+   "BLOCKED": "another native selector owns the fired projectile"
+  },
+  "proofBasis": "Decoded data path (entity components, customization defaults, entity deltas, runtime unlock lists) checked against two live controls: the Reprimand (no customization patch on +0) fired a swapped projectile; the Liberator (default ammunition delta patches +0) did not. No native reader of the firing path was traced.",
+  "referencesReachable": {
+   "ProjectileWeapon +0 ProjType": "the fired projectile unless a customization delta patches it",
+   "ProjectileWeapon +576 WeaponFunctionProjectileType": "used when a programmable-ammo weapon function is active",
+   "ProjectileWeapon +40 ProjectileEntity": "when set, firing spawns an entity instead of a projectile",
+   "WeaponMagazine +4 Projectiles[32] / +132 FirstProjectile": "magazine pattern; overrides per round when set",
+   "WeaponRounds +64 / +68": "primary / alternate magazine projectile of rounds-fed weapons",
+   "WeaponCharge / WeaponHeat ProjType": "charge- or heat-level projectile",
+   "customization entity deltas": "ammunition items patch them at weapon build: slot 6 patches ProjectileWeapon +0 or WeaponRounds +64, slot 7 (alternate magazine) WeaponRounds +68; the delta, not the base member, is then the fired projectile. No other customization slot patches a projectile member."
+  },
+  "liveControls": {
+   "positive": "SMG-32 Reprimand -> LAS-58 Talon (pass)",
+   "negative": "AR-23 Liberator -> LAS-58 Talon (fail: field written, no gameplay effect)"
+  },
+  "counts": {
+   "projectileWeapons": 89,
+   "byStatus": {
+    "ACTIVE_DIRECT": 51,
+    "AMBIGUOUS": 3,
+    "BLOCKED": 29,
+    "INDIRECT": 6
+   },
+   "previousHosts": 58,
+   "previousHostsByStatus": {
+    "ACTIVE_DIRECT": 43,
+    "AMBIGUOUS": 3,
+    "BLOCKED": 6,
+    "INDIRECT": 6
+   },
+   "attackFields": 67,
+   "attackFieldsByStatus": {
+    "ACTIVE_DIRECT": 44,
+    "AMBIGUOUS": 11,
+    "BLOCKED": 6,
+    "INDIRECT": 6
+   },
+   "previouslyWritableAttackFieldsByStatus": {
+    "ACTIVE_DIRECT": 37,
+    "AMBIGUOUS": 9,
+    "BLOCKED": 6,
+    "INDIRECT": 5
+   }
+  }
+ },
+ "projectileSources": [
+  {
+   "weapon": "AR-11 Arbitrator",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR-2 Coyote",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "AR-23 Liberator",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item RIFLE 5,5x50mm. FULL METAL JACKET (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 10 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "AR-23A Liberator Carbine",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR-23C Liberator Concussive",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR-23P Liberator Penetrator",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR-32 Pacifier",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "AR-59 Suppressor",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR-61 Tenderizer",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "AR/GL-21 One-Two",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "BR-14 Adjudicator",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "CB-9 Exploding Crossbow",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "DBS-2 Double Freedom",
+   "attack": "feed_primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "WeaponRounds +64",
+   "reason": "WeaponRounds PrimaryProjectileType is the only projectile the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "GL-15 Evictor",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "GP-20 Ultimatum",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "GP-31 Grenade Pistol",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "The weapon identity does not resolve uniquely, so its customization and active source are not classified.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "JAR-5 Dominator",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item ROCKET 15x100mm. STANDARD ROCKET (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 7 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "LAS-12 Sai",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "LAS-16 Sickle",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: WeaponHeat (level-selected projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "LAS-58 Talon",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "M6C/SOCOM Pistol",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "M7S SMG",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "M90A Shotgun",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "MA5C Assault Rifle",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "MP-98 Knight",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "No default overrides +0, but the unlock list carries an option that patches a projectile member: the fired projectile depends on the equipped option.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-11 Stim Pistol",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-113 Verdict",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "P-19 Redeemer",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item PISTOL-SMG 9x20mm. FULL METAL JACKET (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 7 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "P-2 Peacemaker",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item PISTOL-SMG 9x20mm. HOLLOW POINT (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 8 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "P-33 Missile Pistol",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-34 Breacher",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-35 Re-Educator",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "P-4 Senator",
+   "attack": "feed_primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile (+0 patched by REVOLVER 13x40mm. FULL METAL JACKET); which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-69 Veto",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P-92 Warrant",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "P/40-K Bolt Pistol",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "PLAS-1 Scorcher",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "PLAS-101 Purifier",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "PLAS-15 Loyalist",
+   "attack": "primary",
+   "status": "BLOCKED",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R-2 Amendment",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R-2124 Constitution",
+   "attack": "feed_primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "WeaponRounds +64",
+   "reason": "WeaponRounds PrimaryProjectileType is the only projectile the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R-36 Eruptor",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R-4 Hyena",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "R-6 Deadeye",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "R-63 Diligence",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item RIFLE 9x70mm. Full Metal Jacket (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 6 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R-72 Censor",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-20 Halt",
+   "attack": "feed_alternate",
+   "status": "INDIRECT",
+   "mechanism": null,
+   "member": "WeaponRounds +68",
+   "reason": "The default ammunition item SHOTGUN 10g. Stun ALTERNATE patches WeaponRounds AlternateProjectileType when the weapon is built, so the base member is dormant. The rounds ammunition source is not offered for writes.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "SG-20 Halt",
+   "attack": "feed_primary",
+   "status": "INDIRECT",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "The default ammunition item SHOTGUN 10g. FLECHETTES patches WeaponRounds PrimaryProjectileType when the weapon is built, so the base member is dormant. The rounds ammunition source is not offered for writes.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "SG-22 Bushwhacker",
+   "attack": "feed_primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "WeaponRounds +64",
+   "reason": "WeaponRounds PrimaryProjectileType is the only projectile the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-225 Breaker",
+   "attack": "primary",
+   "status": "INDIRECT",
+   "mechanism": "ammunition",
+   "member": "ProjectileWeapon +0",
+   "reason": "The default ammunition item SHOTGUN 12g. BIRDSHOT (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 8 other options that patch a projectile member (alternate ammunition), each with its own projectile.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": "weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)"
+  },
+  {
+   "weapon": "SG-225IE Breaker Incendiary",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-451 Cookout",
+   "attack": "feed_primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "WeaponRounds +64",
+   "reason": "WeaponRounds PrimaryProjectileType is the only projectile the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "SG-8 Punisher",
+   "attack": "feed_primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Customization options patch WeaponRounds PrimaryProjectileType (SHOTGUN 10g. BIRDSHOT, SHOTGUN 10g. BUCKSHOT, SHOTGUN 10g. BUGSHOT, SHOTGUN 10g. DUAL SABOT, SHOTGUN 10g. FLECHETTES, SHOTGUN 10g. FRAGMENTATION, SHOTGUN 10g. HIGH VELOCITY SABOT, SHOTGUN 10g. LIBERTY FIRE, SHOTGUN 10g. MAGNUM, SHOTGUN 10g. MAGNUM TRIBALL, SHOTGUN 10g. SCATTER SHOT, SHOTGUN 10g. SLUG, SHOTGUN 10g. TRI-BALL); the fired projectile depends on the equipped option.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "SG-8P Punisher Plasma",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-8S Slugger",
+   "attack": "feed_primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "WeaponRounds +64",
+   "reason": "WeaponRounds PrimaryProjectileType is the only projectile the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SG-97 Sweeper",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "WeaponRounds +64",
+   "reason": "Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+   "directWritable": false,
+   "previouslyWritable": true,
+   "write": null
+  },
+  {
+   "weapon": "SMG-203 Gallant",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SMG-32 Reprimand",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "SMG-37 Defender",
+   "attack": "primary",
+   "status": "AMBIGUOUS",
+   "mechanism": null,
+   "member": "ProjectileWeapon +0",
+   "reason": "The weapon identity does not resolve uniquely, so its customization and active source are not classified.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "SMG-72 Pummeler",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": false,
+   "previouslyWritable": false,
+   "write": null
+  },
+  {
+   "weapon": "SMG/FLAM-34 Stoker",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "StA-11 SMG",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "StA-52 Assault Rifle",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  },
+  {
+   "weapon": "VG-70 Variable",
+   "attack": "primary",
+   "status": "ACTIVE_DIRECT",
+   "mechanism": "component",
+   "member": "ProjectileWeapon +0",
+   "reason": "No customization delta patches a projectile member and no other selector exists: every shot is ProjectileWeapon +0.",
+   "directWritable": true,
+   "previouslyWritable": true,
+   "write": "weapon:attack(role):projectile() (hd2.fields.attack.projectile)"
+  }
+ ],
+ "ammunitionSources": [
+  {
+   "weapon": "AR-23 Liberator",
+   "semanticId": "ammunition/v1/ar-23-liberator/rifle-5-5x50mm-full-metal-jacket",
+   "item": "RIFLE 5,5x50mm. FULL METAL JACKET",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  },
+  {
+   "weapon": "JAR-5 Dominator",
+   "semanticId": "ammunition/v1/jar-5-dominator/rocket-15x100mm-standard-rocket",
+   "item": "ROCKET 15x100mm. STANDARD ROCKET",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  },
+  {
+   "weapon": "P-19 Redeemer",
+   "semanticId": "ammunition/v1/p-19-redeemer/pistol-smg-9x20mm-full-metal-jacket",
+   "item": "PISTOL-SMG 9x20mm. FULL METAL JACKET",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [
+    "MP-98 Knight"
+   ],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  },
+  {
+   "weapon": "P-2 Peacemaker",
+   "semanticId": "ammunition/v1/p-2-peacemaker/pistol-smg-9x20mm-hollow-point",
+   "item": "PISTOL-SMG 9x20mm. HOLLOW POINT",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [
+    "MP-98 Knight",
+    "P-19 Redeemer"
+   ],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  },
+  {
+   "weapon": "R-63 Diligence",
+   "semanticId": "ammunition/v1/r-63-diligence/rifle-9x70mm-full-metal-jacket",
+   "item": "RIFLE 9x70mm. Full Metal Jacket",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  },
+  {
+   "weapon": "SG-225 Breaker",
+   "semanticId": "ammunition/v1/sg-225-breaker/shotgun-12g-birdshot",
+   "item": "SHOTGUN 12g. BIRDSHOT",
+   "compatibilityClass": "conventional_plain",
+   "sharedWithWeapons": [],
+   "sharedReason": "An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state and does not prove that no other weapon equips it.",
+   "appliesWhen": "weapon build (the ammunition delta is applied when the weapon is built)",
+   "acknowledgements": [
+    "allow_shared",
+    "allow_unverified_effect"
+   ],
+   "crossClassAcknowledgements": [
+    "allow_unverified_reference"
+   ],
+   "effectReason": "The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is not gameplay-tested.",
+   "liveProof": "pending"
+  }
+ ],
  "hostModel": {
-  "projectileHosts": [
-   "APW-1 Anti-Materiel Rifle",
+  "componentHosts": [
    "AR-11 Arbitrator",
-   "AR-2 Coyote",
-   "AR-23 Liberator",
    "AR-23A Liberator Carbine",
    "AR-23C Liberator Concussive",
    "AR-23P Liberator Penetrator",
-   "AR-32 Pacifier",
    "AR-59 Suppressor",
    "AR-61 Tenderizer",
    "AR/GL-21 One-Two",
    "BR-14 Adjudicator",
    "CB-9 Exploding Crossbow",
-   "EAT-17 Expendable Anti-Tank",
-   "EAT-411 Leveller",
-   "EAT-700 Expendable Napalm",
-   "FAF-14 Spear",
-   "GL-21 Grenade Launcher",
    "GP-20 Ultimatum",
-   "GR-8 Recoilless Rifle",
-   "JAR-5 Dominator",
-   "M-105 Stalwart",
    "M6C/SOCOM Pistol",
    "M7S SMG",
    "MA5C Assault Rifle",
-   "MG-206 Heavy Machine Gun",
-   "MLS-4X Commando",
-   "MP-98 Knight",
    "P-113 Verdict",
-   "P-19 Redeemer",
-   "P-2 Peacemaker",
-   "P-33 Missile Pistol",
-   "P-34 Breacher",
-   "P-35 Re-Educator",
-   "P-92 Warrant",
    "P/40-K Bolt Pistol",
    "PLAS-1 Scorcher",
    "R-2 Amendment",
    "R-36 Eruptor",
-   "R-4 Hyena",
-   "R-63 Diligence",
    "R-63CS Diligence Counter Sniper",
    "R-72 Censor",
    "R/40-K Hot-Shot Marksman Rifle",
-   "RL-77 Airburst Rocket Launcher",
-   "S-11 Speargun",
-   "SG-225 Breaker",
-   "SG-225IE Breaker Incendiary",
    "SG-225SP Breaker Spray&Pray",
    "SG-8P Punisher Plasma",
    "SMG-203 Gallant",
    "SMG-32 Reprimand",
-   "SMG-72 Pummeler",
    "SMG/FLAM-34 Stoker",
    "StA-11 SMG",
    "StA-52 Assault Rifle",
-   "StA-X3 W.A.S.P. Launcher",
    "VG-70 Variable"
   ],
-  "rule": "A cross-class projectile output needs a magazine-fed projectile host whose every round is ProjectileWeapon +0: a WeaponMagazine with an empty magazine pattern, and no WeaponRounds, WeaponCharge or WeaponHeat component that selects projectiles by ammo type, charge or heat level. The host keeps its magazine, ammo consumption, reload, RPM and handling; only +0 changes.",
+  "ammunitionHosts": [
+   "AR-23 Liberator",
+   "JAR-5 Dominator",
+   "P-19 Redeemer",
+   "P-2 Peacemaker",
+   "R-63 Diligence",
+   "SG-225 Breaker"
+  ],
+  "rule": "A projectile output needs a player attack whose fired projectile Runtime can write. component: the attack's own ProjectileWeapon +0 is its active source (ACTIVE_DIRECT). ammunition: the default ammunition delta is (INDIRECT), written through weapon:ammunition(). Both keep the live controls' structure: magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat. A projectile pointer existing is not enough. Support weapons have no guarded projectile reference target.",
+  "hostLiveProof": {
+   "AR-23 Liberator": [
+    {
+     "test": "Liberator -> Talon projectile swap (user-built; new and older API)",
+     "result": "FAIL",
+     "family": "weapon_projectile_reference_dormant_member",
+     "hostReadsReference": false
+    },
+    {
+     "test": "LiberatorAttackOutputTest (pre-correction build) (EAT-700 Napalm)",
+     "result": "UNPROVEN",
+     "family": "attack_output_cross_class",
+     "hostReadsReference": false
+    },
+    {
+     "test": "LiberatorAttackOutputTest (pre-correction build) (GL-52 Arc (impact))",
+     "result": "UNPROVEN",
+     "family": "attack_output_cross_class",
+     "hostReadsReference": false
+    }
+   ],
+   "SMG-32 Reprimand": [
+    {
+     "test": "AssetTestReprimandTalonProjectile",
+     "result": "PASS",
+     "family": "weapon_projectile_reference_direct",
+     "hostReadsReference": true
+    }
+   ]
+  },
   "retained": {
    "magazine": "WeaponMagazineComponent (unchanged)",
    "reload": "WeaponReloadComponent",
-   "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only +0 changes)",
+   "rpmAndAmmoUse": "ProjectileWeaponComponent +8 / +36 (host-owned; only the fired projectile changes)",
    "handling": "WeaponDataComponent (recoil, spread, sway, ergonomics, fire modes)",
    "liberator": {
     "rpm": 640.0,
@@ -189,9 +1128,9 @@
   "EAT-700 Napalm": {
    "donor": "EAT-700 Expendable Napalm",
    "status": "SUPPORTED",
-   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), so replacing the Liberator's +0 reference is the whole composition. Everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain), so the swap is a cross-class reference and needs allow_unverified_reference and allow_unverified_effect.",
+   "reason": "Same output family: the EAT-700 fires through its own ProjectileWeaponComponent (+0 ProjectileType), and everything the rocket does hangs off its own projectile row: impact explosion, napalm submunition projectile and its explosion, and the fire statuses. The Liberator fires the projectile of its default ammunition (RIFLE 5,5x50mm. FULL METAL JACKET), whose entity delta overwrites its ProjectileWeapon +0 at weapon build, so the composition writes that ammunition projectile, not the dormant +0. Its structural class (explosive_shrapnel) differs from the Liberator's (conventional_plain): a cross-class reference that needs allow_unverified_reference and allow_unverified_effect.",
    "writes": [
-    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+    "host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)"
    ]
   },
   "ARC-3 Arc": {
@@ -203,9 +1142,9 @@
   "Arc on impact": {
    "donor": "GL-52 De-Escalator",
    "status": "SUPPORTED",
-   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120). Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
+   "reason": "Projectile-family swap to the GL-52 De-Escalator grenade, whose impact explosion releases a native arc (ExplosionInfo +120), written to the Liberator's default ammunition projectile like the EAT-700. Cross-class (explosive_arc), so allow_unverified_reference and allow_unverified_effect are required.",
    "writes": [
-    "host ProjectileWeaponComponent +0 (attack.primary.projectile)"
+    "host default ammunition delta (weapon:ammunition():projectile(), ammunition.projectile)"
    ]
   }
  },
@@ -218,8 +1157,11 @@
    "spray": 4,
    "melee": 7
   },
-  "selectable": 78,
-  "projectileHosts": 58
+  "selectable": 66,
+  "projectileHosts": 35,
+  "componentHosts": 29,
+  "ammunitionHosts": 6,
+  "directWritableAttackFields": 37
  },
  "outputs": [
   {
@@ -262,6 +1204,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -304,6 +1247,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -346,6 +1290,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -388,6 +1333,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -430,6 +1376,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -472,6 +1419,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -514,6 +1462,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -556,6 +1505,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -598,6 +1548,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -640,6 +1591,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -668,6 +1620,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -710,6 +1663,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -752,6 +1706,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -779,6 +1734,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -806,6 +1762,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -833,6 +1790,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -860,6 +1818,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -875,7 +1834,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -894,6 +1853,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -923,6 +1883,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -965,6 +1926,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1007,6 +1969,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1049,6 +2012,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1091,6 +2055,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1120,6 +2085,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -1162,6 +2128,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1174,12 +2141,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "conventional_plain",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponHeat (level-selected projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -1197,13 +2162,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1246,7 +2206,16 @@
      "allow_unverified_effect"
     ]
    },
-   "liveProof": null
+   "ownerFiresThisProjectile": "fires_reference",
+   "liveProof": {
+    "donorOutput": "live_proven",
+    "tests": [
+     "AssetTestReprimandTalonProjectile"
+    ],
+    "provenOnHosts": [
+     "SMG-32 Reprimand"
+    ]
+   }
   },
   {
    "semanticId": "output/v1/projectile/m6c-socom-pistol",
@@ -1288,6 +2257,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1330,6 +2300,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1372,6 +2343,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1414,6 +2386,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1456,6 +2429,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "default_projectile",
    "liveProof": null
   },
   {
@@ -1498,6 +2472,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1540,6 +2515,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1555,7 +2531,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires its default ammunition projectile; its ProjectileWeapon member names a different row.",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -1574,6 +2550,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1589,7 +2566,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires its default ammunition projectile; its ProjectileWeapon member names a different row.",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -1608,6 +2585,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1620,12 +2598,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact_and_expiry",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": true,
@@ -1643,13 +2619,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1662,12 +2633,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact_and_expiry",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": true,
@@ -1685,13 +2654,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1734,6 +2698,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1749,7 +2714,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -1768,6 +2733,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1810,6 +2776,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1822,12 +2789,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "conventional_plain",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -1845,13 +2810,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1894,6 +2854,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1936,6 +2897,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -1948,12 +2910,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponCharge (level-selected projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -1972,13 +2932,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -1991,12 +2946,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponCharge (level-selected projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -2015,13 +2968,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2065,6 +3013,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2107,6 +3056,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2122,7 +3072,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2141,6 +3091,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2183,6 +3134,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2225,6 +3177,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2267,6 +3220,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2309,6 +3263,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2351,6 +3306,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2393,6 +3349,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2435,6 +3392,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2450,7 +3408,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2469,6 +3427,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2484,7 +3443,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2503,6 +3462,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2545,6 +3505,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2587,6 +3548,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2629,6 +3591,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2644,7 +3607,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2663,6 +3626,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2678,7 +3642,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2697,6 +3661,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2739,6 +3704,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2754,7 +3720,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -2773,6 +3739,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -2815,6 +3782,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2857,6 +3825,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2899,6 +3868,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2941,6 +3911,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -2983,6 +3954,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3025,6 +3997,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3067,6 +4040,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3109,6 +4083,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3139,6 +4114,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3181,6 +4157,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3223,6 +4200,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3251,6 +4229,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3279,6 +4258,7 @@
     "autoLoad": false
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3306,6 +4286,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3335,6 +4316,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3362,6 +4344,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3403,6 +4386,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3444,6 +4428,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3485,6 +4470,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3497,12 +4483,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -3520,13 +4504,8 @@
     "known": false,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -3556,6 +4535,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3598,6 +4578,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3639,6 +4620,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3681,6 +4663,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3723,6 +4706,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "default_projectile",
    "liveProof": null
   },
   {
@@ -3752,6 +4736,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   },
   {
@@ -3793,6 +4778,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3835,6 +4821,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3877,6 +4864,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3919,6 +4907,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -3931,12 +4920,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "conventional_plain",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -3954,13 +4941,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -3973,12 +4955,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "conventional_plain",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: magazine pattern (WeaponMagazine Projectiles[32] / FirstProjectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -3995,13 +4975,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -4014,12 +4989,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -4036,13 +5009,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -4055,12 +5023,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact_and_expiry",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponCharge (level-selected projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": true,
@@ -4079,13 +5045,8 @@
     "known": true,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -4128,6 +5089,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "default_projectile",
    "liveProof": null
   },
   {
@@ -4171,6 +5133,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -4213,6 +5176,7 @@
      "allow_unverified_effect"
     ]
    },
+   "ownerFiresThisProjectile": "fires_reference",
    "liveProof": null
   },
   {
@@ -4228,7 +5192,7 @@
    "selectableAsProjectileReference": false,
    "compatibleHostFamilies": [],
    "requiredCoordinatedReferences": null,
-   "blockedReason": "The projectile row this weapon fires is not resolved in the retained snapshot.",
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: WeaponRounds ammo types (primary / alternate magazine projectile).",
    "chain": {
     "impactExplosion": false,
     "expiryExplosion": false,
@@ -4247,6 +5211,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -4259,12 +5224,10 @@
    },
    "emitter": "ProjectileWeapon",
    "compatibilityClass": "explosive_impact",
-   "selectableAsProjectileReference": true,
-   "compatibleHostFamilies": [
-    "projectile"
-   ],
-   "requiredCoordinatedReferences": [],
-   "blockedReason": null,
+   "selectableAsProjectileReference": false,
+   "compatibleHostFamilies": [],
+   "requiredCoordinatedReferences": null,
+   "blockedReason": "The owner fires through another selector, so this row is not established as its attack output: ProjectileEntity (spawns an entity instead of a projectile).",
    "chain": {
     "impactExplosion": true,
     "expiryExplosion": false,
@@ -4282,13 +5245,8 @@
     "known": false,
     "autoLoad": true
    },
-   "acknowledgements": {
-    "sameClass": [],
-    "crossClass": [
-     "allow_unverified_reference",
-     "allow_unverified_effect"
-    ]
-   },
+   "acknowledgements": null,
+   "ownerFiresThisProjectile": "not_established",
    "liveProof": null
   },
   {
@@ -4318,6 +5276,7 @@
     "autoLoad": true
    },
    "acknowledgements": null,
+   "ownerFiresThisProjectile": null,
    "liveProof": null
   }
  ],

@@ -42,6 +42,7 @@ local function desired_key(change)
     if selector then
         return 'ref:'..tostring(selector.output or'')..'|'..tostring(selector.weapon or'')..'|'
             ..tostring(selector.attack or'')..'|'..tostring(selector.phase or'')..'|'..tostring(selector.is_null or'')
+            ..(selector.ammunition and'|ammunition'or'')
     end
     return 'value:'..tostring(change.value)
 end

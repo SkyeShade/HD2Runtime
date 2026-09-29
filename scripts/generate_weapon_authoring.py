@@ -69,6 +69,9 @@ def build(catalog_path=CATALOG):
     source=json.loads(Path(catalog_path).read_text())
     ammo_source=json.loads(AMMO_CATALOG.read_text())
     composition_source=json.loads(COMPOSITION_CATALOG.read_text())
+    # Active projectile source of every attack (research/active-projectile-sources-F5FEE03DCFDB.json).
+    from generate_attack_outputs import active_sources,source_reason
+    projectile_sources=active_sources()[1]
     ammo_by_name={item['name']:item for item in ammo_source['weapons']}
     assert len(ammo_by_name)==80 and set(ammo_by_name)=={item['name'] for item in source['weapons']}, \
         'ammo capability catalog must cover the same 80 player weapons'
@@ -359,8 +362,14 @@ def build(catalog_path=CATALOG):
             backend=component_backend(candidate,backing['component'],backing['offset'],'u32')
             current={'weapon':name,'attack':attack['role'],'projectileType':attack['projectileType']}
             reason=attack.get('reason')
+            # Writable only where the written member is the projectile the attack fires (its active source).
+            source=projectile_sources[name][attack['role']]
+            direct=source['status']=='ACTIVE_DIRECT'
             field=make_field(field_id,current,backend,
-                editable=unique and attack['writableReferenceSwap'],reason=blocked or reason)
+                editable=unique and attack['writableReferenceSwap'] and direct,
+                reason=blocked or reason or (None if direct else source_reason(source)))
+            field['projectileSource']={'status':source['status'],'mechanism':source['mechanism'],
+                'member':source['member']}
             field['referenceKind']='projectile'
             field['compatibilityClass']=attack['compatibilityClass']
             field['referenceRole']=attack['role']
@@ -592,6 +601,9 @@ def build(catalog_path=CATALOG):
         'familyCoverage':family_coverage}
     summary['ammo']=ammo_source['summary']
     summary['composition']=composition_source['summary']
+    # writableTargetAttacks is the structural count; only attacks whose member is their active source stay writable.
+    summary['composition']['projectile']['activeSourceWritableTargetAttacks']=sum(1 for w in weapons
+        for f in w['fields'] if f.get('referenceKind')=='projectile' and f['editable'])
     return {'schemaVersion':schema['schema_version'],'hd2RuntimeVersion':VERSION_FILE.read_text().strip(),
         'buildFingerprints':report['gameFingerprints'],'sourceSnapshot':
             build_profile.SNAPSHOT_NAME,'summary':summary,

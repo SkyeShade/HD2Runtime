@@ -71,6 +71,27 @@ return hd2.patch({id='concussive-fire-rate',target=hd2.weapon('AR-23C Liberator 
 '''
 
 
+# Active projectile sources from the shipped archive: the Reprimand's own member is its fired projectile (the live
+# PASS control); the Liberator's attack.projectile is refused as dormant (the live FAIL control) and the same donor
+# goes to its active source, the default ammunition delta, after the donor package is loaded.
+PROJECTILE_SOURCES = r'''local hd2=require('mods/skyeshade/hd2runtime')
+local reprimand=hd2.weapon('SMG-32 Reprimand'):attack('primary'):projectile_source()
+assert(reprimand.status=='ACTIVE_DIRECT'and reprimand.mechanism=='component'and reprimand.writable
+    and reprimand.field=='attack.projectile','Reprimand is no longer a direct projectile source')
+local attack=hd2.weapon('AR-23 Liberator'):attack('primary')
+local talon=hd2.weapon('LAS-58 Talon'):attack('primary'):projectile()
+local ok,why=pcall(hd2.ensure,{patch={id='liberator-talon-dormant',target=attack,field=hd2.fields.attack.projectile,
+    expect=attack:projectile(),value=talon}})
+assert(not ok and tostring(why):find('DORMANT_PROJECTILE_REFERENCE',1,true),
+    'the dormant Liberator member was not refused: '..tostring(why))
+local source=attack:projectile_source()
+assert(source.status=='INDIRECT'and source.mechanism=='ammunition'and source.writable
+    and source.field=='ammunition.projectile','Liberator is no longer an ammunition source')
+return hd2.ensure({patch={id='liberator-talon-ammunition',target=source.target,field=hd2.fields.ammunition.projectile,
+    expect=source.expect,value=talon,allow_shared=true,allow_unverified_effect=true}})
+'''
+
+
 SUPPORT_COVERAGE = r'''local hd2=require('mods/skyeshade/hd2runtime')
 local mg43=hd2.support_weapon('MG-43 Machine Gun')
 local operations={}
@@ -329,9 +350,10 @@ def test_mod_ids(text):
     return text
 
 
-# LiberatorAttackOutputTest: one Mod Options choice selects a complete output composition. Every switch is one
-# owned transition of the Liberator's projectile reference; each donor package is requested once, before its write;
-# Vanilla restores the exact baseline; the run ends on a donor output so the reset check re-applies it.
+# LiberatorAttackOutputTest: one Mod Options choice selects a complete output composition, written to the
+# Liberator's active projectile source (its default ammunition delta). Every switch is one owned transition; each
+# donor package is requested once, before its write; Vanilla restores the exact baseline; the run ends on a donor
+# output so the reset check re-applies it.
 ATTACK_OUTPUT_LIVE = r'''
 return function(frame,watches,counts,lines)
  local menu=rawget(_G,'ModOptionsMenu');local w=watches[1];local results={}
@@ -342,8 +364,8 @@ return function(frame,watches,counts,lines)
   while(w.runs<=runs or w.status=='running')and w.status~='blocked'and spent<20000 do frame();spent=spent+1 end
   for _=1,20 do frame()end
  end
- step('vanilla default leaves the baseline untouched',w.status=='waiting'and w.runs==1 and counts.writes==0
-  and(counts.package_requests or 0)==0,tostring(w.status)..' writes='..counts.writes)
+ step('vanilla default leaves the ammunition baseline untouched',w.status=='waiting'and w.runs==1
+  and counts.writes==0 and(counts.package_requests or 0)==0,tostring(w.status)..' writes='..counts.writes)
  local function choose(index,label,packages)
   local runs,writes=w.runs,counts.writes
   menu.apply(ID,index);settle(runs)
@@ -352,17 +374,18 @@ return function(frame,watches,counts,lines)
    ('status=%s result=%s writes=%d packages=%d error=%s'):format(tostring(w.status),
     tostring(w.result and w.result.status),counts.writes-writes,counts.package_requests or 0,tostring(w.error)))
  end
- choose(2,'EAT-700 napalm: donor package loaded, then one reference write',1)
- choose(3,'EAT-700 -> GL-52 arc: owned transition, second donor package loaded',2)
- choose(1,'GL-52 -> Vanilla restores the exact baseline',2)
- choose(3,'Vanilla -> GL-52 again: package already held, no new request',2)
- choose(2,'GL-52 -> EAT-700: complete composition switch',2)
+ choose(2,'Talon control: donor package loaded, then one ammunition write',1)
+ choose(3,'Talon -> EAT-700 napalm: owned transition, second donor package loaded',2)
+ choose(4,'EAT-700 -> GL-52 arc: third donor package loaded',3)
+ choose(1,'GL-52 -> Vanilla restores the exact ammunition baseline',3)
+ choose(4,'Vanilla -> GL-52 again: package already held, no new request',3)
+ choose(3,'GL-52 -> EAT-700: complete composition switch',3)
  return results
 end
 '''
 
 EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
-    'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 2},
+    'example-liberator-attack-output-test': {'menu': MENU_STUB, 'after': ATTACK_OUTPUT_LIVE, 'packageRequests': 3},
     'options-missing': {'after': OPTIONS_MISSING},
     'options-missing-strict': {'after': OPTIONS_MISSING_STRICT, 'unavailable': ('liberator-damage',)},
     'options-test-mod-live': {'menu': test_mod_ids(MENU_STUB), 'after': test_mod_ids(OPTIONS_LIVE)},
@@ -371,6 +394,8 @@ EXTRAS = {'options-live': {'menu': MENU_STUB, 'after': OPTIONS_LIVE},
     # reference is written, and none again after the simulated reset (Runtime retains its reference).
     'example-asset-test-stalwart-pod-eat700': {'packageRequests': 1},
     'example-asset-test-reprimand-talon-projectile': {'packageRequests': 1},
+    'projectile-active-sources': {'packageRequests': 1},
+    'example-explosive-projectile-swap': {'packageRequests': 1},
     'example-asset-test-frv-bastion-cannon': {'packageRequests': 1},
     'example-asset-test-mg43-pod-grenade-box': {'packageRequests': 1}}
 
@@ -381,6 +406,7 @@ def example(name, folder='projects'):
 
 SCENARIOS = {
     'player-weapon-patch': lambda: SIMPLE_PATCH,
+    'projectile-active-sources': lambda: PROJECTILE_SOURCES,
     'player-weapon-transaction-gui': lambda: GUI_TRANSACTION,
     'support-weapon': lambda: example('SupportAMRProof'),
     'support-weapon-coverage': lambda: SUPPORT_COVERAGE,

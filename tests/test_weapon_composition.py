@@ -97,15 +97,20 @@ local session=require('hd2runtime/api/session').new({},function()end)
 local writes=require('hd2runtime/domains/player_weapon_writes')
 local jar=session.weapon('JAR-5 Dominator')
 local attacks=jar:attacks();assert(#attacks==1)
-local target=jar:attack('primary');local current=target:projectile()
-assert(current.weapon=='JAR-5 Dominator'and current.attack=='primary')
 local source=session.weapon('P-113 Verdict'):attack('primary'):projectile()
-local spec=writes.validate_patch{id='jar-verdict-projectile',target=target,
+-- The JAR-5's ProjectileWeapon +0 is dormant (its default ammunition delta owns the fired projectile).
+local ok,why=pcall(writes.validate_patch,{id='jar-verdict-projectile',target=jar:attack('primary'),
+ field=session.fields.attack.projectile,expect=jar:attack('primary'):projectile(),value=source})
+assert(not ok and tostring(why):find('DORMANT_PROJECTILE_REFERENCE',1,true),tostring(why))
+local host=session.weapon('SMG-32 Reprimand')
+local target=host:attack('primary');local current=target:projectile()
+assert(current.weapon=='SMG-32 Reprimand'and current.attack=='primary')
+local spec=writes.validate_patch{id='reprimand-verdict-projectile',target=target,
  field=session.fields.attack.projectile,expect=current,value=source}
 assert(spec.attack=='primary'and spec.changes[1].descriptor.type=='projectile_reference')
 assert(spec.changes[1].desired_selector.weapon=='P-113 Verdict')
-local ok=pcall(writes.validate_patch,{id='raw-id-rejected',target=target,
- field=session.fields.attack.projectile,expect=177,value=1})
+ok=pcall(writes.validate_patch,{id='raw-id-rejected',target=target,
+ field=session.fields.attack.projectile,expect=123,value=1})
 assert(not ok)
 local explosive=session.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile()
 ok=pcall(writes.validate_patch,{id='class-rejected',target=target,
@@ -151,7 +156,7 @@ local b=require('hd2runtime/core/bytes')
 local writes=require('hd2runtime/domains/player_weapon_writes')
 local guard=require('hd2runtime/core/guarded_transaction')
 local session=require('hd2runtime/api/session').new({},function()end)
-local target=session.weapon('JAR-5 Dominator'):attack('primary')
+local target=session.weapon('SMG-32 Reprimand'):attack('primary')
 local current=target:projectile()
 local source=session.weapon('P-113 Verdict'):attack('primary'):projectile()
 local spec=writes.validate_patch{id='typed-reference',target=target,
@@ -161,7 +166,7 @@ local source_type=change.source_descriptor.currentDefault.projectileType
 local owner={base=0x200000,size=4096,type=0x20000,protect=2}
 local target_offset,source_offset=64,1024
 local function splice(value,offset,bytes)return value:sub(1,offset)..bytes..value:sub(offset+#bytes+1)end
-local target_bytes=string.rep('\0',616);target_bytes=splice(target_bytes,tb.offset,b.encode(177,'u32'))
+local target_bytes=string.rep('\0',616);target_bytes=splice(target_bytes,tb.offset,b.encode(123,'u32'))
 local source_bytes=string.rep('\0',616);source_bytes=splice(source_bytes,sb.offset,b.encode(source_type,'u32'))
 local function record(backing,offset,bytes)return{owner=owner,offset=offset,bytes=bytes,identity={
  componentType=0x45171B68,recordIndex=backing.recordIndex,indexRow=backing.indexRow,
@@ -205,7 +210,7 @@ assert(already.status=='ALREADY_DESIRED'and written==before_writes
 -- Unexpected target and changed source selectors both fail before the writer is called.
 records[target_candidate].bytes=splice(target_bytes,tb.offset,b.encode(999,'u32'))
 local ok=pcall(writes.prepare,resolved,{snapshots={}},spec);assert(not ok)
-records[target_candidate].bytes=splice(target_bytes,tb.offset,b.encode(177,'u32'))
+records[target_candidate].bytes=splice(target_bytes,tb.offset,b.encode(123,'u32'))
 records[source_candidate].bytes=splice(source_bytes,sb.offset,b.encode(999,'u32'))
 ok=pcall(writes.prepare,resolved,{snapshots={}},spec);assert(not ok)
 return'ok'
@@ -217,7 +222,7 @@ return'ok'
 local runtime={write=function()end,protect=function()end}
 local session=require('hd2runtime/api/session').new(runtime,function()end)
 local writes=require('hd2runtime/domains/player_weapon_writes')
-local attack=session.weapon('JAR-5 Dominator'):attack('primary')
+local attack=session.weapon('SMG-32 Reprimand'):attack('primary')
 local source=session.weapon('P-113 Verdict'):attack('primary'):projectile()
 local change={field=session.fields.attack.projectile,expect=attack:projectile(),value=source}
 local transaction=writes.validate_transaction{id='reference-transaction',target=attack,changes={change}}

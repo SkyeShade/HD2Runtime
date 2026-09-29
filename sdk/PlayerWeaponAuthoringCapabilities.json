@@ -15,7 +15,7 @@
     "readOnlySemanticFieldDefinitions": 19,
     "derivedSemanticFieldDefinitions": 9,
     "fieldInstances": 4120,
-    "writableFieldInstances": 2762,
+    "writableFieldInstances": 2742,
     "weaponsWithWritableFields": 73,
     "weaponsWithProjectileDamageWrites": 71,
     "weaponsRestrictedToWeaponLevelWrites": 0,
@@ -106,7 +106,8 @@
           "explosive_impact": 8,
           "explosive_impact_and_expiry": 3,
           "explosive_shrapnel": 1
-        }
+        },
+        "activeSourceWritableTargetAttacks": 37
       },
       "fire_mode": {
         "weapons": 80,
@@ -2629,6 +2630,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -5047,6 +5053,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -7496,7 +7507,7 @@
             "attack": "primary",
             "projectileType": 276
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -7530,8 +7541,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "DORMANT_PROJECTILE_REFERENCE: The default ammunition item RIFLE 5,5x50mm. FULL METAL JACKET (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 10 other options that patch a projectile member (alternate ammunition), each with its own projectile. Write weapon:ammunition():projectile() (hd2.fields.ammunition.projectile) instead.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": "ammunition",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -9968,6 +9984,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -12403,6 +12424,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -14771,6 +14797,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -17143,6 +17174,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -19628,6 +19664,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -22047,6 +22088,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -24462,6 +24508,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -28904,6 +28955,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -31320,6 +31376,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -43749,6 +43810,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -48413,7 +48479,7 @@
             "attack": "primary",
             "projectileType": 297
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -48447,8 +48513,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact_and_expiry",
           "referenceRole": "primary",
@@ -51595,6 +51666,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -54805,6 +54881,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact_and_expiry",
           "referenceRole": "primary",
@@ -57924,7 +58005,7 @@
             "attack": "primary",
             "projectileType": 177
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -57958,8 +58039,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "DORMANT_PROJECTILE_REFERENCE: The default ammunition item ROCKET 15x100mm. STANDARD ROCKET (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 7 other options that patch a projectile member (alternate ammunition), each with its own projectile. Write weapon:ammunition():projectile() (hd2.fields.ammunition.projectile) instead.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": "ammunition",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -60552,6 +60638,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -65261,6 +65352,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -67907,7 +68003,7 @@
             "attack": "primary",
             "projectileType": 149
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -67941,8 +68037,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: WeaponHeat (level-selected projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -72757,6 +72858,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -77326,6 +77432,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -79745,6 +79856,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -82267,7 +82383,7 @@
             "attack": "primary",
             "projectileType": 62
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -82301,8 +82417,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -84716,6 +84837,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -87044,7 +87170,7 @@
             "attack": "primary",
             "projectileType": 215
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -87078,8 +87204,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: No default overrides +0, but the unlock list carries an option that patches a projectile member: the fired projectile depends on the equipped option.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -89646,7 +89777,7 @@
             "attack": "primary",
             "projectileType": 318
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -89680,8 +89811,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -91499,6 +91635,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -96321,7 +96462,7 @@
             "attack": "primary",
             "projectileType": 152
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -96355,8 +96496,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact_and_expiry",
           "referenceRole": "primary",
@@ -99541,7 +99687,7 @@
             "attack": "primary",
             "projectileType": 270
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -99575,8 +99721,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact_and_expiry",
           "referenceRole": "primary",
@@ -102775,6 +102926,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -105587,7 +105743,7 @@
             "attack": "feed_primary",
             "projectileType": 309
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -105621,8 +105777,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile (+0 patched by REVOLVER 13x40mm. FULL METAL JACKET); which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -108147,7 +108308,7 @@
             "attack": "primary",
             "projectileType": 237
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -108181,8 +108342,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -112642,7 +112808,7 @@
             "attack": "primary",
             "projectileType": 326
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -112676,8 +112842,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: ProjectileEntity (spawns an entity instead of a projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -115094,6 +115265,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -118265,6 +118441,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -121388,7 +121569,7 @@
             "attack": "primary",
             "projectileType": 296
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -121422,8 +121603,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -124452,7 +124638,7 @@
             "attack": "primary",
             "projectileType": 171
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -124486,8 +124672,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "PROJECTILE_SOURCE_BLOCKED: Another native selector owns the fired projectile: WeaponCharge (level-selected projectile).",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "BLOCKED",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -127631,6 +127822,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -130755,6 +130951,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -133315,6 +133516,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -135731,6 +135937,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_shrapnel",
           "referenceRole": "primary",
@@ -138874,6 +139085,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -141517,7 +141733,7 @@
             "attack": "primary",
             "projectileType": 299
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -141551,8 +141767,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -143933,7 +144154,7 @@
             "attack": "primary",
             "projectileType": 305
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -143967,8 +144188,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "DORMANT_PROJECTILE_REFERENCE: The default ammunition item RIFLE 9x70mm. Full Metal Jacket (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 6 other options that patch a projectile member (alternate ammunition), each with its own projectile. Write weapon:ammunition():projectile() (hd2.fields.ammunition.projectile) instead.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": "ammunition",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -146385,6 +146611,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -148746,6 +148977,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -151162,6 +151398,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -153730,7 +153971,7 @@
             "attack": "feed_primary",
             "projectileType": 183
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -153764,8 +154005,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "DORMANT_PROJECTILE_REFERENCE: The default ammunition item SHOTGUN 10g. FLECHETTES patches WeaponRounds PrimaryProjectileType when the weapon is built, so the base member is dormant. The rounds ammunition source is not offered for writes.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -153984,6 +154230,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": null,
+            "member": "WeaponRounds +68"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "feed_alternate",
@@ -157578,6 +157829,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -159949,7 +160205,7 @@
             "attack": "primary",
             "projectileType": 179
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -159983,8 +160239,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "DORMANT_PROJECTILE_REFERENCE: The default ammunition item SHOTGUN 12g. BIRDSHOT (customization slot 6) patches ProjectileWeapon +0 when the weapon is built, so the base member is dormant; the ammunition delta is the active source. The unlock list also carries 8 other options that patch a projectile member (alternate ammunition), each with its own projectile. Write weapon:ammunition():projectile() (hd2.fields.ammunition.projectile) instead.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "INDIRECT",
+            "mechanism": "ammunition",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -162347,6 +162608,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -164831,6 +165097,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -167391,6 +167662,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "feed_primary",
@@ -170034,7 +170310,7 @@
             "attack": "feed_primary",
             "projectileType": 260
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -170068,8 +170344,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Customization options patch WeaponRounds PrimaryProjectileType (SHOTGUN 10g. BIRDSHOT, SHOTGUN 10g. BUCKSHOT, SHOTGUN 10g. BUGSHOT, SHOTGUN 10g. DUAL SABOT, SHOTGUN 10g. FLECHETTES, SHOTGUN 10g. FRAGMENTATION, SHOTGUN 10g. HIGH VELOCITY SABOT, SHOTGUN 10g. LIBERTY FIRE, SHOTGUN 10g. MAGNUM, SHOTGUN 10g. MAGNUM TRIBALL, SHOTGUN 10g. SCATTER SHOT, SHOTGUN 10g. SLUG, SHOTGUN 10g. TRI-BALL); the fired projectile depends on the equipped option.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -172530,6 +172811,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "explosive_impact",
           "referenceRole": "primary",
@@ -175795,6 +176081,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "feed_primary",
@@ -178317,7 +178608,7 @@
             "attack": "primary",
             "projectileType": 262
           },
-          "editable": true,
+          "editable": false,
           "derivedReadOnly": false,
           "semanticTarget": "attack_projectile_reference",
           "canonical": true,
@@ -178351,8 +178642,13 @@
           "writeScope": "weapon_local",
           "sharedWithWeapons": [],
           "affectsMultipleWeapons": false,
-          "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
-          "acceptedForWrites": true,
+          "reason": "UNPROVEN_PROJECTILE_SOURCE: Both WeaponRounds PrimaryProjectileType and ProjectileWeapon +0 carry a projectile; which member a shot consumes is not proven offline.",
+          "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "WeaponRounds +64"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -180717,6 +181013,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -183136,6 +183437,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -185443,6 +185749,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Ambiguous runtime identity; ordinary hd2.weapon(name) writes fail closed.",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "AMBIGUOUS",
+            "mechanism": null,
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -187807,6 +188118,11 @@
           "affectsMultipleWeapons": false,
           "reason": "status or unsupported terminal companion graph is not approved for swapping",
           "acceptedForWrites": false,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "status_bearing",
           "referenceRole": "primary",
@@ -190287,6 +190603,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -192703,6 +193024,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -195163,6 +195489,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",
@@ -197649,6 +197980,11 @@
           "affectsMultipleWeapons": false,
           "reason": "Guarded typed reference replacement; only reviewed compatible projectile classes are accepted.",
           "acceptedForWrites": true,
+          "projectileSource": {
+            "status": "ACTIVE_DIRECT",
+            "mechanism": "component",
+            "member": "ProjectileWeapon +0"
+          },
           "referenceKind": "projectile",
           "compatibilityClass": "conventional_plain",
           "referenceRole": "primary",

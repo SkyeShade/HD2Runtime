@@ -1,45 +1,64 @@
 {
-  "baselineProjectile": 276,
   "compositions": {
     "EAT-700 Expendable Napalm": {
-      "class": "explosive_shrapnel",
       "crossClass": true,
-      "output": "output/v1/projectile/eat-700-expendable-napalm",
+      "dormantMemberUnchanged": true,
       "package": "packages/generated/loadout/expendable_napalm_launcher",
       "projectile": 259,
+      "target": "ammunition",
       "writes": 1
     },
     "GL-52 De-Escalator": {
-      "class": "explosive_arc",
       "crossClass": true,
-      "output": "output/v1/projectile/gl-52-de-escalator",
+      "dormantMemberUnchanged": true,
       "package": "packages/generated/loadout/grenade_launcher_tactical",
       "projectile": 222,
+      "target": "ammunition",
       "writes": 1
     },
     "LAS-58 Talon": {
-      "class": "conventional_plain",
       "crossClass": false,
-      "output": "output/v1/projectile/las-58-talon",
+      "dormantMemberUnchanged": true,
       "package": "packages/generated/loadout/laser_pistol",
       "projectile": 144,
+      "target": "ammunition",
       "writes": 1
     }
   },
+  "controls": {
+    "AR-23 Liberator": {
+      "ammunition": "RIFLE 5,5x50mm. FULL METAL JACKET",
+      "baseline": 276,
+      "live": "FAIL on the dormant member",
+      "mechanism": "ammunition",
+      "status": "INDIRECT",
+      "written": "ammunition delta data (ProjectileWeapon +0 patch)"
+    },
+    "SMG-32 Reprimand": {
+      "from": 123,
+      "live": "PASS",
+      "mechanism": "component",
+      "status": "ACTIVE_DIRECT",
+      "to": 144,
+      "written": "ProjectileWeapon +0"
+    }
+  },
   "fixtureFallback": "disabled",
-  "host": "AR-23 Liberator",
   "mode": "snapshot-overlay",
-  "protectionChanges": 12,
+  "proofScope": "guarded write mechanics; the host firing path is the active projectile source, not these bytes",
+  "protectionChanges": 16,
   "rejections": {
     "ARC-3 Arc Thrower": "INCOMPATIBLE_OUTPUT_FAMILY",
     "LAS-13 Trident": "INCOMPATIBLE_OUTPUT_FAMILY",
     "LAS-98 Laser Cannon": "INCOMPATIBLE_OUTPUT_FAMILY",
-    "acknowledgements": 2,
+    "acknowledgements": 3,
+    "dormantMember": "DORMANT_PROJECTILE_REFERENCE",
     "hostMagazinePattern": 1,
-    "nonHost": "GL-15 Evictor",
+    "noAmmunitionSource": "SMG-32 Reprimand",
+    "staleDefaultAmmunition": 1,
     "staleSource": 1
   },
   "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
   "status": "VALIDATED",
-  "writes": 6
+  "writes": 8
 }

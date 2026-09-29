@@ -48,20 +48,24 @@ damage, and explosion records. Its result records `writes=0`,
 
 ## Guarded projectile reference replacement
 
-Fifty-seven projectile attack selectors have unique weapon identity and owned
-selector storage. They support
-typed reference replacement through the existing `patch`, `transaction`, and
-`ensure` machinery:
+A projectile reference is writable only where the written member is the projectile the attack fires: its active
+projectile source (`attack:projectile_source()`, `sdk/AttackOutputCapabilities.json` `projectileSources`, and
+`docs/attack-outputs.md`). A live test showed why this matters: the same guarded write that makes the SMG-32
+Reprimand fire Talon bolts lands cleanly on the AR-23 Liberator and changes nothing, because the Liberator's default
+ammunition customization overwrites its ProjectileWeapon +0 whenever the weapon is built.
+
+Of the 57 projectile attack selectors with unique weapon identity and owned selector storage, 37 are `ACTIVE_DIRECT`
+and support typed reference replacement through the existing `patch`, `transaction`, and `ensure` machinery:
 
 ```lua
 local hd2 = require('mods/skyeshade/hd2runtime')
 
-local target = hd2.weapon('JAR-5 Dominator'):attack('primary')
+local target = hd2.weapon('SMG-32 Reprimand'):attack('primary')
 local source = hd2.weapon('P-113 Verdict'):attack('primary'):projectile()
 
 return hd2.ensure({
     patch = {
-        id = 'jar5-verdict-projectile',
+        id = 'reprimand-verdict-projectile',
         target = target,
         field = hd2.fields.attack.projectile,
         expect = target:projectile(),
@@ -69,6 +73,16 @@ return hd2.ensure({
     }
 })
 ```
+
+The other 20 are read-only with the reason:
+- `DORMANT_PROJECTILE_REFERENCE` (5): a default ammunition delta patches the member at weapon build. The AR-23
+  Liberator, JAR-5 Dominator, R-63 Diligence and SG-225 Breaker are written through `weapon:ammunition():projectile()`
+  instead (`hd2.fields.ammunition.projectile`, with `allow_shared` and `allow_unverified_effect`). The SG-20 Halt's
+  rounds ammunition is not offered.
+- `UNPROVEN_PROJECTILE_SOURCE` (9): the MP-98 Knight (equippable ammunition), and rounds-fed weapons whose
+  ProjectileWeapon +0 and WeaponRounds both carry a projectile.
+- `PROJECTILE_SOURCE_BLOCKED` (6): weapons that fire a spawned entity, or charge or heat levels with their own
+  projectiles.
 
 The Runtime freshly resolves both weapon resources, both component records, the
 source projectile type, and the source `ProjectileSettings` row. It validates the

@@ -2970,9 +2970,8 @@
    {
     "name": "AR-23 Liberator",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 33,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "projectile",
@@ -3191,9 +3190,8 @@
    {
     "name": "R-63 Diligence",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 36,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "magazine",
@@ -3236,9 +3234,8 @@
    {
     "name": "R-6 Deadeye",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 35,
     "writableDomains": [
-     "attack",
      "damage",
      "projectile",
      "rounds",
@@ -3304,9 +3301,8 @@
    {
     "name": "MP-98 Knight",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 33,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "projectile",
@@ -3454,9 +3450,8 @@
    {
     "name": "SG-8 Punisher",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 35,
     "writableDomains": [
-     "attack",
      "damage",
      "projectile",
      "rounds",
@@ -3468,9 +3463,8 @@
    {
     "name": "SG-225 Breaker",
     "resolved": true,
-    "writableFields": 34,
+    "writableFields": 33,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "projectile",
@@ -3555,9 +3549,8 @@
    {
     "name": "SG-20 Halt",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 37,
     "writableDomains": [
-     "attack",
      "damage",
      "projectile",
      "rounds",
@@ -3583,9 +3576,8 @@
    {
     "name": "M90A Shotgun",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 35,
     "writableDomains": [
-     "attack",
      "damage",
      "projectile",
      "rounds",
@@ -3597,9 +3589,8 @@
    {
     "name": "SG-97 Sweeper",
     "resolved": true,
-    "writableFields": 36,
+    "writableFields": 35,
     "writableDomains": [
-     "attack",
      "damage",
      "projectile",
      "rounds",
@@ -3643,9 +3634,8 @@
    {
     "name": "GL-15 Evictor",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 49,
     "writableDomains": [
-     "attack",
      "damage",
      "explosion",
      "fire_mode",
@@ -3740,9 +3730,8 @@
    {
     "name": "PLAS-101 Purifier",
     "resolved": true,
-    "writableFields": 47,
+    "writableFields": 46,
     "writableDomains": [
-     "attack",
      "damage",
      "explosion",
      "magazine",
@@ -3770,9 +3759,8 @@
    {
     "name": "LAS-17 Double-Edge Sickle",
     "resolved": true,
-    "writableFields": 40,
+    "writableFields": 39,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "heat",
@@ -3836,9 +3824,8 @@
    {
     "name": "JAR-5 Dominator",
     "resolved": true,
-    "writableFields": 37,
+    "writableFields": 36,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "magazine",
@@ -3922,9 +3909,8 @@
    {
     "name": "P-4 Senator",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 37,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "projectile",
@@ -3952,9 +3938,8 @@
    {
     "name": "P-92 Warrant",
     "resolved": true,
-    "writableFields": 35,
+    "writableFields": 34,
     "writableDomains": [
-     "attack",
      "damage",
      "magazine",
      "projectile",
@@ -3981,9 +3966,8 @@
    {
     "name": "P-69 Veto",
     "resolved": true,
-    "writableFields": 38,
+    "writableFields": 37,
     "writableDomains": [
-     "attack",
      "damage",
      "fire_mode",
      "projectile",
@@ -4146,9 +4130,8 @@
    {
     "name": "P-11 Stim Pistol",
     "resolved": true,
-    "writableFields": 27,
+    "writableFields": 26,
     "writableDomains": [
-     "attack",
      "fire_mode",
      "projectile",
      "rounds",
@@ -4160,9 +4143,8 @@
    {
     "name": "PLAS-15 Loyalist",
     "resolved": true,
-    "writableFields": 43,
+    "writableFields": 42,
     "writableDomains": [
-     "attack",
      "damage",
      "explosion",
      "projectile",
@@ -4228,9 +4210,8 @@
    {
     "name": "P-33 Missile Pistol",
     "resolved": true,
-    "writableFields": 48,
+    "writableFields": 47,
     "writableDomains": [
-     "attack",
      "damage",
      "explosion",
      "magazine",
@@ -4259,9 +4240,8 @@
    {
     "name": "P-34 Breacher",
     "resolved": true,
-    "writableFields": 50,
+    "writableFields": 49,
     "writableDomains": [
-     "attack",
      "damage",
      "explosion",
      "fire_mode",

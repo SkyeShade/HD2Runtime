@@ -7,7 +7,10 @@ its own enum. The catalog is therefore family-aware:
 - domains/attack_outputs.lua (runtime): every catalogued output by semantic ID. Projectile outputs carry the source
   identity the projectile-reference write re-proves live (owner entity, its ProjectileWeapon record identity, the
   ProjectileSettings row); beam, arc, spray and melee outputs carry only their family and the reason no projectile
-  host can reference them. Also the projectile hosts eligible for cross-class outputs.
+  host can reference them. Also, from research/active-projectile-sources-F5FEE03DCFDB.json: the active projectile
+  source of every player attack (`sources`), the ammunition-delta source of weapons whose default ammunition
+  customization owns the fired projectile (`ammunition`), and the hosts eligible for cross-class outputs, each with
+  the mechanism that writes its fired projectile (`hosts`).
 - sdk/AttackOutputCapabilities.json (public): every output with family, kind, owner, package dependency, structural
   compatibility with host families, required coordinated references, acknowledgements and live proof. No native
   identifiers or addresses.
@@ -26,6 +29,7 @@ import live_evidence  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/attack-outputs-F5FEE03DCFDB.json'
+ACTIVE = ROOT / 'research/active-projectile-sources-F5FEE03DCFDB.json'
 LUA_OUTPUT = ROOT / 'domains/attack_outputs.lua'
 JSON_OUTPUT = ROOT / 'sdk/AttackOutputCapabilities.json'
 CONTRACT = 'hd2runtime.attack_outputs.v1'
@@ -38,6 +42,103 @@ EXTRA = {'beam': ', beam fire mode and heat buildup', 'arc': ', RPM and infinite
 UNVERIFIED_REFERENCE = ('A projectile from a different structural class (for example a ballistic host firing a '
     'rocket or an arc grenade) is structurally a single ProjectileType reference, but no live test has confirmed the '
     'gameplay of that composition yet.')
+AMMUNITION_EFFECT = ('The ammunition delta is the projectile the weapon is built with (the base ProjectileWeapon member '
+    'is overwritten by it), but no live test has yet confirmed that an edited ammunition delta reaches the weapon: '
+    'the delta is applied when the weapon is built, and whether an edit is re-applied to the next build or cached is '
+    'not gameplay-tested.')
+AMMUNITION_SHARED = ('An ammunition definition applies to every weapon that equips it. sharedWithWeapons lists the '
+    'other weapons observed to default to it or to carry it in their runtime unlock list; the list is runtime state '
+    'and does not prove that no other weapon equips it.')
+SOURCE_CODE = {'INDIRECT': 'DORMANT_PROJECTILE_REFERENCE', 'DORMANT_OR_METADATA': 'DORMANT_PROJECTILE_REFERENCE',
+    'AMBIGUOUS': 'UNPROVEN_PROJECTILE_SOURCE', 'BLOCKED': 'PROJECTILE_SOURCE_BLOCKED'}
+
+
+def source_reason(row):
+    """The read-only reason of a non-direct attack projectile field, with its error code and the redirect."""
+    reason = SOURCE_CODE[row['status']] + ': ' + row['reason']
+    if row.get('mechanism') == 'ammunition':
+        reason += ' Write weapon:ammunition():projectile() (hd2.fields.ammunition.projectile) instead.'
+    return reason
+
+
+def active_sources():
+    """(research, sources, ammunition, by_weapon) from the active projectile source research."""
+    active = json.loads(ACTIVE.read_text(encoding='utf-8'))
+    by_weapon = {e['weapon']: e for e in active['weapons']}
+    sources = {}
+    for row in active['attackFields']:
+        sources.setdefault(row['weapon'], {})[row['role']] = {'status': row['status'], 'mechanism': row['mechanism'],
+            'member': row['backing'], 'reason': row['reason'], 'previouslyWritable': row['previouslyWritable'],
+            'compatibilityClass': row['compatibilityClass']}
+    ammunition = {}
+    for entry in active['weapons']:
+        source = entry['activeSource']
+        if entry['kind'] != 'player_weapon' or entry['status'] != 'INDIRECT' or source['kind'] != 'ammunition_delta':
+            continue
+        if not (source['ownRow'] and source['settings'] and source['compatibilityClass']):
+            raise ValueError(entry['weapon'] + ': ammunition source is not a resolvable own 4-byte delta row')
+        sources.setdefault(entry['weapon'], {}).setdefault('primary', {'status': 'INDIRECT', 'mechanism': 'ammunition',
+            'member': 'ProjectileWeapon +0', 'reason': entry['reason'], 'previouslyWritable': False,
+            'compatibilityClass': source['compatibilityClass']})
+        shared = sorted((set(source['defaultOf']) | set(source['unlockListedBy'])) - {entry['weapon']})
+        ammunition[entry['weapon']] = {'id': 'ammunition/v1/' + slug(entry['weapon']) + '/' + slug(source['item']),
+            'weapon': entry['weapon'], 'item': source['item'], 'semanticFieldId': 'ammunition.projectile',
+            'type': 'projectile_reference', 'referenceKind': 'projectile', 'referenceRole': 'primary',
+            'compatibilityClass': source['compatibilityClass'],
+            'currentDefault': {'weapon': entry['weapon'], 'projectileType': source['value']},
+            'referenceSettings': source['settings'], 'editable': True,
+            'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': AMMUNITION_EFFECT,
+            'affectsMultipleWeapons': True, 'sharedWithWeapons': shared, 'sharedReason': AMMUNITION_SHARED,
+            'writeScope': 'ammunition_definition', 'appliesWhen': 'weapon_build',
+            # Entity delta coordinates, re-proven live (domains/attachment_writes.prove) before every write.
+            'resource': source['addPath'], 'hashmapSlot': source['hashmapSlot'], 'settingsIndex': source['settingsIndex'],
+            'component': 321, 'componentOffset': 0, 'dataOffset': source['dataOffset'],
+            'backing': {'kind': 'entity_delta', 'component': 'ProjectileWeaponComponentData', 'offset': 0, 'width': 4,
+                'storage': 'u32'},
+            # The weapon's own default customization must still name this ammunition item (checked live).
+            'defaultCustomization': {'offset': source['defaultPairOffset'], 'slot': source['slot'],
+                'optionId': int(source['optionId'], 16)}}
+    return active, sources, ammunition, by_weapon
+
+
+def output_live_proof(weapon):
+    """Donor-side live evidence: a host fired this weapon's projectile and it worked (sdk/LiveEvidenceCatalog.json)."""
+    runs = [test for session in live_evidence.load()['sessions'] for test in session['tests']
+        if test.get('donor') == weapon and (test.get('evidence') or {}).get('gameplayOutputChanged')]
+    if not runs:
+        return None
+    return {'donorOutput': 'live_proven', 'tests': sorted({run['mod'] for run in runs}),
+        'provenOnHosts': sorted({run['host'] for run in runs if run['evidence']['hostReadsReference']})}
+
+
+def host_live_proof(weapon):
+    """Host-side live evidence: tests whose host was this weapon, with the host-path result."""
+    runs = [test for session in live_evidence.load()['sessions'] for test in session['tests']
+        if test.get('host') == weapon and test.get('evidence')]
+    return [{'test': run['mod'] + (' (' + run['choice'] + ')' if run.get('choice') else ''), 'result': run['result'],
+        'family': run['family'], 'hostReadsReference': run['evidence']['hostReadsReference']} for run in runs] or None
+
+
+def owner_source(entry):
+    """Whether an output's owner is established to fire the projectile row the output names."""
+    if entry is None:
+        return 'unclassified', None
+    status = entry['status']
+    if status == 'ACTIVE_DIRECT':
+        return 'fires_reference', None
+    if status == 'INDIRECT':
+        if entry['activeSource'].get('baseAgrees'):
+            return 'fires_reference', None
+        return 'not_established', ('The owner fires its default ammunition projectile; its ProjectileWeapon member '
+            'names a different row.')
+    if status == 'AMBIGUOUS':
+        return 'default_projectile', None
+    selectors = entry.get('selectors') or []
+    if selectors and all(s.startswith('WeaponRounds') for s in selectors) and entry.get('rounds') \
+            and entry['rounds'][0] == entry['base']['projType']:
+        return 'fires_reference', None
+    return 'not_established', ('The owner fires through another selector, so this row is not established as its '
+        'attack output: ' + '; '.join(selectors) + '.')
 
 
 def slug(value: str) -> str:
@@ -72,12 +173,15 @@ def kind_of(entry):
 
 def outputs():
     research = json.loads(RESEARCH.read_text(encoding='utf-8'))
-    runtime_outputs, aliases, public, hosts = {}, {}, [], {}
+    active, sources, ammunition, by_weapon = active_sources()
+    runtime_outputs, aliases, public = {}, {}, []
     for entry in sorted(research['weapons'], key=lambda e: (e['kind'], e['weapon'])):
         semantic = f"output/v1/{entry['family']}/{slug(entry['weapon'])}"
         owner = {'kind': entry['kind'], 'name': entry['weapon']}
+        fires, owner_reason = owner_source(by_weapon.get(entry['weapon'])) if entry['family'] == 'projectile' else (
+            None, None)
         selectable = (entry['family'] == 'projectile' and entry.get('output') is not None
-            and entry.get('compatibilityClass') is not None)
+            and entry.get('compatibilityClass') is not None and fires != 'not_established')
         row = {'id': semantic, 'family': entry['family'], 'owner': owner}
         if selectable:
             settings = entry['output']['settings']
@@ -92,15 +196,13 @@ def outputs():
         else:
             row['reason'] = (CROSS_FAMILY.format(family=entry['family'].capitalize(),
                 emitter=FAMILY_EMITTER.get(entry['family'], entry['component']), extra=EXTRA.get(entry['family'], ''))
-                if entry['family'] != 'projectile' else
+                if entry['family'] != 'projectile' else owner_reason if fires == 'not_established' else
                 'The projectile row this weapon fires is not resolved in the retained snapshot.')
         runtime_outputs[semantic] = row
         for alias in (entry['weapon'], entry['weapon'] + '/primary'):
             if alias in aliases:
                 raise ValueError('duplicate attack output alias ' + alias)
             aliases[alias] = semantic
-        if entry['projectileHost']:
-            hosts[entry['weapon']] = {'kind': entry['kind'], 'class': entry.get('compatibilityClass')}
         output = entry.get('output') or {}
         public.append({'semanticId': semantic, 'family': entry['family'], 'kind': kind_of(entry), 'owner': owner,
             'emitter': entry['component'].removesuffix('ComponentData'),
@@ -118,27 +220,95 @@ def outputs():
                 'autoLoad': bool(entry.get('packageAutoLoad'))},
             'acknowledgements': ({'sameClass': [], 'crossClass': ['allow_unverified_reference',
                 'allow_unverified_effect']} if selectable else None),
-            'liveProof': None})
+            'ownerFiresThisProjectile': fires,
+            'liveProof': output_live_proof(entry['weapon'])})
+    # Hosts: a player attack whose fired projectile Runtime can write. `component`: the attack's own ProjectileWeapon
+    # +0 is its active source; `ammunition`: the default ammunition delta is. Both keep the live controls' structure
+    # (magazine-fed; no rounds, charge or heat). Support weapons have no guarded projectile reference target.
+    hosts = {}
+    for name, roles in sorted(sources.items()):
+        primary = roles.get('primary')
+        entry = by_weapon.get(name)
+        if not primary or not entry or entry['kind'] != 'player_weapon' or not entry['magazineFed']:
+            continue
+        if primary['mechanism'] == 'component' and primary['status'] == 'ACTIVE_DIRECT' \
+                and primary['previouslyWritable'] and primary['member'] == 'ProjectileWeapon +0':
+            hosts[name] = {'kind': 'player_weapon', 'class': primary['compatibilityClass'], 'mechanism': 'component'}
+        elif primary['mechanism'] == 'ammunition' and name in ammunition:
+            hosts[name] = {'kind': 'player_weapon', 'class': ammunition[name]['compatibilityClass'],
+                'mechanism': 'ammunition'}
     runtime = migration_overlay.apply('attack_outputs', {'outputs': runtime_outputs, 'aliases': aliases,
-        'hosts': hosts, 'crossClassReason': UNVERIFIED_REFERENCE})
+        'hosts': hosts, 'sources': sources, 'ammunition': ammunition, 'crossClassReason': UNVERIFIED_REFERENCE})
     cases = research['liberatorCases']
-    document = {'contract': CONTRACT, 'schemaVersion': 1,
+    public_sources = []
+    for name, roles in sorted(sources.items()):
+        for role, row in sorted(roles.items()):
+            item = {'weapon': name, 'attack': role, 'status': row['status'], 'mechanism': row['mechanism'],
+                'member': row['member'], 'reason': row['reason'],
+                'directWritable': row['status'] == 'ACTIVE_DIRECT' and row['previouslyWritable'],
+                'previouslyWritable': row['previouslyWritable']}
+            if row['mechanism'] == 'ammunition':
+                item['write'] = 'weapon:ammunition():projectile() (hd2.fields.ammunition.projectile)'
+            elif item['directWritable']:
+                item['write'] = 'weapon:attack(role):projectile() (hd2.fields.attack.projectile)'
+            else:
+                item['write'] = None
+            public_sources.append(item)
+    public_ammunition = [{'weapon': name, 'semanticId': a['id'], 'item': a['item'],
+        'compatibilityClass': a['compatibilityClass'], 'sharedWithWeapons': a['sharedWithWeapons'],
+        'sharedReason': a['sharedReason'], 'appliesWhen': 'weapon build (the ammunition delta is applied when the '
+            'weapon is built)', 'acknowledgements': ['allow_shared', 'allow_unverified_effect'],
+        'crossClassAcknowledgements': ['allow_unverified_reference'], 'effectReason': a['acknowledgementReason'],
+        'liveProof': live_evidence.family('weapon_ammunition_projectile_reference')['status']}
+        for name, a in sorted(ammunition.items())]
+    classified = active['summary']
+    document = {'contract': CONTRACT, 'schemaVersion': 2,
         'hd2RuntimeVersion': (ROOT / 'VERSION').read_text().strip(), 'build': 'F5FEE03DCFDB',
         'model': dict(research['model'], proofLevels={
             'identity': 'the owner weapon, its output-family component and settings row are re-proven live',
             'assets': 'the owner package is loaded through the 0.27 asset loader before the reference is written',
             'structural': 'projectile-family outputs only: one ProjectileType reference; cross-family is blocked',
-            'gameplay': 'live-proven only by a user-run test (sdk/LiveEvidenceCatalog.json); none yet'}),
-        'hostModel': {'projectileHosts': sorted(hosts),
-            'rule': ('A cross-class projectile output needs a magazine-fed projectile host whose every round is '
-                'ProjectileWeapon +0: a WeaponMagazine with an empty magazine pattern, and no WeaponRounds, '
-                'WeaponCharge or WeaponHeat component that selects projectiles by ammo type, charge or heat level. '
-                'The host keeps its magazine, ammo consumption, reload, RPM and handling; only +0 changes.'),
+            'activeSource': ('the written member is the projectile the host fires: its active projectile source '
+                '(projectileSources), established from the decoded data path and the live controls'),
+            'gameplay': 'live-proven only by a user-run test (sdk/LiveEvidenceCatalog.json)'}),
+        'activeSourceModel': {
+            'guarantee': ('When Runtime reports a projectile reference as writable for a host, changing it changes the '
+                'projectile that host fires, as far as the decoded data path and the live controls establish. Attacks '
+                'whose fired projectile comes from elsewhere are read-only with the reason.'),
+            'statuses': {'ACTIVE_DIRECT': 'the attack member itself is the fired projectile; writable directly',
+                'INDIRECT': ('the default ammunition customization patches the member when the weapon is built; the '
+                    'member is dormant and the ammunition delta is the active source'),
+                'DORMANT_OR_METADATA': 'the member is overridden and the overriding source is not uniquely identified',
+                'AMBIGUOUS': 'the active projectile depends on state not proven offline',
+                'BLOCKED': 'another native selector owns the fired projectile'},
+            'proofBasis': active['proofBasis'],
+            'referencesReachable': active['referencesReachable'],
+            'liveControls': {'positive': 'SMG-32 Reprimand -> LAS-58 Talon (pass)',
+                'negative': 'AR-23 Liberator -> LAS-58 Talon (fail: field written, no gameplay effect)'},
+            'counts': {'projectileWeapons': classified['projectileWeapons'], 'byStatus': classified['byStatus'],
+                'previousHosts': classified['previousHosts'],
+                'previousHostsByStatus': classified['previousHostsByStatus'],
+                'attackFields': classified['attackFields'], 'attackFieldsByStatus': classified['attackFieldsByStatus'],
+                'previouslyWritableAttackFieldsByStatus': classified['previouslyWritableAttackFieldsByStatus']}},
+        'projectileSources': public_sources,
+        'ammunitionSources': public_ammunition,
+        'hostModel': {'componentHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'component'),
+            'ammunitionHosts': sorted(n for n, h in hosts.items() if h['mechanism'] == 'ammunition'),
+            'rule': ('A projectile output needs a player attack whose fired projectile Runtime can write. component: '
+                'the attack\'s own ProjectileWeapon +0 is its active source (ACTIVE_DIRECT). ammunition: the default '
+                'ammunition delta is (INDIRECT), written through weapon:ammunition(). Both keep the live controls\' '
+                'structure: magazine-fed, empty magazine pattern, no WeaponRounds, WeaponCharge or WeaponHeat. A '
+                'projectile pointer existing is not enough. Support weapons have no guarded projectile reference '
+                'target.'),
+            'hostLiveProof': {name: host_live_proof(name) for name in sorted(hosts) if host_live_proof(name)},
             'retained': research['hostRetains']},
         'liberatorCases': cases,
         'summary': {'outputs': len(public), 'byFamily': research['summary']['byFamily'],
             'selectable': sum(1 for o in public if o['selectableAsProjectileReference']),
-            'projectileHosts': len(hosts)},
+            'projectileHosts': len(hosts),
+            'componentHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'component'),
+            'ammunitionHosts': sum(1 for h in hosts.values() if h['mechanism'] == 'ammunition'),
+            'directWritableAttackFields': sum(1 for s in public_sources if s['directWritable'])},
         'outputs': public,
         'safety': {'runtimeAddresses': False, 'nativeIdentifiers': False, 'writesDuringGeneration': 0}}
     text = json.dumps(document, indent=1)

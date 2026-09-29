@@ -104,12 +104,37 @@ function M.new(describe)
         table.sort(ids)
         return ids
     end
+    -- A weapon's default ammunition (domains/attack_outputs.lua `ammunition`): where the fired projectile lives when
+    -- the ammunition's entity delta patches ProjectileWeapon +0 at weapon build. Writes go through
+    -- hd2.fields.ammunition.projectile with allow_shared and allow_unverified_effect.
+    local function ammunition_view(name)
+        local entry=assert(require('hd2runtime/domains/attack_outputs').ammunition[name],'NO_AMMUNITION_SOURCE: '
+            ..name..' has no reviewed default ammunition that owns its fired projectile (see attack:projectile_source())')
+        return entry,{weapon=name,semanticId=entry.id,item=entry.item,compatibilityClass=entry.compatibilityClass,
+            sharedWithWeapons=copy(entry.sharedWithWeapons),appliesWhen=entry.appliesWhen,
+            acknowledgements={'allow_shared','allow_unverified_effect'},reason=entry.acknowledgementReason}
+    end
+    local function ammunition_target(name)
+        local _,view=ammunition_view(name)
+        local methods={}
+        function methods.describe()return copy(view)end
+        function methods.projectile()
+            local projectile_methods={}
+            function projectile_methods.describe()return copy(view)end
+            return setmetatable({resource='player_weapon',path='ammunition_projectile',weapon=name},
+                {__index=projectile_methods})
+        end
+        return setmetatable({resource='player_weapon',path='ammunition',weapon=name},{__index=methods})
+    end
+    local projectile_source
     local function attack_target(name,role)
         local attack=assert(composition.weapons[name].attacks[role],
             'unknown reviewed attack role for '..name..': '..tostring(role))
         local methods={}
         function methods.describe()return copy(attack)end
         function methods.projectile()return projectile_reference(name,attack.role)end
+        -- Where this attack's fired projectile lives, and the target/field that changes it (if any).
+        function methods.projectile_source()return projectile_source(name,attack.role)end
         -- The output this weapon's attack emits (its family component's reference), as a typed handle.
         function methods.output()
             assert(attack.role=='primary','attack outputs are catalogued for the primary attack')
@@ -117,6 +142,25 @@ function M.new(describe)
         end
         return setmetatable({resource='player_weapon',path='attack',weapon=name,attack=attack.role},
             {__index=methods})
+    end
+    -- The active projectile source of a player attack (sdk/AttackOutputCapabilities.json projectileSources).
+    -- writable=true only where changing the returned target's field changes the projectile the weapon fires.
+    projectile_source=function(name,role)
+        local catalog=require('hd2runtime/domains/attack_outputs')
+        local source=assert((catalog.sources[name]or{})[role],
+            'no classified projectile source for '..name..' attack '..tostring(role))
+        local result={weapon=name,attack=role,status=source.status,mechanism=source.mechanism,member=source.member,
+            reason=source.reason,writable=false}
+        if source.mechanism=='component'and source.status=='ACTIVE_DIRECT'and source.previouslyWritable then
+            local target=attack_target(name,role)
+            result.writable=true;result.target=target;result.field='attack.projectile'
+            result.expect=target:projectile();result.acknowledgements={}
+        elseif source.mechanism=='ammunition'and catalog.ammunition[name]then
+            local target=ammunition_target(name)
+            result.writable=true;result.target=target;result.field='ammunition.projectile'
+            result.expect=target:projectile();result.acknowledgements={'allow_shared','allow_unverified_effect'}
+        end
+        return result
     end
     local function magazine_target(name,option)
         local methods={};function methods.describe()return copy(option)end
@@ -173,6 +217,9 @@ function M.new(describe)
             return result
         end
         function methods.attack(_,role)return attack_target(name,role)end
+        -- The default ammunition that owns this weapon's fired projectile (weapons classified INDIRECT only).
+        function methods.ammunition()return ammunition_target(name)end
+        function methods.projectile_source(_,role)return projectile_source(name,role or'primary')end
         function methods.fire_modes()
             local result=copy(graph.fire_mode)
             result.modeSet=copy(fire_mode_table.weapons['player:'..name])
