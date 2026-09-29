@@ -3,7 +3,7 @@
  "schemaVersion": 1,
  "hd2RuntimeVersion": "0.27.0",
  "summary": {
-  "events": 14,
+  "events": 15,
   "available": [
    "entity_damaged",
    "entity_died",
@@ -17,6 +17,7 @@
    "player_died",
    "player_fired",
    "player_healed",
+   "player_kill_credited",
    "player_spawned"
   ],
   "blocked": [
@@ -34,8 +35,8 @@
   "input": "Bound keys, polled only while the game window has focus.",
   "game_state": "The game's state machine: its Mission state with a game_mode object, and this peer's authority over it (host).",
   "players": "The game's player list: peer ids, lifecycle state, and each avatar entity (through the network id map).",
-  "health": "One bulk scan per tick of the health manager: every entity with a HealthComponent, its health, life state (alive, downed, dead) and last-hit creditor.",
-  "stats": "The local player's mission stats (the game's own get_stat sum of the main table and source blocks), checked 10 times per second."
+  "health": "One bulk scan per tick of the health manager: every entity with a HealthComponent, its health, life state (alive, downed, dead) and last-hit creditor. When a tracked record disappears, the corpse manager is read once: the game replaces a dead entity by a corpse entity that takes over its unit and names the dead entity, so a death that happened between two polls is still reported.",
+  "stats": "The local player's mission stats as the game keeps them: the main table plus one block per source type (the weapon, throwable or stratagem payload the game recorded the stat under), checked 10 times per second."
  },
  "events": [
   {
@@ -209,7 +210,7 @@
    "source": "health",
    "phase": "post",
    "hot": true,
-   "summary": "An entity with health died (its life state reached dead). Environmental and unattributed deaths included.",
+   "summary": "An entity with health died: its life state reached dead, or the game replaced it by its corpse before a poll saw the dead state. Environmental and unattributed deaths included; an entity removed without a corpse (despawned) is not a death.",
    "payload": [
     {
      "name": "entity",
@@ -244,7 +245,7 @@
     {
      "name": "killer",
      "type": "HD2PlayerHandle|nil",
-     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death."
+     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health)."
     },
     {
      "name": "local_killer",
@@ -259,12 +260,22 @@
     {
      "name": "position",
      "type": "HD2Vector3|nil",
-     "doc": "Position when the death was observed (nil when the unit was already gone)."
+     "doc": "Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone."
     },
     {
      "name": "max_health",
      "type": "integer|nil",
      "doc": "Maximum health."
+    },
+    {
+     "name": "observed",
+     "type": "\"dead_state\"|\"corpse\"",
+     "doc": "How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity)."
+    },
+    {
+     "name": "corpse_id",
+     "type": "integer|nil",
+     "doc": "Engine id of the corpse entity that replaced it (observed == \"corpse\"); nil when the dead state was seen first."
     }
    ]
   },
@@ -309,7 +320,7 @@
     {
      "name": "killer",
      "type": "HD2PlayerHandle|nil",
-     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death."
+     "doc": "The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health)."
     },
     {
      "name": "local_killer",
@@ -324,12 +335,22 @@
     {
      "name": "position",
      "type": "HD2Vector3|nil",
-     "doc": "Position when the death was observed (nil when the unit was already gone)."
+     "doc": "Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone."
     },
     {
      "name": "max_health",
      "type": "integer|nil",
      "doc": "Maximum health."
+    },
+    {
+     "name": "observed",
+     "type": "\"dead_state\"|\"corpse\"",
+     "doc": "How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity)."
+    },
+    {
+     "name": "corpse_id",
+     "type": "integer|nil",
+     "doc": "Engine id of the corpse entity that replaced it (observed == \"corpse\"); nil when the dead state was seen first."
     }
    ]
   },
@@ -554,7 +575,7 @@
    "source": "stats",
    "phase": "post",
    "hot": false,
-   "summary": "The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; the weapon is not identified.",
+   "summary": "The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; `sources` names the weapons the game recorded the shots under.",
    "payload": [
     {
      "name": "player",
@@ -575,6 +596,56 @@
      "name": "total",
      "type": "integer",
      "doc": "The stat total now."
+    },
+    {
+     "name": "sources",
+     "type": "HD2StatSource[]",
+     "doc": "The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload."
+    },
+    {
+     "name": "unattributed",
+     "type": "integer",
+     "doc": "Growth the game recorded without a source."
+    }
+   ]
+  },
+  {
+   "name": "player_kill_credited",
+   "status": "available",
+   "source": "stats",
+   "phase": "post",
+   "hot": false,
+   "summary": "The game credited the local player with kills: its dealt_kills mission stat grew (only deaths whose settings count as a kill). Checked 10 times per second, so one event can count several kills; `sources` names the weapons, throwables or stratagem payloads the kills were credited to.",
+   "payload": [
+    {
+     "name": "player",
+     "type": "HD2PlayerHandle",
+     "doc": "The local player."
+    },
+    {
+     "name": "local_player",
+     "type": "boolean",
+     "doc": "Always true."
+    },
+    {
+     "name": "kills",
+     "type": "integer",
+     "doc": "Kills credited since the previous check."
+    },
+    {
+     "name": "total",
+     "type": "integer",
+     "doc": "The stat total now."
+    },
+    {
+     "name": "sources",
+     "type": "HD2StatSource[]",
+     "doc": "The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload."
+    },
+    {
+     "name": "unattributed",
+     "type": "integer",
+     "doc": "Growth the game recorded without a source."
     }
    ]
   },
@@ -1533,6 +1604,31 @@
       "mode",
       "string|nil",
       "Game mode."
+     ]
+    ]
+   },
+   "HD2StatSource": {
+    "doc": "One source of a player stat: the entity type the game recorded it under.",
+    "fields": [
+     [
+      "type",
+      "string",
+      "Source entity type hash (16 hex digits)."
+     ],
+     [
+      "name",
+      "string|nil",
+      "The weapon, throwable or stratagem name when catalogued."
+     ],
+     [
+      "shots",
+      "integer|nil",
+      "Shots (player_fired)."
+     ],
+     [
+      "kills",
+      "integer|nil",
+      "Kills (player_kill_credited)."
      ]
     ]
    }

@@ -3,6 +3,7 @@
 local natives=require('hd2runtime/domains/event_natives')
 local profile=require('hd2runtime/schemas/current')
 local H,P,A,S,E,T=natives.health,natives.players,natives.playerAvatars,natives.state,natives.engine,natives.stats
+local C=natives.corpses
 local W={}
 
 -------------------------------------------------------------------------------------------------- memory --
@@ -44,6 +45,8 @@ local function f32(v)
     return u32(sign*2147483648+exponent*8388608+mantissa)
 end
 local function unhex(h)return(h:gsub('..',function(p)return string.char(tonumber(p,16))end))end
+local function le32(s)return s:byte(1)+s:byte(2)*256+s:byte(3)*65536+s:byte(4)*16777216 end
+local function type_bytes(type_hex)return u32(tonumber(type_hex:sub(9),16))..u32(tonumber(type_hex:sub(1,8),16))end
 -- Peer ids exceed 2^53: tests pass them as 16 hex digits and they are written exactly.
 local function peer(value)
     if type(value)=='string'then return unhex(value):reverse()end
@@ -125,6 +128,42 @@ function W.stats(player_entity,shots)
     write(block,u64(0x4D1C334D))
     write(block+T.sourceEntries,u32(T.keys.projectiles_fired)..u32(shots))
 end
+-- One stat value: in source block `block` keyed by the source type (16 hex digits), or in the main table (no block).
+function W.stat(player_entity,key,value,block,type_hex)
+    write(score_map+(player_entity%16)*8,u32(player_entity)..u32(0))
+    if block then
+        local base=sources+block*T.sourceStride
+        write(base,type_bytes(type_hex))
+        for entry=0,T.sourceEntryCount-1 do
+            local at=base+T.sourceEntries+entry*T.entryStride
+            local found=read(at,4)
+            if found==u32(key)or found==u32(0)then write(at,u32(key)..u32(value));return end
+        end
+        error('source block full')
+    end
+    local slot=key%16
+    while read(main_table+slot*T.entryStride,4)~=u32(0)and read(main_table+slot*T.entryStride,4)~=u32(key)do
+        slot=(slot+1)%16
+    end
+    write(main_table+slot*T.entryStride,u32(key)..u32(value))
+end
+
+-- Corpses: when the game replaces a dead entity it spawns a corpse entity that takes over the unit and keeps the dead
+-- entity's id in its record.
+local corpse_manager=alloc(0x100)
+write(GAME+C.global,u64(corpse_manager))
+local corpse_descriptors=alloc(64*8)
+local corpse_records=alloc(64*C.stride)
+write(corpse_manager+C.descriptors,u64(corpse_descriptors));write(corpse_manager+C.records,u64(corpse_records))
+local corpse_count=0
+function W.corpse(origin,corpse,unit,type_hex)
+    local descriptor=alloc(0x18)
+    write(descriptor,type_bytes(type_hex or'0000000000000000')..u32(corpse)..u32(unit or 0)..u32(0x7FFF)..u32(1))
+    write(corpse_descriptors+corpse_count*8,u64(descriptor))
+    write(corpse_records+corpse_count*C.stride+C.origin,u32(origin))
+    corpse_count=corpse_count+1
+    write(corpse_manager+C.count,u32(corpse_count))
+end
 
 ---------------------------------------------------------------------------------------------- the runtime --
 local runtime={mode='event-fixture',heals={}}
@@ -202,6 +241,16 @@ function W.remove(entity)
     local current=read(generations+index,1):byte()
     write(generations+index,string.char((current+1)%256))
     relayout()
+end
+-- The game replaces a dead entity by its corpse: the entity (and its health record) is destroyed and a corpse entity
+-- of the same type takes over its unit.
+function W.replace_by_corpse(entity,corpse)
+    local descriptor=by_entity[entity].descriptor
+    local type_hex=string.format('%08X%08X',le32(read(descriptor+4,4)),le32(read(descriptor,4)))
+    local unit=le32(read(descriptor+12,4))
+    W.remove(entity)
+    write(generations+corpse%4194304,string.char(math.floor(corpse/4194304)%256))
+    W.corpse(entity,corpse,unit,type_hex)
 end
 function W.set(entity,fields)
     local item=by_entity[entity]

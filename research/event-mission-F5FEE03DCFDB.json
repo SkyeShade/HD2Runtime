@@ -1,0 +1,1744 @@
+{
+ "schemaVersion": 1,
+ "build": "F5FEE03DCFDB",
+ "gameDll": {
+  "sha256": "2E2C3B7C2500646DADD5F2B4C6E0504DBB7E7896139F64CDDC0D1813C718F51E",
+  "imageSize": 74727424
+ },
+ "snapshots": [
+  {
+   "label": "mission-host",
+   "name": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap"
+  },
+  {
+   "label": "mission-host-alive",
+   "name": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap"
+  },
+  {
+   "label": "mission-host-after-reinforce",
+   "name": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap"
+  },
+  {
+   "label": "mission-end-transition",
+   "name": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap"
+  }
+ ],
+ "globals": {
+  "corpse": 53635360,
+  "inventory": 53634872,
+  "weaponWielder": 53634080,
+  "explosionQueue": 54973784
+ },
+ "layouts": {
+  "corpse": {
+   "count": 24,
+   "owned": 28,
+   "descriptors": 64,
+   "records": 72,
+   "stride": 72,
+   "origin": 60,
+   "capacity": 512
+  }
+ },
+ "proofs": {
+  "corpseManager": [
+   {
+    "rva": 5669484,
+    "bytes": "488d8328010000",
+    "asm": "lea rax, [rbx + 0x128]",
+    "role": "corpse manager = component world + 0x128"
+   },
+   {
+    "rva": 5669491,
+    "bytes": "488905a6e6db02",
+    "asm": "mov qword ptr [rip + 0x2dbe6a6], rax",
+    "role": "corpse manager global",
+    "ripTarget": 53635360
+   },
+   {
+    "rva": 5679769,
+    "bytes": "448b8f3c010000",
+    "asm": "mov r9d, dword ptr [rdi + 0x13c]",
+    "role": "debug print: corpse max = world + 0x128 + 0x14"
+   },
+   {
+    "rva": 5679783,
+    "bytes": "4c8d054a0ece01",
+    "asm": "lea r8, [rip + 0x1ce0e4a]",
+    "role": "\"corpse\" : { \"max\" : %u, \"capacity\" : 512 }",
+    "ripTarget": 35961080
+   },
+   {
+    "rva": 8855706,
+    "bytes": "488b1d7f48ab02",
+    "asm": "mov rbx, qword ptr [rip + 0x2ab487f]",
+    "role": "add instance (owned): corpse manager",
+    "ripTarget": 53635360
+   },
+   {
+    "rva": 8855716,
+    "bytes": "8b4318",
+    "asm": "mov eax, dword ptr [rbx + 0x18]",
+    "role": "live count +0x18"
+   },
+   {
+    "rva": 8855755,
+    "bytes": "488b4348",
+    "asm": "mov rax, qword ptr [rbx + 0x48]",
+    "role": "record array +0x48"
+   },
+   {
+    "rva": 8855762,
+    "bytes": "4b8d0cc0",
+    "asm": "lea rcx, [r8 + r8*8]",
+    "role": "record stride 9*8 = 0x48 (record zeroed on add)"
+   },
+   {
+    "rva": 8855796,
+    "bytes": "ff4318",
+    "asm": "inc dword ptr [rbx + 0x18]",
+    "role": "live count grows on add"
+   },
+   {
+    "rva": 8855802,
+    "bytes": "488b4340",
+    "asm": "mov rax, qword ptr [rbx + 0x40]",
+    "role": "descriptor pointer array +0x40"
+   },
+   {
+    "rva": 8855817,
+    "bytes": "4a893cc0",
+    "asm": "mov qword ptr [rax + r8*8], rdi",
+    "role": "descriptor pointer store"
+   },
+   {
+    "rva": 5335145,
+    "bytes": "488b1db000e102",
+    "asm": "mov rbx, qword ptr [rip + 0x2e100b0]",
+    "role": "remove instance: corpse manager",
+    "ripTarget": 53635360
+   },
+   {
+    "rva": 5335171,
+    "bytes": "44894318",
+    "asm": "mov dword ptr [rbx + 0x18], r8d",
+    "role": "live count shrinks on remove"
+   }
+  ],
+  "corpseOrigin": [
+   {
+    "rva": 5598930,
+    "bytes": "488d0517fafbff",
+    "asm": "lea rax, [rip - 0x405e9]",
+    "role": "corpse post-spawn callback",
+    "ripTarget": 5335280
+   },
+   {
+    "rva": 5598937,
+    "bytes": "48898170d5f000",
+    "asm": "mov qword ptr [rcx + 0xf0d570], rax",
+    "role": "registered in the post-spawn table (component 4)"
+   },
+   {
+    "rva": 5773883,
+    "bytes": "488b84cf50d5f000",
+    "asm": "mov rax, qword ptr [rdi + rcx*8 + 0xf0d550]",
+    "role": "spawn calls every component post-spawn callback"
+   },
+   {
+    "rva": 5335286,
+    "bytes": "488b0d2300e102",
+    "asm": "mov rcx, qword ptr [rip + 0x2e10023]",
+    "role": "post-spawn thunk: corpse manager",
+    "ripTarget": 53635360
+   },
+   {
+    "rva": 5335293,
+    "bytes": "e95e873500",
+    "asm": "jmp 0x86f060",
+    "role": "corpse init from its source entity"
+   },
+   {
+    "rva": 8843924,
+    "bytes": "8b470c",
+    "asm": "mov eax, dword ptr [rdi + 0xc]",
+    "role": "source (dead entity) descriptor unit"
+   },
+   {
+    "rva": 8843931,
+    "bytes": "418944240c",
+    "asm": "mov dword ptr [r12 + 0xc], eax",
+    "role": "the corpse descriptor takes over the dead entity's unit"
+   },
+   {
+    "rva": 8843936,
+    "bytes": "8b4708",
+    "asm": "mov eax, dword ptr [rdi + 8]",
+    "role": "source (dead entity) full entity id"
+   },
+   {
+    "rva": 8843939,
+    "bytes": "498b4d48",
+    "asm": "mov rcx, qword ptr [r13 + 0x48]",
+    "role": "corpse record array"
+   },
+   {
+    "rva": 8843943,
+    "bytes": "8944d13c",
+    "asm": "mov dword ptr [rcx + rdx*8 + 0x3c], eax",
+    "role": "corpse record +0x3C = the dead entity id"
+   },
+   {
+    "rva": 8848319,
+    "bytes": "488d0cff",
+    "asm": "lea rcx, [rdi + rdi*8]",
+    "role": "corpse lookup: record index * 9"
+   },
+   {
+    "rva": 8848323,
+    "bytes": "8b4cc83c",
+    "asm": "mov ecx, dword ptr [rax + rcx*8 + 0x3c]",
+    "role": "corpse lookup reads the origin entity id"
+   }
+  ],
+  "entityDestroy": [
+   {
+    "rva": 16630767,
+    "bytes": "488b8f20eff300",
+    "asm": "mov rcx, qword ptr [rdi + 0xf3ef20]",
+    "role": "destroy request: pending list"
+   },
+   {
+    "rva": 16630774,
+    "bytes": "890491",
+    "asm": "mov dword ptr [rcx + rdx*4], eax",
+    "role": "destroy request appends the record slot"
+   },
+   {
+    "rva": 16630777,
+    "bytes": "ff8718eff300",
+    "asm": "inc dword ptr [rdi + 0xf3ef18]",
+    "role": "pending count"
+   },
+   {
+    "rva": 16631744,
+    "bytes": "488b8320eff300",
+    "asm": "mov rax, qword ptr [rbx + 0xf3ef20]",
+    "role": "flush walks the pending list"
+   },
+   {
+    "rva": 16631776,
+    "bytes": "e83b000000",
+    "asm": "call 0xfdc820",
+    "role": "flush destroys each pending entity"
+   },
+   {
+    "rva": 16632639,
+    "bytes": "e8cc3789ff",
+    "asm": "call 0x870310",
+    "role": "destroy consults the corpse link of the destroyed entity"
+   },
+   {
+    "rva": 16632915,
+    "bytes": "498b94c5d0e9f000",
+    "asm": "mov rdx, qword ptr [r13 + rax*8 + 0xf0e9d0]",
+    "role": "destroy calls every component remove callback"
+   },
+   {
+    "rva": 5618040,
+    "bytes": "488d057124feff",
+    "asm": "lea rax, [rip - 0x1db8f]",
+    "role": "health remove callback",
+    "ripTarget": 5496304
+   },
+   {
+    "rva": 5618047,
+    "bytes": "48898190f0f000",
+    "asm": "mov qword ptr [rcx + 0xf0f090], rax",
+    "role": "registered in the remove table (component 224)"
+   },
+   {
+    "rva": 5496307,
+    "bytes": "e978ac3e00",
+    "asm": "jmp 0x928a70",
+    "role": "health remove instance"
+   },
+   {
+    "rva": 9603704,
+    "bytes": "488b3d09dc9f02",
+    "asm": "mov rdi, qword ptr [rip + 0x29fdc09]",
+    "role": "health remove: health manager",
+    "ripTarget": 53634696
+   },
+   {
+    "rva": 9603854,
+    "bytes": "44898720100000",
+    "asm": "mov dword ptr [rdi + 0x1020], r8d",
+    "role": "health remove: live count shrinks"
+   }
+  ],
+  "explosionQueue": [
+   {
+    "rva": 20712070,
+    "bytes": "8b4120",
+    "asm": "mov eax, dword ptr [rcx + 0x20]",
+    "role": "queued request count +0x20"
+   },
+   {
+    "rva": 20712079,
+    "bytes": "3d00010000",
+    "asm": "cmp eax, 0x100",
+    "role": "256 requests at most"
+   },
+   {
+    "rva": 20712128,
+    "bytes": "4969fa98000000",
+    "asm": "imul rdi, r10, 0x98",
+    "role": "request stride 0x98 from +0x28"
+   },
+   {
+    "rva": 20712145,
+    "bytes": "f20f11440f28",
+    "asm": "movsd qword ptr [rdi + rcx + 0x28], xmm0",
+    "role": "request position x, y"
+   },
+   {
+    "rva": 20712151,
+    "bytes": "89440f30",
+    "asm": "mov dword ptr [rdi + rcx + 0x30], eax",
+    "role": "request position z"
+   },
+   {
+    "rva": 20712155,
+    "bytes": "4489440f34",
+    "asm": "mov dword ptr [rdi + rcx + 0x34], r8d",
+    "role": "request explosion id (3rd argument)"
+   },
+   {
+    "rva": 20712229,
+    "bytes": "44894c1f38",
+    "asm": "mov dword ptr [rdi + rbx + 0x38], r9d",
+    "role": "request source entity (4th argument)"
+   },
+   {
+    "rva": 20712244,
+    "bytes": "894c1f3c",
+    "asm": "mov dword ptr [rdi + rbx + 0x3c], ecx",
+    "role": "request owner entity (5th argument)"
+   },
+   {
+    "rva": 20712207,
+    "bytes": "4889441f40",
+    "asm": "mov qword ptr [rdi + rbx + 0x40], rax",
+    "role": "request creditor peer (6th argument)"
+   },
+   {
+    "rva": 20712240,
+    "bytes": "89541f48",
+    "asm": "mov dword ptr [rdi + rbx + 0x48], edx",
+    "role": "request 7th argument"
+   }
+  ]
+ },
+ "pinnedBytesMismatchPerSnapshot": {
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": [],
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": [],
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": []
+ },
+ "observations": [
+  {
+   "label": "mission-host",
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "capture": {
+    "captured_at": "2026-09-29T17:26:47Z",
+    "process_id": 99148,
+    "game_session": "99148-1790702655",
+    "mode": "manual",
+    "label": "mission-host"
+   },
+   "gameState": 4,
+   "gameMode": {
+    "count": 1,
+    "type": 1,
+    "entity": 309,
+    "host": true
+   },
+   "players": [
+    {
+     "peer": "32B10D7BA1516C5C",
+     "local": true,
+     "playerEntity": 5,
+     "lifecycle": 3,
+     "avatarNetworkId": 470,
+     "avatar": 602
+    }
+   ],
+   "health": {
+    "live": 61,
+    "owned": 61,
+    "lifeStates": {
+     "alive": 61,
+     "downed": 0,
+     "dead": 0
+    },
+    "avatars": [
+     {
+      "entity": 602,
+      "unit": 4194863,
+      "life": 0,
+      "health": 125
+     }
+    ],
+    "staleDeadRecordsPastLiveCount": []
+   },
+   "corpses": {
+    "count": 1,
+    "owned": 1,
+    "corpses": [
+     {
+      "corpse": 688,
+      "type": "E58163E71928D3E2",
+      "name": null,
+      "unit": 8389315,
+      "origin": 619,
+      "originExists": false,
+      "originHasHealthRecord": false
+     }
+    ]
+   },
+   "replicatedHealthTypesWithoutRecord": {
+    "count": 0,
+    "corpses": 0,
+    "enemyCorpses": 0
+   },
+   "localStats": {
+    "main": {
+     "dealt_kills": 0,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 0
+    },
+    "totals": {
+     "dealt_kills": 0,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 0
+    },
+    "sources": []
+   },
+   "inventory": [
+    {
+     "owner": 602,
+     "items": [
+      605,
+      607,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "explosionQueue": {
+    "count": 0,
+    "staleEntries": [
+     {
+      "slot": 0,
+      "position": [
+       -80.6,
+       40.6,
+       8.6
+      ],
+      "explosionId": 113,
+      "source": 619,
+      "owner": 602,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 1
+     }
+    ]
+   },
+   "identity": {
+    "309": true,
+    "602": true,
+    "851": false,
+    "852": false
+   },
+   "units": {
+    "4194863": true,
+    "12585357": true
+   }
+  },
+  {
+   "label": "mission-host-alive",
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "capture": {
+    "captured_at": "2026-09-29T17:29:18Z",
+    "process_id": 99148,
+    "game_session": "99148-1790702655",
+    "mode": "manual",
+    "label": "mission-host-alive"
+   },
+   "gameState": 4,
+   "gameMode": {
+    "count": 1,
+    "type": 1,
+    "entity": 309,
+    "host": true
+   },
+   "players": [
+    {
+     "peer": "32B10D7BA1516C5C",
+     "local": true,
+     "playerEntity": 5,
+     "lifecycle": 3,
+     "avatarNetworkId": 470,
+     "avatar": 602
+    }
+   ],
+   "health": {
+    "live": 48,
+    "owned": 48,
+    "lifeStates": {
+     "alive": 48,
+     "downed": 0,
+     "dead": 0
+    },
+    "avatars": [
+     {
+      "entity": 602,
+      "unit": 4194863,
+      "life": 0,
+      "health": 125
+     }
+    ],
+    "staleDeadRecordsPastLiveCount": []
+   },
+   "corpses": {
+    "count": 9,
+    "owned": 9,
+    "corpses": [
+     {
+      "corpse": 688,
+      "type": "E58163E71928D3E2",
+      "name": null,
+      "unit": 8389315,
+      "origin": 619,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 702,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8391577,
+      "origin": 690,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 703,
+      "type": "A1F37BF2A40FBDE4",
+      "name": "Hive Guard",
+      "unit": 8391607,
+      "origin": 695,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 715,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8391583,
+      "origin": 691,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 716,
+      "type": "A1F37BF2A40FBDE4",
+      "name": "Hive Guard",
+      "unit": 8391601,
+      "origin": 694,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 717,
+      "type": "A1F37BF2A40FBDE4",
+      "name": "Hive Guard",
+      "unit": 8391589,
+      "origin": 692,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 718,
+      "type": "32541FC4EC7C9CDC",
+      "name": "warrior_tier_2",
+      "unit": 8391595,
+      "origin": 693,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 724,
+      "type": "A05BD1EC67B3AC4C",
+      "name": "charger_tier2",
+      "unit": 8391619,
+      "origin": 697,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 739,
+      "type": "A05BD1EC67B3AC4C",
+      "name": "charger_tier2",
+      "unit": 8391613,
+      "origin": 696,
+      "originExists": false,
+      "originHasHealthRecord": false
+     }
+    ]
+   },
+   "replicatedHealthTypesWithoutRecord": {
+    "count": 8,
+    "corpses": 8,
+    "enemyCorpses": 8
+   },
+   "localStats": {
+    "main": {
+     "dealt_kills": 2,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 0
+    },
+    "totals": {
+     "dealt_kills": 8,
+     "projectiles_fired": 1,
+     "projectiles_hit": 1,
+     "received_deaths": 0
+    },
+    "sources": [
+     {
+      "source": "23A60681DD4383EC",
+      "name": "Eagle Strafing Run",
+      "dealt_kills": 5
+     },
+     {
+      "source": "B6AFF2195568767F",
+      "name": "R-36 Eruptor",
+      "dealt_kills": 1,
+      "projectiles_fired": 1,
+      "projectiles_hit": 1
+     }
+    ]
+   },
+   "inventory": [
+    {
+     "owner": 602,
+     "items": [
+      605,
+      607,
+      0,
+      0,
+      0
+     ]
+    }
+   ],
+   "explosionQueue": {
+    "count": 0,
+    "staleEntries": [
+     {
+      "slot": 0,
+      "position": [
+       -70.8,
+       89.9,
+       3.0
+      ],
+      "explosionId": 50,
+      "source": 720,
+      "owner": 720,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 301
+     }
+    ]
+   },
+   "identity": {
+    "309": true,
+    "602": true,
+    "851": false,
+    "852": false
+   },
+   "units": {
+    "4194863": true,
+    "12585357": true
+   }
+  },
+  {
+   "label": "mission-host-after-reinforce",
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "capture": {
+    "captured_at": "2026-09-29T17:32:06Z",
+    "process_id": 99148,
+    "game_session": "99148-1790702655",
+    "mode": "manual",
+    "label": "mission-host-after-reinforce"
+   },
+   "gameState": 4,
+   "gameMode": {
+    "count": 1,
+    "type": 1,
+    "entity": 309,
+    "host": true
+   },
+   "players": [
+    {
+     "peer": "32B10D7BA1516C5C",
+     "local": true,
+     "playerEntity": 5,
+     "lifecycle": 3,
+     "avatarNetworkId": 715,
+     "avatar": 852
+    }
+   ],
+   "health": {
+    "live": 52,
+    "owned": 52,
+    "lifeStates": {
+     "alive": 52,
+     "downed": 0,
+     "dead": 0
+    },
+    "avatars": [
+     {
+      "entity": 852,
+      "unit": 12585357,
+      "life": 0,
+      "health": 125
+     }
+    ],
+    "staleDeadRecordsPastLiveCount": []
+   },
+   "corpses": {
+    "count": 31,
+    "owned": 31,
+    "corpses": [
+     {
+      "corpse": 892,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 13727,
+      "origin": 868,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 932,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 4201739,
+      "origin": 894,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 931,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 4201997,
+      "origin": 904,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 930,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 4201773,
+      "origin": 896,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 927,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 4201980,
+      "origin": 903,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 928,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 4201756,
+      "origin": 895,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 929,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 4201840,
+      "origin": 899,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 926,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 4201926,
+      "origin": 902,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 925,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 4201892,
+      "origin": 901,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 757,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8391993,
+      "origin": 734,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 758,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8391987,
+      "origin": 733,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 759,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391975,
+      "origin": 731,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 760,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8391999,
+      "origin": 735,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 761,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391963,
+      "origin": 729,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 792,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391969,
+      "origin": 730,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 793,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8392005,
+      "origin": 736,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 794,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391981,
+      "origin": 732,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 798,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391951,
+      "origin": 727,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 799,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8392687,
+      "origin": 745,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 800,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8391957,
+      "origin": 728,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 801,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8392722,
+      "origin": 748,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 802,
+      "type": "32541FC4EC7C9CDC",
+      "name": "warrior_tier_2",
+      "unit": 8392671,
+      "origin": 749,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 803,
+      "type": "32541FC4EC7C9CDC",
+      "name": "warrior_tier_2",
+      "unit": 8392664,
+      "origin": 751,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 813,
+      "type": "9A8A3AAE287B230C",
+      "name": "scavenger_tier_2",
+      "unit": 8392715,
+      "origin": 747,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 814,
+      "type": "A1F37BF2A40FBDE4",
+      "name": "Hive Guard",
+      "unit": 12585405,
+      "origin": 752,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 832,
+      "type": "5CA832447445C0BA",
+      "name": "hunter_tier_2",
+      "unit": 8392673,
+      "origin": 746,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 843,
+      "type": "1A437158E1B8D2A1",
+      "name": null,
+      "unit": 4196337,
+      "origin": 607,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 844,
+      "type": "A9936CBE561E8180",
+      "name": null,
+      "unit": 4194867,
+      "origin": 603,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 845,
+      "type": "1C8764D62E12925A",
+      "name": null,
+      "unit": 4194868,
+      "origin": 604,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 851,
+      "type": "4D1C334D294DFA97",
+      "name": "avatar_helldiver",
+      "unit": 4194863,
+      "origin": 602,
+      "originExists": false,
+      "originHasHealthRecord": false
+     },
+     {
+      "corpse": 891,
+      "type": "EF9EB729A9D6D849",
+      "name": null,
+      "unit": 8392067,
+      "origin": 859,
+      "originExists": false,
+      "originHasHealthRecord": false
+     }
+    ]
+   },
+   "replicatedHealthTypesWithoutRecord": {
+    "count": 27,
+    "corpses": 27,
+    "enemyCorpses": 26
+   },
+   "localStats": {
+    "main": {
+     "dealt_kills": 4,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 1
+    },
+    "totals": {
+     "dealt_kills": 33,
+     "projectiles_fired": 28,
+     "projectiles_hit": 19,
+     "received_deaths": 1
+    },
+    "sources": [
+     {
+      "source": "1A437158E1B8D2A1",
+      "name": "P-113 Verdict",
+      "dealt_kills": 2,
+      "projectiles_fired": 20,
+      "projectiles_hit": 13
+     },
+     {
+      "source": "0965AAEBA7CCBCA8",
+      "name": null
+     },
+     {
+      "source": "23A60681DD4383EC",
+      "name": "Eagle Strafing Run",
+      "dealt_kills": 14
+     },
+     {
+      "source": "B6AFF2195568767F",
+      "name": "R-36 Eruptor",
+      "dealt_kills": 13,
+      "projectiles_fired": 8,
+      "projectiles_hit": 6
+     }
+    ]
+   },
+   "inventory": [
+    {
+     "owner": 852,
+     "items": [
+      855,
+      857,
+      0,
+      0,
+      934
+     ]
+    }
+   ],
+   "explosionQueue": {
+    "count": 0,
+    "staleEntries": [
+     {
+      "slot": 0,
+      "position": [
+       25.4,
+       -159.4,
+       8.7
+      ],
+      "explosionId": 158,
+      "source": 855,
+      "owner": 852,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 528
+     },
+     {
+      "slot": 1,
+      "position": [
+       -45.6,
+       48.0,
+       7.5
+      ],
+      "explosionId": 50,
+      "source": 756,
+      "owner": 756,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 389
+     },
+     {
+      "slot": 2,
+      "position": [
+       -45.4,
+       48.0,
+       7.5
+      ],
+      "explosionId": 50,
+      "source": 756,
+      "owner": 756,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 393
+     }
+    ]
+   },
+   "identity": {
+    "309": true,
+    "602": false,
+    "851": true,
+    "852": true
+   },
+   "units": {
+    "4194863": true,
+    "12585357": true
+   }
+  },
+  {
+   "label": "mission-end-transition",
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "capture": {
+    "captured_at": "2026-09-29T17:34:43Z",
+    "process_id": 99148,
+    "game_session": "99148-1790702655",
+    "mode": "manual",
+    "label": "mission-end-transition"
+   },
+   "gameState": 5,
+   "gameMode": {
+    "count": 0,
+    "type": null,
+    "entity": null,
+    "host": null
+   },
+   "players": [
+    {
+     "peer": "32B10D7BA1516C5C",
+     "local": true,
+     "playerEntity": 5,
+     "lifecycle": 1,
+     "avatarNetworkId": 32767,
+     "avatar": null
+    }
+   ],
+   "health": {
+    "live": 0,
+    "owned": 0,
+    "lifeStates": {
+     "alive": 0,
+     "downed": 0,
+     "dead": 0
+    },
+    "avatars": [],
+    "staleDeadRecordsPastLiveCount": [
+     {
+      "slot": 0,
+      "health": -22,
+      "secondsSinceDamage": 31.1
+     },
+     {
+      "slot": 1,
+      "health": -22,
+      "secondsSinceDamage": 31.1
+     },
+     {
+      "slot": 2,
+      "health": -22,
+      "secondsSinceDamage": 31.1
+     },
+     {
+      "slot": 21,
+      "health": -22,
+      "secondsSinceDamage": 31.1
+     }
+    ]
+   },
+   "corpses": {
+    "count": 0,
+    "owned": 0,
+    "corpses": []
+   },
+   "replicatedHealthTypesWithoutRecord": {
+    "count": 0,
+    "corpses": 0,
+    "enemyCorpses": 0
+   },
+   "localStats": {
+    "main": {
+     "dealt_kills": 5,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 6
+    },
+    "totals": {
+     "dealt_kills": 47,
+     "projectiles_fired": 32,
+     "projectiles_hit": 20,
+     "received_deaths": 6
+    },
+    "sources": [
+     {
+      "source": "1A437158E1B8D2A1",
+      "name": "P-113 Verdict",
+      "dealt_kills": 2,
+      "projectiles_fired": 20,
+      "projectiles_hit": 13
+     },
+     {
+      "source": "0E8C2515261E0325",
+      "name": null,
+      "dealt_kills": 1
+     },
+     {
+      "source": "0965AAEBA7CCBCA8",
+      "name": null
+     },
+     {
+      "source": "397792815583DA29",
+      "name": "Eagle 110mm Rocket Pods"
+     },
+     {
+      "source": "23A60681DD4383EC",
+      "name": "Eagle Strafing Run",
+      "dealt_kills": 17
+     },
+     {
+      "source": "486522867199D7F3",
+      "name": null,
+      "dealt_kills": 6
+     },
+     {
+      "source": "55F3747B8C27AEF6",
+      "name": "Orbital EMS Strike",
+      "dealt_kills": 1
+     },
+     {
+      "source": "B6AFF2195568767F",
+      "name": "R-36 Eruptor",
+      "dealt_kills": 15,
+      "projectiles_fired": 12,
+      "projectiles_hit": 7
+     }
+    ]
+   },
+   "inventory": [],
+   "explosionQueue": {
+    "count": 0,
+    "staleEntries": [
+     {
+      "slot": 0,
+      "position": [
+       -79.0,
+       -216.3,
+       11.6
+      ],
+      "explosionId": 158,
+      "source": 1125,
+      "owner": 1122,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 645
+     },
+     {
+      "slot": 1,
+      "position": [
+       -98.3,
+       -223.5,
+       11.5
+      ],
+      "explosionId": 109,
+      "source": 969,
+      "owner": 967,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 540
+     },
+     {
+      "slot": 2,
+      "position": [
+       -45.4,
+       48.0,
+       7.5
+      ],
+      "explosionId": 50,
+      "source": 756,
+      "owner": 756,
+      "peer": "32B10D7BA1516C5C",
+      "seventhArgument": 393
+     }
+    ]
+   },
+   "identity": {
+    "309": false,
+    "602": false,
+    "851": false,
+    "852": false
+   },
+   "units": {
+    "4194863": false,
+    "12585357": false
+   }
+  }
+ ],
+ "findings": {
+  "missionState": {
+   "started": "Mission iff game state 4 and a game_mode entity exists (count 1); all three in-mission snapshots read state 4, game_mode entity 309, host (authority bit) True.",
+   "ended": "The mission-end snapshot reads state 5 (PrepareShip), game_mode count 0, health live 0, player lifecycle [1], avatar network id [32767]: the state leaves 4 and the mission population is torn down together.",
+   "gameModeEntityDestroyed": true
+  },
+  "avatarLifetime": {
+   "beforeReinforce": {
+    "avatar": 602,
+    "unit": 4194863
+   },
+   "afterReinforce": {
+    "avatar": 852,
+    "networkId": 715,
+    "oldAvatarExists": false,
+    "oldUnitAlive": true,
+    "corpseOfOldAvatar": [
+     {
+      "corpse": 851,
+      "type": "4D1C334D294DFA97",
+      "name": "avatar_helldiver",
+      "unit": 4194863,
+      "origin": 602,
+      "originExists": false,
+      "originHasHealthRecord": false
+     }
+    ]
+   },
+   "deadAvatarKeepsRecord": [
+    {
+     "slot": 0,
+     "health": -22,
+     "secondsSinceDamage": 31.1
+    },
+    {
+     "slot": 1,
+     "health": -22,
+     "secondsSinceDamage": 31.1
+    }
+   ],
+   "summary": "A dead avatar keeps its health record in the dead state (life 2) while its player waits to be reinforced (the mission-end teardown moved a dead avatar record, 31 s after its last damage). On reinforce the game destroys the dead avatar entity (generation advanced), spawns a corpse entity of the same type that takes over its unit (corpse record origin = the old avatar id), and spawns a new avatar with a new network id and entity."
+  },
+  "entityDeath": {
+   "corpsePairs": [
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 690,
+     "corpse": 702,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 695,
+     "corpse": 703,
+     "name": "Hive Guard",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 691,
+     "corpse": 715,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 694,
+     "corpse": 716,
+     "name": "Hive Guard",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 692,
+     "corpse": 717,
+     "name": "Hive Guard",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 693,
+     "corpse": 718,
+     "name": "warrior_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 697,
+     "corpse": 724,
+     "name": "charger_tier2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host",
+     "to": "mission-host-alive",
+     "origin": 696,
+     "corpse": 739,
+     "name": "charger_tier2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 734,
+     "corpse": 757,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 733,
+     "corpse": 758,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 731,
+     "corpse": 759,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 735,
+     "corpse": 760,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 729,
+     "corpse": 761,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 730,
+     "corpse": 792,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 736,
+     "corpse": 793,
+     "name": "scavenger_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 732,
+     "corpse": 794,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 727,
+     "corpse": 798,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 728,
+     "corpse": 800,
+     "name": "hunter_tier_2",
+     "sameUnit": true
+    },
+    {
+     "from": "mission-host-alive",
+     "to": "mission-host-after-reinforce",
+     "origin": 602,
+     "corpse": 851,
+     "name": "avatar_helldiver",
+     "sameUnit": true
+    }
+   ],
+   "deadRecordsInMission": [
+    0,
+    0,
+    0
+   ],
+   "killsVersusEnemyCorpses": {
+    "mission-host-alive": {
+     "dealt_kills": 8,
+     "enemyCorpses": 8
+    }
+   },
+   "summary": "When an enemy dies the game replaces it: the living entity is destroyed through the deferred destroy list (its health record goes with it) and a corpse entity of the same type is spawned that takes over the unit and records the dead entity's full id (corpse record +0x3C). No enemy record in the dead state was present in any mission snapshot, so how many frames the dead state lasts before the swap is unproven; a poll can miss it. The corpse link identifies the death regardless."
+  },
+  "handles": {
+   "avatar": 852,
+   "avatar_alive": true,
+   "avatar_valid": true,
+   "old_reason": "the engine destroyed the entity",
+   "old_valid": false,
+   "summary": "An Entity handle to the old avatar (602) is invalid after reinforce; Player:avatar() re-resolves to the new avatar through the player list."
+  },
+  "weaponAttribution": {
+   "summary": "The kill-credit listener adds each stat to the credited player with the source entity's type (0x62C930 arg 5 via 0xFD9D40): the stat record keeps one source block per type. Guns are keyed by the weapon entity type, stratagems by their payload type; entries in the main table have no source.",
+   "afterReinforce": {
+    "main": {
+     "dealt_kills": 4,
+     "projectiles_fired": 0,
+     "projectiles_hit": 0,
+     "received_deaths": 1
+    },
+    "totals": {
+     "dealt_kills": 33,
+     "projectiles_fired": 28,
+     "projectiles_hit": 19,
+     "received_deaths": 1
+    },
+    "sources": [
+     {
+      "source": "1A437158E1B8D2A1",
+      "name": "P-113 Verdict",
+      "dealt_kills": 2,
+      "projectiles_fired": 20,
+      "projectiles_hit": 13
+     },
+     {
+      "source": "0965AAEBA7CCBCA8",
+      "name": null
+     },
+     {
+      "source": "23A60681DD4383EC",
+      "name": "Eagle Strafing Run",
+      "dealt_kills": 14
+     },
+     {
+      "source": "B6AFF2195568767F",
+      "name": "R-36 Eruptor",
+      "dealt_kills": 13,
+      "projectiles_fired": 8,
+      "projectiles_hit": 6
+     }
+    ]
+   }
+  },
+  "inventory": {
+   "observed": [
+    [
+     {
+      "owner": 602,
+      "items": [
+       605,
+       607,
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    [
+     {
+      "owner": 602,
+      "items": [
+       605,
+       607,
+       0,
+       0,
+       0
+      ]
+     }
+    ],
+    [
+     {
+      "owner": 852,
+      "items": [
+       855,
+       857,
+       0,
+       0,
+       934
+      ]
+     }
+    ],
+    []
+   ],
+   "summary": "InventoryComponent (manager game+0x3326738, descriptors +0x40, records 0x30 bytes at +0x50) lists the avatar's loadout weapon entities: slot 0 primary, slot 1 secondary, more slots for other items. The weapon currently wielded lives in WeaponWielderComponent (game+0x3326420); its field was not decoded. Observation only; not pinned and not used by Runtime."
+  },
+  "explosionQueue": {
+   "observed": [
+    {
+     "count": 0,
+     "staleEntries": [
+      {
+       "slot": 0,
+       "position": [
+        -80.6,
+        40.6,
+        8.6
+       ],
+       "explosionId": 113,
+       "source": 619,
+       "owner": 602,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 1
+      }
+     ]
+    },
+    {
+     "count": 0,
+     "staleEntries": [
+      {
+       "slot": 0,
+       "position": [
+        -70.8,
+        89.9,
+        3.0
+       ],
+       "explosionId": 50,
+       "source": 720,
+       "owner": 720,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 301
+      }
+     ]
+    },
+    {
+     "count": 0,
+     "staleEntries": [
+      {
+       "slot": 0,
+       "position": [
+        25.4,
+        -159.4,
+        8.7
+       ],
+       "explosionId": 158,
+       "source": 855,
+       "owner": 852,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 528
+      },
+      {
+       "slot": 1,
+       "position": [
+        -45.6,
+        48.0,
+        7.5
+       ],
+       "explosionId": 50,
+       "source": 756,
+       "owner": 756,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 389
+      },
+      {
+       "slot": 2,
+       "position": [
+        -45.4,
+        48.0,
+        7.5
+       ],
+       "explosionId": 50,
+       "source": 756,
+       "owner": 756,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 393
+      }
+     ]
+    },
+    {
+     "count": 0,
+     "staleEntries": [
+      {
+       "slot": 0,
+       "position": [
+        -79.0,
+        -216.3,
+        11.6
+       ],
+       "explosionId": 158,
+       "source": 1125,
+       "owner": 1122,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 645
+      },
+      {
+       "slot": 1,
+       "position": [
+        -98.3,
+        -223.5,
+        11.5
+       ],
+       "explosionId": 109,
+       "source": 969,
+       "owner": 967,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 540
+      },
+      {
+       "slot": 2,
+       "position": [
+        -45.4,
+        48.0,
+        7.5
+       ],
+       "explosionId": 50,
+       "source": 756,
+       "owner": 756,
+       "peer": "32B10D7BA1516C5C",
+       "seventhArgument": 393
+      }
+     ]
+    }
+   ],
+   "summary": "Requests are {position, explosion id, source entity, owner entity, creditor peer, ...}; an R-36 Eruptor shell request carries source = the weapon entity and owner = the avatar. The count is 0 in every snapshot (the queue is drained each frame); only the last frame's requests remain as stale entries. No Hellbomb request was captured; the Hellbomb explosion id stays unproven."
+  }
+ },
+ "unproven": [
+  "How long an enemy stays in the dead state before the corpse swap (0 dead records in three mission snapshots with 47 kills).",
+  "Which system requests the corpse spawn for enemies (the spawn is generic, 0xFDC140; the corpse callback reads its source from the corpse's own spawn data).",
+  "Deaths that leave no corpse (for example an entity destroyed outright) are indistinguishable from despawns by the corpse link.",
+  "The currently wielded weapon (WeaponWielderComponent field) and the meaning of the other inventory slots.",
+  "The Hellbomb explosion id and the full explosion request argument list.",
+  "Client-side behaviour: every snapshot is from the host."
+ ],
+ "writes": 0,
+ "protectionChanges": 0
+}

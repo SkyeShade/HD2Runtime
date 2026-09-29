@@ -1506,7 +1506,7 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field orbital_laser "orbital_laser"
 ---@field shield_relay "shield_relay"
 
----@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"entity_damage_pre"|"key_down"|"key_up"
+---@alias HD2EventName "mission_started"|"mission_ended"|"player_spawned"|"player_died"|"entity_spawned"|"entity_died"|"entity_killed"|"entity_damaged"|"player_damaged"|"player_healed"|"player_fired"|"player_kill_credited"|"entity_damage_pre"|"key_down"|"key_up"
 
 ---A world position snapshot (metres).
 ---@class HD2Vector3
@@ -1664,6 +1664,14 @@ function HD2ScriptValue:get() end
 ---@field mode string|nil Game mode.
 local HD2GameState = {}
 
+---One source of a player stat: the entity type the game recorded it under.
+---@class HD2StatSource
+---@field type string Source entity type hash (16 hex digits).
+---@field name string|nil The weapon, throwable or stratagem name when catalogued.
+---@field shots integer|nil Shots (player_fired).
+---@field kills integer|nil Kills (player_kill_credited).
+local HD2StatSource = {}
+
 ---An entity. Every live query re-resolves it through the game (same mission, still in the health manager's hash, same type and descriptor) and returns nil once it is gone; the fields are a snapshot.
 ---@class HD2EntityHandle
 ---@field id integer Engine entity id.
@@ -1771,7 +1779,7 @@ local HD2Event_player_died = {}
 ---@field avatar boolean A Helldiver avatar.
 local HD2Event_entity_spawned = {}
 
----An entity with health died (its life state reached dead). Environmental and unattributed deaths included.
+---An entity with health died: its life state reached dead, or the game replaced it by its corpse before a poll saw the dead state. Environmental and unattributed deaths included; an entity removed without a corpse (despawned) is not a death.
 ---@class HD2Event_entity_died : HD2Event
 ---@field entity HD2EntityHandle The entity (live queries fail once the game destroys it).
 ---@field type string Entity type hash (16 hex digits).
@@ -1779,11 +1787,13 @@ local HD2Event_entity_spawned = {}
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
----@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death.
+---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health).
 ---@field local_killer boolean The kill is credited to the local player.
 ---@field killer_peer string|nil Creditor peer id, also when that player already left.
----@field position HD2Vector3|nil Position when the death was observed (nil when the unit was already gone).
+---@field position HD2Vector3|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
 ---@field max_health integer|nil Maximum health.
+---@field observed "dead_state"|"corpse" How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity).
+---@field corpse_id integer|nil Engine id of the corpse entity that replaced it (observed == "corpse"); nil when the dead state was seen first.
 local HD2Event_entity_died = {}
 
 ---An entity died and the game credits the kill to a player (entity_died with a creditor).
@@ -1794,11 +1804,13 @@ local HD2Event_entity_died = {}
 ---@field enemy boolean The game counts this entity's death as an enemy kill (its settings KillScore > 0).
 ---@field faction string|nil terminids, automatons, illuminate, helldivers or super_earth, when known.
 ---@field avatar boolean A Helldiver avatar.
----@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death.
+---@field killer HD2PlayerHandle|nil The player the game credits with the kill (its last-hit creditor); nil for an environmental death. For a death seen through the corpse it is the creditor observed on the last poll before the death (nil for a one-hit kill from full health).
 ---@field local_killer boolean The kill is credited to the local player.
 ---@field killer_peer string|nil Creditor peer id, also when that player already left.
----@field position HD2Vector3|nil Position when the death was observed (nil when the unit was already gone).
+---@field position HD2Vector3|nil Position when the death was observed (the corpse keeps the unit); nil when the unit was already gone.
 ---@field max_health integer|nil Maximum health.
+---@field observed "dead_state"|"corpse" How the death was seen: the health record reached the dead state, or the game had already replaced the entity by its corpse (the record was gone and a corpse on the same unit names the entity).
+---@field corpse_id integer|nil Engine id of the corpse entity that replaced it (observed == "corpse"); nil when the dead state was seen first.
 local HD2Event_entity_killed = {}
 
 ---An entity lost health since the previous tick (the sum of every hit in that tick).
@@ -1850,13 +1862,25 @@ local HD2Event_player_damaged = {}
 ---@field max_health integer|nil
 local HD2Event_player_healed = {}
 
----The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; the weapon is not identified.
+---The local player fired: the game's projectiles_fired mission stat grew. Checked 10 times per second, so one event can count several shots (a shotgun counts each projectile). Local player only; `sources` names the weapons the game recorded the shots under.
 ---@class HD2Event_player_fired : HD2Event
 ---@field player HD2PlayerHandle The local player.
 ---@field local_player boolean Always true.
 ---@field shots integer Projectiles fired since the previous check.
 ---@field total integer The stat total now.
+---@field sources HD2StatSource[] The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload.
+---@field unattributed integer Growth the game recorded without a source.
 local HD2Event_player_fired = {}
+
+---The game credited the local player with kills: its dealt_kills mission stat grew (only deaths whose settings count as a kill). Checked 10 times per second, so one event can count several kills; `sources` names the weapons, throwables or stratagem payloads the kills were credited to.
+---@class HD2Event_player_kill_credited : HD2Event
+---@field player HD2PlayerHandle The local player.
+---@field local_player boolean Always true.
+---@field kills integer Kills credited since the previous check.
+---@field total integer The stat total now.
+---@field sources HD2StatSource[] The growth per source type since the previous check, largest first: the weapon entity for guns, the throwable, or the stratagem payload.
+---@field unattributed integer Growth the game recorded without a source.
+local HD2Event_player_kill_credited = {}
 
 ---Blocked: A pre-damage callback would have to run inside the native damage path before it applies (game.dll 0x9235F0). Runtime patches no game code, and nothing read at damage time can scale one attacker's or one weapon's damage: every multiplier there is global (Vitality, the relation table, mission modifiers) or belongs to the target (research/event-combat-F5FEE03DCFDB.json). Observe damage with entity_damaged.
 ---@class HD2Event_entity_damage_pre : HD2Event
@@ -1909,6 +1933,7 @@ function HD2Events.in_mission() end
 ---@overload fun(name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -1928,6 +1953,7 @@ function HD2Events.on(name, callback, opts) end
 ---@overload fun(name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -1981,6 +2007,7 @@ function HD2ModContext:value(spec) end
 ---@overload fun(self: HD2ModContext, name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
@@ -2000,6 +2027,7 @@ function HD2ModContext:on(name, callback, opts) end
 ---@overload fun(self: HD2ModContext, name: "player_damaged", callback: fun(event: HD2Event_player_damaged), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_healed", callback: fun(event: HD2Event_player_healed), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "player_fired", callback: fun(event: HD2Event_player_fired), opts?: HD2SubscribeOptions): HD2Subscription
+---@overload fun(self: HD2ModContext, name: "player_kill_credited", callback: fun(event: HD2Event_player_kill_credited), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_down", callback: fun(event: HD2Event_key_down), opts?: HD2SubscribeOptions): HD2Subscription
 ---@overload fun(self: HD2ModContext, name: "key_up", callback: fun(event: HD2Event_key_up), opts?: HD2SubscribeOptions): HD2Subscription
 ---@param name HD2EventName
