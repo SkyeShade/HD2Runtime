@@ -1,0 +1,4855 @@
+{
+ "schemaVersion": 1,
+ "writes": 0,
+ "build": "F5FEE03DCFDB",
+ "typeLibrary": {
+  "component": "LoadoutEntryComponentData",
+  "indexRows": 386,
+  "records": 193,
+  "recordSize": 32,
+  "recordOffset": 6176,
+  "trailingArray": "u32[193] (name length 14), after the records",
+  "record": [
+   {
+    "offset": 0,
+    "member": "id",
+    "nameLength": 2
+   },
+   {
+    "offset": 4,
+    "member": "type (LoadoutItemType)",
+    "nameLength": 4
+   },
+   {
+    "offset": 8,
+    "member": "u32",
+    "nameLength": 11
+   },
+   {
+    "offset": 12,
+    "member": "trait tags u32[5] (localization string IDs)",
+    "nameLength": 14
+   }
+  ]
+ },
+ "proofs": {
+  "loadoutEntryLookup": [
+   {
+    "rva": 5200951,
+    "bytes": "69c282010000",
+    "asm": "imul eax, edx, 0x182",
+    "role": "LoadoutEntry index: resource mod 386"
+   },
+   {
+    "rva": 5201021,
+    "bytes": "4181f982010000",
+    "asm": "cmp r9d, 0x182",
+    "role": "probes at most 386 rows"
+   },
+   {
+    "rva": 5201041,
+    "bytes": "4805c1000000",
+    "asm": "add rax, 0xc1",
+    "role": "record + 0xC1 (386 x 16 / 32)"
+   },
+   {
+    "rva": 5201047,
+    "bytes": "48c1e005",
+    "asm": "shl rax, 5",
+    "role": "32-byte records after the index"
+   }
+  ],
+  "traitBuilder": [
+   {
+    "rva": 21908015,
+    "bytes": "e8dc1101ff",
+    "asm": "call 0x4f5c10",
+    "role": "the trait builder looks up the item LoadoutEntry"
+   },
+   {
+    "rva": 21908077,
+    "bytes": "4c8d700c",
+    "asm": "lea r14, [rax + 0xc]",
+    "role": "its tag slots (+12)"
+   },
+   {
+    "rva": 21908086,
+    "bytes": "453926",
+    "asm": "cmp dword ptr [r14], r12d",
+    "role": "an empty slot (0) is skipped"
+   },
+   {
+    "rva": 21908102,
+    "bytes": "ba70000000",
+    "asm": "mov edx, 0x70",
+    "role": "one 0x70-byte trait object per tag"
+   },
+   {
+    "rva": 21908205,
+    "bytes": "418b4c850c",
+    "asm": "mov ecx, dword ptr [r13 + rax*4 + 0xc]",
+    "role": "the slot string ID"
+   },
+   {
+    "rva": 21908210,
+    "bytes": "e8e9b72900",
+    "asm": "call 0x17802e0",
+    "role": "is localized"
+   },
+   {
+    "rva": 21908313,
+    "bytes": "488d0dc49dde00",
+    "asm": "lea rcx, [rip + 0xde9dc4]",
+    "role": "\"Text\": the trait text is that string",
+    "ripTarget": 36497700
+   },
+   {
+    "rva": 21908359,
+    "bytes": "ff5028",
+    "asm": "call qword ptr [rax + 0x28]",
+    "role": "added to the traits collection"
+   },
+   {
+    "rva": 21908394,
+    "bytes": "4983c604",
+    "asm": "add r14, 4",
+    "role": "next slot"
+   },
+   {
+    "rva": 21908398,
+    "bytes": "83fd05",
+    "asm": "cmp ebp, 5",
+    "role": "five slots"
+   },
+   {
+    "rva": 21921237,
+    "bytes": "e846ccffff",
+    "asm": "call 0x14e4a20",
+    "role": "its only caller: the item view-model builder"
+   }
+  ],
+  "statRows": [
+   {
+    "rva": 21905987,
+    "bytes": "e89838d0ff",
+    "asm": "call 0x11e7ae0",
+    "role": "the stat row builder classifies the item"
+   },
+   {
+    "rva": 21906030,
+    "bytes": "e8eda002ff",
+    "asm": "call 0x50e360",
+    "role": "melee weapon lookup"
+   },
+   {
+    "rva": 21906088,
+    "bytes": "e8d3a502ff",
+    "asm": "call 0x50e880",
+    "role": "beam/spray weapon lookup"
+   },
+   {
+    "rva": 21906098,
+    "bytes": "83786406",
+    "asm": "cmp dword ptr [rax + 0x64], 6",
+    "role": "beam fire mode 6 (Trident) shows its own rows"
+   },
+   {
+    "rva": 21906161,
+    "bytes": "e88aaa02ff",
+    "asm": "call 0x50ed80",
+    "role": "weapon customization lookup (values include the equipped options)"
+   }
+  ]
+ },
+ "xamlEvidence": [
+  "agemTraits\" Grid.Row=\"2\" Grid.Column=\"5\" Grid.ColumnSpan=\"3\" Style=\"{DynamicResource Style_StratagemTraits_TemplateSetter}\" Margin=\"0\" ContentTemplate=\"{DynamicResource WrapperTemplate_WeaponTraits}\" Content=\"{Binding Path=SelectedItem.WeaponData.Traits, ElementName=ScrollIstPanel}\"/>           <ContentControl x:Name=\"GatingWidget\" Grid.Row=\"4\" Grid.Column=\"3\" Grid.ColumnSpan=\"3\" Style=\"{DynamicResource Style_GatingWidget_TemplateSetter}\" Content=\"{Binding Path=SelectedItem.GatingWidget, ElementName=ScrollIstPanel",
+  "ment.ListBoxItemArmoryBase>* testament.Font* testament.TextToSpeech* testament.Global* testament.PlayerWallet* testament.ArmorStats* testament.ItemPrice* testament.ArmorTraits* testament.WeaponStats* ObservableCollection<testament.WeaponTrait> ObservableCollection<testament.WeaponTrait>* testament.WeaponTraits* testament.Weapon* e D E F G H I J K",
+  "ScrollList}\" TabStripPlacement=\"Left\" Grid.ColumnSpan=\"9\" Grid.RowSpan=\"6\" SelectedIndex=\"0\" ItemTemplate=\"{DynamicResource ItemTemplate_ShipManagement_SectionIcon}\" ContentTemplate=\"{DynamicResource TabControl_ContentTemplate_SubLevel_Armory_PrimaryWeapons}\">         <b:Interaction.Triggers>           <b:EventTrigger EventName=\"SelectionChanged\">             <b:InvokeCommandAction Command=\"{Binding Path=SelectedSection}\" CommandParameter=\"{Binding Path=SelectedIndex, ElementName=ScrollPane}\" IsEnabled=\"False\"/>"
+ ],
+ "languages": {
+  "03F97B57": 18,
+  "0F8857AA": 17,
+  "31806842": 18,
+  "4A2CA9C9": 17,
+  "5942CCF7": 18,
+  "6EF58DEF": 18,
+  "6F4515CB": 17,
+  "90B6AF29": 18,
+  "9EBA952A": 17,
+  "BA39C3EC": 18,
+  "BBD7B5D1": 17,
+  "C5BB18ED": 17,
+  "E2FB1ACD": 18,
+  "E5C65A36": 18,
+  "FEA0F61F": 18
+ },
+ "enUs": "03F97B57",
+ "enGb": "6F4515CB",
+ "model": {
+  "traits": "LoadoutEntryComponent +12: five localization string IDs, shown in slot order; 0 = empty. The armory localizes each non-zero ID; nothing derives a label from gameplay values.",
+  "refresh": "Traits are built into the item view model when a menu presenter builds its items (on enter); an open menu keeps the labels it built.",
+  "stats": "Stat rows (WeaponStatType) are computed from component data and customization at menu build; there is no stored display value.",
+  "gameplaySeparation": "The labels are presentation only: no gameplay reader of LoadoutEntry +12 was found; changing them never changes damage or penetration."
+ },
+ "penetrationLabels": {
+  "light": {
+   "label": "LIGHT ARMOR PENETRATING",
+   "nativeId": "11EF4115",
+   "semanticId": "light_armor_penetrating"
+  },
+  "medium": {
+   "label": "MEDIUM ARMOR PENETRATING",
+   "nativeId": "B7E2C047",
+   "semanticId": "medium_armor_penetrating"
+  },
+  "heavy": {
+   "label": "HEAVY ARMOR PENETRATING",
+   "nativeId": "273E3C6D",
+   "semanticId": "heavy_armor_penetrating"
+  },
+  "light_anti_tank": {
+   "label": "LIGHT ANTI-TANK",
+   "nativeId": "24818136",
+   "semanticId": "light_anti_tank"
+  },
+  "anti_tank": {
+   "label": "ANTI-TANK",
+   "nativeId": "D61881CE",
+   "semanticId": "anti_tank"
+  }
+ },
+ "traits": [
+  {
+   "nativeId": "B7E2C047",
+   "label": "MEDIUM ARMOR PENETRATING",
+   "labelEnGb": "MEDIUM ARMOUR PENETRATING",
+   "languages": 15,
+   "itemCount": 43,
+   "semanticId": "medium_armor_penetrating"
+  },
+  {
+   "nativeId": "F115B0A6",
+   "label": "ONE HANDED",
+   "labelEnGb": "ONE HANDED",
+   "languages": 15,
+   "itemCount": 37,
+   "semanticId": "one_handed"
+  },
+  {
+   "nativeId": "11EF4115",
+   "label": "LIGHT ARMOR PENETRATING",
+   "labelEnGb": "LIGHT ARMOUR PENETRATING",
+   "languages": 15,
+   "itemCount": 37,
+   "semanticId": "light_armor_penetrating"
+  },
+  {
+   "nativeId": "4EFEA81C",
+   "label": "EXPLOSIVE",
+   "labelEnGb": "EXPLOSIVE",
+   "languages": 15,
+   "itemCount": 32,
+   "semanticId": "explosive"
+  },
+  {
+   "nativeId": "D61881CE",
+   "label": "ANTI-TANK",
+   "labelEnGb": "ANTI-TANK",
+   "languages": 15,
+   "itemCount": 18,
+   "semanticId": "anti_tank"
+  },
+  {
+   "nativeId": "597FB04E",
+   "label": "ROUNDS RELOAD",
+   "labelEnGb": "ROUNDS RELOAD",
+   "languages": 15,
+   "itemCount": 17,
+   "semanticId": "rounds_reload"
+  },
+  {
+   "nativeId": "7D01A114",
+   "label": "INCENDIARY",
+   "labelEnGb": "INCENDIARY",
+   "languages": 15,
+   "itemCount": 12,
+   "semanticId": "incendiary_7d01a114"
+  },
+  {
+   "nativeId": "0332F4A6",
+   "label": "STUN",
+   "labelEnGb": "STUN",
+   "languages": 15,
+   "itemCount": 10,
+   "semanticId": "stun"
+  },
+  {
+   "nativeId": "273E3C6D",
+   "label": "HEAVY ARMOR PENETRATING",
+   "labelEnGb": "HEAVY ARMOUR PENETRATING",
+   "languages": 15,
+   "itemCount": 10,
+   "semanticId": "heavy_armor_penetrating"
+  },
+  {
+   "nativeId": "9C618BD4",
+   "label": "STATIONARY RELOAD",
+   "labelEnGb": "STATIONARY RELOAD",
+   "languages": 15,
+   "itemCount": 9,
+   "semanticId": "stationary_reload"
+  },
+  {
+   "nativeId": "5E5A0B19",
+   "label": "STICKY",
+   "labelEnGb": "STICKY",
+   "languages": 15,
+   "itemCount": 8,
+   "semanticId": "sticky"
+  },
+  {
+   "nativeId": "DF534D7F",
+   "label": "HEAT",
+   "labelEnGb": "HEAT",
+   "languages": 15,
+   "itemCount": 8,
+   "semanticId": "heat"
+  },
+  {
+   "nativeId": "ACF0CB5F",
+   "label": "GUIDED",
+   "labelEnGb": "GUIDED",
+   "languages": 15,
+   "itemCount": 7,
+   "semanticId": "guided"
+  },
+  {
+   "nativeId": "289C44ED",
+   "label": "MELEE",
+   "labelEnGb": "MELEE",
+   "languages": 15,
+   "itemCount": 6,
+   "semanticId": "melee"
+  },
+  {
+   "nativeId": "F4A098E6",
+   "label": "EXPENDABLE",
+   "labelEnGb": "EXPENDABLE",
+   "languages": 15,
+   "itemCount": 5,
+   "semanticId": "expendable"
+  },
+  {
+   "nativeId": "CB2B1C44",
+   "label": "TEAM WEAPON",
+   "labelEnGb": "TEAM WEAPON",
+   "languages": 15,
+   "itemCount": 5,
+   "semanticId": "team_weapon"
+  },
+  {
+   "nativeId": "7337DD82",
+   "label": "SUPPRESSED",
+   "labelEnGb": "SUPPRESSED",
+   "languages": 15,
+   "itemCount": 4,
+   "semanticId": "suppressed"
+  },
+  {
+   "nativeId": "24818136",
+   "label": "LIGHT ANTI-TANK",
+   "labelEnGb": "LIGHT ANTI-TANK",
+   "languages": 15,
+   "itemCount": 4,
+   "semanticId": "light_anti_tank"
+  },
+  {
+   "nativeId": "8161DB6F",
+   "label": "BEAM",
+   "labelEnGb": "BEAM",
+   "languages": 15,
+   "itemCount": 3,
+   "semanticId": "beam"
+  },
+  {
+   "nativeId": "88F76D27",
+   "label": "CHARGEUP",
+   "labelEnGb": "CHARGEUP",
+   "languages": 15,
+   "itemCount": 2,
+   "semanticId": "chargeup"
+  },
+  {
+   "nativeId": "A5F02451",
+   "label": "INCENDIARY",
+   "labelEnGb": "INCENDIARY",
+   "languages": 15,
+   "itemCount": 2,
+   "semanticId": "incendiary_a5f02451"
+  },
+  {
+   "nativeId": "6F36222E",
+   "label": "CAUSTIC",
+   "labelEnGb": "CAUSTIC",
+   "languages": 15,
+   "itemCount": 2,
+   "semanticId": "caustic"
+  },
+  {
+   "nativeId": "3F748867",
+   "label": "ARC",
+   "labelEnGb": "ARC",
+   "languages": 15,
+   "itemCount": 2,
+   "semanticId": "arc"
+  },
+  {
+   "nativeId": "7C2E44EE",
+   "label": null,
+   "labelEnGb": null,
+   "languages": 0,
+   "itemCount": 1,
+   "semanticId": null
+  },
+  {
+   "nativeId": "A36B675E",
+   "label": null,
+   "labelEnGb": null,
+   "languages": 0,
+   "itemCount": 1,
+   "semanticId": null
+  },
+  {
+   "nativeId": "EB92DA81",
+   "label": "STIMULATIVE",
+   "labelEnGb": "STIMULATIVE",
+   "languages": 15,
+   "itemCount": 1,
+   "semanticId": "stimulative"
+  }
+ ],
+ "summary": {
+  "weapons": 115,
+  "byState": {
+   "player:writable": 78,
+   "player:blocked": 2,
+   "support:writable": 30,
+   "support:blocked": 4,
+   "support:absent": 1
+  },
+  "armorPenetrationByState": {
+   "player:single": 72,
+   "player:blocked": 5,
+   "player:none": 3,
+   "support:single": 13,
+   "support:none": 17,
+   "support:blocked": 4,
+   "support:absent": 1
+  },
+  "loadoutEntries": 193,
+  "sharedLoadoutEntries": 0,
+  "traitsUsed": 26,
+  "traitsNamed": 24,
+  "stringLanguages": 15
+ },
+ "weapons": [
+  {
+   "kind": "player",
+   "weapon": "AR-11 Arbitrator",
+   "records": [
+    112
+   ],
+   "backings": {
+    "0xA8A91EB54892B6B2": {
+     "recordIndex": 112,
+     "indexRow": 147,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "57E616A0",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-2 Coyote",
+   "records": [
+    108
+   ],
+   "backings": {
+    "0x84354339522C932D": {
+     "recordIndex": 108,
+     "indexRow": 232,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "17DC1FA0",
+   "itemType": 1,
+   "tags": [
+    "7D01A114",
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "INCENDIARY",
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23 Liberator",
+   "records": [
+    102
+   ],
+   "backings": {
+    "0x968211C0033DCE64": {
+     "recordIndex": 102,
+     "indexRow": 14,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "AA035309",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23A Liberator Carbine",
+   "records": [
+    110
+   ],
+   "backings": {
+    "0xA7EE1EBF58FCDF1F": {
+     "recordIndex": 110,
+     "indexRow": 212,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "45323D4A",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23C Liberator Concussive",
+   "records": [
+    104
+   ],
+   "backings": {
+    "0xCF5F176E0E322BE1": {
+     "recordIndex": 104,
+     "indexRow": 173,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1669E66F",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23P Liberator Penetrator",
+   "records": [
+    103
+   ],
+   "backings": {
+    "0x43CB1033961A2276": {
+     "recordIndex": 103,
+     "indexRow": 216,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "63E774F4",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-32 Pacifier",
+   "records": [
+    107
+   ],
+   "backings": {
+    "0xBC29613666DF696B": {
+     "recordIndex": 107,
+     "indexRow": 237,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "D7F2DE4F",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "0332F4A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "STUN",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-59 Suppressor",
+   "records": [
+    113
+   ],
+   "backings": {
+    "0x708EA298C82093D0": {
+     "recordIndex": 113,
+     "indexRow": 211,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "9D947EFA",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "7337DD82",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "SUPPRESSED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-61 Tenderizer",
+   "records": [
+    111
+   ],
+   "backings": {
+    "0xCE063AA33D95A812": {
+     "recordIndex": 111,
+     "indexRow": 28,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "727694FF",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "AR/GL-21 One-Two",
+   "records": [
+    105
+   ],
+   "backings": {
+    "0xA955C4EA6F6D4203": {
+     "recordIndex": 105,
+     "indexRow": 319,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CC625481",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "4EFEA81C",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "EXPLOSIVE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "ARC-12 Blitzer",
+   "records": [
+    101
+   ],
+   "backings": {
+    "0x076DD5D4F4360204": {
+     "recordIndex": 101,
+     "indexRow": 317,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "3B92F7FA",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "3F748867",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ARC",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "BR-14 Adjudicator",
+   "records": [
+    117
+   ],
+   "backings": {
+    "0x5FECAB819F96A3E8": {
+     "recordIndex": 117,
+     "indexRow": 340,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "9D60CB41",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CB-9 Exploding Crossbow",
+   "records": [
+    120
+   ],
+   "backings": {
+    "0xF49227A0630A3F7F": {
+     "recordIndex": 120,
+     "indexRow": 261,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "73C93995",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "4EFEA81C",
+    "F115B0A6",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "EXPLOSIVE",
+    "ONE HANDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-19 Stun Lance",
+   "records": [
+    43
+   ],
+   "backings": {
+    "0xE3B6AEDD07FCB464": {
+     "recordIndex": 43,
+     "indexRow": 282,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "96162F54",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "0332F4A6",
+    "289C44ED",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "STUN",
+    "MELEE",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-2 Saber",
+   "records": [
+    94
+   ],
+   "backings": {
+    "0xFCD8A6E67EAC635A": {
+     "recordIndex": 94,
+     "indexRow": 293,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F4F0EB9B",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "289C44ED",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "MELEE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-30 Stun Baton",
+   "records": [
+    96
+   ],
+   "backings": {
+    "0x52CDBFBACA3CB397": {
+     "recordIndex": 96,
+     "indexRow": 13,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "BE998808",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "0332F4A6",
+    "289C44ED",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "STUN",
+    "MELEE",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-42 Machete",
+   "records": [
+    99,
+    42
+   ],
+   "backings": {
+    "0x792D5D2A340FD6E6": {
+     "recordIndex": 99,
+     "indexRow": 208,
+     "ownerCount": 1
+    },
+    "0x5F3EC9BDA2BD8553": {
+     "recordIndex": 42,
+     "indexRow": 11,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "E604030B",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "289C44ED",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "MELEE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "blocked",
+   "reason": "The weapon roots list different traits.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon roots list different traits."
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-5 Combat Hatchet",
+   "records": [
+    98
+   ],
+   "backings": {
+    "0x75816077C139C850": {
+     "recordIndex": 98,
+     "indexRow": 192,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "57282CEC",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "289C44ED",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "MELEE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-73 Entrenchment Tool",
+   "records": [
+    45,
+    44
+   ],
+   "backings": {
+    "0x7E1F76163C667E4B": {
+     "recordIndex": 45,
+     "indexRow": 371,
+     "ownerCount": 1
+    },
+    "0xE85E623F93F96FB3": {
+     "recordIndex": 44,
+     "indexRow": 195,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "818A2931",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "289C44ED",
+    "0332F4A6",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "MELEE",
+    "STUN",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "blocked",
+   "reason": "The weapon roots list different traits.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon roots list different traits."
+  },
+  {
+   "kind": "player",
+   "weapon": "DBS-2 Double Freedom",
+   "records": [
+    55
+   ],
+   "backings": {
+    "0x72170A55A1F37FF1": {
+     "recordIndex": 55,
+     "indexRow": 221,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CBAE1DBD",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "FLAM-66 Torcher",
+   "records": [
+    121
+   ],
+   "backings": {
+    "0x4FB0F8C02F55C82B": {
+     "recordIndex": 121,
+     "indexRow": 96,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F4DBB8B9",
+   "itemType": 1,
+   "tags": [
+    "7D01A114",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "INCENDIARY",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "GL-15 Evictor",
+   "records": [
+    47
+   ],
+   "backings": {
+    "0x006E44327BB953FE": {
+     "recordIndex": 47,
+     "indexRow": 183,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "B1949046",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "4EFEA81C",
+    "597FB04E",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "EXPLOSIVE",
+    "ROUNDS RELOAD",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-20 Ultimatum",
+   "records": [
+    152
+   ],
+   "backings": {
+    "0x9EB160830321BFD6": {
+     "recordIndex": 152,
+     "indexRow": 4,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "335B8A1A",
+   "itemType": 3,
+   "tags": [
+    "D61881CE",
+    "F115B0A6",
+    "4EFEA81C",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ANTI-TANK",
+    "ONE HANDED",
+    "EXPLOSIVE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-31 Grenade Pistol",
+   "records": [
+    147
+   ],
+   "backings": {
+    "0x52E4334E6A128CAF": {
+     "recordIndex": 147,
+     "indexRow": 373,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "A6C20EAC",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "4EFEA81C",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "EXPLOSIVE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "JAR-5 Dominator",
+   "records": [
+    122
+   ],
+   "backings": {
+    "0x80F1A156D9FA1E36": {
+     "recordIndex": 122,
+     "indexRow": 224,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7E71CC40",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-12 Sai",
+   "records": [
+    129
+   ],
+   "backings": {
+    "0xC85F576D5E086147": {
+     "recordIndex": 129,
+     "indexRow": 272,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F47A207A",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "DF534D7F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "HEAT",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-13 Trident",
+   "records": [
+    128
+   ],
+   "backings": {
+    "0x3C86E871923F3970": {
+     "recordIndex": 128,
+     "indexRow": 260,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "AB1B4972",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "DF534D7F",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "HEAT",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-16 Sickle",
+   "records": [
+    126
+   ],
+   "backings": {
+    "0x8645F167B3C813A2": {
+     "recordIndex": 126,
+     "indexRow": 308,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "6AF4EC48",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "DF534D7F",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "HEAT",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "records": [
+    127
+   ],
+   "backings": {
+    "0x295BEB26DC4F8FF1": {
+     "recordIndex": 127,
+     "indexRow": 55,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "126DB14F",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "B7E2C047",
+    "273E3C6D",
+    "DF534D7F",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "MEDIUM ARMOR PENETRATING",
+    "HEAVY ARMOR PENETRATING",
+    "HEAT",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon shows several penetration labels (LIGHT ARMOR PENETRATING, MEDIUM ARMOR PENETRATING, HEAVY ARMOR PENETRATING); edit them through presentation.traits."
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-5 Scythe",
+   "records": [
+    124,
+    125
+   ],
+   "backings": {
+    "0x27EE1ED8F6FB6356": {
+     "recordIndex": 124,
+     "indexRow": 156,
+     "ownerCount": 1
+    },
+    "0x7E3145A5BAA4B948": {
+     "recordIndex": 125,
+     "indexRow": 152,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "E673DCC8",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "8161DB6F",
+    "DF534D7F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "BEAM",
+    "HEAT",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-58 Talon",
+   "records": [
+    145
+   ],
+   "backings": {
+    "0x416D053372C4E433": {
+     "recordIndex": 145,
+     "indexRow": 109,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "727AE1EA",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "DF534D7F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "HEAT",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-7 Dagger",
+   "records": [
+    149
+   ],
+   "backings": {
+    "0x7B06196E90154C88": {
+     "recordIndex": 149,
+     "indexRow": 322,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "951D05B0",
+   "itemType": 3,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "8161DB6F",
+    "DF534D7F",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "BEAM",
+    "HEAT",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "M6C/SOCOM Pistol",
+   "records": [
+    153
+   ],
+   "backings": {
+    "0x4D58C77087B774C5": {
+     "recordIndex": 153,
+     "indexRow": 231,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7854FEC9",
+   "itemType": 3,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "7337DD82",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "SUPPRESSED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "M7S SMG",
+   "records": [
+    60
+   ],
+   "backings": {
+    "0xBE70EE0D8D44028E": {
+     "recordIndex": 60,
+     "indexRow": 139,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "4A493DCA",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "7337DD82",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "SUPPRESSED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "M90A Shotgun",
+   "records": [
+    56
+   ],
+   "backings": {
+    "0x90DDC374F4E3D756": {
+     "recordIndex": 56,
+     "indexRow": 135,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CB7DB486",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "MA5C Assault Rifle",
+   "records": [
+    109
+   ],
+   "backings": {
+    "0x4DBD74F49C8FFC13": {
+     "recordIndex": 109,
+     "indexRow": 101,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "98DF943D",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "MP-98 Knight",
+   "records": [
+    57
+   ],
+   "backings": {
+    "0x9571CA51F0DAF35B": {
+     "recordIndex": 57,
+     "indexRow": 113,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "80DD6F30",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-11 Stim Pistol",
+   "records": [
+    68
+   ],
+   "backings": {
+    "0xD6B1FB05B9109353": {
+     "recordIndex": 68,
+     "indexRow": 302,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "40A0EC6A",
+   "itemType": 3,
+   "tags": [
+    "F115B0A6",
+    "597FB04E",
+    "EB92DA81",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ONE HANDED",
+    "ROUNDS RELOAD",
+    "STIMULATIVE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-113 Verdict",
+   "records": [
+    150
+   ],
+   "backings": {
+    "0x1A437158E1B8D2A1": {
+     "recordIndex": 150,
+     "indexRow": 187,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7386969F",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-19 Redeemer",
+   "records": [
+    143
+   ],
+   "backings": {
+    "0x3575AABC5F1F9326": {
+     "recordIndex": 143,
+     "indexRow": 246,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "ED550938",
+   "itemType": 3,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-2 Peacemaker",
+   "records": [
+    67
+   ],
+   "backings": {
+    "0x05E4E5C2DB6E44A2": {
+     "recordIndex": 67,
+     "indexRow": 27,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "A7977F98",
+   "itemType": 3,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-33 Missile Pistol",
+   "records": [
+    66
+   ],
+   "backings": {
+    "0x14D5D4506056C7A4": {
+     "recordIndex": 66,
+     "indexRow": 202,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1565C087",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "D61881CE",
+    "F115B0A6",
+    "ACF0CB5F",
+    "4EFEA81C"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ANTI-TANK",
+    "ONE HANDED",
+    "GUIDED",
+    "EXPLOSIVE"
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon shows several penetration labels (MEDIUM ARMOR PENETRATING, ANTI-TANK); edit them through presentation.traits."
+  },
+  {
+   "kind": "player",
+   "weapon": "P-34 Breacher",
+   "records": [
+    148
+   ],
+   "backings": {
+    "0xE91F569C2AD8AF01": {
+     "recordIndex": 148,
+     "indexRow": 271,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "EE48242E",
+   "itemType": 3,
+   "tags": [
+    "F115B0A6",
+    "D61881CE",
+    "5E5A0B19",
+    "4EFEA81C",
+    "00000000"
+   ],
+   "labels": [
+    "ONE HANDED",
+    "ANTI-TANK",
+    "STICKY",
+    "EXPLOSIVE",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-35 Re-Educator",
+   "records": [
+    144
+   ],
+   "backings": {
+    "0x0B882808C6F498E8": {
+     "recordIndex": 144,
+     "indexRow": 166,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "41B85816",
+   "itemType": 3,
+   "tags": [
+    "F115B0A6",
+    "6F36222E",
+    "273E3C6D",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ONE HANDED",
+    "CAUSTIC",
+    "HEAVY ARMOR PENETRATING",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "heavy",
+   "armorPenetrationSlot": 2,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-4 Senator",
+   "records": [
+    156
+   ],
+   "backings": {
+    "0x8D3D52A3B2F19402": {
+     "recordIndex": 156,
+     "indexRow": 81,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "51E62268",
+   "itemType": 3,
+   "tags": [
+    "273E3C6D",
+    "F115B0A6",
+    "597FB04E",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "HEAVY ARMOR PENETRATING",
+    "ONE HANDED",
+    "ROUNDS RELOAD",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "heavy",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-69 Veto",
+   "records": [
+    151
+   ],
+   "backings": {
+    "0xC780BCD79547DA0F": {
+     "recordIndex": 151,
+     "indexRow": 43,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "4E3F5600",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "597FB04E",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "ROUNDS RELOAD",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-72 Crisper",
+   "records": [
+    146
+   ],
+   "backings": {
+    "0x3F92BA65EF65CCA9": {
+     "recordIndex": 146,
+     "indexRow": 316,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "8B7D1CAE",
+   "itemType": 3,
+   "tags": [
+    "7D01A114",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "INCENDIARY",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-92 Warrant",
+   "records": [
+    65
+   ],
+   "backings": {
+    "0xCF8934FF6567A42D": {
+     "recordIndex": 65,
+     "indexRow": 226,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "0C65CF53",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "ACF0CB5F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "GUIDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P/40-K Bolt Pistol",
+   "records": [
+    154
+   ],
+   "backings": {
+    "0xDBB6C961C59FADC1": {
+     "recordIndex": 154,
+     "indexRow": 92,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "C304AEBB",
+   "itemType": 3,
+   "tags": [
+    "273E3C6D",
+    "4EFEA81C",
+    "F115B0A6",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "HEAVY ARMOR PENETRATING",
+    "EXPLOSIVE",
+    "ONE HANDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "heavy",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-1 Scorcher",
+   "records": [
+    140
+   ],
+   "backings": {
+    "0xEEA5E3CEF1E12C14": {
+     "recordIndex": 140,
+     "indexRow": 146,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "372EBAC6",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "4EFEA81C",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "EXPLOSIVE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-101 Purifier",
+   "records": [
+    141
+   ],
+   "backings": {
+    "0xFB3A19078694708A": {
+     "recordIndex": 141,
+     "indexRow": 126,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "AC227D76",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "88F76D27",
+    "4EFEA81C",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "CHARGEUP",
+    "EXPLOSIVE",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-15 Loyalist",
+   "records": [
+    155
+   ],
+   "backings": {
+    "0xAA69A60D74A3EC54": {
+     "recordIndex": 155,
+     "indexRow": 44,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7168A1D2",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "88F76D27",
+    "4EFEA81C",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "CHARGEUP",
+    "EXPLOSIVE",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "records": [
+    63
+   ],
+   "backings": {
+    "0x30061F91AF477F5E": {
+     "recordIndex": 63,
+     "indexRow": 368,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CF5BB183",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "4EFEA81C",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "EXPLOSIVE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2 Amendment",
+   "records": [
+    118
+   ],
+   "backings": {
+    "0x0F83639AB8C86165": {
+     "recordIndex": 118,
+     "indexRow": 321,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "DFF8870C",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2124 Constitution",
+   "records": [
+    119
+   ],
+   "backings": {
+    "0x7B75E5132FFD4CA6": {
+     "recordIndex": 119,
+     "indexRow": 358,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F80523DD",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-36 Eruptor",
+   "records": [
+    123
+   ],
+   "backings": {
+    "0xB6AFF2195568767F": {
+     "recordIndex": 123,
+     "indexRow": 263,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1438E266",
+   "itemType": 1,
+   "tags": [
+    "273E3C6D",
+    "4EFEA81C",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "HEAVY ARMOR PENETRATING",
+    "EXPLOSIVE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "heavy",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-4 Hyena",
+   "records": [
+    132
+   ],
+   "backings": {
+    "0xE5796355A8FD67E0": {
+     "recordIndex": 132,
+     "indexRow": 286,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "850C35D4",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "7D01A114",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "INCENDIARY",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-6 Deadeye",
+   "records": [
+    130
+   ],
+   "backings": {
+    "0xE6D932BE83729076": {
+     "recordIndex": 130,
+     "indexRow": 355,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7D6DC828",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63 Diligence",
+   "records": [
+    135
+   ],
+   "backings": {
+    "0x03E67A19B07C6523": {
+     "recordIndex": 135,
+     "indexRow": 21,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "8986A03E",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "records": [
+    136
+   ],
+   "backings": {
+    "0x4C786785C79D44E7": {
+     "recordIndex": 136,
+     "indexRow": 133,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "371B35AD",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R-72 Censor",
+   "records": [
+    133
+   ],
+   "backings": {
+    "0xF0338468DCDB6A6C": {
+     "recordIndex": 133,
+     "indexRow": 314,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "31FD55E1",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "7337DD82",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "SUPPRESSED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "records": [
+    134
+   ],
+   "backings": {
+    "0x1ABBFF60D26BA391": {
+     "recordIndex": 134,
+     "indexRow": 244,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F16B0BCF",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-20 Halt",
+   "records": [
+    51
+   ],
+   "backings": {
+    "0x4E310B1FE4C52B52": {
+     "recordIndex": 51,
+     "indexRow": 88,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "0753EF3E",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "B7E2C047",
+    "597FB04E",
+    "0332F4A6",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    "STUN",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon shows several penetration labels (LIGHT ARMOR PENETRATING, MEDIUM ARMOR PENETRATING); edit them through presentation.traits."
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-22 Bushwhacker",
+   "records": [
+    142
+   ],
+   "backings": {
+    "0x2B28E17FFED05F7C": {
+     "recordIndex": 142,
+     "indexRow": 284,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "86F75F90",
+   "itemType": 3,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "597FB04E",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "ROUNDS RELOAD",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225 Breaker",
+   "records": [
+    114
+   ],
+   "backings": {
+    "0x46183B50961D1328": {
+     "recordIndex": 114,
+     "indexRow": 310,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "46787908",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225IE Breaker Incendiary",
+   "records": [
+    116
+   ],
+   "backings": {
+    "0xC12A34F375BD5A87": {
+     "recordIndex": 116,
+     "indexRow": 131,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "B6E82301",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "A5F02451",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "INCENDIARY",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "records": [
+    115
+   ],
+   "backings": {
+    "0x5EBAEA70C0D060B9": {
+     "recordIndex": 115,
+     "indexRow": 315,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "E35F8901",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-451 Cookout",
+   "records": [
+    52
+   ],
+   "backings": {
+    "0xD323DE60855898AC": {
+     "recordIndex": 52,
+     "indexRow": 80,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "4EBE8680",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "597FB04E",
+    "A5F02451",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    "INCENDIARY",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8 Punisher",
+   "records": [
+    48
+   ],
+   "backings": {
+    "0x41EAC4A03987FAA0": {
+     "recordIndex": 48,
+     "indexRow": 121,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7C816371",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8P Punisher Plasma",
+   "records": [
+    53
+   ],
+   "backings": {
+    "0x05D8D8C073B9D502": {
+     "recordIndex": 53,
+     "indexRow": 248,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "EBC68B9D",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "4EFEA81C",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "EXPLOSIVE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8S Slugger",
+   "records": [
+    50
+   ],
+   "backings": {
+    "0x4F749E2EE26F532D": {
+     "recordIndex": 50,
+     "indexRow": 320,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "85E79A11",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-97 Sweeper",
+   "records": [
+    54
+   ],
+   "backings": {
+    "0xDCD1C835407EF7BA": {
+     "recordIndex": 54,
+     "indexRow": 276,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "37879A69",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "597FB04E",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ROUNDS RELOAD",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-203 Gallant",
+   "records": [
+    62
+   ],
+   "backings": {
+    "0x186EA95DE7306B1A": {
+     "recordIndex": 62,
+     "indexRow": 148,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "202ABB40",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-32 Reprimand",
+   "records": [
+    61
+   ],
+   "backings": {
+    "0x94BD931B5FB4EE95": {
+     "recordIndex": 61,
+     "indexRow": 75,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "2B39C31F",
+   "itemType": 1,
+   "tags": [
+    "B7E2C047",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-37 Defender",
+   "records": [
+    137
+   ],
+   "backings": {
+    "0x4E4A613EB9BF5C24": {
+     "recordIndex": 137,
+     "indexRow": 178,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "A8283F4C",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-72 Pummeler",
+   "records": [
+    138
+   ],
+   "backings": {
+    "0x0807AEA5217E4767": {
+     "recordIndex": 138,
+     "indexRow": 363,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "382687EE",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "0332F4A6",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "STUN",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG/FLAM-34 Stoker",
+   "records": [
+    58
+   ],
+   "backings": {
+    "0x8A307BD1811A5FE9": {
+     "recordIndex": 58,
+     "indexRow": 125,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "77E1231D",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "7D01A114",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    "INCENDIARY",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-11 SMG",
+   "records": [
+    59
+   ],
+   "backings": {
+    "0x4BA41B6F9F405CC2": {
+     "recordIndex": 59,
+     "indexRow": 210,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "464E4078",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "F115B0A6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    "ONE HANDED",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-52 Assault Rifle",
+   "records": [
+    106
+   ],
+   "backings": {
+    "0xCDF28BE026BB7D84": {
+     "recordIndex": 106,
+     "indexRow": 312,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "C7596DC3",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "player",
+   "weapon": "VG-70 Variable",
+   "records": [
+    64
+   ],
+   "backings": {
+    "0xF992CE97577C8A7F": {
+     "recordIndex": 64,
+     "indexRow": 384,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1BF99308",
+   "itemType": 1,
+   "tags": [
+    "11EF4115",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ARMOR PENETRATING",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "40-K Meltagun",
+   "records": [
+    163
+   ],
+   "backings": {
+    "0x6CFCC7F8801A0266": {
+     "recordIndex": 163,
+     "indexRow": 364,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "2E2E6FD8",
+   "itemType": 2,
+   "tags": [
+    "D61881CE",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ANTI-TANK",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "AC-8 Autocannon",
+   "records": [
+    160
+   ],
+   "backings": {
+    "0xA8CFFB316F0B5C5F": {
+     "recordIndex": 160,
+     "indexRow": 267,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "342FD96B",
+   "itemType": 2,
+   "tags": [
+    "CB2B1C44",
+    "597FB04E",
+    "24818136",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "TEAM WEAPON",
+    "ROUNDS RELOAD",
+    "LIGHT ANTI-TANK",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light_anti_tank",
+   "armorPenetrationSlot": 2,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "records": [
+    186
+   ],
+   "backings": {
+    "0x89C5493E08CA4207": {
+     "recordIndex": 186,
+     "indexRow": 154,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "83970A39",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "ARC-3 Arc Thrower",
+   "records": [
+    159
+   ],
+   "backings": {
+    "0x96DE9CD50F7306E6": {
+     "recordIndex": 159,
+     "indexRow": 95,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "3B21EE6A",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/FLAM-80 Cremator",
+   "records": [
+    173
+   ],
+   "backings": {
+    "0x78A8185F63A70795": {
+     "recordIndex": 173,
+     "indexRow": 7,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7A409A20",
+   "itemType": 2,
+   "tags": [
+    "7D01A114",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "INCENDIARY",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/MD C4 Pack",
+   "records": [
+    20
+   ],
+   "backings": {
+    "0x9B75217D8312DD67": {
+     "recordIndex": 20,
+     "indexRow": 383,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "DF6C920A",
+   "itemType": 2,
+   "tags": [
+    "D61881CE",
+    "5E5A0B19",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ANTI-TANK",
+    "STICKY",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-1 One True Flag",
+   "records": [
+    97
+   ],
+   "backings": {
+    "0xB0F1B354BA1D38D8": {
+     "recordIndex": 97,
+     "indexRow": 90,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "30DF8520",
+   "itemType": 2,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "0332F4A6",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "STUN",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-20 Breaching Hammer",
+   "records": [
+    42,
+    99
+   ],
+   "backings": {
+    "0x5F3EC9BDA2BD8553": {
+     "recordIndex": 42,
+     "indexRow": 11,
+     "ownerCount": 1
+    },
+    "0x792D5D2A340FD6E6": {
+     "recordIndex": 99,
+     "indexRow": 208,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "C682A504",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "blocked",
+   "reason": "The weapon roots list different traits.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon roots list different traits."
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-72 Entrenchment Tool",
+   "records": [
+    45,
+    44
+   ],
+   "backings": {
+    "0x7E1F76163C667E4B": {
+     "recordIndex": 45,
+     "indexRow": 371,
+     "ownerCount": 1
+    },
+    "0xE85E623F93F96FB3": {
+     "recordIndex": 44,
+     "indexRow": 195,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "818A2931",
+   "itemType": 3,
+   "tags": [
+    "B7E2C047",
+    "F115B0A6",
+    "289C44ED",
+    "0332F4A6",
+    "00000000"
+   ],
+   "labels": [
+    "MEDIUM ARMOR PENETRATING",
+    "ONE HANDED",
+    "MELEE",
+    "STUN",
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "medium",
+   "armorPenetrationSlot": 0,
+   "state": "blocked",
+   "reason": "The weapon roots list different traits.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "The weapon roots list different traits."
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-9 Defoliation Tool",
+   "records": [
+    95
+   ],
+   "backings": {
+    "0xBF4CFD2AEABFB5A4": {
+     "recordIndex": 95,
+     "indexRow": 114,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "D4E8C390",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "records": [
+    178
+   ],
+   "backings": {
+    "0x80932FA0ED6901D3": {
+     "recordIndex": 178,
+     "indexRow": 228,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CB778090",
+   "itemType": 2,
+   "tags": [
+    "D61881CE",
+    "F4A098E6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "ANTI-TANK",
+    "EXPENDABLE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-411 Leveller",
+   "records": [
+    165
+   ],
+   "backings": {
+    "0x7617642765AC38C7": {
+     "recordIndex": 165,
+     "indexRow": 123,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "AEEFCA37",
+   "itemType": 2,
+   "tags": [
+    "A36B675E",
+    "F4A098E6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    "EXPENDABLE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "blocked",
+   "reason": "A listed tag has no string in any loaded strings table.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "A listed tag has no string in any loaded strings table."
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-700 Expendable Napalm",
+   "records": [
+    166
+   ],
+   "backings": {
+    "0xB2B5E0D185605F9E": {
+     "recordIndex": 166,
+     "indexRow": 2,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "6C19DD47",
+   "itemType": 2,
+   "tags": [
+    "7C2E44EE",
+    "F4A098E6",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    "EXPENDABLE",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "blocked",
+   "reason": "A listed tag has no string in any loaded strings table.",
+   "armorPenetrationState": "blocked",
+   "armorPenetrationReason": "A listed tag has no string in any loaded strings table."
+  },
+  {
+   "kind": "support",
+   "weapon": "FAF-14 Spear",
+   "records": [
+    167
+   ],
+   "backings": {
+    "0x25AA2FD4643CF4EE": {
+     "recordIndex": 167,
+     "indexRow": 78,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "E9DE8D7F",
+   "itemType": 2,
+   "tags": [
+    "CB2B1C44",
+    "D61881CE",
+    "ACF0CB5F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "TEAM WEAPON",
+    "ANTI-TANK",
+    "GUIDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "FLAM-40 Flamethrower",
+   "records": [
+    169
+   ],
+   "backings": {
+    "0x39AB99895147A3BF": {
+     "recordIndex": 169,
+     "indexRow": 61,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "5563504D",
+   "itemType": 2,
+   "tags": [
+    "7D01A114",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "INCENDIARY",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-21 Grenade Launcher",
+   "records": [
+    170
+   ],
+   "backings": {
+    "0x02EECD0B1FA49630": {
+     "recordIndex": 170,
+     "indexRow": 220,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "C74C740D",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "records": [
+    161
+   ],
+   "backings": {
+    "0x88C2D09AD85A7C9F": {
+     "recordIndex": 161,
+     "indexRow": 205,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1E86BFC1",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-52 De-Escalator",
+   "records": [
+    171
+   ],
+   "backings": {
+    "0xFE3B29B2CFA63F9B": {
+     "recordIndex": 171,
+     "indexRow": 201,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "092B178B",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GR-8 Recoilless Rifle",
+   "records": [
+    184
+   ],
+   "backings": {
+    "0x9F80D67A12A7E40F": {
+     "recordIndex": 184,
+     "indexRow": 251,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "4D67103D",
+   "itemType": 2,
+   "tags": [
+    "CB2B1C44",
+    "D61881CE",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "TEAM WEAPON",
+    "ANTI-TANK",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-98 Laser Cannon",
+   "records": [
+    175
+   ],
+   "backings": {
+    "0xD54B9505C0F72873": {
+     "recordIndex": 175,
+     "indexRow": 247,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "A83CF95D",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-99 Quasar Cannon",
+   "records": [
+    177
+   ],
+   "backings": {
+    "0x35A61296619CC47E": {
+     "recordIndex": 177,
+     "indexRow": 73,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "9C77755B",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "M-1000 Maxigun",
+   "records": [
+    180
+   ],
+   "backings": {
+    "0x43A58CB89CFA197C": {
+     "recordIndex": 180,
+     "indexRow": 252,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "CDFBF3C2",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "M-105 Stalwart",
+   "records": [
+    131,
+    190,
+    191,
+    192
+   ],
+   "backings": {
+    "0xA6A735ACCB4A327F": {
+     "recordIndex": 131,
+     "indexRow": 238,
+     "ownerCount": 1
+    },
+    "0xB43235DBD493750C": {
+     "recordIndex": 190,
+     "indexRow": 56,
+     "ownerCount": 1
+    },
+    "0xB9606C5AAB32C3C2": {
+     "recordIndex": 191,
+     "indexRow": 198,
+     "ownerCount": 1
+    },
+    "0xD53EE03481AE73FD": {
+     "recordIndex": 192,
+     "indexRow": 19,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "00DAE676",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-206 Heavy Machine Gun",
+   "records": [
+    187,
+    174,
+    188
+   ],
+   "backings": {
+    "0x085C1EDB038EC24E": {
+     "recordIndex": 187,
+     "indexRow": 144,
+     "ownerCount": 1
+    },
+    "0x2152D5147B0AC418": {
+     "recordIndex": 174,
+     "indexRow": 233,
+     "ownerCount": 1
+    },
+    "0xCD00BDC1149C2928": {
+     "recordIndex": 188,
+     "indexRow": 265,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1FC9CA61",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-43 Machine Gun",
+   "records": [
+    179
+   ],
+   "backings": {
+    "0x11C27D3BABB38956": {
+     "recordIndex": 179,
+     "indexRow": 326,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "1B4F8FA2",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MGX-42 Bullet Storm",
+   "records": [
+    164
+   ],
+   "backings": {
+    "0xB16C9D490AA59B77": {
+     "recordIndex": 164,
+     "indexRow": 112,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "C40048D8",
+   "itemType": 2,
+   "tags": [
+    "F4A098E6",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "EXPENDABLE",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MLS-4X Commando",
+   "records": [
+    176
+   ],
+   "backings": {
+    "0x5990123D142B16CB": {
+     "recordIndex": 176,
+     "indexRow": 199,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "8518B86B",
+   "itemType": 2,
+   "tags": [
+    "24818136",
+    "F4A098E6",
+    "ACF0CB5F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ANTI-TANK",
+    "EXPENDABLE",
+    "GUIDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light_anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "MS-11 Solo Silo",
+   "state": "absent",
+   "reason": "No LoadoutEntry record: the item is not listed by the armory."
+  },
+  {
+   "kind": "support",
+   "weapon": "PLAS-45 Epoch",
+   "records": [
+    182
+   ],
+   "backings": {
+    "0xE8D5F49AD7780E54": {
+     "recordIndex": 182,
+     "indexRow": 354,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "7F9B0760",
+   "itemType": 2,
+   "tags": [
+    "9C618BD4",
+    "D61881CE",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "STATIONARY RELOAD",
+    "ANTI-TANK",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "records": [
+    158
+   ],
+   "backings": {
+    "0x26E40437EA275296": {
+     "recordIndex": 158,
+     "indexRow": 111,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "77ADEF81",
+   "itemType": 2,
+   "tags": [
+    "CB2B1C44",
+    "D61881CE",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "TEAM WEAPON",
+    "ANTI-TANK",
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "RS-422 Railgun",
+   "records": [
+    183
+   ],
+   "backings": {
+    "0x2E9D0BDC48B09E60": {
+     "recordIndex": 183,
+     "indexRow": 256,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "B77A3F9D",
+   "itemType": 2,
+   "tags": [
+    "24818136",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ANTI-TANK",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light_anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "S-11 Speargun",
+   "records": [
+    172
+   ],
+   "backings": {
+    "0x3828E2051AA9E897": {
+     "recordIndex": 172,
+     "indexRow": 335,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "14118731",
+   "itemType": 2,
+   "tags": [
+    "24818136",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "LIGHT ANTI-TANK",
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "light_anti_tank",
+   "armorPenetrationSlot": 0,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "SG-88 Break-Action Shotgun",
+   "records": [
+    88
+   ],
+   "backings": {
+    "0x52071F49263415E4": {
+     "recordIndex": 88,
+     "indexRow": 72,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "DF31041C",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "records": [
+    168
+   ],
+   "backings": {
+    "0xCC786F6491FE7E65": {
+     "recordIndex": 168,
+     "indexRow": 227,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "351B2B3E",
+   "itemType": 2,
+   "tags": [
+    "CB2B1C44",
+    "D61881CE",
+    "ACF0CB5F",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    "TEAM WEAPON",
+    "ANTI-TANK",
+    "GUIDED",
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": "anti_tank",
+   "armorPenetrationSlot": 1,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "single",
+   "armorPenetrationReason": null
+  },
+  {
+   "kind": "support",
+   "weapon": "TX-41 Sterilizer",
+   "records": [
+    162
+   ],
+   "backings": {
+    "0x88F61AFFF48AC8A4": {
+     "recordIndex": 162,
+     "indexRow": 250,
+     "ownerCount": 1
+    }
+   },
+   "uniqueOwner": true,
+   "itemId": "F77D6B07",
+   "itemType": 2,
+   "tags": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+   ],
+   "labels": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "packed": true,
+   "armorPenetration": null,
+   "armorPenetrationSlot": null,
+   "state": "writable",
+   "reason": null,
+   "armorPenetrationState": "none",
+   "armorPenetrationReason": null
+  }
+ ]
+}

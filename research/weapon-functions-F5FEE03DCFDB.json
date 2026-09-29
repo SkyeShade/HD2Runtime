@@ -1,0 +1,6492 @@
+{
+ "schemaVersion": 1,
+ "writes": 0,
+ "build": "F5FEE03DCFDB",
+ "gameDllTextSha256": "373FD67E02BBF277494BFA8357ACBCBC5A7E2A309B5F0B20578C7B383996658B",
+ "typeLibrary": [
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 0,
+   "member": "proj_type",
+   "nameLength": 15,
+   "type": "ProjectileType",
+   "size": 4
+  },
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 4,
+   "member": "rounds_per_minute",
+   "nameLength": 17,
+   "type": "CApiVector3",
+   "size": 12
+  },
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 16,
+   "member": "zeroing_slots",
+   "nameLength": 13,
+   "type": "CApiVector3",
+   "size": 12
+  },
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 40,
+   "member": "projectile_entity",
+   "nameLength": 17,
+   "type": null,
+   "size": 8
+  },
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 576,
+   "member": "weapon_function_projectile_type",
+   "nameLength": 31,
+   "type": "ProjectileType",
+   "size": 4
+  },
+  {
+   "struct": "ProjectileWeaponComponent",
+   "offset": 584,
+   "member": "weapon_function_projectile_entity",
+   "nameLength": 33,
+   "type": null,
+   "size": 8
+  },
+  {
+   "struct": "WeaponDataComponent",
+   "offset": 184,
+   "member": "function_info",
+   "nameLength": 13,
+   "type": "WeaponFunctionInfo",
+   "size": 8
+  },
+  {
+   "struct": "WeaponFunctionInfo",
+   "offset": 0,
+   "member": "left",
+   "nameLength": 4,
+   "type": "WeaponFunctionType",
+   "size": 4
+  },
+  {
+   "struct": "WeaponFunctionInfo",
+   "offset": 4,
+   "member": "right",
+   "nameLength": 5,
+   "type": "WeaponFunctionType",
+   "size": 4
+  },
+  {
+   "struct": "WeaponRoundsComponent",
+   "offset": 64,
+   "member": "ammo_type",
+   "nameLength": 10,
+   "type": "WeaponRoundsAmmoType",
+   "size": 8
+  },
+  {
+   "struct": "WeaponRoundsComponent",
+   "offset": 72,
+   "member": "magazine_capacity",
+   "nameLength": 17,
+   "type": "CApiVector2",
+   "size": 8
+  },
+  {
+   "struct": "WeaponRoundsAmmoType",
+   "offset": 0,
+   "member": "primary_projectile_type",
+   "nameLength": 23,
+   "type": "ProjectileType",
+   "size": 4
+  },
+  {
+   "struct": "WeaponRoundsAmmoType",
+   "offset": 4,
+   "member": "alternate_projectile_type",
+   "nameLength": 25,
+   "type": "ProjectileType",
+   "size": 4
+  }
+ ],
+ "proofs": {
+  "managers": [
+   {
+    "rva": 5673796,
+    "bytes": "488d83b8b3f000",
+    "asm": "lea rax, [rbx + 0xf0b3b8]",
+    "role": "component world + 0xF0B3B8"
+   },
+   {
+    "rva": 5673803,
+    "bytes": "48890586d3db02",
+    "asm": "mov qword ptr [rip + 0x2dbd386], rax",
+    "role": "is the projectile_weapon manager global",
+    "ripTarget": 53634776
+   },
+   {
+    "rva": 5701379,
+    "bytes": "488d8fb8b3f000",
+    "asm": "lea rcx, [rdi + 0xf0b3b8]",
+    "role": "the world dump passes that manager"
+   },
+   {
+    "rva": 5701398,
+    "bytes": "e855a00a00",
+    "asm": "call 0x619f70",
+    "role": "to its printer"
+   },
+   {
+    "rva": 6397821,
+    "bytes": "4c8d051cd7c201",
+    "asm": "lea r8, [rip + 0x1c2d71c]",
+    "role": "\"projectile_weapon\" : { \"max\" : %u, \"capacity\" : 384 }",
+    "ripTarget": 35944096
+   },
+   {
+    "rva": 5670954,
+    "bytes": "488d8398737500",
+    "asm": "lea rax, [rbx + 0x757398]",
+    "role": "component world + 0x757398"
+   },
+   {
+    "rva": 5670961,
+    "bytes": "488905b8e4db02",
+    "asm": "mov qword ptr [rip + 0x2dbe4b8], rax",
+    "role": "is the weapon_rounds manager global",
+    "ripTarget": 53636336
+   },
+   {
+    "rva": 5686856,
+    "bytes": "448b8fa8737500",
+    "asm": "mov r9d, dword ptr [rdi + 0x7573a8]",
+    "role": "the world dump prints its max (+0x10)"
+   },
+   {
+    "rva": 5686870,
+    "bytes": "4c8d05f3d8cd01",
+    "asm": "lea r8, [rip + 0x1cdd8f3]",
+    "role": "\"weapon_rounds\" : { \"max\" : %u, \"capacity\" : 64 }",
+    "ripTarget": 35954512
+   },
+   {
+    "rva": 5672620,
+    "bytes": "488d8338fce900",
+    "asm": "lea rax, [rbx + 0xe9fc38]",
+    "role": "component world + 0xE9FC38"
+   },
+   {
+    "rva": 5672627,
+    "bytes": "488905a6d7db02",
+    "asm": "mov qword ptr [rip + 0x2dbd7a6], rax",
+    "role": "is the weapon manager global",
+    "ripTarget": 53634656
+   },
+   {
+    "rva": 5695316,
+    "bytes": "448b8f48fce900",
+    "asm": "mov r9d, dword ptr [rdi + 0xe9fc48]",
+    "role": "the world dump prints its max (+0x10)"
+   },
+   {
+    "rva": 5695330,
+    "bytes": "4c8d05c7b3cd01",
+    "asm": "lea r8, [rip + 0x1cdb3c7]",
+    "role": "\"weapon\" : { \"max\" : %u, \"capacity\" : 384 }",
+    "ripTarget": 35953456
+   },
+   {
+    "rva": 5673082,
+    "bytes": "488d835867eb00",
+    "asm": "lea rax, [rbx + 0xeb6758]",
+    "role": "component world + 0xEB6758"
+   },
+   {
+    "rva": 5673089,
+    "bytes": "48890598d9db02",
+    "asm": "mov qword ptr [rip + 0x2dbd998], rax",
+    "role": "is the beam_weapon manager global",
+    "ripTarget": 53635616
+   },
+   {
+    "rva": 5697699,
+    "bytes": "448b8f8067eb00",
+    "asm": "mov r9d, dword ptr [rdi + 0xeb6780]",
+    "role": "the world dump prints its max (+0x28)"
+   },
+   {
+    "rva": 5697713,
+    "bytes": "4c8d05c0c2cd01",
+    "asm": "lea r8, [rip + 0x1cdc2c0]",
+    "role": "\"beam_weapon\" : { \"max\" : %u, \"capacity\" : 128 }",
+    "ripTarget": 35959672
+   }
+  ],
+  "rateOfFireSelector": [
+   {
+    "rva": 6388084,
+    "bytes": "488b1d5dedd002",
+    "asm": "mov rbx, qword ptr [rip + 0x2d0ed5d]",
+    "role": "the ROF cycle loads the projectile_weapon manager",
+    "ripTarget": 53634776
+   },
+   {
+    "rva": 6388197,
+    "bytes": "48c1e705",
+    "asm": "shl rdi, 5",
+    "role": "ROF record stride 0x20"
+   },
+   {
+    "rva": 6388201,
+    "bytes": "48037b70",
+    "asm": "add rdi, qword ptr [rbx + 0x70]",
+    "role": "ROF records at manager +0x70"
+   },
+   {
+    "rva": 6388205,
+    "bytes": "8b4f1c",
+    "asm": "mov ecx, dword ptr [rdi + 0x1c]",
+    "role": "current ROF index at record +0x1C"
+   },
+   {
+    "rva": 6388208,
+    "bytes": "83c104",
+    "asm": "add ecx, 4",
+    "role": "index + 4"
+   },
+   {
+    "rva": 6388192,
+    "bytes": "b8abaaaaaa",
+    "asm": "mov eax, 0xaaaaaaab",
+    "role": "mod 3 (reciprocal): index = (index + 1) mod 3"
+   },
+   {
+    "rva": 6388225,
+    "bytes": "4489471c",
+    "asm": "mov dword ptr [rdi + 0x1c], r8d",
+    "role": "stores the new index"
+   },
+   {
+    "rva": 6388229,
+    "bytes": "f30f10448f10",
+    "asm": "movss xmm0, dword ptr [rdi + rcx*4 + 0x10]",
+    "role": "reads that slot of the RPM Vec3 (record +0x10)"
+   },
+   {
+    "rva": 6388235,
+    "bytes": "0f2ec1",
+    "asm": "ucomiss xmm0, xmm1",
+    "role": "a slot whose RPM is 0.0"
+   },
+   {
+    "rva": 6388245,
+    "bytes": "4183f903",
+    "asm": "cmp r9d, 3",
+    "role": "is skipped, at most three times"
+   },
+   {
+    "rva": 6388303,
+    "bytes": "f30f1074af10",
+    "asm": "movss xmm6, dword ptr [rdi + rbp*4 + 0x10]",
+    "role": "the selected RPM"
+   },
+   {
+    "rva": 6388397,
+    "bytes": "488b8380000000",
+    "asm": "mov rax, qword ptr [rbx + 0x80]",
+    "role": "current-RPM entries at manager +0x80"
+   },
+   {
+    "rva": 6388417,
+    "bytes": "f30f113488",
+    "asm": "movss dword ptr [rax + rcx*4], xmm6",
+    "role": "becomes the weapon current RPM (entry +4)"
+   },
+   {
+    "rva": 6388412,
+    "bytes": "baa2c2bc4c",
+    "asm": "mov edx, 0x4cbcc2a2",
+    "role": "replication key of the current RPM"
+   },
+   {
+    "rva": 6388444,
+    "bytes": "e8ff1c9c00",
+    "asm": "call 0xfd97e0",
+    "role": "replicated"
+   }
+  ],
+  "instanceRecord": [
+   {
+    "rva": 5575220,
+    "bytes": "488b3d9d54dd02",
+    "asm": "mov rdi, qword ptr [rip + 0x2dd549d]",
+    "role": "adding a projectile_weapon instance",
+    "ripTarget": 53634776
+   },
+   {
+    "rva": 5575291,
+    "bytes": "48034770",
+    "asm": "add rax, qword ptr [rdi + 0x70]",
+    "role": "its ROF record"
+   },
+   {
+    "rva": 5575295,
+    "bytes": "0f1100",
+    "asm": "movups xmmword ptr [rax], xmm0",
+    "role": "is zeroed (zeroing slots and index)"
+   },
+   {
+    "rva": 5575298,
+    "bytes": "0f114010",
+    "asm": "movups xmmword ptr [rax + 0x10], xmm0",
+    "role": "and RPM slots and index"
+   }
+  ],
+  "settingsResolution": [
+   {
+    "rva": 5329186,
+    "bytes": "4c8b1daf15e102",
+    "asm": "mov r11, qword ptr [rip + 0x2e115af]",
+    "role": "a weapon resolves its ProjectileWeaponComponentData",
+    "ripTarget": 53634776
+   },
+   {
+    "rva": 5329330,
+    "bytes": "4869c068020000",
+    "asm": "imul rax, rax, 0x268",
+    "role": "per-instance resolved copies (616 bytes)"
+   },
+   {
+    "rva": 5329337,
+    "bytes": "490383d0000000",
+    "asm": "add rax, qword ptr [r11 + 0xd0]",
+    "role": "at manager +0xD0 when the instance has one"
+   },
+   {
+    "rva": 5329356,
+    "bytes": "e93ffaffff",
+    "asm": "jmp 0x514c10",
+    "role": "otherwise the entity-table record of its type"
+   },
+   {
+    "rva": 5327927,
+    "bytes": "69c21e020000",
+    "asm": "imul eax, edx, 0x21e",
+    "role": "through the 542-row hash index (resource mod 542)"
+   },
+   {
+    "rva": 5328017,
+    "bytes": "4869c168020000",
+    "asm": "imul rax, rcx, 0x268",
+    "role": "record * 616"
+   },
+   {
+    "rva": 5328024,
+    "bytes": "4805e0210000",
+    "asm": "add rax, 0x21e0",
+    "role": "records follow the 542 x 16-byte index"
+   }
+  ],
+  "programmableAmmo": [
+   {
+    "rva": 6379924,
+    "bytes": "458be0",
+    "asm": "mov r12d, r8d",
+    "role": "the projectile type the caller fires"
+   },
+   {
+    "rva": 6380094,
+    "bytes": "e8bdf6efff",
+    "asm": "call 0x515100",
+    "role": "resolves the weapon ProjectileWeaponComponentData"
+   },
+   {
+    "rva": 6380115,
+    "bytes": "4c8be8",
+    "asm": "mov r13, rax",
+    "role": "r13 = the resolved record"
+   },
+   {
+    "rva": 6380285,
+    "bytes": "ba08000000",
+    "asm": "mov edx, 8",
+    "role": "WeaponFunctionType ProgrammableAmmo"
+   },
+   {
+    "rva": 6380313,
+    "bytes": "e8e2191701",
+    "asm": "call 0x1787500",
+    "role": "current state of that weapon function"
+   },
+   {
+    "rva": 6380318,
+    "bytes": "83f801",
+    "asm": "cmp eax, 1",
+    "role": "when it is on"
+   },
+   {
+    "rva": 6380323,
+    "bytes": "418b8540020000",
+    "asm": "mov eax, dword ptr [r13 + 0x240]",
+    "role": "weapon_function_projectile_type (+576)"
+   },
+   {
+    "rva": 6380332,
+    "bytes": "440f45e0",
+    "asm": "cmovne r12d, eax",
+    "role": "replaces the fired projectile when non-zero"
+   },
+   {
+    "rva": 6380336,
+    "bytes": "498b8548020000",
+    "asm": "mov rax, qword ptr [r13 + 0x248]",
+    "role": "+584"
+   },
+   {
+    "rva": 6380346,
+    "bytes": "480f45d8",
+    "asm": "cmovne rbx, rax",
+    "role": "replaces the spawned entity when non-zero"
+   }
+  ],
+  "weaponFunctionValue": [
+   {
+    "rva": 7691299,
+    "bytes": "4d69c1fc000000",
+    "asm": "imul r8, r9, 0xfc",
+    "role": "weapon_data instance stride 0x3F0 (0xFC dwords)"
+   },
+   {
+    "rva": 7691314,
+    "bytes": "468b848150030000",
+    "asm": "mov r8d, dword ptr [rcx + r8*4 + 0x350]",
+    "role": "the function bound to the queried input (+0x350)"
+   },
+   {
+    "rva": 7691325,
+    "bytes": "4183f80b",
+    "asm": "cmp r8d, 0xb",
+    "role": "function types 1..12"
+   },
+   {
+    "rva": 7691345,
+    "bytes": "448b848f585f7500",
+    "asm": "mov r8d, dword ptr [rdi + rcx*4 + 0x755f58]",
+    "role": "dispatch table"
+   },
+   {
+    "rva": 7691389,
+    "bytes": "488b1d540abd02",
+    "asm": "mov rbx, qword ptr [rip + 0x2bd0a54]",
+    "role": "ROF: the projectile_weapon manager",
+    "ripTarget": 53634776
+   },
+   {
+    "rva": 7691575,
+    "bytes": "8b44011c",
+    "asm": "mov eax, dword ptr [rcx + rax + 0x1c]",
+    "role": "ROF: the ROF record index"
+   },
+   {
+    "rva": 7691592,
+    "bytes": "8b0488",
+    "asm": "mov eax, dword ptr [rax + rcx*4]",
+    "role": "Firemode: the weapon_data current fire mode"
+   },
+   {
+    "rva": 7691600,
+    "bytes": "488b1d990fbd02",
+    "asm": "mov rbx, qword ptr [rip + 0x2bd0f99]",
+    "role": "Magazine: the weapon_rounds manager",
+    "ripTarget": 53636336
+   },
+   {
+    "rva": 7691779,
+    "bytes": "488d1489",
+    "asm": "lea rdx, [rcx + rcx*4]",
+    "role": "Magazine: 20-byte weapon_rounds records"
+   },
+   {
+    "rva": 7691783,
+    "bytes": "8b449004",
+    "asm": "mov eax, dword ptr [rax + rdx*4 + 4]",
+    "role": "Magazine: the selected magazine (+4)"
+   },
+   {
+    "rva": 7692036,
+    "bytes": "c1e802",
+    "asm": "shr eax, 2",
+    "role": "ProgrammableAmmo: state bits 2-3"
+   },
+   {
+    "rva": 7692090,
+    "bytes": "83e003",
+    "asm": "and eax, 3",
+    "role": "two-bit function state"
+   }
+  ],
+  "weaponFunctionDispatch": {
+   "table": 7692120,
+   "targets": {
+    "Zeroing": "0x755C69",
+    "ROF": "0x755C7D",
+    "Firemode": "0x755D40",
+    "Magazine": "0x755D50",
+    "LightMode": "0x755E10",
+    "LaserGuide": "0x755E77",
+    "MuzzleVelocity": "0x755EEA",
+    "ProgrammableAmmo": "0x755EF8",
+    "9": "0x755F09",
+    "10": "0x755F1A",
+    "11": "0x755ED9",
+    "12": "0x755F2B"
+   }
+  }
+ },
+ "model": {
+  "rateOfFire": "ProjectileWeaponComponent +4 rounds_per_minute: three f32 slots X/Y/Z. Y (+8) is the default and the only rate of a weapon without a ROF selector. With WeaponFunctionType ROF bound to an input, each press moves to the next slot (Y -> Z -> X), skipping 0.0 slots. Fixed storage: three rates at most.",
+  "inputs": "WeaponDataComponent function_info {left +184, right +188}: the WeaponFunctionType on each weapon-function input; 0 = none. Read from the built weapon.",
+  "programmableAmmo": "With ProgrammableAmmo bound and switched on, every shot fires ProjectileWeapon +576 instead of the normal projectile (when +576 is non-zero).",
+  "roundsFeeds": "WeaponRounds +64 / +68: the primary and alternate magazine projectiles, +72 their capacities; the Magazine function switches between them.",
+  "ownership": "Every member is weapon data on the weapon entity record, copied into or read through the built weapon (projectile_weapon ROF record, weapon_data bindings); a weapon built after a write uses it."
+ },
+ "rateOfFirePatches": [
+  {
+   "item": "Laser. Blaster Focus",
+   "slots": [
+    4
+   ],
+   "rpm": [
+    0.0,
+    600.0,
+    0.0
+   ],
+   "offset": 4,
+   "size": 12
+  },
+  {
+   "item": null,
+   "slots": null,
+   "rpm": [
+    0.0,
+    600.0,
+    0.0
+   ],
+   "offset": 4,
+   "size": 12
+  },
+  {
+   "item": "Recoil Spring Liberator",
+   "slots": [
+    8
+   ],
+   "rpm": [
+    0.0,
+    680.0,
+    0.0
+   ],
+   "offset": 4,
+   "size": 12
+  },
+  {
+   "item": "Recoil Spring Patriot",
+   "slots": [
+    8
+   ],
+   "rpm": [
+    0.0,
+    1080.0,
+    0.0
+   ],
+   "offset": 4,
+   "size": 12
+  }
+ ],
+ "observations": [
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap",
+   "rateOfFire": [
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "52071F49263415E4",
+     "rpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "index": 1,
+     "currentRpm": 600.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "9BFC8FCD68B09F28",
+     "rpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 60.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "B6AFF2195568767F",
+     "rpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 32.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "1A437158E1B8D2A1",
+     "rpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 450.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "matchesSettings": true
+    }
+   ],
+   "rounds": [
+    {
+     "record": 0,
+     "selectedMagazine": 0
+    },
+    {
+     "record": 1,
+     "selectedMagazine": 0
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap",
+   "rateOfFire": [
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "52071F49263415E4",
+     "rpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "index": 1,
+     "currentRpm": 600.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "9BFC8FCD68B09F28",
+     "rpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 60.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "B6AFF2195568767F",
+     "rpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 32.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "1A437158E1B8D2A1",
+     "rpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 450.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "matchesSettings": true
+    }
+   ],
+   "rounds": [
+    {
+     "record": 0,
+     "selectedMagazine": 0
+    },
+    {
+     "record": 1,
+     "selectedMagazine": 0
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap",
+   "rateOfFire": [
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "52071F49263415E4",
+     "rpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "index": 1,
+     "currentRpm": 600.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      600.0,
+      600.0,
+      600.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "11C27D3BABB38956",
+     "rpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "index": 1,
+     "currentRpm": 760.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      630.0,
+      760.0,
+      900.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "9BFC8FCD68B09F28",
+     "rpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 60.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      60.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "B6AFF2195568767F",
+     "rpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 32.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "B6AFF2195568767F",
+     "rpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 32.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      32.0,
+      0.0
+     ],
+     "matchesSettings": true
+    },
+    {
+     "entityType": "1A437158E1B8D2A1",
+     "rpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "index": 1,
+     "currentRpm": 450.0,
+     "zeroingSlots": [
+      75.0,
+      150.0,
+      300.0
+     ],
+     "zeroingIndex": 0,
+     "settingsRpm": [
+      0.0,
+      450.0,
+      0.0
+     ],
+     "matchesSettings": true
+    }
+   ],
+   "rounds": [
+    {
+     "record": 0,
+     "selectedMagazine": 0
+    },
+    {
+     "record": 1,
+     "selectedMagazine": 0
+    }
+   ]
+  },
+  {
+   "snapshot": "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap",
+   "rateOfFire": [],
+   "rounds": []
+  }
+ ],
+ "summary": {
+  "weapons": 115,
+  "fireRate": {
+   "player:absent": 12,
+   "player:addable": 50,
+   "player:blocked": 17,
+   "player:selectable": 1,
+   "support:absent": 12,
+   "support:addable": 9,
+   "support:blocked": 10,
+   "support:selectable": 4
+  },
+  "functionAmmo": {
+   "player:absent": 12,
+   "player:addable": 39,
+   "player:blocked": 27,
+   "player:native_blocked": 2,
+   "support:absent": 12,
+   "support:addable": 10,
+   "support:blocked": 9,
+   "support:native": 3,
+   "support:native_blocked": 1
+  },
+  "roundsFeeds": 18,
+  "rateOfFirePatchingItems": [
+   "?",
+   "Laser. Blaster Focus",
+   "Recoil Spring Liberator",
+   "Recoil Spring Patriot"
+  ],
+  "builtWeaponsObserved": 22
+ },
+ "weapons": [
+  {
+   "kind": "player",
+   "weapon": "AR-11 Arbitrator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "inputs": {
+    "left": 11,
+    "right": "fire_mode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1200.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1200.0
+    ],
+    "defaultRpm": 1200.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-2 Coyote",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23 Liberator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 640.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     640.0
+    ],
+    "defaultRpm": 640.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [
+     "Recoil Spring Liberator"
+    ],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23A Liberator Carbine",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 920.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     920.0
+    ],
+    "defaultRpm": 920.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [
+     "Recoil Spring Patriot"
+    ],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23C Liberator Concussive",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 400.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     400.0
+    ],
+    "defaultRpm": 400.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-23P Liberator Penetrator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 640.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     640.0
+    ],
+    "defaultRpm": 640.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-32 Pacifier",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 700.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     700.0
+    ],
+    "defaultRpm": 700.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-59 Suppressor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 850.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     850.0
+    ],
+    "defaultRpm": 850.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR-61 Tenderizer",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "rate_of_fire",
+    "right": "fire_mode",
+    "leftValue": 2,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 850.0
+    },
+    "selectorBound": true,
+    "selectorInput": "left",
+    "modes": [
+     600.0,
+     850.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "selectable",
+    "reason": null,
+    "maxModes": 3
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Both weapon-function inputs are bound."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "AR/GL-21 One-Two",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "inputs": {
+    "left": 11,
+    "right": "fire_mode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 650.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     650.0
+    ],
+    "defaultRpm": 650.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "ARC-12 Blitzer",
+   "families": [
+    "arc"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through arc.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "BR-14 Adjudicator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 550.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     550.0
+    ],
+    "defaultRpm": 550.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CB-9 Exploding Crossbow",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 50.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     50.0
+    ],
+    "defaultRpm": 50.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-19 Stun Lance",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-2 Saber",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-30 Stun Baton",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-42 Machete",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-5 Combat Hatchet",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "CQC-73 Entrenchment Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "DBS-2 Double Freedom",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "fire_mode",
+    "right": "none",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 650.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     650.0
+    ],
+    "defaultRpm": 650.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 317,
+     "capacity": 2.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 317,
+      "row": 299,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "FLAM-66 Torcher",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "GL-15 Evictor",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 60.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     60.0
+    ],
+    "defaultRpm": 60.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 297,
+     "capacity": 4.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 297,
+      "row": 82,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-20 Ultimatum",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 900.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     900.0
+    ],
+    "defaultRpm": 900.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "GP-31 Grenade Pistol",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 2,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 900.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     900.0
+    ],
+    "defaultRpm": 900.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 263,
+     "capacity": 1.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 263,
+      "row": 85,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "JAR-5 Dominator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 250.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     250.0
+    ],
+    "defaultRpm": 250.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-12 Sai",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 800.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     800.0
+    ],
+    "defaultRpm": 800.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [
+     "Laser. Blaster Focus"
+    ],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-13 Trident",
+   "families": [
+    "beam"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-16 Sickle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 750.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     750.0
+    ],
+    "defaultRpm": 750.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-17 Double-Edge Sickle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 700.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     700.0
+    ],
+    "defaultRpm": 700.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The active projectile source is BLOCKED; the fired projectile is not uniquely established."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-5 Scythe",
+   "families": [
+    "beam"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-58 Talon",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 750.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     750.0
+    ],
+    "defaultRpm": 750.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "LAS-7 Dagger",
+   "families": [
+    "beam"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon roots disagree on their fire-mode configuration.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "M6C/SOCOM Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 900.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     900.0
+    ],
+    "defaultRpm": 900.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "M7S SMG",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 872.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     872.0
+    ],
+    "defaultRpm": 872.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "M90A Shotgun",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 62,
+     "capacity": 6.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 62,
+      "row": 298,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "MA5C Assault Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 640.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     640.0
+    ],
+    "defaultRpm": 640.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "MP-98 Knight",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1380.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1380.0
+    ],
+    "defaultRpm": 1380.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The active projectile source is AMBIGUOUS; the fired projectile is not uniquely established."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-11 Stim Pistol",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 70.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     70.0
+    ],
+    "defaultRpm": 70.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 318,
+     "capacity": 6.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 318,
+      "row": 198,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-113 Verdict",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 450.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     450.0
+    ],
+    "defaultRpm": 450.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-19 Redeemer",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1100.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1100.0
+    ],
+    "defaultRpm": 1100.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-2 Peacemaker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 900.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     900.0
+    ],
+    "defaultRpm": 900.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-33 Missile Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "none",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 60.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     60.0
+    ],
+    "defaultRpm": 60.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 127,
+    "entity": true,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native_blocked",
+    "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+    "settings": {
+     "group": 0,
+     "recordType": 127,
+     "row": 188,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "explosive_impact_and_expiry"
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-34 Breacher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 20.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     20.0
+    ],
+    "defaultRpm": 20.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon spawns an entity or already carries a function projectile."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-35 Re-Educator",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 110.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     110.0
+    ],
+    "defaultRpm": 110.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-4 Senator",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 200.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     200.0
+    ],
+    "defaultRpm": 200.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 309,
+     "capacity": 6.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 309,
+      "row": 192,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-69 Veto",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 750.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     750.0
+    ],
+    "defaultRpm": 750.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 237,
+     "capacity": 12.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 237,
+      "row": 183,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P-72 Crisper",
+   "families": [
+    "spray"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "player",
+   "weapon": "P-92 Warrant",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "none",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 450.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     450.0
+    ],
+    "defaultRpm": 450.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 319,
+    "entity": false,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native_blocked",
+    "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+    "settings": {
+     "group": 0,
+     "recordType": 319,
+     "row": 186,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "conventional_plain"
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "P/40-K Bolt Pistol",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 150.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     150.0
+    ],
+    "defaultRpm": 150.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-1 Scorcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 350.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     350.0
+    ],
+    "defaultRpm": 350.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-101 Purifier",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1000.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1000.0
+    ],
+    "defaultRpm": 1000.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-15 Loyalist",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1000.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1000.0
+    ],
+    "defaultRpm": 1000.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (5); only Automatic, Single and Burst are proven."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "PLAS-39 Accelerator Rifle",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile.",
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 550.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     550.0
+    ],
+    "defaultRpm": 550.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through charge, conventional_projectile."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2 Amendment",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 480.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     480.0
+    ],
+    "defaultRpm": 480.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-2124 Constitution",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 60.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     60.0
+    ],
+    "defaultRpm": 60.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 282,
+     "capacity": 5.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 282,
+      "row": 238,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-36 Eruptor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 32.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     32.0
+    ],
+    "defaultRpm": 32.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-4 Hyena",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 190.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     190.0
+    ],
+    "defaultRpm": 190.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-6 Deadeye",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 100.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     100.0
+    ],
+    "defaultRpm": 100.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 299,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 299,
+      "row": 240,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63 Diligence",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 350.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     350.0
+    ],
+    "defaultRpm": 350.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-63CS Diligence Counter Sniper",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 350.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     350.0
+    ],
+    "defaultRpm": 350.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R-72 Censor",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 400.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     400.0
+    ],
+    "defaultRpm": 400.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "R/40-K Hot-Shot Marksman Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 210.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     210.0
+    ],
+    "defaultRpm": 210.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-20 Halt",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "magazine",
+    "right": "none",
+    "leftValue": 4,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon binds Magazine, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": true,
+    "selectorInput": "left",
+    "primary": {
+     "projectile": 183,
+     "capacity": 8.0,
+     "ownedBy": "SHOTGUN 10g. FLECHETTES",
+     "settings": {
+      "group": 0,
+      "recordType": 183,
+      "row": 285,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 191,
+     "capacity": 8.0,
+     "ownedBy": "SHOTGUN 10g. Stun ALTERNATE",
+     "settings": {
+      "group": 0,
+      "recordType": 191,
+      "row": 294,
+      "settingsType": "0xBD4042C2"
+     }
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-22 Bushwhacker",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "fire_mode",
+    "right": "none",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 650.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     650.0
+    ],
+    "defaultRpm": 650.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 260,
+     "capacity": 3.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 260,
+      "row": 281,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225 Breaker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 300.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     300.0
+    ],
+    "defaultRpm": 300.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225IE Breaker Incendiary",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 300.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     300.0
+    ],
+    "defaultRpm": 300.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-225SP Breaker Spray&Pray",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 330.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     330.0
+    ],
+    "defaultRpm": 330.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-451 Cookout",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 347,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 347,
+      "row": 283,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 347,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 347,
+      "row": 283,
+      "settingsType": "0xBD4042C2"
+     }
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8 Punisher",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 260,
+     "capacity": 8.0,
+     "ownedBy": "SHOTGUN 10g. BUCKSHOT",
+     "settings": {
+      "group": 0,
+      "recordType": 260,
+      "row": 281,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 260,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 260,
+      "row": 281,
+      "settingsType": "0xBD4042C2"
+     }
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8P Punisher Plasma",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-8S Slugger",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 80.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     80.0
+    ],
+    "defaultRpm": 80.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 240,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 240,
+      "row": 295,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 240,
+     "capacity": 8.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 240,
+      "row": 295,
+      "settingsType": "0xBD4042C2"
+     }
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SG-97 Sweeper",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon has weapon-function fire-mode entries whose semantics are unknown.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 150.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     150.0
+    ],
+    "defaultRpm": 150.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon has weapon-function fire-mode entries whose semantics are unknown."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 262,
+     "capacity": 7.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 262,
+      "row": 349,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-203 Gallant",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1380.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1380.0
+    ],
+    "defaultRpm": 1380.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-32 Reprimand",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 490.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     490.0
+    ],
+    "defaultRpm": 490.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-37 Defender",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 520.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     520.0
+    ],
+    "defaultRpm": 520.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The active projectile source is None; the fired projectile is not uniquely established."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG-72 Pummeler",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 475.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     475.0
+    ],
+    "defaultRpm": 475.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "SMG/FLAM-34 Stoker",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown.",
+   "inputs": {
+    "left": 11,
+    "right": "fire_mode",
+    "leftValue": 11,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 420.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     420.0
+    ],
+    "defaultRpm": 420.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon carries a special fire-control structure (+160) whose semantics are unknown."
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-11 SMG",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 1050.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1050.0
+    ],
+    "defaultRpm": 1050.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "StA-52 Assault Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 790.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     790.0
+    ],
+    "defaultRpm": 790.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "player",
+   "weapon": "VG-70 Variable",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "fire_mode",
+    "right": "rate_of_fire",
+    "leftValue": 3,
+    "rightValue": 2
+   },
+   "fireRate": {
+    "slots": {
+     "x": 300.0,
+     "y": 550.0,
+     "z": 750.0
+    },
+    "selectorBound": true,
+    "selectorInput": "right",
+    "modes": [
+     550.0,
+     750.0,
+     300.0
+    ],
+    "defaultRpm": 550.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "40-K Meltagun",
+   "families": [
+    "beam",
+    "charge"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam, charge.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "AC-8 Autocannon",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "fire_mode",
+    "leftValue": 8,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 190.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     190.0
+    ],
+    "defaultRpm": 190.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 284,
+    "entity": false,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native",
+    "reason": null,
+    "settings": {
+     "group": 0,
+     "recordType": 284,
+     "row": 31,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "explosive_shrapnel"
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 115,
+     "capacity": 10.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 115,
+      "row": 30,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "APW-1 Anti-Materiel Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 400.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     400.0
+    ],
+    "defaultRpm": 400.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "ARC-3 Arc Thrower",
+   "families": [
+    "arc",
+    "charge"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/FLAM-80 Cremator",
+   "families": [
+    "spray"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "B/MD C4 Pack",
+   "families": [],
+   "roots": 1,
+   "fireModeState": "absent",
+   "fireModeReason": "The weapon owns no WeaponDataComponentData record.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-1 One True Flag",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-20 Breaching Hammer",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-72 Entrenchment Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 2,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "CQC-9 Defoliation Tool",
+   "families": [
+    "melee"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through melee.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-17 Expendable Anti-Tank",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-411 Leveller",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "EAT-700 Expendable Napalm",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "FAF-14 Spear",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 240.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     240.0
+    ],
+    "defaultRpm": 240.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon spawns an entity or already carries a function projectile."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "FLAM-40 Flamethrower",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-21 Grenade Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 160.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     160.0
+    ],
+    "defaultRpm": 160.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-28 Belt-Fed Grenade Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "rate_of_fire",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "fireRate": {
+    "slots": {
+     "x": 160.0,
+     "y": 240.0,
+     "z": 320.0
+    },
+    "selectorBound": true,
+    "selectorInput": "right",
+    "modes": [
+     240.0,
+     320.0,
+     160.0
+    ],
+    "defaultRpm": 240.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "selectable",
+    "reason": null,
+    "maxModes": 3
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GL-52 De-Escalator",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 200.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     200.0
+    ],
+    "defaultRpm": 200.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Rounds-fed weapons select their projectile through their WeaponRounds magazines (the Magazine function); a second selector is not authored on them."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 222,
+     "capacity": 6.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 222,
+      "row": 88,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "GR-8 Recoilless Rifle",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "none",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 36,
+    "entity": false,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native",
+    "reason": null,
+    "settings": {
+     "group": 0,
+     "recordType": 36,
+     "row": 97,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "explosive_impact"
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-98 Laser Cannon",
+   "families": [
+    "beam"
+   ],
+   "roots": 3,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through beam.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "LAS-99 Quasar Cannon",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 10.0,
+     "z": 10.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     10.0
+    ],
+    "defaultRpm": 10.0,
+    "dormantSlots": [
+     "z"
+    ],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left",
+     "right"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "M-1000 Maxigun",
+   "families": [
+    "conventional_projectile",
+    "wind_up"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 1500.0,
+     "y": 1500.0,
+     "z": 1500.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1500.0
+    ],
+    "defaultRpm": 1500.0,
+    "dormantSlots": [
+     "x",
+     "z"
+    ],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through conventional_projectile, wind_up."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "M-105 Stalwart",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 4,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "rate_of_fire",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "fireRate": {
+    "slots": {
+     "x": 700.0,
+     "y": 850.0,
+     "z": 1150.0
+    },
+    "selectorBound": true,
+    "selectorInput": "right",
+    "modes": [
+     850.0,
+     1150.0,
+     700.0
+    ],
+    "defaultRpm": 850.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "selectable",
+    "reason": null,
+    "maxModes": 3
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-206 Heavy Machine Gun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 3,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "rate_of_fire",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "fireRate": {
+    "slots": {
+     "x": 450.0,
+     "y": 600.0,
+     "z": 750.0
+    },
+    "selectorBound": true,
+    "selectorInput": "right",
+    "modes": [
+     600.0,
+     750.0,
+     450.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "selectable",
+    "reason": null,
+    "maxModes": 3
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MG-43 Machine Gun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 2,
+   "fireModeState": "single_mode",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "rate_of_fire",
+    "leftValue": 0,
+    "rightValue": 2
+   },
+   "fireRate": {
+    "slots": {
+     "x": 630.0,
+     "y": 760.0,
+     "z": 900.0
+    },
+    "selectorBound": true,
+    "selectorInput": "right",
+    "modes": [
+     760.0,
+     900.0,
+     630.0
+    ],
+    "defaultRpm": 760.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "selectable",
+    "reason": null,
+    "maxModes": 3
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "A magazine pattern selects the fired projectiles."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MGX-42 Bullet Storm",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 1300.0,
+     "y": 1300.0,
+     "z": 1300.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     1300.0
+    ],
+    "defaultRpm": 1300.0,
+    "dormantSlots": [
+     "x",
+     "z"
+    ],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off, 7); only Automatic, Single and Burst are proven."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MLS-4X Commando",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "laser_guide",
+    "right": "none",
+    "leftValue": 6,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 240.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     240.0
+    ],
+    "defaultRpm": 240.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon binds LaserGuide, which changes how its trigger fires; fire modes are not authored on such weapons."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "MS-11 Solo Silo",
+   "families": [],
+   "roots": 1,
+   "fireModeState": "absent",
+   "fireModeReason": "The weapon owns no WeaponDataComponentData record.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  },
+  {
+   "kind": "support",
+   "weapon": "PLAS-45 Epoch",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "none",
+    "right": "none",
+    "leftValue": 0,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (6, 6); only Automatic, Single and Burst are proven."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "RL-77 Airburst Rocket Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "none",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 600.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 96,
+    "entity": false,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native",
+    "reason": null,
+    "settings": {
+     "group": 0,
+     "recordType": 96,
+     "row": 102,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "explosive_shrapnel"
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "RS-422 Railgun",
+   "families": [
+    "charge",
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "fire_mode",
+    "right": "none",
+    "leftValue": 3,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 60.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     60.0
+    ],
+    "defaultRpm": 60.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (5, 6); only Automatic, Single and Burst are proven."
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "S-11 Speargun",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "selectable",
+   "fireModeReason": null,
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 60.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     60.0
+    ],
+    "defaultRpm": 60.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "addable",
+    "reason": null,
+    "maxModes": 3,
+    "bindableInputs": [
+     "left"
+    ]
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "addable",
+    "reason": null,
+    "bindableInputs": [
+     "left"
+    ]
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "SG-88 Break-Action Shotgun",
+   "families": [
+    "conventional_projectile",
+    "rounds_feed"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven.",
+   "inputs": {
+    "left": "none",
+    "right": "fire_mode",
+    "leftValue": 0,
+    "rightValue": 3
+   },
+   "fireRate": {
+    "slots": {
+     "x": 600.0,
+     "y": 600.0,
+     "z": 600.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     600.0
+    ],
+    "defaultRpm": 600.0,
+    "dormantSlots": [
+     "x",
+     "z"
+    ],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "functionAmmo": {
+    "projectile": 0,
+    "entity": false,
+    "selectorBound": false,
+    "selectorInput": null,
+    "state": "blocked",
+    "reason": "The weapon uses a charge or safety fire mode (Safety_Off); only Automatic, Single and Burst are proven."
+   },
+   "feeds": {
+    "mechanism": "rounds_magazine",
+    "selectorBound": false,
+    "selectorInput": null,
+    "primary": {
+     "projectile": 217,
+     "capacity": 2.0,
+     "ownedBy": null,
+     "settings": {
+      "group": 0,
+      "recordType": 217,
+      "row": 288,
+      "settingsType": "0xBD4042C2"
+     }
+    },
+    "alternate": {
+     "projectile": 0,
+     "capacity": 0.0,
+     "ownedBy": null
+    }
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "StA-X3 W.A.S.P. Launcher",
+   "families": [
+    "conventional_projectile"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons.",
+   "inputs": {
+    "left": "programmable_ammo",
+    "right": "none",
+    "leftValue": 8,
+    "rightValue": 0
+   },
+   "fireRate": {
+    "slots": {
+     "x": 0.0,
+     "y": 500.0,
+     "z": 0.0
+    },
+    "selectorBound": false,
+    "selectorInput": null,
+    "modes": [
+     500.0
+    ],
+    "defaultRpm": 500.0,
+    "dormantSlots": [],
+    "overriddenByDefault": [],
+    "overriddenWhenEquipped": [],
+    "uniqueOwner": true,
+    "state": "blocked",
+    "reason": "The weapon binds ProgrammableAmmo, which changes how its trigger fires; fire modes are not authored on such weapons."
+   },
+   "functionAmmo": {
+    "projectile": 330,
+    "entity": true,
+    "selectorBound": true,
+    "selectorInput": "left",
+    "state": "native_blocked",
+    "reason": "The programmable function spawns an entity (+584 or +40), not a projectile reference.",
+    "settings": {
+     "group": 0,
+     "recordType": 330,
+     "row": 128,
+     "settingsType": "0xBD4042C2"
+    },
+    "compatibilityClass": "explosive_shrapnel"
+   }
+  },
+  {
+   "kind": "support",
+   "weapon": "TX-41 Sterilizer",
+   "families": [
+    "spray"
+   ],
+   "roots": 1,
+   "fireModeState": "blocked",
+   "fireModeReason": "Fire modes are authored only for conventional projectile weapons; this weapon fires through spray.",
+   "fireRate": {
+    "state": "absent",
+    "reason": "The weapon owns no ProjectileWeaponComponentData rate slots."
+   },
+   "inputs": null,
+   "functionAmmo": {
+    "state": "absent",
+    "reason": "No projectile weapon component."
+   },
+   "feeds": null
+  }
+ ]
+}
