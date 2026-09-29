@@ -35,21 +35,50 @@ function M.inverse(plan)
     end end
     return inverse
 end
+local function hex(value)
+    if type(value)~='number'or value<0 or value%1~=0 then return'unknown'end
+    local high=math.floor(value/4294967296)
+    return high>0 and('0x%X%08X'):format(high,value%4294967296)or('0x%X'):format(value)
+end
+-- Which region conditions a query failed. The guard itself is unchanged; this only names the reason.
+local function failed_conditions(at,owner,r)
+    if not r then return {'query_failed'} end
+    local failed={}
+    if not(safe(r.base) and safe(r.size) and safe(r.base+r.size) and r.size>0)then failed[#failed+1]='extent'
+    elseif not(r.base<=at and at<r.base+r.size)then failed[#failed+1]='address_outside_region' end
+    if r.state~=0x1000 then failed[#failed+1]='state' end
+    if r.allocation_base~=owner.base then failed[#failed+1]='allocation_base' end
+    if r.type~=(owner.type or 0x20000)then failed[#failed+1]='type' end
+    if not(r.protect==2 or r.protect==4)then failed[#failed+1]='protection' end
+    return failed
+end
 function M.apply(runtime,plan)
+    -- non_target_check says how far the non-target comparison got: not_reached (validation stopped before any
+    -- comparison completed, so non_target_bytes_unchanged=false says nothing about the bytes), checked (the
+    -- captured context matched before the failure), mismatch (bytes around a target changed) or verified.
     local report={status='REJECTED',writes=0,bytes_written=0,protection_changes=0,
-        rollback='not_needed',protection_restored=true,non_target_bytes_unchanged=false,fields={}}
+        rollback='not_needed',protection_restored=true,non_target_bytes_unchanged=false,
+        non_target_check='not_reached',fields={}}
     local changes=assert(plan.changes,'transaction changes missing')
     assert(#changes>=1 and #changes<=128,'unsupported transaction change count')
     local contexts,pages,page_by_key,total={}, {}, {},0
     local queries,bytes_read=0,0
+    local refused
     local function region(at,owner)
         assert(safe(at) and safe(owner.base) and safe(owner.size) and owner.size>0,'invalid owner extent')
         queries=queries+1;assert(queries<=16384,'transaction query budget exceeded')
-        local r=assert(runtime.query(at),'memory query failed')
-        assert(safe(r.base) and safe(r.size) and safe(r.base+r.size) and r.size>0
-            and r.base<=at and at<r.base+r.size and r.state==0x1000
-            and r.allocation_base==owner.base and r.type==(owner.type or 0x20000)
-            and (r.protect==2 or r.protect==4),'allocation ownership/protection changed')
+        local r=runtime.query(at)
+        local failed=failed_conditions(at,owner,r)
+        if #failed>0 and not refused then
+            -- The first refused query, as observed (diagnostics only; nothing is read or written here).
+            refused={address=at,failed=failed,owner_base=owner.base,owner_size=owner.size,
+                expected_type=owner.type or 0x20000,expected_protect=owner.protect,
+                region_base=r and r.base,region_size=r and r.size,state=r and r.state,type=r and r.type,
+                protect=r and r.protect,allocation_base=r and r.allocation_base,
+                allocation_protect=r and r.allocation_protect}
+        end
+        assert(r,'memory query failed')
+        assert(#failed==0,'allocation ownership/protection changed')
         return r
     end
     local function read(owner,offset,length)
@@ -87,9 +116,12 @@ function M.apply(runtime,plan)
     end
     local function check(states)
         for _,context in ipairs(contexts)do
-            assert(read(context.owner,context.offset,#context.bytes)==context_bytes(context,states),
-                'ownership/context or non-target bytes changed')
+            if read(context.owner,context.offset,#context.bytes)~=context_bytes(context,states)then
+                report.non_target_check='mismatch'
+                error('ownership/context or non-target bytes changed',0)
+            end
         end
+        if report.non_target_check=='not_reached'then report.non_target_check='checked'end
     end
     local before,desired={},{}
     local intervals={}
@@ -155,17 +187,29 @@ function M.apply(runtime,plan)
     for _,context in ipairs(contexts)do
         table.sort(context.targets,function(a,b)return a.offset<b.offset end)
     end
-    for _,page in ipairs(pages)do
-        page.original=page_region(page).protect
-        assert(page.original==page.owner.protect,'original page protection changed')
+    -- A target page refused here has not been opened or written: the same rejection as before, now reported with
+    -- the region diagnostics instead of a bare error.
+    local captured,capture_error=pcall(function()
+        for _,page in ipairs(pages)do
+            page.original=page_region(page).protect
+            assert(page.original==page.owner.protect,'original page protection changed')
+        end
+    end)
+    if not captured then
+        report.reason=tostring(capture_error)
+        if refused then report.guard_failure=M.describe_failure(M.explain(runtime,refused,changes))end
+        report.guard_queries=queries;report.guard_bytes=bytes_read
+        metrics.count('transaction.applies')
+        return report
     end
     local function restore_pages()
         local all=true
         for index=#pages,1,-1 do
             local page=pages[index]
-            local restored=false
+            local restored,why=false,nil
             for _=1,2 do
-                local ok=pcall(function()
+                local ok
+                ok,why=pcall(function()
                     local r=page_region(page)
                     if r.protect~=page.original then
                         assert(page.opened and r.protect==4,'unexpected protection before restore')
@@ -178,7 +222,11 @@ function M.apply(runtime,plan)
                 end)
                 if ok then restored=true;page.opened=false;break end
             end
-            if not restored then all=false end
+            if not restored then
+                all=false
+                report.restore_failure=('protection_restore_failure page=%s original=%s reason=%s'):format(
+                    hex(page.address),hex(page.original),tostring(why))
+            end
         end
         return all
     end
@@ -271,7 +319,10 @@ function M.apply(runtime,plan)
     if not ok then
         report.reason=tostring(why);report.rollback=rollback()
         report.protection_restored=restore_pages();report.status='REJECTED'
+        -- Mod-facing results carry no raw addresses as values; the diagnostic is the logged text.
+        if refused then report.guard_failure=M.describe_failure(M.explain(runtime,refused,changes))end
     end
+    if report.status~='REJECTED'then report.non_target_check='verified'end
     report.guard_queries=queries;report.guard_bytes=bytes_read
     metrics.count('transaction.applies')
     metrics.count('transaction.writes',report.writes)
@@ -281,5 +332,44 @@ function M.apply(runtime,plan)
         if field.state=='ALREADY_DESIRED'then metrics.count('transaction.already_desired_fields')end
     end
     return report
+end
+-- After a refused region query: the module containing the address, and whether every target still holds the
+-- bytes the plan expected. Raw reads use the runtime's fault-safe read (ReadProcessMemory); they cover only the
+-- plan's own target extents, follow no pointer and never feed a write.
+function M.explain(runtime,failure,changes)
+    local module=runtime.module_at and runtime.module_at(failure.address)
+    failure.module=module and module.name or'none'
+    failure.module_offset=module and failure.address-module.base or nil
+    local matched,differ,unreadable=0,0,0
+    for _,change in ipairs(changes)do
+        local value=runtime.read(change.owner.base+change.offset,#change.before)
+        if type(value)~='string'or#value~=#change.before then unreadable=unreadable+1
+        elseif value==change.before then matched=matched+1 else differ=differ+1 end
+    end
+    failure.expected_bytes=unreadable>0 and'unreadable'or differ>0 and'differ'or'match'
+    failure.targets_matched,failure.targets_differ,failure.targets_unreadable=matched,differ,unreadable
+    return failure
+end
+-- One log line for a refused region query (Proton/Wine support reports).
+function M.describe_failure(failure)
+    return ('guard_failure address=%s failed=%s region=%s+%s state=%s type=%s protect=%s allocation_base=%s '
+        ..'allocation_protect=%s expected_allocation_base=%s expected_size=%s expected_type=%s expected_protect=%s '
+        ..'module=%s%s expected_bytes=%s (%d match, %d differ, %d unreadable)'):format(hex(failure.address),
+        table.concat(failure.failed,','),hex(failure.region_base),hex(failure.region_size),hex(failure.state),
+        hex(failure.type),hex(failure.protect),hex(failure.allocation_base),hex(failure.allocation_protect),
+        hex(failure.owner_base),hex(failure.owner_size),hex(failure.expected_type),hex(failure.expected_protect),
+        tostring(failure.module),failure.module_offset and('+'..hex(failure.module_offset))or'',
+        tostring(failure.expected_bytes),failure.targets_matched or 0,failure.targets_differ or 0,
+        failure.targets_unreadable or 0)
+end
+-- The report lines every write API logs. Successful lines are unchanged; a rejection also says how far the
+-- non-target comparison got and, after a refused region query, what the memory looked like.
+function M.report_lines(result)
+    local lines={'non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged)
+        ..(result.status=='REJECTED'and result.non_target_check and' non_target_check='..result.non_target_check or'')}
+    if result.guard_failure then lines[#lines+1]=result.guard_failure end
+    if result.restore_failure then lines[#lines+1]=result.restore_failure end
+    lines[#lines+1]='protection_restored='..tostring(result.protection_restored)
+    return lines
 end
 return M

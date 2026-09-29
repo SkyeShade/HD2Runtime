@@ -118,6 +118,54 @@ verifies the result; unknown interference fails closed. Failure can leave a
 partial patch when ownership/interference prevents safe rollback, which is
 reported rather than concealed.
 
+## Reading a rejection (Proton and Wine reports)
+
+`non_target_bytes_unchanged=true` is set only after every captured context
+matched. On a rejection the log adds `non_target_check`, which says how far the
+comparison got:
+
+- `not_reached`: validation stopped before any comparison completed.
+  `non_target_bytes_unchanged=false` then says nothing about the bytes; nothing
+  was read as changed, opened or written.
+- `checked`: the contexts matched before the failure.
+- `mismatch`: bytes around a target changed.
+
+A refused region query (`allocation ownership/protection changed`) also logs one
+`guard_failure` line. The guard itself is unchanged; the line only names the
+reason and what the memory looked like:
+
+```text
+[HD2Runtime] non_target_bytes_unchanged=false non_target_check=not_reached
+[HD2Runtime] guard_failure address=0x... failed=protection region=0x...+0x1000 state=0x1000 type=0x20000 protect=0x40 allocation_base=0x... allocation_protect=0x40 expected_allocation_base=0x... expected_size=0x... expected_type=0x20000 expected_protect=0x4 module=none expected_bytes=match (1 match, 0 differ, 0 unreadable)
+```
+
+- `failed` lists every condition that did not hold: `query_failed`, `extent`,
+  `address_outside_region`, `state` (not committed), `allocation_base` (another
+  allocation), `type` (not the captured private/image type) or `protection`
+  (not READONLY or READWRITE).
+- `region`, `state`, `type`, `protect`, `allocation_base` and
+  `allocation_protect` are the query's answer. The `expected_*` values are what
+  resolution captured.
+- `module` names the loaded module that contains the address, if any.
+- `expected_bytes` compares every target with the bytes the plan expected. It
+  uses a fault-safe read and reads only the plan's own targets, following no
+  pointer.
+
+The first refused query is the one reported. It can be a target page (the
+rejection happens before any page is opened) or a captured context, read again
+inside the guarded section. A protection restore that fails after its retries
+logs `protection_restore_failure page=... original=... reason=...`.
+
+Runtime does not accept other protections or allocation layouts on Wine or
+Proton (for example PAGE_EXECUTE_READWRITE heap pages). Nothing proves offline
+that such a page behaves like the Windows one it replaces. A `guard_failure`
+line from an affected system is the evidence needed to decide that.
+`tests/test_transaction.py` covers these cases with a fault-injecting memory:
+an unchanged region, a benign subdivision into one-page regions of the same
+allocation (accepted), a changed protection, a changed allocation base, a true
+replacement (other allocation, other type, other bytes), a failed query and a
+failed restore.
+
 ## Package and tests
 
 From a clean commit:

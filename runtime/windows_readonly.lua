@@ -72,7 +72,8 @@ local function create_runtime()
         return {base=tonumber(ffi.cast('uintptr_t',region[0].base)),
             allocation_base=tonumber(ffi.cast('uintptr_t',region[0].allocation_base)),
             size=tonumber(region[0].size),state=tonumber(region[0].state),
-            protect=tonumber(region[0].protection),type=tonumber(region[0].type)}
+            protect=tonumber(region[0].protection),type=tonumber(region[0].type),
+            allocation_protect=tonumber(region[0].allocation_protection)}
     end
 
     function runtime.read(address,size)
@@ -109,6 +110,27 @@ local function create_runtime()
             current_process_id=tonumber(ffi.cast('uint32_t (*)(void)',address)())
         end
         return current_process_id
+    end
+    -- The loaded module containing an address, for guard-failure diagnostics only: {base, name} or nil. Uses
+    -- GetModuleHandleExA(FROM_ADDRESS | UNCHANGED_REFCOUNT) through GetProcAddress (no global FFI declaration);
+    -- it takes no reference and reads no memory.
+    local module_from_address
+    function runtime.module_at(address)
+        if module_from_address==nil then
+            local export=kernel.GetProcAddress(kernel.GetModuleHandleA('kernel32.dll'),'GetModuleHandleExA')
+            module_from_address=export~=nil and ffi.cast('int (*)(uint32_t,const void *,void **)',export)or false
+        end
+        if not module_from_address then return nil end
+        local handle=ffi.new('void *[1]')
+        if module_from_address(6,ffi.cast('const void *',address),handle)==0 or handle[0]==nil then return nil end
+        local path=ffi.new('uint16_t[1024]')
+        local length=tonumber(kernel.GetModuleFileNameW(handle[0],path,1024))
+        local name={}
+        for index=0,length-1 do
+            local unit=path[index]
+            if unit==92 or unit==47 then name={}else name[#name+1]=unit<128 and string.char(unit)or'?'end
+        end
+        return {base=tonumber(ffi.cast('uintptr_t',handle[0])),name=table.concat(name)}
     end
     local counter,frequency=ffi.new('int64_t[1]'),ffi.new('int64_t[1]')
     kernel.QueryPerformanceFrequency(frequency)

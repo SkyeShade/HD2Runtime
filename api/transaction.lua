@@ -130,8 +130,7 @@ function M.start_spec(runtime,emit,spec,startup_delay)
                 else log(change.field..' already '..value_text(change.value))end
             end
         end
-        log('non_target_bytes_unchanged='..tostring(result.non_target_bytes_unchanged))
-        log('protection_restored='..tostring(result.protection_restored))
+        for _,line in ipairs(writer.report_lines(result))do log(line)end
         if result.status=='REJECTED' then
             log('transaction '..spec.id..' rollback='..result.rollback..' writes='..result.writes
                 ..' protection_changes='..result.protection_changes
