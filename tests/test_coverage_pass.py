@@ -37,8 +37,14 @@ class SentryTests(unittest.TestCase):
             self.assertEqual(fields['turret.pitch_speed']['currentDefault'], table['verticalTurnSpeed'])
             self.assertEqual([fields['turret.pitch_min']['currentDefault'], fields['turret.pitch_max']['currentDefault']],
                 table['verticalLimit'])
-            for field in fields.values():
-                self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+            for field_id, field in fields.items():
+                # Turn speeds are live-proven (SentryTurnSpeed); the untested aim limits keep the acknowledgement.
+                if field_id in ('turret.yaw_speed', 'turret.pitch_speed'):
+                    self.assertIsNone(field.get('acknowledgement'))
+                    self.assertEqual(field['liveEvidence']['family'], 'sentry_turret_turn_speed')
+                else:
+                    self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+                    self.assertNotIn('liveEvidence', field)
                 self.assertFalse(field['shared'])
                 self.assertEqual(field['backingObjectKind'], 'TurretComponentData')
         autocannon = self.fields('A/AC-8 Autocannon Sentry', 'turret')
@@ -60,6 +66,9 @@ class SentryTests(unittest.TestCase):
         self.assertEqual(sum(1 for field in ranges.values() if field), 10)
         self.assertEqual(ranges['A/M-12 Mortar Sentry']['currentDefault'], 125.0)
         self.assertEqual(ranges['A/ARC-3 Tesla Tower']['currentDefault'], 25.0)
+        for field in filter(None, ranges.values()):     # live-proven (SentryDetectionRange)
+            self.assertIsNone(field.get('acknowledgement'))
+            self.assertEqual(field['liveEvidence']['tests'], ['SentryDetectionRange'])
 
     def test_sentry_lifetime_uses_the_gameplay_proven_member(self):
         for name in TURRETED:
@@ -77,10 +86,10 @@ local transactions=require('hd2runtime/domains/transactions')
 local entity=hd2.stratagem('A/AC-8 Autocannon Sentry'):deployed_entity()
 local turret=entity:turret()
 assert(turret.path=='turret' and #turret:describe().fields==6 and turret:describe().turret)
-transactions.validate{id='turn',target=turret,allow_unverified_effect=true,changes={
+transactions.validate{id='turn',target=turret,changes={
  {field=hd2.fields.turret.yaw_speed,expect=20,value=120},{field=hd2.fields.turret.pitch_speed,expect=20,value=90}}}
-local ok,why=pcall(patches.validate,{id='turn',target=turret,field=hd2.fields.turret.yaw_speed,expect=20,value=120})
-assert(not ok and tostring(why):find('allow_unverified_effect',1,true),why)
+local ok,why=pcall(patches.validate,{id='turn',target=turret,field=hd2.fields.turret.pitch_min,expect=-60,value=-30})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true),tostring(why))
 ok,why=pcall(patches.validate,{id='turn',target=turret,allow_unverified_effect=true,
  field=hd2.fields.turret.yaw_speed,expect=20,value=5000})
 assert(not ok and tostring(why):find('reviewed range',1,true),why)
@@ -88,7 +97,7 @@ ok,why=pcall(patches.validate,{id='turn',target=turret,allow_unverified_effect=t
  field=hd2.fields.turret.yaw_speed,expect=80,value=120})
 assert(not ok and tostring(why):find('expect differs',1,true),why)
 local targeting=hd2.stratagem('A/MG-43 Machine Gun Sentry'):deployed_entity():targeting()
-patches.validate{id='range',target=targeting,allow_unverified_effect=true,field=hd2.fields.targeting.range,expect=75,value=25}
+patches.validate{id='range',target=targeting,field=hd2.fields.targeting.range,expect=75,value=25}
 assert(not pcall(function()return hd2.stratagem('A/ARC-3 Tesla Tower'):deployed_entity():turret()end))
 assert(hd2.stratagem('A/ARC-3 Tesla Tower'):deployed_entity():targeting():describe().targeting.range==25)
 patches.validate{id='life',target=entity,field=hd2.fields.payload.entity_lifetime,expect=150,value=300}
@@ -125,11 +134,16 @@ class MineCountTests(unittest.TestCase):
             salvos, per_salvo = MINES[field['target']['stratagem']]
             baseline = salvos if field['semanticFieldId'] == 'minefield.salvos' else per_salvo
             self.assertEqual((field['currentDefault'], field['min'], field['max']), (baseline, 1, baseline))
-            self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+            if field['semanticFieldId'] == 'minefield.salvos':          # live-proven (MinefieldSalvos)
+                self.assertIsNone(field.get('acknowledgement'))
+                self.assertEqual(field['liveEvidence']['family'], 'minefield_salvos')
+            else:
+                self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
             self.assertEqual(field['target']['path'], 'minefield')
             self.assertFalse(field['shared'])
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['minefield']
-        self.assertEqual(record['rejections'], {'increase': 2, 'acknowledgement': 2})
+        self.assertEqual(record['rejections'], {'increase': 2, 'acknowledgement': 1})
+        self.assertEqual(record['liveProvenWithoutAcknowledgement'], 'minefield.salvos')
 
     def test_api(self):
         run('''
@@ -138,7 +152,10 @@ local patches=require('hd2runtime/domains/patches')
 local mines=hd2.stratagem('MD-6 Anti-Personnel Minefield'):deployed_entity():minefield()
 local d=mines:describe()
 assert(#d.fields==2 and d.minefield.launchSockets==48 and d.minefield.salvos==6)
-patches.validate{id='m',target=mines,allow_unverified_effect=true,field=hd2.fields.minefield.salvos,expect=6,value=2}
+assert(d.minefield.deploymentPattern:find('truncates the angular deployment',1,true))
+patches.validate{id='m',target=mines,field=hd2.fields.minefield.salvos,expect=6,value=2}
+local ok0,why0=pcall(patches.validate,{id='m',target=mines,field=hd2.fields.minefield.mines_per_salvo,expect=8,value=4})
+assert(not ok0 and tostring(why0):find('allow_unverified_effect',1,true),tostring(why0))
 local ok,why=pcall(patches.validate,{id='m',target=mines,allow_unverified_effect=true,
  field=hd2.fields.minefield.mines_per_salvo,expect=8,value=9})
 assert(not ok and tostring(why):find('range',1,true),why)
@@ -192,9 +209,19 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(coyote['damage.status_1_type']['currentDefault'], 'fire')
         self.assertTrue(coyote['damage.status_1_type']['allowNone'])          # the last used slot
         self.assertEqual(coyote['damage.status_2_type']['currentDefault'], 'none')
+        # Projectile direct-hit rows are live-proven (LiberatorFireStatus, MaxigunStun); other rows stay gated.
         for field in liberator.values():
-            self.assertEqual(field['acknowledgement'], 'allow_unverified_effect')
+            self.assertIsNone(field.get('acknowledgement'))
+            self.assertEqual(field['liveEvidence']['family'], 'weapon_projectile_status_reference')
+        hatchet = slots('CQC-5 Combat Hatchet')          # melee row
+        self.assertTrue(hatchet and all(f['acknowledgement'] == 'allow_unverified_effect' for f in hatchet.values()))
+        promoted = [f for w in self.player.values() for f in w['fields'] if f.get('statusSlot')]
+        self.assertEqual(sum(1 for f in promoted if f.get('liveEvidence')), 141)
+        self.assertEqual(sum(1 for f in promoted if f.get('acknowledgement')), 35)
         self.assertEqual(set(liberator['damage.status_1_type']['allowedValues']), ATTACHABLE)
+        observed = {s['semanticId']: s.get('liveObserved') for s in self.catalog['statuses']}
+        self.assertEqual(observed['fire'][0]['test'], 'LiberatorFireStatus')
+        self.assertIn('1-2 s', observed['stun_medium'][0]['observation'])
 
     def test_snapshot_validation_record(self):
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())
@@ -203,8 +230,9 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(set(slots['attached']), {'maxigun_stun', 'liberator_fire'})
         self.assertEqual(slots['attached']['maxigun_stun']['status'], 'stun_medium')
         self.assertEqual(slots['attached']['liberator_fire']['status'], 'fire')
-        self.assertEqual(slots['rejections'], {'acknowledgement': 2, 'middleSlotClear': 1, 'notAttachable': 1,
+        self.assertEqual(slots['rejections'], {'acknowledgement': 1, 'middleSlotClear': 1, 'notAttachable': 1,
             'packingHole': 1, 'staleCatalog': 1})
+        self.assertEqual(slots['liveProvenWithoutAcknowledgement'], 2)
         self.assertEqual(slots['swapped']['coyote']['to'], 'stun_small')
         self.assertEqual(slots['cleared']['flamethrower']['slot'], 3)
 
@@ -217,9 +245,11 @@ local bullets=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile(
 transactions.validate{id='stun',target=bullets,allow_shared=true,allow_unverified_effect=true,changes={
  {field=hd2.fields.damage.status_1_type,expect='none',value='stun_medium'},
  {field=hd2.fields.damage.status_1_strength,expect=0,value=2}}}
-local ok,why=pcall(transactions.validate,{id='stun',target=bullets,allow_shared=true,changes={
- {field=hd2.fields.damage.status_1_type,expect='none',value='stun_medium'}}})
-assert(not ok and tostring(why):find('allow_unverified_effect',1,true),why)
+transactions.validate{id='stun',target=bullets,allow_shared=true,changes={
+ {field=hd2.fields.damage.status_1_type,expect='none',value='stun_medium'}}}
+local ok,why=pcall(transactions.validate,{id='stun',target=hd2.weapon('CQC-5 Combat Hatchet'),changes={
+ {field=hd2.fields.damage.status_1_type,expect='none',value='fire'}}})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true),tostring(why))
 ok,why=pcall(patches.validate,{id='x',target=bullets,allow_shared=true,allow_unverified_effect=true,
  field=hd2.fields.damage.status_1_type,expect='none',value='electric'})
 assert(not ok and tostring(why):find('not attachable',1,true),why)
@@ -377,7 +407,7 @@ class EnemyTests(unittest.TestCase):
             'warrior_head_health', 'gunship_rocket_damage', 'bile_bombard_explosion_damage', 'bile_bombard_velocity',
             'gunship_rocket_blast_radius'})
         self.assertEqual(record['rejections'], {'acknowledgement': 1, 'range': 1, 'staleExpect': 1, 'sentinel': 1,
-            'attackShared': 1, 'attackAcknowledgement': 1, 'brokenMountChain': 1})
+            'attackShared': 1, 'attackAcknowledgement': 1, 'brokenMountChain': 1, 'structureAcknowledgement': 1})
 
     def test_api_and_guards(self):
         run('''
@@ -404,10 +434,14 @@ assert(not ok and tostring(why):find('not exposed',1,true),why)
 assert(not pcall(function()return hd2.enemy('Bile Titan'):zone('Upper Sac')end))
 assert(not pcall(function()return hd2.structure('Charger')end))
 local gazer=hd2.structure('Gazer')
-patches.validate{id='g',target=gazer:zone('Eye'),field=hd2.fields.zone.health,expect=700,value=70}
+patches.validate{id='g',target=gazer:zone('Eye'),allow_unverified_effect=true,field=hd2.fields.zone.health,
+ expect=700,value=70}
+local sok,swhy=pcall(patches.validate,{id='g',target=gazer,field=hd2.fields.entity.health,expect=900,value=90})
+assert(not sok and tostring(swhy):find('allow_unverified_effect',1,true),tostring(swhy))
+patches.validate{id='g',target=gazer:zone('Eye'),field=hd2.fields.zone.armor,expect=1,value=0}
 local fab=hd2.structure('spawner_factory_conscript_base')
 assert(fab:describe().wikiName==nil and fab:describe().kind=='structure')
-patches.validate{id='f',target=fab,field=hd2.fields.entity.health,expect=1500,value=150}
+patches.validate{id='f',target=fab,allow_unverified_effect=true,field=hd2.fields.entity.health,expect=1500,value=150}
 patches.validate{id='m',target=hd2.enemy('Marauder'):zone('Head'),field=hd2.fields.zone.health,expect=40,value=400}
 assert(#hd2.enemies({kind='structure'})==39 and #hd2.enemies({faction='illuminate',kind='enemy'})>0)
 return 'ok'

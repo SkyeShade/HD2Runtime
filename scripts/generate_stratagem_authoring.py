@@ -11,6 +11,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import support_callin_linkage
+import live_evidence
 import generate_entity_authoring
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -500,6 +501,14 @@ def build():
             lifetime (HellpodPayloadComponent), each published only when the research proof holds."""
             proofs = item.get('deploymentProofs') or {}
 
+            def acknowledged(field_id, family, reason):
+                """Live-proven families (schemas/live_evidence.json) publish their evidence and need no
+                acknowledgement; everything else keeps allow_unverified_effect."""
+                evidence = live_evidence.proven(family) if family else None
+                if evidence and field_id in live_evidence.family(family)['fields']:
+                    return {'liveEvidence': evidence}
+                return {'acknowledgement': 'allow_unverified_effect', 'acknowledgementReason': reason}
+
             def component_field(component_name, field_id, offset, target, provenance, extra=None):
                 component = components[component_name]
                 add_field(entry, field_id, scalar_at(component, offset),
@@ -518,8 +527,8 @@ def build():
                 for field_id, offset, low, high in (('turret.yaw_speed', 12, 1, 720), ('turret.pitch_speed', 8, 1, 720),
                         ('turret.pitch_min', 20, -90, 90), ('turret.pitch_max', 24, -90, 90)):
                     component_field('TurretComponentData', field_id, offset, target, proven,
-                        {'min': low, 'max': high, 'acknowledgement': 'allow_unverified_effect',
-                         'acknowledgementReason': TURRET_UNVERIFIED})
+                        {'min': low, 'max': high,
+                         **acknowledged(field_id, 'sentry_turret_turn_speed', TURRET_UNVERIFIED)})
                 for field_id, offset in (('turret.yaw_min', 28), ('turret.yaw_max', 32)):
                     component_field('TurretComponentData', field_id, offset, target,
                         'TurretComponent member paired with the proven vertical limits (same layout pattern, '
@@ -535,8 +544,8 @@ def build():
                     'SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries'
                     + (' (this sentry: "' + statement['text'] + '")' if statement else
                        ' (this sentry states no range of its own)'),
-                    {'min': 1, 'max': 500, 'acknowledgement': 'allow_unverified_effect',
-                     'acknowledgementReason': RANGE_UNVERIFIED})
+                    {'min': 1, 'max': 500, **acknowledged('targeting.range', 'sentry_targeting_range',
+                        RANGE_UNVERIFIED)})
                 entry['targeting'] = {'range': sensor_proof['native'], 'statement': statement,
                     'note': None if statement else ('Engagement distance may be set by the weapon (spray reach, arc '
                         'range); the sensor range bounds target acquisition only.')}
@@ -559,13 +568,14 @@ def build():
                         target, provenance=('ThrowerComponent slot-0 member equal to the wiki deployment sentence and '
                             'structured salvo/capacity fields; salvos x mines per salvo equals the launcher '
                             'distinct launch sockets'),
-                        extra={'min': 1, 'max': baseline, 'acknowledgement': 'allow_unverified_effect',
-                            'acknowledgementReason': MINE_COUNT_UNVERIFIED})
+                        extra={'min': 1, 'max': baseline,
+                            **acknowledged(field_id, 'minefield_salvos', MINE_COUNT_UNVERIFIED)})
                 entry['minefield'] = {'proof': count['wiki']['statement']['text'],
                     'salvos': count['native']['salvos'], 'minesPerSalvo': count['native']['perSalvo'],
                     'launchSockets': count['native']['distinctLaunchSockets'],
                     'increase': ('blocked: the launcher has one launch socket per mine, so more mines than sockets '
-                        'would need nodes the model does not have')}
+                        'would need nodes the model does not have'),
+                    'deploymentPattern': live_evidence.family('minefield_salvos')['behaviour']}
             lifetime = proofs.get('lifetime') or {}
             if lifetime.get('native') and 'HellpodPayloadComponentData' in components \
                     and item['name'] != 'FX-12 Shield Generator Relay':

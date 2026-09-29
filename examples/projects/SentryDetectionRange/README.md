@@ -2,8 +2,8 @@
 
 Live test: A/MG-43 Machine Gun Sentry targeting range 75 m -> 25 m.
 
-What to verify: deploy the Machine Gun Sentry in the open. Vanilla, it opens fire on enemies about 75 m away.
-With this mod it should ignore enemies until they come within roughly 25 m, even with clear line of sight.
+**Result: live-proven (2026-09-29).** The sentry ignores enemies at normal sentry distances and starts targeting
+only when they are very close. `targeting.range` no longer needs `allow_unverified_effect` on any sentry.
 
-SensorEyeComponent +0 equals the targeting range the wiki states for seven sentries (75/100/125/50 m). It is not
-gameplay-proven yet, so the operation passes allow_unverified_effect. Built only.
+What to verify: deploy the Machine Gun Sentry in the open. Vanilla, it opens fire on enemies about 75 m away. With
+this mod it ignores them until they come within roughly 25 m, even with clear line of sight.

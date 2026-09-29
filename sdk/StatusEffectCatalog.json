@@ -23,9 +23,11 @@
     "application": "per DamageInfo application: every projectile hit, every explosion, every beam / arc / spray tick, every melee strike",
     "sharedDefinitions": "status definitions (duration, tick damage) are global; editing status.duration changes every attack that applies the status",
     "acknowledgements": [
-      "allow_unverified_effect for every status slot write",
+      "none for status slots on player and support weapon projectile direct-hit rows (live-proven: LiberatorFireStatus, MaxigunStun; see sdk/LiveEvidenceCatalog.json)",
+      "allow_unverified_effect for status slots on every other row (explosion, spray, beam, arc, melee) and on vehicle mounted weapons",
       "allow_shared when the DamageInfo row is shared by several weapons"
     ],
+    "effectiveDuration": "status.duration is the duration the status definition stores. In game, Stun Medium (3 s) was observed to hold enemies for about 1-2 s; the cause is not established. Enemies carry per-class status susceptibility tables (research/status-susceptibility-F5FEE03DCFDB.json), so target-side processing may shorten it.",
     "blocked": [
       "adding a fifth status (the slot array is fixed at four)",
       "statuses only enemies, terrain, weather, stims or other systems apply",
@@ -256,7 +258,15 @@
       "attachableReason": null,
       "sharedGlobal": true,
       "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
-      "durationField": "status.duration (shared: every attack applying this status)"
+      "durationField": "status.duration (shared: every attack applying this status)",
+      "liveObserved": [
+        {
+          "test": "LiberatorFireStatus",
+          "date": "2026-09-29",
+          "target": "AR-23 Liberator / primary projectile damage",
+          "observation": "Liberator bullets set enemies on fire; the ballistic attack otherwise behaved normally."
+        }
+      ]
     },
     {
       "semanticId": "lava",
@@ -985,7 +995,15 @@
       "attachableReason": null,
       "sharedGlobal": true,
       "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
-      "durationField": "status.duration (shared: every attack applying this status)"
+      "durationField": "status.duration (shared: every attack applying this status)",
+      "liveObserved": [
+        {
+          "test": "MaxigunStun",
+          "date": "2026-09-29",
+          "target": "M-1000 Maxigun / primary projectile damage",
+          "observation": "Maxigun bullets stun enemies. The observed stun lasted about 1-2 s rather than the catalogued 3 s of Stun Medium. The cause is not established; see research/status-susceptibility-F5FEE03DCFDB.json. Status duration semantics are unchanged."
+        }
+      ]
     },
     {
       "semanticId": "stun_large",

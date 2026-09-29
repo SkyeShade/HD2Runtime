@@ -495,7 +495,9 @@ def build(catalog_path=CATALOG):
                     slot_field['writeScope']='shared_projectile_damage_definition'
                     slot_field['affectsMultipleWeapons']=True
                     slot_field['dynamicConsumersPossible']=True
-                slot_field.update(status_fields.type_extra(spec))
+                # Direct-hit projectile rows are live-proven (schemas/live_evidence.json); other rows stay gated.
+                slot_field.update(status_fields.type_extra(spec,
+                    status_fields.projectile_live_evidence() if kind=='Projectile' else None))
                 if spec['role']=='type' or spec['attach']:fields.append(slot_field)
             status=attack.get('statusEffects')
             if isinstance(status,list):

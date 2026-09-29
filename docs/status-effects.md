@@ -61,7 +61,7 @@ Each damage object has `damage.status_<k>_type` for every used slot, plus `damag
 ```lua
 local bullets=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile()
 hd2.ensure({plan={id='maxigun-stun',operations={
-    {id='stun',target=bullets,allow_shared=true,allow_unverified_effect=true,changes={
+    {id='stun',target=bullets,allow_shared=true,changes={
         {field=hd2.fields.damage.status_1_type,expect='none',value='stun_medium'},
         {field=hd2.fields.damage.status_1_strength,expect=0,value=2}}},
 }}})
@@ -75,8 +75,13 @@ hd2.ensure({plan={id='maxigun-stun',operations={
 - **Duration.** Editing a status's definition (`status.duration`) is a different operation from choosing which
   status an attack applies. Duration edits are shared by every attack that applies the status.
 - **Acknowledgements.**
-  - Every status slot write needs `allow_unverified_effect`: the mechanism is native, but a status on an attack
-    that does not already use it is not gameplay-proven.
+  - **Player and support weapon projectile (direct-hit) rows need no `allow_unverified_effect`.** Attaching,
+    swapping and clearing statuses there is live-proven (see below). These fields carry a `liveEvidence` reference.
+  - Every other row still needs `allow_unverified_effect`:
+    - explosion, spray, beam, arc and melee DamageInfo rows;
+    - vehicle mounted weapons.
+
+    The slot mechanism is the same, but no live test has exercised those rows.
   - Rows shared by several weapons also need `allow_shared`, like every other settings write.
 
 ## Guards
@@ -104,11 +109,27 @@ pointers masked.
   yet accept status references.
 - Enemy-only statuses on player weapons (acid, electric).
 
-## Live tests (built only; not yet gameplay-confirmed)
+## Live tests (2026-09-29, [live evidence](live-evidence.md))
 
-- `MaxigunStun`: Maxigun bullets apply `stun_medium`, strength 2 (the Pacifier/Pummeler value).
-- `LiberatorFireStatus`: Liberator bullets apply `fire`, strength 2 (the Coyote value). The row is shared with
-  the Liberator Carbine and StA-52.
+- **`LiberatorFireStatus` passed.** Liberator bullets apply `fire` (strength 2, the Coyote value) and set enemies on
+  fire, while the ballistic attack otherwise behaves normally. The row is shared with the Liberator Carbine and
+  StA-52.
+- **`MaxigunStun` passed.** Maxigun bullets apply `stun_medium` (strength 2, the Pacifier/Pummeler value) and stun
+  enemies.
+- **Observed duration.** The Maxigun stun held Hunters, Berserkers and Devastators for about 1-2 s, not the 3 s that
+  Stun Medium's definition stores. The observation is recorded as reported; its cause is not established.
+
+The offline follow-up (`scripts/research_status_susceptibility.py` → `research/status-susceptibility-F5FEE03DCFDB.json`)
+found that target-side status processing exists:
+- Every enemy class's StatusEffectReceiverComponent holds, per status zone, a table of 33 `StatusEffectSusceptibility`
+  entries. Each entry is keyed by a susceptibility type and holds a value pair.
+- The pairs scale with the enemy. For one type: Warrior 2.1/3.3, Hunter 1/2, Devastator 6.2/8, Charger 8.5/10,
+  Hulk 9/13.
+- The type names are stripped, so which entry governs stun, and whether a pair is a duration range, a strength
+  threshold or a resistance, is not identified.
+
+So a shorter effective stun is consistent with target-side processing, but nothing is proven. `status.duration` keeps
+its meaning: the duration the status definition stores.
 
 An explosion-status swap was not built as a separate test: explosions apply statuses through the same slots of their
 own DamageInfo row, so there is no distinct mechanism to test.

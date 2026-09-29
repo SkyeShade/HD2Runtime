@@ -3,8 +3,9 @@
 Live test: A/AC-8 Autocannon Sentry horizontal turn speed 20 -> 120 degrees per second and vertical turn speed
 20 -> 90 degrees per second.
 
-What to verify: deploy the Autocannon Sentry and let enemies approach from the side and from behind. The vanilla
-sentry needs about 9 seconds to turn around; with this mod it should snap onto targets in under 2 seconds.
+**Result: live-proven (2026-09-29).** The sentry turns dramatically faster; the difference is obvious in play.
+`turret.yaw_speed` and `turret.pitch_speed` no longer need `allow_unverified_effect` on any turreted sentry. The aim
+limits (`turret.pitch_min/max`, `turret.yaw_min/max`) were not tested and still need it.
 
-The values are the TurretComponent members that equal the wiki's Horizontal/Vertical Turn Speed on every turreted
-sentry. They are not gameplay-proven yet, so the operation passes allow_unverified_effect. Built only.
+What to verify: deploy the Autocannon Sentry and let enemies approach from the side and from behind. The vanilla
+sentry needs about 9 seconds to turn around; with this mod it snaps onto targets in well under 2 seconds.

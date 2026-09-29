@@ -15003,8 +15003,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -15153,8 +15162,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -21121,8 +21139,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -21251,8 +21278,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -43189,8 +43225,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -43321,8 +43366,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -49096,8 +49150,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -49226,8 +49289,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -55131,8 +55203,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -55275,8 +55356,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -55415,8 +55505,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -70276,8 +70375,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -70428,8 +70536,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -75736,8 +75853,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -75866,8 +75992,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -81901,8 +82036,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -82053,8 +82197,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -87681,8 +87834,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -87821,8 +87983,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -98539,8 +98710,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -98669,8 +98849,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -104048,8 +104237,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -104178,8 +104376,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -108021,8 +108228,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -108153,8 +108369,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -112225,8 +112450,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -112357,8 +112591,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -116429,8 +116672,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -116561,8 +116813,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -120103,8 +120364,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -120233,8 +120503,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -131613,8 +131892,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -131753,8 +132041,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -138311,8 +138608,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -138481,8 +138787,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -145174,8 +145489,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -145304,8 +145628,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -149759,8 +150092,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -149937,8 +150279,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -150115,8 +150466,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -150289,8 +150649,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -156872,8 +157241,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [
@@ -157002,8 +157380,17 @@
         "phase": 1,
         "dependencies": [],
         "allowSharedRequired": true,
-        "acknowledgement": "allow_unverified_effect",
-        "acknowledgementReason": "The slot mechanism is native and the status is one a player-side attack already applies, but a status on an attack that does not use it is not gameplay-proven; allow_unverified_effect is required."
+        "acknowledgement": null,
+        "acknowledgementReason": null
+      },
+      "liveEvidence": {
+        "status": "live_proven",
+        "family": "weapon_projectile_status_reference",
+        "tests": [
+          "LiberatorFireStatus",
+          "MaxigunStun"
+        ],
+        "date": "2026-09-29"
       },
       "resolution": {
         "rootChain": [

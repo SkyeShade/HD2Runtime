@@ -90,11 +90,16 @@ local worker=coroutine.create(function()
   assert(strength_part.offset==type_part.offset+4,case.key..' strength is not the slot companion')
   s.attached[case.key]={weapon=case.weapon,status=case.status,strength=case.value,writes=applied.writes,
    slot=1,before=b.hex(type_part.before..strength_part.before),after=b.hex(type_part.desired..strength_part.desired)}
-  -- The same write without acknowledging the unverified effect is rejected before any memory access.
-  rejects(function()transaction(target(case.resource,case.weapon),{{field=case.type,expect='none',value=case.status}},
-   {allow_unverified_effect=false})end,'allow_unverified_effect',case.key..' acknowledgement')
-  s.rejections.acknowledgement=(s.rejections.acknowledgement or 0)+1
+  -- Projectile direct-hit rows are live-proven (schemas/live_evidence.json): the write needs no acknowledgement.
+  transaction(target(case.resource,case.weapon),{{field=case.type,expect='none',value=case.status}},
+   {allow_unverified_effect=false})
+  s.liveProvenWithoutAcknowledgement=(s.liveProvenWithoutAcknowledgement or 0)+1
  end
+ -- Rows outside the live-proven family (here a melee row) still need allow_unverified_effect.
+ rejects(function()transaction({resource='player_weapon',path='weapon',weapon='CQC-5 Combat Hatchet'},
+  {{field='damage.status_1_type',expect='none',value='fire'}},{allow_unverified_effect=false})end,
+  'allow_unverified_effect','melee status acknowledgement')
+ s.rejections.acknowledgement=1
  -- Swapping a used slot's status.
  reset()
  local coyote=target('player_weapon','AR-2 Coyote')
@@ -190,8 +195,12 @@ local worker=coroutine.create(function()
  enemy_round_trip('charger_health',charger,'entity.health',2400,240)
  enemy_round_trip('charger_head_armor',{resource='enemy',enemy='Charger',path='damage_zone',zone='zone_0'},
   'zone.armor',4,1)
- enemy_round_trip('fabricator_health',{resource='enemy',enemy='spawner_factory_conscript_base',path='entity'},
-  'entity.health',1500,150)
+ local fabricator={resource='enemy',enemy='spawner_factory_conscript_base',path='entity'}
+ enemy_round_trip('fabricator_health',fabricator,'entity.health',1500,150,{allow_unverified_effect=true})
+ -- Structure health is offline-proven only (inconclusive live test): it needs allow_unverified_effect.
+ rejects(function()enemies.validate_patch({id='x',target=fabricator,field='entity.health',expect=1500,value=150})end,
+  'allow_unverified_effect','structure health acknowledgement')
+ e.rejections.structureAcknowledgement=1
  enemy_round_trip('warrior_head_health',{resource='enemy',enemy='warrior_base',path='damage_zone',zone='zone_0'},
   'zone.health',enemy_db.enemies.warrior_base.fields[7].currentDefault,1)
  rejects(function()enemies.validate_patch({id='x',target=charger,field='entity.constitution',expect=750,value=0})end,
@@ -293,10 +302,16 @@ local worker=coroutine.create(function()
   m.roundTrips[case[1]]={field=case[2],from=case[3],to=case[4]}
   rejects(function()stratagems.validate_patch({id='x',target=mine,allow_unverified_effect=true,field=case[2],
    expect=case[3],value=case[3]+1})end,'range','increase')
-  rejects(function()stratagems.validate_patch({id='x',target=mine,field=case[2],expect=case[3],value=case[4]})end,
-   'allow_unverified_effect','acknowledgement')
+  if case[2]=='minefield.salvos'then
+   -- Live-proven (MinefieldSalvos): no acknowledgement needed.
+   stratagems.validate_patch({id='x',target=mine,field=case[2],expect=case[3],value=case[4]})
+   m.liveProvenWithoutAcknowledgement=case[2]
+  else
+   rejects(function()stratagems.validate_patch({id='x',target=mine,field=case[2],expect=case[3],value=case[4]})end,
+    'allow_unverified_effect','acknowledgement')
+  end
  end
- m.rejections={increase=2,acknowledgement=2}
+ m.rejections={increase=2,acknowledgement=1}
  reset()
  result.writes=counts.writes;result.protectionChanges=counts.protection_changes
  source.close()
