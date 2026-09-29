@@ -1,5 +1,5 @@
 {
-  "examples": 58,
+  "examples": 60,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -2108,6 +2108,58 @@
       "versionReasons": [
         "typed writes -> 0.23.2",
         "weapon.third_person_reticle -> 0.26.0"
+      ]
+    },
+    "SentryDetectionRange": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "sentry-detection-range",
+          "mode": "patch",
+          "path": "targeting",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "SentryTurnSpeed": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "turret",
+          "mode": "transaction",
+          "path": "turret",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
       ]
     },
     "ShieldGrenadeDurability": {

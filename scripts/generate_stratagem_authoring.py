@@ -132,6 +132,12 @@ USES_UNVERIFIED = ('StratagemInfo +80 is the native mission-use count (0xFFFFFFF
     'for the FRV and most stratagems); only Exosuit 3 -> unlimited is gameplay-proven (reference mod).')
 EAGLE_USES = ('On Eagle stratagems the same native field is uses per rearm (eagle.uses_per_rearm); Eagles have no '
     'separate mission-use limit.')
+TURRET_UNVERIFIED = ('TurretComponent turn speeds and vertical limits equal the wiki detailed tables on all nine turreted '
+    'sentries, but no live write has confirmed the gameplay effect yet.')
+TURRET_LIMIT_UNVERIFIED = ('Horizontal limits follow the proven vertical-limit layout (every sentry: -180/180, fixed '
+    'enemy mounts: narrower arcs) but no published table or live write confirms them.')
+RANGE_UNVERIFIED = ('SensorEyeComponent +0 equals the wiki-stated targeting range of seven sentries (75/100/125/50 m), '
+    'but no live write has confirmed the gameplay effect yet.')
 USES_CAVEAT = ('Use counts are applied by the mission host; the HUD counter may keep its old value until the next '
     'mission (reference mod observation).')
 
@@ -486,6 +492,59 @@ def build():
                     return value['value'][0]
             return None
 
+        def add_deployment_fields(entry, item, components, entity, entity_target):
+            """Sentry turret motion and targeting range (TurretComponent, SensorEyeComponent) and the deployed
+            lifetime (HellpodPayloadComponent), each published only when the research proof holds."""
+            proofs = item.get('deploymentProofs') or {}
+
+            def component_field(component_name, field_id, offset, target, provenance, extra=None):
+                component = components[component_name]
+                add_field(entry, field_id, scalar_at(component, offset),
+                    {'kind': component_name, 'component': component_name, 'nativeIdentity': entity['resource'],
+                     'recordIndex': component['record_index'], 'indexRow': component['index_row'],
+                     'offset': offset, 'storage': 'f32', 'width': 4, 'ownerCount': component['ownerCount'],
+                     'uniqueOwner': component['uniqueOwner'], 'recordSha256': component.get('recordSha256'),
+                     'consumers': defensive_consumers[(component_name, component['record_index'])]},
+                    target, provenance=provenance, extra=extra)
+
+            turret_proof = proofs.get('turret') or {}
+            if turret_proof.get('exact') and 'TurretComponentData' in components:
+                target = dict(entity_target, path='turret')
+                proven = ('TurretComponent member equal to the wiki detailed-table value on every one of the nine '
+                    'turreted sentries (hidden member-name length matches the table label)')
+                for field_id, offset, low, high in (('turret.yaw_speed', 12, 1, 720), ('turret.pitch_speed', 8, 1, 720),
+                        ('turret.pitch_min', 20, -90, 90), ('turret.pitch_max', 24, -90, 90)):
+                    component_field('TurretComponentData', field_id, offset, target, proven,
+                        {'min': low, 'max': high, 'acknowledgement': 'allow_unverified_effect',
+                         'acknowledgementReason': TURRET_UNVERIFIED})
+                for field_id, offset in (('turret.yaw_min', 28), ('turret.yaw_max', 32)):
+                    component_field('TurretComponentData', field_id, offset, target,
+                        'TurretComponent member paired with the proven vertical limits (same layout pattern, '
+                        'constrained arcs on fixed enemy mounts); no published table',
+                        {'min': -180, 'max': 180, 'acknowledgement': 'allow_unverified_effect',
+                         'acknowledgementReason': TURRET_LIMIT_UNVERIFIED})
+                entry['turret'] = {'proof': 'wiki detailed tables (Horizontal/Vertical Turn Speed, Vertical Limit)',
+                    'native': turret_proof['native'], 'wikiChecks': turret_proof['wikiChecks']}
+            sensor_proof = proofs.get('sensor')
+            if sensor_proof and 'SensorEyeComponentData' in components:
+                statement = sensor_proof.get('statement')
+                component_field('SensorEyeComponentData', 'targeting.range', 0, dict(entity_target, path='targeting'),
+                    'SensorEyeComponent member equal to the wiki-stated targeting range of seven sentries'
+                    + (' (this sentry: "' + statement['text'] + '")' if statement else
+                       ' (this sentry states no range of its own)'),
+                    {'min': 1, 'max': 500, 'acknowledgement': 'allow_unverified_effect',
+                     'acknowledgementReason': RANGE_UNVERIFIED})
+                entry['targeting'] = {'range': sensor_proof['native'], 'statement': statement,
+                    'note': None if statement else ('Engagement distance may be set by the weapon (spray reach, arc '
+                        'range); the sensor range bounds target acquisition only.')}
+            lifetime = proofs.get('lifetime') or {}
+            if lifetime.get('native') and 'HellpodPayloadComponentData' in components \
+                    and item['name'] != 'FX-12 Shield Generator Relay':
+                component_field('HellpodPayloadComponentData', 'payload.lifetime', 4, entity_target,
+                    'HellpodPayload lifetime member gameplay-proven by ShieldRelayImprovements; '
+                    + ('equal to the wiki detailed-table lifetime' if lifetime.get('exact') else
+                       'this entity has no published lifetime'))
+
         def attack_role(path):
             marker = '/attack:'
             start = path.index(marker) + len(marker)
@@ -604,6 +663,7 @@ def build():
                     entry['damageZones'].append({'zoneId': zone_id, 'name': zone['name'],
                         'armor': zone['armor'], 'health': zone['health'],
                         'affectsMainHealth': zone['affectsMainHealth']})
+            add_deployment_fields(entry, item, components, entity, entity_target)
             if item['name'] == 'FX-12 Shield Generator Relay':
                 relay = entity_research['shieldRelay']
                 if relay['resource'] != entity['resource']:

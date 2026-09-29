@@ -393,7 +393,8 @@ function M.new(describe)
             for _,field in ipairs(entry.fields)do
                 local path=field.target.path
                 if path=='deployed_entity' or path=='weapon' or path=='attack' or path=='shield'
-                    or path=='damage_zone' then result.fields[#result.fields+1]=public_field(field)end
+                    or path=='damage_zone' or path=='turret' or path=='targeting' then
+                    result.fields[#result.fields+1]=public_field(field)end
             end
             for role,attack in pairs(entry.attacks)do
                 local weapon=attack.weapon or 'primary'
@@ -453,6 +454,8 @@ function M.new(describe)
                         result.fields[#result.fields+1]=public_field(field)end
                 end
                 if path=='shield'then result.shield=copy(entry.shield)end
+                if path=='turret'then result.turret=copy(entry.turret)end
+                if path=='targeting'then result.targeting=copy(entry.targeting)end
                 return result
             end
             return setmetatable(target,{__index=sub})
@@ -460,6 +463,15 @@ function M.new(describe)
         function methods.shield()
             assert(entry.shield,'deployed entity has no reviewed shield configuration')
             return sub_target('shield')
+        end
+        -- Sentry turret motion (turn speeds, aim limits) and target acquisition range.
+        function methods.turret()
+            assert(entry.turret,'deployed entity has no reviewed turret: '..name)
+            return sub_target('turret')
+        end
+        function methods.targeting()
+            assert(entry.targeting,'deployed entity has no reviewed targeting sensor: '..name)
+            return sub_target('targeting')
         end
         local function zone_identity(identity)
             for _,zone in ipairs(entry.damageZones or{})do

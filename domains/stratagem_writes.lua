@@ -12,8 +12,10 @@ local component_names={'BombardmentComponentData','EagleComponentData',
     'HealthComponentData','WeaponDataComponentData','WeaponMagazineComponentData',
     'WeaponRoundsComponentData','WeaponHeatComponentData','WeaponChargeComponentData',
     'ArcWeaponComponentData','BeamWeaponComponentData','SprayWeaponComponentData',
-    'ShieldComponentData','HellpodPayloadComponentData','MinefieldComponentData'}
-local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true}
+    'ShieldComponentData','HellpodPayloadComponentData','MinefieldComponentData',
+    'TurretComponentData','SensorEyeComponentData'}
+local ENTITY_PATHS={deployed_entity=true,weapon=true,attack=true,shield=true,damage_zone=true,
+    turret=true,targeting=true}
 local GRAPH_PATHS={deployed_entity=true,weapon=true,attack=true}
 
 local function equal(a,c,storage)
@@ -48,7 +50,8 @@ local function validate_target(target)
     elseif target.path=='weapon'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
         assert(type(rawget(target,'weapon'))=='string','mounted weapon required')
-    elseif target.path=='deployed_entity' or target.path=='shield'then
+    elseif target.path=='deployed_entity' or target.path=='shield' or target.path=='turret'
+        or target.path=='targeting'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
     elseif target.path=='damage_zone'then
         assert(type(rawget(target,'entity'))=='string','deployed entity required')
@@ -87,6 +90,8 @@ local function validate_change(entry,target,item,allow_shared,allow_unverified_e
         ..' ('..tostring(field.reason)..')')
     assert(not field.shared or allow_shared,'shared field requires allow_shared=true: '..item.field)
     if field.type=='stratagem_uses'then return validate_uses(field,item,allow_unverified_effect)end
+    assert(field.acknowledgement~='allow_unverified_effect'or allow_unverified_effect,
+        'field requires allow_unverified_effect=true: '..item.field..' ('..tostring(field.acknowledgementReason)..')')
     local expected=item.expect;local desired=item.value
     assert(type(expected)=='number'and expected==expected and expected>-math.huge and expected<math.huge,
         'expect must be a finite number')
@@ -97,6 +102,10 @@ local function validate_change(entry,target,item,allow_shared,allow_unverified_e
     end
     assert(equal(expected,field.currentDefault,field.backing.storage),
         'expect differs from reviewed current value for '..item.field)
+    if field.min then
+        assert(desired>=field.min and desired<=field.max,
+            'value outside the reviewed range for '..item.field..' ('..field.min..' to '..field.max..')')
+    end
     return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
         expected=b.encode(expected,field.backing.storage),desired=b.encode(desired,field.backing.storage),
         expect=expected,value=desired}
@@ -224,9 +233,10 @@ local function collect_needs(spec)
             or kind=='WeaponHeatComponentData' or kind=='WeaponChargeComponentData'
             or kind=='ArcWeaponComponentData' or kind=='BeamWeaponComponentData'
             or kind=='SprayWeaponComponentData' or kind=='ShieldComponentData'
-            or kind=='HellpodPayloadComponentData' then needed.entity=true end
+            or kind=='HellpodPayloadComponentData' or change.descriptor.backing.component then needed.entity=true end
     end
-    if spec.target_path=='shield' or spec.target_path=='damage_zone'then needed.entity=true end
+    if spec.target_path=='shield' or spec.target_path=='damage_zone' or spec.target_path=='turret'
+        or spec.target_path=='targeting'then needed.entity=true end
     if GRAPH_PATHS[spec.target_path]then
         needed.entity=true;needed.projectile=true;needed.damage=true
         needed.explosion=true;needed.status='optional';needed.arc='optional';needed.beam='optional'

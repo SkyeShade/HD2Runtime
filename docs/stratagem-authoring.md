@@ -158,6 +158,51 @@ Every deployed entity also exposes its populated damage zones through `damage_zo
 `damage_zone(id)`, using the shared `HealthComponent` zone schema described in
 [vehicle authoring](vehicle-authoring.md).
 
+## Sentry turret motion, targeting range and lifetime
+
+Every turreted sentry (MG-43, G-16, AC-8, M-12, MLS-4X, M-23, LAS-98, FLAM-40, GM-17) exposes its turret motion
+through `hd2.stratagem(name):deployed_entity():turret()`:
+
+| Field | Native member | Proof |
+| --- | --- | --- |
+| `turret.yaw_speed` | TurretComponent +12 | equals the wiki's "Horizontal Turn Speed" on all nine sentries |
+| `turret.pitch_speed` | TurretComponent +8 | equals "Vertical Turn Speed" on all nine |
+| `turret.pitch_min` / `turret.pitch_max` | TurretComponent +20 / +24 | equal "Vertical Limit" on all nine |
+| `turret.yaw_min` / `turret.yaw_max` | TurretComponent +28 / +32 | same layout pattern as the vertical limits; see below |
+
+- Speeds are degrees per second; limits are degrees.
+- The values differ enough to prove the members: the Autocannon Sentry is 20/20 with limits −60…70; the
+  mortars are 55/55 with 35…89; the Flame Sentry is 140/140.
+- Each hidden member-name length equals the length of the wiki label in snake case.
+- The horizontal limits are −180/180 on every sentry. Fixed enemy turret mounts (bunker HMG ±30, siege engine
+  ±140) use narrower arcs in the same member, but no published table names them.
+
+`hd2.stratagem(name):deployed_entity():targeting()` exposes `targeting.range` (SensorEyeComponent +0, metres), the
+distance at which the sentry acquires targets.
+- It equals the targeting range the wiki states for seven sentries (MG-43 and G-16: 75 m; AC-8 and MLS-4X: 100 m;
+  M-23 and GM-17: 125 m; LAS-98: 50 m).
+- The Flame Sentry (50) and Tesla Tower (25) expose the same member, but their engagement distance is also bounded
+  by their weapon's reach.
+
+All turret and targeting writes need `allow_unverified_effect=true`: the values are proven, but no live write has
+confirmed the gameplay effect yet. Values are range-checked (turn speed 1–720, pitch −90…90, yaw −180…180, range
+1–500 m).
+
+`payload.lifetime` is published on every sentry and the Tesla Tower. It is the HellpodPayload member
+ShieldRelayImprovements proved in gameplay; the sentry values equal the wiki's lifetime (150 s, or 180 s for the
+mortars and laser sentry).
+
+**Not mapped (candidates only):**
+- TurretComponent +16 (1 on most sentries, 4 on the mortars).
+- TurretComponent +36/+40 (0.1 everywhere).
+- TargetingComponent timers (0.5 / 0.5 / 5 s on every sentry).
+- SensorEye +12/+16 (20/20, but 360/360 on the Autocannon Sentry).
+
+These are consistent with search intervals and aim tolerances, but no table or other independent evidence names
+them. Sentry search, retarget and retention intervals therefore stay unmapped.
+
+Live tests: `SentryTurnSpeed` (Autocannon Sentry 20 → 120/90 °/s) and `SentryDetectionRange` (MG-43 75 → 25 m).
+
 ## Vehicle and backpack call-in definitions
 
 Nine vehicle and 13 backpack StratagemDefinitions are listed with writable cooldowns. Each carries a

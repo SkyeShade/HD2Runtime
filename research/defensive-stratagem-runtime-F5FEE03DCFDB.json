@@ -468,7 +468,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -486,7 +509,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "E8AF237580865408CDAF99FB2544D6A79D88417D9DB4A317F05A07BD92F10511",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    75.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -3565,7 +3667,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "C57EEA1141318AE5F9254BBA4CD8C6B81C1EE8166FA62A20E7002F9DBAE489E4",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    4238039248
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    161490677
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    50.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    80.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -60.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    90.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    1416466242
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    408015784
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -4584,6 +4821,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 80.0,
+          "verticalTurnSpeed": 50.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "lifetime": 150.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 50.0,
+            "horizontalTurnSpeed": 80.0,
+            "verticalLimit": [
+              -60.0,
+              90.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 75.0,
+          "statement": {
+            "text": "Like most direct fire sentries, the MG-43 Sentry has a range of 75m",
+            "value": 75,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": 150.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -5111,7 +5392,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "C4D723755B47C96FC75B2244E4122B93DB156E24B5082C79550F5C594EDEBBDC",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    3.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1272
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -5129,7 +5433,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "E8AF237580865408CDAF99FB2544D6A79D88417D9DB4A317F05A07BD92F10511",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    75.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -8208,7 +8591,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "39E308C968C1F5BA9FB9FF63F08D29667E2D3FD2EBF09866B52605ED47BCC367",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    4238039248
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    161490677
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    50.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    80.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -60.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    90.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    900027677
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    4214109455
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    1176554573
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -9228,6 +9746,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 80.0,
+          "verticalTurnSpeed": 50.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "lifetime": 150.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 50.0,
+            "horizontalTurnSpeed": 80.0,
+            "verticalLimit": [
+              -60.0,
+              90.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 75.0,
+          "statement": {
+            "text": "The Gatling Sentry has a range of 75m",
+            "value": 75,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": 150.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -9719,7 +10281,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "503FDC4CF8EE8A9DA243194E2055D681EAFEB23052F143B360962DAB33DCD934",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1270
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -9737,7 +10322,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "319F282BB6DF48C3A6154B88974419016F0FDE790AC7CC0A44DD21EFB0756328",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    100.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    360.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    360.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    1176554573
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -12816,7 +13480,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "117639208EEFF00B89D7E30D3901C0DED2AE08010E491B34EC6FE23977776136",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -60.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    70.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    2085415704
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    4124110349
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    2085415704
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    4124110349
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    3371918645
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -13870,6 +14669,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 20.0,
+          "verticalTurnSpeed": 20.0,
+          "verticalLimit": [
+            -60.0,
+            70.0
+          ],
+          "lifetime": 150.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 20.0,
+            "horizontalTurnSpeed": 20.0,
+            "verticalLimit": [
+              -60.0,
+              70.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 100.0,
+          "statement": {
+            "text": "The Autocannon Sentry has a maximum range of 100m",
+            "value": 100,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": 150.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -14374,7 +15217,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -14392,7 +15258,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    125.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorProximityComponentData",
@@ -17489,7 +18434,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "F1AC5F104872A89242A1C5B21369541A67AFC39526DC1B9307FC055D0E317C31",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    4.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    35.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    89.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    1079996634
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    455030803
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    1079996634
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    455030803
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -18544,6 +19624,46 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 55.0,
+          "verticalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "lifetime": 180.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 55.0,
+            "horizontalTurnSpeed": 55.0,
+            "verticalLimit": [
+              35.0,
+              89.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 125.0,
+          "statement": null
+        },
+        "lifetime": {
+          "native": 180.0,
+          "wiki": 180.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -19066,7 +20186,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -19084,7 +20227,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "D30E36A92A06FBF2749B82BFD62130D83127A8331D789061A26B3ED227B1F7DE",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    100.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -22163,7 +23385,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "59D58EB7A3C7705C3EDDCF5CD28BCB5028E2CE6C03604C29545C27B8CC33637B",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    40.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    40.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -45.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    90.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    96469736
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    3362034574
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1032881274
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -23218,6 +24575,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 40.0,
+          "verticalTurnSpeed": 40.0,
+          "verticalLimit": [
+            -45.0,
+            90.0
+          ],
+          "lifetime": 150.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 40.0,
+            "horizontalTurnSpeed": 40.0,
+            "verticalLimit": [
+              -45.0,
+              90.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 100.0,
+          "statement": {
+            "text": "with a 100m engagement distance",
+            "value": 100,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": 150.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -23721,7 +25122,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "3CFA2F2DAB1DD24C6EB7E7310C261314A099056B090813337B3684D40CD6774F",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2523
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -23739,7 +25163,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "5C882DB72DFA82169686B10B7F4F37F194DED38154BBB44302FBDAF86E743F89",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    25.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    1441931427
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    3
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -27339,6 +28842,18 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "sensor": {
+          "native": 25.0,
+          "statement": null
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -27831,7 +29346,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -27849,7 +29387,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    125.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorProximityComponentData",
@@ -30946,7 +32563,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "BD8A3F5B18672BD6A6B7D118634E88C456B9DD556D5BF62956DDCAFDEFBE54C6",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    4.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    35.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    89.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    96469736
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    3362034574
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -32054,6 +33806,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 55.0,
+          "verticalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "lifetime": 180.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 55.0,
+            "horizontalTurnSpeed": 55.0,
+            "verticalLimit": [
+              35.0,
+              89.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 125.0,
+          "statement": {
+            "text": "The EMS mortar has a range of 125 meters",
+            "value": 125,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 180.0,
+          "wiki": 180.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -32461,7 +34257,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -32479,7 +34298,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "EB7AA435D34A9F43CFD36FF45DB33A113CE2B4D2947BCFE7DC18F19984242EAD",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    50.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    92309197
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -35558,7 +37456,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "5AC7C46559937248CEF1101209F6481E16E61093B63441ADC72F88E9504B047D",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    50.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    80.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -60.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    90.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    96469736
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    3362034574
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -36653,6 +38686,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 80.0,
+          "verticalTurnSpeed": 50.0,
+          "verticalLimit": [
+            -60.0,
+            90.0
+          ],
+          "lifetime": 180.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 50.0,
+            "horizontalTurnSpeed": 80.0,
+            "verticalLimit": [
+              -60.0,
+              90.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 50.0,
+          "statement": {
+            "text": "The Laser Sentry has a targeting range of 50m",
+            "value": 50,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 180.0,
+          "wiki": 180.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -37156,7 +39233,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "F8FCA9871A174DD48BC8E166E37ABDF3CDBCE8EE4E66084C240D6CE3900EB000",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    150.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -37174,7 +39274,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "A20E9E074D469A88F2C7DC1FE168948DD9F8A23B8EE31F9290DFA8B4FFC831CF",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    50.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -40253,7 +42432,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "79843B526E814AB4BEF14909B90FE6546C6C9E5C5B077175B1EFBF9E36528F92",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    140.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    140.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    1.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    -45.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    90.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    1467856336
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    4250965302
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1032881274
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    2436349375
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -41019,6 +43333,46 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 140.0,
+          "verticalTurnSpeed": 140.0,
+          "verticalLimit": [
+            -45.0,
+            90.0
+          ],
+          "lifetime": 150.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 140.0,
+            "horizontalTurnSpeed": 140.0,
+            "verticalLimit": [
+              -45.0,
+              90.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 50.0,
+          "statement": null
+        },
+        "lifetime": {
+          "native": 150.0,
+          "wiki": 150.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -41555,7 +43909,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "BB54B5916E644284EB0FEFEDF81845DFF69A5AE0D4E5005588D77962FD029579",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2531
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorEyeComponentData",
@@ -41573,7 +43950,86 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "11F86E8BB4E0AC9B00083FAC5FF3CB006B53389B754C1EBDB18273CB44DB65C6",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    125.0
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    -1.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    20.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "UINT32",
+                  "value": [
+                    633953555
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "UINT8",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "UINT32",
+                  "value": [
+                    13
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "UINT32",
+                  "value": [
+                    1
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    8.0
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.5
+                  ]
+                }
+              ]
             },
             {
               "name": "SensorProximityComponentData",
@@ -44670,7 +47126,142 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "2B99E2EBCCE434DB702FC60E6EDA7A2B61A34AE233F125FE65ACE6528BFE6B16",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "UINT32",
+                  "value": [
+                    701615645
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 12,
+                  "storage": "FP32",
+                  "value": [
+                    55.0
+                  ]
+                },
+                {
+                  "offset": 16,
+                  "storage": "FP32",
+                  "value": [
+                    4.0
+                  ]
+                },
+                {
+                  "offset": 20,
+                  "storage": "FP32",
+                  "value": [
+                    35.0
+                  ]
+                },
+                {
+                  "offset": 24,
+                  "storage": "FP32",
+                  "value": [
+                    89.0
+                  ]
+                },
+                {
+                  "offset": 28,
+                  "storage": "FP32",
+                  "value": [
+                    -180.0
+                  ]
+                },
+                {
+                  "offset": 32,
+                  "storage": "FP32",
+                  "value": [
+                    180.0
+                  ]
+                },
+                {
+                  "offset": 36,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 40,
+                  "storage": "FP32",
+                  "value": [
+                    0.10000000149011612
+                  ]
+                },
+                {
+                  "offset": 44,
+                  "storage": "UINT32",
+                  "value": [
+                    3524670252
+                  ]
+                },
+                {
+                  "offset": 48,
+                  "storage": "UINT32",
+                  "value": [
+                    3493248517
+                  ]
+                },
+                {
+                  "offset": 52,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 56,
+                  "storage": "UINT32",
+                  "value": [
+                    0
+                  ]
+                },
+                {
+                  "offset": 60,
+                  "storage": "UINT32",
+                  "value": [
+                    3524670252
+                  ]
+                },
+                {
+                  "offset": 64,
+                  "storage": "UINT32",
+                  "value": [
+                    3493248517
+                  ]
+                },
+                {
+                  "offset": 68,
+                  "storage": "UINT32",
+                  "value": [
+                    1305891758
+                  ]
+                },
+                {
+                  "offset": 72,
+                  "storage": "UINT32",
+                  "value": [
+                    551832871
+                  ]
+                }
+              ]
             },
             {
               "name": "AttachableComponentData",
@@ -45760,6 +48351,50 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {
+          "horizontalTurnSpeed": 55.0,
+          "verticalTurnSpeed": 55.0,
+          "verticalLimit": [
+            35.0,
+            89.0
+          ],
+          "lifetime": 180.0
+        },
+        "turret": {
+          "native": {
+            "verticalTurnSpeed": 55.0,
+            "horizontalTurnSpeed": 55.0,
+            "verticalLimit": [
+              35.0,
+              89.0
+            ],
+            "horizontalLimit": [
+              -180.0,
+              180.0
+            ]
+          },
+          "wikiChecks": {
+            "horizontalTurnSpeed": true,
+            "verticalTurnSpeed": true,
+            "verticalLimit": true
+          },
+          "exact": true
+        },
+        "sensor": {
+          "native": 125.0,
+          "statement": {
+            "text": "potential maximum targeting range of 125-meters",
+            "value": 125,
+            "exact": true
+          }
+        },
+        "lifetime": {
+          "native": 180.0,
+          "wiki": 180.0,
+          "exact": true
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -46154,7 +48789,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "AC442B022B85A6AD99634EF51B9644651007E89FB947638C728EE67C5885C4E2",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    3.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1272
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -48557,6 +51215,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": {
         "deployer": "0xF00C349422E8E320",
         "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher",
@@ -48967,7 +51633,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "AC442B022B85A6AD99634EF51B9644651007E89FB947638C728EE67C5885C4E2",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    3.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1272
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -51388,6 +54077,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": {
         "deployer": "0xBF32E12923A9A252",
         "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher_incendiary",
@@ -51809,7 +54506,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "AC442B022B85A6AD99634EF51B9644651007E89FB947638C728EE67C5885C4E2",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    3.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1272
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -54212,6 +56932,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": {
         "deployer": "0x25A2FD037B6ED25C",
         "deployerPath": null,
@@ -54570,7 +57298,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "846DDD4A0332485700940BE1F987B8C79A18AAF031A75B4C879868CBFD8B64F4",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    40.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    2418
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -56921,6 +59672,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 40.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -57315,7 +60074,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "0599A91D19BC0650DB6969D4C09BC1CFEE52CD9A51F56C5DE51F5A58D3C3DE2F",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1269
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -61446,6 +64228,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -61726,7 +64516,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "0599A91D19BC0650DB6969D4C09BC1CFEE52CD9A51F56C5DE51F5A58D3C3DE2F",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1269
+                  ]
+                }
+              ]
             },
             {
               "name": "UnitCustomizationComponentData",
@@ -64189,6 +67002,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": null,
       "importedBranches": [
         {
@@ -64560,7 +67381,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "AC442B022B85A6AD99634EF51B9644651007E89FB947638C728EE67C5885C4E2",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    3.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1272
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -66998,6 +69842,14 @@
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
         }
       },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
+        }
+      },
       "mineChain": {
         "deployer": "0xA9982969137F3D77",
         "deployerPath": "content/fac_helldivers/hellpod/mine_launcher/mine_launcher_gas",
@@ -67478,7 +70330,30 @@
               ],
               "uniqueOwner": true,
               "recordSha256": "0599A91D19BC0650DB6969D4C09BC1CFEE52CD9A51F56C5DE51F5A58D3C3DE2F",
-              "typedReferences": []
+              "typedReferences": [],
+              "fields": [
+                {
+                  "offset": 0,
+                  "storage": "FP32",
+                  "value": [
+                    2.5
+                  ]
+                },
+                {
+                  "offset": 4,
+                  "storage": "FP32",
+                  "value": [
+                    0.0
+                  ]
+                },
+                {
+                  "offset": 8,
+                  "storage": "UINT32",
+                  "value": [
+                    1269
+                  ]
+                }
+              ]
             },
             {
               "name": "HealthComponentData",
@@ -71642,6 +74517,14 @@
           "importedArmor": 2,
           "exactCorrelation": true,
           "layoutAnchor": "HealthComponentData reviewed main health/default armor layout"
+        }
+      },
+      "deploymentProofs": {
+        "wikiTable": {},
+        "lifetime": {
+          "native": 0.0,
+          "wiki": null,
+          "exact": false
         }
       },
       "mineChain": null,

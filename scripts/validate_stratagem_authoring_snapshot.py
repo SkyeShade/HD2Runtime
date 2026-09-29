@@ -48,6 +48,7 @@ local worker=coroutine.create(function()
      entity=target.entity,weapon=target.weapon,attack=target.attack,zone=target.zone},
      allow_shared=field.shared,changes={}}
     group.allow_shared=group.allow_shared or field.shared
+    if field.acknowledgement=='allow_unverified_effect'then group.allow_unverified_effect=true end
     group.changes[#group.changes+1]={field=field.semanticFieldId,
      expect=field.currentDefault,value=field.currentDefault}
     grouped[key]=group

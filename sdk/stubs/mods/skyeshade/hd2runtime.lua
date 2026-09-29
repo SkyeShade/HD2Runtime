@@ -628,6 +628,27 @@ local HD2DeployedZone = {}
 function HD2DeployedZone:describe() end
 ---@return HD2DeployedShield
 function HD2DeployedEntity:shield() end
+
+---@class HD2DeployedTurret
+---@field resource "stratagem"
+---@field path "turret"
+local HD2DeployedTurret = {}
+---Sentry turret motion: turret.yaw_speed/pitch_speed (degrees per second) and pitch_min/pitch_max/
+---yaw_min/yaw_max (degrees). Writes require allow_unverified_effect=true.
+---@return table
+function HD2DeployedTurret:describe() end
+---@return HD2DeployedTurret
+function HD2DeployedEntity:turret() end
+
+---@class HD2DeployedTargeting
+---@field resource "stratagem"
+---@field path "targeting"
+local HD2DeployedTargeting = {}
+---Sentry target acquisition: targeting.range (meters). Writes require allow_unverified_effect=true.
+---@return table
+function HD2DeployedTargeting:describe() end
+---@return HD2DeployedTargeting
+function HD2DeployedEntity:targeting() end
 ---@return HD2DeployedZone[]
 function HD2DeployedEntity:damage_zones() end
 ---@param zone string
@@ -1186,6 +1207,17 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field uses_per_rearm "eagle.uses_per_rearm"
 ---@field rearm_time "eagle.rearm_time"
 
+---@class HD2Fields_turret
+---@field yaw_speed "turret.yaw_speed"
+---@field pitch_speed "turret.pitch_speed"
+---@field pitch_min "turret.pitch_min"
+---@field pitch_max "turret.pitch_max"
+---@field yaw_min "turret.yaw_min"
+---@field yaw_max "turret.yaw_max"
+
+---@class HD2Fields_targeting
+---@field range "targeting.range"
+
 ---@class HD2Fields_zone
 ---@field armor "zone.armor"
 ---@field health "zone.health"
@@ -1260,6 +1292,8 @@ function HD2Weapon:magazine_attachment(identity) end
 ---@field windup HD2Fields_windup
 ---@field entity HD2Fields_entity
 ---@field eagle HD2Fields_eagle
+---@field turret HD2Fields_turret
+---@field targeting HD2Fields_targeting
 ---@field zone HD2Fields_zone
 ---@field jump HD2Fields_jump
 ---@field deposit HD2Fields_deposit

@@ -296,6 +296,15 @@ def outputs():
         '---@field stratagem HD2StratagemAuthoringName','---@field entity string','---@field zone string',
         'local HD2DeployedZone = {}','---@return table','function HD2DeployedZone:describe() end',
         '---@return HD2DeployedShield','function HD2DeployedEntity:shield() end',
+        '','---@class HD2DeployedTurret','---@field resource "stratagem"','---@field path "turret"','local HD2DeployedTurret = {}',
+        '---Sentry turret motion: turret.yaw_speed/pitch_speed (degrees per second) and pitch_min/pitch_max/',
+        '---yaw_min/yaw_max (degrees). Writes require allow_unverified_effect=true.',
+        '---@return table','function HD2DeployedTurret:describe() end',
+        '---@return HD2DeployedTurret','function HD2DeployedEntity:turret() end',
+        '','---@class HD2DeployedTargeting','---@field resource "stratagem"','---@field path "targeting"','local HD2DeployedTargeting = {}',
+        '---Sentry target acquisition: targeting.range (meters). Writes require allow_unverified_effect=true.',
+        '---@return table','function HD2DeployedTargeting:describe() end',
+        '---@return HD2DeployedTargeting','function HD2DeployedEntity:targeting() end',
         '---@return HD2DeployedZone[]','function HD2DeployedEntity:damage_zones() end',
         '---@param zone string','---@return HD2DeployedZone','function HD2DeployedEntity:damage_zone(zone) end']
     vehicle_names=[item['name'] for item in vehicle_authoring['vehicles']]
