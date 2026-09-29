@@ -19,14 +19,14 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(self.capabilities['schemaVersion'],2)
         self.assertEqual(self.capabilities['summary']['catalogWeapons'],35)
         self.assertEqual(self.capabilities['summary']['uniqueSupportIdentities'],27)
-        self.assertEqual(self.capabilities['summary']['writableSupportWeapons'],31)
-        self.assertEqual(self.capabilities['summary']['deliveryResolvedIdentities'],4)
-        self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],4)
-        self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],19)
-        self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],17)
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1008)
-        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1008)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],992)
+        self.assertEqual(self.capabilities['summary']['writableSupportWeapons'],34)
+        self.assertEqual(self.capabilities['summary']['deliveryResolvedIdentities'],7)
+        self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],1)
+        self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],20)
+        self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],18)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1130)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1130)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1114)
         self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],16)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],16)
         self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],32)
@@ -49,16 +49,16 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':1008,'publishedInstances':1008,
+        self.assertEqual(audit,{'internalInstances':1130,'publishedInstances':1130,
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
-        self.assertEqual(len(instances),1008)
-        self.assertEqual(len({item['instanceKey'] for item in instances}),1008)
+        self.assertEqual(len(instances),1130)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),1130)
         objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
         operations={item['operationGroupingKey']:item
             for item in self.capabilities['operationGroups']}
-        self.assertEqual(len(objects),179)
-        self.assertEqual(len(operations),188)
+        self.assertEqual(len(objects),193)
+        self.assertEqual(len(operations),206)
         required={'instanceKey','supportWeapon','supportWeaponIdentity','target','semanticFieldId',
             'qualifiedSemanticFieldId','apiFieldConstant','display','value','writable',
             'readOnly','blockedReason','backing','sharedScope','operation','resolution',
@@ -73,7 +73,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertEqual(instance['operation']['phase'],1)
             self.assertEqual(instance['target']['accessor'][0],'support_weapon')
         self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
-            for weapon in self.capabilities['weapons']),1008)
+            for weapon in self.capabilities['weapons']),1130)
 
     def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
         instances=[item for item in self.capabilities['fieldInstances']
@@ -125,15 +125,25 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertEqual(weapon['identityStatus'],'DELIVERY_RESOLVED')
             self.assertEqual(weapon['identityResolution']['basis'],'call_in_delivery_and_scraped_fingerprint')
             self.assertFalse(weapon['identityResolution']['nonDeliveredRootsAffected'])
-        for name in ('EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon','B/FLAM-80 Cremator',
-                'CQC-72 Entrenchment Tool'):
-            self.assertFalse(by_name[name]['writable'],name)
-            self.assertEqual(by_name[name]['identityStatus'],'DUPLICATE')
-        self.assertFalse(by_name['EAT-17 Expendable Anti-Tank']['writable'])
-        self.assertFalse(by_name['LAS-98 Laser Cannon']['writable'])
+        # Delivered roots identified structurally (no scraped magazine values to fingerprint).
+        for name,confirmations in (('EAT-17 Expendable Anti-Tank',['SUPPORT_WEAPON_PATH']),
+                ('LAS-98 Laser Cannon',['SUPPORT_WEAPON_PATH']),
+                ('B/FLAM-80 Cremator',['LOADOUT_PACKAGE','SUPPORT_WEAPON_PATH'])):
+            weapon=by_name[name]
+            self.assertTrue(weapon['writable'],name)
+            self.assertEqual(weapon['identityStatus'],'DELIVERY_RESOLVED')
+            self.assertEqual(weapon['identityResolution']['basis'],'call_in_delivery_and_structural_identity')
+            self.assertEqual(weapon['identityResolution']['confirmations'],confirmations)
+        self.assertFalse(by_name['CQC-72 Entrenchment Tool']['writable'])
+        self.assertEqual(by_name['CQC-72 Entrenchment Tool']['identityStatus'],'DUPLICATE')
         self.assertEqual(by_name['LAS-98 Laser Cannon']['family'],['Beam','Status'])
-        self.assertTrue(any(item['field']=='heat.* / heatsink.*' for item in
-            by_name['LAS-98 Laser Cannon']['blockedFields']))
+        self.assertIn('heat',by_name['LAS-98 Laser Cannon']['writableFieldsByDomain'])
+        eat={branch['name']:branch for branch in by_name['EAT-17 Expendable Anti-Tank']['attackBranches']}
+        self.assertTrue(eat['EAT-17 P']['writable'] and eat['EAT-17 P IE']['writable'])
+        self.assertEqual(eat['EAT-17 BACKBLAST E']['state'],'PARTIAL')
+        cremator={branch['name']:branch for branch in by_name['B/FLAM-80 Cremator']['attackBranches']}
+        self.assertTrue(cremator['B/FLAM-80 CREMATOR S']['writable'] and cremator['Fire']['writable'])
+        self.assertEqual((cremator['Fire Panic']['state'],cremator['FlamerSlowed']['state']),('PARTIAL','PARTIAL'))
         self.assertIn('charge',by_name['ARC-3 Arc Thrower']['writableFieldsByDomain'])
         self.assertIn('arc',by_name['ARC-3 Arc Thrower']['writableFieldsByDomain'])
         self.assertNotIn('weapon.fire_rate',
@@ -184,10 +194,13 @@ assert(charge.changes[1].descriptor.backing.component=='WeaponChargeComponentDat
 local mg43=writes.validate_patch{id='mg43-rate',target=hd2.support_weapon('MG-43 Machine Gun'),
  field=hd2.fields.weapon.fire_rate,expect=760,value=1000}
 assert(mg43.identity_resource~=mg43.resource and mg43.root_rack and mg43.ownership_chain[1].kind=='stratagem_payload')
-local ok,why=pcall(writes.validate_patch,{id='eat-blocked',
- target=hd2.support_weapon('EAT-17 Expendable Anti-Tank'),field=hd2.fields.weapon.fire_rate,
- expect=600,value=1000})
-assert(not ok and tostring(why):find('Duplicate runtime roots',1,true))
+local ok,why=pcall(writes.validate_patch,{id='cqc72-blocked',
+ target=hd2.support_weapon('CQC-72 Entrenchment Tool'),field=hd2.fields.weapon.ergonomics,
+ expect=0,value=10})
+assert(not ok and tostring(why):find('Duplicate runtime roots',1,true),tostring(why))
+local eat=writes.validate_patch{id='eat-damage',target=hd2.support_weapon('EAT-17 Expendable Anti-Tank'):attack(2):projectile(),
+ allow_shared=true,field=hd2.fields.projectile.velocity,expect=200,value=250}
+assert(eat.changes[1].descriptor.backing.kind=='settings')
 ok,why=pcall(writes.validate_patch,{id='reload-ack',target=hd2.support_weapon('GR-8 Recoilless Rifle'),
  field=hd2.fields.reload.duration,expect=6,value=3})
 assert(not ok and tostring(why):find('allow_unverified_effect',1,true))

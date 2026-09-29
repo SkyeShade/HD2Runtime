@@ -380,7 +380,7 @@ function M.new(describe)
             assert(attack.kind=='BeamSettings','attack is not a beam settings object');return self
         end
         local identity={resource='stratagem',stratagem=name,path='attack',attack=role}
-        if deployed then identity.entity='main';identity.weapon='primary'end
+        if deployed then identity.entity='main';identity.weapon=attack.weapon or'primary'end
         return setmetatable(identity,{__index=methods})
     end
     local function stratagem_entity(name)
@@ -874,7 +874,7 @@ function M.new(describe)
         function methods.describe()
             local result={name=entry.name,family=entry.family,rootResolution=entry.rootResolution,
                 fields={},attackRoles={},deployedEntity=entry.deployedEntity,
-                mineScopeDeferred=entry.family=='mine'}
+                mineScopeDeferred=entry.family=='mine'and not entry.mine,mine=entry.mine}
             for _,field in ipairs(entry.fields)do if field.target.path=='stratagem'then
                 result.fields[#result.fields+1]=public_field(field)end end
             for role in pairs(entry.attacks)do result.attackRoles[#result.attackRoles+1]=role end
@@ -886,6 +886,11 @@ function M.new(describe)
             return result
         end
         function methods.attack(_,role)return stratagem_attack(name,role)end
+        -- A mine stratagem's deployed-mine explosion (its MinefieldComponent explosion).
+        function methods.mine()
+            assert(entry.attacks.mine,'stratagem has no reviewed mine explosion: '..name)
+            return stratagem_attack(name,'mine')
+        end
         function methods.deployed_entity()return stratagem_entity(name)end
         -- The drop pod this call-in delivers (hellpod rack and its item slots).
         function methods.delivery()return delivery_for(pods.byStratagem[name],name)end

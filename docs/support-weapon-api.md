@@ -83,8 +83,17 @@ records, so the only open question was which root the player receives. A group i
 (`identityStatus` `DELIVERY_RESOLVED`) only when both are true:
 
 1. The linked call-in StratagemDefinition's hellpod rack attaches exactly one candidate root.
-2. That root's native magazine tuple (capacity, starting, from supply, spare) alone matches the
-   scraped values, and the other roots differ.
+2. An independent proof names that same root, and no other candidate:
+   - `WIKI_MAGAZINE`: its native magazine tuple (capacity, starting, from supply, spare) alone matches
+     the scraped values;
+   - `LOADOUT_PACKAGE`: the call-in's own package is exactly that root's loadout package;
+   - `SUPPORT_WEAPON_PATH`: it is the only candidate whose resource path lies under the carried
+     support-weapon equipment tree. The path is a `hashes.txt` string whose resource hash equals the
+     root, so it names the asset rather than guessing.
+
+`identityResolution.basis` is `call_in_delivery_and_scraped_fingerprint` when the magazine proof applies,
+otherwise `call_in_delivery_and_structural_identity`. `identityResolution.confirmations` lists every proof
+that applies.
 
 | Weapon | Result |
 | --- | --- |
@@ -92,9 +101,9 @@ records, so the only open question was which root the player receives. A group i
 | M-105 Stalwart | Resolved. Delivered root 250/2/2/3 matches; three other roots are 150/0/0/0. |
 | MG-206 Heavy Machine Gun | Resolved. Delivered root 100/1/2/2 matches; the FRV gun and another root differ. |
 | CQC-20 Breaching Hammer | Resolved. Delivered root 1/7/7/7 matches; the other root has no magazine. |
-| EAT-17 Expendable Anti-Tank | Blocked. Delivery is unique, but both roots are byte-identical in magazine and fire rate. |
-| LAS-98 Laser Cannon | Blocked. Delivery is unique, but the delivered root's reload (5.0 s) conflicts with the scraped 3.65 s. |
-| B/FLAM-80 Cremator | Blocked. Delivery is unique, but the scraped 500 capacity matches the Exosuit root, not the handheld. |
+| EAT-17 Expendable Anti-Tank | Resolved (`SUPPORT_WEAPON_PATH`). The delivered root is `equipment/support_weapons/lat_oneshot`; the other root has no resource path and no showcase, encyclopedia or customization component. Both roots have identical magazines, so the magazine proof cannot apply. |
+| LAS-98 Laser Cannon | Resolved (`SUPPORT_WEAPON_PATH`). The delivered root is `equipment/support_weapons/laser_cannon`; the others are the hellpod laser turret and an unnamed emplacement weapon. The native reload (5.0 s) still disagrees with the scraped 3.65 s. That is a value question, not an identity one. |
+| B/FLAM-80 Cremator | Resolved (`LOADOUT_PACKAGE`, `SUPPORT_WEAPON_PATH`). The delivered root is `equipment/support_weapons/heavy_flamethrower`. The other root is the Exosuit flamethrower mount (`vehicles/combat_walker_flamethrower`), whose package is empty. The scraped 500 capacity is the backpack fuel; the handheld has no magazine record. |
 | CQC-72 Entrenchment Tool | Blocked. Its two native roots share one package and matching melee records; one is a `SupportWeapon` loadout item and the other a `SidearmWeapon` item. It has no call-in (state `no_call_in`). |
 
 Resolved weapons reuse the Solo Silo chain check: every write re-proves live that the call-in
@@ -168,10 +177,11 @@ an item id ever names a different call-in than the structural link.
   `acquisition` of `world_pickup` with `nativeDeliveryProven=false`: only the absence of a call-in
   is native. On the stratagem side their `rootResolution` is `NO_CALL_IN`.
 
-Three linked weapons still have unresolved runtime roots: EAT-17, LAS-98, and B/FLAM-80. Their
-call-in links are known and their stratagem cooldowns stay writable. A relationship alone never
-lifts support-weapon write blocking; MG-43, M-105, MG-206, and CQC-20 are resolved only because
-scraped fingerprints independently confirm the delivered root (see "Delivery-resolved identities").
+A relationship alone never lifts support-weapon write blocking. Every linked duplicate group
+(MG-43, M-105, MG-206, CQC-20, EAT-17, LAS-98 and B/FLAM-80) is resolved only because an independent
+proof also names the delivered root: scraped magazine values, the call-in's package, or a
+hash-verified support-weapon resource path (see "Delivery-resolved identities"). No linked support
+weapon remains ambiguous. CQC-72 is an unlinked duplicate and stays blocked.
 
 Each relationship has a reference-only `deliveryGraph`. Its nodes name the owning view
 (`stratagem` or `support_weapon`), the semantic ID, and the target path or attack role. An editor

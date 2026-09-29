@@ -41,6 +41,11 @@ RESOURCE_FLOORS = {'booster': '0.24.0', 'vehicle_weapon': '0.26.0', 'pod_rack': 
 BOOSTER_PATH_FLOORS = {'tuning': '0.25.0', 'explosion': '0.25.0', 'status_damage': '0.25.0',
     'granted_stratagem': '0.25.0'}
 DELIVERY_RESOLVED = {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun', 'CQC-20 Breaching Hammer'}
+# Features not in any published release yet need the release that ships them, i.e. the version being built.
+UNRELEASED = (ROOT / 'VERSION').read_text().strip()
+UNRELEASED_FIELDS = {'weapon.stationary_while_firing'}
+UNRELEASED_SUPPORT_WEAPONS = {'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'}
+UNRELEASED_STRATAGEM_WEAPONS = {'mine'}   # a mine deployer's launcher owns its mine attacks
 OPTIONS_FLOOR = '0.25.1'
 LEGACY_PATTERNS = {
     r'fields\.damage\.armor_penetration': 'legacy JAR-5 armor_penetration; use damage.ap_direct/ap_slight/ap_large/ap_extreme',
@@ -204,12 +209,18 @@ def required_version(report):
             bump(BOOSTER_PATH_FLOORS[path], 'booster ' + path + '()')
         if resource == 'support_weapon' and operation.get('weapon') in DELIVERY_RESOLVED:
             bump('0.24.0', operation['weapon'])
+        if resource == 'support_weapon' and operation.get('weapon') in UNRELEASED_SUPPORT_WEAPONS:
+            bump(UNRELEASED, operation['weapon'] + ' (structurally delivery-resolved)')
+        if resource == 'stratagem' and operation.get('weapon') in UNRELEASED_STRATAGEM_WEAPONS:
+            bump(UNRELEASED, 'stratagem mine explosion')
     for phase in report.get('phases', []):
         for spec in phase:
             for field in spec['fields']:
                 generic = re.sub(r'^(projectile|damage|explosion)\.(primary|alternate|impact|expiry)\.', r'\1.', field)
                 if generic in FIELD_FLOORS:
                     bump(FIELD_FLOORS[generic], field)
+                if generic in UNRELEASED_FIELDS:
+                    bump(UNRELEASED, field)
                 if (spec['kind'], field) in KIND_FIELD_FLOORS:
                     bump(KIND_FIELD_FLOORS[(spec['kind'], field)], spec['kind'] + ' ' + field)
     return need, sorted(set(reasons))

@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_profile  # noqa: E402  central build identity (schemas/build_profile.json)
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import reticle_fields
+import weapon_movement_fields
 import fire_mode_fields
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -202,6 +203,7 @@ def build(catalog_path=CATALOG):
                 if record.get('projectileConsumerCount')is not None else{})}
 
     reticle_rows,reticle_research=reticle_fields.load()
+    movement_rows=weapon_movement_fields.load()
     fire_mode_rows,_=fire_mode_fields.load()
     weapons=[]
     for name in sorted(identities):
@@ -228,6 +230,11 @@ def build(catalog_path=CATALOG):
         for field_id,(value_key,offset,storage) in weapon_values.items():
             backend=component_backend(candidate,'WeaponDataComponentData',offset,storage)
             fields.append(make_field(field_id,resolved.get(value_key),backend,unique,blocked))
+        movement=movement_rows.get(('player',name))
+        if movement and movement['weaponData'] and unique:
+            fields.append(weapon_movement_fields.apply(make_field(weapon_movement_fields.FIELD,None,
+                component_backend(candidate,'WeaponDataComponentData',weapon_movement_fields.OFFSET,
+                    weapon_movement_fields.STORAGE),unique,blocked),movement,identity['bestCandidate']['resourceHash']))
         fields.append(make_field('weapon.crosshair_type',resolved.get('crosshair_type'),
             component_backend(candidate,'WeaponDataComponentData',400,'u32'),editable=False,
             reason=definitions['weapon.crosshair_type']['reason']))

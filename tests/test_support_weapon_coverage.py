@@ -44,21 +44,29 @@ class SupportWeaponCoverageTests(unittest.TestCase):
         self.assertEqual(acknowledged['windup.wind_up_seconds'], {None})
         self.assertEqual(acknowledged['projectile.lifetime'], {None})
         self.assertEqual(len([i for i in self.capabilities['fieldInstances']
-            if i['semanticFieldId'] == 'reload.duration']), 14)
+            if i['semanticFieldId'] == 'reload.duration']), 15)
 
     def test_delivery_resolution_requires_structure_and_fingerprint(self):
         delivery = self.research['deliveryResolution']
         resolved = {name for name, item in delivery.items() if item['decision'] == 'RESOLVED'}
         self.assertEqual(resolved, {'MG-43 Machine Gun', 'M-105 Stalwart', 'MG-206 Heavy Machine Gun',
-            'CQC-20 Breaching Hammer'})
+            'CQC-20 Breaching Hammer', 'EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'})
         for name in resolved:
             item = delivery[name]
             self.assertEqual(item['structurallyDelivered'], [item['deliveredRoot']])
-            confirmed = [root for root in item['fingerprint']['roots'] if root['matchesWiki']]
-            self.assertEqual([root['resource'] for root in confirmed], [item['deliveredRoot']])
-        for name in ('EAT-17 Expendable Anti-Tank', 'LAS-98 Laser Cannon', 'B/FLAM-80 Cremator'):
-            self.assertEqual(delivery[name]['decision'], 'BLOCKED')
-            self.assertEqual(len(delivery[name]['structurallyDelivered']), 1)
+            self.assertTrue(item['confirmations'], name)
+            if 'WIKI_MAGAZINE' in item['confirmations']:
+                confirmed = [root for root in item['fingerprint']['roots'] if root['matchesWiki']]
+                self.assertEqual([root['resource'] for root in confirmed], [item['deliveredRoot']])
+            if 'SUPPORT_WEAPON_PATH' in item['confirmations']:
+                self.assertEqual(item['structuralConfirmation']['supportWeaponPathRoots'], [item['deliveredRoot']])
+            if 'LOADOUT_PACKAGE' in item['confirmations']:
+                self.assertEqual(item['structuralConfirmation']['loadoutPackageRoots'], [item['deliveredRoot']])
+        # The three launchers/flamers with no usable magazine fingerprint are settled by structure only.
+        self.assertEqual(delivery['EAT-17 Expendable Anti-Tank']['confirmations'], ['SUPPORT_WEAPON_PATH'])
+        self.assertEqual(delivery['B/FLAM-80 Cremator']['confirmations'], ['LOADOUT_PACKAGE', 'SUPPORT_WEAPON_PATH'])
+        self.assertIn('vehicles/combat_walker_flamethrower',
+            ''.join(p or '' for p in delivery['B/FLAM-80 Cremator']['structuralConfirmation']['paths'].values()))
         self.assertIn('No uniquely correlated call-in', delivery['CQC-72 Entrenchment Tool']['reason'])
 
 

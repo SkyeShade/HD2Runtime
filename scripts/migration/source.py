@@ -303,6 +303,12 @@ def relationships(tables: dict) -> list[dict]:
         if link and link.get('payload'):
             add('component_owner', 'stratagem-root-link:' + name, name, [('stratagem_authoring', name)],
                 resource=_int(link['payload']), component=link['component'])
+        value_link = entry.get('rootComponentLink')
+        deployed = entry.get('deployedEntity') or {}
+        if value_link and deployed.get('resource'):
+            add('component_value', 'stratagem-component-link:' + name, name, [('stratagem_authoring', name)],
+                resource=_int(deployed['resource']), component=value_link['component'],
+                offset=value_link['offset'], expect=value_link['expect'])
         if entry.get('rootResolution') == 'NO_CALL_IN':
             add('no_call_in', 'no-call-in:' + name, name, [('stratagem_authoring', name)])
         add('stratagem_icon', 'stratagem-icon:' + name, name)

@@ -1939,7 +1939,7 @@
     {
       "kind": "support",
       "weapon": "EAT-17 Expendable Anti-Tank",
-      "state": "blocked",
+      "state": "single_mode",
       "modes": [
         "single"
       ],
@@ -1949,11 +1949,14 @@
         "right": "None"
       },
       "selectorBound": false,
-      "maxModes": null,
+      "maxModes": 1,
       "burstRounds": 3,
-      "writable": false,
-      "reason": "The weapon's runtime identity is ambiguous; ordinary writes fail closed.",
-      "fields": null
+      "writable": true,
+      "reason": null,
+      "fields": {
+        "modes": "fire_mode.modes",
+        "burstRounds": "fire_mode.burst_rounds"
+      }
     },
     {
       "kind": "support",
@@ -2454,13 +2457,13 @@
       "player:selectable": 30,
       "player:single_mode": 19,
       "support:absent": 2,
-      "support:blocked": 21,
+      "support:blocked": 20,
       "support:selectable": 3,
-      "support:single_mode": 9
+      "support:single_mode": 10
     },
     "resolvedModeSets": 112,
-    "writable": 61,
-    "fullAutoPossible": 61,
+    "writable": 62,
+    "fullAutoPossible": 62,
     "fullAutoAlreadyPresent": 60
   }
 }

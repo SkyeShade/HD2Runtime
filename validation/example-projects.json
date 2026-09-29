@@ -1,5 +1,5 @@
 {
-  "examples": 54,
+  "examples": 58,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -951,6 +951,34 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "CrematorBurn": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "spray",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "support_weapon",
+          "weapon": "B/FLAM-80 Cremator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "B/FLAM-80 Cremator (structurally delivery-resolved) -> 0.27.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
     "EagleProof": {
       "baselineChanges": 4,
       "calls": [
@@ -992,6 +1020,45 @@
       "status": "VALIDATED",
       "usesOptions": false,
       "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "EatHeavyWarhead": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "direct",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "EAT-17 Expendable Anti-Tank"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "blast",
+          "mode": "patch",
+          "path": "explosion",
+          "resource": "support_weapon",
+          "weapon": "EAT-17 Expendable Anti-Tank"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "EAT-17 Expendable Anti-Tank (structurally delivery-resolved) -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },
@@ -1613,6 +1680,73 @@
         "deposit.capacity -> 0.26.0",
         "deposit.refill_amount -> 0.26.0",
         "deposit.start_amount -> 0.26.0",
+        "typed writes -> 0.23.2"
+      ]
+    },
+    "MaxigunMobileFiring": {
+      "baselineChanges": 1,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "maxigun-mobile-firing",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "support_weapon",
+          "weapon": "M-1000 Maxigun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2",
+        "weapon.stationary_while_firing -> 0.27.0"
+      ]
+    },
+    "MinefieldTuning": {
+      "baselineChanges": 3,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "radius",
+          "mode": "patch",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "mine"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "damage",
+          "mode": "transaction",
+          "path": "attack",
+          "resource": "stratagem",
+          "weapon": "mine"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.27.0",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "stratagem mine explosion -> 0.27.0",
         "typed writes -> 0.23.2"
       ]
     },

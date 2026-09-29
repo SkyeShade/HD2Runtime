@@ -34,6 +34,8 @@ import research_entity_authoring as entity_research
 import snapshot_regions
 import support_callin_linkage
 
+SUPPORT_WEAPON_TREE = 'content/fac_helldivers/equipment/support_weapons/'
+
 WIKI = ROOT.parent / 'HD2WikiImporter/output'
 CATALOG = ROOT / 'schemas/support_weapon_authoring_catalog.json'
 OUTPUT = ROOT / 'research/support-weapon-coverage-F5FEE03DCFDB.json'
@@ -194,15 +196,40 @@ def main():
                     and tuple(tuple_) == tuple(int(v) for v in expected)})
         entry['fingerprint'] = {'wikiMagazine': list(expected), 'roots': prints}
         confirmed = [p for p in prints if p['matchesWiki']]
+        # Independent confirmations of the delivered root (any one suffices, on top of structural delivery):
+        # * WIKI_MAGAZINE: its native magazine tuple alone matches the scraped values;
+        # * LOADOUT_PACKAGE: the call-in's own package (StratagemDefinition.package, non-zero) is exactly this
+        #   root's LoadoutPackageComponentData package and no other candidate's;
+        # * SUPPORT_WEAPON_PATH: this root is the only candidate whose resource path (a hashes.txt preimage whose
+        #   resource hash equals the root) lies under the carried support-weapon equipment tree.
+        call_in_package = int(root['currentRoot'].get('package') or '0', 16)
+        own_packages, paths = {}, {}
+        for resource in sorted(candidates):
+            package = component(resource, 'LoadoutPackageComponentData')
+            own_packages[resource] = struct.unpack_from('<Q', package['raw'], 8)[0] if package else 0
+            paths[resource] = native.path(int(resource, 16))
+        package_roots = sorted(r for r in candidates if call_in_package and own_packages[r] == call_in_package)
+        path_roots = sorted(r for r in candidates if (paths[r] or '').startswith(SUPPORT_WEAPON_TREE))
+        confirmations = []
+        if len(confirmed) == 1 and confirmed[0]['delivered']:
+            confirmations.append('WIKI_MAGAZINE')
+        if len(delivered) == 1 and package_roots == delivered:
+            confirmations.append('LOADOUT_PACKAGE')
+        if len(delivered) == 1 and path_roots == delivered:
+            confirmations.append('SUPPORT_WEAPON_PATH')
+        entry['structuralConfirmation'] = {'callInPackageNonZero': bool(call_in_package),
+            'loadoutPackageRoots': package_roots, 'supportWeaponPathRoots': path_roots,
+            'paths': {r: paths[r] for r in sorted(candidates)}}
+        entry['confirmations'] = confirmations
         if len(delivered) != 1:
             entry['reason'] = 'Call-in rack does not attach exactly one candidate root.'
-        elif len(confirmed) != 1 or not confirmed[0]['delivered']:
-            entry['reason'] = ('Structural delivery is unique, but scraped magazine values do not independently '
-                'identify the delivered root (identical alternative or conflicting values).')
+        elif not confirmations:
+            entry['reason'] = ('Structural delivery is unique, but neither the scraped magazine values, the call-in '
+                'package nor a support-weapon resource path independently identifies the delivered root.')
         else:
             entry.update({'decision': 'RESOLVED', 'deliveredRoot': delivered[0],
-                'reason': 'Call-in rack attaches exactly this root, and its native magazine tuple alone matches '
-                    'the scraped values.'})
+                'reason': 'Call-in rack attaches exactly this root, independently confirmed by '
+                    + ', '.join(confirmations) + '.'})
         delivery[name] = entry
 
     resolved_roots = {name: item['deliveredRoot'] for name, item in delivery.items() if item['decision'] == 'RESOLVED'}

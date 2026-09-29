@@ -192,7 +192,8 @@ return 'ok'
         self.assertEqual(summary['mineRootsResolved'], 4)
         self.assertEqual(summary['mineDeploymentEntitiesResolved'], 4)
         self.assertEqual(summary['mineInstancesResolved'], 0)
-        self.assertEqual(summary['mineAttackBranchesWritable'], 0)
+        self.assertEqual(summary['mineExplosionsResolved'], 4)
+        self.assertEqual(summary['mineAttackBranchesWritable'], 11)
         self.assertEqual(summary['deployedEntitiesResolved'], 18)
         self.assertGreaterEqual(summary['healthWritable'], 18)
         self.assertGreaterEqual(summary['armorWritable'], 18)
@@ -254,9 +255,17 @@ plans.validate{id='status_plan',operations={
  {id='strength',target=status,allow_shared=true,field=hd2.fields.status.strength,expect=8,value=10},
  {id='duration',target=status,allow_shared=true,field=hd2.fields.status.duration,expect=1.5,value=2}}}
 local mine=hd2.stratagem('MD-6 Anti-Personnel Minefield')
-assert(mine:describe().mineScopeDeferred==true)
-assert(#mine:deployed_entity():weapons()==0)
+assert(mine:describe().mineScopeDeferred==false and mine:describe().mine.explosionRole=='mine')
+assert(#mine:deployed_entity():weapons()==1 and mine:deployed_entity():weapons()[1].weapon=='mine')
 patches.validate{id='mine_hp',target=mine:deployed_entity(),field=hd2.fields.entity.health,expect=250,value=500}
+local blast=mine:mine():explosion()
+patches.validate{id='mine_radius',target=blast,field=hd2.fields.explosion.outer_radius,expect=5,value=8,allow_shared=true}
+assert(not pcall(patches.validate,{id='mine_radius_unshared',target=blast,field=hd2.fields.explosion.outer_radius,expect=5,value=8}))
+local mine_damage=mine:attack('mine_damage'):damage()
+patches.validate{id='mine_dmg',target=mine_damage,field=hd2.fields.explosion.damage_standard_damage,expect=700,value=900,allow_shared=true}
+local gas=hd2.stratagem('MD-8 Gas Mines'):attack('mine_damage_status_2'):status()
+patches.validate{id='gas_duration',target=gas,field=hd2.fields.status.duration,expect=5,value=8,allow_shared=true}
+assert(not pcall(function()return hd2.stratagem('A/M-12 Mortar Sentry'):mine()end))
 return 'ok'
 ''')
 

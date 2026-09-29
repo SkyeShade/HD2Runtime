@@ -36,8 +36,8 @@ class FireModeTests(unittest.TestCase):
         self.assertEqual(states[('player', 'selectable')], 30)
         self.assertEqual(states[('player', 'single_mode')], 19)
         self.assertEqual(states[('support', 'selectable')], 3)
-        self.assertEqual(states[('support', 'single_mode')], 9)
-        self.assertEqual(self.catalog['summary']['writable'], 61)
+        self.assertEqual(states[('support', 'single_mode')], 10)
+        self.assertEqual(self.catalog['summary']['writable'], 62)
         blocked = {('player', 'PLAS-15 Loyalist'): 'charge or safety', ('support', 'RS-422 Railgun'): 'charge or safety',
             ('support', 'M-1000 Maxigun'): 'conventional projectile', ('player', 'P-92 Warrant'): 'ProgrammableAmmo',
             ('player', 'AR-11 Arbitrator'): 'special fire-control', ('player', 'SG-8 Punisher'): 'weapon-function'}
@@ -83,9 +83,10 @@ return 'ok'
     def test_validation_and_scenarios(self):
         result = json.loads((ROOT / 'validation/fire-mode-authoring-snapshot.json').read_text())
         self.assertEqual(result['status'], 'VALIDATED')
-        self.assertEqual((result['modeSetChecks'], result['burstChecks']), (61, 61))
+        # 62 writable fire-mode sets since the EAT-17 was delivery-resolved.
+        self.assertEqual((result['modeSetChecks'], result['burstChecks']), (62, 62))
         for key in ('changedWrites', 'rollbacks', 'conflictRejections', 'acknowledgementRejections'):
-            self.assertEqual(result[key], 122, key)
+            self.assertEqual(result[key], 124, key)
         self.assertEqual(result['jar5'], {'after': '01000000', 'before': '00000000', 'bytesWritten': 4,
             'changedSlot': 'tertiary_fire_mode (+152)', 'fieldOffset': 152, 'owner': 'WeaponDataComponentData',
             'record': 290, 'uniqueOwner': True})

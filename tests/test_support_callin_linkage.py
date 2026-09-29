@@ -12,7 +12,7 @@ import generate_support_weapon_authoring
 import support_callin_linkage
 
 
-AMBIGUOUS={'B/FLAM-80 Cremator','EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon'}
+STRUCTURALLY_RESOLVED={'B/FLAM-80 Cremator','EAT-17 Expendable Anti-Tank','LAS-98 Laser Cannon'}
 DELIVERY_RESOLVED={'CQC-20 Breaching Hammer','M-105 Stalwart','MG-206 Heavy Machine Gun','MG-43 Machine Gun'}
 
 
@@ -165,11 +165,17 @@ class SupportCallInLinkageTests(unittest.TestCase):
     def test_ambiguous_weapon_identity_keeps_link_and_write_blocking(self):
         ambiguous={name for name,weapon in self.weapons.items()
             if weapon['identityStatus']=='DUPLICATE'and weapon['linkedStratagem']['known']}
-        self.assertEqual(ambiguous,AMBIGUOUS)
-        self.assertEqual(set(self.support['supportCallInLinks']['audit']['ambiguousWeaponIdentityNames']),
-            AMBIGUOUS)
+        # Every linked duplicate is now settled by delivery plus an independent proof; none stays ambiguous.
+        self.assertEqual(ambiguous,set())
+        self.assertEqual(self.support['supportCallInLinks']['audit']['ambiguousWeaponIdentityNames'],[])
+        for name in STRUCTURALLY_RESOLVED:
+            self.assertEqual(self.weapons[name]['identityStatus'],'DELIVERY_RESOLVED',name)
+            relationship=next(item for item in self.support['supportCallInLinks']['relationships']
+                if item['supportWeaponName']==name)
+            self.assertEqual(relationship['weaponIdentityStatus'],'DELIVERY_RESOLVED')
+        # An unlinked duplicate group keeps ordinary writes blocked.
         runtime,_=generate_support_weapon_authoring.build()
-        for name in AMBIGUOUS:
+        for name in ('CQC-72 Entrenchment Tool',):
             weapon=self.weapons[name]
             self.assertEqual(weapon['identityStatus'],'DUPLICATE')
             self.assertFalse(weapon['writable'],name)
@@ -177,15 +183,11 @@ class SupportCallInLinkageTests(unittest.TestCase):
             self.assertTrue(runtime['weapons'][name]['ordinaryWritesBlocked'],name)
             self.assertFalse(runtime['weapons'][name]['fields'],name)
             self.assertTrue(any(item['field']=='ordinary writes'for item in weapon['blockedFields']))
-            relationship=next(item for item in self.support['supportCallInLinks']['relationships']
-                if item['supportWeaponName']==name)
-            self.assertEqual(relationship['weaponIdentityStatus'],'DUPLICATE')
-            root=self.support_roots[name]
-            self.assertEqual(root['rootResolution'],'UNIQUE')
-            self.assertTrue(root['cooldownCapability']['writable'])
+            self.assertFalse(any(item['supportWeaponName']==name
+                for item in self.support['supportCallInLinks']['relationships']))
         self.assertIn('alone never lifts support-weapon write blocking',
             self.support['supportCallInLinks']['joinContract']['writeGuardsUnchanged'])
-        for name in DELIVERY_RESOLVED:
+        for name in DELIVERY_RESOLVED|STRUCTURALLY_RESOLVED:
             weapon=self.weapons[name]
             self.assertEqual(weapon['identityStatus'],'DELIVERY_RESOLVED')
             self.assertTrue(weapon['writable'],name)

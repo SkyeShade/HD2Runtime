@@ -52,10 +52,38 @@ mounted weapons expose the safely resolved subset of ammo, fire rate, heat,
 projectile, damage, explosion, beam, arc, and status fields. These APIs reuse the
 same field constants and settings primitives as player and support weapons.
 
-Mine stratagems currently resolve the deployment system only. Individual mine
-entities, distribution, triggers, explosion/status ownership, targeting fields,
-and deployed lifetime remain blocked. Projectile lifetime and penetration slowdown
-also remain blocked because no shared schema-labelled native fields are proven.
+Mine stratagems resolve the deployed mines' explosion. The chain is:
+stratagem → mine deployer (`payloads[0]`) → its `MinefieldComponentData` +24, a 14-character
+`ExplosionType` member → ExplosionSettings row → its DamageInfo → status rows.
+
+- The deployer's `ThrowerComponentData` names the mine it launches.
+- Where that mine has entity settings (contact, gas and incendiary mines), its own
+  `ExplosiveComponentData` +36 names the same explosion row.
+- The anti-tank mine unit has no entity settings of its own, so the deployer is the only native
+  owner of its explosion.
+
+`hd2.stratagem(name):mine()` is the explosion attack (`mine`). `attack('mine_damage')` and
+`attack('mine_damage_status_N')` are its DamageInfo and status. These are global settings rows, so
+writes require `allow_shared`. Every write re-proves live that the deployer's MinefieldComponent still
+names the reviewed row.
+
+| Stratagem | Explosion radii (inner / outer / shockwave) | Damage | Status |
+| --- | --- | --- | --- |
+| MD-6 Anti-Personnel Minefield | 1.2 / 5 / 7 | 700 / 700, AP 3 | — |
+| MD-I4 Incendiary Mines | 1.2 / 4 / 7 | 300 / 300, AP 3 | fire, 3 s |
+| MD-17 Anti-Tank Mines | 3 / 7 / 14 | 2000 / 2000, AP 5 | — |
+| MD-8 Gas Mines | 2 / 6 / 6 | 3 / 3, AP 6 | two gas statuses, 6 s / 5 s |
+
+Still read-only or unavailable:
+- **Mine count and spacing, trigger radius, and arming time.** The thrower's launch nodes, counts and
+  floats, and the Minefield floats, have no independent fingerprint. They are published read-only in
+  the research.
+- **Trigger-to-detonation delay** (0.002 s). It is proven by layout on three mines, but the AT mine has no
+  entity of its own.
+- **Lifetime and chain reaction.** No owner was found.
+
+Targeting fields, deployed lifetime, projectile lifetime and penetration slowdown remain blocked because
+no shared schema-labelled native fields are proven.
 
 Eagle definitions keep three separate concepts: ordinary stratagem cooldown,
 per-stratagem uses before rearm, and the shared Eagle rearm definition. Editing

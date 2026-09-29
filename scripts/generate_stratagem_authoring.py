@@ -515,11 +515,34 @@ def build():
                     {'field':'projectile.penetration_slowdown','reason':'No shared schema-labelled native field is proven.'},
                 ])
             if item['family'].lower() == 'mine':
+                chain = item['mineChain']
+                if not any(node['path'] == 'mine:primary/attack:mine' for node in entity['nativeGraph']):
+                    raise ValueError('mine deployer without a resolved mine explosion: ' + item['name'])
+                # Re-proved at write time: the deployer's MinefieldComponent still names the reviewed explosion row.
+                entry['rootComponentLink'] = {'component':'MinefieldComponentData',
+                    'recordIndex':chain['minefield']['recordIndex'],'indexRow':chain['minefield']['indexRow'],
+                    'offset':chain['minefield']['explosionOffset'],'expect':chain['minefield']['explosionType'],
+                    'node':'mine:primary/attack:mine'}
+                mine_consumers = consumers[('ExplosionSettings', chain['minefield']['explosionType'])]
+                if chain['thrownMine']['entityDefined'] and not any(
+                        c.get('path') == 'ExplosiveComponentData+36' for c in mine_consumers):
+                    mine_consumers.append({'externalConsumer': opaque('entity-consumer',
+                        chain['thrownMine']['resource']), 'path': 'ExplosiveComponentData+36',
+                        'semanticStatus': 'the deployed mine entity this stratagem throws'})
+                entry['mine'] = {'explosionRole':'mine','mineEntityDefined':chain['thrownMine']['entityDefined'],
+                    'explosionAgreement':chain['explosionAgreement'],
+                    'triggerToDetonationSeconds':(chain['thrownMine'].get('explosive') or {}).get('explosionDelay')}
                 entry['blockedFields'].extend([
-                    {'field':'mine entity','reason':'Only the deployment entity is resolved; individual spawned-mine ownership is not proven.'},
-                    {'field':'mine trigger','reason':'Trigger semantics and ownership are not proven.'},
-                    {'field':'mine distribution','reason':'Deployment-pattern semantics and ownership are not proven.'},
-                    {'field':'mine explosion/status','reason':'The individual mine attack backing chain is not resolved from the deployment entity.'},
+                    {'field':'mine count / spacing','reason':'The deployer ThrowerComponent carries launch nodes, '
+                        'counts and throw floats, but no independent fingerprint proves which is the mine count or '
+                        'the spread; published read-only in the research only.'},
+                    {'field':'mine trigger radius / arming time','reason':'The MinefieldComponent floats have no '
+                        'independent fingerprint and the per-mine arming delay is 0; trigger detection is not '
+                        'data-proven.'},
+                    {'field':'mine trigger-to-detonation delay','reason':'The mine ExplosiveComponent explosion delay '
+                        '(0.002 s) is proven by layout, but the anti-tank mine has no entity of its own, so it is '
+                        'not authored uniformly; read-only.'},
+                    {'field':'mine lifetime / chain reaction','reason':'No native owner found.'},
                 ])
             if any(branch.get('kind') == 'Weapon' for branch in item.get('importedBranches', [])) \
                     and not entity['nativeGraph']:
@@ -668,16 +691,19 @@ def build():
                     continue
                 role = attack_role(node['path'])
                 kind = node['kind']
+                # A mine deployer's attacks belong to its mine launcher, not a mounted weapon.
+                weapon_id = 'mine' if node['path'].startswith('mine:') else 'primary'
                 entry['attacks'].setdefault(role, {'role':role,'path':node['path'],
-                    'kind':kind,'parentRole':role.rsplit('_',1)[0] if '_' in role else None,'fields':[]})
+                    'kind':kind,'parentRole':role.rsplit('_',1)[0] if '_' in role else None,'fields':[],
+                    'weapon':weapon_id})
                 if not any(x['stratagem'] == item['name'] and x['role'] == role
                            for x in attack_instances):
                     attack_instances.append({'stratagem':item['name'],'family':item['family'].lower(),
                         'role':role,'path':node['path'],'kind':kind,
                         'parentRole':entry['attacks'][role]['parentRole'],
-                        'entity':'main','weapon':'primary'})
+                        'entity':'main','weapon':weapon_id})
                 target = {'resource':'stratagem','stratagem':item['name'],'path':'attack',
-                    'entity':'main','weapon':'primary','attack':role}
+                    'entity':'main','weapon':weapon_id,'attack':role}
                 for original_id, baseline in node.get('fields', {}).items():
                     field_id = ('explosion.damage.' + original_id[len('damage.'):] if
                         (node.get('linkage') == 'explosion_damage' or
@@ -733,8 +759,13 @@ def build():
                     'fieldCount':sum(field['target'].get('path') == 'deployed_entity' for field in entry['fields']),
                     'weaponBranches':['primary'] if any(field['target'].get('path') == 'weapon' for field in entry['fields']) else [],
                     'blockedFields':entry['blockedFields']},
-                'mineScopeDeferred':item['family'].lower() == 'mine',
-                'mineInstanceResolved':False if item['family'].lower() == 'mine' else None})
+                'mineScopeDeferred':False if item['family'].lower() == 'mine' else None,
+                'mineInstanceResolved':None,
+                'mine':({'explosionAttack':'mine','explosionResolved':True,
+                    'mineEntityDefined':entry['mine']['mineEntityDefined'],
+                    'explosionAgreement':entry['mine']['explosionAgreement'],
+                    'triggerToDetonationSeconds':entry['mine']['triggerToDetonationSeconds'],
+                    'api':"hd2.stratagem(name):mine()"} if item['family'].lower() == 'mine' else None)})
             public_stratagems[-1]['deployedEntity']['damageZones'] = [
                 dict(zone, fieldInstances=[field['instanceKey'] for field in entry['fields']
                     if field['target'].get('zone') == zone['zoneId']]) for zone in entry.get('damageZones', [])]
@@ -851,7 +882,8 @@ def build():
         'sentryRootsResolved':len(sentries),'emplacementRootsResolved':len(emplacements),
         'mineRootsResolved':len(mines),'deployedEntitiesResolved':len(deployed_entities),
         'mineDeploymentEntitiesResolved':len(mines),'mineInstancesResolved':0,
-        'mineAttackBranchesWritable':0,
+        'mineExplosionsResolved':sum(bool(x.get('mine')) for x in mines),
+        'mineAttackBranchesWritable':sum(sum(role.startswith('mine') for role in x['attackRoles']) for x in mines),
         'healthWritable':sum(x['semanticFieldId']=='entity.health' and x['editable'] for x in defensive_fields),
         'armorWritable':sum(x['semanticFieldId']=='entity.armor' and x['editable'] for x in defensive_fields),
         'mountedWeaponsResolved':len({(x['target'].get('stratagem'),x['target'].get('weapon'))

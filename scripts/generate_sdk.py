@@ -42,6 +42,7 @@ def outputs():
     booster_authoring=json.loads((ROOT/'sdk/BoosterAuthoringCapabilities.json').read_text())
     throwable_authoring=json.loads((ROOT/'sdk/ThrowableAuthoringCapabilities.json').read_text())
     asset_dependencies=json.loads((ROOT/'sdk/AssetDependencyCapabilities.json').read_text())
+    weapon_movement=json.loads((ROOT/'sdk/WeaponMovementCapabilities.json').read_text())
     attachment_authoring=json.loads((ROOT/'sdk/MagazineAttachmentCapabilities.json').read_text())
     composition_plan=json.loads((ROOT/'schemas/composition_plan.json').read_text())
     player_aliases={item['alias']:item['canonical'] for item in player_capabilities['semanticAliases']}
@@ -125,6 +126,8 @@ def outputs():
               'throwable_authoring_summary':throwable_authoring['summary'],
               'asset_dependencies_contract':asset_dependencies['contract'],
               'asset_dependencies_summary':asset_dependencies['summary'],
+              'weapon_movement_contract':weapon_movement['contract'],
+              'weapon_movement_summary':weapon_movement['summary'],
               'magazine_attachment_contract':attachment_authoring['contract'],
               'magazine_attachment_summary':attachment_authoring['summary'],
               'support_weapon_inspection_contract':support['contract'],
@@ -280,7 +283,9 @@ def outputs():
         '---@param role HD2StratagemAttackRole','---@return HD2StratagemAttack',
         'function HD2Stratagem:attack(role) end','---@return HD2StratagemAttack[]',
         'function HD2Stratagem:attacks() end','---@return HD2EagleRearm',
-        'function HD2Stratagem:eagle_rearm() end','---@return HD2DeployedEntity',
+        'function HD2Stratagem:eagle_rearm() end',
+        '---The deployed mines\' explosion of a mine stratagem (attack role "mine"; see docs/stratagem-authoring.md).',
+        '---@return HD2StratagemAttack','function HD2Stratagem:mine() end','---@return HD2DeployedEntity',
         'function HD2Stratagem:deployed_entity() end',
         '---The drop pod this call-in delivers.','---@return HD2PodDelivery','function HD2Stratagem:delivery() end',
         '---@return HD2PodRack','function HD2Stratagem:payload() end',
@@ -513,6 +518,7 @@ def outputs():
             'sdk/docs/booster-authoring.md':(ROOT/'docs/booster-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/throwable-authoring.md':(ROOT/'docs/throwable-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/asset-loading.md':(ROOT/'docs/asset-loading.md').read_text(encoding='utf-8'),
+            'sdk/docs/weapon-movement.md':(ROOT/'docs/weapon-movement.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),
