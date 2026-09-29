@@ -11,6 +11,11 @@ path, which is also the u64 at the start of a live health descriptor). For each:
 
 A per-instance settings copy (health manager +0x10B0) could differ from the shared record; none is known to change
 KillScore, and the snapshots hold none.
+
+It also carries `sources`: the entity types the game keys a player's per-source mission stats by (the kill-credit
+listener records each stat under the source entity's type; research/event-mission-F5FEE03DCFDB.json). Guns are
+keyed by their weapon entity, stratagems by their payload, throwables by the throwable entity. Each is named from
+the reviewed catalogs: player weapons, support weapons, throwables and stratagem payload roots.
 """
 from __future__ import annotations
 
@@ -28,6 +33,11 @@ from reference_format import lua  # noqa: E402
 
 OUTPUT = ROOT / 'domains/event_entities.lua'
 ENEMIES = ROOT / 'sdk/EnemyAuthoringCapabilities.json'
+PLAYER_WEAPONS = ROOT / 'sdk/PlayerWeaponAuthoringCapabilities.json'
+SUPPORT_WEAPONS = ROOT / 'sdk/SupportWeaponCapabilities.json'
+THROWABLES = ROOT / 'research/throwable-authoring-F5FEE03DCFDB.json'
+STRATAGEMS = (ROOT / 'research/offensive-stratagem-runtime-F5FEE03DCFDB.json',
+    ROOT / 'research/defensive-stratagem-runtime-F5FEE03DCFDB.json')
 KILL_SCORE = 0x30
 FACTIONS = {'fac_bugs': 'terminids', 'fac_cyborgs': 'automatons', 'fac_illuminate': 'illuminate',
     'fac_helldivers': 'helldivers', 'fac_super_earth': 'super_earth'}
@@ -43,6 +53,39 @@ def paths() -> dict[int, str]:
         if line and not line.startswith('//'):
             result[resource_hash(line)] = line
     return result
+
+
+def stat_sources() -> dict:
+    """Type hash -> {name, kind} for the stat source types Runtime can name (first catalog wins)."""
+    sources = {}
+
+    def add(resource, name, kind):
+        key = '%016X' % int(resource, 16)
+        if name and key not in sources:
+            sources[key] = {'name': name, 'kind': kind}
+
+    for weapon in json.loads(PLAYER_WEAPONS.read_text(encoding='utf-8'))['weapons']:
+        for resource in weapon['resources']:
+            add(resource, weapon['name'], 'weapon')
+    for weapon in json.loads(SUPPORT_WEAPONS.read_text(encoding='utf-8'))['weapons'].values():
+        for resource in [weapon.get('canonicalResourceHash')] + list(weapon.get('resourceHashes') or []):
+            if resource:
+                add(resource, weapon['catalogIdentity'], 'weapon')
+    for item in json.loads(THROWABLES.read_text(encoding='utf-8'))['catalog']:
+        if item['identity'].get('resource'):
+            add(item['identity']['resource'], item['name'], 'throwable')
+    # A payload shared by several stratagems (the hellpod) names none of them.
+    owners = {}
+    for path in STRATAGEMS:
+        research = json.loads(path.read_text(encoding='utf-8'))
+        for item in list(research['stratagems']) + list(research.get('supportRoots') or []):
+            payloads = (item.get('currentRoot') or {}).get('payloads') or []
+            for resource in (payloads.values() if isinstance(payloads, dict) else payloads):
+                owners.setdefault(resource.upper(), set()).add(item['name'])
+    for resource, names in sorted(owners.items()):
+        if len(names) == 1:
+            add(resource, next(iter(names)), 'stratagem')
+    return sources
 
 
 def build() -> dict:
@@ -71,10 +114,11 @@ def build() -> dict:
         entities[f'{resource:016X}'] = entry
     if not entities.get(f'{__import__("hd2_archive").resource_hash(AVATAR):016X}', {}).get('avatar'):
         raise ValueError('the Helldiver avatar type is absent from the health owners')
+    sources = stat_sources()
     return {'source': {'build': build_profile.BUILD_ID, 'entitiesSha256': build_profile.ENTITY_SHA256,
-        'killScoreOffset': KILL_SCORE}, 'entities': entities,
+        'killScoreOffset': KILL_SCORE}, 'entities': entities, 'sources': sources,
         'summary': {'types': len(entities), 'kill': sum(e['kill'] for e in entities.values()),
-            'named': sum('name' in e for e in entities.values())}}
+            'named': sum('name' in e for e in entities.values()), 'sources': len(sources)}}
 
 
 def outputs() -> dict[str, str]:

@@ -116,6 +116,9 @@ M.players=events.register_source(players)
 
 ------------------------------------------------------------------------------------------------------- health --
 -- One bulk scan of the health manager per tick: header, hash buckets, records, ext records, descriptor pointers.
+-- A death is seen either as the record reaching the dead state, or (the game may replace a dead entity by its corpse
+-- between two polls) as the record disappearing while a corpse that took over the entity's unit names the entity as
+-- its origin. A record that disappears without such a corpse (despawned, or destroyed outright) is not a death.
 local health={name='health',events={'entity_spawned','entity_died','entity_killed','entity_damaged',
     'player_damaged','player_healed'},depends={'game_state'}}
 function health.start(source)
@@ -124,6 +127,7 @@ function health.start(source)
     local view=source.world.view
     source.header_block,source.bucket_block=view.slot(),view.slot()
     source.record_block,source.ext_block,source.pointer_block=view.slot(),view.slot(),view.slot()
+    source.corpse_block=view.slot()
     source.known={};source.stamp=0;source.first=true
     return true
 end
@@ -144,6 +148,20 @@ local function entity_payload(entry)
     local handle=handles.entity({id=entry.entity,type=entry.type,descriptor_pointer=entry.descriptor})
     return {entity=handle,type=entry.type,name=handle.name,enemy=handle.enemy,faction=handle.faction,
         avatar=handle.avatar}
+end
+-- entity_died (and entity_killed when a player is credited) for one death.
+local function queue_death(source,entry,lo,hi,position,max_health,observed,corpse)
+    local payload=entity_payload(entry)
+    local killer,local_killer,peer=killer_of(source,lo,hi)
+    payload.killer=killer;payload.local_killer=local_killer==true;payload.killer_peer=peer
+    payload.position=position;payload.max_health=max_health
+    payload.observed=observed;payload.corpse_id=corpse
+    events.queue('entity_died',payload)
+    if peer then
+        local killed={}
+        for k,v in pairs(payload)do killed[k]=v end
+        events.queue('entity_killed',killed)
+    end
 end
 local function owning_player(source,entity)
     local list=world_module.players(source.world,true)
@@ -193,21 +211,18 @@ function health.poll(source)
                 end
                 if entry then
                     entry.stamp=stamp
+                    local lo,hi
+                    if want_death then
+                        -- Kept for a death only seen through the corpse (the record is gone by then).
+                        lo,hi=records:u32(base+R.lastCreditor),records:u32(base+R.lastCreditor+4)
+                        if lo==0 and hi==0 then lo,hi=records:u32(base+R.downCreditor),records:u32(base+R.downCreditor+4)end
+                        entry.credit_lo,entry.credit_hi=lo,hi
+                        entry.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or entry.max_health
+                    end
                     if life>=2 and entry.life<2 then
                         if want_death then
-                            local payload=entity_payload(entry)
-                            local lo,hi=records:u32(base+R.lastCreditor),records:u32(base+R.lastCreditor+4)
-                            if lo==0 and hi==0 then lo,hi=records:u32(base+R.downCreditor),records:u32(base+R.downCreditor+4)end
-                            local killer,local_killer,peer=killer_of(source,lo,hi)
-                            payload.killer=killer;payload.local_killer=local_killer==true;payload.killer_peer=peer
-                            payload.position=entry.unit and world_module.unit_position(world,entry.unit)or nil
-                            payload.max_health=ext and ext:i32(index*H.extStride+H.extFields.maxHealth)or nil
-                            events.queue('entity_died',payload)
-                            if peer then
-                                local killed={}
-                                for k,v in pairs(payload)do killed[k]=v end
-                                events.queue('entity_killed',killed)
-                            end
+                            queue_death(source,entry,lo,hi,entry.unit and world_module.unit_position(world,entry.unit)or nil,
+                                entry.max_health,'dead_state',nil)
                         end
                     elseif life<2 and amount<entry.health and want_damage then
                         local payload=entity_payload(entry)
@@ -239,23 +254,51 @@ function health.poll(source)
             end
         end
     end
-    for entity,entry in pairs(known)do if entry.stamp~=stamp then known[entity]=nil end end
+    local corpses
+    for entity,entry in pairs(known)do
+        if entry.stamp~=stamp then
+            known[entity]=nil
+            if want_death and entry.life<2 and not first then
+                if corpses==nil then corpses=world_module.corpses(world,source.corpse_block)or false end
+                local index=corpses and corpses.origins[entity]
+                local corpse=index and entry.unit and world_module.corpse_entity(world,corpses,index,entry.unit)
+                if corpse then
+                    -- The corpse owns the unit now: its position is where the entity died.
+                    queue_death(source,entry,entry.credit_lo or 0,entry.credit_hi or 0,
+                        world_module.unit_position(world,entry.unit),entry.max_health,'corpse',corpse)
+                end
+            end
+        end
+    end
     source.first=false
     metrics.count('events.health_scans')
 end
 M.health=events.register_source(health)
 
 -------------------------------------------------------------------------------------------------------- stats --
--- player_fired: the local player's projectiles_fired mission stat (main table plus source blocks, as the game's own
--- get_stat sums it) grew. Checked 10 times per second: one event per check that saw new shots, with the count.
-local stats={name='stats',events={'player_fired'},depends={'game_state'},interval=0.1}
+-- The local player's mission stats as the game keeps them (main table plus one block per source type; the game's own
+-- get_stat sums both). Checked 10 times per second: one event per check that saw growth, with the count.
+-- player_fired: projectiles_fired grew. player_kill_credited: dealt_kills grew (the game credited kills).
+-- Each carries `sources`: the growth per source type (the weapon, throwable or stratagem payload the game recorded
+-- the stat under), and `unattributed`: growth of the main table, which has no source.
+local stats={name='stats',events={'player_fired','player_kill_credited'},depends={'game_state'},interval=0.1}
 function stats.start(source)
     local ok,why=open(source)
     if not ok then return nil,why end
-    source.block=source.world.view.slot();source.next=0;source.total=nil;source.entity=nil
+    source.block=source.world.view.slot();source.next=0;source.last=nil;source.entity=nil
     return true
 end
 function stats.stop(source)source.world=nil end
+local function growth(now,last,key,field)
+    local list={}
+    for type_hex,values in pairs(now.sources)do
+        local before=last.sources[type_hex]and last.sources[type_hex][key]or 0
+        local added=(values[key]or 0)-before
+        if added>0 then list[#list+1]={type=type_hex,name=world_module.source_name(type_hex),[field]=added}end
+    end
+    table.sort(list,function(a,c)return a[field]>c[field]or(a[field]==c[field]and a.type<c.type)end)
+    return list,math.max(0,now.main[key]-last.main[key])
+end
 function stats.poll(source)
     local now=events.state.now
     if now<source.next then return end
@@ -263,17 +306,28 @@ function stats.poll(source)
     local world=source.world
     local player
     for _,item in ipairs(world_module.players(world,false))do if item['local']then player=item end end
-    if not player or not player.entity then source.total=nil;return end
-    local total=world_module.stat_total(world,player.entity,natives.stats.keys.projectiles_fired,source.block)
-    if not total then return end
-    if source.entity~=player.entity or not source.total or total<source.total then
-        source.entity,source.total=player.entity,total   -- (re)baseline: new player entity or a reset table
+    if not player or not player.entity then source.last=nil;return end
+    local K=natives.stats.keys
+    local current=world_module.stat_breakdown(world,player.entity,{K.projectiles_fired,K.dealt_kills},source.block)
+    if not current then return end
+    local last=source.last
+    if source.entity~=player.entity or not last or current.totals[K.projectiles_fired]<last.totals[K.projectiles_fired]
+        or current.totals[K.dealt_kills]<last.totals[K.dealt_kills]then
+        source.entity,source.last=player.entity,current   -- (re)baseline: new player entity or a reset table
         return
     end
-    if total>source.total then
-        events.queue('player_fired',{player=handles.player(player),local_player=true,shots=total-source.total,
-            total=total})
-        source.total=total
+    source.last=current
+    local shots=current.totals[K.projectiles_fired]-last.totals[K.projectiles_fired]
+    if shots>0 then
+        local list,unattributed=growth(current,last,K.projectiles_fired,'shots')
+        events.queue('player_fired',{player=handles.player(player),local_player=true,shots=shots,
+            total=current.totals[K.projectiles_fired],sources=list,unattributed=unattributed})
+    end
+    local kills=current.totals[K.dealt_kills]-last.totals[K.dealt_kills]
+    if kills>0 then
+        local list,unattributed=growth(current,last,K.dealt_kills,'kills')
+        events.queue('player_kill_credited',{player=handles.player(player),local_player=true,kills=kills,
+            total=current.totals[K.dealt_kills],sources=list,unattributed=unattributed})
     end
 end
 M.stats=events.register_source(stats)

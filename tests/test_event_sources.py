@@ -203,6 +203,73 @@ tick();assert(#deaths==1,'reported once')
 return 'ok'
 ''')
 
+    def test_a_death_the_game_replaced_by_a_corpse_between_polls_is_reported_once(self):
+        self.lua(r'''
+local mod=api.mod('mods/t/corpses')
+local died,killed={}, {}
+mod:on('entity_died',function(e)died[#died+1]=e end)
+mod:on('entity_killed',function(e)killed[#killed+1]=e end)
+W.players({{peer=LOCAL}},LOCAL)
+W.state(4);tick()
+W.add{entity=601,type=MARAUDER,unit=9101,health=100}
+W.add{entity=602,type=MARAUDER,unit=9102,health=100}
+W.add{entity=603,type=MARAUDER,unit=9103,health=100}
+W.add{entity=604,type=MARAUDER,unit=9104,health=100}
+W.add{entity=605,type=MARAUDER,unit=9105,health=100}
+W.unit(9101,4,5,6)
+tick()
+W.set(601,{health=40,creditor=LOCAL});tick()
+assert(#died==0,'damage is not a death')
+-- 601 dies and is replaced by its corpse before a poll sees the dead state.
+W.replace_by_corpse(601,700);W.unit(9101,4,5,6)
+tick()
+assert(#died==1 and #killed==1,#died..' '..#killed)
+local e=died[1]
+assert(e.entity.id==601 and e.observed=='corpse' and e.corpse_id==700 and e.name=='Marauder' and e.enemy)
+assert(e.local_killer and e.killer:is_local_player(),'the last creditor seen before the death')
+assert(e.position and e.position.x==4 and e.position.z==6,'the corpse keeps the unit: the death position')
+assert(e.max_health==100 and not e.entity:is_valid(),'the handle names the destroyed entity')
+-- 602 despawns: its record goes with no corpse naming it. Not a death.
+W.remove(602);tick()
+assert(#died==1,'a despawn is not a death')
+-- 603 is seen dead first, then replaced: one death, reported from the dead state.
+W.set(603,{life=2,health=0});tick()
+assert(#died==2 and died[2].observed=='dead_state' and died[2].corpse_id==nil)
+W.replace_by_corpse(603,701);tick()
+assert(#died==2,'reported once')
+-- A corpse naming 604 but on another unit is not 604's corpse.
+W.remove(604);W.corpse(604,702,9999,MARAUDER);tick()
+assert(#died==2,'the corpse must own the dead entity unit')
+-- A one-shot kill from full health: no creditor was ever seen, so no killer and no entity_killed.
+W.replace_by_corpse(605,703);tick()
+assert(#died==3 and died[3].observed=='corpse' and died[3].killer==nil and #killed==1)
+return 'ok'
+''')
+
+    def test_shots_and_credited_kills_are_attributed_to_their_sources(self):
+        self.lua(r'''
+local mod=api.mod('mods/t/sources')
+local fired,credited={}, {}
+mod:on('player_fired',function(e)fired[#fired+1]=e end)
+mod:on('player_kill_credited',function(e)credited[#credited+1]=e end)
+local natives=require('hd2runtime/domains/event_natives')
+local K=natives.stats.keys
+local ERUPTOR,VERDICT,UNKNOWN='B6AFF2195568767F','1A437158E1B8D2A1','0123456789ABCDEF'
+W.players({{peer=LOCAL}},LOCAL)
+W.stat(10,K.projectiles_fired,1,1,ERUPTOR);W.state(4);tick(2)   -- baseline
+W.stat(10,K.projectiles_fired,6,1,ERUPTOR);W.stat(10,K.projectiles_fired,2,2,VERDICT);tick()
+assert(#fired==1 and fired[1].shots==7 and fired[1].unattributed==0,tostring(#fired))
+local s=fired[1].sources
+assert(#s==2 and s[1].type==ERUPTOR and s[1].name=='R-36 Eruptor' and s[1].shots==5)
+assert(s[2].name=='P-113 Verdict' and s[2].shots==2)
+W.stat(10,K.dealt_kills,3,1,ERUPTOR);W.stat(10,K.dealt_kills,1);W.stat(10,K.dealt_kills,2,4,UNKNOWN);tick()
+assert(#credited==1 and credited[1].kills==6 and credited[1].total==6 and credited[1].unattributed==1)
+local k=credited[1].sources
+assert(#k==2 and k[1].name=='R-36 Eruptor' and k[1].kills==3 and k[2].type==UNKNOWN and k[2].name==nil)
+assert(#fired==1,'no new shots')
+return 'ok'
+''')
+
     def test_player_fired_counts_new_shots_every_tenth_of_a_second(self):
         self.lua(r'''
 local mod=api.mod('mods/t/fired')
@@ -280,11 +347,18 @@ class EventWorldSnapshotReportTests(unittest.TestCase):
         natives = (ROOT / 'domains/event_natives.lua').read_text(encoding='utf-8')
         self.assertTrue(report['passed'])
         self.assertEqual(report['writes'], 0)
-        self.assertEqual(len(report['snapshots']), 3)
+        self.assertEqual(len(report['snapshots']), 7)
         for name, item in report['snapshots'].items():
             self.assertEqual(item['pins'], natives.count('["label"]'), name)   # validated against today's table
             self.assertTrue(item['tamperRefused'], name)
-            self.assertEqual(item['localAvatar']['health'], 125, name)
+            if 'mission' not in name:
+                self.assertEqual(item['localAvatar']['health'], 125, name)
+        reinforced = report['snapshots']['F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap']
+        self.assertEqual(reinforced['corpses']['of602'], 851)   # the first avatar's corpse, on its own unit
+        self.assertFalse(reinforced['handle602']['valid'])
+        ended = report['snapshots']['F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap']
+        self.assertEqual(ended['gameState']['name'], 'PrepareShip')
+        self.assertFalse(ended['localAvatar'])
 
 if __name__ == '__main__':
     unittest.main()

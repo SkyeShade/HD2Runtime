@@ -5,12 +5,14 @@
 -- destroyed object can only make a read fail or a check disagree, never be used as if it were valid. Reads go through
 -- ReadProcessMemory on the game's own process (runtime/native_view.lua).
 local natives=require('hd2runtime/domains/event_natives')
-local entities=require('hd2runtime/domains/event_entities').entities
+local catalog=require('hd2runtime/domains/event_entities')
+local entities,stat_sources=catalog.entities,catalog.sources or{}
 local native_view=require('hd2runtime/runtime/native_view')
 local b=require('hd2runtime/core/bytes')
 local metrics=require('hd2runtime/runtime/metrics')
 local M={}
 local H,P,A,S,E,T=natives.health,natives.players,natives.playerAvatars,natives.state,natives.engine,natives.stats
+local C=natives.corpses
 local IMAGE_SIZE,EXE_IMAGE_SIZE=natives.source.imageSize,natives.source.exeImageSize
 local opened,adapter_override
 
@@ -136,6 +138,39 @@ end
 
 -- Catalog facts about an entity type (domains/event_entities.lua).
 function M.type_info(type_hex)return entities[type_hex]end
+-- The name of a stat source type (a weapon, throwable or stratagem payload entity type), or nil when uncatalogued.
+function M.source_name(type_hex)
+    local source=stat_sources[type_hex]or entities[type_hex]
+    return source and source.name or nil
+end
+
+---------------------------------------------------------------------------------------------------- corpses --
+-- When the game replaces a dead entity by its corpse it spawns a new entity that takes over the dead one's unit and
+-- keeps the dead entity's full id in the corpse record (research/event-mission-F5FEE03DCFDB.json). Returns
+-- {origins = {[dead entity id] = corpse index}, descriptors} for every corpse now, or nil when unreadable.
+function M.corpses(world,block)
+    local manager=world.view.pointer(world.game+C.global)
+    if not manager then return nil end
+    local count=world.view.u32(manager+C.count)
+    if not count or count>C.maxRecords then return nil end
+    local result={origins={},count=count,descriptors=world.view.pointer(manager+C.descriptors)}
+    if count==0 then return result end
+    local records=world.view.pointer(manager+C.records)
+    local bytes=records and world.view.fill(block,records,count*C.stride)
+    if not bytes or not result.descriptors then return nil end
+    for index=0,count-1 do
+        local origin=bytes:u32(index*C.stride+C.origin)
+        if origin~=0 then result.origins[origin]=index end
+    end
+    return result
+end
+-- The corpse entity id at `index` when its descriptor carries `unit` (the corpse took over that unit), else nil.
+function M.corpse_entity(world,corpses,index,unit)
+    local pointer=corpses.descriptors and world.view.pointer(corpses.descriptors+index*8)
+    local bytes=pointer and world.view.read(pointer,H.descriptor.size)
+    if not bytes or b.u32(bytes,H.descriptor.unit)~=unit then return nil end
+    return b.u32(bytes,H.descriptor.entity)
+end
 
 ---------------------------------------------------------------------------------------------------- players --
 -- The local peer id as two u32 halves (never a double: peer ids exceed 2^53). nil when unreadable.
@@ -263,8 +298,6 @@ function M.network_entity(world,network_id)
 end
 
 ------------------------------------------------------------------------------------------------------ stats --
--- A player's mission stat total, as the game's own get_stat computes it: the main table value plus every source
--- block entry with that key. player_entity is the player's entity (the player list descriptor +8). nil if unreadable.
 local function lookup(world,slots,capacity,empty,multiplier,key,stride,value_offset)
     if not slots or capacity==0 or capacity>65536 or capacity%2~=0 then return nil end
     local start=M.mul32(key,multiplier)
@@ -278,7 +311,11 @@ local function lookup(world,slots,capacity,empty,multiplier,key,stride,value_off
     end
     return false
 end
-function M.stat_total(world,player_entity,key,block)
+
+-- A player's mission stats by source, as the game keeps them: {totals = {[key] = n}, main = {[key] = n},
+-- sources = {[type hex] = {[key] = n}}} for the given stat keys. The kill-credit listener records each stat under the
+-- source entity's type (a weapon, throwable or stratagem payload); the main table holds the unattributed part.
+function M.stat_breakdown(world,player_entity,keys,block)
     local score=world.view.pointer(world.game+T.score)
     if not score or not player_entity then return nil end
     local map=world.view.read(score+T.indexSlots,20)
@@ -287,28 +324,50 @@ function M.stat_total(world,player_entity,key,block)
     if not index or index>=T.maxPlayers then return nil end
     local record=world.view.read(score+T.recordBase+index*T.recordStride,T.recordStride)
     if not record then return nil end
-    local total=0
-    local main=lookup(world,b.pointer(record,T.tableEntries),b.u32(record,T.tableCapacity),b.u32(record,T.tableEmpty),
-        b.u32(record,T.tableMultiplier),key,T.entryStride,T.entryValue)
-    if main==nil then return nil end
-    if main then total=total+(main>=2147483648 and main-4294967296 or main)end
+    local wanted={}
+    for _,key in ipairs(keys)do wanted[key]=true end
+    local result={totals={},main={},sources={}}
+    for _,key in ipairs(keys)do
+        local value=lookup(world,b.pointer(record,T.tableEntries),b.u32(record,T.tableCapacity),b.u32(record,T.tableEmpty),
+            b.u32(record,T.tableMultiplier),key,T.entryStride,T.entryValue)
+        if value==nil then return nil end
+        value=value and(value>=2147483648 and value-4294967296 or value)or 0
+        result.main[key],result.totals[key]=value,value
+    end
     local sources=b.pointer(record,T.sources)
     if sources~=0 then
         local blocks=world.view.fill(block,sources,T.sourceBlocks*T.sourceStride)
         if not blocks then return nil end
         for index=0,T.sourceBlocks-1 do
             local base=index*T.sourceStride
-            if blocks:u32(base)~=0 or blocks:u32(base+4)~=0 then
+            local lo,hi=blocks:u32(base),blocks:u32(base+4)
+            if lo~=0 or hi~=0 then
+                local source
                 for entry=0,T.sourceEntryCount-1 do
                     local at=base+T.sourceEntries+entry*T.entryStride
                     local found=blocks:u32(at)
                     if found==0 then break end
-                    if found==key then total=total+blocks:i32(at+T.entryValue)end
+                    if wanted[found]then
+                        local value=blocks:i32(at+T.entryValue)
+                        if not source then
+                            local type_hex=string.format('%08X%08X',hi,lo)
+                            source=result.sources[type_hex]or{}
+                            result.sources[type_hex]=source
+                        end
+                        source[found]=(source[found]or 0)+value
+                        result.totals[found]=result.totals[found]+value
+                    end
                 end
             end
         end
     end
-    return total
+    return result
+end
+-- A player's mission stat total, as the game's own get_stat computes it: the main table value plus every source
+-- block entry with that key. player_entity is the player's entity (the player list descriptor +8). nil if unreadable.
+function M.stat_total(world,player_entity,key,block)
+    local stats=M.stat_breakdown(world,player_entity,{key},block)
+    return stats and stats.totals[key]or nil
 end
 
 ------------------------------------------------------------------------------------------------------ heal --

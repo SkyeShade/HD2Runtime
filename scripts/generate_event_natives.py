@@ -20,14 +20,18 @@ from reference_format import lua  # noqa: E402
 COMBAT = ROOT / 'research/event-combat-F5FEE03DCFDB.json'
 STATE = ROOT / 'research/event-state-F5FEE03DCFDB.json'
 ACTIONS = ROOT / 'research/event-actions-F5FEE03DCFDB.json'
+MISSION = ROOT / 'research/event-mission-F5FEE03DCFDB.json'
 OUTPUT = ROOT / 'domains/event_natives.lua'
 
 
 class Pins:
     """Pinned instructions from the research outputs, per module ('game' = game.dll, 'exe' = the executable)."""
 
-    def __init__(self, combat: dict, state: dict):
+    def __init__(self, combat: dict, state: dict, mission: dict):
         self.by_rva = {'game': {}, 'exe': {}}
+        for group in mission['proofs'].values():
+            for pin in group:
+                self.by_rva['game'].setdefault(pin['rva'], pin)
         for name, function in combat['functions'].items():
             for pin in function['pins']:
                 self.by_rva['game'][pin['rva']] = dict(pin, function=name)
@@ -202,6 +206,26 @@ def stats_section(pins: Pins, state: dict) -> dict:
             'dealt_kills': keys['dealt_kills'], 'received_deaths': keys['received_deaths']}}
 
 
+def corpses_section(pins: Pins, mission: dict) -> dict:
+    """The corpse manager: a dead entity is replaced by a corpse entity that keeps the dead entity's full id."""
+    manager = mission['globals']['corpse']
+    pins.rip(0x87209A, 'mov rbx, qword ptr [rip + 0x2ab487f]', 'corpse manager global (add instance)', manager)
+    pins.use(0x8720A4, 'mov eax, dword ptr [rbx + 0x18]', 'corpse live count')
+    pins.use(0x8720FA, 'mov rax, qword ptr [rbx + 0x40]', 'corpse descriptor pointers')
+    pins.use(0x8720CB, 'mov rax, qword ptr [rbx + 0x48]', 'corpse record array')
+    pins.use(0x8720D2, 'lea rcx, [r8 + r8*8]', 'corpse record stride 0x48')
+    pins.use(0x86F29B, 'mov dword ptr [r12 + 0xc], eax', 'the corpse takes over the dead entity unit')
+    pins.use(0x86F2A0, 'mov eax, dword ptr [rdi + 8]', 'dead entity full id')
+    pins.use(0x86F2A7, 'mov dword ptr [rcx + rdx*8 + 0x3c], eax', 'corpse record +0x3C = dead entity id')
+    pins.use(0x8703C3, 'mov ecx, dword ptr [rax + rcx*8 + 0x3c]', 'corpse lookup reads the origin')
+    layout = mission['layouts']['corpse']
+    if (layout['count'], layout['descriptors'], layout['records'], layout['stride'], layout['origin']) != (
+            0x18, 0x40, 0x48, 0x48, 0x3C):
+        raise ValueError('corpse layout changed')
+    return {'global': manager, 'count': 0x18, 'descriptors': 0x40, 'records': 0x48, 'stride': 0x48, 'origin': 0x3C,
+        'maxRecords': layout['capacity']}
+
+
 def heal_section(pins: Pins, research: dict) -> dict:
     callable_ = research['callable']['heal_add_fraction']
     pins.use(0x91EA3C, 'call 0x927050', 'heal: IsDead gate')
@@ -213,19 +237,23 @@ def heal_section(pins: Pins, research: dict) -> dict:
 def build() -> dict:
     combat = json.loads(COMBAT.read_text(encoding='utf-8'))
     state = json.loads(STATE.read_text(encoding='utf-8'))
-    for research in (combat, state):
+    mission = json.loads(MISSION.read_text(encoding='utf-8'))
+    for research in (combat, state, mission):
         if research['writes'] or research['protectionChanges']:
             raise ValueError('event research must be read-only')
     if state['gameDll']['sha256'] != combat['gameDll']['sha256']:
         raise ValueError('event research covers different game.dll builds')
-    if any(state['pinnedBytesMismatchPerSnapshot'].values()):
+    if state['gameDll']['sha256'] != mission['gameDll']['sha256']:
+        raise ValueError('event research covers different game.dll builds')
+    if any(state['pinnedBytesMismatchPerSnapshot'].values()) or any(mission['pinnedBytesMismatchPerSnapshot'].values()):
         raise ValueError('a pinned instruction differs between retained snapshots')
-    pins = Pins(combat, state)
-    value = {'source': {'research': [COMBAT.name, STATE.name], 'gameDllSha256': combat['gameDll']['sha256'],
+    pins = Pins(combat, state, mission)
+    value = {'source': {'research': [COMBAT.name, STATE.name, MISSION.name], 'gameDllSha256': combat['gameDll']['sha256'],
             'imageSize': combat['gameDll']['imageSize'], 'exeImageSize': state['exe']['imageSize']},
         'health': health_section(pins, combat), 'players': players_section(pins, combat),
         'playerAvatars': player_avatars_section(pins, state), 'state': state_section(pins, state),
-        'engine': engine_section(pins, state), 'stats': stats_section(pins, state), 'heal': heal_section(pins, combat)}
+        'engine': engine_section(pins, state), 'stats': stats_section(pins, state),
+        'corpses': corpses_section(pins, mission), 'heal': heal_section(pins, combat)}
     value['pins'] = sorted(pins.used, key=lambda pin: (pin['module'], pin['rva']))
     return value
 

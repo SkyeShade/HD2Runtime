@@ -3,10 +3,19 @@
  "build": "F5FEE03DCFDB",
  "snapshots": {
   "F5FEE03DCFDB-20260926T222226Z.hd2snap": {
+   "corpses": {
+    "count": 0,
+    "of602": false,
+    "wrongUnit": false
+   },
    "gameState": {
     "mission": false,
     "name": "Ship",
     "state": 3
+   },
+   "handle602": {
+    "reason": "the engine destroyed the entity",
+    "valid": false
    },
    "localAvatar": {
     "entity": 249,
@@ -24,7 +33,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2168
    },
-   "pins": 88,
+   "pins": 97,
    "players": [
     {
      "avatar": 249,
@@ -34,7 +43,8 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 153,
+   "reads": 178,
+   "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
@@ -45,10 +55,19 @@
    "problems": []
   },
   "F5FEE03DCFDB-20260927T155654Z.hd2snap": {
+   "corpses": {
+    "count": 0,
+    "of602": false,
+    "wrongUnit": false
+   },
    "gameState": {
     "mission": false,
     "name": "Ship",
     "state": 3
+   },
+   "handle602": {
+    "reason": "the engine destroyed the entity",
+    "valid": false
    },
    "localAvatar": {
     "entity": 249,
@@ -66,7 +85,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 88,
+   "pins": 97,
    "players": [
     {
      "avatar": 249,
@@ -76,7 +95,8 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 153,
+   "reads": 178,
+   "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
@@ -87,10 +107,19 @@
    "problems": []
   },
   "F5FEE03DCFDB-20260927T160033Z.hd2snap": {
+   "corpses": {
+    "count": 0,
+    "of602": false,
+    "wrongUnit": false
+   },
    "gameState": {
     "mission": false,
     "name": "Ship",
     "state": 3
+   },
+   "handle602": {
+    "reason": "the engine destroyed the entity",
+    "valid": false
    },
    "localAvatar": {
     "entity": 249,
@@ -108,7 +137,7 @@
     "type": "4D1C334D294DFA97",
     "unit": 2132
    },
-   "pins": 88,
+   "pins": 97,
    "players": [
     {
      "avatar": 249,
@@ -118,11 +147,263 @@
      "peer": "32B10D7BA1516C5C"
     }
    ],
-   "reads": 153,
+   "reads": 178,
+   "sources": {},
    "stats": {
     "dealt_kills": 0,
     "projectiles_fired": 0,
     "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260929T172647Z-mission-host.hd2snap": {
+   "corpses": {
+    "count": 1,
+    "of602": false,
+    "wrongUnit": false
+   },
+   "gameState": {
+    "mission": true,
+    "name": "Mission",
+    "state": 4
+   },
+   "handle602": {
+    "valid": true
+   },
+   "localAvatar": {
+    "entity": 602,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     -71.78057098388672,
+     46.40349578857422,
+     6.236129283905029
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 4194863
+   },
+   "pins": 97,
+   "players": [
+    {
+     "avatar": 602,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 245,
+   "sources": {},
+   "stats": {
+    "dealt_kills": 0,
+    "projectiles_fired": 0,
+    "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260929T172918Z-mission-host-alive.hd2snap": {
+   "corpses": {
+    "count": 9,
+    "of602": false,
+    "wrongUnit": false
+   },
+   "gameState": {
+    "mission": true,
+    "name": "Mission",
+    "state": 4
+   },
+   "handle602": {
+    "valid": true
+   },
+   "localAvatar": {
+    "entity": 602,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     -33.834346771240234,
+     -8.828588485717773,
+     0.13833990693092346
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 4194863
+   },
+   "pins": 97,
+   "players": [
+    {
+     "avatar": 602,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 245,
+   "sources": [
+    {
+     "kills": 5,
+     "name": "Eagle Strafing Run",
+     "type": "23A60681DD4383EC"
+    },
+    {
+     "kills": 1,
+     "name": "R-36 Eruptor",
+     "shots": 1,
+     "type": "B6AFF2195568767F"
+    }
+   ],
+   "stats": {
+    "dealt_kills": 8,
+    "projectiles_fired": 1,
+    "received_deaths": 0
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260929T173206Z-mission-host-after-reinforce.hd2snap": {
+   "corpses": {
+    "count": 31,
+    "of602": 851,
+    "wrongUnit": false
+   },
+   "gameState": {
+    "mission": true,
+    "name": "Mission",
+    "state": 4
+   },
+   "handle602": {
+    "reason": "the engine destroyed the entity",
+    "valid": false
+   },
+   "localAvatar": {
+    "entity": 852,
+    "existsLive": true,
+    "existsStale": false,
+    "health": 125,
+    "life": 0,
+    "maxHealth": 125,
+    "owned": true,
+    "position": [
+     -107.29129028320312,
+     -90.82484436035156,
+     0.8219876289367676
+    ],
+    "type": "4D1C334D294DFA97",
+    "unit": 12585357
+   },
+   "pins": 97,
+   "players": [
+    {
+     "avatar": 852,
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 3,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 236,
+   "sources": [
+    {
+     "kills": 2,
+     "name": "P-113 Verdict",
+     "shots": 20,
+     "type": "1A437158E1B8D2A1"
+    },
+    {
+     "kills": 14,
+     "name": "Eagle Strafing Run",
+     "type": "23A60681DD4383EC"
+    },
+    {
+     "kills": 13,
+     "name": "R-36 Eruptor",
+     "shots": 8,
+     "type": "B6AFF2195568767F"
+    }
+   ],
+   "stats": {
+    "dealt_kills": 33,
+    "projectiles_fired": 28,
+    "received_deaths": 1
+   },
+   "tamperRefused": true,
+   "passed": true,
+   "problems": []
+  },
+  "F5FEE03DCFDB-20260929T173443Z-mission-end-transition.hd2snap": {
+   "corpses": {
+    "count": 0,
+    "of602": false,
+    "wrongUnit": false
+   },
+   "gameState": {
+    "mission": false,
+    "name": "PrepareShip",
+    "state": 5
+   },
+   "handle602": {
+    "reason": "the engine destroyed the entity",
+    "valid": false
+   },
+   "localAvatar": false,
+   "pins": 97,
+   "players": [
+    {
+     "entity": 5,
+     "isLocal": true,
+     "lifecycle": 1,
+     "peer": "32B10D7BA1516C5C"
+    }
+   ],
+   "reads": 149,
+   "sources": [
+    {
+     "kills": 1,
+     "type": "0E8C2515261E0325"
+    },
+    {
+     "kills": 2,
+     "name": "P-113 Verdict",
+     "shots": 20,
+     "type": "1A437158E1B8D2A1"
+    },
+    {
+     "kills": 17,
+     "name": "Eagle Strafing Run",
+     "type": "23A60681DD4383EC"
+    },
+    {
+     "kills": 6,
+     "type": "486522867199D7F3"
+    },
+    {
+     "kills": 1,
+     "name": "Orbital EMS Strike",
+     "type": "55F3747B8C27AEF6"
+    },
+    {
+     "kills": 15,
+     "name": "R-36 Eruptor",
+     "shots": 12,
+     "type": "B6AFF2195568767F"
+    }
+   ],
+   "stats": {
+    "dealt_kills": 47,
+    "projectiles_fired": 32,
+    "received_deaths": 6
    },
    "tamperRefused": true,
    "passed": true,
