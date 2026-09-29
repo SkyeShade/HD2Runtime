@@ -12,42 +12,28 @@ local M={}
 --------------------------------------------------------------------------------------------------- positions --
 -- A position snapshot {x, y, z} that nobody can change: every subscriber of an event (and every delayed callback
 -- that kept it) reads the same values. p.x / p.y / p.z read it; p:copy() returns a plain, writable table;
--- p:unpack() returns x, y, z. tostring(p) formats it.
+-- p:unpack() returns x, y, z. tostring(p) formats it. Each position is an empty proxy whose own metatable reads a
+-- private {x, y, z} (no weak table, so the collector never scans a growing registry).
 local Position={}
-local position_data=setmetatable({},{__mode='k'})
-local position_meta={__metatable='HD2Position'}
-function position_meta.__index(p,key)
-    local data=position_data[p]
-    local value=data and data[key]
-    if value~=nil then return value end
-    return Position[key]
-end
-function position_meta.__newindex()error('positions are read-only snapshots; use p:copy() for a table you can change',2)end
-function position_meta.__tostring(p)
-    local data=position_data[p]
-    return('(%.2f, %.2f, %.2f)'):format(data.x,data.y,data.z)
-end
-function position_meta.__eq(a,b)
-    local da,db=position_data[a],position_data[b]
-    return da~=nil and db~=nil and da.x==db.x and da.y==db.y and da.z==db.z
-end
-function Position.copy(p)local data=position_data[p];return{x=data.x,y=data.y,z=data.z}end
-function Position.unpack(p)local data=position_data[p];return data.x,data.y,data.z end
+local position_values={__index=Position}
+local function refuse()error('positions are read-only snapshots; use p:copy() for a table you can change',2)end
+local function format(p)return('(%.2f, %.2f, %.2f)'):format(p.x,p.y,p.z)end
+local function equal(a,b)return a.x==b.x and a.y==b.y and a.z==b.z end
+function Position.copy(p)return{x=p.x,y=p.y,z=p.z}end
+function Position.unpack(p)return p.x,p.y,p.z end
 -- Distance in metres to another position (read-only or a plain {x, y, z}).
 function Position.distance(p,other)
-    local data=position_data[p]
-    local dx,dy,dz=data.x-other.x,data.y-other.y,data.z-other.z
+    local dx,dy,dz=p.x-other.x,p.y-other.y,p.z-other.z
     return math.sqrt(dx*dx+dy*dy+dz*dz)
 end
 -- A read-only position from {x, y, z} (nil stays nil; a position is returned as it is).
 function M.position(value)
     if value==nil then return nil end
-    if position_data[value]then return value end
-    local proxy=setmetatable({},position_meta)
-    position_data[proxy]={x=value.x,y=value.y,z=value.z}
-    return proxy
+    if getmetatable(value)=='HD2Position'then return value end
+    local values=setmetatable({x=value.x,y=value.y,z=value.z},position_values)
+    return setmetatable({},{__index=values,__newindex=refuse,__tostring=format,__eq=equal,__metatable='HD2Position'})
 end
-function M.is_position(value)return position_data[value]~=nil end
+function M.is_position(value)return getmetatable(value)=='HD2Position'end
 
 ------------------------------------------------------------------------------------------------------ entities --
 local Entity={};Entity.__index=Entity
