@@ -174,8 +174,8 @@
    "name": "examples",
    "ok": true,
    "tail": [
-    "[HD2Runtime] [mods/hd2runtime_examples/heavy_devastator_delayed_explosion_test] loaded: kill a Heavy Devastator; an R-36 Eruptor explosion follows 3 s later where it died",
     "[HD2Runtime] [mods/hd2runtime_examples/event_isolation_test] loaded: press F9; each press must log one failure and one \"second subscriber ran\" line",
+    "[HD2Runtime] [mods/hd2runtime_examples/status_action_test] loaded: hit an enemy in a mission (as host); it should catch fire",
     "[HD2Runtime] [mods/hd2runtime_examples/player_kill_credited_example] loaded: kill enemies with different weapons and stratagems; each credit is logged per source"
    ]
   },
@@ -201,7 +201,7 @@
    "name": "full test suite",
    "ok": true,
    "tail": [
-    "Ran 580 tests in 67.697s",
+    "Ran 597 tests in 61.564s",
     "",
     "OK"
    ]
