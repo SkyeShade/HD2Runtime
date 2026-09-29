@@ -55,28 +55,28 @@ Notes:
 
 | Wiki stat | Covered / stated | Note |
 | --- | --- | --- |
-| `capacity` | 26/32 (81%) | Effective magazine capacity owned by a default customization option stays read-only. |
+| `capacity` | 29/32 (90%) | Effective magazine capacity owned by a default customization option stays read-only. |
 | `damage.durable` | 34/35 (97%) |  |
 | `damage.standard` | 34/35 (97%) |  |
 | `ergonomics` | 32/33 (96%) |  |
-| `fireRateRpm` | 20/27 (74%) |  |
+| `fireRateRpm` | 20/27 (74%) | Charge-controlled weapons (Railgun, Epoch, Arc Thrower, Meltagun) and selector sentinels are not exposed as ordinary RPM. |
 | `horizontalRecoil` | 32/33 (96%) |  |
-| `magsFromAmmoBox` | 21/27 (77%) | Derived by the game from the supply refill; authored through it. |
-| `magsFromSupply` | 21/27 (77%) |  |
-| `projectile.dragFactor` | 20/23 (86%) |  |
+| `magsFromAmmoBox` | 24/27 (88%) | Derived by the game from the supply refill; authored through it. |
+| `magsFromSupply` | 26/27 (96%) |  |
+| `projectile.dragFactor` | 20/23 (86%) | Guided launchers (Spear, Commando, W.A.S.P.): the native row matches the wiki on damage, velocity and mass but not drag / gravity, so the branch stays PARTIAL. |
 | `projectile.gravityFactor` | 20/23 (86%) |  |
 | `projectile.initialVelocityMetersPerSecond` | 20/23 (86%) |  |
 | `projectile.massGrams` | 20/23 (86%) |  |
 | `projectile.pelletCount` | 1/1 (100%) |  |
 | `projectile.penetrationSlowdown` | 20/23 (86%) |  |
 | `recoil` | 32/33 (96%) |  |
-| `spareMagazines` | 18/20 (90%) |  |
+| `spareMagazines` | 20/20 (100%) |  |
 | `spread` | 32/33 (96%) |  |
-| `startingMagazines` | 18/20 (90%) |  |
+| `startingMagazines` | 20/20 (100%) |  |
 | `sway` | 32/33 (96%) |  |
 | `verticalRecoil` | 32/33 (96%) |  |
 
-Weapons with at least one uncovered stated stat: 15 of 35. Most common gaps: `fireRateRpm` (7), `magsFromAmmoBox` (6), `magsFromSupply` (6), `capacity` (6), `projectile.dragFactor` (3), `projectile.gravityFactor` (3).
+Weapons with at least one uncovered stated stat: 13 of 35. Most common gaps: `fireRateRpm` (7), `projectile.dragFactor` (3), `projectile.gravityFactor` (3), `projectile.initialVelocityMetersPerSecond` (3), `projectile.massGrams` (3), `projectile.penetrationSlowdown` (3).
 
 ## Player weapons
 
@@ -86,24 +86,24 @@ Weapons with at least one uncovered stated stat: 15 of 35. Most common gaps: `fi
 | `damage.durable` | 70/79 (88%) |  |
 | `damage.standard` | 70/79 (88%) |  |
 | `ergonomics` | 73/80 (91%) |  |
-| `fireRateRpm` | 66/68 (97%) |  |
+| `fireRateRpm` | 66/68 (97%) | Charge-controlled weapons (Railgun, Epoch, Arc Thrower, Meltagun) and selector sentinels are not exposed as ordinary RPM. |
 | `horizontalRecoil` | 73/80 (91%) |  |
 | `magsFromAmmoBox` | 31/58 (53%) | Derived by the game from the supply refill; authored through it. |
-| `magsFromSupply` | 31/58 (53%) |  |
-| `projectile.dragFactor` | 64/68 (94%) |  |
+| `magsFromSupply` | 36/58 (62%) |  |
+| `projectile.dragFactor` | 64/68 (94%) | Guided launchers (Spear, Commando, W.A.S.P.): the native row matches the wiki on damage, velocity and mass but not drag / gravity, so the branch stays PARTIAL. |
 | `projectile.gravityFactor` | 64/68 (94%) |  |
 | `projectile.initialVelocityMetersPerSecond` | 64/68 (94%) |  |
 | `projectile.massGrams` | 64/68 (94%) |  |
 | `projectile.pelletCount` | 11/11 (100%) |  |
 | `projectile.penetrationSlowdown` | 64/68 (94%) |  |
 | `recoil` | 73/80 (91%) |  |
-| `spareMagazines` | 31/58 (53%) |  |
+| `spareMagazines` | 36/58 (62%) |  |
 | `spread` | 73/80 (91%) |  |
-| `startingMagazines` | 31/58 (53%) |  |
+| `startingMagazines` | 36/58 (62%) |  |
 | `sway` | 73/80 (91%) |  |
 | `verticalRecoil` | 73/80 (91%) |  |
 
-Weapons with at least one uncovered stated stat: 30 of 80. Most common gaps: `magsFromAmmoBox` (27), `magsFromSupply` (27), `spareMagazines` (27), `startingMagazines` (27), `capacity` (21), `damage.durable` (9).
+Weapons with at least one uncovered stated stat: 30 of 80. Most common gaps: `magsFromAmmoBox` (27), `magsFromSupply` (22), `spareMagazines` (22), `startingMagazines` (22), `capacity` (21), `damage.durable` (9).
 
 ## Enemies and structures (E, F, G)
 

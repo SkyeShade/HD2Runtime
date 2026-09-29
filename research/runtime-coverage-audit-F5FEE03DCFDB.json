@@ -2256,7 +2256,7 @@
   "statCoverage": {
    "capacity": {
     "stated": 32,
-    "covered": 26,
+    "covered": 29,
     "note": "Effective magazine capacity owned by a default customization option stays read-only."
    },
    "damage.durable": {
@@ -2277,7 +2277,7 @@
    "fireRateRpm": {
     "stated": 27,
     "covered": 20,
-    "note": null
+    "note": "Charge-controlled weapons (Railgun, Epoch, Arc Thrower, Meltagun) and selector sentinels are not exposed as ordinary RPM."
    },
    "horizontalRecoil": {
     "stated": 33,
@@ -2286,18 +2286,18 @@
    },
    "magsFromAmmoBox": {
     "stated": 27,
-    "covered": 21,
+    "covered": 24,
     "note": "Derived by the game from the supply refill; authored through it."
    },
    "magsFromSupply": {
     "stated": 27,
-    "covered": 21,
+    "covered": 26,
     "note": null
    },
    "projectile.dragFactor": {
     "stated": 23,
     "covered": 20,
-    "note": null
+    "note": "Guided launchers (Spear, Commando, W.A.S.P.): the native row matches the wiki on damage, velocity and mass but not drag / gravity, so the branch stays PARTIAL."
    },
    "projectile.gravityFactor": {
     "stated": 23,
@@ -2331,7 +2331,7 @@
    },
    "spareMagazines": {
     "stated": 20,
-    "covered": 18,
+    "covered": 20,
     "note": null
    },
    "spread": {
@@ -2341,7 +2341,7 @@
    },
    "startingMagazines": {
     "stated": 20,
-    "covered": 18,
+    "covered": 20,
     "note": null
    },
    "sway": {
@@ -2562,10 +2562,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -2613,10 +2610,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -2758,19 +2752,16 @@
    {
     "name": "M-1000 Maxigun",
     "resolved": true,
-    "writableFields": 31,
+    "writableFields": 34,
     "writableDomains": [
      "damage",
+     "deposit",
      "projectile",
      "reload",
      "weapon",
      "windup"
     ],
-    "uncoveredStats": [
-     "capacity",
-     "magsFromAmmoBox",
-     "magsFromSupply"
-    ]
+    "uncoveredStats": []
    },
    {
     "name": "B/MD C4 Pack",
@@ -2813,9 +2804,10 @@
    {
     "name": "GL-28 Belt-Fed Grenade Launcher",
     "resolved": true,
-    "writableFields": 44,
+    "writableFields": 47,
     "writableDomains": [
      "damage",
+     "deposit",
      "explosion",
      "fire_mode",
      "projectile",
@@ -2823,26 +2815,20 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "capacity",
-     "fireRateRpm",
-     "magsFromAmmoBox",
-     "magsFromSupply"
+     "fireRateRpm"
     ]
    },
    {
     "name": "B/FLAM-80 Cremator",
     "resolved": true,
-    "writableFields": 25,
+    "writableFields": 28,
     "writableDomains": [
      "damage",
+     "deposit",
      "status",
      "weapon"
     ],
-    "uncoveredStats": [
-     "capacity",
-     "magsFromAmmoBox",
-     "magsFromSupply"
-    ]
+    "uncoveredStats": []
    },
    {
     "name": "MGX-42 Bullet Storm",
@@ -2902,7 +2888,7 @@
    "fireRateRpm": {
     "stated": 68,
     "covered": 66,
-    "note": null
+    "note": "Charge-controlled weapons (Railgun, Epoch, Arc Thrower, Meltagun) and selector sentinels are not exposed as ordinary RPM."
    },
    "horizontalRecoil": {
     "stated": 80,
@@ -2916,13 +2902,13 @@
    },
    "magsFromSupply": {
     "stated": 58,
-    "covered": 31,
+    "covered": 36,
     "note": null
    },
    "projectile.dragFactor": {
     "stated": 68,
     "covered": 64,
-    "note": null
+    "note": "Guided launchers (Spear, Commando, W.A.S.P.): the native row matches the wiki on damage, velocity and mass but not drag / gravity, so the branch stays PARTIAL."
    },
    "projectile.gravityFactor": {
     "stated": 68,
@@ -2956,7 +2942,7 @@
    },
    "spareMagazines": {
     "stated": 58,
-    "covered": 31,
+    "covered": 36,
     "note": null
    },
    "spread": {
@@ -2966,7 +2952,7 @@
    },
    "startingMagazines": {
     "stated": 58,
-    "covered": 31,
+    "covered": 36,
     "note": null
    },
    "sway": {
@@ -3721,10 +3707,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -3799,10 +3782,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -3817,10 +3797,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -3853,10 +3830,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
@@ -4234,10 +4208,7 @@
      "weapon"
     ],
     "uncoveredStats": [
-     "magsFromAmmoBox",
-     "magsFromSupply",
-     "spareMagazines",
-     "startingMagazines"
+     "magsFromAmmoBox"
     ]
    },
    {
