@@ -43,8 +43,10 @@ HD2Runtime is designed to fail safely when a game structure or ownership relatio
   status an attack applies or attach one to an attack that has none (see `docs/status-effects.md` and
   `sdk/StatusEffectCatalog.json`)
 - Enemy and enemy-structure health, armor and damage zones (`hd2.enemy(name)`, `hd2.structure(name)`,
-  `:zone(name)`) for 177 hash-verified native classes, named by wiki name only where the anatomy proves it (see
+  `:zone(name)`) for 177 hash-verified native classes, named by wiki name only where the anatomy proves it, and
+  the damage of 85 mounted-weapon attacks (`:attack(name)`) reached through each class's own mount chain (see
   `docs/enemy-authoring.md` and `sdk/EnemyAuthoringCapabilities.json`)
+- Minefield salvo count and mines per salvo (`hd2.stratagem(name):deployed_entity():minefield()`, reductions only)
 - Guarded patches, transactions and multi-object plans
 - In-game options: sliders, choices and toggles on the MODS tab (CowboyBingus Mod Options Menu)
   that drive one ensured operation live, with the same guards

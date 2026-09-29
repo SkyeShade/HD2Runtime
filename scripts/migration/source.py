@@ -240,16 +240,27 @@ def normalize(tables: dict, source_view=None) -> list[dict]:
                      'guard': {'instanceKey': field['instanceKey']}}, field.get('reason')))
     # Enemies: the compact table carries the class's HealthComponent identity once; a field's own backing (offset,
     # and after a migration its rebound record coordinates) overrides it, exactly as enemy_writes.descriptor merges.
+    # Attack fields are DamageInfo settings rows anchored on the mounted weapon entity (the engine re-walks the
+    # weapon -> projectile / explosion -> DamageInfo chain from it); each attack is its own object, so a broken mount
+    # link (relationships()) blocks only that attack.
     for name, entry in sorted(((tables.get('enemy_authoring') or {}).get('enemies') or {}).items()):
         health = entry['health']
+        attacks = {attack['id']: attack for attack in entry.get('attacks') or []}
         for index, field in enumerate(entry.get('fields') or []):
+            zone, attack = field.get('zone'), field.get('attack')
+            guard = {'id': field['id'], 'path': field['path'], **({'zone': zone} if zone else {}),
+                **({'attack': attack} if attack else {})}
+            locator = {'path': ['enemies', name, 'fields', index], 'guard': guard}
+            if attack:
+                records.append(_record('enemy_authoring', 'enemy:' + name + ':attack:' + attack + ':' + field['id'],
+                    name + '/attack/' + attack, field['id'],
+                    _settings('damage', field['backing'], [_int(attacks[attack]['weapon']['resource'])]),
+                    field.get('currentDefault'), field.get('editable', True), True, locator, field.get('reason')))
+                continue
             b = dict(health, **field['backing'])
-            zone = field.get('zone')
-            guard = {'id': field['id'], 'path': field['path'], **({'zone': zone} if zone else {})}
             records.append(_record('enemy_authoring', 'enemy:' + name + ':' + (zone or 'entity') + ':' + field['id'],
                 name, field['id'], _component(b, _int(entry['resource'])), field.get('currentDefault'),
-                field.get('editable', True), not health['uniqueOwner'],
-                {'path': ['enemies', name, 'fields', index], 'guard': guard}, field.get('reason')))
+                field.get('editable', True), not health['uniqueOwner'], locator, field.get('reason')))
     keys = [record['key'] for record in records]
     if len(keys) != len(set(keys)):
         raise ValueError('migration field keys are not unique')
@@ -271,6 +282,11 @@ def relationships(tables: dict) -> list[dict]:
             if weapon:
                 add('vehicle_mount', 'mount:' + name + ':' + label, name, vehicle=_int(vehicle['resource']),
                     slot=mount['slot'], weapon=_int(weapon['resource']))
+    for name, enemy in sorted(((tables.get('enemy_authoring') or {}).get('enemies') or {}).items()):
+        for attack in enemy.get('attacks') or []:
+            add('vehicle_mount', 'enemy-attack-mount:' + name + ':' + attack['id'], name,
+                [('enemy_authoring', name + '/attack/' + attack['id'])], vehicle=_int(enemy['resource']),
+                slot=attack['slot'], weapon=_int(attack['weapon']['resource']))
     for name, weapon in sorted(((tables.get('vehicle_weapon_authoring') or {}).get('weapons') or {}).items()):
         chain = weapon.get('mountChain')
         if chain:

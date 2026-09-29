@@ -12,6 +12,15 @@
     {"id":"zone.affects_main_health","display_name":"Damage forwarded to main health","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":248},
     {"id":"zone.constitution","display_name":"Zone constitution","type":"integer","unit":"health","writable":true,"storage":"i32","zoneOffset":236},
     {"id":"zone.durable_resistance","display_name":"Zone durable damage share","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":204},
-    {"id":"zone.explosive_damage_percentage","display_name":"Zone explosion damage taken","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":324}
+    {"id":"zone.explosive_damage_percentage","display_name":"Zone explosion damage taken","type":"number","unit":"ratio","writable":true,"storage":"f32","zoneOffset":324},
+    {"id":"damage.standard_damage","display_name":"Standard damage","type":"integer","unit":"damage","writable":true,"storage":"i32","settings":"damage","offset":4},
+    {"id":"damage.durable_damage","display_name":"Durable damage","type":"integer","unit":"damage","writable":true,"storage":"i32","settings":"damage","offset":8},
+    {"id":"damage.ap_direct","display_name":"Armor penetration: direct","type":"integer","unit":"armor_class","writable":true,"storage":"u32","settings":"damage","offset":12},
+    {"id":"damage.ap_slight","display_name":"Armor penetration: slight angle","type":"integer","unit":"armor_class","writable":true,"storage":"u32","settings":"damage","offset":16},
+    {"id":"damage.ap_large","display_name":"Armor penetration: large angle","type":"integer","unit":"armor_class","writable":true,"storage":"u32","settings":"damage","offset":20},
+    {"id":"damage.ap_extreme","display_name":"Armor penetration: extreme angle","type":"integer","unit":"armor_class","writable":true,"storage":"u32","settings":"damage","offset":24},
+    {"id":"damage.demolition","display_name":"Demolition","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":28},
+    {"id":"damage.stagger","display_name":"Stagger","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":32},
+    {"id":"damage.push_force","display_name":"Push force","type":"integer","unit":"force","writable":true,"storage":"u32","settings":"damage","offset":36}
   ]
 }

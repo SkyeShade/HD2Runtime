@@ -340,7 +340,7 @@ class EnemyTests(unittest.TestCase):
         self.assertTrue(all(f['acknowledgement'] == 'allow_unverified_effect' for k, f in fields.items()
             if k not in PROVEN))
         instances = self.catalog['fieldInstances']
-        self.assertEqual(len(instances), 9300)
+        self.assertEqual(len(instances), 10065)          # 9,300 health / zone + 765 attack fields
         for item in instances:
             low, high = fields[item['semanticFieldId']]['range']
             if item['editable']:
@@ -348,14 +348,16 @@ class EnemyTests(unittest.TestCase):
             else:
                 self.assertTrue(item['currentDefault'] is None or item['currentDefault'] == -1, item['instanceKey'])
                 self.assertTrue(item['reason'])
-        self.assertEqual(sum(1 for i in instances if i['editable']), 7981)
+        self.assertEqual(sum(1 for i in instances if i['editable']), 8746)
 
     def test_snapshot_validation_record(self):
         record = json.loads((ROOT / 'validation/coverage-pass-snapshot.json').read_text())['enemies']
-        self.assertEqual((record['classes'], record['fields'], record['readOnly']), (177, 7981, 1319))
+        self.assertEqual((record['classes'], record['fields'], record['readOnly'], record['attackFields']),
+            (177, 8746, 1319, 765))
         self.assertEqual(set(record['roundTrips']), {'charger_health', 'charger_head_armor', 'fabricator_health',
-            'warrior_head_health'})
-        self.assertEqual(record['rejections'], {'acknowledgement': 1, 'range': 1, 'staleExpect': 1, 'sentinel': 1})
+            'warrior_head_health', 'gunship_rocket_damage', 'bile_bombard_explosion_damage'})
+        self.assertEqual(record['rejections'], {'acknowledgement': 1, 'range': 1, 'staleExpect': 1, 'sentinel': 1,
+            'attackShared': 1, 'attackAcknowledgement': 1, 'brokenMountChain': 1})
 
     def test_api_and_guards(self):
         run('''
@@ -390,6 +392,68 @@ patches.validate{id='m',target=hd2.enemy('Marauder'):zone('Head'),field=hd2.fiel
 assert(#hd2.enemies({kind='structure'})==39 and #hd2.enemies({faction='illuminate',kind='enemy'})>0)
 return 'ok'
 ''')
+
+    def test_attacks_are_mount_chain_rows_named_only_by_exact_matches(self):
+        research = json.loads((ROOT / 'research/enemy-attacks-F5FEE03DCFDB.json').read_text())
+        self.assertEqual(research['summary']['wikiMatchedRows'], 23)
+        summary = self.catalog['summary']
+        self.assertEqual((summary['attacks'], summary['classesWithAttacks'], summary['attackFieldInstances']),
+            (85, 38, 765))
+        gunship = {a['id']: a for a in self.classes['Gunship']['attacks']}
+        self.assertEqual(gunship['slot_0']['wikiAttacks'], ['HEAT Rocket Racks'])
+        self.assertEqual(gunship['slot_2']['wikiAttacks'], ['Heavy Fusion Cycler'])
+        self.assertIn('Gunship', gunship['slot_0']['sharedWithClasses'])
+        for item in self.catalog['classes']:
+            for attack in item['attacks']:
+                for name in attack['wikiAttacks']:     # class-level names are a subset of the row-level matches
+                    self.assertTrue(any(match.endswith(': ' + name) for match in attack['rowWikiMatches']))
+        # The Devastator page lists stagger 15 / push 10 for its cannon; the row (and the Factory Strider page for the
+        # same row) has 10 / 15, so the soldier classes' attack stays unnamed.
+        self.assertEqual(self.classes['soldier']['attacks'][0]['wikiAttacks'], [])
+        attack_fields = [i for i in self.catalog['fieldInstances'] if i['target']['path'] == 'attack']
+        self.assertTrue(all(i['shared'] and i['allowSharedRequired'] for i in attack_fields))
+        self.assertEqual(self.catalog['model']['fields']['damage.standard_damage']['apiFieldConstant'],
+            'hd2.fields.damage.player_standard_damage')
+
+    def test_attack_api_and_guards(self):
+        run('''
+local hd2=require('hd2runtime/api/hd2')
+local patches=require('hd2runtime/domains/patches')
+local rockets=hd2.enemy('Gunship'):attack('HEAT Rocket Racks')
+assert(rockets.attack=='slot_0' and #rockets:describe().fields==9)
+patches.validate{id='r',target=rockets,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.damage.player_standard_damage,expect=30,value=3}
+local ok,why=pcall(patches.validate,{id='r',target=rockets,allow_unverified_effect=true,
+ field=hd2.fields.damage.player_standard_damage,expect=30,value=3})
+assert(not ok and tostring(why):find('allow_shared',1,true),why)
+ok,why=pcall(patches.validate,{id='r',target=rockets,allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.damage.standard_damage,expect=30,value=3})
+assert(not ok and tostring(why):find('player_standard_damage',1,true),why)
+local spewer=hd2.enemy('Rupture Spewer')
+assert(spewer:attack('Bile Bombard').attack=='slot_1')
+patches.validate{id='s',target=spewer:attack('slot_1_impact'),allow_shared=true,allow_unverified_effect=true,
+ field=hd2.fields.damage.ap_direct,expect=5,value=2}
+assert(not pcall(function()return hd2.enemy('Charger'):attack('slot_0')end))
+assert(#hd2.enemy('Gatekeeper'):attacks()==8)
+return 'ok'
+''')
+
+    def test_migration_anchors_attacks_on_their_weapon_and_blocks_per_attack(self):
+        from migration import source
+        attack = {'id': 'slot_0', 'slot': 0, 'weapon': {'resource': '0x2'}}
+        field = {'id': 'damage.stagger', 'path': 'attack', 'attack': 'slot_0', 'currentDefault': 35,
+            'editable': True, 'backing': {'kind': 'settings', 'settings': 'damage', 'recordType': 8, 'group': 1,
+                'row': 9, 'offset': 32, 'storage': 'u32', 'width': 4}}
+        tables = {'enemy_authoring': {'enemies': {'Gunship': {'resource': '0x1', 'health': {'uniqueOwner': True},
+            'attacks': [attack], 'fields': [field]}}}}
+        [record] = source.normalize(tables)
+        self.assertEqual((record['object'], record['backing']['kind'], record['backing']['anchors']),
+            ('Gunship/attack/slot_0', 'settings', [2]))
+        self.assertTrue(record['shared'])
+        self.assertEqual(record['locator']['guard'], {'id': 'damage.stagger', 'path': 'attack', 'attack': 'slot_0'})
+        [link] = [l for l in source.relationships(tables) if l['key'].startswith('enemy-attack-mount:')]
+        self.assertEqual((link['kind'], link['vehicle'], link['slot'], link['weapon'], link['blocks']),
+            ('vehicle_mount', 1, 0, 2, [['enemy_authoring', 'Gunship/attack/slot_0']]))
 
     def test_migration_rebinds_the_compact_enemy_nodes(self):
         import apply_migration

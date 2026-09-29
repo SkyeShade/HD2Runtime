@@ -1,0 +1,7615 @@
+{
+ "schemaVersion": 1,
+ "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+ "entitiesSha256": "21377252B81FDBC670EBA1E59A8AB64B170323DF208F175E708992E4C1FB515E",
+ "writes": 0,
+ "fixtureFallback": "disabled",
+ "damageKeys": [
+  "standard_damage",
+  "durable_damage",
+  "ap_direct",
+  "ap_slight",
+  "ap_large",
+  "ap_extreme",
+  "demolition",
+  "stagger",
+  "push_force"
+ ],
+ "summary": {
+  "weaponSlots": 75,
+  "slots": 119,
+  "damageRows": 94,
+  "wikiMatchedRows": 23,
+  "classesWithMounts": 62,
+  "classesWithWeapons": 43,
+  "wikiRangedAttacks": 71,
+  "wikiRangedAttacksMatched": 12
+ },
+ "classes": [
+  {
+   "name": "illuminate_guy_staff_tier_2",
+   "className": "illuminate_guy_staff_tier_2",
+   "resource": "0x08E6FFC2474287BD",
+   "entityRow": 1983,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 125,
+    "indexRow": 127,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x7EA558204D0FFC29",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 3113,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_suppressor",
+   "className": "lieutenant_suppressor",
+   "resource": "0x137988CEA16458F7",
+   "entityRow": 2295,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 76,
+    "indexRow": 175,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x5B596A4D21BC91A3",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 419,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 22,
+      "indexRow": 353,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Fusion Autocannon",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xC8378469E1936877",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2167,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 23,
+      "indexRow": 39,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 246,
+     "projectile": {
+      "type": 246,
+      "settings": {
+       "group": 0,
+       "recordType": 246,
+       "row": 61
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0.009999999776482582,
+       "lifetime": 10,
+       "mass": 3300,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 45
+      }
+     },
+     "projectileConsumers": 8,
+     "explosions": {
+      "impact": {
+       "type": 91,
+       "settings": {
+        "group": 0,
+        "recordType": 91,
+        "row": 32
+       },
+       "values": {
+        "inner_radius": 0.6499999761581421,
+        "outer_radius": 1.649999976158142,
+        "shockwave_radius": 3.1500000953674316
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Rotary Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        },
+        {
+         "page": "Hulk Obliterator",
+         "attack": "Revolving Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 425,
+       "settings": {
+        "group": 1,
+        "recordType": 425,
+        "row": 415
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 70,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 70
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_ivory_legion_assault",
+   "className": "lieutenant_ivory_legion_assault",
+   "resource": "0x1897BDD32105D2DC",
+   "entityRow": 732,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 75,
+    "indexRow": 284,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xBB37F12D0F46690F",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/lieutenant_saw/lieutenant_saw_ivory_legion",
+     "components": [],
+     "weaponEntityRow": 2319,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF2B4A99D1B0E40C8",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 200,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 6,
+      "indexRow": 45,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "illuminate_attack_ship",
+   "className": "illuminate_attack_ship",
+   "resource": "0x19E18B46EC55D94A",
+   "entityRow": 2378,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Stingray"
+   ],
+   "mount": {
+    "recordIndex": 35,
+    "indexRow": 140,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x8F2158C7E969E2AB",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 683,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 82,
+      "indexRow": 255,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 269,
+     "projectile": {
+      "type": 269,
+      "settings": {
+       "group": 0,
+       "recordType": 269,
+       "row": 110
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0,
+       "lifetime": 2,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 225
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 344,
+       "settings": {
+        "group": 0,
+        "recordType": 344,
+        "row": 325
+       },
+       "values": {
+        "inner_radius": 2,
+        "outer_radius": 3.5,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 272,
+       "settings": {
+        "group": 1,
+        "recordType": 272,
+        "row": 36
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 3,
+        "ap_large": 3,
+        "ap_slight": 4,
+        "demolition": 10,
+        "durable_damage": 50,
+        "push_force": 5,
+        "stagger": 5,
+        "standard_damage": 50
+       },
+       "wikiMatches": [
+        {
+         "page": "Stingray",
+         "attack": "Plasma Destructor Gunpods",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
+       "reviewedClassesReachingRow": [
+        "illuminate_attack_ship"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 439,
+       "settings": {
+        "group": 1,
+        "recordType": 439,
+        "row": 429
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 125,
+        "push_force": 10,
+        "stagger": 15,
+        "standard_damage": 125
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "illuminate_attack_ship"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x8F2158C7E969E2AB",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 683,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 82,
+      "indexRow": 255,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 269,
+     "projectile": {
+      "type": 269,
+      "settings": {
+       "group": 0,
+       "recordType": 269,
+       "row": 110
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0,
+       "lifetime": 2,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 225
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 344,
+       "settings": {
+        "group": 0,
+        "recordType": 344,
+        "row": 325
+       },
+       "values": {
+        "inner_radius": 2,
+        "outer_radius": 3.5,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 272,
+       "settings": {
+        "group": 1,
+        "recordType": 272,
+        "row": 36
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 3,
+        "ap_large": 3,
+        "ap_slight": 4,
+        "demolition": 10,
+        "durable_damage": 50,
+        "push_force": 5,
+        "stagger": 5,
+        "standard_damage": 50
+       },
+       "wikiMatches": [
+        {
+         "page": "Stingray",
+         "attack": "Plasma Destructor Gunpods",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Stingray: Plasma Destructor Gunpods"
+       ],
+       "reviewedClassesReachingRow": [
+        "illuminate_attack_ship"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 439,
+       "settings": {
+        "group": 1,
+        "recordType": 439,
+        "row": 429
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 125,
+        "push_force": 10,
+        "stagger": 15,
+        "standard_damage": 125
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "illuminate_attack_ship"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_artillery",
+   "className": "lieutenant_artillery",
+   "resource": "0x1E66EE1F6F7FD00E",
+   "entityRow": 14,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 71,
+    "indexRow": 6,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x8A4DE24951A1726D",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 621,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 101,
+      "indexRow": 33,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 246,
+     "projectile": {
+      "type": 246,
+      "settings": {
+       "group": 0,
+       "recordType": 246,
+       "row": 61
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0.009999999776482582,
+       "lifetime": 10,
+       "mass": 3300,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 45
+      }
+     },
+     "projectileConsumers": 8,
+     "explosions": {
+      "impact": {
+       "type": 91,
+       "settings": {
+        "group": 0,
+        "recordType": 91,
+        "row": 32
+       },
+       "values": {
+        "inner_radius": 0.6499999761581421,
+        "outer_radius": 1.649999976158142,
+        "shockwave_radius": 3.1500000953674316
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Rotary Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        },
+        {
+         "page": "Hulk Obliterator",
+         "attack": "Revolving Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 425,
+       "settings": {
+        "group": 1,
+        "recordType": 425,
+        "row": 415
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 70,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 70
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x8A4DE24951A1726D",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 621,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 101,
+      "indexRow": 33,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 246,
+     "projectile": {
+      "type": 246,
+      "settings": {
+       "group": 0,
+       "recordType": 246,
+       "row": 61
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0.009999999776482582,
+       "lifetime": 10,
+       "mass": 3300,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 45
+      }
+     },
+     "projectileConsumers": 8,
+     "explosions": {
+      "impact": {
+       "type": 91,
+       "settings": {
+        "group": 0,
+        "recordType": 91,
+        "row": 32
+       },
+       "values": {
+        "inner_radius": 0.6499999761581421,
+        "outer_radius": 1.649999976158142,
+        "shockwave_radius": 3.1500000953674316
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Rotary Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        },
+        {
+         "page": "Hulk Obliterator",
+         "attack": "Revolving Munition Launcher (HEAT)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 425,
+       "settings": {
+        "group": 1,
+        "recordType": 425,
+        "row": 415
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 70,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 70
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0x8FC2784308E9BA99",
+     "weaponPath": "content/fac_cyborgs/equipment/attachment/lieutenant_flag/lieutenant_flag",
+     "components": [],
+     "weaponEntityRow": 2713,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "conscript_commander_jump",
+   "className": "conscript_commander_jump",
+   "resource": "0x215CE160A17BE4CD",
+   "entityRow": 1229,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Commissar"
+   ],
+   "mount": {
+    "recordIndex": 69,
+    "indexRow": 29,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xE2E62FDD39407FE3",
+     "weaponPath": "content/fac_cyborgs/equipment/backpacks/conscript_jumppack/conscript_jumppack",
+     "components": [],
+     "weaponEntityRow": 4067,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "conscript_shotgun",
+   "className": "conscript_shotgun",
+   "resource": "0x257D805CAA7E10C0",
+   "entityRow": 192,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Incendiary Rocket Raider",
+    "Rocket Raider",
+    "Scout Strider",
+    "Trooper"
+   ],
+   "mount": {
+    "recordIndex": 67,
+    "indexRow": 100,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x57F11209295752B5",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 693,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "Gunship",
+   "className": "gunship",
+   "resource": "0x282EB766C1FFA6A1",
+   "entityRow": 1697,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": "Gunship",
+   "wikiCandidates": [
+    "Gunship"
+   ],
+   "mount": {
+    "recordIndex": 11,
+    "indexRow": 9,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xC3C1BBA1F445A81E",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2078,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 38,
+      "indexRow": 408,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 246,
+     "projectile": {
+      "type": 246,
+      "settings": {
+       "group": 0,
+       "recordType": 246,
+       "row": 61
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0.009999999776482582,
+       "lifetime": 10,
+       "mass": 3300,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 45
+      }
+     },
+     "projectileConsumers": 8,
+     "explosions": {
+      "impact": {
+       "type": 91,
+       "settings": {
+        "group": 0,
+        "recordType": 91,
+        "row": 32
+       },
+       "values": {
+        "inner_radius": 0.6499999761581421,
+        "outer_radius": 1.649999976158142,
+        "shockwave_radius": 3.1500000953674316
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Gunship",
+         "attack": "HEAT Rocket Racks",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 425,
+       "settings": {
+        "group": 1,
+        "recordType": 425,
+        "row": 415
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 70,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 70
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xC3C1BBA1F445A81E",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2078,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 38,
+      "indexRow": 408,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 246,
+     "projectile": {
+      "type": 246,
+      "settings": {
+       "group": 0,
+       "recordType": 246,
+       "row": 61
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 0.009999999776482582,
+       "lifetime": 10,
+       "mass": 3300,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 45
+      }
+     },
+     "projectileConsumers": 8,
+     "explosions": {
+      "impact": {
+       "type": 91,
+       "settings": {
+        "group": 0,
+        "recordType": 91,
+        "row": 32
+       },
+       "values": {
+        "inner_radius": 0.6499999761581421,
+        "outer_radius": 1.649999976158142,
+        "shockwave_radius": 3.1500000953674316
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Gunship",
+         "attack": "HEAT Rocket Racks",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 425,
+       "settings": {
+        "group": 1,
+        "recordType": 425,
+        "row": 415
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 70,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 70
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0x2D62A25F36C08F33",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3891,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 39,
+      "indexRow": 350,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [
+        {
+         "page": "Gunship",
+         "attack": "Heavy Fusion Cycler",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "command_bunker_side",
+   "className": "command_bunker_side",
+   "resource": "0x298C464F7F4261E3",
+   "entityRow": 483,
+   "kind": "structure",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 42,
+    "indexRow": 236,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xCD28A27A79BE53D5",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_turret_command_bunker_hmg/cyborg_turret_command_bunker_hmg",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 981,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 35,
+      "indexRow": 339,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "spawner_jammer",
+   "className": "spawner_jammer",
+   "resource": "0x30F2DEE2333F227A",
+   "entityRow": 635,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Factory Strider"
+   ],
+   "mount": {
+    "recordIndex": 90,
+    "indexRow": 115,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xB971B1141E1CBFAC",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 4012,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x390E6B3D2F26BD70",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3440,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 117,
+      "indexRow": 351,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [
+        {
+         "page": "Factory Strider",
+         "attack": "Fusion Gatling Guns",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tank_base",
+   "className": "tank_base",
+   "resource": "0x31BAE74D2F064D8D",
+   "entityRow": 3469,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bulk Fabricator"
+   ],
+   "mount": {
+    "recordIndex": 14,
+    "indexRow": 220,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x8FB47DD28B398CF7",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_tank_turret_cannon/cyborg_tank_turret_heavycannon",
+     "components": [
+      "MountComponentData",
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3319,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 109,
+      "indexRow": 183,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 169,
+     "projectile": {
+      "type": 169,
+      "settings": {
+       "group": 0,
+       "recordType": 169,
+       "row": 55
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 4,
+     "explosions": {
+      "impact": {
+       "type": 381,
+       "settings": {
+        "group": 0,
+        "recordType": 381,
+        "row": 28
+       },
+       "values": {
+        "inner_radius": 1.2000000476837158,
+        "outer_radius": 6,
+        "shockwave_radius": 8
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 254,
+       "settings": {
+        "group": 1,
+        "recordType": 254,
+        "row": 254
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 50,
+        "durable_damage": 1500,
+        "push_force": 30,
+        "stagger": 60,
+        "standard_damage": 1500
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 461,
+       "settings": {
+        "group": 1,
+        "recordType": 461,
+        "row": 456
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 100,
+        "push_force": 70,
+        "stagger": 50,
+        "standard_damage": 100
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "boomer",
+   "className": "boomer",
+   "resource": "0x36AA99CCE5E60146",
+   "entityRow": 327,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bile Spewer",
+    "Nursing Spewer"
+   ],
+   "mount": {
+    "recordIndex": 2,
+    "indexRow": 190,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x6F91BC8002875E76",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3702,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 1,
+      "indexRow": 26,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x767977BD472A62DA",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 730,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 0,
+      "indexRow": 70,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 344,
+     "projectile": {
+      "type": 344,
+      "settings": {
+       "group": 0,
+       "recordType": 344,
+       "row": 29
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 1000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 6,
+       "settings": {
+        "group": 0,
+        "recordType": 6,
+        "row": 14
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 8,
+        "shockwave_radius": 14
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 252,
+       "settings": {
+        "group": 1,
+        "recordType": 252,
+        "row": 252
+       },
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 0,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 50,
+        "durable_damage": 500,
+        "push_force": 20,
+        "stagger": 60,
+        "standard_damage": 500
+       },
+       "wikiMatches": [
+        {
+         "page": "Bile Spewer",
+         "attack": "Bile Bombard",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 470,
+       "settings": {
+        "group": 1,
+        "recordType": 470,
+        "row": 466
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 200,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 200
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_assault",
+   "className": "lieutenant_assault",
+   "resource": "0x3E0537D606438FEA",
+   "entityRow": 4074,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 72,
+    "indexRow": 210,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xC89ED7AC3E425B25",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/lieutenant_saw/lieutenant_saw",
+     "components": [],
+     "weaponEntityRow": 2853,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF2B4A99D1B0E40C8",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 200,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 6,
+      "indexRow": 45,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Gatekeeper",
+   "className": "exomech_ranged",
+   "resource": "0x453FE22C634EB30F",
+   "entityRow": 783,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": "Gatekeeper",
+   "wikiCandidates": [
+    "Gatekeeper"
+   ],
+   "mount": {
+    "recordIndex": 24,
+    "indexRow": 0,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xD6FB1326FC0A95C1",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1473,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 72,
+      "indexRow": 263,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 39,
+     "projectile": {
+      "type": 39,
+      "settings": {
+       "group": 0,
+       "recordType": 39,
+       "row": 109
+      },
+      "values": {
+       "drag": 2,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 225
+      }
+     },
+     "projectileConsumers": 2,
+     "explosions": {
+      "impact": {
+       "type": 319,
+       "settings": {
+        "group": 0,
+        "recordType": 319,
+        "row": 319
+       },
+       "values": {
+        "inner_radius": 0.5,
+        "outer_radius": 1.5,
+        "shockwave_radius": 2.5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 38,
+       "settings": {
+        "group": 1,
+        "recordType": 38,
+        "row": 40
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 3,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 10,
+        "durable_damage": 50,
+        "push_force": 5,
+        "stagger": 5,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Gatekeeper",
+         "attack": "Plasma Starcannon (Volley)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Volley)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 436,
+       "settings": {
+        "group": 1,
+        "recordType": 436,
+        "row": 426
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 30,
+        "push_force": 0,
+        "stagger": 0,
+        "standard_damage": 20
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x3D2FE75B0DC50142",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 322,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 74,
+      "indexRow": 216,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 54,
+     "projectile": {
+      "type": 54,
+      "settings": {
+       "group": 0,
+       "recordType": 54,
+       "row": 112
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 3,
+     "explosions": {
+      "impact": {
+       "type": 99,
+       "settings": {
+        "group": 0,
+        "recordType": 99,
+        "row": 320
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 39,
+       "settings": {
+        "group": 1,
+        "recordType": 39,
+        "row": 41
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 140,
+        "push_force": 30,
+        "stagger": 40,
+        "standard_damage": 110
+       },
+       "wikiMatches": [
+        {
+         "page": "Gatekeeper",
+         "attack": "Plasma Starcannon (Charge)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Charge)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 437,
+       "settings": {
+        "group": 1,
+        "recordType": 437,
+        "row": 427
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 30,
+        "stagger": 30,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0xEE4DEE909FF50D5E",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3422,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 178,
+      "indexRow": 16,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 39,
+     "projectile": {
+      "type": 39,
+      "settings": {
+       "group": 0,
+       "recordType": 39,
+       "row": 109
+      },
+      "values": {
+       "drag": 2,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 225
+      }
+     },
+     "projectileConsumers": 2,
+     "explosions": {
+      "impact": {
+       "type": 319,
+       "settings": {
+        "group": 0,
+        "recordType": 319,
+        "row": 319
+       },
+       "values": {
+        "inner_radius": 0.5,
+        "outer_radius": 1.5,
+        "shockwave_radius": 2.5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 38,
+       "settings": {
+        "group": 1,
+        "recordType": 38,
+        "row": 40
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 3,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 10,
+        "durable_damage": 50,
+        "push_force": 5,
+        "stagger": 5,
+        "standard_damage": 30
+       },
+       "wikiMatches": [
+        {
+         "page": "Gatekeeper",
+         "attack": "Plasma Starcannon (Volley)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Volley)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 436,
+       "settings": {
+        "group": 1,
+        "recordType": 436,
+        "row": 426
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 30,
+        "push_force": 0,
+        "stagger": 0,
+        "standard_damage": 20
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 3,
+     "weapon": "0x297434E9E8A4CD5A",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3418,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 179,
+      "indexRow": 368,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 54,
+     "projectile": {
+      "type": 54,
+      "settings": {
+       "group": 0,
+       "recordType": 54,
+       "row": 112
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 3,
+     "explosions": {
+      "impact": {
+       "type": 99,
+       "settings": {
+        "group": 0,
+        "recordType": 99,
+        "row": 320
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 39,
+       "settings": {
+        "group": 1,
+        "recordType": 39,
+        "row": 41
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 140,
+        "push_force": 30,
+        "stagger": 40,
+        "standard_damage": 110
+       },
+       "wikiMatches": [
+        {
+         "page": "Gatekeeper",
+         "attack": "Plasma Starcannon (Charge)",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Charge)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 437,
+       "settings": {
+        "group": 1,
+        "recordType": 437,
+        "row": 427
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 30,
+        "stagger": 30,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tank_heavycannon",
+   "className": "tank_heavycannon",
+   "resource": "0x53D8919D7B8ABD67",
+   "entityRow": 3432,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bulk Fabricator"
+   ],
+   "mount": {
+    "recordIndex": 92,
+    "indexRow": 143,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x8FB47DD28B398CF7",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_tank_turret_cannon/cyborg_tank_turret_heavycannon",
+     "components": [
+      "MountComponentData",
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3319,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 109,
+      "indexRow": 183,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 169,
+     "projectile": {
+      "type": 169,
+      "settings": {
+       "group": 0,
+       "recordType": 169,
+       "row": 55
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 4,
+     "explosions": {
+      "impact": {
+       "type": 381,
+       "settings": {
+        "group": 0,
+        "recordType": 381,
+        "row": 28
+       },
+       "values": {
+        "inner_radius": 1.2000000476837158,
+        "outer_radius": 6,
+        "shockwave_radius": 8
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 254,
+       "settings": {
+        "group": 1,
+        "recordType": 254,
+        "row": 254
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 50,
+        "durable_damage": 1500,
+        "push_force": 30,
+        "stagger": 60,
+        "standard_damage": 1500
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 461,
+       "settings": {
+        "group": 1,
+        "recordType": 461,
+        "row": 456
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 100,
+        "push_force": 70,
+        "stagger": 50,
+        "standard_damage": 100
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x972BAAC825D4D165",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 357,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 28,
+      "indexRow": 85,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "berserker_iron_fleet",
+   "className": "berserker_iron_fleet",
+   "resource": "0x54E107DACF6929CB",
+   "entityRow": 2507,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 6,
+    "indexRow": 130,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_ivory_legion",
+   "className": "soldier_ivory_legion",
+   "resource": "0x57EED0EAC346CD9D",
+   "entityRow": 3485,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 78,
+    "indexRow": 113,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "soldier_mg_ivory_legion",
+   "className": "soldier_mg_ivory_legion",
+   "resource": "0x58B2B86C11369241",
+   "entityRow": 577,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 83,
+    "indexRow": 118,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xD1F232A6929E6D44",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_machinegun/soldier_machinegun_flm",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3396,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 102,
+      "indexRow": 252,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 253,
+     "projectile": {
+      "type": 253,
+      "settings": {
+       "group": 0,
+       "recordType": 253,
+       "row": 51
+      },
+      "values": {
+       "drag": 0.800000011920929,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 1,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 2,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 10,
+       "settings": {
+        "group": 1,
+        "recordType": 10,
+        "row": 17
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 2,
+        "ap_slight": 3,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 30
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "soldier_mg_ivory_legion"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xFEB484EE972469F7",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_shield/soldier_shield_ivory_legion",
+     "components": [],
+     "weaponEntityRow": 2551,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "boomer_nurser_mission",
+   "className": "boomer_nurser_mission",
+   "resource": "0x6021E22338333D88",
+   "entityRow": 3464,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bile Spewer",
+    "Nursing Spewer"
+   ],
+   "mount": {
+    "recordIndex": 55,
+    "indexRow": 305,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x529DFE4C4C881324",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 804,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 9,
+      "indexRow": 24,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x767977BD472A62DA",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 730,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 0,
+      "indexRow": 70,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 344,
+     "projectile": {
+      "type": 344,
+      "settings": {
+       "group": 0,
+       "recordType": 344,
+       "row": 29
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 1000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 6,
+       "settings": {
+        "group": 0,
+        "recordType": 6,
+        "row": 14
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 8,
+        "shockwave_radius": 14
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 252,
+       "settings": {
+        "group": 1,
+        "recordType": 252,
+        "row": 252
+       },
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 0,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 50,
+        "durable_damage": 500,
+        "push_force": 20,
+        "stagger": 60,
+        "standard_damage": 500
+       },
+       "wikiMatches": [
+        {
+         "page": "Bile Spewer",
+         "attack": "Bile Bombard",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 470,
+       "settings": {
+        "group": 1,
+        "recordType": 470,
+        "row": 466
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 200,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 200
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tank_rocketlauncher",
+   "className": "tank_rocketlauncher",
+   "resource": "0x63DF3D07B7424588",
+   "entityRow": 1416,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bulk Fabricator"
+   ],
+   "mount": {
+    "recordIndex": 93,
+    "indexRow": 17,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x5D142C3A73EBC634",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_tank_turret_rocketlauncher/cyborg_tank_turret_rocketlauncher",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1588,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 111,
+      "indexRow": 307,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 329,
+     "projectile": {
+      "type": 329,
+      "settings": {
+       "group": 0,
+       "recordType": 329,
+       "row": 66
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 2,
+       "lifetime": 0,
+       "mass": 33000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 50
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 408,
+       "settings": {
+        "group": 0,
+        "recordType": 408,
+        "row": 41
+       },
+       "values": {
+        "inner_radius": 2,
+        "outer_radius": 10,
+        "shockwave_radius": 20
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 8,
+       "settings": {
+        "group": 1,
+        "recordType": 8,
+        "row": 14
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 20,
+        "durable_damage": 100,
+        "push_force": 25,
+        "stagger": 35,
+        "standard_damage": 30
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Gunship: HEAT Rocket Racks",
+        "Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Hulk Obliterator: Revolving Munition Launcher (HEAT)",
+        "Jet Brigade Hulk Bruiser: Rotary Munition Launcher (HEAT)",
+        "Rocket Raider: Portable Launcher (HEAT Rockets)",
+        "Vox Engine: Icarus Missile Launcher Pod"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "lieutenant_artillery",
+        "lieutenant_suppressor",
+        "tank_rocketlauncher"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 460,
+       "settings": {
+        "group": 1,
+        "recordType": 460,
+        "row": 458
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 40,
+        "durable_damage": 400,
+        "push_force": 100,
+        "stagger": 40,
+        "standard_damage": 400
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "tank_rocketlauncher"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "obj_asset_hijack_tech_hub_nexus_machine",
+   "className": "obj_asset_hijack_tech_hub_nexus_machine",
+   "resource": "0x68053EAE33FFA084",
+   "entityRow": 133,
+   "kind": "structure",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 45,
+    "indexRow": 64,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x98E5D055E6BCD20B",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 523,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_ivory_legion",
+   "className": "lieutenant_ivory_legion",
+   "resource": "0x6DAB2EADF5D8B692",
+   "entityRow": 1683,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 74,
+    "indexRow": 311,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xB846CDCF41967725",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1829,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 100,
+      "indexRow": 389,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 52,
+     "projectile": {
+      "type": 52,
+      "settings": {
+       "group": 0,
+       "recordType": 52,
+       "row": 72
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 100,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "expiry": {
+       "type": 252,
+       "settings": {
+        "group": 0,
+        "recordType": 252,
+        "row": 23
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 4,
+        "shockwave_radius": 5
+       }
+      },
+      "impact": {
+       "type": 252,
+       "settings": {
+        "group": 0,
+        "recordType": 252,
+        "row": 23
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 4,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 32,
+       "settings": {
+        "group": 1,
+        "recordType": 32,
+        "row": 33
+       },
+       "values": {
+        "ap_direct": 0,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 10,
+        "durable_damage": 2,
+        "push_force": 10,
+        "stagger": 30,
+        "standard_damage": 20
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "lieutenant_ivory_legion"
+       ]
+      },
+      {
+       "role": "explosion_expiry",
+       "type": 341,
+       "settings": {
+        "group": 1,
+        "recordType": 341,
+        "row": 433
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 300,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 300
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "lieutenant_ivory_legion"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 341,
+       "settings": {
+        "group": 1,
+        "recordType": 341,
+        "row": 433
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 300,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 300
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "lieutenant_ivory_legion"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF2B4A99D1B0E40C8",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 200,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 6,
+      "indexRow": 45,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0x8FC2784308E9BA99",
+     "weaponPath": "content/fac_cyborgs/equipment/attachment/lieutenant_flag/lieutenant_flag",
+     "components": [],
+     "weaponEntityRow": 2713,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "command_bunker",
+   "className": "command_bunker",
+   "resource": "0x6E499C5C95B019FC",
+   "entityRow": 2556,
+   "kind": "structure",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 41,
+    "indexRow": 306,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x298C464F7F4261E3",
+     "weaponPath": "content/objectives/obj_cyborgs/cyborg_command_bunker/cyborg_command_bunker_side",
+     "components": [
+      "MountComponentData"
+     ],
+     "weaponEntityRow": 483,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x298C464F7F4261E3",
+     "weaponPath": "content/objectives/obj_cyborgs/cyborg_command_bunker/cyborg_command_bunker_side",
+     "components": [
+      "MountComponentData"
+     ],
+     "weaponEntityRow": 483,
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0x298C464F7F4261E3",
+     "weaponPath": "content/objectives/obj_cyborgs/cyborg_command_bunker/cyborg_command_bunker_side",
+     "components": [
+      "MountComponentData"
+     ],
+     "weaponEntityRow": 483,
+     "damage": []
+    },
+    {
+     "slot": 3,
+     "weapon": "0x298C464F7F4261E3",
+     "weaponPath": "content/objectives/obj_cyborgs/cyborg_command_bunker/cyborg_command_bunker_side",
+     "components": [
+      "MountComponentData"
+     ],
+     "weaponEntityRow": 483,
+     "damage": []
+    },
+    {
+     "slot": 4,
+     "weapon": "0x5336583C1F8BA745",
+     "weaponPath": "content/objectives/obj_cyborgs/cyborg_command_bunker/cyborg_command_bunker_spawner",
+     "components": [
+      "MountComponentData"
+     ],
+     "weaponEntityRow": 1862,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "illuminate_dropship",
+   "className": "illuminate_dropship",
+   "resource": "0x74E2285C01DA4F71",
+   "entityRow": 3953,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 36,
+    "indexRow": 82,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x336AFDB6F784F639",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 1593,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "conscript_flamer",
+   "className": "conscript_flamer",
+   "resource": "0x82A87AD8D595B2BA",
+   "entityRow": 698,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Incendiary Rocket Raider",
+    "Rocket Raider",
+    "Scout Strider",
+    "Trooper"
+   ],
+   "mount": {
+    "recordIndex": 59,
+    "indexRow": 78,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x57F11209295752B5",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 693,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "conscript_jump_melee",
+   "className": "conscript_jump_melee",
+   "resource": "0x856E9710E45E760F",
+   "entityRow": 1551,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 63,
+    "indexRow": 319,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2D1636F2EE8A6306",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/conscript_melee_claw/conscript_melee_claw",
+     "components": [],
+     "weaponEntityRow": 774,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xE2E62FDD39407FE3",
+     "weaponPath": "content/fac_cyborgs/equipment/backpacks/conscript_jumppack/conscript_jumppack",
+     "components": [],
+     "weaponEntityRow": 4067,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "Predator Hunter",
+   "className": "hunter_tier_3",
+   "resource": "0x883401AF2A98A5F6",
+   "entityRow": 1526,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": "Predator Hunter",
+   "wikiCandidates": [
+    "Predator Hunter"
+   ],
+   "mount": {
+    "recordIndex": 56,
+    "indexRow": 282,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x1D8D9AA0502F866E",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1646,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 4,
+      "indexRow": 16,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tank_turret_heavycannon",
+   "className": "tank_turret_heavycannon",
+   "resource": "0x8FB47DD28B398CF7",
+   "entityRow": 3319,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Cannon Turret"
+   ],
+   "mount": {
+    "recordIndex": 89,
+    "indexRow": 239,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x36390775D61159EB",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2539,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 30,
+      "indexRow": 59,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "dragon",
+   "className": "dragon",
+   "resource": "0x960B48A421A3FAAA",
+   "entityRow": 2730,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 3,
+    "indexRow": 146,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x76E9644BCD3F341B",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1051,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 3,
+      "indexRow": 29,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 579,
+     "sprayConsumers": 1,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 579,
+       "settings": {
+        "group": 1,
+        "recordType": 579,
+        "row": 1
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 4,
+        "demolition": 10,
+        "durable_damage": 45,
+        "push_force": 5,
+        "stagger": 5,
+        "standard_damage": 45
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "dragon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "soldier_rpg",
+   "className": "soldier_rpg",
+   "resource": "0x9647B00CC3A9D36F",
+   "entityRow": 879,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator",
+    "Rocket Devastator"
+   ],
+   "mount": {
+    "recordIndex": 85,
+    "indexRow": 27,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tripod",
+   "className": "tripod",
+   "resource": "0x965EAE5A51ACDD4A",
+   "entityRow": 3402,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 28,
+    "indexRow": 42,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xC6A5BB8B319217AC",
+     "weaponPath": null,
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1965,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 6,
+      "indexRow": 8,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xE8A244FFA3A48FE4",
+     "weaponPath": null,
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 4075,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 11,
+      "indexRow": 10,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0x8DBF99607BD8E550",
+     "weaponPath": null,
+     "components": [
+      "ArcWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1360,
+     "family": "arc",
+     "weaponComponent": {
+      "recordIndex": 2,
+      "indexRow": 5,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ArcWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 3,
+     "weapon": "0xCB85E7F7FF8855F4",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1524,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 80,
+      "indexRow": 510,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 54,
+     "projectile": {
+      "type": 54,
+      "settings": {
+       "group": 0,
+       "recordType": 54,
+       "row": 112
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 3,
+     "explosions": {
+      "impact": {
+       "type": 99,
+       "settings": {
+        "group": 0,
+        "recordType": 99,
+        "row": 320
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 39,
+       "settings": {
+        "group": 1,
+        "recordType": 39,
+        "row": 41
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 140,
+        "push_force": 30,
+        "stagger": 40,
+        "standard_damage": 110
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Charge)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 437,
+       "settings": {
+        "group": 1,
+        "recordType": 437,
+        "row": 427
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 30,
+        "stagger": 30,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "lieutenant_base",
+   "className": "lieutenant_base",
+   "resource": "0x96BA14C9EBB49CE1",
+   "entityRow": 3297,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Hulk Bruiser",
+    "Hulk Firebomber",
+    "Hulk Obliterator",
+    "Hulk Scorcher"
+   ],
+   "mount": {
+    "recordIndex": 7,
+    "indexRow": 105,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x5B596A4D21BC91A3",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 419,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 22,
+      "indexRow": 353,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Fusion Autocannon",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x5B596A4D21BC91A3",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 419,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 22,
+      "indexRow": 353,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [
+        {
+         "page": "Hulk Bruiser",
+         "attack": "Fusion Autocannon",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Rupture Spewer",
+   "className": "boomer_burrower",
+   "resource": "0xA381A11C07D3EB94",
+   "entityRow": 2964,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": "Rupture Spewer",
+   "wikiCandidates": [
+    "Rupture Spewer"
+   ],
+   "mount": {
+    "recordIndex": 53,
+    "indexRow": 164,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x6F91BC8002875E76",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3702,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 1,
+      "indexRow": 26,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x767977BD472A62DA",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 730,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 0,
+      "indexRow": 70,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 344,
+     "projectile": {
+      "type": 344,
+      "settings": {
+       "group": 0,
+       "recordType": 344,
+       "row": 29
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 1000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 6,
+       "settings": {
+        "group": 0,
+        "recordType": 6,
+        "row": 14
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 8,
+        "shockwave_radius": 14
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 252,
+       "settings": {
+        "group": 1,
+        "recordType": 252,
+        "row": 252
+       },
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 0,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 50,
+        "durable_damage": 500,
+        "push_force": 20,
+        "stagger": 60,
+        "standard_damage": 500
+       },
+       "wikiMatches": [
+        {
+         "page": "Rupture Spewer",
+         "attack": "Bile Bombard",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 470,
+       "settings": {
+        "group": 1,
+        "recordType": 470,
+        "row": 466
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 200,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 200
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "berserker",
+   "className": "berserker",
+   "resource": "0xA6A68D8AF177F3A1",
+   "entityRow": 929,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 5,
+    "indexRow": 123,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "conscript_commander",
+   "className": "conscript_commander",
+   "resource": "0xA71AAFD82C6EBC92",
+   "entityRow": 3218,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Commissar"
+   ],
+   "mount": {
+    "recordIndex": 68,
+    "indexRow": 94,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2D1636F2EE8A6306",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/conscript_melee_claw/conscript_melee_claw",
+     "components": [],
+     "weaponEntityRow": 774,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "Watcher",
+   "className": "observer",
+   "resource": "0xAC60E78435098C9D",
+   "entityRow": 3230,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": "Watcher",
+   "wikiCandidates": [
+    "Watcher"
+   ],
+   "mount": {
+    "recordIndex": 26,
+    "indexRow": 261,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xF5247DE3ABFB822B",
+     "weaponPath": null,
+     "components": [
+      "ArcWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 555,
+     "family": "arc",
+     "weaponComponent": {
+      "recordIndex": 1,
+      "indexRow": 4,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ArcWeaponComponentData"
+     },
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier",
+   "className": "soldier",
+   "resource": "0xAE63E525853D7044",
+   "entityRow": 68,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 8,
+    "indexRow": 293,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "conscript_jump",
+   "className": "conscript_jump",
+   "resource": "0xAF0F9B3A163787A5",
+   "entityRow": 1957,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Incendiary Rocket Raider",
+    "Rocket Raider",
+    "Scout Strider",
+    "Trooper"
+   ],
+   "mount": {
+    "recordIndex": 62,
+    "indexRow": 273,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xE2E62FDD39407FE3",
+     "weaponPath": "content/fac_cyborgs/equipment/backpacks/conscript_jumppack/conscript_jumppack",
+     "components": [],
+     "weaponEntityRow": 4067,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "berserker_ivory_legion",
+   "className": "berserker_ivory_legion",
+   "resource": "0xB5DBC0C240C921AD",
+   "entityRow": 429,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 57,
+    "indexRow": 106,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_mg",
+   "className": "soldier_mg",
+   "resource": "0xB92435FBF60F0748",
+   "entityRow": 1864,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 81,
+    "indexRow": 316,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2ED3696E12A14D4C",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_machinegun/soldier_machinegun",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3404,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 24,
+      "indexRow": 190,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 172,
+     "projectile": {
+      "type": 172,
+      "settings": {
+       "group": 0,
+       "recordType": 172,
+       "row": 50
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 2,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF96257FCAE258CAA",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_shield/soldier_shield",
+     "components": [],
+     "weaponEntityRow": 3242,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "mothership",
+   "className": "mothership",
+   "resource": "0xBAF9DBD86B22270A",
+   "entityRow": 1802,
+   "kind": "structure",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 48,
+    "indexRow": 166,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x505B4A5EB5E1B6F6",
+     "weaponPath": "content/objectives/obj_illuminate/il_mothership/il_mothership_shield",
+     "components": [],
+     "weaponEntityRow": 1782,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x59B105A809064464",
+     "weaponPath": "content/objectives/obj_illuminate/il_mothership/il_mothership_tentacles",
+     "components": [],
+     "weaponEntityRow": 1124,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "harvester",
+   "className": "harvester",
+   "resource": "0xBB2984B9B83EBFD1",
+   "entityRow": 4049,
+   "kind": "structure",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 46,
+    "indexRow": 93,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x32CE277933571867",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": null,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x32CE277933571867",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": null,
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0x32CE277933571867",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": null,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "siege_engine",
+   "className": "siege_engine",
+   "resource": "0xBC242702FB46B7E7",
+   "entityRow": 2023,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 12,
+    "indexRow": 237,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x356DE4A7808EF3E3",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 995,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 114,
+      "indexRow": 370,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 32,
+     "projectile": {
+      "type": 32,
+      "settings": {
+       "group": 0,
+       "recordType": 32,
+       "row": 48
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 2,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 13,
+       "settings": {
+        "group": 1,
+        "recordType": 13,
+        "row": 21
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 2,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 20
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Vox Engine: Plasma Duster Miniguns"
+       ],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF2881F5807348116",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 278,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 113,
+      "indexRow": 338,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 32,
+     "projectile": {
+      "type": 32,
+      "settings": {
+       "group": 0,
+       "recordType": 32,
+       "row": 48
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 2,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 13,
+       "settings": {
+        "group": 1,
+        "recordType": 13,
+        "row": 21
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 2,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 20
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Vox Engine: Plasma Duster Miniguns"
+       ],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0x611BA777783B08A2",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2210,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 106,
+      "indexRow": 316,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 106,
+     "projectile": {
+      "type": 106,
+      "settings": {
+       "group": 0,
+       "recordType": 106,
+       "row": 57
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 107,
+       "settings": {
+        "group": 0,
+        "recordType": 107,
+        "row": 29
+       },
+       "values": {
+        "inner_radius": 1.2000000476837158,
+        "outer_radius": 6,
+        "shockwave_radius": 8
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 255,
+       "settings": {
+        "group": 1,
+        "recordType": 255,
+        "row": 255
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 50,
+        "durable_damage": 80,
+        "push_force": 25,
+        "stagger": 40,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Vox Engine: Plasma Macro-Culverin"
+       ],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 462,
+       "settings": {
+        "group": 1,
+        "recordType": 462,
+        "row": 457
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 50,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 50
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 3,
+     "weapon": "0x611BA777783B08A2",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2210,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 106,
+      "indexRow": 316,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 106,
+     "projectile": {
+      "type": 106,
+      "settings": {
+       "group": 0,
+       "recordType": 106,
+       "row": 57
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 107,
+       "settings": {
+        "group": 0,
+        "recordType": 107,
+        "row": 29
+       },
+       "values": {
+        "inner_radius": 1.2000000476837158,
+        "outer_radius": 6,
+        "shockwave_radius": 8
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 255,
+       "settings": {
+        "group": 1,
+        "recordType": 255,
+        "row": 255
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 50,
+        "durable_damage": 80,
+        "push_force": 25,
+        "stagger": 40,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Vox Engine: Plasma Macro-Culverin"
+       ],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 462,
+       "settings": {
+        "group": 1,
+        "recordType": 462,
+        "row": 457
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 50,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 50
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "siege_engine"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "cha_soldier.cha_soldier_jumppack",
+   "className": "cha_soldier.cha_soldier_jumppack",
+   "resource": "0xBE743B2FAA3A6E26",
+   "entityRow": 3622,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 80,
+    "indexRow": 254,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x33B3E0CE8D179EEC",
+     "weaponPath": "content/fac_cyborgs/equipment/backpacks/soldier_jumppack/soldier_jumppack",
+     "components": [],
+     "weaponEntityRow": 3820,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_iron_fleet",
+   "className": "soldier_iron_fleet",
+   "resource": "0xC626D2BB495A202D",
+   "entityRow": 45,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 9,
+    "indexRow": 225,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "tank_autocannons",
+   "className": "tank_autocannons",
+   "resource": "0xC6449FFD9EA3779C",
+   "entityRow": 1948,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bulk Fabricator"
+   ],
+   "mount": {
+    "recordIndex": 91,
+    "indexRow": 308,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x49674794A165EDA8",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_tank_turret_autocannons/cyborg_tank_turret_autocannons",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3496,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 108,
+      "indexRow": 349,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "soldier_rpg_ivory_legion",
+   "className": "soldier_rpg_ivory_legion",
+   "resource": "0xC9BCCCB0A54A82A4",
+   "entityRow": 677,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator",
+    "Rocket Devastator"
+   ],
+   "mount": {
+    "recordIndex": 87,
+    "indexRow": 36,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "boomer_nurser",
+   "className": "boomer_nurser",
+   "resource": "0xCC7022FDD172089B",
+   "entityRow": 2203,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Bile Spewer",
+    "Nursing Spewer"
+   ],
+   "mount": {
+    "recordIndex": 54,
+    "indexRow": 51,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x529DFE4C4C881324",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 804,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 9,
+      "indexRow": 24,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x767977BD472A62DA",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 730,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 0,
+      "indexRow": 70,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 344,
+     "projectile": {
+      "type": 344,
+      "settings": {
+       "group": 0,
+       "recordType": 344,
+       "row": 29
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 1000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 6,
+       "settings": {
+        "group": 0,
+        "recordType": 6,
+        "row": 14
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 8,
+        "shockwave_radius": 14
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 252,
+       "settings": {
+        "group": 1,
+        "recordType": 252,
+        "row": 252
+       },
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 0,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 50,
+        "durable_damage": 500,
+        "push_force": 20,
+        "stagger": 60,
+        "standard_damage": 500
+       },
+       "wikiMatches": [
+        {
+         "page": "Bile Spewer",
+         "attack": "Bile Bombard",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 470,
+       "settings": {
+        "group": 1,
+        "recordType": 470,
+        "row": 466
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 200,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 200
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "boomer_tier_2",
+   "className": "boomer_tier_2",
+   "resource": "0xCCAE5264ACD591B7",
+   "entityRow": 439,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 52,
+    "indexRow": 116,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x6F91BC8002875E76",
+     "weaponPath": null,
+     "components": [
+      "SprayWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3702,
+     "family": "spray",
+     "weaponComponent": {
+      "recordIndex": 1,
+      "indexRow": 26,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "SprayWeaponComponentData"
+     },
+     "sprayDamageType": 0,
+     "sprayConsumers": 10,
+     "damage": [
+      {
+       "role": "spray",
+       "type": 0,
+       "settings": null,
+       "values": null,
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Predator Hunter",
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2",
+        "lieutenant_assault",
+        "lieutenant_ivory_legion",
+        "lieutenant_ivory_legion_assault"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x767977BD472A62DA",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 730,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 0,
+      "indexRow": 70,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 344,
+     "projectile": {
+      "type": 344,
+      "settings": {
+       "group": 0,
+       "recordType": 344,
+       "row": 29
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 1000,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 30
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 6,
+       "settings": {
+        "group": 0,
+        "recordType": 6,
+        "row": 14
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 8,
+        "shockwave_radius": 14
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 252,
+       "settings": {
+        "group": 1,
+        "recordType": 252,
+        "row": 252
+       },
+       "values": {
+        "ap_direct": 8,
+        "ap_extreme": 0,
+        "ap_large": 6,
+        "ap_slight": 7,
+        "demolition": 50,
+        "durable_damage": 500,
+        "push_force": 20,
+        "stagger": 60,
+        "standard_damage": 500
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Bile Spewer: Bile Bombard",
+        "Rupture Spewer: Bile Bombard"
+       ],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 470,
+       "settings": {
+        "group": 1,
+        "recordType": 470,
+        "row": 466
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 200,
+        "push_force": 40,
+        "stagger": 30,
+        "standard_damage": 200
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Rupture Spewer",
+        "boomer",
+        "boomer_nurser",
+        "boomer_nurser_mission",
+        "boomer_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "spawner",
+   "className": "spawner",
+   "resource": "0xD37E8D120D2836E3",
+   "entityRow": 1763,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Factory Strider"
+   ],
+   "mount": {
+    "recordIndex": 13,
+    "indexRow": 263,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x3AAFBA89B53B0F63",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3939,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 118,
+      "indexRow": 533,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [
+        {
+         "page": "Factory Strider",
+         "attack": "Fusion Gatling Guns",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x390E6B3D2F26BD70",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3440,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 117,
+      "indexRow": 351,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [
+        {
+         "page": "Factory Strider",
+         "attack": "Fusion Gatling Guns",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 2,
+     "weapon": "0x843D18D4B5512B63",
+     "weaponPath": "content/fac_cyborgs/turrets/cyborg_big_walker_turret_cannon/cyborg_big_walker_turret_cannon",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2915,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 105,
+      "indexRow": 81,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 268,
+     "projectile": {
+      "type": 268,
+      "settings": {
+       "group": 0,
+       "recordType": 268,
+       "row": 56
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 1,
+     "explosions": {
+      "impact": {
+       "type": 9,
+       "settings": {
+        "group": 0,
+        "recordType": 9,
+        "row": 30
+       },
+       "values": {
+        "inner_radius": 1.2000000476837158,
+        "outer_radius": 6,
+        "shockwave_radius": 8
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 254,
+       "settings": {
+        "group": 1,
+        "recordType": 254,
+        "row": 254
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 50,
+        "durable_damage": 1500,
+        "push_force": 30,
+        "stagger": 60,
+        "standard_damage": 1500
+       },
+       "wikiMatches": [
+        {
+         "page": "Factory Strider",
+         "attack": "Fusion Repeater Cannon",
+         "delivery": "Ranged"
+        }
+       ],
+       "rowWikiMatches": [
+        "Annihilator Tank: Fusion Battle Cannon",
+        "Factory Strider: Fusion Repeater Cannon"
+       ],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 461,
+       "settings": {
+        "group": 1,
+        "recordType": 461,
+        "row": 456
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 50,
+        "durable_damage": 100,
+        "push_force": 70,
+        "stagger": 50,
+        "standard_damage": 100
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "spawner",
+        "tank_base",
+        "tank_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "hive_lord",
+   "className": "hive_lord",
+   "resource": "0xD465D9C7F77A07CB",
+   "entityRow": 1995,
+   "kind": "enemy",
+   "faction": "terminids",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 4,
+    "indexRow": 303,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x9E53A0971179344C",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1100,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 2,
+      "indexRow": 361,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 102,
+     "projectile": {
+      "type": 102,
+      "settings": {
+       "group": 0,
+       "recordType": 102,
+       "row": 22
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 600,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 70
+      }
+     },
+     "projectileConsumers": 2,
+     "explosions": {
+      "impact": {
+       "type": 356,
+       "settings": {
+        "group": 0,
+        "recordType": 356,
+        "row": 15
+       },
+       "values": {
+        "inner_radius": 7,
+        "outer_radius": 8,
+        "shockwave_radius": 6
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 18,
+       "settings": {
+        "group": 1,
+        "recordType": 18,
+        "row": 7
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 40,
+        "stagger": 50,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "hive_lord"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 471,
+       "settings": {
+        "group": 1,
+        "recordType": 471,
+        "row": 467
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 40,
+        "durable_damage": 50,
+        "push_force": 10,
+        "stagger": 10,
+        "standard_damage": 50
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "hive_lord"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x3C7F77F1A7467349",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 841,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 3,
+      "indexRow": 421,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 102,
+     "projectile": {
+      "type": 102,
+      "settings": {
+       "group": 0,
+       "recordType": 102,
+       "row": 22
+      },
+      "values": {
+       "drag": 0,
+       "gravity": 1,
+       "lifetime": 0,
+       "mass": 600,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 70
+      }
+     },
+     "projectileConsumers": 2,
+     "explosions": {
+      "impact": {
+       "type": 356,
+       "settings": {
+        "group": 0,
+        "recordType": 356,
+        "row": 15
+       },
+       "values": {
+        "inner_radius": 7,
+        "outer_radius": 8,
+        "shockwave_radius": 6
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 18,
+       "settings": {
+        "group": 1,
+        "recordType": 18,
+        "row": 7
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 5,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 40,
+        "stagger": 50,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "hive_lord"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 471,
+       "settings": {
+        "group": 1,
+        "recordType": 471,
+        "row": 467
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 40,
+        "durable_damage": 50,
+        "push_force": 10,
+        "stagger": 10,
+        "standard_damage": 50
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "hive_lord"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "berserker_jumppack",
+   "className": "berserker_jumppack",
+   "resource": "0xD5792F6856B06BA4",
+   "entityRow": 2980,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 58,
+    "indexRow": 280,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x4FB6077F1597691D",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_chainsaw/soldier_chainsaw",
+     "components": [],
+     "weaponEntityRow": 2333,
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0xE2E62FDD39407FE3",
+     "weaponPath": "content/fac_cyborgs/equipment/backpacks/conscript_jumppack/conscript_jumppack",
+     "components": [],
+     "weaponEntityRow": 4067,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "tripod_tier_2",
+   "className": "tripod_tier_2",
+   "resource": "0xD63FCBFF0851B7AF",
+   "entityRow": 1967,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 126,
+    "indexRow": 207,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xC6A5BB8B319217AC",
+     "weaponPath": null,
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1965,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 6,
+      "indexRow": 8,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xE8A244FFA3A48FE4",
+     "weaponPath": null,
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 4075,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 11,
+      "indexRow": 10,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0x8DBF99607BD8E550",
+     "weaponPath": null,
+     "components": [
+      "ArcWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1360,
+     "family": "arc",
+     "weaponComponent": {
+      "recordIndex": 2,
+      "indexRow": 5,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ArcWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 3,
+     "weapon": "0xCB85E7F7FF8855F4",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1524,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 80,
+      "indexRow": 510,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 54,
+     "projectile": {
+      "type": 54,
+      "settings": {
+       "group": 0,
+       "recordType": 54,
+       "row": 112
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 80,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 3,
+     "explosions": {
+      "impact": {
+       "type": 99,
+       "settings": {
+        "group": 0,
+        "recordType": 99,
+        "row": 320
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 39,
+       "settings": {
+        "group": 1,
+        "recordType": 39,
+        "row": 41
+       },
+       "values": {
+        "ap_direct": 6,
+        "ap_extreme": 0,
+        "ap_large": 4,
+        "ap_slight": 5,
+        "demolition": 30,
+        "durable_damage": 140,
+        "push_force": 30,
+        "stagger": 40,
+        "standard_damage": 110
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Gatekeeper: Plasma Starcannon (Charge)"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 437,
+       "settings": {
+        "group": 1,
+        "recordType": 437,
+        "row": 427
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 30,
+        "stagger": 30,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "Gatekeeper",
+        "tripod",
+        "tripod_tier_2"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "conscript_melee",
+   "className": "conscript_melee",
+   "resource": "0xD8CBC4A807A6D035",
+   "entityRow": 53,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 66,
+    "indexRow": 128,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2D1636F2EE8A6306",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/conscript_melee_claw/conscript_melee_claw",
+     "components": [],
+     "weaponEntityRow": 774,
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0x2D1636F2EE8A6306",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/conscript_melee_claw/conscript_melee_claw",
+     "components": [],
+     "weaponEntityRow": 774,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "illuminate_guy_staff",
+   "className": "illuminate_guy_staff",
+   "resource": "0xDA40BB347C7447F2",
+   "entityRow": 2035,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Crescent Overseer"
+   ],
+   "mount": {
+    "recordIndex": 25,
+    "indexRow": 129,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x7EA558204D0FFC29",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 3113,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_shotgun_ivory_legion",
+   "className": "soldier_shotgun_ivory_legion",
+   "resource": "0xE0353177F1329573",
+   "entityRow": 1395,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 88,
+    "indexRow": 19,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x0DB407EDE5603524",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1316,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 104,
+      "indexRow": 337,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 121,
+     "projectile": {
+      "type": 121,
+      "settings": {
+       "group": 0,
+       "recordType": 121,
+       "row": 60
+      },
+      "values": {
+       "drag": 0.800000011920929,
+       "gravity": 1,
+       "lifetime": 0.4000000059604645,
+       "mass": 8,
+       "pellet_count": 25,
+       "penetration_slowdown": 1,
+       "velocity": 150
+      }
+     },
+     "projectileConsumers": 1,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 12,
+       "settings": {
+        "group": 1,
+        "recordType": 12,
+        "row": 19
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 10,
+        "durable_damage": 3,
+        "push_force": 2,
+        "stagger": 10,
+        "standard_damage": 12
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "soldier_shotgun_ivory_legion"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xFEB484EE972469F7",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_shield/soldier_shield_ivory_legion",
+     "components": [],
+     "weaponEntityRow": 2551,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "assault_walker",
+   "className": "assault_walker",
+   "resource": "0xEF570293245A17C2",
+   "entityRow": 1986,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 10,
+    "indexRow": 14,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x9AB036439F74C115",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 277,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 112,
+      "indexRow": 57,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 301,
+     "projectile": {
+      "type": 301,
+      "settings": {
+       "group": 0,
+       "recordType": 301,
+       "row": 54
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 40,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.8999999761581421,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 7,
+     "explosions": {
+      "impact": {
+       "type": 397,
+       "settings": {
+        "group": 0,
+        "recordType": 397,
+        "row": 26
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 220,
+       "settings": {
+        "group": 1,
+        "recordType": 220,
+        "row": 219
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 4,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 20,
+        "stagger": 40,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Incendiary Rocket Raider: Portable Fusion Cannon",
+        "War Strider: Fusion Culverins"
+       ],
+       "reviewedClassesReachingRow": [
+        "assault_walker"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 459,
+       "settings": {
+        "group": 1,
+        "recordType": 459,
+        "row": 451
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 65,
+        "push_force": 20,
+        "stagger": 15,
+        "standard_damage": 65
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "assault_walker"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0x8372619B2702D743",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1859,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 37,
+      "indexRow": 482,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 301,
+     "projectile": {
+      "type": 301,
+      "settings": {
+       "group": 0,
+       "recordType": 301,
+       "row": 54
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 10,
+       "mass": 40,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.8999999761581421,
+       "velocity": 450
+      }
+     },
+     "projectileConsumers": 7,
+     "explosions": {
+      "impact": {
+       "type": 397,
+       "settings": {
+        "group": 0,
+        "recordType": 397,
+        "row": 26
+       },
+       "values": {
+        "inner_radius": 1,
+        "outer_radius": 3,
+        "shockwave_radius": 5
+       }
+      }
+     },
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 220,
+       "settings": {
+        "group": 1,
+        "recordType": 220,
+        "row": 219
+       },
+       "values": {
+        "ap_direct": 5,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 4,
+        "demolition": 30,
+        "durable_damage": 80,
+        "push_force": 20,
+        "stagger": 40,
+        "standard_damage": 80
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Incendiary Rocket Raider: Portable Fusion Cannon",
+        "War Strider: Fusion Culverins"
+       ],
+       "reviewedClassesReachingRow": [
+        "assault_walker"
+       ]
+      },
+      {
+       "role": "explosion_impact",
+       "type": 459,
+       "settings": {
+        "group": 1,
+        "recordType": 459,
+        "row": 451
+       },
+       "values": {
+        "ap_direct": 3,
+        "ap_extreme": 0,
+        "ap_large": 0,
+        "ap_slight": 0,
+        "demolition": 30,
+        "durable_damage": 65,
+        "push_force": 20,
+        "stagger": 15,
+        "standard_damage": 65
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [],
+       "reviewedClassesReachingRow": [
+        "assault_walker"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "illuminate_guy_staff_fake",
+   "className": "illuminate_guy_staff_fake",
+   "resource": "0xF1610AC48CDC5240",
+   "entityRow": 576,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 124,
+    "indexRow": 252,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x7EA558204D0FFC29",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 3113,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "illuminate_war_machine",
+   "className": "illuminate_war_machine",
+   "resource": "0xF22D027B37BEF107",
+   "entityRow": 264,
+   "kind": "enemy",
+   "faction": "illuminate",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 37,
+    "indexRow": 131,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0xF196069E7E14C497",
+     "weaponPath": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_l",
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1176,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 12,
+      "indexRow": 23,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF196069E7E14C497",
+     "weaponPath": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_l",
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 1176,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 12,
+      "indexRow": 23,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 2,
+     "weapon": "0x7ACB4BD753B71DE0",
+     "weaponPath": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_r",
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3552,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 13,
+      "indexRow": 22,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    },
+    {
+     "slot": 3,
+     "weapon": "0x7ACB4BD753B71DE0",
+     "weaponPath": "content/fac_illuminate/vehicles/armaments/illuminate_turret_warmachine/illuminate_turret_wm_cannon_head_r",
+     "components": [
+      "BeamWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3552,
+     "family": "beam",
+     "weaponComponent": {
+      "recordIndex": 13,
+      "indexRow": 22,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "BeamWeaponComponentData"
+     },
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_rpg_assassinate",
+   "className": "soldier_rpg_assassinate",
+   "resource": "0xF66D0BAD8693779A",
+   "entityRow": 1946,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator",
+    "Rocket Devastator"
+   ],
+   "mount": {
+    "recordIndex": 86,
+    "indexRow": 10,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x070BC8D3E18BB8F9",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_standard_rifle/soldier_standard_rifle",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2297,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 27,
+      "indexRow": 402,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 64,
+     "projectile": {
+      "type": 64,
+      "settings": {
+       "group": 0,
+       "recordType": 64,
+       "row": 44
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 13,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "walker_scout",
+   "className": "walker_scout",
+   "resource": "0xF8131632AA867107",
+   "entityRow": 263,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [],
+   "mount": {
+    "recordIndex": 15,
+    "indexRow": 223,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2A346BF4552997E2",
+     "weaponPath": null,
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 2018,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 41,
+      "indexRow": 90,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 41,
+     "projectile": {
+      "type": 41,
+      "settings": {
+       "group": 0,
+       "recordType": 41,
+       "row": 52
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 20,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 350
+      }
+     },
+     "projectileConsumers": 9,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 203,
+       "settings": {
+        "group": 1,
+        "recordType": 203,
+        "row": 202
+       },
+       "values": {
+        "ap_direct": 4,
+        "ap_extreme": 0,
+        "ap_large": 3,
+        "ap_slight": 3,
+        "demolition": 20,
+        "durable_damage": 20,
+        "push_force": 15,
+        "stagger": 20,
+        "standard_damage": 60
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Hull-Mounted Heavy Fusion Repeater",
+        "Gunship: Heavy Fusion Cycler",
+        "Hulk Bruiser: Fusion Autocannon",
+        "Jet Brigade Hulk Bruiser: Fusion Autocannon",
+        "Reinforced Scout Strider: Heavy Fusion Repeater",
+        "Scout Strider: Heavy Fusion Repeater",
+        "Shredder Tank: Quad Heavy Fusion Cycler"
+       ],
+       "reviewedClassesReachingRow": [
+        "Gunship",
+        "command_bunker_side",
+        "lieutenant_base",
+        "lieutenant_suppressor",
+        "tank_autocannons",
+        "tank_heavycannon",
+        "walker_scout"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xEE00BFE8FF769F70",
+     "weaponPath": null,
+     "components": [],
+     "weaponEntityRow": 3952,
+     "damage": []
+    }
+   ]
+  },
+  {
+   "name": "soldier_mg_assassinate",
+   "className": "soldier_mg_assassinate",
+   "resource": "0xF8B5A81A86D5D4EB",
+   "entityRow": 1259,
+   "kind": "enemy",
+   "faction": "automatons",
+   "wikiName": null,
+   "wikiCandidates": [
+    "Devastator"
+   ],
+   "mount": {
+    "recordIndex": 82,
+    "indexRow": 283,
+    "ownerCount": 1,
+    "uniqueOwner": true
+   },
+   "slots": [
+    {
+     "slot": 0,
+     "weapon": "0x2ED3696E12A14D4C",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_machinegun/soldier_machinegun",
+     "components": [
+      "ProjectileWeaponComponentData",
+      "WeaponDataComponentData"
+     ],
+     "weaponEntityRow": 3404,
+     "family": "projectile",
+     "weaponComponent": {
+      "recordIndex": 24,
+      "indexRow": 190,
+      "ownerCount": 1,
+      "uniqueOwner": true,
+      "component": "ProjectileWeaponComponentData"
+     },
+     "projectileType": 172,
+     "projectile": {
+      "type": 172,
+      "settings": {
+       "group": 0,
+       "recordType": 172,
+       "row": 50
+      },
+      "values": {
+       "drag": 1.5,
+       "gravity": 1,
+       "lifetime": 6,
+       "mass": 10,
+       "pellet_count": 1,
+       "penetration_slowdown": 0.25,
+       "velocity": 250
+      }
+     },
+     "projectileConsumers": 2,
+     "damage": [
+      {
+       "role": "projectile",
+       "type": 9,
+       "settings": {
+        "group": 1,
+        "recordType": 9,
+        "row": 15
+       },
+       "values": {
+        "ap_direct": 2,
+        "ap_extreme": 0,
+        "ap_large": 1,
+        "ap_slight": 2,
+        "demolition": 10,
+        "durable_damage": 6,
+        "push_force": 15,
+        "stagger": 10,
+        "standard_damage": 35
+       },
+       "wikiMatches": [],
+       "rowWikiMatches": [
+        "Annihilator Tank: Co-Axial Fusion Cycler",
+        "Assault Raider: Fusion Pistol",
+        "Factory Strider: Fusion Gatling Guns",
+        "Jet Brigade MG Raider: Light Fusion Repeater",
+        "Jet Brigade Trooper: Fusion SMG",
+        "MG Raider: Light Fusion Repeater",
+        "Marauder: Fusion SMG",
+        "Trooper: Fusion SMG"
+       ],
+       "reviewedClassesReachingRow": [
+        "cha_soldier.cha_soldier_jumppack",
+        "soldier",
+        "soldier_iron_fleet",
+        "soldier_ivory_legion",
+        "soldier_mg",
+        "soldier_mg_assassinate",
+        "soldier_rpg",
+        "soldier_rpg_assassinate",
+        "soldier_rpg_ivory_legion",
+        "spawner",
+        "spawner_jammer",
+        "tank_turret_heavycannon"
+       ]
+      }
+     ]
+    },
+    {
+     "slot": 1,
+     "weapon": "0xF96257FCAE258CAA",
+     "weaponPath": "content/fac_cyborgs/equipment/weapons/soldier_shield/soldier_shield",
+     "components": [],
+     "weaponEntityRow": 3242,
+     "damage": []
+    }
+   ]
+  }
+ ]
+}
