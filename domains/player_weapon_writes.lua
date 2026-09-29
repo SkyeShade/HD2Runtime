@@ -81,6 +81,22 @@ local function canonical_explosion_phase(weapon,role,phase)
     end
     return phase
 end
+-- The branch names an attack's projectile-object fields may use: the role itself and, for rounds-fed attacks
+-- (feed_primary / feed_alternate), the branch without the feed_ prefix. A weapon with two feeds (SG-20 Halt) names
+-- them damage.primary.*, damage.alternate.*; the generic field on attack('feed_primary'):projectile() must resolve to
+-- them. A stripped branch is accepted only when the field's backing branch is that feed.
+local function branch_field(weapon,domain,role,rest)
+    local feed=type(role)=='string'and role:match('^feed_(%a+)$')
+    for _,branch in ipairs({role,feed})do
+        local candidate=domain..'.'..branch..'.'..rest
+        for _,field in ipairs(weapon.fields)do
+            if field.semanticFieldId==candidate and(branch==role
+                or field.backing and(field.backing.branch==branch or field.backing.branch==role))then
+                return candidate
+            end
+        end
+    end
+end
 local function field_for(weapon,id,role,path,phase)
     local resolved=id
     if path=='ammunition'then
@@ -111,16 +127,14 @@ local function field_for(weapon,id,role,path,phase)
     elseif id=='terminal.explosion'then
         resolved='terminal.'..role..'.'..phase..'.explosion'
     elseif path=='projectile_reference'and id:match('^projectile%.')then
-        local branch='projectile.'..role..'.'..id:sub(#'projectile.'+1)
-        for _,field in ipairs(weapon.fields)do if field.semanticFieldId==branch then resolved=branch end end
+        resolved=branch_field(weapon,'projectile',role,id:sub(#'projectile.'+1))or resolved
     elseif path=='projectile_reference'and id:match('^damage%.')then
-        local branch='damage.'..role..'.'..id:sub(#'damage.'+1)
-        for _,field in ipairs(weapon.fields)do if field.semanticFieldId==branch then resolved=branch end end
+        resolved=branch_field(weapon,'damage',role,id:sub(#'damage.'+1))or resolved
     elseif path=='explosion'and id:match('^explosion%.')
         and not id:match('^explosion%.[^.]+%.impact%.')
         and not id:match('^explosion%.[^.]+%.expiry%.')then
-        resolved='explosion.'..role..'.'..canonical_explosion_phase(weapon,role,phase)..'.'
-            ..id:sub(#'explosion.'+1)
+        local rest=canonical_explosion_phase(weapon,role,phase)..'.'..id:sub(#'explosion.'+1)
+        resolved=branch_field(weapon,'explosion',role,rest)or('explosion.'..role..'.'..rest)
     end
     for _,field in ipairs(weapon.fields)do if field.semanticFieldId==resolved then return field end end
     error('field is not exposed for '..weapon.name..': '..tostring(id),0)
@@ -290,10 +304,15 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
                 assert(host and host.mechanism==(ammunition and'ammunition'or'component'),
                     'CROSS_CLASS_HOST_REJECTED: '..weapon.name..' is not a projectile host whose fired projectile this '
                     ..'target writes (see attack:projectile_source())')
-                assert(allow_unverified_reference,'cross-class attack output requires allow_unverified_reference=true: '
-                    ..output.id..' ('..attack_outputs().crossClassReason..')')
-                assert(allow_unverified_effect,'cross-class attack output requires allow_unverified_effect=true: '
-                    ..output.id..' ('..attack_outputs().crossClassReason..')')
+                -- Exactly the compositions a user test proved in play (sdk/LiveEvidenceCatalog.json) need no
+                -- acknowledgement; every other cross-class pair stays behind both.
+                local proven=((attack_outputs().provenCompositions or{})[weapon.name]or{})[output.id]
+                if proven~=host.mechanism then
+                    assert(allow_unverified_reference,'cross-class attack output requires allow_unverified_reference=true: '
+                        ..output.id..' ('..attack_outputs().crossClassReason..')')
+                    assert(allow_unverified_effect,'cross-class attack output requires allow_unverified_effect=true: '
+                        ..output.id..' ('..attack_outputs().crossClassReason..')')
+                end
             end
             local source={referenceKind='projectile',compatibilityClass=output.compatibilityClass,
                 backing=output.backing,currentDefault={projectileType=output.currentDefault},

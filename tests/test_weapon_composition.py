@@ -334,7 +334,11 @@ local shared=session.weapon('P-33 Missile Pistol'):attack('primary'):projectile(
  :terminal_action('impact'):explosion()
 local ok=pcall(writes.validate_patch,{id='shared',target=shared,
  field=session.fields.explosion.inner_radius,expect=2,value=3});assert(not ok)
-local allowed=writes.validate_patch{id='shared-ok',target=shared,allow_shared=true,
+-- The P-33 fires a spawned entity, so its projectile's explosion row is not established as what it fires.
+ok,why=pcall(writes.validate_patch,{id='shared',target=shared,allow_shared=true,
+ field=session.fields.explosion.inner_radius,expect=2,value=3})
+assert(not ok and tostring(why):find('allow_unverified_effect',1,true),tostring(why))
+local allowed=writes.validate_patch{id='shared-ok',target=shared,allow_shared=true,allow_unverified_effect=true,
  field=session.fields.explosion.inner_radius,expect=2,value=3};assert(allowed.allow_shared)
 return'ok'
 '''

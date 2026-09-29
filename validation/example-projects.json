@@ -1,5 +1,5 @@
 {
-  "examples": 70,
+  "examples": 71,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -2394,6 +2394,84 @@
       "versionReasons": [
         "typed writes -> 0.23.2",
         "weapon.third_person_reticle -> 0.26.0"
+      ]
+    },
+    "RuntimeEffectDiagnostics": {
+      "baselineChanges": 8,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "diag-ma5c-magazine",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "MA5C Assault Rifle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "diag-halt-damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "SG-20 Halt"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "diag-sickle-heat",
+          "mode": "patch",
+          "path": "weapon",
+          "resource": "player_weapon",
+          "weapon": "LAS-16 Sickle"
+        },
+        {
+          "acknowledgements": [
+            "allow_shared"
+          ],
+          "callKind": "ensure",
+          "id": "diag-maxigun-damage",
+          "mode": "patch",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "M-1000 Maxigun"
+        },
+        {
+          "acknowledgements": [
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "diag-maxigun-backpack",
+          "mode": "transaction",
+          "path": "backpack",
+          "resource": "backpack"
+        },
+        {
+          "acknowledgements": {},
+          "callKind": "ensure",
+          "id": "diag-precision-cooldown",
+          "mode": "patch",
+          "path": "stratagem",
+          "resource": "stratagem"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.26.0",
+      "status": "VALIDATED",
+      "usesOptions": true,
+      "versionReasons": [
+        "deposit.capacity -> 0.26.0",
+        "deposit.refill_amount -> 0.26.0",
+        "deposit.start_amount -> 0.26.0",
+        "in-game options -> 0.25.1",
+        "typed writes -> 0.23.2"
       ]
     },
     "SentryDetectionRange": {

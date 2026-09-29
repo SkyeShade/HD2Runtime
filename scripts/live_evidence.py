@@ -26,9 +26,15 @@ def family(name: str) -> dict:
     return load()['families'][name]
 
 
-def tests(name: str) -> list[dict]:
+def families_of(test: dict) -> list[str]:
+    """A test exercises one family, or several (`families`) when one run proves more than one capability."""
+    return test.get('families') or [test['family']]
+
+
+def tests(name: str, current: bool = False) -> list[dict]:
+    """The runs recorded for a family; `current` drops runs a later session superseded."""
     return [dict(test, session=session['id'], date=session['date']) for session in load()['sessions']
-        for test in session['tests'] if test['family'] == name]
+        for test in session['tests'] if name in families_of(test) and not (current and test.get('supersededBy'))]
 
 
 def proven(name: str) -> dict | None:
@@ -37,6 +43,6 @@ def proven(name: str) -> dict | None:
     entry = family(name)
     if entry['status'] != 'live_proven':
         return None
-    runs = tests(name)
-    return {'status': 'live_proven', 'family': name, 'tests': [run['mod'] for run in runs],
+    runs = [run for run in tests(name, current=True) if run['result'] == 'PASS']
+    return {'status': 'live_proven', 'family': name, 'tests': sorted({run['mod'] for run in runs}),
         'date': max(run['date'] for run in runs)}

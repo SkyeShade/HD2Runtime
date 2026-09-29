@@ -179,6 +179,10 @@ def attack_sources(by_name):
                     status, reason = 'AMBIGUOUS', ('Both WeaponRounds ' + member + ' and ProjectileWeapon +0 carry a '
                         'projectile' + (' (+0 patched by ' + base_patched[0] + ')' if base_patched else '') + '; which '
                         'member a shot consumes is not proven offline.')
+                    # Whichever member is consumed, a shot fires the same row when every candidate names it.
+                    values = {attack['projectileType'], entry['base']['projType']} | {p['value'] for d in defaults
+                        for p in d['projectilePatches'] if p['member'] == 'ProjType'}
+                    row['candidatesAgree'] = len(values - {0}) == 1
                 else:
                     status, reason, mechanism = 'ACTIVE_DIRECT', ('WeaponRounds ' + member + ' is the only projectile '
                         'the weapon carries (ProjectileWeapon +0 is empty) and no customization patches it.'), 'component'

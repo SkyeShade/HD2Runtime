@@ -11,6 +11,25 @@ ladder. A field can be gameplay-proven while its stripped schema name is unknown
 | `gameplay_proven` | A cited prior sibling or HD2Runtime gameplay confirmation supports this field's meaning; it does not prove every replacement value or preset |
 | `native_consumer_proven` | A traced native consumer establishes the exact field semantics; no milestone-1 field claims this |
 
+## Write, source and effect are separate
+
+A verified write is not a gameplay effect. `APPLIED` means only that the guarded write of the definition was verified
+(`writeVerifiedOnApply`). Every player-weapon field in `sdk/PlayerWeaponAuthoringCapabilities.json` also carries an
+`effect`:
+
+| Key | Meaning |
+| --- | --- |
+| `activeSource` | `ACTIVE_DIRECT`: a settings row the game reads when used. `ACTIVE_AT_INSTANTIATION`: a component member the game copies into the weapon when it builds it. `AMBIGUOUS`: depends on equipment, charge or heat levels, or a spawned entity. `DORMANT_OR_METADATA`: this weapon never uses it. `OVERRIDDEN`: a default customization overwrites it at build. |
+| `activeSourceProven` | The data path (and, for component members, snapshot memory of built weapons) establishes the active source. |
+| `appliesWhen` | `use` or `weapon_build`. |
+| `instantiationOnly` | A weapon already built keeps its copy until it is rebuilt. |
+| `gameplayEffectProven` | A user-run live test showed the effect (`sdk/LiveEvidenceCatalog.json`). |
+| `unverifiedEffect` | The write requires `allow_unverified_effect`. |
+
+AMBIGUOUS and DORMANT_OR_METADATA settings rows require `allow_unverified_effect` and never inherit live proof. The
+Liberator's dormant ProjectileWeapon +0 (live-failed) and the Double-Edge Sickle's projectile fields (which write the
+LAS-16 Sickle's row while the Double-Edge fires its heat-level projectiles) are the canonical examples.
+
 All observations using regression fixtures set current-live ownership to false.
 Historical logs are source evidence only. Values copied from those logs never
 acquire current-live status. Sources are linked by sibling-relative path and

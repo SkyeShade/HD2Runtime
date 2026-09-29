@@ -1,8 +1,11 @@
 # LiberatorAttackOutputTest
 
 Live test: one Mod Options choice (**Liberator output**) switches what the AR-23 Liberator fires. The Liberator keeps
-its own magazine, ammunition use, reload, rate of fire and handling. Built only; nothing here is gameplay-confirmed
-yet.
+its own magazine, ammunition use, reload, rate of fire and handling.
+
+**Live result (2026-09-29): EAT-700 Napalm and GL-52 Arc (impact) pass.** The donor packages loaded automatically, the
+Liberator fired the EAT-700 napalm projectile and the GL-52 grenade, and the GL-52 impact released its arc. The
+LAS-58 Talon control choice was not reported.
 
 Needs the HD2Runtime coverage test build (not the published 0.27.0) and Mod Options Menu. The option ID is
 `liberator_attack_output.output`, on the MODS tab page "Liberator Attack Output". Change the choice, then press
