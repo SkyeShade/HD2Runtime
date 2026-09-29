@@ -1,0 +1,2277 @@
+-- HD2-Addon: mods/nephelym/nephelym_s_weaponry_rebalance
+local loader=rawget(_G,'CowboyBingusModLoader')
+assert(loader and loader.api==1 and type(loader.version)=='number' and loader.version>=16,
+    'Requires Bingus Shared Loader v15+ / API 1')
+local runtime=require('mods/skyeshade/hd2runtime')
+local function version(v)
+    local a,b,c=tostring(v):match('^(%d+)%.(%d+)%.(%d+)$')
+    assert(a,'Invalid HD2Runtime version');return tonumber(a),tonumber(b),tonumber(c)
+end
+local a,b,c=version(runtime.version)
+local x,y,z=version('0.27.0')
+assert(runtime.api_version==1 and (a>x or a==x and (b>y or b==y and c>=z)),
+    'HD2Runtime dependency version mismatch')
+local key='HD2RuntimeMod:mods/nephelym/nephelym_s_weaponry_rebalance'
+local existing=rawget(_G,key)
+if existing then return existing end
+local function start()
+local hd2=require('mods/skyeshade/hd2runtime')
+
+local operations={}
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-33b190c6a083c6d50265b0eb',
+        operations={
+            {
+                id='op-6a91d68024b38244250a9b22',
+                target=hd2.weapon('R-36 Eruptor'):attack('primary'):projectile():terminal_action('expiry'):explosion(),
+                field=hd2.fields.explosion.inner_radius,
+                expect=4,
+                value=5,
+            },
+            {
+                id='op-34f5f38a173f19ed412e03d3',
+                target=hd2.weapon('R-36 Eruptor'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.player_durable_damage,
+                expect=115,
+                value=195,
+            },
+            {
+                id='op-16a49e9e7da584fca3074901',
+                target=hd2.weapon('R-36 Eruptor'):attack('primary'):projectile():terminal_action('expiry'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_direct,expect=3,value=4},
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=4},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-52fef800f1d806e95b20bd0e',
+        operations={
+            {
+                id='op-69f63b32370da0b7b9dd132f',
+                target=hd2.weapon('GL-15 Evictor'):attack('primary'):projectile():terminal_action('expiry'):explosion(),
+                field=hd2.fields.explosion.inner_radius,
+                expect=2.25,
+                value=3,
+            },
+            {
+                id='op-fb07e833f43ede8cc3fb9921',
+                target=hd2.weapon('GL-15 Evictor'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.8,
+            },
+            {
+                id='op-20c5fd76cb7ac42122030590',
+                target=hd2.weapon('GL-15 Evictor'):attack('primary'):projectile():terminal_action('expiry'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=3},
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=440,value=480},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=440,value=480},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-927c292c50c6a092e2670412',
+        operations={
+            {
+                id='op-9db45b130a946069062ae2d6',
+                target=hd2.weapon('PLAS-39 Accelerator Rifle'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.inner_radius,expect=1,value=2},
+                    {field=hd2.fields.explosion.outer_radius,expect=2,value=3},
+                    {field=hd2.fields.explosion.shockwave_radius,expect=2,value=3},
+                },
+            },
+            {
+                id='op-f122f9ea8a14427b7f199b43',
+                target=hd2.weapon('PLAS-39 Accelerator Rifle'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=3},
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=100,value=200},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=100,value=200},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-ee6a992eef0ef245203dbad0',
+        operations={
+            {
+                id='op-b05cee1028d99fc09c41b749',
+                target=hd2.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.inner_radius,expect=3,value=4.5},
+                    {field=hd2.fields.explosion.outer_radius,expect=6,value=7.5},
+                    {field=hd2.fields.explosion.shockwave_radius,expect=7,value=8},
+                },
+            },
+            {
+                id='op-d9061e2761d56c0fc93f09ac',
+                target=hd2.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=1,value=0.5},
+                    {field=hd2.fields.projectile.velocity,expect=100,value=200},
+                },
+            },
+            {
+                id='op-3651ab35357e7f66b8a73f8e',
+                target=hd2.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=50,value=150},
+                    {field=hd2.fields.damage.player_standard_damage,expect=270,value=200},
+                },
+            },
+            {
+                id='op-6f3d2fb36d611f728da30aef',
+                target=hd2.weapon('CB-9 Exploding Crossbow'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                changes={
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=350,value=300},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=350,value=300},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-fbc7d8d91daeb06c9336b057',
+        target=hd2.weapon('ARC-12 Blitzer'),
+        field=hd2.fields.arc.range,
+        expect=25,
+        value=35,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-ba459a00161d51049d7ffa03',
+        operations={
+            {
+                id='op-7d1c0e4a64d39318ae49e947',
+                target=hd2.weapon('MA5C Assault Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-7b437f8f60246ec7958141d3',
+                target=hd2.weapon('MA5C Assault Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=16,value=56},
+                    {field=hd2.fields.damage.player_standard_damage,expect=90,value=75},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-978a3a452b01199799d56d4e',
+        operations={
+            {
+                id='op-0434d999b631183c177a808f',
+                target=hd2.weapon('SMG-32 Reprimand'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-84fa0eeec6b1beb063512a05',
+                target=hd2.weapon('SMG-32 Reprimand'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=32,value=83},
+                    {field=hd2.fields.damage.player_standard_damage,expect=140,value=110},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-9f876f9594c0d6096bc994e6',
+        operations={
+            {
+                id='op-066a77ce1fc98670a2adfdac',
+                target=hd2.weapon('BR-14 Adjudicator'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-a5c3ca2010596550c897181d',
+                target=hd2.weapon('BR-14 Adjudicator'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=23,value=60},
+                    {field=hd2.fields.damage.player_standard_damage,expect=95,value=80},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-5039a431b0a7f5040b4c5405',
+        operations={
+            {
+                id='op-071efc2f6bb86acacdedb7fb',
+                target=hd2.weapon('AR-2 Coyote'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-4f325a591b4a3e932cd46c5e',
+                target=hd2.weapon('AR-2 Coyote'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=10,value=45},
+                    {field=hd2.fields.damage.player_standard_damage,expect=75,value=60},
+                    {field=hd2.fields.damage.status_1_strength,expect=2,value=4},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-b8bf731863e1ed46f96e24a1',
+        operations={
+            {
+                id='op-e14b8c2af979971ef575989e',
+                target=hd2.weapon('AR-59 Suppressor'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=0.3,value=0.2},
+                    {field=hd2.fields.projectile.velocity,expect=330,value=650},
+                },
+            },
+            {
+                id='op-753721346b522386de5b0e60',
+                target=hd2.weapon('AR-59 Suppressor'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=20,value=28},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-6cf6d05467abf999ea04abd0',
+        operations={
+            {
+                id='op-995ea0441aa77e5d7042ff08',
+                target=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.5,
+                value=0.8,
+            },
+            {
+                id='op-97e510b1faad2f600e596fa2',
+                target=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=3},
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=100,value=200},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=100,value=200},
+                },
+            },
+            {
+                id='op-fa09e291ba6b98a668f4be51',
+                target=hd2.weapon('PLAS-1 Scorcher'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.ap_direct,
+                expect=2,
+                value=3,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-15e01e913898d405c8ba83d0',
+        operations={
+            {
+                id='op-4fdcd982d294ab6dc16a8af2',
+                target=hd2.weapon('SMG-72 Pummeler'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-023ef2f1c0d2af277843fd65',
+                target=hd2.weapon('SMG-72 Pummeler'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=17,value=25},
+                    {field=hd2.fields.damage.player_standard_damage,expect=85,value=65},
+                    {field=hd2.fields.damage.status_1_strength,expect=2,value=6},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-3fc2c7091b495d4379d0c635',
+        operations={
+            {
+                id='op-2d39c52c2d983137f7623c8b',
+                target=hd2.weapon('JAR-5 Dominator'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.velocity,
+                expect=180,
+                value=360,
+            },
+            {
+                id='op-cc732f3441b182079d257d27',
+                target=hd2.weapon('JAR-5 Dominator'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_large,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_slight,expect=3,value=4},
+                    {field=hd2.fields.damage.demolition,expect=10,value=20},
+                    {field=hd2.fields.damage.player_durable_damage,expect=90,value=191},
+                    {field=hd2.fields.damage.player_standard_damage,expect=275,value=225},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-66de5d5f5a2ba2838ce38c93',
+        operations={
+            {
+                id='op-e3f039e57644b9a3e5d15e92',
+                target=hd2.weapon('MP-98 Knight'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-ade51ad9271dc1ef051deaa6',
+                target=hd2.weapon('MP-98 Knight'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=18,value=28},
+                    {field=hd2.fields.damage.player_standard_damage,expect=90,value=80},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-92deb7696017a04af68eac9e',
+        operations={
+            {
+                id='op-b1e06ca2ae772798d112420f',
+                target=hd2.weapon('SG-8S Slugger'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=2,
+                value=0.5,
+            },
+            {
+                id='op-47cc2068a7b88bc8760d02a8',
+                target=hd2.weapon('SG-8S Slugger'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.demolition,expect=10,value=20},
+                    {field=hd2.fields.damage.player_durable_damage,expect=90,value=188},
+                    {field=hd2.fields.damage.player_standard_damage,expect=330,value=250},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-139ad78f6ac51bbce9798c6a',
+        operations={
+            {
+                id='op-cd36d4f56fef4484f8a72672',
+                target=hd2.weapon('R-63CS Diligence Counter Sniper'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='op-ff616d3e5e76da4c14c8acc5',
+                target=hd2.weapon('R-63CS Diligence Counter Sniper'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=50,value=94},
+                    {field=hd2.fields.damage.player_standard_damage,expect=200,value=125},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-d75226cfdc1eca55131b7066',
+        operations={
+            {
+                id='op-c250ec6ae2044dc69437eaf0',
+                target=hd2.weapon('AR-23 Liberator'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-3988f30a5ff9540283e9a217',
+                target=hd2.weapon('AR-23 Liberator'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=22,value=28},
+                    {field=hd2.fields.damage.player_standard_damage,expect=90,value=80},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-c42907540e0a70a3afb23984',
+        operations={
+            {
+                id='op-4a3f3afcee840449ff18e7ed',
+                target=hd2.weapon('R-2124 Constitution'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='op-5f29215eb91c31cde1199b2f',
+                target=hd2.weapon('R-2124 Constitution'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_large,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_slight,expect=3,value=4},
+                    {field=hd2.fields.damage.player_durable_damage,expect=50,value=153},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-c057239ae7338a2cac947806',
+        operations={
+            {
+                id='op-afcc9fcc40be086ee27f8790',
+                target=hd2.weapon('AR-11 Arbitrator'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-67fa6934fda579165adaf3b0',
+                target=hd2.weapon('AR-11 Arbitrator'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=20,value=25},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-64f6c65514d7e06d97274943',
+        target=hd2.weapon('PLAS-101 Purifier'):attack('primary'):projectile(),
+        allow_shared=true,
+        field=hd2.fields.projectile.drag,
+        expect=1.5,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-7a61558c4fc099f23691b16b',
+        operations={
+            {
+                id='op-6b4b690197fcdd510595f20a',
+                target=hd2.weapon('R-6 Deadeye'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='op-1d56c377df5ea669f4508201',
+                target=hd2.weapon('R-6 Deadeye'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_large,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_slight,expect=3,value=4},
+                    {field=hd2.fields.damage.player_durable_damage,expect=100,value=136},
+                    {field=hd2.fields.damage.player_standard_damage,expect=300,value=160},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-627f873d8aa109fc148645e3',
+        operations={
+            {
+                id='op-f7a801c35cd28d23278b032c',
+                target=hd2.weapon('R-63 Diligence'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='op-eebf8617b782f9dfad0c5c7a',
+                target=hd2.weapon('R-63 Diligence'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=45,value=46},
+                    {field=hd2.fields.damage.player_standard_damage,expect=165,value=140},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-6060aaf95eaaae9bf7911a39',
+        operations={
+            {
+                id='op-3b501eb8cad00232a52b4b80',
+                target=hd2.weapon('AR-23C Liberator Concussive'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-baeaefb34f3a33f57afdbccf',
+                target=hd2.weapon('AR-23C Liberator Concussive'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.ap_extreme,expect=2,value=3},
+                    {field=hd2.fields.damage.ap_large,expect=2,value=3},
+                    {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=35,value=38},
+                    {field=hd2.fields.damage.push_force,expect=60,value=30},
+                    {field=hd2.fields.damage.stagger,expect=35,value=40},
+                    {field=hd2.fields.damage.player_standard_damage,expect=75,value=50},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-19f1d1bd8e45e1c2faa5199b',
+        operations={
+            {
+                id='op-9990c52275803536960412fd',
+                target=hd2.weapon('SG-225IE Breaker Incendiary'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.8,
+                value=0.5,
+            },
+            {
+                id='op-4ecf4c18734e5a64d8a37c1e',
+                target=hd2.weapon('SG-225IE Breaker Incendiary'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=10,value=7},
+                    {field=hd2.fields.damage.player_standard_damage,expect=20,value=21},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-52d640ec403136f00edb280e',
+        operations={
+            {
+                id='op-8446dde3b712ff34d72c492d',
+                target=hd2.weapon('R-72 Censor'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=0.3,value=0.1},
+                    {field=hd2.fields.projectile.velocity,expect=330,value=650},
+                },
+            },
+            {
+                id='op-e03da3b6b59b9662360fb759',
+                target=hd2.weapon('R-72 Censor'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=45,value=46},
+                    {field=hd2.fields.damage.player_standard_damage,expect=165,value=140},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-34260e0fae5a66bb4f60b0a9',
+        operations={
+            {
+                id='op-2df9ef279c584c41fd177dcb',
+                target=hd2.weapon('R-2 Amendment'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='op-bcffbfab1275def040e34bbd',
+                target=hd2.weapon('R-2 Amendment'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=50,value=51},
+                    {field=hd2.fields.damage.player_standard_damage,expect=200,value=145},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-859317fa5ec2dd5af9ebe6fc',
+        operations={
+            {
+                id='op-6249530e14ba9a18e47346dc',
+                target=hd2.weapon('AR/GL-21 One-Two'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-f076ab607c71adedd57ccce1',
+                target=hd2.weapon('AR/GL-21 One-Two'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=24,value=30},
+                    {field=hd2.fields.damage.player_standard_damage,expect=95,value=85},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-8bdcbfd54df87d7b8c42a916',
+        operations={
+            {
+                id='op-1fb30ca3e515a65b1825e382',
+                target=hd2.weapon('M7S SMG'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-0d26282800932f6ba6db895c',
+                target=hd2.weapon('M7S SMG'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=18,value=28},
+                    {field=hd2.fields.damage.player_standard_damage,expect=90,value=80},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-705113935eb8df8172b17816',
+        operations={
+            {
+                id='op-ebd707cfbd7c7c34d9aa8ead',
+                target=hd2.weapon('SG-451 Cookout'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.8,
+                value=0.5,
+            },
+            {
+                id='op-347b4e6e5d381dee48248e1c',
+                target=hd2.weapon('SG-451 Cookout'):attack('feed_primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=3,value=5},
+                    {field=hd2.fields.damage.player_standard_damage,expect=16,value=15},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-8bc3a21b6c6a12bb23748ac0',
+        operations={
+            {
+                id='op-8d535be410487fa7a066476f',
+                target=hd2.weapon('SMG/FLAM-34 Stoker'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-9786c73b6c9a65aaee4fadc7',
+                target=hd2.weapon('SMG/FLAM-34 Stoker'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=30,value=39},
+                    {field=hd2.fields.damage.player_standard_damage,expect=130,value=110},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-c255453477177324eddd4baa',
+        operations={
+            {
+                id='op-257c62aef980fca677a84dfc',
+                target=hd2.weapon('AR-61 Tenderizer'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-08e821cf664b6072e67de18d',
+                target=hd2.weapon('AR-61 Tenderizer'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=30,value=33},
+                    {field=hd2.fields.damage.player_standard_damage,expect=105,value=95},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-11b1220e7671e9f9a233a291',
+        operations={
+            {
+                id='op-d5a7b71116dc1efaeeabc61b',
+                target=hd2.weapon('SG-8P Punisher Plasma'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=4,value=0.8},
+                    {field=hd2.fields.projectile.gravity,expect=3,value=1},
+                    {field=hd2.fields.projectile.velocity,expect=90,value=180},
+                },
+            },
+            {
+                id='op-655c0a447c5580aa9f4459f0',
+                target=hd2.weapon('SG-8P Punisher Plasma'):attack('primary'):projectile():terminal_action('impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=225,value=280},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=225,value=280},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-ee8d19d894b383c5048ffe0b',
+        operations={
+            {
+                id='op-7195226ac68bf48c648b76b4',
+                target=hd2.weapon('AR-23P Liberator Penetrator'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-f70672c4e3e18a5bbcbfc768',
+                target=hd2.weapon('AR-23P Liberator Penetrator'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=15,value=41},
+                    {field=hd2.fields.damage.player_standard_damage,expect=65,value=55},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-425227efe69f4e869ddde06b',
+        operations={
+            {
+                id='op-328f4b0527c91fa998be6792',
+                target=hd2.weapon('SMG-203 Gallant'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.6,
+            },
+            {
+                id='op-9c1e642439b042398244c772',
+                target=hd2.weapon('SMG-203 Gallant'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=13,value=41},
+                    {field=hd2.fields.damage.player_standard_damage,expect=65,value=55},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-13ba65c97abb1d4d12e15bdb',
+        operations={
+            {
+                id='op-2b5198a882cd6b5aba709806',
+                target=hd2.weapon('VG-70 Variable'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.6,
+                value=0.2,
+            },
+            {
+                id='op-bd398a1f37449c530e38a5bb',
+                target=hd2.weapon('VG-70 Variable'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=23,value=30},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='plan-2a3ef2e1b5a695c39236611a',
+        operations={
+            {
+                id='op-4ce671fd6ed0c909dfdddafc',
+                target=hd2.weapon('AR-32 Pacifier'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='op-b052f178a068b66b8e2bf3e5',
+                target=hd2.weapon('AR-32 Pacifier'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=10,value=33},
+                    {field=hd2.fields.damage.player_standard_damage,expect=55,value=44},
+                    {field=hd2.fields.damage.status_1_strength,expect=2,value=4},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-e6dbf0c61d24d901c3e62e19',
+        target=hd2.weapon('R-4 Hyena'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=45,value=105},
+            {field=hd2.fields.damage.player_standard_damage,expect=220,value=140},
+            {field=hd2.fields.damage.status_1_strength,expect=3,value=6},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-94254f52a6627e32c8ae7f7a',
+        target=hd2.weapon('FLAM-66 Torcher'),
+        changes={
+            {field=hd2.fields.damage.status_1_strength,expect=2,value=3},
+            {field=hd2.fields.damage.status_2_strength,expect=3,value=4},
+            {field=hd2.fields.damage.status_3_strength,expect=1,value=2},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-c4d996fd2b98f4f57ec41558',
+        target=hd2.weapon('M90A Shotgun'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.ap_large,expect=2,value=3},
+            {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=20,value=34},
+            {field=hd2.fields.damage.player_standard_damage,expect=55,value=46},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-655b820d42562b3479d47c93',
+        target=hd2.weapon('SG-97 Sweeper'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=11,value=25},
+            {field=hd2.fields.damage.player_standard_damage,expect=42,value=34},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-707d656ec51584e3d4403dcb',
+        target=hd2.weapon('DBS-2 Double Freedom'):attack('feed_primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=3,value=4},
+            {field=hd2.fields.damage.ap_large,expect=3,value=4},
+            {field=hd2.fields.damage.ap_slight,expect=3,value=4},
+            {field=hd2.fields.damage.player_durable_damage,expect=35,value=42},
+            {field=hd2.fields.damage.player_standard_damage,expect=70,value=50},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-d6d786cbec9c9f61ccbba805',
+        target=hd2.weapon('SG-8 Punisher'):attack('feed_primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=12,value=14},
+            {field=hd2.fields.damage.player_standard_damage,expect=45,value=39},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-aba9f0c284c40c71aaf8f6ff',
+        target=hd2.weapon('SG-20 Halt'):attack('feed_primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=10,value=20},
+            {field=hd2.fields.damage.player_standard_damage,expect=35,value=26},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-a2877e602fe56952c82a3500',
+        target=hd2.weapon('SG-20 Halt'):attack('feed_alternate'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.ap_large,expect=2,value=3},
+            {field=hd2.fields.damage.ap_slight,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=2,value=4},
+            {field=hd2.fields.damage.player_standard_damage,expect=6,value=9},
+            {field=hd2.fields.damage.status_1_strength,expect=1,value=3},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-d185123e2a4e5934b766adb6',
+        target=hd2.weapon('SG-225SP Breaker Spray&Pray'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=4,value=7},
+            {field=hd2.fields.damage.push_force,expect=1,value=10},
+            {field=hd2.fields.damage.stagger,expect=3,value=15},
+            {field=hd2.fields.damage.player_standard_damage,expect=15,value=19},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-0be51cf97ec3b34a3cc49548',
+        target=hd2.weapon('SG-225 Breaker'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=6,value=10},
+            {field=hd2.fields.damage.player_standard_damage,expect=30,value=28},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-85335ba87b999424fa935699',
+        target=hd2.weapon('ARC-12 Blitzer'),
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=35,value=37},
+            {field=hd2.fields.damage.status_1_strength,expect=0.9,value=2},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-b2d4734fc42038f85874a150',
+        target=hd2.weapon('LAS-16 Sickle'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=6,value=23},
+            {field=hd2.fields.damage.player_standard_damage,expect=60,value=65},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-2a7269b665783a5d909780a8',
+        target=hd2.weapon('LAS-12 Sai'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=4,value=41},
+            {field=hd2.fields.damage.player_standard_damage,expect=80,value=55},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-e05747dc34965a08acda1afe',
+        target=hd2.weapon('LAS-13 Trident'),
+        changes={
+            {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+            {field=hd2.fields.damage.player_durable_damage,expect=6,value=23},
+            {field=hd2.fields.damage.player_standard_damage,expect=60,value=65},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-1fa21a42f1e0a9f422dd041f',
+        target=hd2.weapon('R/40-K Hot-Shot Marksman Rifle'):attack('primary'):projectile(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.damage.player_durable_damage,expect=40,value=161},
+            {field=hd2.fields.damage.player_standard_damage,expect=275,value=215},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-0b4e37fcdb833f28bc3a46db',
+        target=hd2.weapon('GL-15 Evictor'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-0192ed383242a47aa3b486d5',
+        target=hd2.weapon('R-63 Diligence'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-80e9e3ca5cfcff98d78d3faf',
+        target=hd2.weapon('SG-8P Punisher Plasma'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-9cefb0cd622e7224c70d38c4',
+        target=hd2.weapon('ARC-12 Blitzer'),
+        changes={
+            {field=hd2.fields.weapon.horizontal_spread,expect=1350,value=1000},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-de6d8a63b06e36ef0507b3f9',
+        target=hd2.weapon('SMG-72 Pummeler'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-ad31c6a96a28531ff4a0ce6b',
+        target=hd2.weapon('R-2 Amendment'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-d95d773d82627bac7e8ab27e',
+        target=hd2.weapon('SMG-203 Gallant'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-b3b8d1322fea2e6411e98b68',
+        target=hd2.weapon('R/40-K Hot-Shot Marksman Rifle'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_horizontal,expect=12.5,value=10},
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=32.5,value=25},
+            {field=hd2.fields.weapon.recoil_drift_horizontal,expect=12.5,value=10},
+            {field=hd2.fields.weapon.recoil_drift_vertical,expect=17.5,value=15},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-70ddfb3a4de6dc3a890b06df',
+        target=hd2.weapon('PLAS-39 Accelerator Rifle'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-049c838a9966ea868cd22727',
+        target=hd2.weapon('LAS-13 Trident'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-5ac119521f3c3d9312260f28',
+        target=hd2.weapon('SG-8 Punisher'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-d7f8da6cbd3821b5373d0517',
+        target=hd2.weapon('AR-23P Liberator Penetrator'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-0980bc0df1475b70d03c2373',
+        target=hd2.weapon('SG-225 Breaker'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-3095603551a2f95cd771f567',
+        target=hd2.weapon('R-63CS Diligence Counter Sniper'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=35,value=40},
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=80,value=40},
+            {field=hd2.fields.weapon.sway,expect=0.8,value=0.6},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-cc6964d0b2b38f1e31257e6b',
+        target=hd2.weapon('MA5C Assault Rifle'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=30,value=20},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-2a64b61fd1fed19c196b1ab7',
+        target=hd2.weapon('SG-20 Halt'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-000c3bc41cf7c02f9cb20ffd',
+        target=hd2.weapon('SG-8S Slugger'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-a65cfede98874d28af7e0ac9',
+        target=hd2.weapon('FLAM-66 Torcher'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-638a52e9f20978259a9eaffd',
+        target=hd2.weapon('SG-225SP Breaker Spray&Pray'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-4fb1eeb7f8d8033b3caf1ea8',
+        target=hd2.weapon('BR-14 Adjudicator'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=50,value=30},
+            {field=hd2.fields.weapon.recoil_drift_vertical,expect=35,value=25},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-2044952f880a5a458030c258',
+        target=hd2.weapon('AR-59 Suppressor'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-7f9d826679e7461cdb4beaf4',
+        target=hd2.weapon('DBS-2 Double Freedom'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-67b5a6fb6805d678702f7d68',
+        target=hd2.weapon('R-2124 Constitution'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=60,value=40},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-99486427bfd27d37ba611108',
+        target=hd2.weapon('JAR-5 Dominator'),
+        field=hd2.fields.weapon.ergonomics,
+        expect=30,
+        value=35,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-187ab22eee0ab869bea1f1ac',
+        target=hd2.weapon('AR-2 Coyote'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=36,value=25},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-b604c101133563247e3cbb3b',
+        target=hd2.weapon('LAS-16 Sickle'),
+        changes={
+            {field=hd2.fields.weapon.horizontal_spread,expect=20,value=10},
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=2,value=1},
+            {field=hd2.fields.weapon.recoil_drift_horizontal,expect=2,value=1},
+            {field=hd2.fields.weapon.recoil_drift_vertical,expect=2,value=1},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+            {field=hd2.fields.weapon.vertical_spread,expect=20,value=10},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-00f4ade24286bfbed95d1de0',
+        target=hd2.weapon('SMG/FLAM-34 Stoker'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-c566c6e55e21550032788ce5',
+        target=hd2.weapon('M90A Shotgun'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-83b36bae82739da2e4f92309',
+        target=hd2.weapon('SMG-32 Reprimand'),
+        changes={
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=55,value=45},
+            {field=hd2.fields.weapon.recoil_drift_vertical,expect=40,value=20},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.5},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-491b98af14784963813ac508',
+        target=hd2.weapon('MP-98 Knight'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-bb36991e197f441b9a44db91',
+        target=hd2.weapon('AR-23 Liberator'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-3c650ad524ca1b5c3d59460e',
+        target=hd2.weapon('AR-11 Arbitrator'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=30,value=45},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-c97ade0a8d88e367da765fcb',
+        target=hd2.weapon('AR/GL-21 One-Two'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=30,value=45},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-67a53ea4efe8eb6d5cac39f6',
+        target=hd2.weapon('R-36 Eruptor'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=25,value=30},
+            {field=hd2.fields.weapon.sway,expect=0.8,value=0.4},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-df9a4e20810e44ce673a5087',
+        target=hd2.weapon('AR-32 Pacifier'),
+        changes={
+            {field=hd2.fields.weapon.horizontal_spread,expect=4,value=2},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+            {field=hd2.fields.weapon.vertical_spread,expect=4,value=2},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-9706b5ade165bdd02ae198be',
+        target=hd2.weapon('M7S SMG'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-52570873b4ef5c7b2bdabc98',
+        target=hd2.weapon('SG-225IE Breaker Incendiary'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-f1af46f43e5b20cc65720691',
+        target=hd2.weapon('LAS-12 Sai'),
+        changes={
+            {field=hd2.fields.weapon.horizontal_spread,expect=140,value=40},
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=25,value=15},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+            {field=hd2.fields.weapon.vertical_spread,expect=140,value=40},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-f40dfe54757a7b621b493821',
+        target=hd2.weapon('AR-23C Liberator Concussive'),
+        changes={
+            {field=hd2.fields.weapon.horizontal_spread,expect=4,value=2},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+            {field=hd2.fields.weapon.vertical_spread,expect=4,value=2},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-86b7fd91e44def2b565a988f',
+        target=hd2.weapon('SG-451 Cookout'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-6a7170ffa077d2207121a728',
+        target=hd2.weapon('SG-97 Sweeper'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-b72d043ecc373604b9ce984c',
+        target=hd2.weapon('R-4 Hyena'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=30,value=40},
+            {field=hd2.fields.weapon.recoil_climb_vertical,expect=150,value=100},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-dbe338c578fd6fe7caa8d18e',
+        target=hd2.weapon('R-6 Deadeye'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-4f38d7f3c2ec57b1a18b72c8',
+        target=hd2.weapon('PLAS-1 Scorcher'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-6eca8fa91c74f745dda9c3c1',
+        target=hd2.weapon('R-72 Censor'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-b658b9840869cd0c35aabde4',
+        target=hd2.weapon('CB-9 Exploding Crossbow'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-7e19db296013f8e596727af1',
+        target=hd2.weapon('VG-70 Variable'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=25,value=35},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-a28bbfb2634bb5aafa72a6f9',
+        target=hd2.weapon('PLAS-101 Purifier'),
+        field=hd2.fields.weapon.sway,
+        expect=1,
+        value=0.8,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-4bfe4914a9f88541e44046d6',
+        target=hd2.weapon('LAS-13 Trident'),
+        field=hd2.fields.heat.heat_per_shot,
+        expect=10,
+        value=5,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-7ee38e771dbebfb048ee936a',
+        target=hd2.weapon('LAS-16 Sickle'),
+        changes={
+            {field=hd2.fields.heat.cool_per_second,expect=8,value=10},
+            {field=hd2.fields.heat.heat_per_shot,expect=1.15,value=1},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-ef52be410d921d00a14057a6',
+        target=hd2.weapon('LAS-12 Sai'),
+        changes={
+            {field=hd2.fields.heat.cool_per_second,expect=5.4,value=8},
+            {field=hd2.fields.heat.heat_per_shot,expect=2,value=1},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-05950074751c8c07d5f1d507',
+        target=hd2.weapon('R/40-K Hot-Shot Marksman Rifle'),
+        changes={
+            {field=hd2.fields.magazine.magazines_from_supply,expect=7,value=9},
+            {field=hd2.fields.magazine.spare_magazines,expect=7,value=9},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-972350d779af08186a74bc4c',
+        target=hd2.weapon('PLAS-39 Accelerator Rifle'),
+        changes={
+            {field=hd2.fields.magazine.magazines_from_supply,expect=12,value=14},
+            {field=hd2.fields.magazine.spare_magazines,expect=12,value=14},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-7656c9accd9794fd7a19c5e1',
+        target=hd2.weapon('MA5C Assault Rifle'),
+        changes={
+            {field=hd2.fields.magazine.capacity,expect=32,value=60},
+            {field=hd2.fields.magazine.magazines_from_supply,expect=8,value=6},
+            {field=hd2.fields.magazine.spare_magazines,expect=8,value=6},
+            {field=hd2.fields.magazine.starting_magazines,expect=5,value=4},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='gui-object-fc29966efc57c28848fc1cdd',
+        target=hd2.weapon('R-36 Eruptor'),
+        field=hd2.fields.magazine.spare_magazines,
+        expect=6,
+        value=12,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='gui-object-0e24751f1525bd58220b4ec5',
+        target=hd2.weapon('M90A Shotgun'),
+        changes={
+            {field=hd2.fields.rounds.rounds_from_supply,expect=44,value=60},
+            {field=hd2.fields.rounds.spare_rounds,expect=44,value=60},
+            {field=hd2.fields.rounds.starting_rounds,expect=24,value=30},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-06ce0608d8a3a6f7ed9d1a45',
+        operations={
+            {
+                id='support-33499a0544def7f1a8b3a240',
+                target=hd2.support_weapon('40-K Meltagun'):attack('primary'),
+                allow_shared=true,
+                field=hd2.fields.beam.length,
+                expect=15,
+                value=45,
+            },
+            {
+                id='support-02af1620d3ed3482554ad80e',
+                target=hd2.support_weapon('40-K Meltagun'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=10,value=20},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-4a976ee92cfad7742395c616',
+        operations={
+            {
+                id='support-55e5f375d5d60df07592d387',
+                target=hd2.support_weapon('AC-8 Autocannon'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=17,value=25},
+                    {field=hd2.fields.weapon.recoil_climb_vertical,expect=100,value=50},
+                    {field=hd2.fields.weapon.recoil_drift_horizontal,expect=200,value=150},
+                    {field=hd2.fields.weapon.recoil_drift_vertical,expect=450,value=300},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            },
+            {
+                id='support-e7588b4a14e5b1c43d94ebca',
+                target=hd2.support_weapon('AC-8 Autocannon'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.player_durable_damage,
+                expect=260,
+                value=276,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-56387baa5ce760120d9482f0',
+        operations={
+            {
+                id='support-6be27116db1a8a179925e544',
+                target=hd2.support_weapon('APW-1 Anti-Materiel Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=225,value=262},
+                    {field=hd2.fields.damage.player_standard_damage,expect=450,value=350},
+                },
+            },
+            {
+                id='support-e39905c684fa3ba143864a2b',
+                target=hd2.support_weapon('APW-1 Anti-Materiel Rifle'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=35,value=40},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            },
+            {
+                id='support-42157e660c7b66371ae03c7e',
+                target=hd2.support_weapon('APW-1 Anti-Materiel Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=0.3,value=0.1},
+                    {field=hd2.fields.projectile.velocity,expect=880,value=1000},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-e1cd7f2fe981cc0a4330e774',
+        operations={
+            {
+                id='support-c619536001c773a5689d430c',
+                target=hd2.support_weapon('ARC-3 Arc Thrower'):attack('primary'),
+                allow_shared=true,
+                field=hd2.fields.arc.range,
+                expect=55,
+                value=75,
+            },
+            {
+                id='support-2bd96a445ca164a4023fa00b',
+                target=hd2.support_weapon('ARC-3 Arc Thrower'),
+                field=hd2.fields.weapon.sway,
+                expect=1,
+                value=0.8,
+            },
+            {
+                id='support-1550d3bb61c042b3b26cede4',
+                target=hd2.support_weapon('ARC-3 Arc Thrower'):attack('primary'),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=100,value=195},
+                    {field=hd2.fields.damage.player_standard_damage,expect=250,value=300},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='support-37571d05c9148c27b5d07d05',
+        target=hd2.support_weapon('B/MD C4 Pack'):attack('detonation'):explosion(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.explosion.damage_durable_damage,expect=2000,value=3000},
+            {field=hd2.fields.explosion.damage_standard_damage,expect=2000,value=3000},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-5402d0f9f940ba48e4f3ebe1',
+        operations={
+            {
+                id='support-77d33c69d19f6aac15c53d65',
+                target=hd2.support_weapon('GL-21 Grenade Launcher'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=1.2,
+                value=0.7,
+            },
+            {
+                id='support-d9a03da04f4f7abeb1fabd6f',
+                target=hd2.support_weapon('GL-21 Grenade Launcher'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_direct,expect=3,value=4},
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=4},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-959bae291a56ad85a22f6623',
+        operations={
+            {
+                id='support-414dc9adecf203ba9e8bbffa',
+                target=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher'),
+                field=hd2.fields.weapon.sway,
+                expect=1,
+                value=0.8,
+            },
+            {
+                id='support-1a55cef5adb1ff42aa8b1e9c',
+                target=hd2.support_weapon('GL-28 Belt-Fed Grenade Launcher'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=4},
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=150,value=250},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=150,value=250},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-24afb6912a8f623efd8ea182',
+        operations={
+            {
+                id='support-ca65f49e607452512ad7a200',
+                target=hd2.support_weapon('GR-8 Recoilless Rifle'),
+                field=hd2.fields.weapon.sway,
+                expect=1,
+                value=0.8,
+            },
+            {
+                id='support-290c19e7103f8eebd15df7db',
+                target=hd2.support_weapon('GR-8 Recoilless Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_extreme,expect=3,value=6},
+                    {field=hd2.fields.damage.player_durable_damage,expect=3200,value=2500},
+                    {field=hd2.fields.damage.player_standard_damage,expect=3200,value=2500},
+                },
+            },
+            {
+                id='support-35f86f12721d3e58eea55851',
+                target=hd2.support_weapon('GR-8 Recoilless Rifle'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=0.3,value=0.1},
+                    {field=hd2.fields.projectile.velocity,expect=250,value=400},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-714162ab3a71ece98b6c54c8',
+        operations={
+            {
+                id='support-b41064cace66ce2f669a834d',
+                target=hd2.support_weapon('LAS-99 Quasar Cannon'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.ap_extreme,
+                expect=3,
+                value=6,
+            },
+            {
+                id='support-c311a75f616e44e9df2d1c11',
+                target=hd2.support_weapon('LAS-99 Quasar Cannon'),
+                field=hd2.fields.heat.cool_per_second,
+                expect=6.66,
+                value=10,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-e1a82ead21eb0d21e252c7c1',
+        operations={
+            {
+                id='support-2474b4116e7f11da29d90d54',
+                target=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.projectile.drag,expect=0.3,value=0.2},
+                    {field=hd2.fields.projectile.velocity,expect=920,value=1000},
+                },
+            },
+            {
+                id='support-2b541b2c8362e667bddd392e',
+                target=hd2.support_weapon('M-1000 Maxigun'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=4,value=10},
+                    {field=hd2.fields.weapon.horizontal_spread,expect=10,value=5},
+                    {field=hd2.fields.weapon.recoil_climb_vertical,expect=30,value=20},
+                    {field=hd2.fields.weapon.recoil_drift_vertical,expect=20,value=10},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                    {field=hd2.fields.weapon.vertical_spread,expect=10,value=5},
+                },
+            },
+            {
+                id='support-074eebd83d07f6fcc7da931f',
+                target=hd2.support_weapon('M-1000 Maxigun'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_large,expect=3,value=4},
+                    {field=hd2.fields.damage.ap_slight,expect=3,value=4},
+                    {field=hd2.fields.damage.player_durable_damage,expect=18,value=55},
+                    {field=hd2.fields.damage.stagger,expect=15,value=25},
+                    {field=hd2.fields.damage.player_standard_damage,expect=80,value=65},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-4e83c56ffd8c2443ba9d6e4e',
+        operations={
+            {
+                id='support-c2d132b839665040bb618ab3',
+                target=hd2.support_weapon('MG-206 Heavy Machine Gun'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=0,value=10},
+                    {field=hd2.fields.weapon.recoil_climb_horizontal,expect=15,value=10},
+                    {field=hd2.fields.weapon.recoil_climb_vertical,expect=30,value=20},
+                    {field=hd2.fields.weapon.recoil_drift_horizontal,expect=50,value=30},
+                    {field=hd2.fields.weapon.recoil_drift_vertical,expect=80,value=50},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            },
+            {
+                id='support-de249ce93cadd1b11c60f0b7',
+                target=hd2.support_weapon('MG-206 Heavy Machine Gun'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.player_durable_damage,
+                expect=35,
+                value=127,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-4cfa0f2fa7626655323e1308',
+        operations={
+            {
+                id='support-cf32c6d61989dae70115b2a8',
+                target=hd2.support_weapon('MG-43 Machine Gun'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.2,
+            },
+            {
+                id='support-54ca86c62a9b92541c5ac904',
+                target=hd2.support_weapon('MG-43 Machine Gun'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=15,value=25},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.6},
+                },
+            },
+            {
+                id='support-45aaee221afd485be71ff5c1',
+                target=hd2.support_weapon('MG-43 Machine Gun'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.player_durable_damage,expect=23,value=60},
+                    {field=hd2.fields.damage.player_standard_damage,expect=90,value=80},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-d900c844ac96b526549ffc05',
+        operations={
+            {
+                id='support-96923056563f798b4bceea31',
+                target=hd2.support_weapon('MGX-42 Bullet Storm'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=2,value=3},
+                    {field=hd2.fields.damage.player_durable_damage,expect=25,value=31},
+                    {field=hd2.fields.damage.player_standard_damage,expect=100,value=90},
+                },
+            },
+            {
+                id='support-3fee5791bf7236cc876d1d3e',
+                target=hd2.support_weapon('MGX-42 Bullet Storm'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=25,value=35},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-bba8e54d0da87db80d2274a8',
+        operations={
+            {
+                id='support-57b98eac83062d10b8a9eecf',
+                target=hd2.support_weapon('MLS-4X Commando'),
+                field=hd2.fields.weapon.ergonomics,
+                expect=10,
+                value=20,
+            },
+            {
+                id='support-2c4c2ce9fddaa5e18e287b33',
+                target=hd2.support_weapon('MLS-4X Commando'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                field=hd2.fields.explosion.damage_ap_direct,
+                expect=3,
+                value=4,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='support-9fe045393412301981d52d09',
+        target=hd2.support_weapon('MS-11 Solo Silo'):attack('detonation'):explosion(),
+        allow_shared=true,
+        changes={
+            {field=hd2.fields.explosion.damage_demolition,expect=40,value=50},
+            {field=hd2.fields.explosion.damage_durable_damage,expect=2500,value=3000},
+            {field=hd2.fields.explosion.damage_standard_damage,expect=2500,value=3000},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-12bd9a610e6a4fe58e6abaa5',
+        operations={
+            {
+                id='support-05496cc777274bcabbfe8af9',
+                target=hd2.support_weapon('PLAS-45 Epoch'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.inner_radius,expect=2.3,value=3},
+                    {field=hd2.fields.explosion.outer_radius,expect=3,value=4},
+                },
+            },
+            {
+                id='support-76761252fd5e102d93842742',
+                target=hd2.support_weapon('PLAS-45 Epoch'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.velocity,
+                expect=250,
+                value=400,
+            },
+            {
+                id='support-085d36f9945b3fec1b5f3f9a',
+                target=hd2.support_weapon('PLAS-45 Epoch'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=500,value=600},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=500,value=600},
+                },
+            },
+            {
+                id='support-df317655aadbcb9e48fd8b45',
+                target=hd2.support_weapon('PLAS-45 Epoch'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=25,value=30},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='support-19efd501a013a0995a8a5659',
+        target=hd2.support_weapon('RL-77 Airburst Rocket Launcher'),
+        changes={
+            {field=hd2.fields.weapon.ergonomics,expect=10,value=20},
+            {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-8804f044fd670846a08a6061',
+        operations={
+            {
+                id='support-266620a6346dbcff0fb4132e',
+                target=hd2.support_weapon('RS-422 Railgun'),
+                field=hd2.fields.weapon.sway,
+                expect=1,
+                value=0.8,
+            },
+            {
+                id='support-88139f53efaf0b0232cc9a50',
+                target=hd2.support_weapon('RS-422 Railgun'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=0.3,
+                value=0.1,
+            },
+            {
+                id='support-3a6c2264ec528743159c5a51',
+                target=hd2.support_weapon('RS-422 Railgun'):attack('primary'):projectile(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.damage.ap_direct,expect=5,value=18},
+                    {field=hd2.fields.damage.ap_extreme,expect=5,value=10},
+                    {field=hd2.fields.damage.ap_large,expect=5,value=10},
+                    {field=hd2.fields.damage.ap_slight,expect=5,value=10},
+                    {field=hd2.fields.damage.player_durable_damage,expect=225,value=382},
+                    {field=hd2.fields.damage.player_standard_damage,expect=600,value=450},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-b659698f823b1dbaf7527e71',
+        operations={
+            {
+                id='support-7a35c826a14774d258dcc529',
+                target=hd2.support_weapon('S-11 Speargun'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.projectile.drag,
+                expect=4,
+                value=0.5,
+            },
+            {
+                id='support-95fd5ce191b52458c2893400',
+                target=hd2.support_weapon('S-11 Speargun'),
+                changes={
+                    {field=hd2.fields.magazine.magazines_from_supply,expect=6,value=10},
+                    {field=hd2.fields.magazine.spare_magazines,expect=12,value=20},
+                },
+            },
+            {
+                id='support-2c0fdd244b1b2af6cab8e852',
+                target=hd2.support_weapon('S-11 Speargun'):attack('primary'):projectile(),
+                allow_shared=true,
+                field=hd2.fields.damage.player_durable_damage,
+                expect=275,
+                value=293,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-e9914b11697fc98f727d0df2',
+        operations={
+            {
+                id='support-bdf1e3aa42a1a95a64a1329f',
+                target=hd2.support_weapon('StA-X3 W.A.S.P. Launcher'),
+                changes={
+                    {field=hd2.fields.weapon.ergonomics,expect=10,value=20},
+                    {field=hd2.fields.weapon.sway,expect=1,value=0.8},
+                },
+            },
+            {
+                id='support-de52f49e1f6b06e0c101995e',
+                target=hd2.support_weapon('StA-X3 W.A.S.P. Launcher'):attack('primary_impact'):explosion(),
+                allow_shared=true,
+                changes={
+                    {field=hd2.fields.explosion.damage_ap_direct,expect=3,value=4},
+                    {field=hd2.fields.explosion.damage_ap_slight,expect=0,value=4},
+                    {field=hd2.fields.explosion.damage_durable_damage,expect=600,value=700},
+                    {field=hd2.fields.explosion.damage_standard_damage,expect=600,value=700},
+                },
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    plan={
+        id='support-plan-fbbab34406fd669e4d4dab8d',
+        operations={
+            {
+                id='support-d87280fcc9b8abf43dafe7bf',
+                target=hd2.support_weapon('TX-41 Sterilizer'):attack('primary_status_45'),
+                allow_shared=true,
+                field=hd2.fields.status.strength,
+                expect=0.5,
+                value=2,
+            },
+            {
+                id='support-ef874ef678fb04002c310b23',
+                target=hd2.support_weapon('TX-41 Sterilizer'),
+                field=hd2.fields.weapon.ergonomics,
+                expect=20,
+                value=30,
+            },
+            {
+                id='support-541faaff25f19e5f2a0bdbc2',
+                target=hd2.support_weapon('TX-41 Sterilizer'):attack('primary_status_43'),
+                allow_shared=true,
+                field=hd2.fields.status.strength,
+                expect=0.5,
+                value=2,
+            }
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='stratagem-9fb77b22d9f4ba8687ce146c',
+        target=hd2.stratagem('Orbital Precision Strike'),
+        field=hd2.fields.stratagem.definition_cooldown,
+        expect=80,
+        value=60,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='entity-4a6f2ab68cf0d0ffff15848d',
+        target=hd2.weapon_attachment('weapon-attachment/v1/magazine/plasma-medium-canister-extended/09729aaa96113627'),
+        allow_shared=true,
+        allow_unverified_effect=true,
+        changes={
+            {field=hd2.fields.attachment.magazine_capacity,expect=20,value=25},
+            {field=hd2.fields.attachment.spare_magazines,expect=5,value=6},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    transaction={
+        id='entity-e41f8c470de4c63dcf78eb93',
+        target=hd2.weapon_attachment('weapon-attachment/v1/magazine/plasma-medium-canister-standard/f4fa14d4afd3ea71'),
+        allow_shared=true,
+        allow_unverified_effect=true,
+        changes={
+            {field=hd2.fields.attachment.magazine_capacity,expect=15,value=20},
+            {field=hd2.fields.attachment.spare_magazines,expect=6,value=8},
+        },
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='entity-b71b98729d92cae3902574f2',
+        target=hd2.weapon_attachment('weapon-attachment/v1/magazine/rifle-drake-short/a04c9bf6b8f34a03'),
+        allow_shared=true,
+        allow_unverified_effect=true,
+        field=hd2.fields.attachment.magazine_capacity,
+        expect=10,
+        value=15,
+    }
+})
+operations[#operations+1]=hd2.ensure({
+    patch={
+        id='entity-69b1008f6274b70d36093cb3',
+        target=hd2.weapon_attachment('weapon-attachment/v1/magazine/rifle-drake-standard/30c524ee2906dec4'),
+        allow_shared=true,
+        allow_unverified_effect=true,
+        field=hd2.fields.attachment.magazine_capacity,
+        expect=15,
+        value=20,
+    }
+})
+return operations
+
+end
+local state=start() or true
+rawset(_G,key,state)
+return state

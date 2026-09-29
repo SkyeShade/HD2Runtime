@@ -1,0 +1,112 @@
+[
+  {
+    "name": "A-original",
+    "ok": true,
+    "chars": 83155
+  },
+  {
+    "name": "B-no-stratagem",
+    "ok": true,
+    "chars": 82895
+  },
+  {
+    "name": "B2-no-support",
+    "ok": true,
+    "chars": 61127
+  },
+  {
+    "name": "B3-no-stratagem-no-support",
+    "ok": true,
+    "chars": 60867
+  },
+  {
+    "name": "B4-no-entity",
+    "ok": true,
+    "chars": 81450
+  },
+  {
+    "name": "C-original-plus-maxigun-backpack",
+    "ok": true,
+    "chars": 83545
+  },
+  {
+    "name": "D-ma5c-only",
+    "ok": true,
+    "chars": 1782
+  },
+  {
+    "name": "D2-ma5c-capacity-only",
+    "ok": true,
+    "chars": 269
+  },
+  {
+    "name": "D3-ma5c-plus-stratagem",
+    "ok": true,
+    "chars": 2042
+  },
+  {
+    "name": "D4-ma5c-plus-support",
+    "ok": true,
+    "chars": 23810
+  },
+  {
+    "name": "E-maxigun-only",
+    "ok": true,
+    "chars": 1991
+  },
+  {
+    "name": "E2-maxigun-plus-backpack",
+    "ok": true,
+    "chars": 2568
+  },
+  {
+    "name": "E3-backpack-only",
+    "ok": true,
+    "chars": 419
+  },
+  {
+    "name": "G-orbital-precision-strike-only",
+    "ok": true,
+    "chars": 289
+  },
+  {
+    "name": "F-SG-20-Halt",
+    "ok": true,
+    "chars": 1401
+  },
+  {
+    "name": "F-SG-225SP-Breaker-Spray-Pray",
+    "ok": true,
+    "chars": 948
+  },
+  {
+    "name": "F-LAS-12-Sai",
+    "ok": true,
+    "chars": 1297
+  },
+  {
+    "name": "F-R-40-K-Hot-Shot-Marksman-Rifle",
+    "ok": true,
+    "chars": 1475
+  },
+  {
+    "name": "F-SMG-32-Reprimand",
+    "ok": true,
+    "chars": 1364
+  },
+  {
+    "name": "F-LAS-16-Sickle",
+    "ok": true,
+    "chars": 1528
+  },
+  {
+    "name": "F-M-1000-Maxigun",
+    "ok": true,
+    "chars": 1991
+  },
+  {
+    "name": "F-MA5C-Assault-Rifle",
+    "ok": true,
+    "chars": 1782
+  }
+]
