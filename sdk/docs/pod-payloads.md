@@ -92,9 +92,14 @@ opaque key for its own loadout package), `alwaysResident`, and the basis for tha
 
 Since 0.27 Runtime loads the pickup's own package automatically before writing the slot, when that package
 is known; see `asset-loading.md`. The status is `waiting_for_assets` until the package is resident, and the
-write fails with `ASSET_UNAVAILABLE` (keeping the vanilla item) if it never becomes resident. This resolves
-missing assets only. Whether the pickup behaves correctly in that pod remains unverified, so
-`allow_unverified_reference` is still required.
+write fails with `ASSET_UNAVAILABLE` (keeping the vanilla item) if it never becomes resident. This was
+live-proven: an EAT-700 in the Stalwart pod and a Grenade Box in the MG-43 pod both spawned usable, with
+nobody carrying either item. Each pickup publishes `packageDependency`, with `packageResidency` set to
+`LIVE_PROVEN`, `ALWAYS_RESIDENT` or `UNRESOLVED`.
+
+Loading resolves missing assets only. Whether a pickup behaves correctly from a given pod remains
+unverified in general, so `allow_unverified_reference` is still required. The two tested pairs are published
+as `liveVerifiedPairs` for tools to show.
 
 ## Guards
 

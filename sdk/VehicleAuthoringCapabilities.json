@@ -14968,7 +14968,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-entity:entity.health",
@@ -19352,7 +19352,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-2:mount.weapon",
@@ -19462,7 +19462,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-3:mount.weapon",
@@ -19572,7 +19572,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-110-maelstrom:td-110-maelstrom-mount-slot-4:mount.weapon",
@@ -19682,7 +19682,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:m-104-incinerator-frv:m-104-incinerator-frv-entity:entity.health",
@@ -23745,7 +23745,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-entity:entity.health",
@@ -25024,7 +25024,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-49-emancipator-exosuit:exo-49-emancipator-exosuit-mount-slot-1:mount.weapon",
@@ -25134,7 +25134,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-entity:entity.health",
@@ -26413,7 +26413,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-45-patriot-exosuit:exo-45-patriot-exosuit-mount-slot-1:mount.weapon",
@@ -26523,7 +26523,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:m-102-gunner-frv:m-102-gunner-frv-entity:entity.health",
@@ -30637,7 +30637,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-entity:entity.health",
@@ -35021,7 +35021,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:td-220-bastion-mk-xvi:td-220-bastion-mk-xvi-mount-slot-1:mount.weapon",
@@ -35131,7 +35131,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-55-breakthrough-exosuit:exo-55-breakthrough-exosuit-entity:entity.health",
@@ -36410,7 +36410,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-entity:entity.health",
@@ -37638,7 +37638,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:exo-51-lumberer-exosuit:exo-51-lumberer-exosuit-mount-slot-1:mount.weapon",
@@ -37748,7 +37748,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:frv-super-earth-variant:frv-super-earth-variant-entity:entity.health",
@@ -41862,7 +41862,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     },
     {
       "instanceKey": "vehicle:gater-oil-rig:gater-oil-rig-entity:entity.health",
@@ -43411,7 +43411,7 @@
       ],
       "acknowledgement": "allow_unverified_reference",
       "valueKind": "mounted_weapon_semantic_id",
-      "residencyWarning": "The runtime rewrites the typed mount reference only; it does not load packages. A replacement from a different package may be absent when this vehicle spawns. FRVWeaponSwap verified the write live; gameplay is unconfirmed."
+      "residencyWarning": "Package residency: when the replacement comes from another package that the catalog knows, Runtime loads it before writing (ASSET_UNAVAILABLE otherwise); vehicle-mount loading is proven offline, not yet live-tested. Mount compatibility is separate and unverified: FRVWeaponSwap verified the write live, but in-game firing and rendering of a swapped mount are unconfirmed."
     }
   ],
   "backingObjects": [

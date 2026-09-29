@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import support_callin_linkage
+import package_residency_evidence as residency_evidence  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/pod-payloads-F5FEE03DCFDB.json'
@@ -69,8 +70,23 @@ def title(path):
     return ' '.join(word.capitalize() for word in base.split('_'))
 
 
+def package_dependency(item, resident, live_tested, family):
+    """Package residency only; slot compatibility stays in compatibility/acknowledgements."""
+    known = bool(item and item['known'])
+    return {'known': known, 'alwaysResident': resident, 'autoLoadSupported': known and not resident,
+        'package': ((item['dependency']['name'] or '').rsplit('/', 1)[-1] or None) if known else None,
+        'packageResidency': ('ALWAYS_RESIDENT' if resident else family['packageResidency'] if known else
+            'UNRESOLVED'),
+        'liveTested': live_tested,
+        'blocker': None if known or resident else ('No own loadout package is proven for this pickup; Runtime '
+            'cannot load it, and its assets are present only when a rack that delivers it is loaded.')}
+
+
 def build(research_path=RESEARCH):
     research = json.loads(Path(research_path).read_text())
+    package_catalog = residency_evidence.research()['catalog']
+    live_objects = set(residency_evidence.live_objects())
+    pod_family = residency_evidence.families()['pod_payload_pickup']
     booster_record = json.loads(BOOSTER_NATIVE.read_text())['grantedStratagemRecord']
     booster_name = next(item['name'] for item in json.loads(BOOSTERS.read_text())['boosters']
         if any(rel['kind'] == 'granted_stratagem' for rel in item['relationships']))
@@ -121,8 +137,11 @@ def build(research_path=RESEARCH):
                 'ownsWeaponData': candidate['ownsWeaponData']},
             'residency': {'packageKey': package_key(candidate['package']), 'alwaysResident': resident,
                 'basis': ('Delivered by an always-available mission stratagem (Resupply).' if resident else
-                    'Own loadout package; resident only when that package is loaded.' if candidate['package'] else
+                    'Own loadout package; Runtime loads it before writing a slot that references this pickup.'
+                    if candidate['package'] else
                     'No own loadout package; its assets load with the racks that deliver it.')},
+            'packageDependency': package_dependency(package_catalog.get('pickup/' + semantic), resident,
+                'pickup/' + semantic in live_objects, pod_family),
             'packageOwners': [] if candidate['package'] else sorted(
                 package_key(r['rackPackage']) for r in research['racks'] if r['resource'] in candidate['rackPayloadOf']
                 and r['rackPackage'])}
@@ -220,8 +239,15 @@ def build(research_path=RESEARCH):
             'SCHEMA_COMPATIBLE': 'Vanilla spawns this entity from some rack slot; untried in this pod.',
             'UNVERIFIED_REFERENCE': 'Standalone typed pickup never placed in a vanilla rack.',
             'INCOMPATIBLE': 'Not a typed pickup (deployables, objectives, primaries, sidearms); never offered.'},
-        'packageRisk': ('Low when the pickup is the vanilla occupant, is always resident, or its package key is in the '
-            'rack\'s residentPackages; otherwise high: its assets may not be loaded when the pod spawns.'),
+        'packageRisk': ('Resolved by automatic loading when pickups[].packageDependency.autoLoadSupported is true: '
+            'Runtime loads the pickup\'s package before writing the slot and rejects the write with '
+            'ASSET_UNAVAILABLE if it cannot. Otherwise low only when the pickup is the vanilla occupant, is always '
+            'resident, or its package key is in the rack\'s residentPackages.'),
+        'packageResidency': pod_family,
+        'residencyVersusCompatibility': ('Package loading resolves missing assets only. Whether a replacement '
+            'behaves correctly from a given pod is slot compatibility, which stays unverified '
+            '(allow_unverified_reference) except for the live-verified pairs.'),
+        'liveVerifiedPairs': residency_evidence.live_pairs(),
         'racks': racks_public, 'pickups': pickups, 'summary': summary,
         'safety': {'runtimeAddresses': False, 'rawResourceIdentifiers': False, 'writesDuringGeneration': 0}}
     if re.search(r'0x[0-9a-f]{8,}', json.dumps(public).lower()):

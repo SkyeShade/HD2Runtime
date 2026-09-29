@@ -240,10 +240,10 @@ local function validate_change(weapon,item,allow_shared,role,path,phase,allow_un
             or source.compatibilityClass=='explosive_shrapnel',
             'projectile compatibility class is not approved for replacement')
         -- The source's assets are loaded automatically when its package is known (core/assets); a source
-        -- known to need its own weapon's package and without a catalog package stays rejected.
+        -- observed to need its own weapon's package and without a catalog package stays rejected.
         local dependency=source_dependency(weapon.name,desired.weapon,desired.attack)
         assert(expected.weapon==desired.weapon and expected.attack==desired.attack or dependency
-            or not source.residency or source.residency.classification~='SOURCE_WEAPON_REQUIRED',
+            or not source.residency or source.residency.observedWithoutLoader~='SOURCE_WEAPON_REQUIRED',
             'projectile source dependency is not resident without its source weapon: '..desired.weapon)
         return {field=item.field,canonical_field=field.semanticFieldId,descriptor=field,
             semantic_aliases={item.field},expect=item.expect,value=item.value,

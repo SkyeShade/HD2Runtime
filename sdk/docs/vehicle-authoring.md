@@ -57,8 +57,10 @@ hd2.patch({id='frv-gater',target=gun,field=hd2.fields.mount.weapon,
 
 Mount swaps require `allow_unverified_reference=true`. FRVWeaponSwap verified the write live on the
 FRV and Super Earth FRV (`live_write_verified`), but in-game firing and rendering are unconfirmed. Other
-slots are `structural_reference`. The runtime rewrites only the typed reference; it does not load
-packages. A replacement from a different package may be missing when the vehicle spawns.
+slots are `structural_reference`. When the replacement comes from another package that the catalog
+knows, the runtime loads that package before the write (see `asset-loading.md`); vehicle-mount loading is
+proven offline but not yet live-tested. Package loading does not make a mount swap compatible: firing and
+rendering of a swapped mount remain unverified, so `allow_unverified_reference` stays required.
 
 At write time the runtime re-resolves the vehicle's mount record ownership and requires the
 replacement entity to be live with `WeaponData`. The slot must still hold the expected identity.

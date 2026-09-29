@@ -2576,10 +2576,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_risk",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -4758,10 +4763,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -6979,10 +6989,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -9170,10 +9185,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_patriot",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -11360,10 +11380,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -13492,10 +13517,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -15628,10 +15658,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_karbin",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -17849,10 +17884,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_whisper",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -20032,10 +20072,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_rico",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -22211,10 +22256,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_grenadier",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -26228,10 +26278,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "battle_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -28408,10 +28463,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "crossbow_greyfax",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -39651,10 +39711,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "shotgun_double_freedom",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -43886,10 +43951,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -46796,10 +46866,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "cricket_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -49823,9 +49898,14 @@
           },
           "residency": {
             "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
+            "package": null,
             "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "packageResidency": "UNRESOLVED",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "No loadout package structurally owns this weapon resource.",
+            "reason": "Runtime cannot name the package, so it cannot load the source's assets."
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -52741,9 +52821,14 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "SELF_CONTAINED",
-            "evidence": "Observed Reprimand to JAR-5 gameplay swap remained functional.",
-            "preloadSupported": false,
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "jet_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": "SELF_CONTAINED",
+            "observedEvidence": "Observed Reprimand to JAR-5 gameplay swap remained functional.",
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
             "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
@@ -55097,10 +55182,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "laser_smg_blaster",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -59355,10 +59445,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "laser_rifle_long",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -61747,10 +61842,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "laser_rifle_long_hotshot",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -66134,10 +66234,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "SOURCE_WEAPON_REQUIRED",
-            "evidence": "Observed gameplay control: projectile is invisible until LAS-58 Talon is equipped.",
-            "preloadSupported": false,
-            "reason": "No reviewed Bingus or native resource-loader contract is available."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "laser_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": true,
+            "observedWithoutLoader": "SOURCE_WEAPON_REQUIRED",
+            "observedEvidence": "Observed before automatic loading: the projectile was invisible until LAS-58 Talon was equipped.",
+            "evidence": "Live: the Reprimand fired this projectile correctly with nobody carrying the source weapon.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -70284,10 +70389,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pistol_nacho",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -72467,10 +72577,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_nacho",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -74789,10 +74904,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "shotgun_nacho",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -76966,10 +77086,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_nacho",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -79094,10 +79219,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_defender",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -81454,10 +81584,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -83168,10 +83303,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "magnum_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -87686,10 +87826,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pistol_smart_missile",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -90624,10 +90769,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "hornet_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -93540,10 +93690,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "caustic_dart_gun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -96050,10 +96205,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "revolver_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -98374,10 +98534,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pistol_broomhandle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -102456,10 +102621,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smart_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -104636,10 +104806,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pistol_shark",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -107525,10 +107700,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "plasma_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -110444,10 +110624,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "plasma_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -113272,10 +113457,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "plasma_pistol",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -116175,10 +116365,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "sniper_rifle_helghast",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -119063,10 +119258,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "battle_rifle_ceremonial",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -121387,10 +121587,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "bolt_action_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -123567,10 +123772,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "jet_rifle_phoenix",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -126428,10 +126638,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "marksman_rifle_vigilance",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -128843,10 +129058,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -131023,10 +131243,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "marksman_rifle_vigilance",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -133203,10 +133428,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "marksman_rifle_vigilance",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -135328,10 +135558,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "marksman_rifle",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -137508,10 +137743,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "marksman_rifle_shark",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -139830,10 +140070,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun_stun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -140043,10 +140288,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun_stun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_alternate_projectile"
         },
@@ -143194,10 +143444,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -145359,10 +145614,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_shotgun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -147485,10 +147745,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_shotgun_incendiary",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -149705,10 +149970,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_shotgun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -152029,10 +152299,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun_dragon",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -154444,10 +154719,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -156662,10 +156942,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -159691,10 +159976,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": null,
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.feed_primary_projectile"
         },
@@ -162013,10 +162303,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pump_shotgun_trench",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -164141,10 +164436,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_solvent",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -166324,10 +166624,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_rhino",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -168447,10 +168752,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "pdw",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -170575,10 +170885,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "personal_defense_weapon_pepper",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -172791,10 +173106,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_flamer",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -174971,10 +175291,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "smg_helghast",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -177189,10 +177514,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "assault_rifle_helghast",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },
@@ -179430,10 +179760,15 @@
             "settingsType": "0xBD4042C2"
           },
           "residency": {
-            "classification": "DEPENDENCY_UNRESOLVED",
-            "evidence": "No equipped/unequipped residency pair exists in the current snapshot set.",
-            "preloadSupported": false,
-            "reason": "Resource bundle/package ownership is not structurally proven."
+            "classification": "PACKAGE_AUTO_LOADED",
+            "package": "volley_gun",
+            "preloadSupported": true,
+            "packageResidency": "LIVE_PROVEN",
+            "liveTested": false,
+            "observedWithoutLoader": null,
+            "observedEvidence": null,
+            "evidence": "The source weapon's own loadout package; Runtime loads it before a swap from a weapon in another package.",
+            "reason": null
           },
           "apiFieldConstant": "hd2.fields.attack.primary_projectile"
         },

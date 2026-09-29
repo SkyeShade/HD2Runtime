@@ -20,8 +20,16 @@ the source's package is known and differs from the target's, the operation recor
 Runtime loads that package through the game's own package system before the write, and waits in
 `waiting_for_assets`; see `asset-loading.md`. LAS-58 Talon was classified `SOURCE_WEAPON_REQUIRED` from the
 reported gameplay control (invisible until the Talon is equipped). Its package (`laser_pistol`) is known, so
-the swap is accepted and loads that package first. A `SOURCE_WEAPON_REQUIRED` source without a known package
-stays blocked. JAR-5 carries the successful observed swap evidence.
+the swap is accepted and loads that package first. This was confirmed live: the Reprimand fired Talon
+projectiles correctly with nobody carrying the Talon. Each attack's `residency` publishes:
+- `classification`: `PACKAGE_AUTO_LOADED` or `DEPENDENCY_UNRESOLVED`;
+- `package`;
+- `packageResidency`: the proof level of the loading path;
+- `liveTested`;
+- `observedWithoutLoader`: the pre-0.27 observation.
+
+A source observed as `SOURCE_WEAPON_REQUIRED` without a known package stays blocked. JAR-5 carries the
+successful observed swap evidence.
 
 Terminal explosion slots accept typed explosion handles or `terminal:no_explosion()`. Native zero
 is never accepted as a raw public reference.
