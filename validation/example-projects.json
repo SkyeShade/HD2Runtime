@@ -1,5 +1,5 @@
 {
-  "examples": 60,
+  "examples": 62,
   "failed": [],
   "mode": "snapshot",
   "results": {
@@ -1593,6 +1593,34 @@
         "typed writes -> 0.23.2"
       ]
     },
+    "LiberatorFireStatus": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "fire",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "player_weapon",
+          "weapon": "AR-23 Liberator"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
+      ]
+    },
     "LumbererAmmo": {
       "baselineChanges": 2,
       "calls": [
@@ -1709,6 +1737,34 @@
       "versionReasons": [
         "typed writes -> 0.23.2",
         "weapon.stationary_while_firing -> 0.27.0"
+      ]
+    },
+    "MaxigunStun": {
+      "baselineChanges": 2,
+      "calls": [
+        "ensure"
+      ],
+      "minVersion": "0.27.0",
+      "operations": [
+        {
+          "acknowledgements": [
+            "allow_shared",
+            "allow_unverified_effect"
+          ],
+          "callKind": "ensure",
+          "id": "stun",
+          "mode": "transaction",
+          "path": "projectile_reference",
+          "resource": "support_weapon",
+          "weapon": "M-1000 Maxigun"
+        }
+      ],
+      "problems": [],
+      "requiredMinVersion": "0.23.2",
+      "status": "VALIDATED",
+      "usesOptions": false,
+      "versionReasons": [
+        "typed writes -> 0.23.2"
       ]
     },
     "MinefieldTuning": {

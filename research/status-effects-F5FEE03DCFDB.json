@@ -1,0 +1,13480 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "mode": "snapshot",
+  "writes": 0,
+  "protectionChanges": 0,
+  "fixtureFallback": "disabled"
+ },
+ "model": {
+  "owner": "DamageInfo",
+  "slots": 4,
+  "slotLayout": {
+   "type": "+44 + 8n (StatusEffectType, u32)",
+   "strength": "+48 + 8n (f32)"
+  },
+  "packing": "used slots are contiguous from slot 1; no live DamageInfo row has a gap",
+  "packingViolations": [],
+  "damageRows": 649,
+  "rowsBySlotsUsed": {
+   "0": 500,
+   "1": 127,
+   "2": 18,
+   "3": 4,
+   "4": 0
+  },
+  "statusRows": 71
+ },
+ "statuses": [
+  {
+   "semanticId": "blind",
+   "name": "Blind",
+   "nativeType": 1,
+   "row": 0,
+   "family": "sense",
+   "duration": 8.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "bleed",
+   "name": "Bleed",
+   "nativeType": 2,
+   "row": 1,
+   "family": "bleed",
+   "duration": 9999.0,
+   "member36": 5.0,
+   "tickDamage": {
+    "damageType": 540,
+    "standardDamage": 10,
+    "durableDamage": 10,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "deaf",
+   "name": "Deaf",
+   "nativeType": 3,
+   "row": 2,
+   "family": "sense",
+   "duration": 8.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "confusion",
+   "name": "Confusion",
+   "nativeType": 4,
+   "row": 3,
+   "family": "sense",
+   "duration": 12.0,
+   "member36": 0.0,
+   "tickDamage": null,
+   "slotUsers": 3,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 0.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "fire",
+   "name": "Fire",
+   "nativeType": 5,
+   "row": 4,
+   "family": "fire",
+   "duration": 3.0,
+   "member36": 5.0,
+   "tickDamage": {
+    "damageType": 519,
+    "standardDamage": 100,
+    "durableDamage": 100,
+    "armorPenetration": [
+     4,
+     4,
+     4,
+     0
+    ]
+   },
+   "slotUsers": 59,
+   "weaponSlotUsers": 20,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "AR-2 Coyote"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "FLAM-66 Torcher"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "LAS-5 Scythe"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "LAS-7 Dagger"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "P-72 Crisper"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "R-4 Hyena"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "SG-225IE Breaker Incendiary"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "SG-451 Cookout"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/FLAM-40 Flame Sentry"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/LAS-98 Laser Sentry"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Eagle Napalm Airstrike"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "MD-I4 Incendiary Mines"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital Laser"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital Napalm Barrage"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "B/FLAM-80 Cremator"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "EAT-700 Expendable Napalm"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "FLAM-40 Flamethrower"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "LAS-98 Laser Cannon"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-10 Incendiary"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-13 Incendiary Impact"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-142 Pyrotech"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-8 Immolation"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "EXO-51 Lumberer Exosuit / left_gun"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "M-104 Incinerator FRV / gun"
+    }
+   ],
+   "strength": {
+    "min": 0.0,
+    "median": 2.0,
+    "max": 100.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "lava",
+   "name": "Lava",
+   "nativeType": 7,
+   "row": 5,
+   "family": "fire",
+   "duration": 1.0,
+   "member36": 0.15,
+   "tickDamage": {
+    "damageType": 520,
+    "standardDamage": 100,
+    "durableDamage": 100,
+    "armorPenetration": [
+     7,
+     7,
+     7,
+     0
+    ]
+   },
+   "slotUsers": 4,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 10.0,
+    "median": 10.0,
+    "max": 10.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "fire_panic",
+   "name": "Fire_Panic",
+   "nativeType": 6,
+   "row": 6,
+   "family": "sense",
+   "duration": 1.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 5,
+   "weaponSlotUsers": 5,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "FLAM-66 Torcher"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "P-72 Crisper"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/FLAM-40 Flame Sentry"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "40-K Meltagun"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "B/FLAM-80 Cremator"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "FLAM-40 Flamethrower"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "EXO-51 Lumberer Exosuit / left_gun"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "M-104 Incinerator FRV / gun"
+    }
+   ],
+   "strength": {
+    "min": 2.0,
+    "median": 3.0,
+    "max": 4.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "slowed",
+   "name": "Slowed",
+   "nativeType": 8,
+   "row": 7,
+   "family": "slow",
+   "duration": 4.0,
+   "member36": 0.4,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "rooted",
+   "name": "Rooted",
+   "nativeType": 9,
+   "row": 8,
+   "family": "slow",
+   "duration": 4.0,
+   "member36": 0.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "acid_splash",
+   "name": "Acid Splash",
+   "nativeType": 10,
+   "row": 9,
+   "family": "acid",
+   "duration": 4.0,
+   "member36": 0.3,
+   "tickDamage": {
+    "damageType": 522,
+    "standardDamage": 3,
+    "durableDamage": 0,
+    "armorPenetration": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "slotUsers": 19,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 1.0,
+    "median": 100.0,
+    "max": 200.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "acid_stream",
+   "name": "Acid Stream",
+   "nativeType": 11,
+   "row": 10,
+   "family": "acid",
+   "duration": 0.5,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 523,
+    "standardDamage": 100,
+    "durableDamage": 20,
+    "armorPenetration": [
+     6,
+     6,
+     6,
+     6
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "thermite",
+   "name": "Thermite",
+   "nativeType": 12,
+   "row": 11,
+   "family": "fire",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 521,
+    "standardDamage": 150,
+    "durableDamage": 150,
+    "armorPenetration": [
+     7,
+     7,
+     7,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "cyborg_fire",
+   "name": "Cyborg Fire",
+   "nativeType": 13,
+   "row": 12,
+   "family": "fire",
+   "duration": 5.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 524,
+    "standardDamage": 15,
+    "durableDamage": 15,
+    "armorPenetration": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "choked",
+   "name": "Choked",
+   "nativeType": 14,
+   "row": 13,
+   "family": "gas",
+   "duration": 3.0,
+   "member36": 50.0,
+   "tickDamage": null,
+   "slotUsers": 1,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "sand",
+   "name": "Sand",
+   "nativeType": 15,
+   "row": 14,
+   "family": "terrain",
+   "duration": 0.5,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "mud",
+   "name": "Mud",
+   "nativeType": 16,
+   "row": 15,
+   "family": "terrain",
+   "duration": 0.5,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "snow",
+   "name": "Snow",
+   "nativeType": 17,
+   "row": 16,
+   "family": "terrain",
+   "duration": 0.5,
+   "member36": 0.2,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "submerged",
+   "name": "Submerged",
+   "nativeType": 18,
+   "row": 17,
+   "family": "terrain",
+   "duration": 0.5,
+   "member36": 0.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "thornbush",
+   "name": "Thornbush",
+   "nativeType": 19,
+   "row": 18,
+   "family": "terrain",
+   "duration": 0.1,
+   "member36": 0.45,
+   "tickDamage": {
+    "damageType": 530,
+    "standardDamage": 3,
+    "durableDamage": 0,
+    "armorPenetration": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "cactus",
+   "name": "Cactus",
+   "nativeType": 20,
+   "row": 19,
+   "family": "terrain",
+   "duration": 0.1,
+   "member36": 0.2,
+   "tickDamage": {
+    "damageType": 531,
+    "standardDamage": 2,
+    "durableDamage": 0,
+    "armorPenetration": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "barbwire",
+   "name": "Barbwire",
+   "nativeType": 21,
+   "row": 20,
+   "family": "terrain",
+   "duration": 0.1,
+   "member36": 0.3,
+   "tickDamage": {
+    "damageType": 530,
+    "standardDamage": 3,
+    "durableDamage": 0,
+    "armorPenetration": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "bush_small",
+   "name": "BushSmall",
+   "nativeType": 22,
+   "row": 21,
+   "family": "terrain",
+   "duration": 0.1,
+   "member36": 0.375,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "bush_large",
+   "name": "BushLarge",
+   "nativeType": 23,
+   "row": 22,
+   "family": "terrain",
+   "duration": 0.1,
+   "member36": 0.45,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "pure_damage",
+   "name": "Pure Damage",
+   "nativeType": 24,
+   "row": 23,
+   "family": "system",
+   "duration": 1.0,
+   "member36": 1.33,
+   "tickDamage": {
+    "damageType": 525,
+    "standardDamage": 1000,
+    "durableDamage": 1000,
+    "armorPenetration": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_fx",
+   "name": "Stim Fx",
+   "nativeType": 25,
+   "row": 24,
+   "family": "stim",
+   "duration": 4.0,
+   "member36": 2.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_stamina",
+   "name": "Stim Stamina",
+   "nativeType": 26,
+   "row": 25,
+   "family": "stim",
+   "duration": 4.0,
+   "member36": 8.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_heal",
+   "name": "Stim Heal",
+   "nativeType": 27,
+   "row": 26,
+   "family": "stim",
+   "duration": 4.0,
+   "member36": 2.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_pistol_heal",
+   "name": "Stim Pistol Heal",
+   "nativeType": 28,
+   "row": 27,
+   "family": "stim",
+   "duration": 0.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_combat_drugs",
+   "name": "Stim Combat Drugs",
+   "nativeType": 29,
+   "row": 28,
+   "family": "stim",
+   "duration": 10.0,
+   "member36": 1.1,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stim_cooldown",
+   "name": "Stim Cooldown",
+   "nativeType": 30,
+   "row": 29,
+   "family": "stim",
+   "duration": 60.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "burning_light",
+   "name": "BurningLight",
+   "nativeType": 31,
+   "row": 30,
+   "family": "fire",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 644,
+    "standardDamage": 7,
+    "durableDamage": 7,
+    "armorPenetration": [
+     5,
+     5,
+     5,
+     5
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "burning_heavy",
+   "name": "BurningHeavy",
+   "nativeType": 32,
+   "row": 31,
+   "family": "fire",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 526,
+    "standardDamage": 200,
+    "durableDamage": 200,
+    "armorPenetration": [
+     4,
+     4,
+     4,
+     0
+    ]
+   },
+   "slotUsers": 6,
+   "weaponSlotUsers": 4,
+   "knownConsumers": [
+    {
+     "domain": "stratagem_authoring",
+     "object": "Eagle Napalm Airstrike"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital Napalm Barrage"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "EAT-700 Expendable Napalm"
+    }
+   ],
+   "strength": {
+    "min": 2.0,
+    "median": 50.0,
+    "max": 50.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "radiation_light",
+   "name": "RadiationLight",
+   "nativeType": 33,
+   "row": 32,
+   "family": "radiation",
+   "duration": 10.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 527,
+    "standardDamage": 10,
+    "durableDamage": 10,
+    "armorPenetration": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "radiation_heavy",
+   "name": "RadiationHeavy",
+   "nativeType": 34,
+   "row": 33,
+   "family": "radiation",
+   "duration": 10.0,
+   "member36": 0.5,
+   "tickDamage": {
+    "damageType": 528,
+    "standardDamage": 10,
+    "durableDamage": 10,
+    "armorPenetration": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "electric",
+   "name": "Electric",
+   "nativeType": 35,
+   "row": 34,
+   "family": "electric",
+   "duration": 5.0,
+   "member36": 1.33,
+   "tickDamage": {
+    "damageType": 529,
+    "standardDamage": 15,
+    "durableDamage": 15,
+    "armorPenetration": [
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "hidden",
+   "name": "Hidden",
+   "nativeType": 36,
+   "row": 35,
+   "family": "system",
+   "duration": 0.5,
+   "member36": 0.9,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "stun_small",
+   "name": "Stun Small",
+   "nativeType": 37,
+   "row": 36,
+   "family": "stun",
+   "duration": 1.5,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 23,
+   "weaponSlotUsers": 4,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "ARC-12 Blitzer"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/ARC-3 Tesla Tower"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "ARC-3 Arc Thrower"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "CQC-9 Defoliation Tool"
+    }
+   ],
+   "strength": {
+    "min": 0.9,
+    "median": 10.0,
+    "max": 200.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "stun_medium",
+   "name": "Stun Medium",
+   "nativeType": 38,
+   "row": 37,
+   "family": "stun",
+   "duration": 3.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 10,
+   "weaponSlotUsers": 3,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "AR-32 Pacifier"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "SMG-72 Pummeler"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/M-23 EMS Mortar Sentry"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital EMS Strike"
+    }
+   ],
+   "strength": {
+    "min": 2.0,
+    "median": 50.0,
+    "max": 100.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "stun_large",
+   "name": "Stun Large",
+   "nativeType": 39,
+   "row": 38,
+   "family": "stun",
+   "duration": 5.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 10,
+   "weaponSlotUsers": 6,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "CQC-19 Stun Lance"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "CQC-30 Stun Baton"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "SG-20 Halt"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "CQC-1 One True Flag"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-109 Urchin"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-23 Stun"
+    }
+   ],
+   "strength": {
+    "min": 0.0,
+    "median": 7.5,
+    "max": 100.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "stun_massive",
+   "name": "Stun Massive",
+   "nativeType": 40,
+   "row": 39,
+   "family": "stun",
+   "duration": 10.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 2,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 75.0,
+    "median": 87.5,
+    "max": 100.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "stun_illuminate",
+   "name": "Stun Illuminate",
+   "nativeType": 41,
+   "row": 40,
+   "family": "stun",
+   "duration": 15.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "gas",
+   "name": "Gas",
+   "nativeType": 42,
+   "row": 41,
+   "family": "gas",
+   "duration": 6.0,
+   "member36": 0.25,
+   "tickDamage": {
+    "damageType": 532,
+    "standardDamage": 25,
+    "durableDamage": 25,
+    "armorPenetration": [
+     6,
+     6,
+     6,
+     0
+    ]
+   },
+   "slotUsers": 9,
+   "weaponSlotUsers": 6,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "P-35 Re-Educator"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/GM-17 Gas Mortar Sentry"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Eagle Gas Airstrike"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "MD-8 Gas Mines"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital Gas Strike"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "S-11 Speargun"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-4 Gas"
+    }
+   ],
+   "strength": {
+    "min": 50.0,
+    "median": 100.0,
+    "max": 100.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "gas_2",
+   "name": "Gas",
+   "nativeType": 43,
+   "row": 42,
+   "family": "gas",
+   "duration": 10.0,
+   "member36": 0.25,
+   "tickDamage": {
+    "damageType": 532,
+    "standardDamage": 25,
+    "durableDamage": 25,
+    "armorPenetration": [
+     6,
+     6,
+     6,
+     0
+    ]
+   },
+   "slotUsers": 2,
+   "weaponSlotUsers": 1,
+   "knownConsumers": [
+    {
+     "domain": "support_weapon_authoring",
+     "object": "TX-41 Sterilizer"
+    }
+   ],
+   "strength": {
+    "min": 0.5,
+    "median": 0.5,
+    "max": 0.5
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "gas_confusion",
+   "name": "Gas_Confusion",
+   "nativeType": 44,
+   "row": 43,
+   "family": "gas",
+   "duration": 5.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 8,
+   "weaponSlotUsers": 6,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "P-35 Re-Educator"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/GM-17 Gas Mortar Sentry"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Eagle Gas Airstrike"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "MD-8 Gas Mines"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "Orbital Gas Strike"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "S-11 Speargun"
+    },
+    {
+     "domain": "throwable_authoring",
+     "object": "G-4 Gas"
+    }
+   ],
+   "strength": {
+    "min": 50.0,
+    "median": 100.0,
+    "max": 100.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "gas_confusion_2",
+   "name": "Gas_Confusion",
+   "nativeType": 45,
+   "row": 44,
+   "family": "gas",
+   "duration": 9.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 2,
+   "weaponSlotUsers": 1,
+   "knownConsumers": [
+    {
+     "domain": "support_weapon_authoring",
+     "object": "TX-41 Sterilizer"
+    }
+   ],
+   "strength": {
+    "min": 0.5,
+    "median": 0.5,
+    "max": 0.5
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "inverted_aim_assist",
+   "name": "Inverted_Aim_Assist",
+   "nativeType": 46,
+   "row": 45,
+   "family": "sense",
+   "duration": 12.0,
+   "member36": 50.0,
+   "tickDamage": null,
+   "slotUsers": 2,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "flashlighted",
+   "name": "Flashlighted",
+   "nativeType": 47,
+   "row": 46,
+   "family": "sense",
+   "duration": 10.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "smoke_covered",
+   "name": "Smoke_Covered",
+   "nativeType": 48,
+   "row": 47,
+   "family": "sense",
+   "duration": 0.4,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "backpack_chemicals",
+   "name": "Backpack Chemicals",
+   "nativeType": 49,
+   "row": 48,
+   "family": "stim",
+   "duration": 8.0,
+   "member36": 2.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "intense_heat",
+   "name": "Intense Heat",
+   "nativeType": 50,
+   "row": 49,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "extreme_cold",
+   "name": "Extreme Cold",
+   "nativeType": 51,
+   "row": 50,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "tremor",
+   "name": "Tremor",
+   "nativeType": 52,
+   "row": 51,
+   "family": "weather",
+   "duration": 10.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 2,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 1.0,
+    "median": 25.5,
+    "max": 50.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "sandstorm",
+   "name": "Sandstorm",
+   "nativeType": 53,
+   "row": 52,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "blizzard",
+   "name": "Blizzard",
+   "nativeType": 54,
+   "row": 53,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 0.25,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "acid_storm",
+   "name": "Acid Storm",
+   "nativeType": 55,
+   "row": 54,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "weather_insulated",
+   "name": "Weather Insulated",
+   "nativeType": 56,
+   "row": 55,
+   "family": "weather",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "tornado_stun",
+   "name": "TornadoStun",
+   "nativeType": 57,
+   "row": 56,
+   "family": "stun",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 3,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   },
+   "attachable": false,
+   "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it"
+  },
+  {
+   "semanticId": "dark_fluid",
+   "name": "Dark Fluid",
+   "nativeType": 58,
+   "row": 57,
+   "family": "system",
+   "duration": 3.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "death_march",
+   "name": "Death March",
+   "nativeType": 59,
+   "row": 58,
+   "family": "system",
+   "duration": 0.15,
+   "member36": 0.0,
+   "tickDamage": {
+    "damageType": 541,
+    "standardDamage": 5,
+    "durableDamage": 5,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "hotshot_laser_rifle",
+   "name": "Hotshot Laser Rifle",
+   "nativeType": 60,
+   "row": 59,
+   "family": "system",
+   "duration": 0.15,
+   "member36": 0.0,
+   "tickDamage": {
+    "damageType": 542,
+    "standardDamage": 20,
+    "durableDamage": 20,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "hotshot_laser_rifle_2",
+   "name": "Hotshot Laser Rifle",
+   "nativeType": 61,
+   "row": 60,
+   "family": "system",
+   "duration": 0.15,
+   "member36": 2.0,
+   "tickDamage": {
+    "damageType": 543,
+    "standardDamage": 40,
+    "durableDamage": 40,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "hotshot_laser_rifle_3",
+   "name": "Hotshot Laser Rifle",
+   "nativeType": 62,
+   "row": 61,
+   "family": "system",
+   "duration": 0.15,
+   "member36": 2.0,
+   "tickDamage": {
+    "damageType": 544,
+    "standardDamage": 100,
+    "durableDamage": 100,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "illuminate_scrambler",
+   "name": "Illuminate Scrambler",
+   "nativeType": 63,
+   "row": 62,
+   "family": "sense",
+   "duration": 1.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "constitution",
+   "name": "Constitution",
+   "nativeType": 64,
+   "row": 63,
+   "family": "system",
+   "duration": 999999.0,
+   "member36": 1.0,
+   "tickDamage": {
+    "damageType": 545,
+    "standardDamage": 22,
+    "durableDamage": 22,
+    "armorPenetration": [
+     9,
+     9,
+     9,
+     9
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "constitution_booster_armor_resistance",
+   "name": "Constitution Booster Armor Resistance",
+   "nativeType": 65,
+   "row": 64,
+   "family": "system",
+   "duration": 3.0,
+   "member36": 0.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "post_mortem_explosion",
+   "name": "Post Mortem Explosion",
+   "nativeType": 66,
+   "row": 65,
+   "family": "system",
+   "duration": 1.5,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "flamer_slowed",
+   "name": "FlamerSlowed",
+   "nativeType": 67,
+   "row": 66,
+   "family": "slow",
+   "duration": 0.5,
+   "member36": 0.5,
+   "tickDamage": null,
+   "slotUsers": 5,
+   "weaponSlotUsers": 5,
+   "knownConsumers": [
+    {
+     "domain": "player_weapon_authoring",
+     "object": "FLAM-66 Torcher"
+    },
+    {
+     "domain": "player_weapon_authoring",
+     "object": "P-72 Crisper"
+    },
+    {
+     "domain": "stratagem_authoring",
+     "object": "A/FLAM-40 Flame Sentry"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "40-K Meltagun"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "B/FLAM-80 Cremator"
+    },
+    {
+     "domain": "support_weapon_authoring",
+     "object": "FLAM-40 Flamethrower"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "EXO-51 Lumberer Exosuit / left_gun"
+    },
+    {
+     "domain": "vehicle_weapon_authoring",
+     "object": "M-104 Incinerator FRV / gun"
+    }
+   ],
+   "strength": {
+    "min": 0.5,
+    "median": 1.0,
+    "max": 2.0
+   },
+   "attachable": true,
+   "attachableReason": null
+  },
+  {
+   "semanticId": "gloom",
+   "name": "Gloom",
+   "nativeType": 68,
+   "row": 67,
+   "family": "gas",
+   "duration": 6.0,
+   "member36": 4.0,
+   "tickDamage": {
+    "damageType": 532,
+    "standardDamage": 25,
+    "durableDamage": 25,
+    "armorPenetration": [
+     6,
+     6,
+     6,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "dark_fluid_2",
+   "name": "Dark Fluid",
+   "nativeType": 69,
+   "row": 68,
+   "family": "system",
+   "duration": 3.0,
+   "member36": 1.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "poison",
+   "name": "Poison",
+   "nativeType": 70,
+   "row": 69,
+   "family": "gas",
+   "duration": 6.0,
+   "member36": 5.0,
+   "tickDamage": {
+    "damageType": 546,
+    "standardDamage": 2,
+    "durableDamage": 5,
+    "armorPenetration": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  },
+  {
+   "semanticId": "poison_vulnerability",
+   "name": "PoisonVulnerability",
+   "nativeType": 71,
+   "row": 70,
+   "family": "system",
+   "duration": 2400.0,
+   "member36": 10.0,
+   "tickDamage": null,
+   "slotUsers": 0,
+   "weaponSlotUsers": 0,
+   "knownConsumers": [],
+   "strength": null,
+   "attachable": false,
+   "attachableReason": "no DamageInfo slot applies it (applied by another system)"
+  }
+ ],
+ "damageSlots": {
+  "1": [
+   [
+    10,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "579": [
+   [
+    5,
+    3.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "286": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "2": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "3": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "4": [
+   [
+    10,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "5": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "18": [
+   [
+    10,
+    200.0
+   ],
+   [
+    37,
+    200.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "19": [
+   [
+    37,
+    200.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "343": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "20": [
+   [
+    37,
+    200.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "21": [
+   [
+    37,
+    200.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "6": [
+   [
+    5,
+    2.0
+   ],
+   [
+    32,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "7": [
+   [
+    5,
+    3.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "8": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "9": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "221": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "10": [
+   [
+    5,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "11": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "12": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "14": [
+   [
+    5,
+    2.0
+   ],
+   [
+    67,
+    1.0
+   ],
+   [
+    6,
+    3.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "13": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "17": [
+   [
+    5,
+    3.0
+   ],
+   [
+    67,
+    2.0
+   ],
+   [
+    6,
+    4.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "15": [
+   [
+    5,
+    2.0
+   ],
+   [
+    6,
+    3.0
+   ],
+   [
+    67,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "16": [
+   [
+    5,
+    2.0
+   ],
+   [
+    67,
+    0.5
+   ],
+   [
+    6,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "24": [
+   [
+    5,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "25": [
+   [
+    5,
+    3.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "26": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "27": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "28": [
+   [
+    43,
+    0.5
+   ],
+   [
+    45,
+    0.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "29": [
+   [
+    43,
+    0.5
+   ],
+   [
+    45,
+    0.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "30": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "31": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "32": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "33": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "34": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "272": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "35": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "36": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "37": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "38": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "39": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "222": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "223": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "404": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "40": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "41": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "42": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "43": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "44": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "45": [
+   [
+    38,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "46": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "47": [
+   [
+    37,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "48": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "49": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "50": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "51": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "52": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "53": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "54": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "55": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "56": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "57": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "58": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "59": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "60": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "61": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "62": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "63": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "64": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "65": [
+   [
+    42,
+    50.0
+   ],
+   [
+    44,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "66": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "67": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "68": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "69": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "70": [
+   [
+    37,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "71": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "72": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "73": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "74": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "75": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "76": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "77": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "78": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "79": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "80": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "81": [
+   [
+    10,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "82": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "83": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "84": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "85": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "86": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "87": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "88": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "89": [
+   [
+    10,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "90": [
+   [
+    38,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "91": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "92": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "93": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "94": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "95": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "96": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "97": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "98": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "99": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "100": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "101": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "102": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "103": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "104": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "105": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "106": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "107": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "108": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "109": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "110": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "111": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "112": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "113": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "114": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "115": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "116": [
+   [
+    38,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "117": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "118": [
+   [
+    5,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "119": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "120": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "121": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "122": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "123": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "124": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "125": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "126": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "127": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "128": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "129": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "130": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "131": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "132": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "133": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "134": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "135": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "136": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "137": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "138": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "139": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "140": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "141": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "142": [
+   [
+    5,
+    3.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "143": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "144": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "145": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "146": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "147": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "148": [
+   [
+    38,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "149": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "150": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "151": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "152": [
+   [
+    5,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "153": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "154": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "155": [
+   [
+    10,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "156": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "157": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "159": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "160": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "161": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "162": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "163": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "164": [
+   [
+    5,
+    0.6
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "165": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "166": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "167": [
+   [
+    5,
+    0.35
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "168": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "169": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "170": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "171": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "172": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "173": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "174": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "175": [
+   [
+    39,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "176": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "177": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "178": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "179": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "180": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "181": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "182": [
+   [
+    5,
+    0.6
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "183": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "184": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "185": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "186": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "187": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "188": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "189": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "190": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "191": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "192": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "197": [
+   [
+    37,
+    8.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "198": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "199": [
+   [
+    37,
+    0.9
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "200": [
+   [
+    37,
+    8.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "202": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "203": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "204": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "205": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "206": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "207": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "208": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "209": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "210": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "211": [
+   [
+    37,
+    8.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "212": [
+   [
+    37,
+    8.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "213": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "214": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "215": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "216": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "217": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "218": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "219": [
+   [
+    5,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "220": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "224": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "225": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "226": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "227": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "274": [
+   [
+    32,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "316": [
+   [
+    5,
+    100.0
+   ],
+   [
+    32,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "275": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "276": [
+   [
+    32,
+    50.0
+   ],
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "228": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "229": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "230": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "231": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "232": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "233": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "234": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "235": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "236": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "237": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "238": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "239": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "240": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "241": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "242": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "243": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "244": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "245": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "246": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "247": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "248": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "249": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "250": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "251": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "252": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "253": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "254": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "255": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "256": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "261": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "262": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "263": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "264": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "265": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "266": [
+   [
+    5,
+    100.0
+   ],
+   [
+    32,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "267": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "268": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "269": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "270": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "271": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "273": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "278": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "279": [
+   [
+    39,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "280": [
+   [
+    39,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "281": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "282": [
+   [
+    39,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "283": [
+   [
+    37,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "284": [
+   [
+    37,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "285": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "287": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "288": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "289": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "290": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "291": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "293": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "294": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "295": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "296": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "297": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "298": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "299": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "300": [
+   [
+    52,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "22": [
+   [
+    52,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "23": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "301": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "302": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "303": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "304": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "305": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "306": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "307": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "308": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "309": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "310": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "311": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "314": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "315": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "312": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "313": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "317": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "318": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "319": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "320": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "321": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "322": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "323": [
+   [
+    39,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "324": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "325": [
+   [
+    37,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "326": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "327": [
+   [
+    5,
+    20.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "498": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "328": [
+   [
+    5,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "329": [
+   [
+    5,
+    20.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "330": [
+   [
+    5,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "331": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "332": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "333": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "334": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "335": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "336": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "337": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "277": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "338": [
+   [
+    5,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "339": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "340": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "342": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "344": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "345": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "346": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "347": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "348": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "349": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "350": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "351": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "352": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "353": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "354": [
+   [
+    37,
+    25.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "491": [
+   [
+    4,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "492": [
+   [
+    0,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "355": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "356": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "357": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "292": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "358": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "360": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "361": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "362": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "363": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "367": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "368": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "369": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "370": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "371": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "372": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "373": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "374": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "375": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "376": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "377": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "378": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "379": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "380": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "381": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "382": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "383": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "384": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "385": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "386": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "387": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "388": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "389": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "390": [
+   [
+    5,
+    100.0
+   ],
+   [
+    32,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "391": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "392": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "393": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "394": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "395": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "396": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "397": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "398": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "399": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "563": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "400": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "401": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "402": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "403": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "405": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "406": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "408": [
+   [
+    37,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "407": [
+   [
+    5,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "409": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "410": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "411": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "412": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "413": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "414": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "440": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "415": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "416": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "417": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "418": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "419": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "420": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "421": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "422": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "423": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "424": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "425": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "426": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "427": [
+   [
+    5,
+    20.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "428": [
+   [
+    40,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "429": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "430": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "431": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "432": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "433": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "434": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "435": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "436": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "437": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "438": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "439": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "441": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "442": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "359": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "341": [
+   [
+    5,
+    20.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "443": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "444": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "445": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "446": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "645": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "447": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "448": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "449": [
+   [
+    42,
+    100.0
+   ],
+   [
+    44,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "450": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "451": [
+   [
+    38,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "452": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "453": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "454": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "455": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "456": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "457": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "458": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "459": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "257": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "258": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "259": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "260": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "461": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "462": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "460": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "464": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "463": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "465": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "466": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "467": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "468": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "469": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "470": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "471": [
+   [
+    10,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "473": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "472": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "474": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "475": [
+   [
+    38,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "476": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "477": [
+   [
+    5,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "193": [
+   [
+    7,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "194": [
+   [
+    7,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "195": [
+   [
+    7,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "196": [
+   [
+    7,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "478": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "479": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "480": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "481": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "482": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "497": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "483": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "484": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "485": [
+   [
+    38,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "486": [
+   [
+    38,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "489": [
+   [
+    42,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "487": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "488": [
+   [
+    38,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "493": [
+   [
+    57,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "494": [
+   [
+    57,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "495": [
+   [
+    57,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "500": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "501": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "502": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "503": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "504": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "505": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "506": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "507": [
+   [
+    5,
+    1.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "511": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "512": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "513": [
+   [
+    5,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "514": [
+   [
+    5,
+    2.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "515": [
+   [
+    5,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "516": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "517": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "508": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "509": [
+   [
+    67,
+    2.0
+   ],
+   [
+    6,
+    4.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "510": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "518": [
+   [
+    5,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "519": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "520": [
+   [
+    5,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "521": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "522": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "546": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "523": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "524": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "525": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "526": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "527": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "528": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "529": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "530": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "531": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "532": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "533": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "534": [
+   [
+    5,
+    1.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "535": [
+   [
+    5,
+    1.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "536": [
+   [
+    5,
+    0.8
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "537": [
+   [
+    5,
+    0.8
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "539": [
+   [
+    5,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "538": [
+   [
+    5,
+    1.5
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "540": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "541": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "542": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "543": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "544": [
+   [
+    5,
+    10.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "545": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "547": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "548": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "549": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "550": [
+   [
+    37,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "551": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "552": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "553": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "554": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "555": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "556": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "557": [
+   [
+    39,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "558": [
+   [
+    39,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "559": [
+   [
+    39,
+    5.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "560": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "561": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "562": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "564": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "565": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "566": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "567": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "568": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "569": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "570": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "572": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "571": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "578": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "580": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "581": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "573": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "574": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "575": [
+   [
+    10,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "576": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "577": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "582": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "583": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "584": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "585": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "586": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "587": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "588": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "589": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "590": [
+   [
+    40,
+    75.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "591": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "592": [
+   [
+    10,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "593": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "594": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "595": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "596": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "597": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "598": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "599": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "600": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "601": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "602": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "603": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "604": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "605": [
+   [
+    4,
+    1.0
+   ],
+   [
+    46,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "606": [
+   [
+    46,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "607": [
+   [
+    14,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "608": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "609": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "610": [
+   [
+    39,
+    100.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "611": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "612": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "613": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "614": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "615": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "616": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "617": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "618": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "619": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "620": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "621": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "622": [
+   [
+    39,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "623": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "624": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "625": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "626": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "627": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "628": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "629": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "630": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "631": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "632": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "633": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "634": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "635": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "636": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "637": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "490": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "496": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "364": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "365": [
+   [
+    38,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "638": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "366": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "201": [
+   [
+    37,
+    1.75
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "639": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "640": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "641": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "158": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "642": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "643": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "644": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "646": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "647": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "648": [
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "499": [
+   [
+    4,
+    1.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ],
+  "649": [
+   [
+    42,
+    50.0
+   ],
+   [
+    44,
+    50.0
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    0,
+    0.0
+   ]
+  ]
+ }
+}

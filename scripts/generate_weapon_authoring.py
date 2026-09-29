@@ -15,6 +15,7 @@ from migration import overlay as migration_overlay  # noqa: E402  build-migratio
 import reticle_fields
 import weapon_movement_fields
 import fire_mode_fields
+import status_fields
 
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_REPORT=ROOT/'build/snapshot-results-authoring/PlayerWeaponRuntimeMap.json'
@@ -465,13 +466,22 @@ def build(catalog_path=CATALOG):
                     scalar['affectsMultipleWeapons']=True
                     scalar['dynamicConsumersPossible']=True
                 fields.append(scalar)
+            # Status slots: every used slot's status is a typed reference, and the first empty slot can take one.
+            for spec in status_fields.slot_specs(record['recordType']):
+                backend=settings_backend('damage',record,spec['offset'],spec['storage'],role)
+                backend.update(status_fields.backing_extra(spec))
+                slot_field=make_field(prefix+'.'+spec['suffix'],spec['current'],backend,unique,blocked)
+                if spec['role']=='type':slot_field['type']='status_reference'
+                if kind=='Projectile':
+                    slot_field['writeScope']='shared_projectile_damage_definition'
+                    slot_field['affectsMultipleWeapons']=True
+                    slot_field['dynamicConsumersPossible']=True
+                slot_field.update(status_fields.type_extra(spec))
+                if spec['role']=='type' or spec['attach']:fields.append(slot_field)
             status=attack.get('statusEffects')
             if isinstance(status,list):
                 for index,effect in enumerate(status,1):
                     status_prefix=prefix+f'.status_{index}'
-                    type_backend=settings_backend('damage',record,44+(index-1)*8,'u32',role)
-                    fields.append(make_field(status_prefix+'_type',effect['type'],type_backend,editable=False,
-                        reason=definitions['damage.status_type']['reason']))
                     backend=settings_backend('damage',record,44+(index-1)*8+4,'f32',role)
                     scalar=make_field(status_prefix+'_strength',effect['strength'],backend,
                         unique,blocked)

@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from migration import overlay as migration_overlay  # noqa: E402  build-migration hook
 import generate_entity_authoring
+import status_fields  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / 'research/vehicle-weapons-F5FEE03DCFDB.json'
@@ -151,6 +152,19 @@ def build(research_path=RESEARCH):
                     'group': record['group'], 'row': record['row'], 'recordType': record['recordType'],
                     'settingsType': record['settingsType'], 'branch': role, 'linkage': linkage}, **extra)
 
+            def status_slots(prefix, kind, record, role, linkage, target, others, **extra):
+                # Status slots (scripts/status_fields.py): typed references plus the attachment slot.
+                for spec in status_fields.slot_specs(record['recordType']):
+                    if spec['role'] == 'strength' and not spec['attach']:
+                        continue
+                    backing = settings(kind, record, spec['offset'], spec['storage'], role, linkage, **extra)
+                    backing.update(status_fields.backing_extra(spec))
+                    item = field(prefix + spec['suffix'], 'Status applied' if spec['role'] == 'type' else
+                        'Status strength', None if spec['role'] == 'type' else 'factor',
+                        'status_reference' if spec['role'] == 'type' else 'number', spec['current'], backing,
+                        target, 'shared_damage', others)
+                    item.update(status_fields.type_extra(spec))
+
             def integer(kind):
                 return 'integer' if kind in ('i32', 'u32') else 'number'
 
@@ -212,6 +226,8 @@ def build(research_path=RESEARCH):
                         field('damage.primary.' + suffix, name, unit, 'integer', damage['values'][suffix],
                             settings('damage', damage['settings'], offset, storage, 'primary', 'projectile_damage'),
                             target, 'shared_damage', others)
+                    status_slots('damage.primary.', 'damage', damage['settings'], 'primary', 'projectile_damage',
+                        target, others)
                 else:
                     blocked.append({'attack': 'primary', 'field': 'damage.*', 'reason':
                         'The projectile references no DamageInfo; its damage is delivered by another object.'})
@@ -232,6 +248,8 @@ def build(research_path=RESEARCH):
                                 'integer', explosion['damage']['values'][suffix],
                                 settings('explosion_damage', explosion['damage']['settings'], offset, storage, role,
                                     'projectile_explosion_damage', **extra), target_x, 'shared_damage', others)
+                        status_slots('explosion.' + role + '.damage.', 'explosion_damage', explosion['damage']['settings'],
+                            role, 'projectile_explosion_damage', target_x, others, **extra)
             spray = slot.get('spray')
             if spray and spray.get('settings'):
                 others = [consumer_label(c) for c in spray['usedBy']
@@ -242,6 +260,7 @@ def build(research_path=RESEARCH):
                     field('damage.primary.' + suffix, name, unit, 'integer', spray['values'][suffix],
                         settings('damage', spray['settings'], offset, storage, 'primary', 'spray_damage'),
                         target, 'shared_damage', others)
+                status_slots('damage.primary.', 'damage', spray['settings'], 'primary', 'spray_damage', target, others)
             chain = {'vehicle': vehicle['name'], 'vehicleResource': vehicle['resource'], 'slot': slot['slot'],
                 'mountPath': slot['path']}
             runtime_weapons[key] = {'name': key, 'semanticId': semantic, 'supportWeapon': True, 'vehicleWeapon': True,

@@ -24,6 +24,7 @@ import generate_pod_payload_authoring
 import generate_throwable_authoring
 import generate_package_residency
 import apply_projectile_residency
+import generate_status_catalog
 import generate_weapon_movement
 from build_live_validation import revision,verify_installed
 from hd2_archive import ARCHIVE_NAME,make_archive,resource_hash,lua_resource
@@ -87,6 +88,7 @@ def main():
     parallel.configure(args.jobs)
     out=args.output;out.mkdir(parents=True,exist_ok=True)
     apply_projectile_residency.generate(check=True)
+    generate_status_catalog.generate(check=True)
     generate_weapon_composition.generate(check=True)
     generate_support_weapon_sdk.generate(check=True)
     generate_support_weapon_authoring.generate(check=True)

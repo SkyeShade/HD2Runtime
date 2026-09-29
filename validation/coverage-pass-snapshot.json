@@ -1,0 +1,50 @@
+{
+  "fixtureFallback": "disabled",
+  "mode": "snapshot-overlay",
+  "protectionChanges": 0,
+  "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+  "status": "VALIDATED",
+  "statusSlots": {
+    "attached": {
+      "liberator_fire": {
+        "after": "0500000000000040",
+        "before": "0000000000000000",
+        "slot": 1,
+        "status": "fire",
+        "strength": 2,
+        "weapon": "AR-23 Liberator",
+        "writes": 2
+      },
+      "maxigun_stun": {
+        "after": "2600000000000040",
+        "before": "0000000000000000",
+        "slot": 1,
+        "status": "stun_medium",
+        "strength": 2,
+        "weapon": "M-1000 Maxigun",
+        "writes": 2
+      }
+    },
+    "cleared": {
+      "flamethrower": {
+        "from": "fire_panic",
+        "slot": 3
+      }
+    },
+    "rejections": {
+      "acknowledgement": 2,
+      "middleSlotClear": 1,
+      "notAttachable": 1,
+      "packingHole": 1,
+      "staleCatalog": 1
+    },
+    "swapped": {
+      "coyote": {
+        "from": "fire",
+        "to": "stun_small",
+        "writes": 1
+      }
+    }
+  },
+  "writes": 12
+}

@@ -1,0 +1,1733 @@
+{
+  "contract": "hd2runtime.status_effects.v1",
+  "schemaVersion": 1,
+  "hd2RuntimeVersion": "0.27.0",
+  "source": {
+    "snapshot": "F5FEE03DCFDB-20260926T222226Z.hd2snap",
+    "mode": "snapshot",
+    "writes": 0,
+    "protectionChanges": 0,
+    "fixtureFallback": "disabled"
+  },
+  "attachmentModel": {
+    "owner": "DamageInfo (the damage definition a hit, explosion, beam/arc/spray tick or melee strike applies)",
+    "slots": 4,
+    "packing": "used slots are contiguous from slot 1; no live DamageInfo row has a gap",
+    "fields": [
+      "damage.status_<k>_type (status_reference)",
+      "damage.status_<k>_strength (number)"
+    ],
+    "attachmentSlot": "the first empty slot of each DamageInfo row; only it is offered, so slots stay packed",
+    "directHitVsExplosion": "separate DamageInfo rows: a projectile's direct-hit damage and its explosion damage each have their own four slots",
+    "multipleStatuses": "yes, up to four per DamageInfo row (flamethrowers apply fire, fire_panic and flamer_slowed from one row)",
+    "application": "per DamageInfo application: every projectile hit, every explosion, every beam / arc / spray tick, every melee strike",
+    "sharedDefinitions": "status definitions (duration, tick damage) are global; editing status.duration changes every attack that applies the status",
+    "acknowledgements": [
+      "allow_unverified_effect for every status slot write",
+      "allow_shared when the DamageInfo row is shared by several weapons"
+    ],
+    "blocked": [
+      "adding a fifth status (the slot array is fixed at four)",
+      "statuses only enemies, terrain, weather, stims or other systems apply",
+      "removing a status from any but the last used slot (it would leave a gap)"
+    ],
+    "damageRows": 649,
+    "rowsBySlotsUsed": {
+      "0": 500,
+      "1": 127,
+      "2": 18,
+      "3": 4,
+      "4": 0
+    }
+  },
+  "summary": {
+    "statuses": 71,
+    "attachable": 11,
+    "families": {
+      "acid": 2,
+      "bleed": 1,
+      "electric": 1,
+      "fire": 6,
+      "gas": 7,
+      "radiation": 2,
+      "sense": 8,
+      "slow": 3,
+      "stim": 7,
+      "stun": 6,
+      "system": 12,
+      "terrain": 9,
+      "weather": 7
+    }
+  },
+  "statuses": [
+    {
+      "semanticId": "blind",
+      "name": "Blind",
+      "family": "sense",
+      "duration": 8.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "bleed",
+      "name": "Bleed",
+      "family": "bleed",
+      "duration": 9999.0,
+      "tickDamage": {
+        "standardDamage": 10,
+        "durableDamage": 10,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "deaf",
+      "name": "Deaf",
+      "family": "sense",
+      "duration": 8.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "confusion",
+      "name": "Confusion",
+      "family": "sense",
+      "duration": 12.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 3,
+      "strengthObserved": {
+        "min": 0.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "fire",
+      "name": "Fire",
+      "family": "fire",
+      "duration": 3.0,
+      "tickDamage": {
+        "standardDamage": 100,
+        "durableDamage": 100,
+        "armorPenetration": [
+          4,
+          4,
+          4,
+          0
+        ]
+      },
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "AR-2 Coyote"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "FLAM-66 Torcher"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "LAS-5 Scythe"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "LAS-7 Dagger"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "P-72 Crisper"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "R-4 Hyena"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "SG-225IE Breaker Incendiary"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "SG-451 Cookout"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/FLAM-40 Flame Sentry"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/LAS-98 Laser Sentry"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Eagle Napalm Airstrike"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "MD-I4 Incendiary Mines"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital Laser"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital Napalm Barrage"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "B/FLAM-80 Cremator"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "EAT-700 Expendable Napalm"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "FLAM-40 Flamethrower"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "LAS-98 Laser Cannon"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-10 Incendiary"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-13 Incendiary Impact"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-142 Pyrotech"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-8 Immolation"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "EXO-51 Lumberer Exosuit / left_gun"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "M-104 Incinerator FRV / gun"
+        }
+      ],
+      "slotUsers": 59,
+      "strengthObserved": {
+        "min": 0.0,
+        "median": 2.0,
+        "max": 100.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "lava",
+      "name": "Lava",
+      "family": "fire",
+      "duration": 1.0,
+      "tickDamage": {
+        "standardDamage": 100,
+        "durableDamage": 100,
+        "armorPenetration": [
+          7,
+          7,
+          7,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 4,
+      "strengthObserved": {
+        "min": 10.0,
+        "median": 10.0,
+        "max": 10.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "fire_panic",
+      "name": "Fire_Panic",
+      "family": "sense",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "FLAM-66 Torcher"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "P-72 Crisper"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/FLAM-40 Flame Sentry"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "40-K Meltagun"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "B/FLAM-80 Cremator"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "FLAM-40 Flamethrower"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "EXO-51 Lumberer Exosuit / left_gun"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "M-104 Incinerator FRV / gun"
+        }
+      ],
+      "slotUsers": 5,
+      "strengthObserved": {
+        "min": 2.0,
+        "median": 3.0,
+        "max": 4.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "slowed",
+      "name": "Slowed",
+      "family": "slow",
+      "duration": 4.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "rooted",
+      "name": "Rooted",
+      "family": "slow",
+      "duration": 4.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "acid_splash",
+      "name": "Acid Splash",
+      "family": "acid",
+      "duration": 4.0,
+      "tickDamage": {
+        "standardDamage": 3,
+        "durableDamage": 0,
+        "armorPenetration": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 19,
+      "strengthObserved": {
+        "min": 1.0,
+        "median": 100.0,
+        "max": 200.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "acid_stream",
+      "name": "Acid Stream",
+      "family": "acid",
+      "duration": 0.5,
+      "tickDamage": {
+        "standardDamage": 100,
+        "durableDamage": 20,
+        "armorPenetration": [
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "thermite",
+      "name": "Thermite",
+      "family": "fire",
+      "duration": 1.0,
+      "tickDamage": {
+        "standardDamage": 150,
+        "durableDamage": 150,
+        "armorPenetration": [
+          7,
+          7,
+          7,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "cyborg_fire",
+      "name": "Cyborg Fire",
+      "family": "fire",
+      "duration": 5.0,
+      "tickDamage": {
+        "standardDamage": 15,
+        "durableDamage": 15,
+        "armorPenetration": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "choked",
+      "name": "Choked",
+      "family": "gas",
+      "duration": 3.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 1,
+      "strengthObserved": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "sand",
+      "name": "Sand",
+      "family": "terrain",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "mud",
+      "name": "Mud",
+      "family": "terrain",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "snow",
+      "name": "Snow",
+      "family": "terrain",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "submerged",
+      "name": "Submerged",
+      "family": "terrain",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "thornbush",
+      "name": "Thornbush",
+      "family": "terrain",
+      "duration": 0.1,
+      "tickDamage": {
+        "standardDamage": 3,
+        "durableDamage": 0,
+        "armorPenetration": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "cactus",
+      "name": "Cactus",
+      "family": "terrain",
+      "duration": 0.1,
+      "tickDamage": {
+        "standardDamage": 2,
+        "durableDamage": 0,
+        "armorPenetration": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "barbwire",
+      "name": "Barbwire",
+      "family": "terrain",
+      "duration": 0.1,
+      "tickDamage": {
+        "standardDamage": 3,
+        "durableDamage": 0,
+        "armorPenetration": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "bush_small",
+      "name": "BushSmall",
+      "family": "terrain",
+      "duration": 0.1,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "bush_large",
+      "name": "BushLarge",
+      "family": "terrain",
+      "duration": 0.1,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "pure_damage",
+      "name": "Pure Damage",
+      "family": "system",
+      "duration": 1.0,
+      "tickDamage": {
+        "standardDamage": 1000,
+        "durableDamage": 1000,
+        "armorPenetration": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_fx",
+      "name": "Stim Fx",
+      "family": "stim",
+      "duration": 4.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_stamina",
+      "name": "Stim Stamina",
+      "family": "stim",
+      "duration": 4.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_heal",
+      "name": "Stim Heal",
+      "family": "stim",
+      "duration": 4.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_pistol_heal",
+      "name": "Stim Pistol Heal",
+      "family": "stim",
+      "duration": 0.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_combat_drugs",
+      "name": "Stim Combat Drugs",
+      "family": "stim",
+      "duration": 10.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stim_cooldown",
+      "name": "Stim Cooldown",
+      "family": "stim",
+      "duration": 60.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "burning_light",
+      "name": "BurningLight",
+      "family": "fire",
+      "duration": 1.0,
+      "tickDamage": {
+        "standardDamage": 7,
+        "durableDamage": 7,
+        "armorPenetration": [
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "burning_heavy",
+      "name": "BurningHeavy",
+      "family": "fire",
+      "duration": 1.0,
+      "tickDamage": {
+        "standardDamage": 200,
+        "durableDamage": 200,
+        "armorPenetration": [
+          4,
+          4,
+          4,
+          0
+        ]
+      },
+      "appliedBy": [
+        {
+          "domain": "stratagem_authoring",
+          "object": "Eagle Napalm Airstrike"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital Napalm Barrage"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "EAT-700 Expendable Napalm"
+        }
+      ],
+      "slotUsers": 6,
+      "strengthObserved": {
+        "min": 2.0,
+        "median": 50.0,
+        "max": 50.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "radiation_light",
+      "name": "RadiationLight",
+      "family": "radiation",
+      "duration": 10.0,
+      "tickDamage": {
+        "standardDamage": 10,
+        "durableDamage": 10,
+        "armorPenetration": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "radiation_heavy",
+      "name": "RadiationHeavy",
+      "family": "radiation",
+      "duration": 10.0,
+      "tickDamage": {
+        "standardDamage": 10,
+        "durableDamage": 10,
+        "armorPenetration": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "electric",
+      "name": "Electric",
+      "family": "electric",
+      "duration": 5.0,
+      "tickDamage": {
+        "standardDamage": 15,
+        "durableDamage": 15,
+        "armorPenetration": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "hidden",
+      "name": "Hidden",
+      "family": "system",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stun_small",
+      "name": "Stun Small",
+      "family": "stun",
+      "duration": 1.5,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "ARC-12 Blitzer"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/ARC-3 Tesla Tower"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "ARC-3 Arc Thrower"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "CQC-9 Defoliation Tool"
+        }
+      ],
+      "slotUsers": 23,
+      "strengthObserved": {
+        "min": 0.9,
+        "median": 10.0,
+        "max": 200.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stun_medium",
+      "name": "Stun Medium",
+      "family": "stun",
+      "duration": 3.0,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "AR-32 Pacifier"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "SMG-72 Pummeler"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/M-23 EMS Mortar Sentry"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital EMS Strike"
+        }
+      ],
+      "slotUsers": 10,
+      "strengthObserved": {
+        "min": 2.0,
+        "median": 50.0,
+        "max": 100.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stun_large",
+      "name": "Stun Large",
+      "family": "stun",
+      "duration": 5.0,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "CQC-19 Stun Lance"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "CQC-30 Stun Baton"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "SG-20 Halt"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "CQC-1 One True Flag"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-109 Urchin"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-23 Stun"
+        }
+      ],
+      "slotUsers": 10,
+      "strengthObserved": {
+        "min": 0.0,
+        "median": 7.5,
+        "max": 100.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stun_massive",
+      "name": "Stun Massive",
+      "family": "stun",
+      "duration": 10.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 2,
+      "strengthObserved": {
+        "min": 75.0,
+        "median": 87.5,
+        "max": 100.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "stun_illuminate",
+      "name": "Stun Illuminate",
+      "family": "stun",
+      "duration": 15.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "gas",
+      "name": "Gas",
+      "family": "gas",
+      "duration": 6.0,
+      "tickDamage": {
+        "standardDamage": 25,
+        "durableDamage": 25,
+        "armorPenetration": [
+          6,
+          6,
+          6,
+          0
+        ]
+      },
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "P-35 Re-Educator"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/GM-17 Gas Mortar Sentry"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Eagle Gas Airstrike"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "MD-8 Gas Mines"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital Gas Strike"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "S-11 Speargun"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-4 Gas"
+        }
+      ],
+      "slotUsers": 9,
+      "strengthObserved": {
+        "min": 50.0,
+        "median": 100.0,
+        "max": 100.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "gas_2",
+      "name": "Gas",
+      "family": "gas",
+      "duration": 10.0,
+      "tickDamage": {
+        "standardDamage": 25,
+        "durableDamage": 25,
+        "armorPenetration": [
+          6,
+          6,
+          6,
+          0
+        ]
+      },
+      "appliedBy": [
+        {
+          "domain": "support_weapon_authoring",
+          "object": "TX-41 Sterilizer"
+        }
+      ],
+      "slotUsers": 2,
+      "strengthObserved": {
+        "min": 0.5,
+        "median": 0.5,
+        "max": 0.5
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "gas_confusion",
+      "name": "Gas_Confusion",
+      "family": "gas",
+      "duration": 5.0,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "P-35 Re-Educator"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/GM-17 Gas Mortar Sentry"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Eagle Gas Airstrike"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "MD-8 Gas Mines"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "Orbital Gas Strike"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "S-11 Speargun"
+        },
+        {
+          "domain": "throwable_authoring",
+          "object": "G-4 Gas"
+        }
+      ],
+      "slotUsers": 8,
+      "strengthObserved": {
+        "min": 50.0,
+        "median": 100.0,
+        "max": 100.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "gas_confusion_2",
+      "name": "Gas_Confusion",
+      "family": "gas",
+      "duration": 9.0,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "support_weapon_authoring",
+          "object": "TX-41 Sterilizer"
+        }
+      ],
+      "slotUsers": 2,
+      "strengthObserved": {
+        "min": 0.5,
+        "median": 0.5,
+        "max": 0.5
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "inverted_aim_assist",
+      "name": "Inverted_Aim_Assist",
+      "family": "sense",
+      "duration": 12.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 2,
+      "strengthObserved": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "flashlighted",
+      "name": "Flashlighted",
+      "family": "sense",
+      "duration": 10.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "smoke_covered",
+      "name": "Smoke_Covered",
+      "family": "sense",
+      "duration": 0.4,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "backpack_chemicals",
+      "name": "Backpack Chemicals",
+      "family": "stim",
+      "duration": 8.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "intense_heat",
+      "name": "Intense Heat",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "extreme_cold",
+      "name": "Extreme Cold",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "tremor",
+      "name": "Tremor",
+      "family": "weather",
+      "duration": 10.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 2,
+      "strengthObserved": {
+        "min": 1.0,
+        "median": 25.5,
+        "max": 50.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "sandstorm",
+      "name": "Sandstorm",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "blizzard",
+      "name": "Blizzard",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "acid_storm",
+      "name": "Acid Storm",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "weather_insulated",
+      "name": "Weather Insulated",
+      "family": "weather",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "tornado_stun",
+      "name": "TornadoStun",
+      "family": "stun",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 3,
+      "strengthObserved": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "attachable": false,
+      "attachableReason": "only non-player DamageInfo rows (enemies, hazards) apply it",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "dark_fluid",
+      "name": "Dark Fluid",
+      "family": "system",
+      "duration": 3.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "death_march",
+      "name": "Death March",
+      "family": "system",
+      "duration": 0.15,
+      "tickDamage": {
+        "standardDamage": 5,
+        "durableDamage": 5,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "hotshot_laser_rifle",
+      "name": "Hotshot Laser Rifle",
+      "family": "system",
+      "duration": 0.15,
+      "tickDamage": {
+        "standardDamage": 20,
+        "durableDamage": 20,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "hotshot_laser_rifle_2",
+      "name": "Hotshot Laser Rifle",
+      "family": "system",
+      "duration": 0.15,
+      "tickDamage": {
+        "standardDamage": 40,
+        "durableDamage": 40,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "hotshot_laser_rifle_3",
+      "name": "Hotshot Laser Rifle",
+      "family": "system",
+      "duration": 0.15,
+      "tickDamage": {
+        "standardDamage": 100,
+        "durableDamage": 100,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "illuminate_scrambler",
+      "name": "Illuminate Scrambler",
+      "family": "sense",
+      "duration": 1.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "constitution",
+      "name": "Constitution",
+      "family": "system",
+      "duration": 999999.0,
+      "tickDamage": {
+        "standardDamage": 22,
+        "durableDamage": 22,
+        "armorPenetration": [
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "constitution_booster_armor_resistance",
+      "name": "Constitution Booster Armor Resistance",
+      "family": "system",
+      "duration": 3.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "post_mortem_explosion",
+      "name": "Post Mortem Explosion",
+      "family": "system",
+      "duration": 1.5,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "flamer_slowed",
+      "name": "FlamerSlowed",
+      "family": "slow",
+      "duration": 0.5,
+      "tickDamage": null,
+      "appliedBy": [
+        {
+          "domain": "player_weapon_authoring",
+          "object": "FLAM-66 Torcher"
+        },
+        {
+          "domain": "player_weapon_authoring",
+          "object": "P-72 Crisper"
+        },
+        {
+          "domain": "stratagem_authoring",
+          "object": "A/FLAM-40 Flame Sentry"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "40-K Meltagun"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "B/FLAM-80 Cremator"
+        },
+        {
+          "domain": "support_weapon_authoring",
+          "object": "FLAM-40 Flamethrower"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "EXO-51 Lumberer Exosuit / left_gun"
+        },
+        {
+          "domain": "vehicle_weapon_authoring",
+          "object": "M-104 Incinerator FRV / gun"
+        }
+      ],
+      "slotUsers": 5,
+      "strengthObserved": {
+        "min": 0.5,
+        "median": 1.0,
+        "max": 2.0
+      },
+      "attachable": true,
+      "attachableReason": null,
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "gloom",
+      "name": "Gloom",
+      "family": "gas",
+      "duration": 6.0,
+      "tickDamage": {
+        "standardDamage": 25,
+        "durableDamage": 25,
+        "armorPenetration": [
+          6,
+          6,
+          6,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "dark_fluid_2",
+      "name": "Dark Fluid",
+      "family": "system",
+      "duration": 3.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "poison",
+      "name": "Poison",
+      "family": "gas",
+      "duration": 6.0,
+      "tickDamage": {
+        "standardDamage": 2,
+        "durableDamage": 5,
+        "armorPenetration": [
+          1,
+          1,
+          1,
+          0
+        ]
+      },
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    },
+    {
+      "semanticId": "poison_vulnerability",
+      "name": "PoisonVulnerability",
+      "family": "system",
+      "duration": 2400.0,
+      "tickDamage": null,
+      "appliedBy": [],
+      "slotUsers": 0,
+      "strengthObserved": null,
+      "attachable": false,
+      "attachableReason": "no DamageInfo slot applies it (applied by another system)",
+      "sharedGlobal": true,
+      "assetDependency": "none known: StatusEffectSettings is a global settings table resident in every mission",
+      "durationField": "status.duration (shared: every attack applying this status)"
+    }
+  ]
+}

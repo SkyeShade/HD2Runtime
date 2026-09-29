@@ -122,7 +122,9 @@ def _settings(kind, b, anchors):
     return {'kind': 'settings', 'settings': 'damage' if kind == 'explosion_damage' else kind,
         'recordType': b['recordType'] if 'recordType' in b else b.get('nativeIdentity'), 'group': b.get('group'),
         'row': b.get('row'), 'offset': b['offset'], 'storage': b['storage'], 'width': b['width'],
-        'phase': b.get('phase'), 'anchors': anchors}
+        'phase': b.get('phase'), 'anchors': anchors,
+        # A status_reference slot: its value is a status identity, not a scalar (see engine._status_table).
+        **({'enum': b['enum']} if b.get('enum') else {})}
 
 
 def _weapon_fields(module, weapons, source_view):

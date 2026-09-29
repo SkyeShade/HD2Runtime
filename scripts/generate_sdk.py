@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,6 +72,11 @@ def outputs():
         if constant in fields.setdefault(domain,{}) and fields[domain][constant]!=field_id:
             constant='player_'+constant
         fields[domain][constant]=field_id
+    # Status slot IDs that only support or mounted weapons carry (e.g. explosion.damage.status_1_type).
+    for field_id in sorted({field['semanticFieldId'] for field in support_authoring['fieldInstances']}):
+        domain,name=field_id.split('.',1)
+        if re.search(r'status_\d+_(type|strength)$',name) and field_id not in fields.setdefault(domain,{}).values():
+            fields[domain].setdefault(ident(name),field_id)
     for definition in stratagem_fields['fields']:
         field_id=definition['id'];domain,name=field_id.split('.',1)
         constant=ident(name)
@@ -528,6 +534,7 @@ def outputs():
             'sdk/docs/throwable-authoring.md':(ROOT/'docs/throwable-authoring.md').read_text(encoding='utf-8'),
             'sdk/docs/asset-loading.md':(ROOT/'docs/asset-loading.md').read_text(encoding='utf-8'),
             'sdk/docs/weapon-movement.md':(ROOT/'docs/weapon-movement.md').read_text(encoding='utf-8'),
+            'sdk/docs/status-effects.md':(ROOT/'docs/status-effects.md').read_text(encoding='utf-8'),
             'sdk/docs/magazine-attachments.md':(ROOT/'docs/magazine-attachments.md').read_text(encoding='utf-8'),
             'sdk/docs/getting-started.md':(ROOT/'docs/getting-started.md').read_text(encoding='utf-8'),
             'sdk/docs/options.md':(ROOT/'docs/options.md').read_text(encoding='utf-8'),

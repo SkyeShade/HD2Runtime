@@ -75,7 +75,7 @@
     {"id":"damage.demolition","display_name":"Demolition","type":"integer","unit":"force","derived":false,"writable":true,"settings":"damage","offset":28,"storage":"u32"},
     {"id":"damage.stagger","display_name":"Stagger","type":"integer","unit":"force","derived":false,"writable":true,"settings":"damage","offset":32,"storage":"u32"},
     {"id":"damage.push_force","display_name":"Push force","type":"integer","unit":"force","derived":false,"writable":true,"settings":"damage","offset":36,"storage":"u32"},
-    {"id":"damage.status_type","display_name":"Status type","type":"integer","unit":null,"derived":false,"writable":false,"settings":"damage","reason":"Numeric encoding is structural, but text enum semantics are not sufficiently proven for authoring."},
+    {"id":"damage.status_type","display_name":"Status applied","type":"status_reference","unit":null,"derived":false,"writable":true,"settings":"damage"},
     {"id":"damage.status_strength","display_name":"Status strength","type":"number","unit":"factor","derived":false,"writable":true,"settings":"damage"},
     {"id":"arc.velocity","display_name":"Arc velocity","type":"number","unit":null,"derived":false,"writable":true,"settings":"arc","offset":4,"storage":"f32"},
     {"id":"arc.range","display_name":"Arc range","type":"number","unit":"meters","derived":false,"writable":true,"settings":"arc","offset":8,"storage":"f32"},

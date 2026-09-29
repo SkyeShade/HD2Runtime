@@ -24,14 +24,14 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
         self.assertEqual(self.capabilities['summary']['duplicateGroupsBlocked'],1)
         self.assertEqual(self.capabilities['summary']['writableProjectileBranches'],20)
         self.assertEqual(self.capabilities['summary']['writableExplosionBranches'],18)
-        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1130)
-        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1130)
-        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1114)
-        self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],16)
-        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],16)
-        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],32)
+        self.assertEqual(self.capabilities['summary']['internalSupportAuthoringInstances'],1245)
+        self.assertEqual(self.capabilities['summary']['publishedSupportFieldInstances'],1245)
+        self.assertEqual(self.capabilities['summary']['legacyFlattenedFieldEntries'],1182)
+        self.assertEqual(self.capabilities['summary']['deduplicationLossPrevented'],63)
+        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldGroups'],18)
+        self.assertEqual(self.capabilities['summary']['duplicateSemanticFieldInstances'],36)
         self.assertEqual(self.capabilities['summary']['intentionallyOmittedInstances'],0)
-        self.assertEqual(self.capabilities['referenceContract']['currentReferenceFieldInstances'],0)
+        self.assertEqual(self.capabilities['referenceContract']['currentReferenceFieldInstances'],68)
         self.assertTrue(self.capabilities['referenceContract']['typedIdentityOnly'])
         required={'identityStatus','family','attackBranches','writableFieldsByDomain',
             'sharedScopes','blockedFields','backpackDependency','linkedStratagem'}
@@ -49,11 +49,11 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
     def test_canonical_instances_exactly_cover_internal_descriptors(self):
         runtime,generated=generate_support_weapon_authoring.build()
         audit=generate_support_weapon_authoring.audit_instance_coverage(runtime,generated)
-        self.assertEqual(audit,{'internalInstances':1130,'publishedInstances':1130,
+        self.assertEqual(audit,{'internalInstances':1245,'publishedInstances':1245,
             'missingInstances':0,'unexpectedInstances':0,'identityCoverage':'exact'})
         instances=self.capabilities['fieldInstances']
-        self.assertEqual(len(instances),1130)
-        self.assertEqual(len({item['instanceKey'] for item in instances}),1130)
+        self.assertEqual(len(instances),1245)
+        self.assertEqual(len({item['instanceKey'] for item in instances}),1245)
         objects={item['objectKey']:item for item in self.capabilities['backingObjects']}
         operations={item['operationGroupingKey']:item
             for item in self.capabilities['operationGroups']}
@@ -73,7 +73,7 @@ class SupportWeaponAuthoringTests(unittest.TestCase):
             self.assertEqual(instance['operation']['phase'],1)
             self.assertEqual(instance['target']['accessor'][0],'support_weapon')
         self.assertEqual(sum(len(weapon['fieldInstanceKeys'])
-            for weapon in self.capabilities['weapons']),1130)
+            for weapon in self.capabilities['weapons']),1245)
 
     def test_gui_can_group_recoilless_instances_without_native_layout_knowledge(self):
         instances=[item for item in self.capabilities['fieldInstances']
